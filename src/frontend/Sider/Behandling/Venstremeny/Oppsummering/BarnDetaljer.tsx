@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ChildEyesIcon } from '@navikt/aksel-icons';
 
-import { OppsummeringEkspanderbarEnhet, OppsummeringFelt } from './Visningskomponenter';
+import { SøknadInfoEkspanderbar, SøknadInfoFelt } from './Visningskomponenter';
 import {
     FaktaBarn,
     typeBarnepassTilTekst,
@@ -20,43 +20,43 @@ export const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
     const navn = toTitleCase(barn.registergrunnlag.navn);
 
     return (
-        <OppsummeringEkspanderbarEnhet
+        <SøknadInfoEkspanderbar
             ariaLabel={`Opplysninger om ${navn}`}
             ikon={<ChildEyesIcon />}
             tittel={navn}
             variant="subtle"
         >
-            <OppsummeringFelt label="Identitetsnummer" value={barn.ident} />
+            <SøknadInfoFelt label="Identitetsnummer" value={barn.ident} />
             {typePass && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Passordning"
                     value={tekstEllerKode(typeBarnepassTilTekst, typePass)}
                 />
             )}
             {utgifter && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Har utgifter hele perioden?"
                     value={jaNeiTilTekst[utgifter.harUtgifterTilPassHelePerioden]}
                 />
             )}
             {utgifter?.fom && utgifter.tom && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Periode med utgifter"
                     value={formaterIsoPeriode(utgifter.fom, utgifter.tom)}
                 />
             )}
             {startetIFemte !== undefined && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Har startet i 5.klasse når tiltaket starter?"
                     value={jaNeiTilTekst[startetIFemte]}
                 />
             )}
             {startetIFemte === JaNei.JA && årsak && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Årsak"
                     value={tekstEllerKode(årsakBarnepassTilTekst, årsak)}
                 />
             )}
-        </OppsummeringEkspanderbarEnhet>
+        </SøknadInfoEkspanderbar>
     );
 };

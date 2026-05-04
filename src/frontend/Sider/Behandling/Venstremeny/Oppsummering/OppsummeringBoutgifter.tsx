@@ -7,10 +7,10 @@ import { Aktivitet } from './Aktivitet';
 import { useOppsummeringFilter } from './UseOppsummeringFilter';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
 import {
-    InfoSeksjon,
-    KompaktOppsummeringsfelt,
-    OppsummeringFelt,
-    OppsummeringSeksjonsfilter,
+    SøknadInfoFelt,
+    SøknadInfoFeltKompakt,
+    SøknadInfoSeksjon,
+    SøknadInfoSeksjonFilter,
     Søknadsdato,
 } from './Visningskomponenter';
 import { YtelseSituasjon } from './YtelseSituasjon';
@@ -77,7 +77,7 @@ export const OppsummeringBoutgifter: React.FC<{
     return (
         <>
             <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
-            <OppsummeringSeksjonsfilter
+            <SøknadInfoSeksjonFilter
                 ariaLabel="Filtrer søknadsopplysninger for boutgifter"
                 onChange={onFilterChange}
                 value={valgtSeksjon}
@@ -136,13 +136,13 @@ const BoligEllerOvernattingSeksjon = ({
     }
 
     return (
-        <InfoSeksjon label={label} ikon={<BankNoteIcon />}>
+        <SøknadInfoSeksjon label={label} ikon={<BankNoteIcon />}>
             {adresse && <Adresse adresse={adresse} />}
             <UtgifterNyBolig utgifterNyBolig={utgifterNyBolig} />
             <UtgifterFlereSteder utgifterFlereSteder={utgifterFlereSteder} />
             <UtgifterSamling samling={samling} />
             <HøyereUtgifterPgaHelse boligEllerOvernatting={boligEllerOvernatting} />
-        </InfoSeksjon>
+        </SøknadInfoSeksjon>
     );
 };
 
@@ -177,17 +177,17 @@ const UtgifterNyBolig = ({
         <OppsummeringDelseksjon label="Løpende utgift til én bolig">
             <VStack gap="space-12">
                 {harTallverdi(utgifterNyBolig.andelUtgifterBolig) && (
-                    <KompaktOppsummeringsfelt
+                    <SøknadInfoFeltKompakt
                         label="Andel av utgift"
                         value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBolig)} kr`}
                     />
                 )}
-                <KompaktOppsummeringsfelt
+                <SøknadInfoFeltKompakt
                     label="Høyere utgift nytt bosted"
                     value={jaNeiTilTekst[utgifterNyBolig.harHoyereUtgifterPaNyttBosted]}
                 />
                 {utgifterNyBolig.mottarBostotte === JaNei.JA && (
-                    <KompaktOppsummeringsfelt label="Mottar bostøtte" value="Ja" />
+                    <SøknadInfoFeltKompakt label="Mottar bostøtte" value="Ja" />
                 )}
             </VStack>
         </OppsummeringDelseksjon>
@@ -212,7 +212,7 @@ const UtgifterFlereSteder = ({
         <OppsummeringDelseksjon label="Løpende utgift til to boliger">
             <VStack gap="space-8">
                 <div>
-                    <KompaktOppsummeringsfelt
+                    <SøknadInfoFeltKompakt
                         label="Utgift hjemsted"
                         value={`${tilTallverdi(utgifterFlereSteder.andelUtgifterBoligHjemsted)} kr`}
                     />
@@ -221,7 +221,7 @@ const UtgifterFlereSteder = ({
                     ) && <UtgiftenDelesMedAndre />}
                 </div>
                 <div>
-                    <KompaktOppsummeringsfelt
+                    <SøknadInfoFeltKompakt
                         label="Utgift aktivitetssted"
                         value={`${tilTallverdi(utgifterFlereSteder.andelUtgifterBoligAktivitetssted)} kr`}
                     />
@@ -247,7 +247,7 @@ const UtgifterSamling = ({
                     return (
                         <div key={index}>
                             {harTallverdi(periode.utgifterTilOvernatting) && (
-                                <KompaktOppsummeringsfelt
+                                <SøknadInfoFeltKompakt
                                     label={formaterIsoPeriode(periode.fom, periode.tom)}
                                     value={`${tilTallverdi(periode.utgifterTilOvernatting)} kr`}
                                 />
@@ -273,7 +273,7 @@ const HøyereUtgifterPgaHelse = ({
     const særligUtgifter = boligEllerOvernatting.harSærligStoreUtgifterPgaFunksjonsnedsettelse;
     return (
         særligUtgifter === JaNei.JA && (
-            <OppsummeringFelt
+            <SøknadInfoFelt
                 label="Trenger du tilpasset bolig på grunn av helseutfordringer?"
                 ikon={<WheelchairIcon />}
                 value={

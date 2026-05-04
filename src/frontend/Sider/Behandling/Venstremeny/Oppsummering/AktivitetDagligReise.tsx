@@ -3,7 +3,7 @@ import React from 'react';
 import { BriefcaseIcon } from '@navikt/aksel-icons';
 
 import { AktivitetFelt } from './Aktivitet';
-import { InfoSeksjon, OppsummeringFelt } from './Visningskomponenter';
+import { SøknadInfoFelt, SøknadInfoSeksjon } from './Visningskomponenter';
 import {
     dagligReiseTypeUtdanningTilTekst,
     FaktaAktivitetDagligReise,
@@ -22,50 +22,50 @@ export const AktivitetDagligReise: React.FC<{
     }
 
     return (
-        <InfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
+        <SøknadInfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
             <AktivitetFelt aktivitet={aktiviteter.aktivitet} />
             {reiseperiode && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Periode du må reise til aktivitetsstedet"
                     value={formaterIsoPeriodeMedTankestrek(reiseperiode)}
                 />
             )}
             {dekkesUtgiftenAvAndre?.typeUtdanning && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Hva slags type arbeidsrettet aktivitet går du på?"
                     value={dagligReiseTypeUtdanningTilTekst[dekkesUtgiftenAvAndre.typeUtdanning]}
                 />
             )}
             {dekkesUtgiftenAvAndre?.lærling && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Er du lærling, lærekandidat, praksisbrevkandidat eller kandidat for fagbrev på jobb?"
                     value={jaNeiTilTekst[dekkesUtgiftenAvAndre.lærling]}
                 />
             )}
             {dekkesUtgiftenAvAndre?.arbeidsgiverDekkerUtgift && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Får du dekket reisen til aktivitetsstedet av arbeidsgiveren din?"
                     value={jaNeiTilTekst[dekkesUtgiftenAvAndre.arbeidsgiverDekkerUtgift]}
                 />
             )}
             {dekkesUtgiftenAvAndre?.erUnder25år && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Er eller var du under 25 år ved starten av skoleåret?"
                     value={jaNeiTilTekst[dekkesUtgiftenAvAndre.erUnder25år]}
                 />
             )}
             {dekkesUtgiftenAvAndre?.betalerForReisenTilSkolenSelv && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Må du betale for reisen til skolen selv?"
                     value={jaNeiTilTekst[dekkesUtgiftenAvAndre.betalerForReisenTilSkolenSelv]}
                 />
             )}
             {dekkesUtgiftenAvAndre?.lønnetAktivitet && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Mottar du ordinær lønn gjennom tiltaket?"
                     value={jaNeiTilTekst[dekkesUtgiftenAvAndre.lønnetAktivitet]}
                 />
             )}
-        </InfoSeksjon>
+        </SøknadInfoSeksjon>
     );
 };

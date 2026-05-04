@@ -44,27 +44,23 @@
     color: var(--ax-text-neutral);
 }
 
-.feltVerdi {
-    overflow-wrap: anywhere;
-}
-
-.feltgruppe {
+.seksjonInnholdWrapper {
     display: flex;
     flex-direction: column;
 }
 
-.feltgruppe > * {
+.seksjonInnholdWrapper > * {
     padding-block: var(--ax-space-12);
 }
 
-.feltgruppe > * + * {
+.seksjonInnholdWrapper > * + * {
     border-top: 1px solid var(--ax-border-neutral-subtle);
 }
 
-.feltgruppe > *:first-child {
+.seksjonInnholdWrapper > *:first-child {
     padding-top: 0;
 }
 
-.feltgruppe > *:last-child {
+.seksjonInnholdWrapper > *:last-child {
     padding-bottom: 0;
 }

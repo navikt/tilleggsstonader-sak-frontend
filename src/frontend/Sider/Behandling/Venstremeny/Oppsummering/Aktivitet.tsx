@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BriefcaseIcon } from '@navikt/aksel-icons';
 
-import { InfoSeksjon, OppsummeringFelt } from './Visningskomponenter';
+import { SøknadInfoFelt, SøknadInfoSeksjon } from './Visningskomponenter';
 import {
     FaktaAktivitet,
     typeAnnenAktivitetTilTekst,
@@ -22,19 +22,19 @@ export const AktivitetFelt: React.FC<{
     return (
         <>
             {aktiviteterTekst && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Hvilken aktivitet søker du om støtte ifm?"
                     value={aktiviteterTekst}
                 />
             )}
             {annenAktivitet && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Hva slags type arbeidsrettet aktivitet går du på?"
                     value={`Annet: ${tekstEllerKode(typeAnnenAktivitetTilTekst, annenAktivitet)}`}
                 />
             )}
             {visLønnetAktivitet && erLønnetAktivitet && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Mottar du lønn gjennom et tiltak?"
                     value={jaNeiTilTekst[erLønnetAktivitet]}
                 />
@@ -49,8 +49,8 @@ export const Aktivitet: React.FC<{ aktivitet: FaktaAktivitet }> = ({ aktivitet }
     }
 
     return (
-        <InfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
+        <SøknadInfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
             <AktivitetFelt aktivitet={aktivitet} visLønnetAktivitet />
-        </InfoSeksjon>
+        </SøknadInfoSeksjon>
     );
 };

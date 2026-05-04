@@ -8,11 +8,11 @@ import {
     ÅrsakIkkeKjøreBilTilTekst,
 } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { jaNeiTilTekst } from '../../../../../typer/common';
-import { OppsummeringFelt } from '../Visningskomponenter';
+import { SøknadInfoFelt } from '../Visningskomponenter';
 
 export const TaxiDetaljer: React.FC<{ taxi: Taxi }> = ({ taxi }) => (
     <>
-        <OppsummeringFelt
+        <SøknadInfoFelt
             label="Hvorfor kan du ikke kjøre bil til aktivitetsstedet?"
             value={
                 <VStack gap="space-4">
@@ -26,14 +26,14 @@ export const TaxiDetaljer: React.FC<{ taxi: Taxi }> = ({ taxi }) => (
         />
 
         {taxi.ønskerSøkeOmTaxi && (
-            <OppsummeringFelt
+            <SøknadInfoFelt
                 label="Ønsker du å søke om å få dekket utgifter til reise med taxi?"
                 value={jaNeiTilTekst[taxi.ønskerSøkeOmTaxi]}
             />
         )}
 
         {taxi.ttkort && (
-            <OppsummeringFelt
+            <SøknadInfoFelt
                 label="Har du et TT-kort som du kan bruke til aktiviteter i tiltak?"
                 value={jaNeiTilTekst[taxi.ttkort]}
             />

@@ -9,7 +9,7 @@ import {
 } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
 import { harTallverdi } from '../../../../../utils/tall';
-import { KompaktOppsummeringsfelt, OppsummeringFelt } from '../Visningskomponenter';
+import { SøknadInfoFelt, SøknadInfoFeltKompakt } from '../Visningskomponenter';
 
 type Billett = {
     billettype: string;
@@ -37,12 +37,12 @@ export const BillettDetaljer: React.FC<{ offentligTransport: OffentligTransport 
         .filter((billettpris): billettpris is Billett => Boolean(billettpris));
 
     return (
-        <OppsummeringFelt
+        <SøknadInfoFelt
             label="Hva koster billettene?"
             value={
                 <VStack gap="space-4">
                     {billetter.map((billettpris) => (
-                        <KompaktOppsummeringsfelt
+                        <SøknadInfoFeltKompakt
                             key={billettpris.billettype}
                             label={billettpris.billettype}
                             value={billettpris.pris}

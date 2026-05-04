@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BriefcaseIcon, WheelchairIcon } from '@navikt/aksel-icons';
 
-import { InfoSeksjon, OppsummeringFelt } from './Visningskomponenter';
+import { SøknadInfoFelt, SøknadInfoSeksjon } from './Visningskomponenter';
 import {
     annenUtdanningTypeTilTekst,
     FaktaUtdanning,
@@ -27,39 +27,39 @@ export const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaU
                 erLærlingEllerLiknende ||
                 harTidligereFullførtVgs ||
                 harFunksjonsnedsettelse) && (
-                <InfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
+                <SøknadInfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
                     {aktiviteterTekst && (
-                        <OppsummeringFelt
+                        <SøknadInfoFelt
                             label="Hvilken aktivitet søker du om støtte ifm?"
                             value={aktiviteterTekst}
                         />
                     )}
                     {annenUtdanning && (
-                        <OppsummeringFelt
+                        <SøknadInfoFelt
                             label="Hva slags type arbeidsrettet aktivitet går du på?"
                             value={`Annet: ${tekstEllerKode(annenUtdanningTypeTilTekst, annenUtdanning)}`}
                         />
                     )}
                     {erLærlingEllerLiknende && (
-                        <OppsummeringFelt
+                        <SøknadInfoFelt
                             label="Er du lærling, lærekandidat, praksisbrevkandidat eller kandidat for fagbrev på jobb?"
                             value={jaNeiTilTekst[erLærlingEllerLiknende]}
                         />
                     )}
                     {harTidligereFullførtVgs && (
-                        <OppsummeringFelt
+                        <SøknadInfoFelt
                             label="Har du tidligere fullført videregående opplæring?"
                             value={jaNeiTilTekst[harTidligereFullførtVgs]}
                         />
                     )}
                     {harFunksjonsnedsettelse && (
-                        <OppsummeringFelt
+                        <SøknadInfoFelt
                             label="Har du funksjonsnedsettelse som gir særlig store utgifter?"
                             value={jaNeiTilTekst[harFunksjonsnedsettelse]}
                             ikon={<WheelchairIcon />}
                         />
                     )}
-                </InfoSeksjon>
+                </SøknadInfoSeksjon>
             )}
         </>
     );

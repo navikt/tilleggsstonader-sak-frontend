@@ -3,16 +3,16 @@ import React from 'react';
 import {
     oppsummeringAltFilterValg,
     oppsummeringAltFilterVerdi,
-    OppsummeringSeksjonsfilterValg,
+    SøknadInfoSeksjonFilterValg,
 } from './Visningskomponenter';
 
 export function useOppsummeringFilter(
-    domeneFiltervalg: OppsummeringSeksjonsfilterValg[],
+    domeneFiltervalg: SøknadInfoSeksjonFilterValg[],
     antallDokumenter: number
 ) {
     const [valgtSeksjon, settValgtSeksjon] = React.useState<string>(oppsummeringAltFilterVerdi);
 
-    const filtervalg: OppsummeringSeksjonsfilterValg[] = [
+    const filtervalg: SøknadInfoSeksjonFilterValg[] = [
         oppsummeringAltFilterValg,
         ...domeneFiltervalg,
         ...(antallDokumenter > 0

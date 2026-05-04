@@ -6,7 +6,7 @@ import { Aktivitet } from './Aktivitet';
 import { BarnDetaljer } from './BarnDetaljer';
 import { useOppsummeringFilter } from './UseOppsummeringFilter';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
-import { OppsummeringSeksjonsfilter, Søknadsdato } from './Visningskomponenter';
+import { SøknadInfoSeksjonFilter, Søknadsdato } from './Visningskomponenter';
 import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaTilsynBarn } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 
@@ -39,7 +39,7 @@ export const OppsummeringTilsynBarn: React.FC<{
     return (
         <>
             <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
-            <OppsummeringSeksjonsfilter
+            <SøknadInfoSeksjonFilter
                 ariaLabel="Filtrer søknadsopplysninger for tilsyn barn"
                 onChange={onFilterChange}
                 value={valgtSeksjon}

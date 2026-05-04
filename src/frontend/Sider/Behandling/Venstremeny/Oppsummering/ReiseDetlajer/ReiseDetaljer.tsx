@@ -5,6 +5,7 @@ import { BodyShort, CopyButton, VStack } from '@navikt/ds-react';
 
 import { BillettDetaljer } from './BillettDetaljer';
 import { PrivatTransportDetaljer } from './PrivatTransportDetaljer';
+import styles from './ReiseDetaljer.module.css';
 import {
     FaktaReise,
     ReiseAdresse,
@@ -12,24 +13,20 @@ import {
 } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { JaNei, jaNeiTilTekst } from '../../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
-import { OppsummeringEkspanderbarEnhet, OppsummeringFelt } from '../Visningskomponenter';
+import { SøknadInfoEkspanderbar, SøknadInfoFelt } from '../Visningskomponenter';
 
 function AdresseFelt({ adresse, label }: { adresse: ReiseAdresse; label: string }) {
     const adresseTekst = reiseAdresseTilTekst(adresse);
 
     return (
-        <OppsummeringFelt
+        <SøknadInfoFelt
             label={label}
             value={
                 <span>
                     <BodyShort as="span" size="small">
                         {adresseTekst}
                     </BodyShort>
-                    <CopyButton
-                        copyText={adresseTekst}
-                        size="small"
-                        style={{ verticalAlign: 'middle' }}
-                    />
+                    <CopyButton copyText={adresseTekst} className={styles.kopiknapp} size="small" />
                 </span>
             }
         />
@@ -40,14 +37,14 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
     return (
         <VStack gap="space-12">
             {reiser.map((reise, index) => (
-                <OppsummeringEkspanderbarEnhet
+                <SøknadInfoEkspanderbar
                     ikon={<EarthIcon />}
                     key={index}
                     tittel={`Reise ${index + 1}`}
                     variant="subtle"
                 >
                     {reise.skalReiseFraFolkeregistrertAdresse && (
-                        <OppsummeringFelt
+                        <SøknadInfoFelt
                             label="Skal du reise fra din folkeregistrerte adresse?"
                             value={jaNeiTilTekst[reise.skalReiseFraFolkeregistrertAdresse]}
                         />
@@ -72,21 +69,21 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                     )}
 
                     {reise.periode && (
-                        <OppsummeringFelt
+                        <SøknadInfoFelt
                             label="I hvilken periode skal du reise til aktivitetsstedet?"
                             value={formaterIsoPeriode(reise.periode.fom, reise.periode.tom)}
                         />
                     )}
 
                     {reise.dagerPerUke && (
-                        <OppsummeringFelt
-                            label="Hvor mange dager i uka skal du reise hit?"
+                        <SøknadInfoFelt
+                            label="Hvor mange dager i uken skal du reise hit?"
                             value={reise.dagerPerUke}
                         />
                     )}
 
                     {reise.harBehovForTransportUavhengigAvReisensLengde && (
-                        <OppsummeringFelt
+                        <SøknadInfoFelt
                             label="Har du funksjonsnedsettelse, midlertidig skade eller sykdom som gjør at du må ha transport til aktivitetsstedet?"
                             value={
                                 jaNeiTilTekst[reise.harBehovForTransportUavhengigAvReisensLengde]
@@ -95,21 +92,21 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                     )}
 
                     {reise.harMerEnn6KmReisevei && (
-                        <OppsummeringFelt
+                        <SøknadInfoFelt
                             label="Er reiseavstanden mellom der du bor og aktivitetsstedet 6 km eller mer én vei?"
                             value={jaNeiTilTekst[reise.harMerEnn6KmReisevei]}
                         />
                     )}
 
                     {reise.lengdeReisevei && (
-                        <OppsummeringFelt
+                        <SøknadInfoFelt
                             label="Hvor lang er reiseveien?"
                             value={`${reise.lengdeReisevei} km`}
                         />
                     )}
 
                     {reise.kanReiseMedOffentligTransport && (
-                        <OppsummeringFelt
+                        <SøknadInfoFelt
                             label="Kan du reise med offentlig transport hele veien?"
                             value={jaNeiTilTekst[reise.kanReiseMedOffentligTransport]}
                         />
@@ -123,7 +120,7 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                     {reise.kanReiseMedOffentligTransport === JaNei.NEI && reise.privatTransport && (
                         <PrivatTransportDetaljer privatTransport={reise.privatTransport} />
                     )}
-                </OppsummeringEkspanderbarEnhet>
+                </SøknadInfoEkspanderbar>
             ))}
         </VStack>
     );

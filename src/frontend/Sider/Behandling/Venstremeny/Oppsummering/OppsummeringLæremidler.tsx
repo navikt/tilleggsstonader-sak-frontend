@@ -3,7 +3,7 @@ import React from 'react';
 import { useOppsummeringFilter } from './UseOppsummeringFilter';
 import { Utdanning } from './Utdanning';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
-import { OppsummeringSeksjonsfilter, Søknadsdato } from './Visningskomponenter';
+import { SøknadInfoSeksjonFilter, Søknadsdato } from './Visningskomponenter';
 import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaLæremidler } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 
@@ -18,7 +18,7 @@ export const OppsummeringLæremidler: React.FC<{
     return (
         <>
             <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
-            <OppsummeringSeksjonsfilter
+            <SøknadInfoSeksjonFilter
                 ariaLabel="Filtrer søknadsopplysninger for læremidler"
                 onChange={onFilterChange}
                 value={valgtSeksjon}

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { BodyShort, VStack } from '@navikt/ds-react';
 
-import { OppsummeringFelt } from './Visningskomponenter';
+import { SøknadInfoFelt } from './Visningskomponenter';
 import {
     FaktaArbeidOgOpphold,
     FaktaOppholdUtenforNorge,
@@ -39,11 +39,11 @@ const OppholdUtenforNorge12mnd: React.FC<{
     }
 
     if (spørsmål === JaNei.NEI) {
-        return <OppsummeringFelt label={tittel} value={jaNeiTilTekst[spørsmål]} />;
+        return <SøknadInfoFelt label={tittel} value={jaNeiTilTekst[spørsmål]} />;
     }
 
     return (
-        <OppsummeringFelt
+        <SøknadInfoFelt
             label={tittel}
             value={
                 <VStack gap="space-8">
@@ -62,17 +62,17 @@ export const ArbeidOgOppholdFelt: React.FC<{
     return (
         <>
             {fakta.jobberIAnnetLand === JaNei.NEI && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Jobber i annet land"
                     value={jaNeiTilTekst[fakta.jobberIAnnetLand]}
                 />
             )}
             {fakta.jobbAnnetLand && (
-                <OppsummeringFelt label="Jobber i" value={toTitleCase(fakta.jobbAnnetLand)} />
+                <SøknadInfoFelt label="Jobber i" value={toTitleCase(fakta.jobbAnnetLand)} />
             )}
 
             {fakta.harPengestøtteAnnetLand && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Pengestøtte fra annet land"
                     value={
                         <VStack gap="space-4">

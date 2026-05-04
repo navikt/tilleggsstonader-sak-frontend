@@ -2,34 +2,34 @@ import React from 'react';
 
 import { UtgifterBil } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { jaNeiTilTekst } from '../../../../../typer/common';
-import { OppsummeringFelt } from '../Visningskomponenter';
+import { SøknadInfoFelt } from '../Visningskomponenter';
 
 export const PrivatBilDetaljer: React.FC<{ utgifterBil: UtgifterBil }> = ({ utgifterBil }) => (
     <>
         {utgifterBil.mottarGrunnstønad && (
-            <OppsummeringFelt
-                label="Mottar du grunnstønad fra NAV?"
+            <SøknadInfoFelt
+                label="Mottar du grunnstønad fra Nav?"
                 value={jaNeiTilTekst[utgifterBil.mottarGrunnstønad]}
             />
         )}
 
         {utgifterBil.parkering && (
-            <OppsummeringFelt
+            <SøknadInfoFelt
                 label="Må du betale for parkering med egen bil?"
                 value={jaNeiTilTekst[utgifterBil.parkering]}
             />
         )}
 
         {utgifterBil.bompenger && (
-            <OppsummeringFelt label="Bompenger per dag" value={`${utgifterBil.bompenger} kr`} />
+            <SøknadInfoFelt label="Bompenger per dag" value={`${utgifterBil.bompenger} kr`} />
         )}
 
         {utgifterBil.ferge && (
-            <OppsummeringFelt label="Ferge per dag" value={`${utgifterBil.ferge} kr`} />
+            <SøknadInfoFelt label="Ferge per dag" value={`${utgifterBil.ferge} kr`} />
         )}
 
         {utgifterBil.piggdekkavgift && (
-            <OppsummeringFelt
+            <SøknadInfoFelt
                 label="Piggdekkavgift per dag"
                 value={`${utgifterBil.piggdekkavgift} kr`}
             />

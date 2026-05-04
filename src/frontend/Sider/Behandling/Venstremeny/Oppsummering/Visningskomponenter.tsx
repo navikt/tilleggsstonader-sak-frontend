@@ -7,7 +7,7 @@ import styles from './Visningskomponenter.module.css';
 import { ExpansionCardXSmall } from '../../../../komponenter/ExpansionCardXSmall';
 import { formaterDato } from '../../../../utils/dato';
 
-export interface OppsummeringSeksjonsfilterValg {
+export interface SøknadInfoSeksjonFilterValg {
     value: string;
     label: string;
     ariaLabel?: string;
@@ -15,13 +15,13 @@ export interface OppsummeringSeksjonsfilterValg {
 }
 
 export const oppsummeringAltFilterVerdi = 'alt' as const;
-export const oppsummeringAltFilterValg: OppsummeringSeksjonsfilterValg = {
+export const oppsummeringAltFilterValg: SøknadInfoSeksjonFilterValg = {
     value: oppsummeringAltFilterVerdi,
     label: 'Alt innhold',
     ariaLabel: 'Vis alle opplysninger',
 };
 
-function formaterFilterLabel({ label, count }: OppsummeringSeksjonsfilterValg) {
+function formaterFilterLabel({ label, count }: SøknadInfoSeksjonFilterValg) {
     return count !== undefined ? `${label} (${count})` : label;
 }
 
@@ -35,11 +35,11 @@ export const Søknadsdato: React.FC<{ dato: string | undefined }> = ({ dato }) =
         </HStack>
     );
 
-export const OppsummeringSeksjonsfilter: React.FC<{
+export const SøknadInfoSeksjonFilter: React.FC<{
     ariaLabel: string;
     value: string;
     onChange: (value: string) => void;
-    valg: OppsummeringSeksjonsfilterValg[];
+    valg: SøknadInfoSeksjonFilterValg[];
 }> = ({ ariaLabel, value, onChange, valg }) => {
     if (valg.length <= 1) {
         return null;
@@ -73,17 +73,17 @@ export const OppsummeringSeksjonsfilter: React.FC<{
     );
 };
 
-export const OppsummeringFeltgruppe: React.FC<{
+export const SøknadInfoSeksjonInnholdWrapper: React.FC<{
     children?: React.ReactNode;
 }> = ({ children }) => {
     if (!children) {
         return null;
     }
 
-    return <div className={styles.feltgruppe}>{children}</div>;
+    return <div className={styles.seksjonInnholdWrapper}>{children}</div>;
 };
 
-export const InfoSeksjon: React.FC<{
+export const SøknadInfoSeksjon: React.FC<{
     label: string;
     ikon: React.ReactNode;
     children?: React.ReactNode;
@@ -97,7 +97,7 @@ export const InfoSeksjon: React.FC<{
                     {label}
                 </Heading>
             </HStack>
-            <OppsummeringFeltgruppe>{children}</OppsummeringFeltgruppe>
+            <SøknadInfoSeksjonInnholdWrapper>{children}</SøknadInfoSeksjonInnholdWrapper>
         </section>
     );
 };
@@ -110,7 +110,7 @@ function renderValue(value: React.ReactNode) {
     return value;
 }
 
-export const OppsummeringFelt: React.FC<{
+export const SøknadInfoFelt: React.FC<{
     label: React.ReactNode;
     value: React.ReactNode;
     ikon?: React.ReactNode;
@@ -126,16 +126,18 @@ export const OppsummeringFelt: React.FC<{
             <BodyShort size="small" weight="semibold">
                 {ikon} {label}
             </BodyShort>
-            <div className={styles.feltVerdi}>{innhold}</div>
+            {innhold}
         </VStack>
     );
 };
 
-export const KompaktOppsummeringsfelt: React.FC<{
+export const SøknadInfoFeltKompakt: React.FC<{
     label: React.ReactNode;
     value?: React.ReactNode;
 }> = ({ label, value }) => {
-    if (value === undefined || value === null || value === '') {
+    const innhold = renderValue(value);
+
+    if (!innhold) {
         return null;
     }
 
@@ -146,7 +148,7 @@ export const KompaktOppsummeringsfelt: React.FC<{
     );
 };
 
-export const OppsummeringEkspanderbarEnhet: React.FC<{
+export const SøknadInfoEkspanderbar: React.FC<{
     tittel: string;
     ikon?: React.ReactNode;
     children: React.ReactNode;
@@ -160,6 +162,6 @@ export const OppsummeringEkspanderbarEnhet: React.FC<{
         ariaLabel={ariaLabel}
         variant={variant}
     >
-        <OppsummeringFeltgruppe>{children}</OppsummeringFeltgruppe>
+        <SøknadInfoSeksjonInnholdWrapper>{children}</SøknadInfoSeksjonInnholdWrapper>
     </ExpansionCardXSmall>
 );

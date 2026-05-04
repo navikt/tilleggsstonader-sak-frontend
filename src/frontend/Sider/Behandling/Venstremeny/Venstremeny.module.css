@@ -6,7 +6,6 @@
     height: calc(100vh - 97px);
     top: 97px;
     overflow: hidden scroll;
-    scrollbar-gutter: stable;
     display: flex;
     flex-direction: column;
     flex-shrink: 0;

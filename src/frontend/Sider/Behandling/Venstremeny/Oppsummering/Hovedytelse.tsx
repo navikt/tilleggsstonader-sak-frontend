@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { OppsummeringFelt } from './Visningskomponenter';
+import { SøknadInfoFelt } from './Visningskomponenter';
 import {
     FaktaHovedytelse,
     hovedytelseTilTekst,
@@ -18,9 +18,9 @@ export const HovedytelseFelt: React.FC<{
 
     return (
         <>
-            {hovedytelse && <OppsummeringFelt label="Ytelse" value={hovedytelse} />}
+            {hovedytelse && <SøknadInfoFelt label="Ytelse" value={hovedytelse} />}
             {harNedsattArbeidsevne && (
-                <OppsummeringFelt
+                <SøknadInfoFelt
                     label="Har nedsatt arbeidsevne"
                     value={jaNeiTilTekst[harNedsattArbeidsevne]}
                 />

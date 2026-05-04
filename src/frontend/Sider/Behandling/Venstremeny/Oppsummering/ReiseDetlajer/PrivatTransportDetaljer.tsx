@@ -10,14 +10,14 @@ import {
     ÅrsakIkkeOffentligTransportTilTekst,
 } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { jaNeiTilTekst } from '../../../../../typer/common';
-import { OppsummeringFelt } from '../Visningskomponenter';
+import { SøknadInfoFelt } from '../Visningskomponenter';
 
 export const PrivatTransportDetaljer: React.FC<{ privatTransport: PrivatTransport }> = ({
     privatTransport,
 }) => (
     <>
         {privatTransport.årsakIkkeOffentligTransport && (
-            <OppsummeringFelt
+            <SøknadInfoFelt
                 label="Hvorfor kan du ikke reise med offentlig transport?"
                 value={
                     <VStack gap="space-4">
@@ -34,7 +34,7 @@ export const PrivatTransportDetaljer: React.FC<{ privatTransport: PrivatTranspor
         )}
 
         {privatTransport.kanKjøreMedEgenBil && (
-            <OppsummeringFelt
+            <SøknadInfoFelt
                 label="Kan du kjøre bil til aktivitetsstedet?"
                 value={jaNeiTilTekst[privatTransport.kanKjøreMedEgenBil]}
             />
