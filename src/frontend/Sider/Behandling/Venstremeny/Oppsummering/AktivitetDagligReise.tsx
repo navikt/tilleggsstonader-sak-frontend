@@ -9,13 +9,11 @@ import {
     FaktaAktivitetDagligReise,
 } from '../../../../typer/behandling/behandlingFakta/faktaAktivitet';
 import { jaNeiTilTekst } from '../../../../typer/common';
-import { formaterIsoPeriodeMedTankestrek } from '../../../../utils/dato';
 import { tekstMedFallback } from '../../../../utils/tekstformatering';
 
 export const AktivitetDagligReise: React.FC<{
     aktiviteter: FaktaAktivitetDagligReise;
 }> = ({ aktiviteter }) => {
-    const reiseperiode = aktiviteter.reiseperiode;
     const dekkesUtgiftenAvAndre = aktiviteter.aktivitet.søknadsgrunnlag?.dekkesUtgiftenAvAndre;
 
     if (!aktiviteter.aktivitet.søknadsgrunnlag) {
@@ -25,12 +23,6 @@ export const AktivitetDagligReise: React.FC<{
     return (
         <SøknadInfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
             <AktivitetFelt aktivitet={aktiviteter.aktivitet} />
-            {reiseperiode && (
-                <SøknadInfoFelt
-                    label="Periode du må reise til aktivitetsstedet"
-                    value={formaterIsoPeriodeMedTankestrek(reiseperiode)}
-                />
-            )}
             {dekkesUtgiftenAvAndre?.typeUtdanning && (
                 <SøknadInfoFelt
                     label="Hva slags type arbeidsrettet aktivitet går du på?"
