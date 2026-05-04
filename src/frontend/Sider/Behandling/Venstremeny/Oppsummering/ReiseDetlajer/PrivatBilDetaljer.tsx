@@ -2,6 +2,7 @@ import React from 'react';
 
 import { UtgifterBil } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { jaNeiTilTekst } from '../../../../../typer/common';
+import { tekstMedFallback } from '../../../../../utils/tekstformatering';
 import { SøknadInfoFelt } from '../Visningskomponenter';
 
 export const PrivatBilDetaljer: React.FC<{ utgifterBil: UtgifterBil }> = ({ utgifterBil }) => (
@@ -9,14 +10,14 @@ export const PrivatBilDetaljer: React.FC<{ utgifterBil: UtgifterBil }> = ({ utgi
         {utgifterBil.mottarGrunnstønad && (
             <SøknadInfoFelt
                 label="Mottar du grunnstønad fra Nav?"
-                value={jaNeiTilTekst[utgifterBil.mottarGrunnstønad]}
+                value={tekstMedFallback(jaNeiTilTekst, utgifterBil.mottarGrunnstønad)}
             />
         )}
 
         {utgifterBil.parkering && (
             <SøknadInfoFelt
                 label="Må du betale for parkering med egen bil?"
-                value={jaNeiTilTekst[utgifterBil.parkering]}
+                value={tekstMedFallback(jaNeiTilTekst, utgifterBil.parkering)}
             />
         )}
 

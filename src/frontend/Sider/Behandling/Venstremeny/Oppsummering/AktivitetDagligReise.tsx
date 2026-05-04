@@ -10,6 +10,7 @@ import {
 } from '../../../../typer/behandling/behandlingFakta/faktaAktivitet';
 import { jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoPeriodeMedTankestrek } from '../../../../utils/dato';
+import { tekstMedFallback } from '../../../../utils/tekstformatering';
 
 export const AktivitetDagligReise: React.FC<{
     aktiviteter: FaktaAktivitetDagligReise;
@@ -33,37 +34,46 @@ export const AktivitetDagligReise: React.FC<{
             {dekkesUtgiftenAvAndre?.typeUtdanning && (
                 <SøknadInfoFelt
                     label="Hva slags type arbeidsrettet aktivitet går du på?"
-                    value={dagligReiseTypeUtdanningTilTekst[dekkesUtgiftenAvAndre.typeUtdanning]}
+                    value={tekstMedFallback(
+                        dagligReiseTypeUtdanningTilTekst,
+                        dekkesUtgiftenAvAndre.typeUtdanning
+                    )}
                 />
             )}
             {dekkesUtgiftenAvAndre?.lærling && (
                 <SøknadInfoFelt
                     label="Er du lærling, lærekandidat, praksisbrevkandidat eller kandidat for fagbrev på jobb?"
-                    value={jaNeiTilTekst[dekkesUtgiftenAvAndre.lærling]}
+                    value={tekstMedFallback(jaNeiTilTekst, dekkesUtgiftenAvAndre.lærling)}
                 />
             )}
             {dekkesUtgiftenAvAndre?.arbeidsgiverDekkerUtgift && (
                 <SøknadInfoFelt
                     label="Får du dekket reisen til aktivitetsstedet av arbeidsgiveren din?"
-                    value={jaNeiTilTekst[dekkesUtgiftenAvAndre.arbeidsgiverDekkerUtgift]}
+                    value={tekstMedFallback(
+                        jaNeiTilTekst,
+                        dekkesUtgiftenAvAndre.arbeidsgiverDekkerUtgift
+                    )}
                 />
             )}
             {dekkesUtgiftenAvAndre?.erUnder25år && (
                 <SøknadInfoFelt
                     label="Er eller var du under 25 år ved starten av skoleåret?"
-                    value={jaNeiTilTekst[dekkesUtgiftenAvAndre.erUnder25år]}
+                    value={tekstMedFallback(jaNeiTilTekst, dekkesUtgiftenAvAndre.erUnder25år)}
                 />
             )}
             {dekkesUtgiftenAvAndre?.betalerForReisenTilSkolenSelv && (
                 <SøknadInfoFelt
                     label="Må du betale for reisen til skolen selv?"
-                    value={jaNeiTilTekst[dekkesUtgiftenAvAndre.betalerForReisenTilSkolenSelv]}
+                    value={tekstMedFallback(
+                        jaNeiTilTekst,
+                        dekkesUtgiftenAvAndre.betalerForReisenTilSkolenSelv
+                    )}
                 />
             )}
             {dekkesUtgiftenAvAndre?.lønnetAktivitet && (
                 <SøknadInfoFelt
                     label="Mottar du ordinær lønn gjennom tiltaket?"
-                    value={jaNeiTilTekst[dekkesUtgiftenAvAndre.lønnetAktivitet]}
+                    value={tekstMedFallback(jaNeiTilTekst, dekkesUtgiftenAvAndre.lønnetAktivitet)}
                 />
             )}
         </SøknadInfoSeksjon>

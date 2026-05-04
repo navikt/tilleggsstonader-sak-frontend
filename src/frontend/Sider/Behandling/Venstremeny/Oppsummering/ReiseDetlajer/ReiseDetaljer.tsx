@@ -13,6 +13,7 @@ import {
 } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { JaNei, jaNeiTilTekst } from '../../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
+import { tekstMedFallback } from '../../../../../utils/tekstformatering';
 import { SøknadInfoEkspanderbar, SøknadInfoFelt } from '../Visningskomponenter';
 
 function AdresseFelt({ adresse, label }: { adresse: ReiseAdresse; label: string }) {
@@ -46,7 +47,10 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                     {reise.skalReiseFraFolkeregistrertAdresse && (
                         <SøknadInfoFelt
                             label="Skal du reise fra din folkeregistrerte adresse?"
-                            value={jaNeiTilTekst[reise.skalReiseFraFolkeregistrertAdresse]}
+                            value={tekstMedFallback(
+                                jaNeiTilTekst,
+                                reise.skalReiseFraFolkeregistrertAdresse
+                            )}
                         />
                     )}
 
@@ -85,16 +89,17 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                     {reise.harBehovForTransportUavhengigAvReisensLengde && (
                         <SøknadInfoFelt
                             label="Har du funksjonsnedsettelse, midlertidig skade eller sykdom som gjør at du må ha transport til aktivitetsstedet?"
-                            value={
-                                jaNeiTilTekst[reise.harBehovForTransportUavhengigAvReisensLengde]
-                            }
+                            value={tekstMedFallback(
+                                jaNeiTilTekst,
+                                reise.harBehovForTransportUavhengigAvReisensLengde
+                            )}
                         />
                     )}
 
                     {reise.harMerEnn6KmReisevei && (
                         <SøknadInfoFelt
                             label="Er reiseavstanden mellom der du bor og aktivitetsstedet 6 km eller mer én vei?"
-                            value={jaNeiTilTekst[reise.harMerEnn6KmReisevei]}
+                            value={tekstMedFallback(jaNeiTilTekst, reise.harMerEnn6KmReisevei)}
                         />
                     )}
 
@@ -108,7 +113,10 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                     {reise.kanReiseMedOffentligTransport && (
                         <SøknadInfoFelt
                             label="Kan du reise med offentlig transport hele veien?"
-                            value={jaNeiTilTekst[reise.kanReiseMedOffentligTransport]}
+                            value={tekstMedFallback(
+                                jaNeiTilTekst,
+                                reise.kanReiseMedOffentligTransport
+                            )}
                         />
                     )}
 

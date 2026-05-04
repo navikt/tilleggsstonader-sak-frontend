@@ -7,12 +7,13 @@ import {
     nyeOpplysningerKildeTilTekst,
     type NyeOpplysningerMetadata,
 } from '../../../../typer/behandling/nyeOpplysningerMetadata';
+import { tekstMedFallback } from '../../../../utils/tekstformatering';
 
 export const NyeOpplysningerMetadataVisning: React.FC<{
     nyeOpplysningerMetadata: NyeOpplysningerMetadata;
 }> = ({ nyeOpplysningerMetadata }) => {
     const endringer = nyeOpplysningerMetadata.endringer
-        .map((endring) => nyeOpplysningerEndringTilTekst[endring])
+        .map((endring) => tekstMedFallback(nyeOpplysningerEndringTilTekst, endring))
         .join(', ');
 
     return (
@@ -22,7 +23,7 @@ export const NyeOpplysningerMetadataVisning: React.FC<{
                     Kilde:
                 </BodyShort>
                 <BodyShort size={'small'}>
-                    {nyeOpplysningerKildeTilTekst[nyeOpplysningerMetadata.kilde ?? '-']}
+                    {tekstMedFallback(nyeOpplysningerKildeTilTekst, nyeOpplysningerMetadata.kilde)}
                 </BodyShort>
             </HStack>
             <HStack gap={'space-4'}>

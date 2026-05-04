@@ -103,13 +103,20 @@ export const SøknadInfoSeksjon: React.FC<{
 };
 
 function renderValue(value: React.ReactNode) {
+    if (Array.isArray(value)) {
+        if (value.length === 0) return null;
+
+        return value.map((item, index) => (
+            <BodyShort size="small" key={index}>
+                {item}
+            </BodyShort>
+        ));
+    }
     if (typeof value === 'string' || typeof value === 'number') {
         return <BodyShort size="small">{value}</BodyShort>;
     }
-
     return value;
 }
-
 export const SøknadInfoFelt: React.FC<{
     label: React.ReactNode;
     value: React.ReactNode;

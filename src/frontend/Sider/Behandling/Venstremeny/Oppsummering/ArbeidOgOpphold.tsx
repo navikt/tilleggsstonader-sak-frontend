@@ -11,7 +11,7 @@ import {
 } from '../../../../typer/behandling/behandlingFakta/faktaHovedytelse';
 import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoDato } from '../../../../utils/dato';
-import { tekstEllerKode, toTitleCase } from '../../../../utils/tekstformatering';
+import { tekstMedFallback, toTitleCase } from '../../../../utils/tekstformatering';
 
 const OppholdUtenforNorge: React.FC<{ opphold: FaktaOppholdUtenforNorge }> = ({ opphold }) => {
     return (
@@ -19,7 +19,7 @@ const OppholdUtenforNorge: React.FC<{ opphold: FaktaOppholdUtenforNorge }> = ({ 
             <BodyShort size="small">{toTitleCase(opphold.land)}</BodyShort>
             <BodyShort size="small">
                 {opphold.årsak
-                    .map((årsak) => tekstEllerKode(årsakOppholdUtenforNorgeTilTekst, årsak))
+                    .map((årsak) => tekstMedFallback(årsakOppholdUtenforNorgeTilTekst, årsak))
                     .join(', ')}
             </BodyShort>
             <BodyShort size="small">
@@ -39,7 +39,7 @@ const OppholdUtenforNorge12mnd: React.FC<{
     }
 
     if (spørsmål === JaNei.NEI) {
-        return <SøknadInfoFelt label={tittel} value={jaNeiTilTekst[spørsmål]} />;
+        return <SøknadInfoFelt label={tittel} value={tekstMedFallback(jaNeiTilTekst, spørsmål)} />;
     }
 
     return (
@@ -64,7 +64,7 @@ export const ArbeidOgOppholdFelt: React.FC<{
             {fakta.jobberIAnnetLand === JaNei.NEI && (
                 <SøknadInfoFelt
                     label="Jobber i annet land"
-                    value={jaNeiTilTekst[fakta.jobberIAnnetLand]}
+                    value={tekstMedFallback(jaNeiTilTekst, fakta.jobberIAnnetLand)}
                 />
             )}
             {fakta.jobbAnnetLand && (
@@ -84,7 +84,7 @@ export const ArbeidOgOppholdFelt: React.FC<{
                             <BodyShort size="small">
                                 {fakta.harPengestøtteAnnetLand
                                     .map((pengestøtte) =>
-                                        tekstEllerKode(typePengestøtteTilTekst, pengestøtte)
+                                        tekstMedFallback(typePengestøtteTilTekst, pengestøtte)
                                     )
                                     .join(', ')}
                             </BodyShort>

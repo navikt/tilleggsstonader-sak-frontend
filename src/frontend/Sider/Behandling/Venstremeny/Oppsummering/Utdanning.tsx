@@ -8,7 +8,7 @@ import {
     FaktaUtdanning,
 } from '../../../../typer/behandling/behandlingFakta/faktaUtdanning';
 import { jaNeiTilTekst } from '../../../../typer/common';
-import { tekstEllerKode } from '../../../../utils/tekstformatering';
+import { tekstMedFallback } from '../../../../utils/tekstformatering';
 
 export const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdanning }) => {
     const aktiviteter = faktaUtdanning.søknadsgrunnlag?.aktiviteter;
@@ -37,25 +37,25 @@ export const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaU
                     {annenUtdanning && (
                         <SøknadInfoFelt
                             label="Hva slags type arbeidsrettet aktivitet går du på?"
-                            value={`Annet: ${tekstEllerKode(annenUtdanningTypeTilTekst, annenUtdanning)}`}
+                            value={`Annet: ${tekstMedFallback(annenUtdanningTypeTilTekst, annenUtdanning)}`}
                         />
                     )}
                     {erLærlingEllerLiknende && (
                         <SøknadInfoFelt
                             label="Er du lærling, lærekandidat, praksisbrevkandidat eller kandidat for fagbrev på jobb?"
-                            value={jaNeiTilTekst[erLærlingEllerLiknende]}
+                            value={tekstMedFallback(jaNeiTilTekst, erLærlingEllerLiknende)}
                         />
                     )}
                     {harTidligereFullførtVgs && (
                         <SøknadInfoFelt
                             label="Har du tidligere fullført videregående opplæring?"
-                            value={jaNeiTilTekst[harTidligereFullførtVgs]}
+                            value={tekstMedFallback(jaNeiTilTekst, harTidligereFullførtVgs)}
                         />
                     )}
                     {harFunksjonsnedsettelse && (
                         <SøknadInfoFelt
                             label="Har du funksjonsnedsettelse som gir særlig store utgifter?"
-                            value={jaNeiTilTekst[harFunksjonsnedsettelse]}
+                            value={tekstMedFallback(jaNeiTilTekst, harFunksjonsnedsettelse)}
                             ikon={<WheelchairIcon />}
                         />
                     )}

@@ -10,6 +10,7 @@ import {
     ÅrsakIkkeOffentligTransportTilTekst,
 } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { jaNeiTilTekst } from '../../../../../typer/common';
+import { tekstMedFallback } from '../../../../../utils/tekstformatering';
 import { SøknadInfoFelt } from '../Visningskomponenter';
 
 export const PrivatTransportDetaljer: React.FC<{ privatTransport: PrivatTransport }> = ({
@@ -24,7 +25,7 @@ export const PrivatTransportDetaljer: React.FC<{ privatTransport: PrivatTranspor
                         {privatTransport.årsakIkkeOffentligTransport.map(
                             (årsak: ÅrsakIkkeOffentligTransport) => (
                                 <BodyShort key={årsak} size="small">
-                                    {ÅrsakIkkeOffentligTransportTilTekst[årsak]}
+                                    {tekstMedFallback(ÅrsakIkkeOffentligTransportTilTekst, årsak)}
                                 </BodyShort>
                             )
                         )}
@@ -36,7 +37,7 @@ export const PrivatTransportDetaljer: React.FC<{ privatTransport: PrivatTranspor
         {privatTransport.kanKjøreMedEgenBil && (
             <SøknadInfoFelt
                 label="Kan du kjøre bil til aktivitetsstedet?"
-                value={jaNeiTilTekst[privatTransport.kanKjøreMedEgenBil]}
+                value={tekstMedFallback(jaNeiTilTekst, privatTransport.kanKjøreMedEgenBil)}
             />
         )}
 

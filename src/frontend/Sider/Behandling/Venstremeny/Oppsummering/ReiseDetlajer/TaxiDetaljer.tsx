@@ -8,6 +8,7 @@ import {
     ÅrsakIkkeKjøreBilTilTekst,
 } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { jaNeiTilTekst } from '../../../../../typer/common';
+import { tekstMedFallback } from '../../../../../utils/tekstformatering';
 import { SøknadInfoFelt } from '../Visningskomponenter';
 
 export const TaxiDetaljer: React.FC<{ taxi: Taxi }> = ({ taxi }) => (
@@ -18,7 +19,7 @@ export const TaxiDetaljer: React.FC<{ taxi: Taxi }> = ({ taxi }) => (
                 <VStack gap="space-4">
                     {taxi.årsakIkkeKjøreBil.map((årsak: ÅrsakIkkeKjøreBil) => (
                         <BodyShort key={årsak} size="small">
-                            {ÅrsakIkkeKjøreBilTilTekst[årsak]}
+                            {tekstMedFallback(ÅrsakIkkeKjøreBilTilTekst, årsak)}
                         </BodyShort>
                     ))}
                 </VStack>
@@ -28,14 +29,14 @@ export const TaxiDetaljer: React.FC<{ taxi: Taxi }> = ({ taxi }) => (
         {taxi.ønskerSøkeOmTaxi && (
             <SøknadInfoFelt
                 label="Ønsker du å søke om å få dekket utgifter til reise med taxi?"
-                value={jaNeiTilTekst[taxi.ønskerSøkeOmTaxi]}
+                value={tekstMedFallback(jaNeiTilTekst, taxi.ønskerSøkeOmTaxi)}
             />
         )}
 
         {taxi.ttkort && (
             <SøknadInfoFelt
                 label="Har du et TT-kort som du kan bruke til aktiviteter i tiltak?"
-                value={jaNeiTilTekst[taxi.ttkort]}
+                value={tekstMedFallback(jaNeiTilTekst, taxi.ttkort)}
             />
         )}
     </>

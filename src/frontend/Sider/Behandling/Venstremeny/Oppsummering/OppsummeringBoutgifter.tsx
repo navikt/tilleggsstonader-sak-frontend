@@ -25,6 +25,7 @@ import {
 import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../utils/dato';
 import { harTallverdi, tilTallverdi } from '../../../../utils/tall';
+import { tekstMedFallback } from '../../../../utils/tekstformatering';
 
 function hentBoutgifterLabel(
     boligEllerOvernatting: FaktaBoligEllerOvernattingSøknadsgrunnlag | undefined
@@ -184,7 +185,10 @@ const UtgifterNyBolig = ({
                 )}
                 <SøknadInfoFeltKompakt
                     label="Høyere utgift nytt bosted"
-                    value={jaNeiTilTekst[utgifterNyBolig.harHoyereUtgifterPaNyttBosted]}
+                    value={tekstMedFallback(
+                        jaNeiTilTekst,
+                        utgifterNyBolig.harHoyereUtgifterPaNyttBosted
+                    )}
                 />
                 {utgifterNyBolig.mottarBostotte === JaNei.JA && (
                     <SøknadInfoFeltKompakt label="Mottar bostøtte" value="Ja" />
@@ -278,7 +282,7 @@ const HøyereUtgifterPgaHelse = ({
                 ikon={<WheelchairIcon />}
                 value={
                     <BodyShort size="small">
-                        <i>{jaNeiTilTekst[særligUtgifter]}</i>
+                        <i>{tekstMedFallback(jaNeiTilTekst, særligUtgifter)}</i>
                     </BodyShort>
                 }
             />

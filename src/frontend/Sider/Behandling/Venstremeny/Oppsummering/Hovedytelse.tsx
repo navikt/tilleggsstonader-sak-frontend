@@ -6,14 +6,14 @@ import {
     hovedytelseTilTekst,
 } from '../../../../typer/behandling/behandlingFakta/faktaHovedytelse';
 import { jaNeiTilTekst } from '../../../../typer/common';
-import { tekstEllerKode } from '../../../../utils/tekstformatering';
+import { tekstMedFallback } from '../../../../utils/tekstformatering';
 
 export const HovedytelseFelt: React.FC<{
     faktaHovedytelse: FaktaHovedytelse;
 }> = ({ faktaHovedytelse }) => {
     const harNedsattArbeidsevne = faktaHovedytelse.søknadsgrunnlag?.harNedsattArbeidsevne;
     const hovedytelse = faktaHovedytelse.søknadsgrunnlag?.hovedytelse
-        ?.map((ytelse) => tekstEllerKode(hovedytelseTilTekst, ytelse))
+        ?.map((ytelse) => tekstMedFallback(hovedytelseTilTekst, ytelse))
         ?.join(', ');
 
     return (
@@ -22,7 +22,7 @@ export const HovedytelseFelt: React.FC<{
             {harNedsattArbeidsevne && (
                 <SøknadInfoFelt
                     label="Har nedsatt arbeidsevne"
-                    value={jaNeiTilTekst[harNedsattArbeidsevne]}
+                    value={tekstMedFallback(jaNeiTilTekst, harNedsattArbeidsevne)}
                 />
             )}
         </>

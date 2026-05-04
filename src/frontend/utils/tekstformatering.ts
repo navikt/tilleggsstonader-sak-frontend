@@ -35,10 +35,9 @@ export const utledNavnOgAlder = (navn: string, alder?: number) => {
 };
 
 /**
- * I tilfeller tekstmapping mapping skal man vise kode sånn at man ikke viser tom streng og saksbehandler
- * går miste om at det finnes et verdi
+ * I tilfeller der det mangler tekstmapping skal vi fallbacke til selve koden, så hindrer vi at viktig info blir skjult.
  */
-export const tekstEllerKode = <T extends string>(
+export const tekstMedFallback = <T extends string>(
     mapping: Record<T, string>,
     kode?: T
 ): string | undefined => (kode && mapping[kode]) || kode;

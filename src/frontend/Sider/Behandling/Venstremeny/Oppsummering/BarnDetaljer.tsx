@@ -10,7 +10,7 @@ import {
 } from '../../../../typer/behandling/behandlingFakta/faktaBarn';
 import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../utils/dato';
-import { tekstEllerKode, toTitleCase } from '../../../../utils/tekstformatering';
+import { tekstMedFallback, toTitleCase } from '../../../../utils/tekstformatering';
 
 export const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
     const typePass = barn.søknadgrunnlag?.type;
@@ -30,13 +30,13 @@ export const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
             {typePass && (
                 <SøknadInfoFelt
                     label="Passordning"
-                    value={tekstEllerKode(typeBarnepassTilTekst, typePass)}
+                    value={tekstMedFallback(typeBarnepassTilTekst, typePass)}
                 />
             )}
             {utgifter && (
                 <SøknadInfoFelt
                     label="Har utgifter hele perioden?"
-                    value={jaNeiTilTekst[utgifter.harUtgifterTilPassHelePerioden]}
+                    value={tekstMedFallback(jaNeiTilTekst, utgifter.harUtgifterTilPassHelePerioden)}
                 />
             )}
             {utgifter?.fom && utgifter.tom && (
@@ -48,13 +48,13 @@ export const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
             {startetIFemte !== undefined && (
                 <SøknadInfoFelt
                     label="Har startet i 5.klasse når tiltaket starter?"
-                    value={jaNeiTilTekst[startetIFemte]}
+                    value={tekstMedFallback(jaNeiTilTekst, startetIFemte)}
                 />
             )}
             {startetIFemte === JaNei.JA && årsak && (
                 <SøknadInfoFelt
                     label="Årsak"
-                    value={tekstEllerKode(årsakBarnepassTilTekst, årsak)}
+                    value={tekstMedFallback(årsakBarnepassTilTekst, årsak)}
                 />
             )}
         </SøknadInfoEkspanderbar>

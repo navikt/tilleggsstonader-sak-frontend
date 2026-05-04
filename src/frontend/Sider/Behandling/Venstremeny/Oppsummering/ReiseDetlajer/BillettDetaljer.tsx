@@ -9,6 +9,7 @@ import {
 } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
 import { harTallverdi } from '../../../../../utils/tall';
+import { tekstMedFallback } from '../../../../../utils/tekstformatering';
 import { SøknadInfoFelt, SøknadInfoFeltKompakt } from '../Visningskomponenter';
 
 type Billett = {
@@ -29,7 +30,7 @@ export const BillettDetaljer: React.FC<{ offentligTransport: OffentligTransport 
 
             return harTallverdi(pris)
                 ? {
-                      billettype: BillettTypeTilTekst[billettType],
+                      billettype: tekstMedFallback(BillettTypeTilTekst, billettType) ?? '',
                       pris: `${formaterTallMedTusenSkille(pris)} kr`,
                   }
                 : undefined;
