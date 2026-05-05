@@ -4,7 +4,7 @@ import { VStack } from '@navikt/ds-react';
 
 import { Aktivitet } from './Aktivitet';
 import { BarnDetaljer } from './BarnDetaljer';
-import { useOppsummeringFilter } from './UseOppsummeringFilter';
+import { useOppsummeringFilter } from './useOppsummeringFilter';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
 import { SøknadInfoSeksjonFilter, Søknadsdato } from './Visningskomponenter';
 import { YtelseSituasjon } from './YtelseSituasjon';

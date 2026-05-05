@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Aktivitet } from './Aktivitet';
-import { useOppsummeringFilter } from './UseOppsummeringFilter';
+import { useOppsummeringFilter } from './useOppsummeringFilter';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
 import { SøknadInfoSeksjonFilter, Søknadsdato } from './Visningskomponenter';
 import { YtelseSituasjon } from './YtelseSituasjon';
@@ -36,7 +36,7 @@ export const OppsummeringReiseTilSamling: React.FC<{
         <>
             <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
             <SøknadInfoSeksjonFilter
-                ariaLabel="Filtrer søknadsopplysninger for tilsyn barn"
+                ariaLabel="Filtrer søknadsopplysninger for reise til samling"
                 onChange={onFilterChange}
                 value={valgtSeksjon}
                 valg={filtervalg}

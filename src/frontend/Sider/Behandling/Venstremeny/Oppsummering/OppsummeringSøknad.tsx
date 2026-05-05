@@ -43,7 +43,10 @@ export const OppsummeringSøknad: React.FC = () => {
                 <OppsummeringDagligReise behandlingFakta={behandlingFakta} key={behandling.id} />
             )}
             {behandlingFakta['@type'] === Stønadstype.REISE_TIL_SAMLING_TSO && (
-                <OppsummeringReiseTilSamling behandlingFakta={behandlingFakta} />
+                <OppsummeringReiseTilSamling
+                    behandlingFakta={behandlingFakta}
+                    key={behandling.id}
+                />
             )}
         </VStack>
     );

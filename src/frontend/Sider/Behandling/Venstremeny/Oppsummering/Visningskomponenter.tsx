@@ -150,7 +150,7 @@ export const SøknadInfoFeltKompakt: React.FC<{
 
     return (
         <BodyShort size="small">
-            {label}: <i>{value}</i>
+            {label}: <i>{innhold}</i>
         </BodyShort>
     );
 };

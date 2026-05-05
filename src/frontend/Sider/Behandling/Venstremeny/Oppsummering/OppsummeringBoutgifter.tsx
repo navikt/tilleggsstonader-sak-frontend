@@ -4,7 +4,7 @@ import { BankNoteIcon, WheelchairIcon } from '@navikt/aksel-icons';
 import { BodyShort, VStack } from '@navikt/ds-react';
 
 import { Aktivitet } from './Aktivitet';
-import { useOppsummeringFilter } from './UseOppsummeringFilter';
+import { useOppsummeringFilter } from './useOppsummeringFilter';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
 import {
     SøknadInfoFelt,
