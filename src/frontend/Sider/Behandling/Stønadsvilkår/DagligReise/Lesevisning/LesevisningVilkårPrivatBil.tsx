@@ -17,6 +17,7 @@ import styles from './LesevisningVilkårDagligReise.module.css';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
+import { VertikalSkillelinje } from '../../../../../komponenter/VertikalSkillelinje';
 import { formaterNullablePeriode } from '../../../../../utils/dato';
 import {
     AktivitetType,
@@ -88,66 +89,52 @@ export const LesevisningVilkårPrivatBil: FC<{
             <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
             <HStack gap="space-16">
                 <VStack>
-                    <span className="aksel-body-short aksel-body-short--small">
+                    <BodyShort className="aksel-body-short aksel-body-short--small">
                         Adresse aktivitet:
-                    </span>
+                    </BodyShort>
                     <BodyShort size="small">
                         <strong>{adresse}</strong>
                     </BodyShort>
                 </VStack>
+                <VStack>
+                    <BodyShort size="small">Reiseavstand en vei:</BodyShort>
+                    <BodyShort size="small">
+                        <strong>{faktaPrivatBil.reiseavstandEnVei} km</strong>
+                    </BodyShort>
+                </VStack>
+                <VStack>
+                    <BodyShort className="aksel-body-short aksel-body-short--small">
+                        Aktivitet:
+                    </BodyShort>
+                    <BodyShort size="small">
+                        <strong>
+                            {AktivitetTypeTilTekst[faktaPrivatBil.aktivitetType as AktivitetType] ??
+                                faktaPrivatBil.aktivitetType}
+                        </strong>
+                    </BodyShort>
+                </VStack>
             </HStack>
             <Skillelinje />
-            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 725px) auto">
+            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 400px) 1px 1fr">
                 <VStack gap="space-24">
-                    <VStack gap="space-12">
+                    <VStack gap="space-12" style={{ marginBottom: '60px' }}>
                         <LesevisningFaktaDagligReise fakta={faktaPrivatBil} />
                     </VStack>
-                    <HStack gap="space-16">
-                        <VStack>
-                            <span className="aksel-body-short aksel-body-short--small">
-                                Reiseavstand en vei:
-                            </span>
-                            <BodyShort size="small">
-                                <strong>{faktaPrivatBil.reiseavstandEnVei} km</strong>
-                            </BodyShort>
-                        </VStack>
-                        {faktaPrivatBil.aktivitetType && (
-                            <VStack>
-                                <span className="aksel-body-short aksel-body-short--small">
-                                    Aktivitet:
-                                </span>
-                                <BodyShort size="small">
-                                    <strong>
-                                        {AktivitetTypeTilTekst[
-                                            faktaPrivatBil.aktivitetType as AktivitetType
-                                        ] ?? faktaPrivatBil.aktivitetType}
-                                    </strong>
-                                </BodyShort>
-                            </VStack>
-                        )}
-                    </HStack>
-                    <Tag
-                        data-color="neutral"
-                        size="small"
-                        style={{ width: 'max-content' }}
-                        variant="outline"
-                        icon={<CarIcon />}
-                    >
-                        {typeDagligReiseTilTekst['PRIVAT_BIL']}
-                    </Tag>
                 </VStack>
-
+                <div style={{ display: 'flex', alignItems: 'stretch' }}>
+                    <VertikalSkillelinje />
+                </div>
                 <VStack gap="space-4">
                     {delvilkårsett.map((delvilkår, index) => (
                         <HGrid
-                            gap={'space-4 space-16'}
-                            columns="minmax(100px, max-content) 1fr"
                             key={index}
+                            gap="space-4 space-16"
+                            columns="minmax(100px, max-content) 1fr"
                             height="fit-content"
                         >
-                            {delvilkår.vurderinger.map((vurdering, index) => (
-                                <Fragment key={index}>
-                                    <HStack gap="space-12" key={vurdering.regelId}>
+                            {delvilkår.vurderinger.map((vurdering, i) => (
+                                <Fragment key={i}>
+                                    <HStack gap="space-12">
                                         <BodyShort weight="semibold" size="small">
                                             {regelIdTilSpørsmålKortversjon[vurdering.regelId]}
                                         </BodyShort>
@@ -172,6 +159,15 @@ export const LesevisningVilkårPrivatBil: FC<{
                         </HStack>
                     )}
                 </VStack>
+                <Tag
+                    data-color="neutral"
+                    size="small"
+                    style={{ width: 'max-content' }}
+                    variant="outline"
+                    icon={<CarIcon />}
+                >
+                    {typeDagligReiseTilTekst['PRIVAT_BIL']}
+                </Tag>
             </HGrid>
         </ResultatOgStatusKort>
     );
