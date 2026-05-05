@@ -1,0 +1,19 @@
+.toKolonner {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 1rem;
+
+    @media (width <= 1149px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.background {
+    width: 100%;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
