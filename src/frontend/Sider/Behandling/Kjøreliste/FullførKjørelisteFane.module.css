@@ -7,13 +7,3 @@
         grid-template-columns: 1fr;
     }
 }
-
-.background {
-    width: 100%;
-}
-
-.container {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}

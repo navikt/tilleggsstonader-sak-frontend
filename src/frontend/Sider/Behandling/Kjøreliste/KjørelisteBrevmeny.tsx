@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 
 import { Button, ExpansionCard, HStack, Textarea } from '@navikt/ds-react';
 
-import styles from './FullførKjørelisteFane.module.css';
+import styles from './KjørelisteBrevmeny.module.css';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
