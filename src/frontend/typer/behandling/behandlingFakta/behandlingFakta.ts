@@ -1,4 +1,4 @@
-import { FaktaAktivitetDagligReise, FaktaAktivtet } from './faktaAktivitet';
+import { FaktaAktivitet, FaktaAktivitetDagligReise } from './faktaAktivitet';
 import { FaktaArena } from './faktaArena';
 import { FaktaBarn } from './faktaBarn';
 import { FaktaDokumentasjon } from './faktaDokumentasjon';
@@ -8,6 +8,7 @@ import { Stønadstype } from '../behandlingTema';
 import { FaktaBoligEllerOvernatting } from './faktaBoligEllerOvernattig';
 import { FaktaPersonopplysninger } from './faktaPersonopplysninger';
 import { FaktaReise } from './faktaReise';
+import { FaktaSamling } from './faktaSamlinger';
 
 interface BehandlingFaktaInterface {
     søknadMottattTidspunkt?: string;
@@ -17,7 +18,7 @@ interface BehandlingFaktaInterface {
     '@type': Stønadstype;
 }
 export interface BehandlingFaktaTilsynBarn extends BehandlingFaktaInterface {
-    aktivitet: FaktaAktivtet;
+    aktivitet: FaktaAktivitet;
     barn: FaktaBarn[];
     '@type': Stønadstype.BARNETILSYN;
 }
@@ -30,7 +31,7 @@ export interface BehandlingFaktaLæremidler extends BehandlingFaktaInterface {
 
 export interface BehandlingFaktaBoutgifter extends BehandlingFaktaInterface {
     '@type': Stønadstype.BOUTGIFTER;
-    aktiviteter: FaktaAktivtet;
+    aktiviteter: FaktaAktivitet;
     boligEllerOvernatting: FaktaBoligEllerOvernatting;
     personopplysninger: FaktaPersonopplysninger;
 }
@@ -43,8 +44,9 @@ export interface BehandlingFaktaDagligReise extends BehandlingFaktaInterface {
 
 export interface BehandlingFaktaReiseTilSamling extends BehandlingFaktaInterface {
     '@type': Stønadstype.REISE_TIL_SAMLING_TSO; //| Stønadstype.REISE_TIL_SAMLING_TSR;
-    aktiviteter: FaktaAktivtet;
+    aktiviteter: FaktaAktivitet;
     personopplysninger: FaktaPersonopplysninger;
+    samlinger: FaktaSamling[];
     // TODO: Legg til alt de andre fra søknaden
 }
 

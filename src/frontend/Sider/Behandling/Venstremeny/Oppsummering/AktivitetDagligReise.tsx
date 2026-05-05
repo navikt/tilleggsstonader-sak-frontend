@@ -1,97 +1,73 @@
 import React from 'react';
 
-import { BodyShort, Label, VStack } from '@navikt/ds-react';
+import { BriefcaseIcon } from '@navikt/aksel-icons';
 
-import Aktivitet from './Aktivitet';
+import { AktivitetFelt } from './Aktivitet';
+import { SøknadInfoFelt, SøknadInfoSeksjon } from './Visningskomponenter';
 import {
     dagligReiseTypeUtdanningTilTekst,
     FaktaAktivitetDagligReise,
 } from '../../../../typer/behandling/behandlingFakta/faktaAktivitet';
 import { jaNeiTilTekst } from '../../../../typer/common';
-import { formaterIsoPeriodeMedTankestrek } from '../../../../utils/dato';
+import { tekstMedFallback } from '../../../../utils/tekstformatering';
 
-const AktivitetDagligReise: React.FC<{ aktiviteter: FaktaAktivitetDagligReise }> = ({
-    aktiviteter,
-}) => {
-    const reiseperiode = aktiviteter.reiseperiode;
+export const AktivitetDagligReise: React.FC<{
+    aktiviteter: FaktaAktivitetDagligReise;
+}> = ({ aktiviteter }) => {
     const dekkesUtgiftenAvAndre = aktiviteter.aktivitet.søknadsgrunnlag?.dekkesUtgiftenAvAndre;
 
+    if (!aktiviteter.aktivitet.søknadsgrunnlag) {
+        return null;
+    }
+
     return (
-        <div>
-            <VStack gap="space-8">
-                {aktiviteter && (
-                    <VStack>
-                        <Aktivitet aktivitet={aktiviteter.aktivitet}></Aktivitet>
-                    </VStack>
-                )}
-                {reiseperiode && (
-                    <VStack>
-                        <Label size={'small'}>Periode du må reise til aktivitetstedet</Label>
-                        <BodyShort size="small">
-                            {formaterIsoPeriodeMedTankestrek(reiseperiode)}
-                        </BodyShort>
-                    </VStack>
-                )}
-                {dekkesUtgiftenAvAndre?.typeUtdanning && (
-                    <VStack>
-                        <Label size={'small'}>
-                            Hva slags type arbeidsrettet aktivitet går du på?
-                        </Label>
-                        <BodyShort size="small">
-                            {dagligReiseTypeUtdanningTilTekst[dekkesUtgiftenAvAndre.typeUtdanning]}
-                        </BodyShort>
-                    </VStack>
-                )}
-                {dekkesUtgiftenAvAndre?.lærling && (
-                    <VStack>
-                        <Label size={'small'}>
-                            Er du lærling, lærekandidat, praksisbrevkandidat eller kandidat for
-                            fagbrev på jobb?
-                        </Label>
-                        <BodyShort size="small">
-                            {jaNeiTilTekst[dekkesUtgiftenAvAndre.lærling]}
-                        </BodyShort>
-                    </VStack>
-                )}
-                {dekkesUtgiftenAvAndre?.arbeidsgiverDekkerUtgift && (
-                    <VStack>
-                        <Label size={'small'}>
-                            Får du dekket reisen til aktivitetsstedet av arbeidsgiveren din?
-                        </Label>
-                        <BodyShort size="small">
-                            {jaNeiTilTekst[dekkesUtgiftenAvAndre.arbeidsgiverDekkerUtgift]}
-                        </BodyShort>
-                    </VStack>
-                )}
-                {dekkesUtgiftenAvAndre?.erUnder25år && (
-                    <VStack>
-                        <Label size={'small'}>
-                            Er/var du under 25 år ved starten av skoleåret?
-                        </Label>
-                        <BodyShort size="small">
-                            {jaNeiTilTekst[dekkesUtgiftenAvAndre.erUnder25år]}
-                        </BodyShort>
-                    </VStack>
-                )}
-                {dekkesUtgiftenAvAndre?.betalerForReisenTilSkolenSelv && (
-                    <VStack>
-                        <Label size={'small'}>Må du betale for reisen til skolen selv?</Label>
-                        <BodyShort size="small">
-                            {jaNeiTilTekst[dekkesUtgiftenAvAndre.betalerForReisenTilSkolenSelv]}
-                        </BodyShort>
-                    </VStack>
-                )}
-                {dekkesUtgiftenAvAndre?.lønnetAktivitet && (
-                    <VStack>
-                        <Label size={'small'}>Mottar du ordinær lønn gjennom tiltaket?</Label>
-                        <BodyShort size="small">
-                            {jaNeiTilTekst[dekkesUtgiftenAvAndre.lønnetAktivitet]}
-                        </BodyShort>
-                    </VStack>
-                )}
-            </VStack>
-        </div>
+        <SøknadInfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
+            <AktivitetFelt aktivitet={aktiviteter.aktivitet} />
+            {dekkesUtgiftenAvAndre?.typeUtdanning && (
+                <SøknadInfoFelt
+                    label="Hva slags type arbeidsrettet aktivitet går du på?"
+                    value={tekstMedFallback(
+                        dagligReiseTypeUtdanningTilTekst,
+                        dekkesUtgiftenAvAndre.typeUtdanning
+                    )}
+                />
+            )}
+            {dekkesUtgiftenAvAndre?.lærling && (
+                <SøknadInfoFelt
+                    label="Er du lærling, lærekandidat, praksisbrevkandidat eller kandidat for fagbrev på jobb?"
+                    value={tekstMedFallback(jaNeiTilTekst, dekkesUtgiftenAvAndre.lærling)}
+                />
+            )}
+            {dekkesUtgiftenAvAndre?.arbeidsgiverDekkerUtgift && (
+                <SøknadInfoFelt
+                    label="Får du dekket reisen til aktivitetsstedet av arbeidsgiveren din?"
+                    value={tekstMedFallback(
+                        jaNeiTilTekst,
+                        dekkesUtgiftenAvAndre.arbeidsgiverDekkerUtgift
+                    )}
+                />
+            )}
+            {dekkesUtgiftenAvAndre?.erUnder25år && (
+                <SøknadInfoFelt
+                    label="Er eller var du under 25 år ved starten av skoleåret?"
+                    value={tekstMedFallback(jaNeiTilTekst, dekkesUtgiftenAvAndre.erUnder25år)}
+                />
+            )}
+            {dekkesUtgiftenAvAndre?.betalerForReisenTilSkolenSelv && (
+                <SøknadInfoFelt
+                    label="Må du betale for reisen til skolen selv?"
+                    value={tekstMedFallback(
+                        jaNeiTilTekst,
+                        dekkesUtgiftenAvAndre.betalerForReisenTilSkolenSelv
+                    )}
+                />
+            )}
+            {dekkesUtgiftenAvAndre?.lønnetAktivitet && (
+                <SøknadInfoFelt
+                    label="Mottar du ordinær lønn gjennom tiltaket?"
+                    value={tekstMedFallback(jaNeiTilTekst, dekkesUtgiftenAvAndre.lønnetAktivitet)}
+                />
+            )}
+        </SøknadInfoSeksjon>
     );
 };
-
-export default AktivitetDagligReise;

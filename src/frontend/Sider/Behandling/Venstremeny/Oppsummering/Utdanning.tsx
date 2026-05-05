@@ -1,17 +1,16 @@
 import React from 'react';
 
 import { BriefcaseIcon, WheelchairIcon } from '@navikt/aksel-icons';
-import { BodyShort, VStack } from '@navikt/ds-react';
 
-import { InfoSeksjon } from './Visningskomponenter';
+import { SøknadInfoFelt, SøknadInfoSeksjon } from './Visningskomponenter';
 import {
     annenUtdanningTypeTilTekst,
     FaktaUtdanning,
 } from '../../../../typer/behandling/behandlingFakta/faktaUtdanning';
 import { jaNeiTilTekst } from '../../../../typer/common';
-import { tekstEllerKode } from '../../../../utils/tekstformatering';
+import { tekstMedFallback } from '../../../../utils/tekstformatering';
 
-const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdanning }) => {
+export const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdanning }) => {
     const aktiviteter = faktaUtdanning.søknadsgrunnlag?.aktiviteter;
     const annenUtdanning = faktaUtdanning.søknadsgrunnlag?.annenUtdanning;
     const erLærlingEllerLiknende =
@@ -19,42 +18,49 @@ const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaUtdannin
     const harTidligereFullførtVgs =
         faktaUtdanning.søknadsgrunnlag?.harRettTilUtstyrsstipend?.harTidligereFullførtVgs;
     const harFunksjonsnedsettelse = faktaUtdanning.søknadsgrunnlag?.harFunksjonsnedsettelse;
+    const aktiviteterTekst = aktiviteter?.join(', ');
+
     return (
         <>
-            {(aktiviteter || annenUtdanning) && (
-                <InfoSeksjon label="Aktivitet" ikon={<BriefcaseIcon />}>
-                    <VStack gap={'space-16'}>
-                        {aktiviteter && (
-                            <BodyShort size="small">
-                                {aktiviteter?.map((aktivitet) => aktivitet)?.join(', ')}
-                            </BodyShort>
-                        )}
-                        {annenUtdanning && (
-                            <BodyShort size="small">
-                                Annet: {tekstEllerKode(annenUtdanningTypeTilTekst, annenUtdanning)}
-                            </BodyShort>
-                        )}
-                        {erLærlingEllerLiknende && (
-                            <BodyShort size="small">
-                                Lærling, lærekandidat, praksisbrevkandidat, kandidat for fagbrev på
-                                jobb: {jaNeiTilTekst[erLærlingEllerLiknende]}
-                            </BodyShort>
-                        )}
-                        {harTidligereFullførtVgs && (
-                            <BodyShort size="small">
-                                Fullført VGS: {jaNeiTilTekst[harTidligereFullførtVgs]}
-                            </BodyShort>
-                        )}
-                    </VStack>
-                </InfoSeksjon>
-            )}
-            {harFunksjonsnedsettelse && (
-                <InfoSeksjon label="Særlig store utgifter" ikon={<WheelchairIcon />}>
-                    <BodyShort size="small">{jaNeiTilTekst[harFunksjonsnedsettelse]}</BodyShort>
-                </InfoSeksjon>
+            {(aktiviteterTekst ||
+                annenUtdanning ||
+                erLærlingEllerLiknende ||
+                harTidligereFullførtVgs ||
+                harFunksjonsnedsettelse) && (
+                <SøknadInfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
+                    {aktiviteterTekst && (
+                        <SøknadInfoFelt
+                            label="Hvilken aktivitet søker du om støtte ifm?"
+                            value={aktiviteterTekst}
+                        />
+                    )}
+                    {annenUtdanning && (
+                        <SøknadInfoFelt
+                            label="Hva slags type arbeidsrettet aktivitet går du på?"
+                            value={`Annet: ${tekstMedFallback(annenUtdanningTypeTilTekst, annenUtdanning)}`}
+                        />
+                    )}
+                    {erLærlingEllerLiknende && (
+                        <SøknadInfoFelt
+                            label="Er du lærling, lærekandidat, praksisbrevkandidat eller kandidat for fagbrev på jobb?"
+                            value={tekstMedFallback(jaNeiTilTekst, erLærlingEllerLiknende)}
+                        />
+                    )}
+                    {harTidligereFullførtVgs && (
+                        <SøknadInfoFelt
+                            label="Har du tidligere fullført videregående opplæring?"
+                            value={tekstMedFallback(jaNeiTilTekst, harTidligereFullførtVgs)}
+                        />
+                    )}
+                    {harFunksjonsnedsettelse && (
+                        <SøknadInfoFelt
+                            label="Har du funksjonsnedsettelse som gir særlig store utgifter?"
+                            value={tekstMedFallback(jaNeiTilTekst, harFunksjonsnedsettelse)}
+                            ikon={<WheelchairIcon />}
+                        />
+                    )}
+                </SøknadInfoSeksjon>
             )}
         </>
     );
 };
-
-export default Utdanning;

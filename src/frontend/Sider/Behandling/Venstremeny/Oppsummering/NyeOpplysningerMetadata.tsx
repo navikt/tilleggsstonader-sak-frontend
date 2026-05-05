@@ -5,14 +5,15 @@ import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 import {
     nyeOpplysningerEndringTilTekst,
     nyeOpplysningerKildeTilTekst,
-    NyeOpplysningerMetadata,
+    type NyeOpplysningerMetadata,
 } from '../../../../typer/behandling/nyeOpplysningerMetadata';
+import { tekstMedFallback } from '../../../../utils/tekstformatering';
 
-const NyeOpplysningerMetadata: React.FC<{
+export const NyeOpplysningerMetadataVisning: React.FC<{
     nyeOpplysningerMetadata: NyeOpplysningerMetadata;
 }> = ({ nyeOpplysningerMetadata }) => {
     const endringer = nyeOpplysningerMetadata.endringer
-        .map((endring) => nyeOpplysningerEndringTilTekst[endring])
+        .map((endring) => tekstMedFallback(nyeOpplysningerEndringTilTekst, endring))
         .join(', ');
 
     return (
@@ -22,7 +23,7 @@ const NyeOpplysningerMetadata: React.FC<{
                     Kilde:
                 </BodyShort>
                 <BodyShort size={'small'}>
-                    {nyeOpplysningerKildeTilTekst[nyeOpplysningerMetadata.kilde ?? '-']}
+                    {tekstMedFallback(nyeOpplysningerKildeTilTekst, nyeOpplysningerMetadata.kilde)}
                 </BodyShort>
             </HStack>
             <HStack gap={'space-4'}>
@@ -40,4 +41,3 @@ const NyeOpplysningerMetadata: React.FC<{
         </VStack>
     );
 };
-export default NyeOpplysningerMetadata;

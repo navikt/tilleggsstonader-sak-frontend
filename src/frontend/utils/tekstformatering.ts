@@ -6,7 +6,10 @@ const replaceUnderscoreWithSpace = (str: string): string => {
 };
 
 export const toTitleCase = (str: string): string =>
-    str.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+    str.replace(
+        /\p{L}+/gu,
+        (word) => word.charAt(0).toLocaleUpperCase() + word.slice(1).toLocaleLowerCase()
+    );
 
 export const formaterEnumVerdi = (str: string | undefined): string =>
     str ? replaceUnderscoreWithSpace(toTitleCase(str)) : '';
@@ -32,10 +35,9 @@ export const utledNavnOgAlder = (navn: string, alder?: number) => {
 };
 
 /**
- * I tilfeller tekstmapping mapping skal man vise kode sånn at man ikke viser tom streng og saksbehandler
- * går miste om at det finnes et verdi
+ * I tilfeller der det mangler tekstmapping skal vi fallbacke til selve koden, så hindrer vi at viktig info blir skjult.
  */
-export const tekstEllerKode = <T extends string>(
+export const tekstMedFallback = <T extends string>(
     mapping: Record<T, string>,
     kode?: T
 ): string | undefined => (kode && mapping[kode]) || kode;

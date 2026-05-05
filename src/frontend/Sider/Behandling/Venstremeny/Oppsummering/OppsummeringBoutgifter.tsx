@@ -1,25 +1,50 @@
 import React from 'react';
 
-import { BankNoteIcon, CalendarIcon, LocationPinIcon, WheelchairIcon } from '@navikt/aksel-icons';
+import { BankNoteIcon, WheelchairIcon } from '@navikt/aksel-icons';
 import { BodyShort, VStack } from '@navikt/ds-react';
 
-import Aktivitet from './Aktivitet';
-import ArbeidOgOpphold from './ArbeidOgOpphold';
-import Hovedytelse from './Hovedytelse';
-import Vedlegg from './Vedlegg';
-import { InfoSeksjon } from './Visningskomponenter';
+import { Aktivitet } from './Aktivitet';
+import { useOppsummeringFilter } from './useOppsummeringFilter';
+import { antallVedlegg, Vedlegg } from './Vedlegg';
+import {
+    SøknadInfoFelt,
+    SøknadInfoFeltKompakt,
+    SøknadInfoSeksjon,
+    SøknadInfoSeksjonFilter,
+    Søknadsdato,
+} from './Visningskomponenter';
+import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaBoutgifter } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import {
     DelerUtgifterFlereStederType,
-    delerUtgifterFlereStederTypeTilTekst,
     FaktaBoligEllerOvernattingSøknadsgrunnlag,
     FaktaUtgifterFlereSteder,
     FaktaUtgifterIForbindelseMedSamling,
     FaktaUtgifterNyBolig,
 } from '../../../../typer/behandling/behandlingFakta/faktaBoligEllerOvernattig';
 import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
-import { formaterDato, formaterIsoPeriode } from '../../../../utils/dato';
+import { formaterIsoPeriode } from '../../../../utils/dato';
 import { harTallverdi, tilTallverdi } from '../../../../utils/tall';
+import { tekstMedFallback } from '../../../../utils/tekstformatering';
+
+function hentBoutgifterLabel(
+    boligEllerOvernatting: FaktaBoligEllerOvernattingSøknadsgrunnlag | undefined
+): string {
+    const harLøpendeUtgifter = Boolean(
+        boligEllerOvernatting?.fasteUtgifter?.utgifterNyBolig ||
+        boligEllerOvernatting?.fasteUtgifter?.utgifterFlereSteder
+    );
+
+    if (harLøpendeUtgifter) {
+        return 'Bolig';
+    }
+
+    if (boligEllerOvernatting?.samling) {
+        return 'Overnatting';
+    }
+
+    return 'Boutgifter';
+}
 
 export const OppsummeringBoutgifter: React.FC<{
     behandlingFakta: BehandlingFaktaBoutgifter;
@@ -28,50 +53,119 @@ export const OppsummeringBoutgifter: React.FC<{
     const utgifterNyBolig = boligEllerOvernatting?.fasteUtgifter?.utgifterNyBolig;
     const utgifterFlereSteder = boligEllerOvernatting?.fasteUtgifter?.utgifterFlereSteder;
     const samling = boligEllerOvernatting?.samling;
+    const boutgifterLabel = hentBoutgifterLabel(boligEllerOvernatting);
+    const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
+    const {
+        filtervalg,
+        visFellesopplysninger,
+        visSeksjon,
+        visVedlegg,
+        onFilterChange,
+        valgtSeksjon,
+    } = useOppsummeringFilter(
+        boligEllerOvernatting
+            ? [
+                  {
+                      value: 'boutgifter',
+                      label: boutgifterLabel,
+                      ariaLabel: `Vis ${boutgifterLabel.toLowerCase()}`,
+                  },
+              ]
+            : [],
+        antallDokumenter
+    );
+
     return (
         <>
-            {behandlingFakta.søknadMottattTidspunkt && (
-                <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
-                    <BodyShort size="small">
-                        {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
-                    </BodyShort>
-                </InfoSeksjon>
-            )}
+            <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
+            <SøknadInfoSeksjonFilter
+                ariaLabel="Filtrer søknadsopplysninger for boutgifter"
+                onChange={onFilterChange}
+                value={valgtSeksjon}
+                valg={filtervalg}
+            />
+            {visFellesopplysninger && <Aktivitet aktivitet={behandlingFakta.aktiviteter} />}
 
-            {behandlingFakta.personopplysninger.søknadsgrunnlag?.adresse && (
-                <InfoSeksjon label="Adresse" ikon={<LocationPinIcon />}>
-                    <BodyShort size="small">
-                        {behandlingFakta.personopplysninger.søknadsgrunnlag.adresse}
-                    </BodyShort>
-                </InfoSeksjon>
-            )}
-
-            <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />
-
-            {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
-                <ArbeidOgOpphold
-                    fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
+            {visFellesopplysninger && (
+                <YtelseSituasjon
+                    faktaHovedytelse={behandlingFakta.hovedytelse}
+                    arbeidOgOpphold={behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold}
                 />
             )}
 
-            {behandlingFakta.aktiviteter && (
-                <Aktivitet aktivitet={behandlingFakta.aktiviteter}></Aktivitet>
+            {visSeksjon('boutgifter') && boligEllerOvernatting && (
+                <BoligEllerOvernattingSeksjon
+                    label={boutgifterLabel}
+                    adresse={behandlingFakta.personopplysninger.søknadsgrunnlag?.adresse}
+                    utgifterNyBolig={utgifterNyBolig}
+                    utgifterFlereSteder={utgifterFlereSteder}
+                    samling={samling}
+                    boligEllerOvernatting={boligEllerOvernatting}
+                />
             )}
-
-            {boligEllerOvernatting && (
-                <>
-                    <InfoSeksjon label={'Bolig/overnatting'} ikon={<BankNoteIcon />}>
-                        <UtgifterNyBolig utgifterNyBolig={utgifterNyBolig} />
-                        <UtgifterFlereSteder utgifterFlereSteder={utgifterFlereSteder} />
-                        <UtgifterSamling samling={samling} />
-                    </InfoSeksjon>
-                    <HøyereUtgifterPgaHelse boligEllerOvernatting={boligEllerOvernatting} />
-                </>
-            )}
-            <Vedlegg fakta={behandlingFakta.dokumentasjon} />
+            {visVedlegg && <Vedlegg fakta={behandlingFakta.dokumentasjon} />}
         </>
     );
 };
+
+const BoligEllerOvernattingSeksjon = ({
+    label,
+    adresse,
+    utgifterNyBolig,
+    utgifterFlereSteder,
+    samling,
+    boligEllerOvernatting,
+}: {
+    label: string;
+    adresse: string | undefined;
+    utgifterNyBolig: FaktaUtgifterNyBolig | undefined;
+    utgifterFlereSteder: FaktaUtgifterFlereSteder | undefined;
+    samling: FaktaUtgifterIForbindelseMedSamling | undefined;
+    boligEllerOvernatting: FaktaBoligEllerOvernattingSøknadsgrunnlag;
+}) => {
+    const harSærligStoreUtgifter =
+        boligEllerOvernatting.harSærligStoreUtgifterPgaFunksjonsnedsettelse === JaNei.JA;
+
+    if (
+        !adresse &&
+        !utgifterNyBolig &&
+        !utgifterFlereSteder &&
+        !samling &&
+        !harSærligStoreUtgifter
+    ) {
+        return null;
+    }
+
+    return (
+        <SøknadInfoSeksjon label={label} ikon={<BankNoteIcon />}>
+            {adresse && <Adresse adresse={adresse} />}
+            <UtgifterNyBolig utgifterNyBolig={utgifterNyBolig} />
+            <UtgifterFlereSteder utgifterFlereSteder={utgifterFlereSteder} />
+            <UtgifterSamling samling={samling} />
+            <HøyereUtgifterPgaHelse boligEllerOvernatting={boligEllerOvernatting} />
+        </SøknadInfoSeksjon>
+    );
+};
+
+const OppsummeringDelseksjon: React.FC<{
+    label: string;
+    children: React.ReactNode;
+}> = ({ label, children }) => (
+    <VStack gap="space-8">
+        <BodyShort size="small" weight="semibold">
+            {label}
+        </BodyShort>
+        {children}
+    </VStack>
+);
+
+function Adresse({ adresse }: { adresse: string }) {
+    return (
+        <OppsummeringDelseksjon label="Adresse fra Folkeregisteret">
+            <BodyShort size="small">{adresse}</BodyShort>
+        </OppsummeringDelseksjon>
+    );
+}
 
 const UtgifterNyBolig = ({
     utgifterNyBolig,
@@ -79,31 +173,38 @@ const UtgifterNyBolig = ({
     utgifterNyBolig: FaktaUtgifterNyBolig | undefined;
 }) => {
     if (!utgifterNyBolig) return null;
+
     return (
-        <div>
-            <BodyShort size={'small'} weight={'semibold'}>
-                Løpende utgift 1 bolig
-            </BodyShort>
-            {utgifterNyBolig.delerBoutgifter === JaNei.JA && (
-                <BodyShort size={'small'}>
-                    Deler utgifter: {jaNeiTilTekst[utgifterNyBolig.delerBoutgifter]}
-                </BodyShort>
-            )}
-            {harTallverdi(utgifterNyBolig.andelUtgifterBolig) && (
-                <BodyShort size={'small'}>
-                    Utgifter ny bolig: {tilTallverdi(utgifterNyBolig.andelUtgifterBolig)},-
-                </BodyShort>
-            )}
-            <BodyShort size={'small'}>
-                Høyere utgift nytt bosted:{' '}
-                {jaNeiTilTekst[utgifterNyBolig.harHoyereUtgifterPaNyttBosted]}
-            </BodyShort>
-            {utgifterNyBolig.mottarBostotte === JaNei.JA && (
-                <BodyShort size={'small'}>Mottar bostøtte</BodyShort>
-            )}
-        </div>
+        <OppsummeringDelseksjon label="Løpende utgift til én bolig">
+            <VStack gap="space-12">
+                {harTallverdi(utgifterNyBolig.andelUtgifterBolig) && (
+                    <SøknadInfoFeltKompakt
+                        label="Andel av utgift"
+                        value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBolig)} kr`}
+                    />
+                )}
+                <SøknadInfoFeltKompakt
+                    label="Høyere utgift nytt bosted"
+                    value={tekstMedFallback(
+                        jaNeiTilTekst,
+                        utgifterNyBolig.harHoyereUtgifterPaNyttBosted
+                    )}
+                />
+                {utgifterNyBolig.mottarBostotte === JaNei.JA && (
+                    <SøknadInfoFeltKompakt label="Mottar bostøtte" value="Ja" />
+                )}
+            </VStack>
+        </OppsummeringDelseksjon>
     );
 };
+
+function UtgiftenDelesMedAndre() {
+    return (
+        <BodyShort size="small">
+            <i>utgiften deles med andre</i>
+        </BodyShort>
+    );
+}
 
 const UtgifterFlereSteder = ({
     utgifterFlereSteder,
@@ -111,35 +212,29 @@ const UtgifterFlereSteder = ({
     utgifterFlereSteder: FaktaUtgifterFlereSteder | undefined;
 }) => {
     if (!utgifterFlereSteder) return null;
-    const typerDelerBoutgifter = utgifterFlereSteder.delerBoutgifter;
-    const delerUtgifter =
-        typerDelerBoutgifter.length > 0 &&
-        !(
-            typerDelerBoutgifter.length === 1 &&
-            typerDelerBoutgifter[0] === DelerUtgifterFlereStederType.NEI
-        );
     return (
-        <div>
-            <BodyShort size={'small'} weight={'semibold'}>
-                Løpende utgift 2 boliger
-            </BodyShort>
-            {delerUtgifter && (
-                <BodyShort size={'small'}>
-                    Deler utgifter:{' '}
-                    {typerDelerBoutgifter
-                        .map((delerBoutgift) => delerUtgifterFlereStederTypeTilTekst[delerBoutgift])
-                        .join(', ')}
-                </BodyShort>
-            )}
-            <BodyShort size={'small'}>
-                Utgift hjemsted: {tilTallverdi(utgifterFlereSteder.andelUtgifterBoligHjemsted)},-
-            </BodyShort>
-            <BodyShort size={'small'}>
-                Utgift ny bolig:{' '}
-                {tilTallverdi(utgifterFlereSteder.andelUtgifterBoligAktivitetssted)}
-                ,-
-            </BodyShort>
-        </div>
+        <OppsummeringDelseksjon label="Løpende utgift til to boliger">
+            <VStack gap="space-8">
+                <div>
+                    <SøknadInfoFeltKompakt
+                        label="Utgift hjemsted"
+                        value={`${tilTallverdi(utgifterFlereSteder.andelUtgifterBoligHjemsted)} kr`}
+                    />
+                    {utgifterFlereSteder.delerBoutgifter.includes(
+                        DelerUtgifterFlereStederType.HJEMSTED
+                    ) && <UtgiftenDelesMedAndre />}
+                </div>
+                <div>
+                    <SøknadInfoFeltKompakt
+                        label="Utgift aktivitetssted"
+                        value={`${tilTallverdi(utgifterFlereSteder.andelUtgifterBoligAktivitetssted)} kr`}
+                    />
+                    {utgifterFlereSteder.delerBoutgifter.includes(
+                        DelerUtgifterFlereStederType.AKTIVITETSSTED
+                    ) && <UtgiftenDelesMedAndre />}
+                </div>
+            </VStack>
+        </OppsummeringDelseksjon>
     );
 };
 
@@ -150,26 +245,27 @@ const UtgifterSamling = ({
 }) => {
     if (!samling) return null;
     return (
-        <VStack gap={'space-4'}>
-            <BodyShort size={'small'} weight={'semibold'}>
-                Utgifter til overnatting
-            </BodyShort>
-            <VStack gap={'space-8'}>
-                {samling.periodeForSamling.map((periode, index) => (
-                    <div key={index}>
-                        <BodyShort size={'small'}>
-                            {formaterIsoPeriode(periode.fom, periode.tom)}:{' '}
-                            {harTallverdi(periode.utgifterTilOvernatting)
-                                ? `${tilTallverdi(periode.utgifterTilOvernatting)},-`
-                                : '-'}
-                        </BodyShort>
-                        {periode.trengteEkstraOvernatting === JaNei.JA && (
-                            <BodyShort size={'small'}>Ekstra overnatting</BodyShort>
-                        )}
-                    </div>
-                ))}
+        <OppsummeringDelseksjon label="Utgifter til overnatting">
+            <VStack gap="space-8">
+                {samling.periodeForSamling.map((periode, index) => {
+                    return (
+                        <div key={index}>
+                            {harTallverdi(periode.utgifterTilOvernatting) && (
+                                <SøknadInfoFeltKompakt
+                                    label={formaterIsoPeriode(periode.fom, periode.tom)}
+                                    value={`${tilTallverdi(periode.utgifterTilOvernatting)} kr`}
+                                />
+                            )}
+                            {periode.trengteEkstraOvernatting === JaNei.JA && (
+                                <BodyShort size="small">
+                                    <i>Hadde ekstra overnatting</i>
+                                </BodyShort>
+                            )}
+                        </div>
+                    );
+                })}
             </VStack>
-        </VStack>
+        </OppsummeringDelseksjon>
     );
 };
 
@@ -178,18 +274,18 @@ const HøyereUtgifterPgaHelse = ({
 }: {
     boligEllerOvernatting: FaktaBoligEllerOvernattingSøknadsgrunnlag;
 }) => {
+    const særligUtgifter = boligEllerOvernatting.harSærligStoreUtgifterPgaFunksjonsnedsettelse;
     return (
-        boligEllerOvernatting.harSærligStoreUtgifterPgaFunksjonsnedsettelse === JaNei.JA && (
-            <InfoSeksjon label={'Høyere utgift pga helse'} ikon={<WheelchairIcon />}>
-                <BodyShort size={'small'}>
-                    Trenger tilpasset bolig:{' '}
-                    {
-                        jaNeiTilTekst[
-                            boligEllerOvernatting.harSærligStoreUtgifterPgaFunksjonsnedsettelse
-                        ]
-                    }
-                </BodyShort>
-            </InfoSeksjon>
+        særligUtgifter === JaNei.JA && (
+            <SøknadInfoFelt
+                label="Trenger du tilpasset bolig på grunn av helseutfordringer?"
+                ikon={<WheelchairIcon />}
+                value={
+                    <BodyShort size="small">
+                        <i>{tekstMedFallback(jaNeiTilTekst, særligUtgifter)}</i>
+                    </BodyShort>
+                }
+            />
         )
     );
 };

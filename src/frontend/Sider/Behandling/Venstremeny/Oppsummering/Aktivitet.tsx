@@ -1,40 +1,57 @@
 import React from 'react';
 
 import { BriefcaseIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
 
-import { InfoSeksjon } from './Visningskomponenter';
+import { SøknadInfoFelt, SøknadInfoSeksjon } from './Visningskomponenter';
 import {
-    FaktaAktivtet,
+    FaktaAktivitet,
     typeAnnenAktivitetTilTekst,
 } from '../../../../typer/behandling/behandlingFakta/faktaAktivitet';
-import { tekstEllerKode } from '../../../../utils/tekstformatering';
+import { jaNeiTilTekst } from '../../../../typer/common';
+import { tekstMedFallback } from '../../../../utils/tekstformatering';
 
-const Aktivitet: React.FC<{ aktivitet: FaktaAktivtet }> = ({ aktivitet }) => {
+export const AktivitetFelt: React.FC<{
+    aktivitet: FaktaAktivitet;
+    visLønnetAktivitet?: boolean;
+}> = ({ aktivitet, visLønnetAktivitet = false }) => {
     const aktiviteter = aktivitet.søknadsgrunnlag?.aktiviteter;
     const annenAktivitet = aktivitet.søknadsgrunnlag?.annenAktivitet;
     const erLønnetAktivitet = aktivitet.søknadsgrunnlag?.lønnetAktivitet;
 
     return (
-        <InfoSeksjon label="Aktivitet" ikon={<BriefcaseIcon />}>
-            {aktiviteter?.map(
-                (aktivitet) =>
-                    aktivitet !== 'Annet' && (
-                        <BodyShort size="small" key={aktivitet}>
-                            {aktivitet}
-                        </BodyShort>
-                    )
+        <>
+            {aktiviteter && aktiviteter.length > 0 && (
+                <SøknadInfoFelt
+                    label="Hvilken aktivitet søker du om støtte ifm?"
+                    value={aktiviteter}
+                />
             )}
+
             {annenAktivitet && (
-                <BodyShort size="small">
-                    Annen aktivitet: {tekstEllerKode(typeAnnenAktivitetTilTekst, annenAktivitet)}
-                </BodyShort>
+                <SøknadInfoFelt
+                    label="Hvilken arbeidsrettet aktivitet har du?"
+                    value={`Annet: ${tekstMedFallback(typeAnnenAktivitetTilTekst, annenAktivitet)}`}
+                />
             )}
-            {erLønnetAktivitet && erLønnetAktivitet === 'JA' && (
-                <BodyShort size="small">Lønnet aktivitet</BodyShort>
+
+            {visLønnetAktivitet && erLønnetAktivitet && (
+                <SøknadInfoFelt
+                    label="Mottar du lønn gjennom et tiltak?"
+                    value={tekstMedFallback(jaNeiTilTekst, erLønnetAktivitet)}
+                />
             )}
-        </InfoSeksjon>
+        </>
     );
 };
 
-export default Aktivitet;
+export const Aktivitet: React.FC<{ aktivitet: FaktaAktivitet }> = ({ aktivitet }) => {
+    if (aktivitet.søknadsgrunnlag === null) {
+        return null;
+    }
+
+    return (
+        <SøknadInfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
+            <AktivitetFelt aktivitet={aktivitet} visLønnetAktivitet />
+        </SøknadInfoSeksjon>
+    );
+};

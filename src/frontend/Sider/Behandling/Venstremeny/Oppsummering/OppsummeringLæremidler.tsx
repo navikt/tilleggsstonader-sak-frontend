@@ -1,38 +1,39 @@
 import React from 'react';
 
-import { CalendarIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
-
-import ArbeidOgOpphold from './ArbeidOgOpphold';
-import Hovedytelse from './Hovedytelse';
-import Utdanning from './Utdanning';
-import Vedlegg from './Vedlegg';
-import { InfoSeksjon } from './Visningskomponenter';
+import { useOppsummeringFilter } from './useOppsummeringFilter';
+import { Utdanning } from './Utdanning';
+import { antallVedlegg, Vedlegg } from './Vedlegg';
+import { SøknadInfoSeksjonFilter, Søknadsdato } from './Visningskomponenter';
+import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaLæremidler } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
-import { formaterDato } from '../../../../utils/dato';
 
-const OppsummeringLæremidler: React.FC<{
+export const OppsummeringLæremidler: React.FC<{
     behandlingFakta: BehandlingFaktaLæremidler;
 }> = ({ behandlingFakta }) => {
+    const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
+    const visUtdanningsseksjon = behandlingFakta.utdanning.søknadsgrunnlag != null;
+    const { filtervalg, visFellesopplysninger, visVedlegg, onFilterChange, valgtSeksjon } =
+        useOppsummeringFilter([], antallDokumenter);
+
     return (
         <>
-            {behandlingFakta.søknadMottattTidspunkt && (
-                <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
-                    <BodyShort size="small">
-                        {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
-                    </BodyShort>
-                </InfoSeksjon>
+            <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
+            <SøknadInfoSeksjonFilter
+                ariaLabel="Filtrer søknadsopplysninger for læremidler"
+                onChange={onFilterChange}
+                value={valgtSeksjon}
+                valg={filtervalg}
+            />
+            {visFellesopplysninger && visUtdanningsseksjon && (
+                <Utdanning faktaUtdanning={behandlingFakta.utdanning} />
             )}
-            <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />
-            {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
-                <ArbeidOgOpphold
-                    fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
+            {visFellesopplysninger && (
+                <YtelseSituasjon
+                    faktaHovedytelse={behandlingFakta.hovedytelse}
+                    arbeidOgOpphold={behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold}
                 />
             )}
-            <Utdanning faktaUtdanning={behandlingFakta.utdanning} />
-            <Vedlegg fakta={behandlingFakta.dokumentasjon} />
+            {visVedlegg && <Vedlegg fakta={behandlingFakta.dokumentasjon} />}
         </>
     );
 };
-
-export default OppsummeringLæremidler;

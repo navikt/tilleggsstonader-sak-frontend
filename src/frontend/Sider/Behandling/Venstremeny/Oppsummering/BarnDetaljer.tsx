@@ -1,9 +1,8 @@
 import React from 'react';
 
 import { ChildEyesIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
 
-import { InfoSeksjon } from './Visningskomponenter';
+import { SøknadInfoEkspanderbar, SøknadInfoFelt } from './Visningskomponenter';
 import {
     FaktaBarn,
     typeBarnepassTilTekst,
@@ -11,47 +10,53 @@ import {
 } from '../../../../typer/behandling/behandlingFakta/faktaBarn';
 import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../utils/dato';
-import { tekstEllerKode } from '../../../../utils/tekstformatering';
+import { tekstMedFallback, toTitleCase } from '../../../../utils/tekstformatering';
 
-const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
+export const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
     const typePass = barn.søknadgrunnlag?.type;
     const startetIFemte = barn.søknadgrunnlag?.startetIFemte;
     const utgifter = barn.søknadgrunnlag?.utgifter;
     const årsak = barn.søknadgrunnlag?.årsak;
+    const navn = toTitleCase(barn.registergrunnlag.navn);
 
     return (
-        <InfoSeksjon label={`${barn.registergrunnlag.navn} ${barn.ident}`} ikon={<ChildEyesIcon />}>
-            <BodyShort size="small">{tekstEllerKode(typeBarnepassTilTekst, typePass)}</BodyShort>
+        <SøknadInfoEkspanderbar
+            ariaLabel={`Opplysninger om ${navn}`}
+            ikon={<ChildEyesIcon />}
+            tittel={navn}
+            variant="subtle"
+        >
+            <SøknadInfoFelt label="Identitetsnummer" value={barn.ident} />
+            {typePass && (
+                <SøknadInfoFelt
+                    label="Passordning"
+                    value={tekstMedFallback(typeBarnepassTilTekst, typePass)}
+                />
+            )}
             {utgifter && (
-                <>
-                    <BodyShort size="small">
-                        Har utgifter hele perioden:{' '}
-                        {jaNeiTilTekst[utgifter.harUtgifterTilPassHelePerioden]}
-                    </BodyShort>
-                    {utgifter.fom && utgifter.tom && (
-                        <BodyShort size="small">
-                            Har utgifter: ${formaterIsoPeriode(utgifter.fom, utgifter.tom)}
-                        </BodyShort>
-                    )}
-                </>
+                <SøknadInfoFelt
+                    label="Har utgifter hele perioden?"
+                    value={tekstMedFallback(jaNeiTilTekst, utgifter.harUtgifterTilPassHelePerioden)}
+                />
+            )}
+            {utgifter?.fom && utgifter.tom && (
+                <SøknadInfoFelt
+                    label="Periode med utgifter"
+                    value={formaterIsoPeriode(utgifter.fom, utgifter.tom)}
+                />
             )}
             {startetIFemte !== undefined && (
-                <>
-                    <BodyShort size="small">
-                        {startetIFemte === JaNei.JA
-                            ? 'Startet i 5. klasse'
-                            : 'Ikke startet i 5. klasse'}
-                    </BodyShort>
-
-                    {startetIFemte === JaNei.JA && (
-                        <BodyShort size="small">
-                            {tekstEllerKode(årsakBarnepassTilTekst, årsak)}{' '}
-                        </BodyShort>
-                    )}
-                </>
+                <SøknadInfoFelt
+                    label="Har startet i 5.klasse når tiltaket starter?"
+                    value={tekstMedFallback(jaNeiTilTekst, startetIFemte)}
+                />
             )}
-        </InfoSeksjon>
+            {startetIFemte === JaNei.JA && årsak && (
+                <SøknadInfoFelt
+                    label="Årsak"
+                    value={tekstMedFallback(årsakBarnepassTilTekst, årsak)}
+                />
+            )}
+        </SøknadInfoEkspanderbar>
     );
 };
-
-export default BarnDetaljer;
