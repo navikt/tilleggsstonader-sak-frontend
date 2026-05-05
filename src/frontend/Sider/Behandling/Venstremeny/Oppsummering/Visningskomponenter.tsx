@@ -142,15 +142,13 @@ export const SøknadInfoFeltKompakt: React.FC<{
     label: React.ReactNode;
     value?: React.ReactNode;
 }> = ({ label, value }) => {
-    const innhold = renderValue(value);
-
-    if (!innhold) {
+    if (!value) {
         return null;
     }
 
     return (
         <BodyShort size="small">
-            {label}: <i>{innhold}</i>
+            {label}: <i>{value}</i>
         </BodyShort>
     );
 };
