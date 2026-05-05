@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
 import { CalculatorIcon } from '@navikt/aksel-icons';
-import { VStack } from '@navikt/ds-react';
+import { Heading, HStack, Switch, VStack } from '@navikt/ds-react';
 
 import { DagligReisePrivatBilBeregningsresultatTabell } from './DagligReisePrivatBilBeregningsresultatTabell';
 import { PrivatBilOppsummertBeregning } from './typer';
@@ -32,15 +32,51 @@ export const BeregningFaneDagligReise: FC = () => {
 const Beregning: FC<{ oppsummertBeregning: PrivatBilOppsummertBeregning }> = ({
     oppsummertBeregning,
 }) => {
+    const [visTidligerePerioder, setVisTidligerePerioder] = useState(false);
+
+    const harPerioderFraTidligereVedtak = oppsummertBeregning.reiser.some((reise) =>
+        reise.perioder.some((periode) => periode.fraTidligereVedtak)
+    );
+
     return (
         <Panel ikon={<CalculatorIcon />} tittel="Beregningsresultat inkludert kjøreliste">
             <VStack gap="space-16">
-                {oppsummertBeregning.reiser.map((reise) => (
-                    <DagligReisePrivatBilBeregningsresultatTabell
-                        key={reise.reiseId}
-                        oppsummertBeregning={reise}
-                    />
-                ))}
+                <HStack justify="space-between">
+                    <Heading spacing size="xsmall" level="4">
+                        Beregningsresultat
+                    </Heading>
+                    {harPerioderFraTidligereVedtak && (
+                        <Switch
+                            position="left"
+                            size="small"
+                            checked={visTidligerePerioder}
+                            onChange={() => setVisTidligerePerioder((prev) => !prev)}
+                        >
+                            Vis upåvirkede perioder
+                        </Switch>
+                    )}
+                </HStack>
+                {oppsummertBeregning.reiser.map((reise) => {
+                    const relevantePerioder = reise.perioder.filter(
+                        (periode) => visTidligerePerioder || !periode.fraTidligereVedtak
+                    );
+                    if (relevantePerioder.length === 0) {
+                        return null;
+                    }
+                    const totaltStønadsbeløp = visTidligerePerioder
+                        ? reise.totaltStønadsbeløpMedPerioderFraForrigeVedtak
+                        : reise.totaltStønadsbeløpUtenPerioderFraForrigeVedtak;
+                    return (
+                        <DagligReisePrivatBilBeregningsresultatTabell
+                            key={reise.reiseId}
+                            oppsummertBeregning={{
+                                ...reise,
+                                perioder: relevantePerioder,
+                                totaltStønadsbeløp,
+                            }}
+                        />
+                    );
+                })}
             </VStack>
         </Panel>
     );
