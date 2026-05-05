@@ -29,7 +29,9 @@ export const FullførKjørelisteFane: FC = () => {
     const { request } = useApp();
     const { behandling, behandlingErRedigerbar, hentBehandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
-    const { begrunnelseRessurs } = useBegrunnelse();
+    const { begrunnelseRessurs } = useBegrunnelse(
+        !!erStegRedigerbart && behandling.status !== 'FERDIGSTILT'
+    );
 
     const [feilmelding, settFeilmelding] = useState<Feil>();
     const [harUlagredeEndringer, settHarUlagredeEndringer] = useState<boolean>(false);
