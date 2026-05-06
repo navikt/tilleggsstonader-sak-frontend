@@ -39,7 +39,12 @@ export const FullførKjørelisteFane: FC = () => {
 
                 {erStegRedigerbart && (
                     <div>
-                        <Button variant="primary" loading={laster} onClick={fullførKjøreliste}>
+                        <Button
+                            variant="primary"
+                            loading={laster}
+                            onClick={fullførKjøreliste}
+                            size={'small'}
+                        >
                             Fullfør kjørelistebehandling
                         </Button>
                     </div>
