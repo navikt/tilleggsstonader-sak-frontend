@@ -3,12 +3,10 @@ import React, { FC, useCallback, useEffect, useState } from 'react';
 import { Button, VStack } from '@navikt/ds-react';
 
 import styles from './FullførKjørelisteFane.module.css';
-import { KjørelisteBrevmeny } from './KjørelisteBrevmeny';
-import { useBegrunnelse } from './useBegrunnelse';
+import { KjørelisteBrevmeny, KjørelistebrevDto } from './KjørelisteBrevmeny';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useSteg } from '../../../context/StegContext';
-import DataViewer from '../../../komponenter/DataViewer';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import {
     erFeil,
@@ -19,6 +17,7 @@ import {
 import { PdfVisning } from '../../../komponenter/PdfVisning';
 import {
     byggRessursFeilet,
+    byggRessursSuksess,
     byggTomRessurs,
     RessursFeilet,
     RessursStatus,
@@ -29,31 +28,41 @@ export const FullførKjørelisteFane: FC = () => {
     const { request } = useApp();
     const { behandling, behandlingErRedigerbar, hentBehandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
-    const { begrunnelseRessurs } = useBegrunnelse(
-        !!erStegRedigerbart && behandling.status !== 'FERDIGSTILT'
-    );
 
     const [feilmelding, settFeilmelding] = useState<Feil>();
     const [harUlagredeEndringer, settHarUlagredeEndringer] = useState<boolean>(false);
     const [laster, settLaster] = useState<boolean>(false);
+    const [lagretBegrunnelse, settLagretBegrunnelse] = useState<string | null | undefined>(
+        undefined
+    );
 
     const [brevPdf, settBrevPdf] = useState(byggTomRessurs<string>());
 
-    const hentEllerGenererBrev = useCallback(
-        (begrunnelseVerdi: string | null) => {
-            request<string, { begrunnelse: string | null }>(
+    const hentEllerGenererBrev = useCallback(() => {
+        if (behandlingErRedigerbar) {
+            request<KjørelistebrevDto, { begrunnelse: null }>(
                 `/api/sak/kjorelistebrev/${behandling.id}`,
-                behandlingErRedigerbar ? 'POST' : 'GET',
-                behandlingErRedigerbar ? { begrunnelse: begrunnelseVerdi } : undefined
+                'POST',
+                { begrunnelse: null }
             )
+                .then((res) => {
+                    if (res.status === RessursStatus.SUKSESS) {
+                        settBrevPdf(byggRessursSuksess(res.data.pdf));
+                        settLagretBegrunnelse(res.data.begrunnelse);
+                    } else {
+                        settBrevPdf(res as RessursFeilet);
+                    }
+                })
+                .catch(() => settBrevPdf(byggRessursFeilet('Kunne ikke laste brev')));
+        } else {
+            request<string, undefined>(`/api/sak/kjorelistebrev/${behandling.id}`, 'GET')
                 .then(settBrevPdf)
                 .catch(() => settBrevPdf(byggRessursFeilet('Kunne ikke laste brev')));
-        },
-        [behandlingErRedigerbar, behandling.id, request]
-    );
+        }
+    }, [behandlingErRedigerbar, behandling.id, request]);
 
     useEffect(() => {
-        hentEllerGenererBrev(null);
+        hentEllerGenererBrev();
     }, [hentEllerGenererBrev]);
 
     const fullfør = () => {
@@ -91,16 +100,12 @@ export const FullførKjørelisteFane: FC = () => {
     return (
         <div className={styles.toKolonner}>
             <VStack gap="space-16">
-                {erStegRedigerbart && (
-                    <DataViewer type="begrunnelse" response={{ begrunnelseRessurs }}>
-                        {({ begrunnelseRessurs }) => (
-                            <KjørelisteBrevmeny
-                                initialBegrunnelse={begrunnelseRessurs.begrunnelse}
-                                settHarUlagredeEndringer={settHarUlagredeEndringer}
-                                settBrevPdf={settBrevPdf}
-                            />
-                        )}
-                    </DataViewer>
+                {erStegRedigerbart && lagretBegrunnelse !== undefined && (
+                    <KjørelisteBrevmeny
+                        lagretBegrunnelse={lagretBegrunnelse}
+                        settHarUlagredeEndringer={settHarUlagredeEndringer}
+                        settBrevPdf={settBrevPdf}
+                    />
                 )}
 
                 {behandling.status === 'FERDIGSTILT' && (

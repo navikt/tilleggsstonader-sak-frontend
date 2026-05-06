@@ -12,37 +12,42 @@ import {
     feiletRessursTilFeilmelding,
     lagFeilmelding,
 } from '../../../komponenter/Feil/feilmeldingUtils';
-import { Ressurs, RessursFeilet, RessursStatus } from '../../../typer/ressurs';
+import { byggRessursSuksess, Ressurs, RessursFeilet, RessursStatus } from '../../../typer/ressurs';
+
+export interface KjørelistebrevDto {
+    pdf: string;
+    begrunnelse: string | null;
+}
 
 interface Props {
-    initialBegrunnelse: string | null;
+    lagretBegrunnelse: string | null;
     settHarUlagredeEndringer: (har: boolean) => void;
     settBrevPdf: (pdf: Ressurs<string>) => void;
 }
 
 export const KjørelisteBrevmeny: FC<Props> = ({
-    initialBegrunnelse,
+    lagretBegrunnelse,
     settHarUlagredeEndringer,
     settBrevPdf,
 }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
 
-    const [begrunnelse, settBegrunnelse] = useState<string>(initialBegrunnelse ?? '');
+    const [begrunnelse, settBegrunnelse] = useState<string>(lagretBegrunnelse ?? '');
     const [lasterBegrunnelse, settLasterBegrunnelse] = useState<boolean>(false);
     const [begrunnelseFeil, settBegrunnelseFeil] = useState<Feil>();
 
     const lagreBegrunnelse = () => {
         if (lasterBegrunnelse) return;
         settLasterBegrunnelse(true);
-        request<string, { begrunnelse: string | null }>(
+        request<KjørelistebrevDto, { begrunnelse: string | null }>(
             `/api/sak/kjorelistebrev/${behandling.id}`,
             'POST',
             { begrunnelse: begrunnelse || null }
         )
             .then((res) => {
                 if (res.status === RessursStatus.SUKSESS) {
-                    settBrevPdf(res);
+                    settBrevPdf(byggRessursSuksess(res.data.pdf));
                     settHarUlagredeEndringer(false);
                     settBegrunnelseFeil(undefined);
                 } else {
