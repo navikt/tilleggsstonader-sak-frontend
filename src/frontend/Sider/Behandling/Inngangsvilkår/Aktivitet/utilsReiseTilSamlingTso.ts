@@ -52,7 +52,7 @@ function nyTomAktivitet(): EndreAktivitetFormReiseTilSamlingTso {
     };
 }
 
-export const skalVurdereLønnet = (type: AktivitetType | '') => type === AktivitetType.TILTAK;
+export const erTiltak = (type: AktivitetType | '') => type === AktivitetType.TILTAK;
 
 export const erUtdanningEllerTiltak = (type: AktivitetType | '') =>
     type === AktivitetType.UTDANNING || type === AktivitetType.TILTAK;
