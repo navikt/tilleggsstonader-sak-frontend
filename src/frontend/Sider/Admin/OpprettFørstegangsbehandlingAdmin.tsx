@@ -22,10 +22,15 @@ import {
 
 import styles from './OpprettFørstegangsbehandlingAdmin.module.css';
 import { useApp } from '../../context/AppContext';
+import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
 import DataViewer from '../../komponenter/DataViewer';
 import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
 import DateInput from '../../komponenter/Skjema/DateInput';
-import { Stønadstype, stønadstypeTilTekst } from '../../typer/behandling/behandlingTema';
+import {
+    hentTilgjengeligeStønadstyper,
+    Stønadstype,
+    stønadstypeTilTekst,
+} from '../../typer/behandling/behandlingTema';
 import {
     byggHenterRessurs,
     byggRessursFeilet,
@@ -60,6 +65,13 @@ const skalVelgeBarn = (stønadstype: Stønadstype | undefined): boolean =>
     !!stønadstype && [Stønadstype.BARNETILSYN].indexOf(stønadstype) > -1;
 
 function OpprettFørstegangsbehandlingAdmin() {
+    const { saksbehandler, appEnv } = useApp();
+    const { personopplysninger } = usePersonopplysninger();
+    const tilgjengeligeStønadstyper = hentTilgjengeligeStønadstyper(
+        saksbehandler,
+        personopplysninger,
+        appEnv
+    );
     const [stønadstype, settStønadstype] = useState<Stønadstype>();
 
     const endreStønadstype = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -93,9 +105,9 @@ function OpprettFørstegangsbehandlingAdmin() {
             </div>
             <Select label="Stønadstype" onChange={endreStønadstype}>
                 <option value="">- Velg stønadstype -</option>
-                {Object.keys(Stønadstype).map((stønadstype) => (
-                    <option key={stønadstype} value={stønadstype}>
-                        {stønadstypeTilTekst[stønadstype as Stønadstype]}
+                {tilgjengeligeStønadstyper.map((type) => (
+                    <option key={type} value={type}>
+                        {stønadstypeTilTekst[type]}
                     </option>
                 ))}
             </Select>

@@ -1,3 +1,8 @@
+import { AppEnv } from '../../utils/env';
+import { Saksbehandler } from '../../utils/saksbehandler';
+import { kanBehandleForNay, kanBehandleForTiltaksenheten } from '../../utils/tilganger';
+import { Personopplysninger } from '../personopplysninger';
+
 export enum Stønadstype {
     BARNETILSYN = 'BARNETILSYN',
     LÆREMIDLER = 'LÆREMIDLER',
@@ -20,4 +25,26 @@ export const stønadstypeTilTekstUtenBehandlendeEnhet: Record<Stønadstype, stri
     ...stønadstypeTilTekst,
     DAGLIG_REISE_TSO: 'Daglige reiser',
     DAGLIG_REISE_TSR: 'Daglige reiser',
+};
+
+export const hentTilgjengeligeStønadstyper = (
+    saksbehandler: Saksbehandler,
+    personopplysninger: Personopplysninger,
+    appEnv: AppEnv
+): Stønadstype[] => {
+    const kanBehandleNAY = kanBehandleForNay(saksbehandler, personopplysninger, appEnv);
+
+    const kanBehandleTSR = kanBehandleForTiltaksenheten(saksbehandler, personopplysninger, appEnv);
+
+    return Object.values(Stønadstype).filter((type) => {
+        if (kanBehandleNAY && !kanBehandleTSR) {
+            return type !== Stønadstype.DAGLIG_REISE_TSR;
+        }
+        if (kanBehandleTSR && !kanBehandleNAY) {
+            return (
+                type !== Stønadstype.DAGLIG_REISE_TSO && type !== Stønadstype.REISE_TIL_SAMLING_TSO
+            );
+        }
+        return true;
+    });
 };
