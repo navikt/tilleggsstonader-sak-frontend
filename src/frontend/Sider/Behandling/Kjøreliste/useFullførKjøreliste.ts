@@ -16,9 +16,15 @@ export const useFullførKjøreliste = () => {
 
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<Feil>();
-    const [harUlagredeEndringer, settHarUlagredeEndringer] = useState<boolean>(false);
+    const [harUlagredeEndringer, settHarUlagredeEndringerIntern] = useState<boolean>(false);
+
+    const settHarUlagredeEndringer = (harEndringer: boolean) => {
+        if (!harEndringer) settFeilmelding(undefined);
+        settHarUlagredeEndringerIntern(harEndringer);
+    };
 
     const fullførKjøreliste = () => {
+        if (laster) return;
         if (harUlagredeEndringer) {
             settFeilmelding(
                 lagFeilmelding(
@@ -27,7 +33,6 @@ export const useFullførKjøreliste = () => {
             );
             return;
         }
-        if (laster) return;
         settLaster(true);
         request<null, null>(
             `/api/sak/behandling/${behandling.id}/fullfør-kjørelistebehandling`,
