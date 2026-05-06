@@ -15,6 +15,7 @@ import {
     lagFeilmelding,
 } from '../../../komponenter/Feil/feilmeldingUtils';
 import { PdfVisning } from '../../../komponenter/PdfVisning';
+import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import {
     byggRessursFeilet,
     byggRessursSuksess,
@@ -108,7 +109,7 @@ export const FullførKjørelisteFane: FC = () => {
                     />
                 )}
 
-                {behandling.status === 'FERDIGSTILT' && (
+                {behandling.status === BehandlingStatus.FERDIGSTILT && (
                     <span>Kjørelister er sendt til utbetaling</span>
                 )}
 
