@@ -23,13 +23,19 @@ import {
     AktivitetLæremidlerFaktaOgSvar,
     AktivitetLæremidlerFaktaOgVurderinger,
 } from './aktivitetLæremidler';
+import {
+    AktivitetReiseTilSamlingTso,
+    AktivitetReiseTilSamlingTsoFaktaOgSvar,
+    AktivitetReiseTilSamlingTsoFaktaOgVurderinger,
+} from './aktivitetReiseTilSamlingTso';
 
 export type Aktivitet =
     | AktivitetBarnetilsyn
     | AktivitetLæremidler
     | AktivitetBoutgifter
     | AktivitetDagligReiseTso
-    | AktivitetDagligReiseTsr;
+    | AktivitetDagligReiseTsr
+    | AktivitetReiseTilSamlingTso;
 
 export enum AktivitetType {
     TILTAK = 'TILTAK',
@@ -50,11 +56,13 @@ export type AktivitetFaktaOgVurderinger =
     | AktivitetLæremidlerFaktaOgVurderinger
     | AktivitetBoutgifterFaktaOgVurderinger
     | AktivitetDagligReiseTsoFaktaOgVurderinger
-    | AktivitetDagligReiseTsrFaktaOgVurderinger;
+    | AktivitetDagligReiseTsrFaktaOgVurderinger
+    | AktivitetReiseTilSamlingTsoFaktaOgVurderinger;
 
 export type AktivitetFaktaOgSvar =
     | AktivitetBarnetilsynFaktaOgSvar
     | AktivitetLæremidlerFaktaOgSvar
     | AktivitetBoutgifterFaktaOgSvar
     | AktivitetDagligReiseTsoFaktaOgSvar
-    | AktivitetDagligReiseTsrFaktaOgSvar;
+    | AktivitetDagligReiseTsrFaktaOgSvar
+    | AktivitetReiseTilSamlingTsoFaktaOgSvar;

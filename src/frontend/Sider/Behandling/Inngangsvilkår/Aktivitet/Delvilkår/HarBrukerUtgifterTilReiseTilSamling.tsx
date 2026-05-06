@@ -1,0 +1,50 @@
+import React from 'react';
+
+import { BodyShort, List, Box } from '@navikt/ds-react';
+
+import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
+import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
+
+export const HarBrukerUtgifterTilReiseTilSamling: React.FC<{
+    svarHarUtgifter: SvarJaNei | undefined;
+    oppdaterSvar: (nyttSvar: SvarJaNei) => void;
+}> = ({ svarHarUtgifter, oppdaterSvar }) => {
+    return (
+        <JaNeiVurdering
+            label="Har bruker nødvendige utgifter til reise til samling?"
+            svar={svarHarUtgifter}
+            oppdaterSvar={(nyttSvar: SvarJaNei) => {
+                oppdaterSvar(nyttSvar);
+            }}
+            hjelpetekst={hjelpetekst}
+            hjelpetekstHeader={'Slik vurderer du om søker har nødvendige utgifter'}
+        />
+    );
+};
+
+const hjelpetekst = (
+    <>
+        <BodyShort size={'small'} spacing>
+            Personer som deltar i arbeidsrettet utredning, tiltak eller godkjent utdanning anses
+            normalt å ha nødvendige utgifter til reise til samling. Unntak gjelder for (se rundskriv
+            for presiseringer):
+        </BodyShort>
+        <Box marginBlock="space-16" asChild>
+            <List as="ul" size={'small'}>
+                <List.Item>
+                    Opplæringstiltak eller godkjent utdanning på grunnskolenivå (forberedende
+                    opplæring for voksne).
+                </List.Item>
+                <List.Item>
+                    Elever i videregående skole som er under 25 år det kalenderåret skoleåret
+                    starter, med mindre de bekrefter egne reiseutgifter i søknad.
+                </List.Item>
+                <List.Item>Lærlinger som får reise dekket av arbeidsgiver.</List.Item>
+                <List.Item>
+                    Brukere med grunnstønad til transport eller bil – må vurderes om dette dekker
+                    reise til aktivitetsstedet.
+                </List.Item>
+            </List>
+        </Box>
+    </>
+);
