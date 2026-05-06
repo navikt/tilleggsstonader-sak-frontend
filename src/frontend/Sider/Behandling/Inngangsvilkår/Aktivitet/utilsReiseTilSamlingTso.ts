@@ -100,7 +100,8 @@ const resetPeriode = (
 export const finnBegrunnelseGrunnerAktivitet = (
     type: AktivitetType | '',
     svarLønnet: SvarJaNei | undefined,
-    svarHarUtgifter: SvarJaNei | undefined
+    svarHarUtgifter: SvarJaNei | undefined,
+    svarErAktivitetenObligatorisk: SvarJaNei | undefined
 ) => {
     const delvilkårSomMåBegrunnes = [];
 
@@ -110,6 +111,10 @@ export const finnBegrunnelseGrunnerAktivitet = (
 
     if (svarHarUtgifter === SvarJaNei.NEI) {
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.HAR_UTGIFTER);
+    }
+
+    if (svarErAktivitetenObligatorisk === SvarJaNei.NEI) {
+        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.AKTIVITETEN_ER_OBLIGATORISK);
     }
 
     if (type === AktivitetType.INGEN_AKTIVITET) {

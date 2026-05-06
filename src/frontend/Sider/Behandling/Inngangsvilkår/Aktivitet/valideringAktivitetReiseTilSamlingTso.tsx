@@ -8,7 +8,6 @@ import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
 export interface AktivitetValidering extends Periode {
     type: AktivitetType | '';
     begrunnelse?: string;
-    aktivitetsdager?: string;
 }
 
 export const validerAktivitet = (
@@ -19,7 +18,6 @@ export const validerAktivitet = (
         tom: undefined,
         type: undefined,
         begrunnelse: undefined,
-        aktivitetsdager: undefined,
     };
 
     if (endretAktivitet.type === '') {
@@ -38,7 +36,8 @@ export const validerAktivitet = (
     const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerAktivitet(
         endretAktivitet.type,
         endretAktivitet.svarLønnet,
-        endretAktivitet.svarHarUtgifter
+        endretAktivitet.svarHarUtgifter,
+        endretAktivitet.svarErAktivitetenObligatorisk
     );
 
     if (obligatoriskeBegrunnelser.length > 0 && harIkkeVerdi(endretAktivitet.begrunnelse))
