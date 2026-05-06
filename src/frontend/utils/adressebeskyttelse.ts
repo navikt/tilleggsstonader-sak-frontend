@@ -1,7 +1,9 @@
+import logger from '../../backend/logger';
 import { Adressebeskyttelse, Personopplysninger } from '../typer/personopplysninger';
 
 export function søkerHarStrengtFortroligAdresse(personopplysninger: Personopplysninger) {
     if (!personopplysninger) {
+        logger.warn('Personopplysninger mangler');
         return false;
     }
 
