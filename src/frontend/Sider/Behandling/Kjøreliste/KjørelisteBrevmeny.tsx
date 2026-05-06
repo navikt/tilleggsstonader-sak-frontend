@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
 
-import { Button, ExpansionCard, HStack, Textarea } from '@navikt/ds-react';
+import { Button, ExpansionCard, HStack, Textarea, VStack } from '@navikt/ds-react';
 
-import styles from './KjørelisteBrevmeny.module.css';
+import css from './KjørelisteBrevmeny.module.css';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
@@ -58,37 +58,36 @@ export const KjørelisteBrevmeny: FC<Props> = ({
     };
 
     return (
-        <div className={styles.background}>
-            <ExpansionCard aria-label="Begrunnelse" size="small" defaultOpen>
-                <ExpansionCard.Header>
-                    <HStack wrap={false} align="center" gap="space-8">
-                        <ExpansionCard.Title size="small">Begrunnelse</ExpansionCard.Title>
-                    </HStack>
-                </ExpansionCard.Header>
-                <ExpansionCard.Content>
-                    <div className={styles.container}>
-                        <Textarea
-                            label="Begrunnelse for vedtaket"
-                            hideLabel
-                            value={begrunnelse}
-                            onChange={(e) => {
-                                settBegrunnelse(e.target.value);
-                                settHarUlagredeEndringer(true);
-                            }}
-                            minRows={3}
-                        />
-                        <Feilmelding feil={begrunnelseFeil} />
-                        <Button
-                            variant="secondary"
-                            loading={lasterBegrunnelse}
-                            onClick={lagreBegrunnelse}
-                            size="small"
-                        >
-                            Lagre begrunnelse
-                        </Button>
-                    </div>
-                </ExpansionCard.Content>
-            </ExpansionCard>
-        </div>
+        <ExpansionCard aria-label="Begrunnelse" size="small" defaultOpen>
+            <ExpansionCard.Header>
+                <HStack wrap={false} align="center" gap="space-8">
+                    <ExpansionCard.Title size="small">Begrunnelse</ExpansionCard.Title>
+                </HStack>
+            </ExpansionCard.Header>
+            <ExpansionCard.Content>
+                <VStack gap="space-16">
+                    <Textarea
+                        label="Begrunnelse for vedtaket"
+                        hideLabel
+                        value={begrunnelse}
+                        onChange={(e) => {
+                            settBegrunnelse(e.target.value);
+                            settHarUlagredeEndringer(true);
+                        }}
+                        minRows={3}
+                    />
+                    <Feilmelding feil={begrunnelseFeil} />
+                    <Button
+                        variant="secondary"
+                        loading={lasterBegrunnelse}
+                        onClick={lagreBegrunnelse}
+                        size="small"
+                        className={css.lagreKnapp}
+                    >
+                        Lagre begrunnelse
+                    </Button>
+                </VStack>
+            </ExpansionCard.Content>
+        </ExpansionCard>
     );
 };
