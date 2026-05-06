@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { KjørelistebrevDto } from './KjørelisteBrevmeny';
+import { KjørelistebrevDto } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import {

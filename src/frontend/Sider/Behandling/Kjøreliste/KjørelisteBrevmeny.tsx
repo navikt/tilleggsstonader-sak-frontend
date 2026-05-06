@@ -3,6 +3,7 @@ import React, { FC, useState } from 'react';
 import { Button, ExpansionCard, HStack, Textarea, VStack } from '@navikt/ds-react';
 
 import css from './KjørelisteBrevmeny.module.css';
+import { KjørelistebrevDto } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
@@ -13,11 +14,6 @@ import {
     lagFeilmelding,
 } from '../../../komponenter/Feil/feilmeldingUtils';
 import { byggRessursSuksess, Ressurs, RessursFeilet, RessursStatus } from '../../../typer/ressurs';
-
-export interface KjørelistebrevDto {
-    pdf: string;
-    begrunnelse: string | null;
-}
 
 interface Props {
     lagretBegrunnelse: string | null;
