@@ -27,7 +27,7 @@ import DataViewer from '../../komponenter/DataViewer';
 import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
 import DateInput from '../../komponenter/Skjema/DateInput';
 import {
-    hentTilgjengeligeStønadstyper,
+    hentStønadstyperSaksbehandlerKanBehandle,
     Stønadstype,
     stønadstypeTilTekst,
 } from '../../typer/behandling/behandlingTema';
@@ -67,7 +67,7 @@ const skalVelgeBarn = (stønadstype: Stønadstype | undefined): boolean =>
 function OpprettFørstegangsbehandlingAdmin() {
     const { saksbehandler, appEnv } = useApp();
     const { personopplysninger } = usePersonopplysninger();
-    const tilgjengeligeStønadstyper = hentTilgjengeligeStønadstyper(
+    const stønadstyperSaksbehandlerKanBehandle = hentStønadstyperSaksbehandlerKanBehandle(
         saksbehandler,
         personopplysninger,
         appEnv
@@ -105,7 +105,7 @@ function OpprettFørstegangsbehandlingAdmin() {
             </div>
             <Select label="Stønadstype" onChange={endreStønadstype}>
                 <option value="">- Velg stønadstype -</option>
-                {tilgjengeligeStønadstyper.map((type) => (
+                {stønadstyperSaksbehandlerKanBehandle.map((type) => (
                     <option key={type} value={type}>
                         {stønadstypeTilTekst[type]}
                     </option>

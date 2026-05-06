@@ -3,6 +3,10 @@ import { Saksbehandler } from '../../utils/saksbehandler';
 import { kanBehandleForNay, kanBehandleForTiltaksenheten } from '../../utils/tilganger';
 import { Personopplysninger } from '../personopplysninger';
 
+export enum BehandlendeEnhet {
+    NAY = 'NAY',
+    TILTAKSENHETEN = 'TILTAKSENHETEN',
+}
 export enum Stønadstype {
     BARNETILSYN = 'BARNETILSYN',
     LÆREMIDLER = 'LÆREMIDLER',
@@ -21,30 +25,44 @@ export const stønadstypeTilTekst: Record<Stønadstype, string> = {
     REISE_TIL_SAMLING_TSO: 'Reise til samling (Nay)',
 };
 
+const stønadstypeTilEnhet: Record<Stønadstype, BehandlendeEnhet> = {
+    [Stønadstype.BARNETILSYN]: BehandlendeEnhet.NAY,
+    [Stønadstype.LÆREMIDLER]: BehandlendeEnhet.NAY,
+    [Stønadstype.BOUTGIFTER]: BehandlendeEnhet.NAY,
+    [Stønadstype.DAGLIG_REISE_TSO]: BehandlendeEnhet.NAY,
+    [Stønadstype.REISE_TIL_SAMLING_TSO]: BehandlendeEnhet.NAY,
+    [Stønadstype.DAGLIG_REISE_TSR]: BehandlendeEnhet.TILTAKSENHETEN,
+};
+
 export const stønadstypeTilTekstUtenBehandlendeEnhet: Record<Stønadstype, string> = {
     ...stønadstypeTilTekst,
     DAGLIG_REISE_TSO: 'Daglige reiser',
     DAGLIG_REISE_TSR: 'Daglige reiser',
 };
 
-export const hentTilgjengeligeStønadstyper = (
+export const hentStønadstyperSaksbehandlerKanBehandle = (
     saksbehandler: Saksbehandler,
     personopplysninger: Personopplysninger,
     appEnv: AppEnv
 ): Stønadstype[] => {
-    const kanBehandleNAY = kanBehandleForNay(saksbehandler, personopplysninger, appEnv);
+    const kanBehandlesAvNAY = kanBehandleForNay(saksbehandler, personopplysninger, appEnv);
 
-    const kanBehandleTSR = kanBehandleForTiltaksenheten(saksbehandler, personopplysninger, appEnv);
-
+    const kanBehandlesAvTiltaksenheten = kanBehandleForTiltaksenheten(
+        saksbehandler,
+        personopplysninger,
+        appEnv
+    );
     return Object.values(Stønadstype).filter((type) => {
-        if (kanBehandleNAY && !kanBehandleTSR) {
-            return type !== Stønadstype.DAGLIG_REISE_TSR;
+        const enhetSomKanBehandleStønadstype = stønadstypeTilEnhet[type];
+
+        if (enhetSomKanBehandleStønadstype === BehandlendeEnhet.NAY) {
+            return kanBehandlesAvNAY;
         }
-        if (kanBehandleTSR && !kanBehandleNAY) {
-            return (
-                type !== Stønadstype.DAGLIG_REISE_TSO && type !== Stønadstype.REISE_TIL_SAMLING_TSO
-            );
+
+        if (enhetSomKanBehandleStønadstype === BehandlendeEnhet.TILTAKSENHETEN) {
+            return kanBehandlesAvTiltaksenheten;
         }
-        return true;
+
+        return false;
     });
 };
