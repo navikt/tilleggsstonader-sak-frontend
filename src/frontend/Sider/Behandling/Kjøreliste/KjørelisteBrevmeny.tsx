@@ -36,10 +36,10 @@ export const KjørelisteBrevmeny: FC<Props> = ({
     const lagreBegrunnelse = () => {
         if (lasterBegrunnelse) return;
         settLasterBegrunnelse(true);
-        request<KjørelistebrevDto, { begrunnelse: string | null }>(
+        request<KjørelistebrevDto, { begrunnelse: string }>(
             `/api/sak/kjorelistebrev/${behandling.id}`,
             'POST',
-            { begrunnelse: begrunnelse || null }
+            { begrunnelse }
         )
             .then((res) => {
                 if (res.status === RessursStatus.SUKSESS) {

@@ -14,7 +14,7 @@ import {
 
 export const useKjørelisteBrev = () => {
     const { request } = useApp();
-    const { behandling, behandlingErRedigerbar } = useBehandling();
+    const { behandling } = useBehandling();
 
     const [brevPdf, settBrevPdf] = useState<Ressurs<string>>(byggTomRessurs());
     const [lagretBegrunnelse, settLagretBegrunnelse] = useState<string | null | undefined>(
@@ -22,27 +22,17 @@ export const useKjørelisteBrev = () => {
     );
 
     const hentEllerGenererBrev = useCallback(() => {
-        if (behandlingErRedigerbar) {
-            request<KjørelistebrevDto, { begrunnelse: null }>(
-                `/api/sak/kjorelistebrev/${behandling.id}`,
-                'POST',
-                { begrunnelse: null }
-            )
-                .then((res) => {
-                    if (res.status === RessursStatus.SUKSESS) {
-                        settBrevPdf(byggRessursSuksess(res.data.pdf));
-                        settLagretBegrunnelse(res.data.begrunnelse);
-                    } else {
-                        settBrevPdf(res as RessursFeilet);
-                    }
-                })
-                .catch(() => settBrevPdf(byggRessursFeilet('Kunne ikke laste brev')));
-        } else {
-            request<string, undefined>(`/api/sak/kjorelistebrev/${behandling.id}`, 'GET')
-                .then(settBrevPdf)
-                .catch(() => settBrevPdf(byggRessursFeilet('Kunne ikke laste brev')));
-        }
-    }, [behandlingErRedigerbar, behandling.id, request]);
+        request<KjørelistebrevDto, undefined>(`/api/sak/kjorelistebrev/${behandling.id}`, 'GET')
+            .then((res) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    settBrevPdf(byggRessursSuksess(res.data.pdf));
+                    settLagretBegrunnelse(res.data.begrunnelse);
+                } else {
+                    settBrevPdf(res as RessursFeilet);
+                }
+            })
+            .catch(() => settBrevPdf(byggRessursFeilet('Kunne ikke laste brev')));
+    }, [behandling.id, request]);
 
     useEffect(() => {
         hentEllerGenererBrev();
