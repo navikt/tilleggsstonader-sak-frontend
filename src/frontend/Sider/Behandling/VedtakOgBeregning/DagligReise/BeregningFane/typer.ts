@@ -10,6 +10,8 @@ export interface OppsummertBeregningForReise {
     aktivitetsadresse: string | undefined;
     perioder: OppsummertBeregningForPeriode[];
     totaltStønadsbeløp: number;
+    totaltStønadsbeløpMedPerioderFraForrigeVedtak: number;
+    totaltStønadsbeløpUtenPerioderFraForrigeVedtak: number;
 }
 
 export interface OppsummertBeregningForPeriode {
@@ -22,6 +24,7 @@ export interface OppsummertBeregningForPeriode {
     satser: RammeForReiseMedPrivatBilSatsForDelperiode[];
     parkeringskostnadTotalt: number;
     stønadsbeløp: number;
+    fraTidligereVedtak: boolean;
 }
 
 export interface FormatertSats {
