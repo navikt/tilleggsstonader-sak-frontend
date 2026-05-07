@@ -16,6 +16,9 @@ export enum BegrunnelseGrunner {
     // Læremidler
     HAR_UTGIFTER = 'HAR_UTGIFTER',
     HAR_RETT_TIL_UTSTYRSSTIPEND = 'HAR_RETT_TIL_UTSTYRSSTIPEND',
+
+    // Reise til samling
+    AKTIVITETEN_ER_OBLIGATORISK = 'AKTIVITETEN_ER_OBLIGATORISK',
 }
 
 export const begrunnelseTilTekst: Record<BegrunnelseGrunner, string> = {
@@ -29,4 +32,5 @@ export const begrunnelseTilTekst: Record<BegrunnelseGrunner, string> = {
     HAR_UTGIFTER: 'Hvorfor bruker ikke har utgifter',
     HAR_RETT_TIL_UTSTYRSSTIPEND: 'Hvorfor bruker har rett til utstyrsstipend',
     UKJENT_TOM_FRA_REGISTER: 'Til dato',
+    AKTIVITETEN_ER_OBLIGATORISK: 'Hvorfor samlingen ikke er obligatorisk',
 };
