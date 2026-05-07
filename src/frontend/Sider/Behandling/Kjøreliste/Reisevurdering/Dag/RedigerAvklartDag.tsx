@@ -67,7 +67,6 @@ export const RedigerAvklartDag: FC<{
                 error={feil?.parkeringsutgift}
                 className={styles.maksHøyde}
             />
-
             <TextField
                 label="Kommentar"
                 hideLabel
@@ -75,7 +74,6 @@ export const RedigerAvklartDag: FC<{
                 value={dag.begrunnelse || ''}
                 onChange={(e) => oppdaterBegrunnelse(e.target.value)}
                 error={feil?.begrunnelse}
-                className={styles.maksHøyde}
             />
         </div>
     );

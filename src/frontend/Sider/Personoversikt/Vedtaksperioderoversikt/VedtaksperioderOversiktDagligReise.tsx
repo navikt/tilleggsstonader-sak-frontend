@@ -4,6 +4,7 @@ import { Table } from '@navikt/ds-react';
 
 import { Vedtaksdetaljer } from './DagligReise/VedtaksDetaljer';
 import { BorderTable } from './VedtaksperioderBorderTable';
+import styles from './VedtaksperioderOversiktDagligReise.module.css';
 import { DetaljertVedtaksperiodeDagligReise } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
 import { formaterNullablePeriode } from '../../../utils/dato';
 import { typeDagligReiseTilTekst } from '../../Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
@@ -30,7 +31,7 @@ export const VedtaksperioderOversiktDagligReise: React.FC<Props> = ({
             </Table.Header>
 
             <Table.Body>
-                {vedtaksperioder.map((periode) => {
+                {vedtaksperioder.map((periode, index) => {
                     const beregningsperioder = periode.detaljertBeregningsperioder ?? [];
 
                     const fom = beregningsperioder[beregningsperioder.length - 1]?.fom;
@@ -38,9 +39,12 @@ export const VedtaksperioderOversiktDagligReise: React.FC<Props> = ({
 
                     return (
                         <Table.ExpandableRow
-                            key={`${fom}-${periode.stønadstype}`}
+                            key={index}
                             content={
-                                <Vedtaksdetaljer detaljertBeregningsperioder={beregningsperioder} />
+                                <Vedtaksdetaljer
+                                    detaljertBeregningsperioder={beregningsperioder}
+                                    className={styles.expandedContent}
+                                />
                             }
                             togglePlacement="right"
                         >

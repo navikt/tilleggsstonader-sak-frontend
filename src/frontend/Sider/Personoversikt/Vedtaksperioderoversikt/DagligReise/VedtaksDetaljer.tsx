@@ -5,12 +5,15 @@ import { DetaljertBeregningsperioderDagligReise } from '../../../../typer/vedtak
 
 interface Props {
     detaljertBeregningsperioder?: DetaljertBeregningsperioderDagligReise[];
+    className?: string;
 }
 
-export const Vedtaksdetaljer: FC<Props> = ({ detaljertBeregningsperioder }) => {
+export const Vedtaksdetaljer: FC<Props> = ({ detaljertBeregningsperioder, className }) => {
     if (!detaljertBeregningsperioder) {
         return <>Ingen beregningsdetaljer</>;
     }
 
-    return <DagligReiseBeregningstabell perioder={detaljertBeregningsperioder} />;
+    return (
+        <DagligReiseBeregningstabell perioder={detaljertBeregningsperioder} className={className} />
+    );
 };
