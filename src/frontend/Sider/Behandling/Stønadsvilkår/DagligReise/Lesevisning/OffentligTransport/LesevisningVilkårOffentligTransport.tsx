@@ -1,6 +1,6 @@
 import React, { FC, Fragment, useRef } from 'react';
 
-import { CarIcon, FilesIcon, PencilIcon } from '@navikt/aksel-icons';
+import { BusIcon, FilesIcon, PencilIcon } from '@navikt/aksel-icons';
 import {
     BodyShort,
     ErrorMessage,
@@ -12,25 +12,21 @@ import {
     VStack,
 } from '@navikt/ds-react';
 
-import { LesevisningFaktaDagligReise } from './LesevisningFaktaDagligReise';
-import styles from './LesevisningVilkårDagligReise.module.css';
-import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
-import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
-import { Skillelinje } from '../../../../../komponenter/Skillelinje';
-import { formaterNullablePeriode } from '../../../../../utils/dato';
-import {
-    AktivitetType,
-    AktivitetTypeTilTekst,
-} from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
-import { VilkårsresultatTilTekst } from '../../../Inngangsvilkår/Vilkårperioder/VilkårperiodeKort/tekstmapping';
+import { LesevisningFaktaOffentligTransport } from './LesevisningFaktaOffentligTransport';
+import SmallButton from '../../../../../../komponenter/Knapper/SmallButton';
+import { ResultatOgStatusKort } from '../../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
+import { Skillelinje } from '../../../../../../komponenter/Skillelinje';
+import { formaterNullablePeriode } from '../../../../../../utils/dato';
+import { VilkårsresultatTilTekst } from '../../../../Inngangsvilkår/Vilkårperioder/VilkårperiodeKort/tekstmapping';
 import {
     regelIdTilSpørsmålKortversjon,
     svarIdTilTekstKorversjon,
-} from '../../../Vilkårvurdering/tekster';
-import { FaktaPrivatBil } from '../typer/faktaDagligReise';
-import { typeDagligReiseTilTekst, VilkårDagligReise } from '../typer/vilkårDagligReise';
+} from '../../../../Vilkårvurdering/tekster';
+import { FaktaOffentligTransport } from '../../typer/faktaDagligReise';
+import { typeDagligReiseTilTekst, VilkårDagligReise } from '../../typer/vilkårDagligReise';
+import styles from '../Felles/LesevisningVilkårDagligReise.module.css';
 
-export const LesevisningVilkårPrivatBil: FC<{
+export const LesevisningVilkårOffentligTransport: FC<{
     vilkår: VilkårDagligReise;
     skalViseRedigeringsknapp?: boolean;
     startRedigering?: () => void;
@@ -47,8 +43,6 @@ export const LesevisningVilkårPrivatBil: FC<{
 }) => {
     const { resultat, delvilkårsett, fom, tom, adresse, fakta } = vilkår;
     const endringsknapperRef = useRef<HTMLDivElement>(null);
-
-    const faktaPrivatBil = fakta as FaktaPrivatBil;
 
     return (
         <ResultatOgStatusKort
@@ -84,60 +78,33 @@ export const LesevisningVilkårPrivatBil: FC<{
                 )
             }
         >
-            <Label size="medium">{formaterNullablePeriode(fom, tom)}</Label>
-            <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
-            <HStack gap="space-16">
-                <VStack>
-                    <span className="aksel-body-short aksel-body-short--small">
-                        Adresse aktivitet:
-                    </span>
-                    <BodyShort size="small">
-                        <strong>{adresse}</strong>
-                    </BodyShort>
-                </VStack>
-            </HStack>
-            <Skillelinje />
-            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 725px) auto">
+            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 234px) auto">
                 <VStack gap="space-24">
                     <VStack gap="space-12">
-                        <LesevisningFaktaDagligReise fakta={faktaPrivatBil} />
+                        <Label size="small">{formaterNullablePeriode(fom, tom)}</Label>
+                        <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
+                        <LesevisningFaktaOffentligTransport
+                            fakta={fakta as FaktaOffentligTransport}
+                        />
                     </VStack>
-                    <HStack gap="space-16">
-                        <VStack>
-                            <span className="aksel-body-short aksel-body-short--small">
-                                Reiseavstand en vei:
-                            </span>
-                            <BodyShort size="small">
-                                <strong>{faktaPrivatBil.reiseavstandEnVei} km</strong>
-                            </BodyShort>
-                        </VStack>
-                        {faktaPrivatBil.aktivitetType && (
-                            <VStack>
-                                <span className="aksel-body-short aksel-body-short--small">
-                                    Aktivitet:
-                                </span>
-                                <BodyShort size="small">
-                                    <strong>
-                                        {AktivitetTypeTilTekst[
-                                            faktaPrivatBil.aktivitetType as AktivitetType
-                                        ] ?? faktaPrivatBil.aktivitetType}
-                                    </strong>
-                                </BodyShort>
-                            </VStack>
-                        )}
-                    </HStack>
                     <Tag
                         data-color="neutral"
                         size="small"
                         style={{ width: 'max-content' }}
                         variant="outline"
-                        icon={<CarIcon />}
+                        icon={<BusIcon />}
                     >
-                        {typeDagligReiseTilTekst['PRIVAT_BIL']}
+                        {typeDagligReiseTilTekst[fakta?.type]}
                     </Tag>
                 </VStack>
 
                 <VStack gap="space-4">
+                    <>
+                        <BodyShort size="small">
+                            <strong>Adresse aktivitet:</strong> {adresse || '-'}
+                        </BodyShort>
+                        <Skillelinje />
+                    </>
                     {delvilkårsett.map((delvilkår, index) => (
                         <HGrid
                             gap={'space-4 space-16'}
@@ -145,8 +112,8 @@ export const LesevisningVilkårPrivatBil: FC<{
                             key={index}
                             height="fit-content"
                         >
-                            {delvilkår.vurderinger.map((vurdering, index) => (
-                                <Fragment key={index}>
+                            {delvilkår.vurderinger.map((vurdering, i) => (
+                                <Fragment key={i}>
                                     <HStack gap="space-12" key={vurdering.regelId}>
                                         <BodyShort weight="semibold" size="small">
                                             {regelIdTilSpørsmålKortversjon[vurdering.regelId]}
