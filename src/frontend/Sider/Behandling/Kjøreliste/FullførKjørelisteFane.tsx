@@ -10,10 +10,9 @@ import { useBehandling } from '../../../context/BehandlingContext';
 import { useSteg } from '../../../context/StegContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { PdfVisning } from '../../../komponenter/PdfVisning';
-import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 
 export const FullførKjørelisteFane: FC = () => {
-    const { behandling } = useBehandling();
+    const { behandlingErRedigerbar } = useBehandling();
     const { erStegRedigerbart } = useSteg();
 
     const { brevPdf, settBrevPdf, lagretBegrunnelse } = useKjørelisteBrev();
@@ -21,36 +20,38 @@ export const FullførKjørelisteFane: FC = () => {
         useFullførKjøreliste();
 
     return (
-        <div className={styles.toKolonner}>
-            <VStack gap="space-16">
-                {erStegRedigerbart && lagretBegrunnelse !== undefined && (
-                    <KjørelisteBrevmeny
-                        lagretBegrunnelse={lagretBegrunnelse}
-                        settHarUlagredeEndringer={settHarUlagredeEndringer}
-                        settBrevPdf={settBrevPdf}
-                    />
-                )}
+        <>
+            {behandlingErRedigerbar ? (
+                <div className={styles.toKolonner}>
+                    <VStack gap="space-16">
+                        {erStegRedigerbart && lagretBegrunnelse !== undefined && (
+                            <KjørelisteBrevmeny
+                                lagretBegrunnelse={lagretBegrunnelse}
+                                settHarUlagredeEndringer={settHarUlagredeEndringer}
+                                settBrevPdf={settBrevPdf}
+                            />
+                        )}
 
-                {behandling.status === BehandlingStatus.FERDIGSTILT && (
-                    <span>Kjørelister er sendt til utbetaling</span>
-                )}
+                        <Feilmelding feil={feilmelding} />
 
-                <Feilmelding feil={feilmelding} />
-
-                {erStegRedigerbart && (
-                    <div>
-                        <Button
-                            variant="primary"
-                            loading={laster}
-                            onClick={fullførKjøreliste}
-                            size={'small'}
-                        >
-                            Fullfør kjørelistebehandling
-                        </Button>
-                    </div>
-                )}
-            </VStack>
-            <PdfVisning pdfFilInnhold={brevPdf} />
-        </div>
+                        {erStegRedigerbart && (
+                            <div>
+                                <Button
+                                    variant="primary"
+                                    loading={laster}
+                                    onClick={fullførKjøreliste}
+                                    size={'small'}
+                                >
+                                    Fullfør kjørelistebehandling
+                                </Button>
+                            </div>
+                        )}
+                    </VStack>
+                    <PdfVisning pdfFilInnhold={brevPdf} />
+                </div>
+            ) : (
+                <PdfVisning pdfFilInnhold={brevPdf} />
+            )}
+        </>
     );
 };
