@@ -3,3 +3,7 @@
     border-left: none;
     width: 100%;
 }
+
+.uten-margin {
+    margin-block: 0;
+}

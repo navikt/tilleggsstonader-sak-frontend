@@ -14,6 +14,7 @@ export const AktivitetUlikRegisterVarsel: React.FC<{
     aktivitetFraRegister: Registeraktivitet | undefined;
 }> = ({ aktivitet, aktivitetFraRegister }) => {
     const { behandling } = useBehandling();
+
     if (behandling.status === BehandlingStatus.FERDIGSTILT || !aktivitetFraRegister) return null;
 
     const forskjeller = finnForskjellerMellomAktivitetOgRegisteraktivitet(
@@ -23,7 +24,7 @@ export const AktivitetUlikRegisterVarsel: React.FC<{
 
     if (forskjeller.length > 0) {
         return (
-            <VStack gap="space-16">
+            <VStack gap="space-16" paddingInline="space-16" paddingBlock="space-0 space-16">
                 <Tag
                     data-color="warning"
                     icon={<ExclamationmarkTriangleIcon />}

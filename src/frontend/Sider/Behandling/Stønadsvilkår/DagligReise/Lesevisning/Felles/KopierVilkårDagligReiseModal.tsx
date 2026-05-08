@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 
 import { Alert, BodyShort, VStack } from '@navikt/ds-react';
 
-import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
-import { Feil } from '../../../../../komponenter/Feil/feilmeldingUtils';
-import { ModalWrapper } from '../../../../../komponenter/Modal/ModalWrapper';
-import DateInput from '../../../../../komponenter/Skjema/DateInput';
-import { dagenFør, formaterNullableIsoDato } from '../../../../../utils/dato';
+import { Feilmelding } from '../../../../../../komponenter/Feil/Feilmelding';
+import { Feil } from '../../../../../../komponenter/Feil/feilmeldingUtils';
+import { ModalWrapper } from '../../../../../../komponenter/Modal/ModalWrapper';
+import DateInput from '../../../../../../komponenter/Skjema/DateInput';
+import { dagenFør, formaterNullableIsoDato } from '../../../../../../utils/dato';
 
 interface Props {
     visModal: boolean;

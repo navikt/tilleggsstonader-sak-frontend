@@ -1,6 +1,6 @@
 import React, { FC, useCallback, useEffect, useState } from 'react';
 
-import { BodyShort, Button, VStack } from '@navikt/ds-react';
+import { BodyShort, Button, HStack, Textarea, VStack } from '@navikt/ds-react';
 
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
@@ -66,21 +66,24 @@ export const FullførKjørelisteFane: FC = () => {
     };
 
     return (
-        <VStack gap="space-16">
-            {behandling.status === 'FERDIGSTILT' && (
-                <BodyShort>Kjørelister er sendt til utbetaling</BodyShort>
-            )}
+        <HStack gap="space-16">
+            <Textarea label="Kommentar til utbetaling" disabled={!erStegRedigerbart} />
+            <VStack gap="space-16">
+                {behandling.status === 'FERDIGSTILT' && (
+                    <BodyShort>Kjørelister er sendt til utbetaling</BodyShort>
+                )}
 
-            <Feilmelding feil={feilmelding} />
+                <Feilmelding feil={feilmelding} />
 
-            {erStegRedigerbart && (
-                <div>
-                    <Button variant="primary" loading={laster} onClick={fullfør}>
-                        Fullfør kjørelistebehandling
-                    </Button>
-                </div>
-            )}
+                {erStegRedigerbart && (
+                    <div>
+                        <Button variant="primary" loading={laster} onClick={fullfør}>
+                            Fullfør kjørelistebehandling
+                        </Button>
+                    </div>
+                )}
+            </VStack>
             <PdfVisning pdfFilInnhold={brevPdf} />
-        </VStack>
+        </HStack>
     );
 };

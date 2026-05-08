@@ -32,26 +32,32 @@ export const ResultatOgStatusKort: React.FC<{
     const kildeId = periode && erAktivitet(periode) ? periode.kildeId : undefined;
 
     return (
-        <div className={styles.container}>
-            {skalViseStatus && <Statusbånd status={periode.status} />}
-            <div
-                className={classNames([
-                    styles.resultatMarg,
-                    utledFarge(periode?.resultat, redigeres),
-                ])}
-            >
-                {periode && !redigeres && (
-                    <HvittVilkårsresultatIkon vilkårsresultat={periode?.resultat} />
-                )}
+        <div>
+            <div className={styles.container}>
+                {skalViseStatus && <Statusbånd status={periode.status} />}
+                <div
+                    className={classNames([
+                        styles.resultatMarg,
+                        utledFarge(periode?.resultat, redigeres),
+                    ])}
+                >
+                    {periode && !redigeres && (
+                        <HvittVilkårsresultatIkon vilkårsresultat={periode?.resultat} />
+                    )}
+                </div>
+                <div>
+                    <div
+                        className={`${styles.innholdContainer} ${redigeres ? styles.redigeres : ''}`}
+                    >
+                        {children}
+                    </div>
+                    {footer}
+                </div>
+                <HStack gap="space-16" className={styles.redigeringsknappContainer}>
+                    {kildeId && <Detail>ID: {kildeId}</Detail>}
+                    {redigeringKnapp}
+                </HStack>
             </div>
-            <div className={`${styles.innholdContainer} ${redigeres ? styles.redigeres : ''}`}>
-                {children}
-                {footer}
-            </div>
-            <HStack gap="space-16" className={styles.redigeringsknappContainer}>
-                {kildeId && <Detail>ID: {kildeId}</Detail>}
-                {redigeringKnapp}
-            </HStack>
         </div>
     );
 };

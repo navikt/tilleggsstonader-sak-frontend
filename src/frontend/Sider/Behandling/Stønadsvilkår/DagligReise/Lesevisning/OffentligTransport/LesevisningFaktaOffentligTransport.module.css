@@ -1,0 +1,14 @@
+.grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 0.5rem;
+    padding-top: 1rem;
+}
+
+.grid > :nth-child(even) {
+    justify-self: end;
+}
+
+.høyre-justert {
+    justify-self: end;
+}
