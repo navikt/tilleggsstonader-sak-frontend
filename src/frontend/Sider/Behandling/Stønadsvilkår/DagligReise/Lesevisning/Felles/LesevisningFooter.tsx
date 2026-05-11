@@ -3,7 +3,7 @@ import React, { FC, ReactNode, useRef } from 'react';
 import { FilesIcon, PencilIcon } from '@navikt/aksel-icons';
 import { ErrorMessage, HStack, Popover } from '@navikt/ds-react';
 
-import styles from './LesevisningVilkårDagligReise.module.css';
+import styles from './LesevisningFooter.module.css';
 import SmallButton from '../../../../../../komponenter/Knapper/SmallButton';
 
 export interface RedigerVilkårProps {

@@ -34,12 +34,6 @@ export const LesevisningDelvilkår: FC<{
                                 )}
                             </VStack>
                             <BodyShort size="small">{vurdering.begrunnelse}</BodyShort>
-                            {/* {i != delvilkår.vurderinger.length - 1 && (
-                                <Skillelinje
-                                    utenMargin
-                                    style={{ gridColumn: 'span 2', marginLeft: '-2rem' }}
-                                />
-                            )} */}
                         </Fragment>
                     ))}
                 </HGrid>
