@@ -93,6 +93,7 @@ export const skalViseKlagefristUnntak = (vilkår: IFormalkrav) => {
 
 const tilbakestilteVilkår = {
     klagePart: VilkårStatus.IKKE_SATT,
+    klagersRettsligInteresse: VilkårStatus.IKKE_SATT,
     klageKonkret: VilkårStatus.IKKE_SATT,
     klageSignert: VilkårStatus.IKKE_SATT,
     klagefristOverholdt: VilkårStatus.IKKE_SATT,

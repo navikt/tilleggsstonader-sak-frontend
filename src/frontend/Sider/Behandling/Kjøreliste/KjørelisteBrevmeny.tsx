@@ -1,0 +1,94 @@
+import React, { FC, useState } from 'react';
+
+import { Button, ExpansionCard, HStack, Textarea, VStack } from '@navikt/ds-react';
+
+import css from './KjørelisteBrevmeny.module.css';
+import { KjørelistebrevDto } from './typer';
+import { useApp } from '../../../context/AppContext';
+import { useBehandling } from '../../../context/BehandlingContext';
+import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
+import {
+    erFeil,
+    Feil,
+    feiletRessursTilFeilmelding,
+    lagFeilmelding,
+} from '../../../komponenter/Feil/feilmeldingUtils';
+import { byggRessursSuksess, Ressurs, RessursFeilet, RessursStatus } from '../../../typer/ressurs';
+
+interface Props {
+    lagretBegrunnelse: string | null;
+    settHarUlagredeEndringer: (har: boolean) => void;
+    settBrevPdf: (pdf: Ressurs<string>) => void;
+}
+
+export const KjørelisteBrevmeny: FC<Props> = ({
+    lagretBegrunnelse,
+    settHarUlagredeEndringer,
+    settBrevPdf,
+}) => {
+    const { request } = useApp();
+    const { behandling } = useBehandling();
+
+    const [begrunnelse, settBegrunnelse] = useState<string>(lagretBegrunnelse ?? '');
+    const [lasterBegrunnelse, settLasterBegrunnelse] = useState<boolean>(false);
+    const [begrunnelseFeil, settBegrunnelseFeil] = useState<Feil>();
+
+    const lagreBegrunnelse = () => {
+        if (lasterBegrunnelse) return;
+        settLasterBegrunnelse(true);
+        request<KjørelistebrevDto, { begrunnelse: string }>(
+            `/api/sak/kjorelistebrev/${behandling.id}`,
+            'POST',
+            { begrunnelse }
+        )
+            .then((res) => {
+                if (res.status === RessursStatus.SUKSESS) {
+                    settBrevPdf(byggRessursSuksess(res.data.pdf));
+                    settHarUlagredeEndringer(false);
+                    settBegrunnelseFeil(undefined);
+                } else {
+                    settBegrunnelseFeil(feiletRessursTilFeilmelding(res as RessursFeilet));
+                }
+            })
+            .catch((error) =>
+                erFeil(error)
+                    ? settBegrunnelseFeil(error)
+                    : settBegrunnelseFeil(lagFeilmelding('Ukjent feil oppstod'))
+            )
+            .finally(() => settLasterBegrunnelse(false));
+    };
+
+    return (
+        <ExpansionCard aria-label="Begrunnelse" size="small" defaultOpen>
+            <ExpansionCard.Header>
+                <HStack wrap={false} align="center" gap="space-8">
+                    <ExpansionCard.Title size="small">Begrunnelse</ExpansionCard.Title>
+                </HStack>
+            </ExpansionCard.Header>
+            <ExpansionCard.Content>
+                <VStack gap="space-16">
+                    <Textarea
+                        label="Begrunnelse for vedtaket"
+                        hideLabel
+                        value={begrunnelse}
+                        onChange={(e) => {
+                            settBegrunnelse(e.target.value);
+                            settHarUlagredeEndringer(true);
+                        }}
+                        minRows={3}
+                    />
+                    <Feilmelding feil={begrunnelseFeil} />
+                    <Button
+                        variant="secondary"
+                        loading={lasterBegrunnelse}
+                        onClick={lagreBegrunnelse}
+                        size="small"
+                        className={css.lagreKnapp}
+                    >
+                        Lagre begrunnelse
+                    </Button>
+                </VStack>
+            </ExpansionCard.Content>
+        </ExpansionCard>
+    );
+};

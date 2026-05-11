@@ -2,12 +2,12 @@ import React from 'react';
 
 import { HStack, VStack } from '@navikt/ds-react';
 
-import NyeOpplysningerMetadata from './NyeOpplysningerMetadata';
+import { NyeOpplysningerMetadataVisning } from './NyeOpplysningerMetadata';
 import { OppsummeringBoutgifter } from './OppsummeringBoutgifter';
 import { OppsummeringDagligReise } from './OppsummeringDagligReise';
-import OppsummeringLæremidler from './OppsummeringLæremidler';
+import { OppsummeringLæremidler } from './OppsummeringLæremidler';
 import { OppsummeringReiseTilSamling } from './OppsummeringReiseTilSamling';
-import OppsummeringTilsynBarn from './OppsummeringTilsynBarn';
+import { OppsummeringTilsynBarn } from './OppsummeringTilsynBarn';
 import { RevurderingTag } from './RevurderingTag';
 import { StønadstypeTag } from './StønadstypeTag';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -17,35 +17,36 @@ export const OppsummeringSøknad: React.FC = () => {
     const { behandlingFakta, behandling } = useBehandling();
 
     return (
-        <VStack gap="space-32">
-            <VStack gap={'space-16'}>
-                <HStack gap="space-8">
+        <VStack gap="space-16">
+            <VStack gap={'space-12'}>
+                <HStack gap="space-8" wrap>
                     <StønadstypeTag stønadstype={behandling.stønadstype} />
                     <RevurderingTag behandling={behandling} />
                 </HStack>
                 {behandling.nyeOpplysningerMetadata && (
-                    <NyeOpplysningerMetadata
+                    <NyeOpplysningerMetadataVisning
                         nyeOpplysningerMetadata={behandling.nyeOpplysningerMetadata}
                     />
                 )}
             </VStack>
             {behandlingFakta['@type'] === Stønadstype.BARNETILSYN && (
-                <OppsummeringTilsynBarn behandlingFakta={behandlingFakta} />
+                <OppsummeringTilsynBarn behandlingFakta={behandlingFakta} key={behandling.id} />
             )}
             {behandlingFakta['@type'] === Stønadstype.LÆREMIDLER && (
-                <OppsummeringLæremidler behandlingFakta={behandlingFakta} />
+                <OppsummeringLæremidler behandlingFakta={behandlingFakta} key={behandling.id} />
             )}
             {behandlingFakta['@type'] === Stønadstype.BOUTGIFTER && (
-                <OppsummeringBoutgifter behandlingFakta={behandlingFakta} />
+                <OppsummeringBoutgifter behandlingFakta={behandlingFakta} key={behandling.id} />
             )}
-            {behandlingFakta['@type'] === Stønadstype.DAGLIG_REISE_TSO && (
-                <OppsummeringDagligReise behandlingFakta={behandlingFakta} />
-            )}
-            {behandlingFakta['@type'] === Stønadstype.DAGLIG_REISE_TSR && (
-                <OppsummeringDagligReise behandlingFakta={behandlingFakta} />
+            {(behandlingFakta['@type'] === Stønadstype.DAGLIG_REISE_TSO ||
+                behandlingFakta['@type'] === Stønadstype.DAGLIG_REISE_TSR) && (
+                <OppsummeringDagligReise behandlingFakta={behandlingFakta} key={behandling.id} />
             )}
             {behandlingFakta['@type'] === Stønadstype.REISE_TIL_SAMLING_TSO && (
-                <OppsummeringReiseTilSamling behandlingFakta={behandlingFakta} />
+                <OppsummeringReiseTilSamling
+                    behandlingFakta={behandlingFakta}
+                    key={behandling.id}
+                />
             )}
         </VStack>
     );

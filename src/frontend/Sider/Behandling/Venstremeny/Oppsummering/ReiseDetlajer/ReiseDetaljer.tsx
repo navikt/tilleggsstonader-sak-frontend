@@ -1,153 +1,135 @@
 import React from 'react';
 
 import { EarthIcon } from '@navikt/aksel-icons';
-import { BodyShort, CopyButton, Heading, Label, VStack } from '@navikt/ds-react';
+import { BodyShort, CopyButton, VStack } from '@navikt/ds-react';
 
 import { BillettDetaljer } from './BillettDetaljer';
 import { PrivatTransportDetaljer } from './PrivatTransportDetaljer';
+import styles from './ReiseDetaljer.module.css';
 import {
     FaktaReise,
+    ReiseAdresse,
     reiseAdresseTilTekst,
 } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
-import { jaNeiTilTekst } from '../../../../../typer/common';
+import { JaNei, jaNeiTilTekst } from '../../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
-import { InfoSeksjon } from '../Visningskomponenter';
+import { tekstMedFallback } from '../../../../../utils/tekstformatering';
+import { SøknadInfoEkspanderbar, SøknadInfoFelt } from '../Visningskomponenter';
+
+function AdresseFelt({ adresse, label }: { adresse: ReiseAdresse; label: string }) {
+    const adresseTekst = reiseAdresseTilTekst(adresse);
+
+    return (
+        <SøknadInfoFelt
+            label={label}
+            value={
+                <span>
+                    <BodyShort as="span" size="small">
+                        {adresseTekst}
+                    </BodyShort>
+                    <CopyButton copyText={adresseTekst} className={styles.kopiknapp} size="small" />
+                </span>
+            }
+        />
+    );
+}
 
 export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
     return (
-        <div>
-            <InfoSeksjon label={'Reiser'} ikon={<EarthIcon />}>
-                <VStack gap={'space-16'}>
-                    {reiser.map((reise, index) => (
-                        <VStack key={index} gap={'space-8'}>
-                            <Heading level={'4'} size={'xsmall'}>
-                                {`Reise ${index + 1}`}
-                            </Heading>
-
-                            {reise.skalReiseFraFolkeregistrertAdresse && (
-                                <VStack>
-                                    <Label size={'small'}>
-                                        Skal du reise fra din folkeregisterte adresse?
-                                    </Label>
-                                    <BodyShort size="small">
-                                        {jaNeiTilTekst[reise.skalReiseFraFolkeregistrertAdresse]}
-                                    </BodyShort>
-                                </VStack>
+        <VStack gap="space-12">
+            {reiser.map((reise, index) => (
+                <SøknadInfoEkspanderbar
+                    ikon={<EarthIcon />}
+                    key={index}
+                    tittel={`Reise ${index + 1}`}
+                    variant="subtle"
+                >
+                    {reise.skalReiseFraFolkeregistrertAdresse && (
+                        <SøknadInfoFelt
+                            label="Skal du reise fra din folkeregistrerte adresse?"
+                            value={tekstMedFallback(
+                                jaNeiTilTekst,
+                                reise.skalReiseFraFolkeregistrertAdresse
                             )}
+                        />
+                    )}
 
-                            {reise.adresseDetSkalReisesFra && (
-                                <VStack>
-                                    <Label size={'small'}>Adresse jeg skal reise fra:</Label>
-                                    <span>
-                                        <BodyShort as="span" size="small">
-                                            {reiseAdresseTilTekst(reise.adresseDetSkalReisesFra)}
-                                        </BodyShort>
-                                        <CopyButton
-                                            copyText={reiseAdresseTilTekst(
-                                                reise.adresseDetSkalReisesFra
-                                            )}
-                                            size="small"
-                                            style={{ verticalAlign: 'middle' }}
-                                        />
-                                    </span>
-                                </VStack>
-                            )}
+                    {reise.adresseDetSkalReisesFra && (
+                        <AdresseFelt
+                            adresse={reise.adresseDetSkalReisesFra}
+                            label={
+                                reise.skalReiseFraFolkeregistrertAdresse === JaNei.JA
+                                    ? 'Folkeregistrert adresse'
+                                    : 'Adresse jeg skal reise fra'
+                            }
+                        />
+                    )}
 
-                            {reise.reiseAdresse && (
-                                <VStack>
-                                    <Label size={'small'}>
-                                        Hvilken adresse reiser du til i aktiviteten din?
-                                    </Label>
-                                    <span>
-                                        <BodyShort as="span" size="small">
-                                            {reiseAdresseTilTekst(reise.reiseAdresse)}
-                                        </BodyShort>
-                                        <CopyButton
-                                            copyText={reiseAdresseTilTekst(reise.reiseAdresse)}
-                                            size="small"
-                                            style={{ verticalAlign: 'middle' }}
-                                        />
-                                    </span>
-                                </VStack>
-                            )}
+                    {reise.reiseAdresse && (
+                        <AdresseFelt
+                            adresse={reise.reiseAdresse}
+                            label="Adresse jeg skal reise til"
+                        />
+                    )}
 
-                            {reise.periode && (
-                                <VStack>
-                                    <Label size={'small'}>
-                                        I hvilken periode skal du reise til aktivitetsstedet?
-                                    </Label>
-                                    <BodyShort size="small">
-                                        {formaterIsoPeriode(reise.periode.fom, reise.periode.tom)}
-                                    </BodyShort>
-                                </VStack>
-                            )}
+                    {reise.periode && (
+                        <SøknadInfoFelt
+                            label="I hvilken periode skal du reise til aktivitetsstedet?"
+                            value={formaterIsoPeriode(reise.periode.fom, reise.periode.tom)}
+                        />
+                    )}
 
-                            {reise.dagerPerUke && (
-                                <VStack>
-                                    <Label size={'small'}>
-                                        Hvor mange dager i uken skal du reise hit?
-                                    </Label>
-                                    <BodyShort size="small">{reise.dagerPerUke}</BodyShort>
-                                </VStack>
-                            )}
+                    {reise.dagerPerUke && (
+                        <SøknadInfoFelt
+                            label="Hvor mange dager i uken skal du reise hit?"
+                            value={reise.dagerPerUke}
+                        />
+                    )}
 
-                            {reise.harBehovForTransportUavhengigAvReisensLengde && (
-                                <VStack>
-                                    <Label size={'small'}>
-                                        Har du funksjonsnedsettelse, midlertidig skade eller sykdom
-                                        som gjør at du må ha transport til aktivitetsstedet?
-                                    </Label>
-                                    <BodyShort size="small">
-                                        {
-                                            jaNeiTilTekst[
-                                                reise.harBehovForTransportUavhengigAvReisensLengde
-                                            ]
-                                        }
-                                    </BodyShort>
-                                </VStack>
+                    {reise.harBehovForTransportUavhengigAvReisensLengde && (
+                        <SøknadInfoFelt
+                            label="Har du funksjonsnedsettelse, midlertidig skade eller sykdom som gjør at du må ha transport til aktivitetsstedet?"
+                            value={tekstMedFallback(
+                                jaNeiTilTekst,
+                                reise.harBehovForTransportUavhengigAvReisensLengde
                             )}
+                        />
+                    )}
 
-                            {reise.harMerEnn6KmReisevei && (
-                                <VStack>
-                                    <Label size={'small'}>
-                                        Er reiseavstanden mellom der du bor og aktivitetsstedet 6
-                                        kilometer eller mer én vei?
-                                    </Label>
-                                    <BodyShort size="small">
-                                        {jaNeiTilTekst[reise.harMerEnn6KmReisevei]}
-                                    </BodyShort>
-                                </VStack>
-                            )}
+                    {reise.harMerEnn6KmReisevei && (
+                        <SøknadInfoFelt
+                            label="Er reiseavstanden mellom der du bor og aktivitetsstedet 6 km eller mer én vei?"
+                            value={tekstMedFallback(jaNeiTilTekst, reise.harMerEnn6KmReisevei)}
+                        />
+                    )}
 
-                            {reise.lengdeReisevei && (
-                                <VStack>
-                                    <Label size={'small'}>Hvor lang er reiseveien din?</Label>
-                                    <BodyShort size="small">{`${reise.lengdeReisevei} km`}</BodyShort>
-                                </VStack>
-                            )}
+                    {reise.lengdeReisevei && (
+                        <SøknadInfoFelt
+                            label="Hvor lang er reiseveien?"
+                            value={`${reise.lengdeReisevei} km`}
+                        />
+                    )}
 
-                            {reise.kanReiseMedOffentligTransport && (
-                                <VStack>
-                                    <Label size={'small'}>
-                                        Kan du reise med offentlig transport hele veien?
-                                    </Label>
-                                    <BodyShort size="small">
-                                        {jaNeiTilTekst[reise.kanReiseMedOffentligTransport]}
-                                    </BodyShort>
-                                </VStack>
+                    {reise.kanReiseMedOffentligTransport && (
+                        <SøknadInfoFelt
+                            label="Kan du reise med offentlig transport hele veien?"
+                            value={tekstMedFallback(
+                                jaNeiTilTekst,
+                                reise.kanReiseMedOffentligTransport
                             )}
+                        />
+                    )}
 
-                            {reise.offentligTransport && (
-                                <BillettDetaljer offentligTransport={reise.offentligTransport} />
-                            )}
+                    {reise.kanReiseMedOffentligTransport === JaNei.JA &&
+                        reise.offentligTransport && (
+                            <BillettDetaljer offentligTransport={reise.offentligTransport} />
+                        )}
 
-                            {reise.privatTransport && (
-                                <PrivatTransportDetaljer privatTransport={reise.privatTransport} />
-                            )}
-                        </VStack>
-                    ))}
-                </VStack>
-            </InfoSeksjon>
-        </div>
+                    {reise.kanReiseMedOffentligTransport === JaNei.NEI && reise.privatTransport && (
+                        <PrivatTransportDetaljer privatTransport={reise.privatTransport} />
+                    )}
+                </SøknadInfoEkspanderbar>
+            ))}
+        </VStack>
     );
 };

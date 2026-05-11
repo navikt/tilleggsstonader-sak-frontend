@@ -5,7 +5,7 @@
 
 .innholdWrapper {
     flex-grow: 1;
-    max-width: calc(100% - 20rem);
+    max-width: calc(100% - 24rem);
 }
 
 .kjørelistebehandlingContainer {

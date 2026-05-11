@@ -1,51 +1,69 @@
 import React from 'react';
 
-import { CalendarIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
+import { VStack } from '@navikt/ds-react';
 
-import Aktivitet from './Aktivitet';
-import ArbeidOgOpphold from './ArbeidOgOpphold';
-import BarnDetaljer from './BarnDetaljer';
-import Hovedytelse from './Hovedytelse';
-import Vedlegg from './Vedlegg';
-import { InfoSeksjon } from './Visningskomponenter';
+import { Aktivitet } from './Aktivitet';
+import { BarnDetaljer } from './BarnDetaljer';
+import { useOppsummeringFilter } from './useOppsummeringFilter';
+import { antallVedlegg, Vedlegg } from './Vedlegg';
+import { SøknadInfoSeksjonFilter, Søknadsdato } from './Visningskomponenter';
+import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaTilsynBarn } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
-import { formaterDato } from '../../../../utils/dato';
 
-const OppsummeringTilsynBarn: React.FC<{
+export const OppsummeringTilsynBarn: React.FC<{
     behandlingFakta: BehandlingFaktaTilsynBarn;
 }> = ({ behandlingFakta }) => {
+    const barnDetSøkesFor = behandlingFakta.barn.filter((barn) => barn.søknadgrunnlag != null);
+    const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
+    const {
+        filtervalg,
+        visFellesopplysninger,
+        visSeksjon,
+        visVedlegg,
+        onFilterChange,
+        valgtSeksjon,
+    } = useOppsummeringFilter(
+        barnDetSøkesFor.length > 0
+            ? [
+                  {
+                      value: 'barn',
+                      label: 'Barn',
+                      ariaLabel: 'Vis opplysninger om barn',
+                      count: barnDetSøkesFor.length,
+                  },
+              ]
+            : [],
+        antallDokumenter
+    );
+
     return (
         <>
-            {behandlingFakta.søknadMottattTidspunkt && (
-                <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
-                    <BodyShort size="small">
-                        {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
-                    </BodyShort>
-                </InfoSeksjon>
+            <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
+            <SøknadInfoSeksjonFilter
+                ariaLabel="Filtrer søknadsopplysninger for tilsyn barn"
+                onChange={onFilterChange}
+                value={valgtSeksjon}
+                valg={filtervalg}
+            />
+            {visFellesopplysninger && (
+                <>
+                    <Aktivitet aktivitet={behandlingFakta.aktivitet} />
+                    <YtelseSituasjon
+                        faktaHovedytelse={behandlingFakta.hovedytelse}
+                        arbeidOgOpphold={
+                            behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold
+                        }
+                    />
+                </>
             )}
-
-            <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />
-
-            {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
-                <ArbeidOgOpphold
-                    fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
-                />
+            {visSeksjon('barn') && barnDetSøkesFor.length > 0 && (
+                <VStack gap="space-12">
+                    {barnDetSøkesFor.map((barn) => (
+                        <BarnDetaljer barn={barn} key={barn.barnId} />
+                    ))}
+                </VStack>
             )}
-
-            {behandlingFakta.aktivitet && (
-                <Aktivitet aktivitet={behandlingFakta.aktivitet}></Aktivitet>
-            )}
-
-            {behandlingFakta.barn &&
-                behandlingFakta.barn.map((barn) => {
-                    const harSøktForBarnet = barn.søknadgrunnlag !== null;
-                    return harSøktForBarnet && <BarnDetaljer barn={barn} key={barn.barnId} />;
-                })}
-
-            <Vedlegg fakta={behandlingFakta.dokumentasjon} />
+            {visVedlegg && <Vedlegg fakta={behandlingFakta.dokumentasjon} />}
         </>
     );
 };
-
-export default OppsummeringTilsynBarn;

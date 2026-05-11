@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { HouseHeartIcon } from '@navikt/aksel-icons';
+import { Buildings2Icon } from '@navikt/aksel-icons';
 
 import { useVilkår } from '../../../../context/VilkårContext';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
@@ -21,7 +21,7 @@ const LøpendeUtgifterToBoliger: React.FC<Props> = ({ vilkårsregler }) => {
     );
 
     return (
-        <VilkårPanel tittel={'Løpende utgifter to boliger'} ikon={<HouseHeartIcon />}>
+        <VilkårPanel tittel={'Løpende utgifter to boliger'} ikon={<Buildings2Icon />}>
             {vilkårsett.map((vilkår) => (
                 <VisEllerEndreVilkår key={vilkår.id} regler={vilkårsregler} vilkår={vilkår} />
             ))}

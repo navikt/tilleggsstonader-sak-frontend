@@ -1,45 +1,62 @@
 import React from 'react';
 
-import { CalendarIcon } from '@navikt/aksel-icons';
-import { BodyShort } from '@navikt/ds-react';
-
-import AktivitetDagligReise from './AktivitetDagligReise';
-import ArbeidOgOpphold from './ArbeidOgOpphold';
-import Hovedytelse from './Hovedytelse';
+import { AktivitetDagligReise } from './AktivitetDagligReise';
 import { ReiseDetaljer } from './ReiseDetlajer/ReiseDetaljer';
-import Vedlegg from './Vedlegg';
-import { InfoSeksjon } from './Visningskomponenter';
+import { useOppsummeringFilter } from './useOppsummeringFilter';
+import { antallVedlegg, Vedlegg } from './Vedlegg';
+import { SøknadInfoSeksjonFilter, Søknadsdato } from './Visningskomponenter';
+import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaDagligReise } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
-import { formaterDato } from '../../../../utils/dato';
 
 export const OppsummeringDagligReise: React.FC<{
     behandlingFakta: BehandlingFaktaDagligReise;
 }> = ({ behandlingFakta }) => {
+    const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
+    const {
+        filtervalg,
+        visFellesopplysninger,
+        visSeksjon,
+        visVedlegg,
+        onFilterChange,
+        valgtSeksjon,
+    } = useOppsummeringFilter(
+        behandlingFakta.reiser?.length > 0
+            ? [
+                  {
+                      value: 'reiser',
+                      label: 'Reiser',
+                      ariaLabel: 'Vis reiseopplysninger',
+                      count: behandlingFakta.reiser.length,
+                  },
+              ]
+            : [],
+        antallDokumenter
+    );
+
     return (
         <>
-            {behandlingFakta.søknadMottattTidspunkt && (
-                <InfoSeksjon label="Søknadsdato" ikon={<CalendarIcon />}>
-                    <BodyShort size="small">
-                        {formaterDato(behandlingFakta.søknadMottattTidspunkt)}
-                    </BodyShort>
-                </InfoSeksjon>
+            <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
+            <SøknadInfoSeksjonFilter
+                ariaLabel="Filtrer søknadsopplysninger for daglig reise"
+                onChange={onFilterChange}
+                value={valgtSeksjon}
+                valg={filtervalg}
+            />
+            {visFellesopplysninger && (
+                <>
+                    <AktivitetDagligReise aktiviteter={behandlingFakta.aktiviteter} />
+                    <YtelseSituasjon
+                        faktaHovedytelse={behandlingFakta.hovedytelse}
+                        arbeidOgOpphold={
+                            behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold
+                        }
+                    />
+                </>
             )}
-            <Hovedytelse faktaHovedytelse={behandlingFakta.hovedytelse} />
-
-            {behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold && (
-                <ArbeidOgOpphold
-                    fakta={behandlingFakta.hovedytelse.søknadsgrunnlag.arbeidOgOpphold}
-                />
-            )}
-            {behandlingFakta.aktiviteter && (
-                <AktivitetDagligReise
-                    aktiviteter={behandlingFakta.aktiviteter}
-                ></AktivitetDagligReise>
-            )}
-            {behandlingFakta.reiser && (
+            {visSeksjon('reiser') && behandlingFakta.reiser?.length > 0 && (
                 <ReiseDetaljer reiser={behandlingFakta.reiser}></ReiseDetaljer>
             )}
-            <Vedlegg fakta={behandlingFakta.dokumentasjon} />
+            {visVedlegg && <Vedlegg fakta={behandlingFakta.dokumentasjon} />}
         </>
     );
 };

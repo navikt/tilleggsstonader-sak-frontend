@@ -1,45 +1,39 @@
 import React from 'react';
 
-import { BodyShort, Label, VStack } from '@navikt/ds-react';
-
 import { UtgifterBil } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { jaNeiTilTekst } from '../../../../../typer/common';
+import { tekstMedFallback } from '../../../../../utils/tekstformatering';
+import { SøknadInfoFelt } from '../Visningskomponenter';
 
 export const PrivatBilDetaljer: React.FC<{ utgifterBil: UtgifterBil }> = ({ utgifterBil }) => (
     <>
         {utgifterBil.mottarGrunnstønad && (
-            <VStack>
-                <Label size={'small'}>Mottar du grunnstønad fra nav?</Label>
-                <BodyShort size="small">{jaNeiTilTekst[utgifterBil.mottarGrunnstønad]}</BodyShort>
-            </VStack>
+            <SøknadInfoFelt
+                label="Mottar du grunnstønad fra Nav?"
+                value={tekstMedFallback(jaNeiTilTekst, utgifterBil.mottarGrunnstønad)}
+            />
         )}
 
         {utgifterBil.parkering && (
-            <VStack>
-                <Label size={'small'}>Må du betale for parkering med egen bil?</Label>
-                <BodyShort size="small">{jaNeiTilTekst[utgifterBil.parkering]}</BodyShort>
-            </VStack>
+            <SøknadInfoFelt
+                label="Må du betale for parkering med egen bil?"
+                value={tekstMedFallback(jaNeiTilTekst, utgifterBil.parkering)}
+            />
         )}
 
         {utgifterBil.bompenger && (
-            <VStack>
-                <Label size={'small'}>Bompenger per dag</Label>
-                <BodyShort size="small">{`${utgifterBil.bompenger} kr`}</BodyShort>
-            </VStack>
+            <SøknadInfoFelt label="Bompenger per dag" value={`${utgifterBil.bompenger} kr`} />
         )}
 
         {utgifterBil.ferge && (
-            <VStack>
-                <Label size={'small'}>Ferge per dag</Label>
-                <BodyShort size="small">{`${utgifterBil.ferge} kr`}</BodyShort>
-            </VStack>
+            <SøknadInfoFelt label="Ferge per dag" value={`${utgifterBil.ferge} kr`} />
         )}
 
         {utgifterBil.piggdekkavgift && (
-            <VStack>
-                <Label size={'small'}>Piggdekkavgift per dag</Label>
-                <BodyShort size="small">{`${utgifterBil.piggdekkavgift} kr`}</BodyShort>
-            </VStack>
+            <SøknadInfoFelt
+                label="Piggdekkavgift per dag"
+                value={`${utgifterBil.piggdekkavgift} kr`}
+            />
         )}
     </>
 );

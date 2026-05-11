@@ -29,10 +29,6 @@ export const stegErEtterAnnetSteg = (steg: Steg, annetSteg: Steg) =>
     rekkefølgeSteg[steg] > rekkefølgeSteg[annetSteg];
 
 export const stegErLåstForBehandling = (behandling: Behandling, faneSteg: Steg) =>
-    [
-        Steg.KJØRELISTE,
-        Steg.BEREGNE_YTELSE,
-        Steg.SIMULERING,
-        Steg.SEND_TIL_BESLUTTER,
-        Steg.FULLFØR_KJØRELISTE,
-    ].includes(faneSteg) && stegErEtterAnnetSteg(faneSteg, behandling.steg);
+    [Steg.KJØRELISTE, Steg.BEREGNE_YTELSE, Steg.SIMULERING, Steg.SEND_TIL_BESLUTTER].includes(
+        faneSteg
+    ) && stegErEtterAnnetSteg(faneSteg, behandling.steg);

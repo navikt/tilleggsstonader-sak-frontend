@@ -1,0 +1,66 @@
+.seksjon {
+    background-color: var(--ax-bg-default);
+    border: 1px solid var(--ax-border-neutral-subtle);
+    border-radius: 8px;
+    padding: var(--ax-space-16);
+}
+
+.seksjonsfilter {
+    width: 100%;
+    min-width: 0;
+}
+
+.seksjonsfilterToggleGroup {
+    width: 100%;
+    grid-auto-columns: minmax(0, 1fr);
+}
+
+.toggleGroupItem {
+    min-width: 0;
+}
+
+.toggleGroupLabel {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.subtle {
+    background-color: var(--ax-bg-neutral-soft);
+}
+
+.header {
+    margin-bottom: var(--ax-space-12);
+    padding-bottom: var(--ax-space-12);
+    border-bottom: 1px solid var(--ax-border-neutral-subtle);
+}
+
+.ikon {
+    display: flex;
+    align-items: center;
+    color: var(--ax-text-neutral);
+}
+
+.seksjonInnholdWrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.seksjonInnholdWrapper > * {
+    padding-block: var(--ax-space-12);
+}
+
+.seksjonInnholdWrapper > * + * {
+    border-top: 1px solid var(--ax-border-neutral-subtle);
+}
+
+.seksjonInnholdWrapper > *:first-child {
+    padding-top: 0;
+}
+
+.seksjonInnholdWrapper > *:last-child {
+    padding-bottom: 0;
+}
