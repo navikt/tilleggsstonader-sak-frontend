@@ -29,7 +29,7 @@ export const LesevisningFooter: FC<Props> = ({
     const endringsknapperRef = useRef<HTMLDivElement>(null);
 
     return (
-        <div className={styles.footer}>
+        <div className={styles.container}>
             {typeTag}
             {skalViseRedigeringsknapp && (
                 <>
