@@ -33,7 +33,6 @@ export const LesevisningFaktaPrivatBil: FC<{
                                 {periode?.reisedagerPerUke ? `${periode.reisedagerPerUke}` : '-'}
                             </BodyShort>
                             <BodyShort size="small" className={styles.høyreJustert}>
-                                {' '}
                                 {periode?.bompengerPerDag
                                     ? `${formaterTallMedTusenSkilleEllerStrek(periode?.bompengerPerDag)} kr`
                                     : '-'}

@@ -151,14 +151,6 @@ export const VisEllerEndreVilkårDagligReise: FC<Props> = ({
                         feilmeldingRedigering={feilmeldingRedigering}
                         nullstillFeilmeldingRedigering={nullstillFeilmeldingRedigering}
                     />
-                    {/* <LesevisningVilkårDagligReise2
-                        vilkår={vilkår}
-                        skalViseRedigeringsknapp={skalViseRedigeringsknapp}
-                        startRedigering={handleStartRedigering}
-                        startKopiering={handleStartKopiering}
-                        feilmeldingRedigering={feilmeldingRedigering}
-                        nullstillFeilmeldingRedigering={nullstillFeilmeldingRedigering}
-                    /> */}
                 </>
             )}
         </>
