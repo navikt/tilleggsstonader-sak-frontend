@@ -30,7 +30,7 @@ const BehandlingTabsInnhold = () => {
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
-    const aktivFane = isFanePath(path) ? path : stegTilFane(behandling.steg);
+    const aktivFane = isFanePath(path) ? path : stegTilFane(behandling.steg, behandling.type);
 
     useEffect(() => {
         if (faneErLåst(behandling, aktivFane)) {
