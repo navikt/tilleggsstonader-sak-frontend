@@ -1,8 +1,8 @@
 {
   "collection": "frontend",
-  "version": "2026.04.30-090824-bb25c0e",
+  "version": "2026.05.11-162147-9823212",
   "scope": "repo",
-  "source_sha": "bb25c0e",
+  "source_sha": "ae1f1a8",
   "installed_at": "2026-05-06T13:09:08Z",
   "files": [
     {
@@ -19,7 +19,7 @@
     },
     {
       "path": ".github/agents/nav-pilot.agent.md",
-      "hash": "8384742b958b4b84"
+      "hash": "71eaa207ac601d66"
     },
     {
       "path": ".github/skills/aksel-spacing/",
@@ -39,7 +39,7 @@
     },
     {
       "path": ".github/skills/nav-deep-interview/",
-      "hash": "42e9aab52e591ef0"
+      "hash": "eeb3399ecd4e352c"
     },
     {
       "path": ".github/skills/nav-architecture-review/",
@@ -76,6 +76,10 @@
     {
       "path": ".github/prompts/nais-manifest.prompt.md",
       "hash": "a7564098ae008cce"
+    },
+    {
+      "path": ".github/skills/observability-debugging/",
+      "hash": "cc94b1e7bfe7626c"
     }
   ]
 }
