@@ -127,6 +127,8 @@ const stegTilFaneForKjørelistebehandling = (steg: Steg): FanePath => {
             return FanePath.KJØRELISTE;
         case Steg.BEREGNING:
             return FanePath.BEREGNING;
+        case Steg.SIMULERING:
+            return FanePath.SIMULERING;
         case Steg.FULLFØR_KJØRELISTE:
             return FanePath.FULLFØR_KJØRELISTE;
         default:
