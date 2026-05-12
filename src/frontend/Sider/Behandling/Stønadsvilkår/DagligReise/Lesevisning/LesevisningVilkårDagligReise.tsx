@@ -1,39 +1,24 @@
-import React, { FC, Fragment, useRef } from 'react';
+import React, { FC } from 'react';
 
-import { BusIcon, FilesIcon, PencilIcon } from '@navikt/aksel-icons';
-import {
-    BodyShort,
-    ErrorMessage,
-    HGrid,
-    HStack,
-    Label,
-    Popover,
-    Tag,
-    VStack,
-} from '@navikt/ds-react';
+import { Tag } from '@navikt/ds-react';
 
-import { LesevisningFaktaDagligReise } from './LesevisningFaktaDagligReise';
-import styles from './LesevisningVilkårDagligReise.module.css';
-import { LesevisningVilkårPrivatBil } from './LesevisningVilkårPrivatBil';
-import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
-import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
-import { Skillelinje } from '../../../../../komponenter/Skillelinje';
-import { formaterNullablePeriode } from '../../../../../utils/dato';
-import { VilkårsresultatTilTekst } from '../../../Inngangsvilkår/Vilkårperioder/VilkårperiodeKort/tekstmapping';
-import {
-    regelIdTilSpørsmålKortversjon,
-    svarIdTilTekstKorversjon,
-} from '../../../Vilkårvurdering/tekster';
-import { typeDagligReiseTilTekst, VilkårDagligReise } from '../typer/vilkårDagligReise';
+import { LesevisningDelvilkår } from './Felles/LesevisningDelvilkår';
+import { RedigerVilkårProps } from './Felles/LesevisningFooter';
+import { LesevisningVilkårKort } from './Felles/LesevisningVilkårKort';
+import { LesevisningVilkårOffentligTransport } from './OffentligTransport/LesevisningVilkårOffentligTransport';
+import { LesevisningVilkårPrivatBil } from './PrivatBil/LesevisningVilkårPrivatBil';
+import { VilkårDagligReise } from '../typer/vilkårDagligReise';
 
-export const LesevisningVilkårDagligReise: FC<{
+interface VilkårProps {
     vilkår: VilkårDagligReise;
-    skalViseRedigeringsknapp?: boolean;
+    skalViseRedigeringsknapp: boolean;
     startRedigering?: () => void;
     startKopiering?: () => void;
     feilmeldingRedigering?: string;
     nullstillFeilmeldingRedigering?: () => void;
-}> = ({
+}
+
+export const LesevisningVilkårDagligReise: FC<VilkårProps> = ({
     vilkår,
     startRedigering,
     skalViseRedigeringsknapp,
@@ -41,112 +26,40 @@ export const LesevisningVilkårDagligReise: FC<{
     feilmeldingRedigering,
     nullstillFeilmeldingRedigering,
 }) => {
-    const { resultat, delvilkårsett, fom, tom, adresse, fakta } = vilkår;
-    const endringsknapperRef = useRef<HTMLDivElement>(null);
+    const redigerVilkårProps: RedigerVilkårProps = {
+        skalViseRedigeringsknapp,
+        startRedigering,
+        startKopiering,
+        feilmeldingRedigering,
+        nullstillFeilmeldingRedigering,
+    };
 
-    return fakta.type === 'OFFENTLIG_TRANSPORT' ? (
-        <ResultatOgStatusKort
-            periode={vilkår}
-            redigeringKnapp={
-                skalViseRedigeringsknapp && (
-                    <>
-                        <HStack gap="space-8" ref={endringsknapperRef}>
-                            <SmallButton
-                                className={styles.redigeringsknapp}
-                                variant="tertiary"
-                                onClick={startRedigering}
-                                icon={<PencilIcon />}
-                            />
-                            <SmallButton
-                                className={styles.redigeringsknapp}
-                                variant="tertiary"
-                                onClick={startKopiering}
-                                icon={<FilesIcon />}
-                            />
-                        </HStack>
-                        <Popover
-                            anchorEl={endringsknapperRef.current}
-                            open={!!feilmeldingRedigering}
-                            onClose={nullstillFeilmeldingRedigering ?? (() => {})}
-                            placement="top"
-                        >
-                            <Popover.Content className={styles.popoverContent}>
-                                <ErrorMessage size="small">{feilmeldingRedigering}</ErrorMessage>
-                            </Popover.Content>
-                        </Popover>
-                    </>
-                )
+    if (vilkår.fakta.type === 'OFFENTLIG_TRANSPORT') {
+        return (
+            <LesevisningVilkårOffentligTransport
+                vilkår={vilkår}
+                redigerVilkårProps={redigerVilkårProps}
+            />
+        );
+    }
+
+    if (vilkår.fakta.type === 'PRIVAT_BIL') {
+        return (
+            <LesevisningVilkårPrivatBil vilkår={vilkår} redigerVilkårProps={redigerVilkårProps} />
+        );
+    }
+
+    return (
+        <LesevisningVilkårKort
+            vilkår={vilkår}
+            redigerVilkårProps={redigerVilkårProps}
+            typeTag={
+                <Tag data-color="danger" size="small">
+                    Vilkår ikke oppfylt
+                </Tag>
             }
         >
-            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 234px) auto">
-                <VStack gap="space-24">
-                    <VStack gap="space-12">
-                        <Label size="small">{formaterNullablePeriode(fom, tom)}</Label>
-                        <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
-                        <LesevisningFaktaDagligReise fakta={fakta} />
-                    </VStack>
-                    <Tag
-                        data-color="neutral"
-                        size="small"
-                        style={{ width: 'max-content' }}
-                        variant="outline"
-                        icon={<BusIcon />}
-                    >
-                        {typeDagligReiseTilTekst[fakta?.type]}
-                    </Tag>
-                </VStack>
-
-                <VStack gap="space-4">
-                    <>
-                        <BodyShort size="small">
-                            <strong>Adresse aktivitet:</strong> {adresse || '-'}
-                        </BodyShort>
-                        <Skillelinje />
-                    </>
-                    {delvilkårsett.map((delvilkår, index) => (
-                        <HGrid
-                            gap={'space-4 space-16'}
-                            columns="minmax(100px, max-content) 1fr"
-                            key={index}
-                            height="fit-content"
-                        >
-                            {delvilkår.vurderinger.map((vurdering, index) => (
-                                <Fragment key={index}>
-                                    <HStack gap="space-12" key={vurdering.regelId}>
-                                        <BodyShort weight="semibold" size="small">
-                                            {regelIdTilSpørsmålKortversjon[vurdering.regelId]}
-                                        </BodyShort>
-                                        {vurdering.svar && (
-                                            <BodyShort size="small">
-                                                {svarIdTilTekstKorversjon[vurdering.svar]}
-                                            </BodyShort>
-                                        )}
-                                    </HStack>
-                                    <BodyShort size="small">{vurdering.begrunnelse}</BodyShort>
-                                    {delvilkår.vurderinger.length > 1 && (
-                                        <Skillelinje style={{ gridColumn: 'span 2' }} />
-                                    )}
-                                </Fragment>
-                            ))}
-                        </HGrid>
-                    ))}
-                    {vilkår.slettetKommentar && (
-                        <HStack gap="space-16">
-                            <Label size="small">Begrunnelse for sletting:</Label>
-                            <BodyShort size="small">{vilkår.slettetKommentar}</BodyShort>
-                        </HStack>
-                    )}
-                </VStack>
-            </HGrid>
-        </ResultatOgStatusKort>
-    ) : (
-        <LesevisningVilkårPrivatBil
-            vilkår={vilkår}
-            startRedigering={startRedigering}
-            skalViseRedigeringsknapp={skalViseRedigeringsknapp}
-            startKopiering={startKopiering}
-            feilmeldingRedigering={feilmeldingRedigering}
-            nullstillFeilmeldingRedigering={nullstillFeilmeldingRedigering}
-        />
+            <LesevisningDelvilkår delvilkårsett={vilkår.delvilkårsett} />
+        </LesevisningVilkårKort>
     );
 };

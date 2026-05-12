@@ -44,8 +44,10 @@ export const ResultatOgStatusKort: React.FC<{
                     <HvittVilkårsresultatIkon vilkårsresultat={periode?.resultat} />
                 )}
             </div>
-            <div className={`${styles.innholdContainer} ${redigeres ? styles.redigeres : ''}`}>
-                {children}
+            <div>
+                <div className={`${styles.innholdContainer} ${redigeres ? styles.redigeres : ''}`}>
+                    {children}
+                </div>
                 {footer}
             </div>
             <HStack gap="space-16" className={styles.redigeringsknappContainer}>

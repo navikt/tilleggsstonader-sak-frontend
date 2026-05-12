@@ -1,9 +1,9 @@
 .grid {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto auto auto auto;
     gap: 0.5rem;
 }
 
-.grid > :nth-child(even) {
+.høyre-justert {
     justify-self: end;
 }
