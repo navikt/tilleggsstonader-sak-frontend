@@ -1,25 +1,25 @@
 {
   "collection": "frontend",
-  "version": "2026.05.11-162147-9823212",
+  "version": "2026.05.13-095031-5b8fd31",
   "scope": "repo",
-  "source_sha": "ae1f1a8",
+  "source_sha": "5b8fd31",
   "installed_at": "2026-05-06T13:09:08Z",
   "files": [
     {
       "path": ".github/agents/accessibility.agent.md",
-      "hash": "98867df3e31b8cd4"
+      "hash": "6bf2a7cb4b069120"
     },
     {
       "path": ".github/agents/aksel.agent.md",
-      "hash": "f3f31e695bc1df0f"
+      "hash": "3820ab7114887f87"
     },
     {
       "path": ".github/agents/forfatter.agent.md",
-      "hash": "4e55f4d189619dcb"
+      "hash": "6cc31221eab50d30"
     },
     {
       "path": ".github/agents/nav-pilot.agent.md",
-      "hash": "71eaa207ac601d66"
+      "hash": "6ce36d8afc80f70f"
     },
     {
       "path": ".github/skills/aksel-spacing/",
@@ -71,11 +71,11 @@
     },
     {
       "path": ".github/prompts/aksel-component.prompt.md",
-      "hash": "9119d15db318622d"
+      "hash": "dbeb27a9cad0e768"
     },
     {
       "path": ".github/prompts/nais-manifest.prompt.md",
-      "hash": "a7564098ae008cce"
+      "hash": "8576571223ffef8a"
     },
     {
       "path": ".github/skills/observability-debugging/",
