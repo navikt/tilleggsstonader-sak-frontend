@@ -16,7 +16,7 @@ export const VariabelSerializer = (variabler: Partial<Record<string, string>>): 
             return (
                 <div
                     dangerouslySetInnerHTML={{
-                        __html: variabler[value._id] || 'Mangler html-variabel.',
+                        __html: variabler[value._id] || `Mangler ${value.visningsnavn}`,
                     }}
                 ></div>
             );

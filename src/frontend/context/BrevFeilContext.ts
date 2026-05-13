@@ -2,12 +2,12 @@ import { useMemo, useState } from 'react';
 
 import constate from 'constate';
 
-import { Delmal, MalStruktur, Valg, Valgfelt, Variabel } from '../komponenter/Brev/typer';
 import {
     variabelBeregningstabellId,
     variabelInnvilgedePerioderPunktlisteId,
     variabelRammevedtaktabellReiseMedBil,
-} from '../komponenter/Brev/variablerUtils';
+} from '../komponenter/Brev/htmlVariabler';
+import { Delmal, MalStruktur, Valg, Valgfelt, Variabel } from '../komponenter/Brev/typer';
 import { harIkkeVerdi } from '../utils/utils';
 
 /**

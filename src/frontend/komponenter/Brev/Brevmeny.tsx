@@ -6,15 +6,15 @@ import { Brevknapp } from './Brevknapp';
 import styles from './Brevmeny.module.css';
 import { Delmal } from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
-import { MellomlagretBrevDto, parseMellomlagretBrev } from './mellomlagring';
-import { lagInnvilgetPerioderPunktliste } from './punktliste/lagInnvilgetPerioderPunktliste';
-import { lagVerdier } from './stønadsverdier/lagVerdier';
-import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import {
     variabelBeregningstabellId,
     variabelInnvilgedePerioderPunktlisteId,
     variabelRammevedtaktabellReiseMedBil,
-} from './variablerUtils';
+} from './htmlVariabler';
+import { MellomlagretBrevDto, parseMellomlagretBrev } from './mellomlagring';
+import { lagInnvilgetPerioderPunktliste } from './punktliste/lagInnvilgetPerioderPunktliste';
+import { lagVerdier } from './stønadsverdier/lagVerdier';
+import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import { lagRammevedtakstabell } from './vedtakstabell/lagRammevedtakstabell';
 import { lagVedtakstabell } from './vedtakstabell/lagVedtakstabell';
 import { useApp } from '../../context/AppContext';
