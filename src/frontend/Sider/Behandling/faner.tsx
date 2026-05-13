@@ -96,7 +96,15 @@ export const faneTilSteg: Record<FanePath, Steg> = {
     'fullfor-kjoreliste': Steg.FULLFØR_KJØRELISTE,
 };
 
-export const stegTilFane = (steg: Steg): FanePath => {
+export const stegTilFane = (steg: Steg, behandlingType: BehandlingType): FanePath => {
+    if (behandlingType === BehandlingType.KJØRELISTE) {
+        return stegTilFaneForKjørelistebehandling(steg);
+    }
+
+    return stegTilFaneStandard(steg);
+};
+
+const stegTilFaneStandard = (steg: Steg): FanePath => {
     switch (steg) {
         case Steg.INNGANGSVILKÅR:
             return FanePath.INNGANGSVILKÅR;
@@ -108,15 +116,23 @@ export const stegTilFane = (steg: Steg): FanePath => {
             return FanePath.SIMULERING;
         case Steg.SEND_TIL_BESLUTTER:
             return FanePath.BREV;
+        default:
+            return FanePath.INNGANGSVILKÅR;
+    }
+};
+
+const stegTilFaneForKjørelistebehandling = (steg: Steg): FanePath => {
+    switch (steg) {
         case Steg.KJØRELISTE:
             return FanePath.KJØRELISTE;
         case Steg.BEREGNING:
             return FanePath.BEREGNING;
+        case Steg.SIMULERING:
+            return FanePath.SIMULERING;
         case Steg.FULLFØR_KJØRELISTE:
             return FanePath.FULLFØR_KJØRELISTE;
-
         default:
-            return FanePath.INNGANGSVILKÅR;
+            return FanePath.KJØRELISTE;
     }
 };
 
