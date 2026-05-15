@@ -42,6 +42,7 @@ export const EndreFaktaDagligReise: React.FC<{
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     settFakta={settFakta}
                     feilmeldinger={feilmeldinger.fakta as FeilmeldingerFaktaOffentligTransport}
+                    oppfylteAktiviteter={oppfylteAktiviteter}
                 />
             );
         case 'DAGLIG_REISE_PRIVAT_BIL':

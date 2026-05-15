@@ -58,6 +58,9 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
     const { regelstruktur, aktiviteter } = useVilkårDagligReise();
     const komponentId = useId();
     const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
+    const kanKnytteOffentligTransportTilAktivitet = useFlag(
+        Toggle.KAN_KNYTTE_OFFENTLIG_TRANSPORT_TIL_AKTIVITET
+    );
 
     const [svar, settSvar] = useState<SvarVilkårDagligReise>(initierSvar(vilkår));
 
@@ -103,7 +106,14 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
 
         if (laster) return;
 
-        const valideringsfeil = validerVilkår(periode, adresse, svar, fakta, regelstruktur);
+        const valideringsfeil = validerVilkår(
+            periode,
+            adresse,
+            svar,
+            fakta,
+            regelstruktur,
+            kanKnytteOffentligTransportTilAktivitet
+        );
         settFeilmeldinger(valideringsfeil);
         if (!ingen(valideringsfeil)) {
             return;

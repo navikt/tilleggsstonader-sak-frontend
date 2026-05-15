@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
+
 import { ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { Beregningsresultat } from './Beregningsresultat/Beregningsresultat';
@@ -23,6 +25,7 @@ import {
     InnvilgelseDagligReiseRequest,
 } from '../../../../../typer/vedtak/vedtakDagligReise';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
+import { Toggle } from '../../../../../utils/toggles';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
 import { StegKnappInnvilgelseMedVarsel } from '../../Felles/StegKnappInnvilgelseMedVarsel';
 import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
@@ -63,6 +66,9 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
     const [begrunnelse, settBegrunnelse] = useState<string | undefined>(lagretVedtak?.begrunnelse);
 
     const gjelderTsr = behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSR;
+    const kanKnytteOffentligTransportTilAktivitet = useFlag(
+        Toggle.KAN_KNYTTE_OFFENTLIG_TRANSPORT_TIL_AKTIVITET
+    );
 
     useEffect(() => {
         settErVedtaksperioderBeregnet(false);
@@ -85,7 +91,11 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
         }
     };
     const validerForm = (): boolean => {
-        const vedtaksperiodeFeil = validerVedtaksperioder(vedtaksperioder, gjelderTsr);
+        const vedtaksperiodeFeil = validerVedtaksperioder(
+            vedtaksperioder,
+            gjelderTsr,
+            kanKnytteOffentligTransportTilAktivitet
+        );
         settVedtaksperiodeFeil(vedtaksperiodeFeil);
 
         return isValid(vedtaksperiodeFeil);

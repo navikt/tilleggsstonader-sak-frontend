@@ -30,6 +30,7 @@ interface Props {
     slettPeriode: () => void;
     vedtakErLagret: boolean;
     gjelderTsr: boolean;
+    kanKnytteOffentligTransportTilAktivitet: boolean;
 }
 
 export const VedtaksperiodeRad: React.FC<Props> = ({
@@ -41,6 +42,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     slettPeriode,
     vedtakErLagret,
     gjelderTsr,
+    kanKnytteOffentligTransportTilAktivitet,
 }) => {
     const { behandling } = useBehandling();
 
@@ -83,14 +85,14 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                     size="small"
                 />
             </FeilmeldingMaksBredde>
-            {gjelderTsr ? (
+            {gjelderTsr && !kanKnytteOffentligTransportTilAktivitet ? (
                 <VelgTiltaksvariant
                     vedtaksperiode={vedtaksperiode}
                     erLesevisning={erLesevisning}
                     vedtaksperiodeFeil={vedtaksperiodeFeil}
                     oppdaterPeriode={oppdaterPeriode}
                 />
-            ) : (
+            ) : !gjelderTsr ? (
                 <>
                     <VelgAktivitet
                         stønadstype={behandling.stønadstype}
@@ -107,7 +109,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                         oppdaterPeriode={oppdaterPeriode}
                     />
                 </>
-            )}
+            ) : null}
             <div>
                 {!erLesevisning && (
                     <Button
