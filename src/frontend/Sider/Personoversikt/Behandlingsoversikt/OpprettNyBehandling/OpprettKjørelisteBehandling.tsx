@@ -32,7 +32,7 @@ interface OpprettBehandlingRequest {
     årsak: BehandlingÅrsak;
     kravMottatt?: string;
     nyeOpplysningerMetadata?: NyeOpplysningerMetadata;
-    forenkletBehandlingsyype: OpprettNyBehandlingType;
+    forenkletBehandlingstype: OpprettNyBehandlingType;
 }
 
 const OpprettKjørelisteBehandling: React.FC<Props> = ({
@@ -84,7 +84,7 @@ const OpprettKjørelisteBehandling: React.FC<Props> = ({
             årsak: årsak,
             kravMottatt: kravMottatt,
             nyeOpplysningerMetadata: nyeOpplysninger,
-            forenkletBehandlingsyype: OpprettNyBehandlingType.KJØRELISTE,
+            forenkletBehandlingstype: OpprettNyBehandlingType.KJØRELISTE,
         }).then((response) => {
             if (response.status === RessursStatus.SUKSESS) {
                 hentBehandlinger();
