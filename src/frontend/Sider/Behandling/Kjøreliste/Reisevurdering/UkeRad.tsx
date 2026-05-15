@@ -37,24 +37,22 @@ export const UkeRad: FC<{
                 <HStack justify="space-between" align="center">
                     <div className={styles.grid}>
                         <Heading size="small">{`Uke ${uke.ukenummer}`}</Heading>
-                        <HStack gap="space-24">
-                            <HStack gap="space-4" wrap={false}>
-                                <BodyShort size="small">
-                                    {formaterIsoPeriode(uke.fraDato, uke.tilDato)}
-                                </BodyShort>
-                            </HStack>
+                        <HStack gap="space-40">
+                            <BodyShort size="small">
+                                {formaterIsoPeriode(uke.fraDato, uke.tilDato)}
+                            </BodyShort>
                             <AutomatiskManuellEllerAvvikTag status={uke.status} />
                         </HStack>
                     </div>
-                    <HStack gap="space-16" align="center">
+                    <HStack gap="space-40" align="center">
                         <AvklartKjørtUkeStatusTag
                             avklartKjørtUkeStatus={uke.avklartKjørtUkeStatus}
                         />
-                        <BodyShort size="small">
-                            {uke.kjørelisteInnsendtDato
-                                ? `Levert ${formaterNullableIsoDato(uke.kjørelisteInnsendtDato)}`
-                                : 'Ikke innsendt'}
-                        </BodyShort>
+                        {uke.kjørelisteInnsendtDato && (
+                            <BodyShort size="small">
+                                Levert {formaterNullableIsoDato(uke.kjørelisteInnsendtDato)}
+                            </BodyShort>
+                        )}
                     </HStack>
                 </HStack>
             </TableHeaderCellSmall>

@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 
 import { PencilIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, HStack, InlineMessage, Label, VStack } from '@navikt/ds-react';
+import { Button, HStack, InlineMessage, Label, VStack } from '@navikt/ds-react';
 
 import { RedigerAvklartDag } from './Dag/RedigerAvklartDag';
 import styles from './UkeInnhold.module.css';
@@ -102,10 +102,10 @@ export const UkeInnhold: FC<{
     const kanRedigereUke = erStegRedigerbart && !!uke.kjørelisteInnsendtDato && !!uke.avklartUkeId;
 
     return (
-        <VStack gap="space-16" data-color="neutral">
-            <BodyShort size="small">
+        <VStack gap="space-16">
+            <Label size="small">
                 Antall reisedager fra rammevedtak: {delperiodeForUke.reisedagerPerUke}
-            </BodyShort>
+            </Label>
             <div>
                 <div className={`${styles.borderToppBunn} ${styles.wrapper}`}>
                     <div className={styles.venstreGrid}>
