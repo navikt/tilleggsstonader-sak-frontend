@@ -25,4 +25,5 @@ export enum Toggle {
     KAN_BEHANDLE_PRIVAT_BIL = 'sak.daglig-reise-privat-bil',
     KAN_OPPHØRE_DAGLIG_REISE_TSO = 'sak.frontend.kan-oppheve-daglig-reise-tso',
     KAN_OPPRETTE_MANUELL_KJØRELISTEBEHANDLING = 'sak.frontend.kan-opprette-manuell-kjorelistebehandling',
+    TOTRINNSKONTROLL_FOR_KJØRELISTEBEHANDLING = 'sak.totrinnskontroll-kjoreliste',
 }
