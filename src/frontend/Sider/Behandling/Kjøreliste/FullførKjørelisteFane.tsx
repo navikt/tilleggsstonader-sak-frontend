@@ -10,21 +10,30 @@ import { useBehandling } from '../../../context/BehandlingContext';
 import { useSteg } from '../../../context/StegContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { PdfVisning } from '../../../komponenter/PdfVisning';
+import { Steg } from '../../../typer/behandling/steg';
+import { useSendTilBeslutter } from '../Brev/useSendTilBeslutter';
+import { VedtakFerdigstiltModal } from '../Brev/VedtakFerdigstiltModal';
 
 export const FullførKjørelisteFane: FC = () => {
-    const { behandlingErRedigerbar } = useBehandling();
+    const { behandling, behandlingErRedigerbar } = useBehandling();
     const { erStegRedigerbart } = useSteg();
 
     const { brevPdf, settBrevPdf, lagretBegrunnelse } = useKjørelisteBrev();
     const { fullførKjøreliste, laster, feilmelding, settHarUlagredeEndringer } =
         useFullførKjøreliste();
+    const { sendTilBeslutter, visVedtakFerdigstiltModal, lukkVedtakFerdigstiltModal } =
+        useSendTilBeslutter();
+
+    const erSendTilBeslutterSteg = behandling.steg === Steg.SEND_TIL_BESLUTTER;
+    const erRedigerbarISteg =
+        behandlingErRedigerbar && (erStegRedigerbart || erSendTilBeslutterSteg);
 
     return (
         <>
             {behandlingErRedigerbar ? (
                 <div className={styles.toKolonner}>
                     <VStack gap="space-16">
-                        {erStegRedigerbart && lagretBegrunnelse !== undefined && (
+                        {erRedigerbarISteg && lagretBegrunnelse !== undefined && (
                             <KjørelisteBrevmeny
                                 lagretBegrunnelse={lagretBegrunnelse}
                                 settHarUlagredeEndringer={settHarUlagredeEndringer}
@@ -34,16 +43,26 @@ export const FullførKjørelisteFane: FC = () => {
 
                         <Feilmelding feil={feilmelding} />
 
-                        {erStegRedigerbart && (
+                        {erRedigerbarISteg && (
                             <div>
-                                <Button
-                                    variant="primary"
-                                    loading={laster}
-                                    onClick={fullførKjøreliste}
-                                    size={'small'}
-                                >
-                                    Fullfør kjørelistebehandling
-                                </Button>
+                                {erSendTilBeslutterSteg ? (
+                                    <Button
+                                        variant="primary"
+                                        onClick={() => sendTilBeslutter()}
+                                        size={'small'}
+                                    >
+                                        Send til beslutter
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        variant="primary"
+                                        loading={laster}
+                                        onClick={fullførKjøreliste}
+                                        size={'small'}
+                                    >
+                                        Fullfør kjørelistebehandling
+                                    </Button>
+                                )}
                             </div>
                         )}
                     </VStack>
@@ -52,6 +71,10 @@ export const FullførKjørelisteFane: FC = () => {
             ) : (
                 <PdfVisning pdfFilInnhold={brevPdf} />
             )}
+            <VedtakFerdigstiltModal
+                visModal={visVedtakFerdigstiltModal}
+                lukkModal={lukkVedtakFerdigstiltModal}
+            />
         </>
     );
 };
