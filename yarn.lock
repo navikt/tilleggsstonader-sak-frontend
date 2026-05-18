@@ -584,12 +584,12 @@
   resolved "https://registry.yarnpkg.com/@eslint-community/regexpp/-/regexpp-4.12.2.tgz#bccdf615bcf7b6e8db830ec0b8d21c9a25de597b"
   integrity sha512-EriSTlt5OC9/7SXkRSCAhfSxxoSUgBm33OH+IkwbdpgoqsSsUg7y3uh+IICI/Qg4BBWr3U2i39RpmycbxMq4ew==
 
-"@eslint/compat@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@eslint/compat/-/compat-2.0.0.tgz#0c98f24fdac8717eff6b6530971c1fa25e8612a8"
-  integrity sha512-T9AfE1G1uv4wwq94ozgTGio5EUQBqAVe1X9qsQtSNVEYW6j3hvtZVm8Smr4qL1qDPFg+lOB2cL5RxTRMzq4CTA==
+"@eslint/compat@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@eslint/compat/-/compat-2.1.0.tgz#8c66110f95cf0fdd864b76ae4d534042dea7bb7f"
+  integrity sha512-LgaSCymEpw7tF53xvDw9SNsraPb1IBHxpdABIOM0hW8UAlP8znrjYtuxfR58FSJ3L9BhwD+FaPRFQpZq84Nh6g==
   dependencies:
-    "@eslint/core" "^1.0.0"
+    "@eslint/core" "^1.2.1"
 
 "@eslint/config-array@^0.21.1":
   version "0.21.1"
@@ -614,10 +614,10 @@
   dependencies:
     "@types/json-schema" "^7.0.15"
 
-"@eslint/core@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@eslint/core/-/core-1.0.0.tgz#6e371a1ce8dc56224f3b9b97fb6b815cd41f9b87"
-  integrity sha512-PRfWP+8FOldvbApr6xL7mNCw4cJcSTq4GA7tYbgq15mRb0kWKO/wEB2jr+uwjFH3sZvEZneZyCUGTxsv4Sahyw==
+"@eslint/core@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@eslint/core/-/core-1.2.1.tgz#c1da7cd1b82fa8787f98b5629fb811848a1b63ce"
+  integrity sha512-MwcE1P+AZ4C6DWlpin/OmOA54mmIZ/+xZuJiQd4SyB29oAJjN30UW9wkKNptW2ctp4cEsvhlLY/CsQ1uoHDloQ==
   dependencies:
     "@types/json-schema" "^7.0.15"
 
@@ -862,25 +862,25 @@
   resolved "https://registry.yarnpkg.com/@pkgr/core/-/core-0.2.7.tgz#eb5014dfd0b03e7f3ba2eeeff506eed89b028058"
   integrity sha512-YLT9Zo3oNPJoBjBc4q8G2mjU4tqIbf5CEOORbUUr48dCD9q3umJ3IPlVqOqDakPfd2HuwccBaqlGhN4Gmr5OWg==
 
-"@portabletext/react@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@portabletext/react/-/react-6.0.0.tgz#1b363488ef8ba10bf3ab6437c813899f313d4542"
-  integrity sha512-8jzmFruC6fhC8A47c+RdiFfldzRq/rRW/FwRsr5ZMeNeCf3S0dXVlM/LJQRWH5JLQXbH3oxINN1UV2mbuZQJ9w==
+"@portabletext/react@^6.2.0":
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/@portabletext/react/-/react-6.2.0.tgz#8e90d54fef244efcf41af5c64fe9eedccec7b40d"
+  integrity sha512-Z0J/AWrvg7GyDfEBQRRhi6ZpxLOsN4/QbU8KhTwfa6r2ELiRaMa4gkHE9wfs3V1ozNDrTG4IRr+8yBnHNDnAqA==
   dependencies:
-    "@portabletext/toolkit" "^5.0.0"
-    "@portabletext/types" "^4.0.0"
+    "@portabletext/toolkit" "^5.0.2"
+    "@portabletext/types" "^4.0.2"
 
-"@portabletext/toolkit@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@portabletext/toolkit/-/toolkit-5.0.0.tgz#90d6eced612f4bba5d397813801c684f6b0a00cf"
-  integrity sha512-jcDOv1RKO/j08pdnc/6i5tULcAzEYCR41XDVYOqmmX8bvEJbWJabhpVjHT1ls6p27v9gtA4NG2SO5xdMpgWSQQ==
+"@portabletext/toolkit@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@portabletext/toolkit/-/toolkit-5.0.2.tgz#e2c124623d68ce6ea551160960c7a1b98b7cafdb"
+  integrity sha512-Njc1LE1PMJkTx/wEPqZ6sOWGgFgX2B47fxpOQ/Ia4ByhsZoA5Sq8dNvvV5F052j/xE8TbOLiBEjS848FkKADDQ==
   dependencies:
-    "@portabletext/types" "^4.0.0"
+    "@portabletext/types" "^4.0.2"
 
-"@portabletext/types@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@portabletext/types/-/types-4.0.0.tgz#f8b6d9cc64cfe43e3cd37c26eb76a82574ad4d94"
-  integrity sha512-mEoN82OQckrshqRx8idp+x8B/OpMfUMSjQp1w1wZFM3hf8cplGhK59Sa/UuGU6XdgAnFq90vJtnj5ejOmZmhvw==
+"@portabletext/types@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@portabletext/types/-/types-4.0.2.tgz#a4665eb8ac56ec216e93b7aed867840813c083de"
+  integrity sha512-djfIGU9n6DRrunlvj2nIDAp17URo/nA4jSXGvf+Gupx8NLLy9fmJBZ3GL8yhqn9lSVc+cKCharjOa3aOBnWbRw==
 
 "@react-leaflet/core@^3.0.0":
   version "3.0.0"
@@ -3279,10 +3279,10 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.11,
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.11.tgz#4183e4e8bf08bb6e05bbb2f7d2e0c8f712ca40e3"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
 
-groq@^5.23.0:
-  version "5.23.0"
-  resolved "https://registry.yarnpkg.com/groq/-/groq-5.23.0.tgz#1921caae6bb9feac00e03844dcdcc5873b4a4d25"
-  integrity sha512-9RNUKenNcWwLW7ndAzCerNfuYSYgohovkPuPJvDWj2fNzoNo9LoymdS7YKOIAmFUC/w4tE1EZkN0vrJyI9cv9w==
+groq@^5.24.0:
+  version "5.24.0"
+  resolved "https://registry.yarnpkg.com/groq/-/groq-5.24.0.tgz#24f0e17ea4e6691526b18636cceb3ee163c0fd43"
+  integrity sha512-YMumFhEJjROiE4czCBMbno/xbQSz/phlosTJhGM/gJg7ZiR/dqAhx5nfUUt0p7ytiRokyEFc/sHT4xKIPo6HJA==
 
 hard-rejection@^2.1.0:
   version "2.1.0"
@@ -4879,22 +4879,22 @@ react-leaflet@^5.0.0:
   dependencies:
     "@react-leaflet/core" "^3.0.0"
 
-react-router-dom@^7.14.0:
-  version "7.14.0"
-  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-7.14.0.tgz#9d2df92ec9ce47e696808dc2a0e0a0c794ab278a"
-  integrity sha512-2G3ajSVSZMEtmTjIklRWlNvo8wICEpLihfD/0YMDxbWK2UyP5EGfnoIn9AIQGnF3G/FX0MRbHXdFcD+rL1ZreQ==
+react-router-dom@^7.15.0:
+  version "7.15.0"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-7.15.0.tgz#a4b95c4402d896c2ad437014aff9076b94673063"
+  integrity sha512-VcrVg64Fo8nwBvDscajG8gRTLIuTC6N50nb22l2HOOV4PTOHgoGp8mUjy9wLiHYoYTSYI36tUnXZgasSRFZorQ==
   dependencies:
-    react-router "7.14.0"
+    react-router "7.15.0"
 
 react-router-prompt@^0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/react-router-prompt/-/react-router-prompt-0.8.0.tgz#2b613879e3e30f8cf1ec1d3fa11c3184d0691c9e"
   integrity sha512-iurKq5VbipBOj8ABBmU63uaUrVZDndCFYYqU436XI8tCmaqsBb0jl2GNX46hqVVYR2nCKVZtGOy5NVYv/nDCmA==
 
-react-router@7.14.0:
-  version "7.14.0"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-7.14.0.tgz#33169c9ac03b298bb51aad13e038ba548c79a862"
-  integrity sha512-m/xR9N4LQLmAS0ZhkY2nkPA1N7gQ5TUVa5n8TgANuDTARbn1gt+zLPXEm7W0XDTbrQ2AJSJKhoa6yx1D8BcpxQ==
+react-router@7.15.0:
+  version "7.15.0"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-7.15.0.tgz#cb438ff254ab5a1e356ef5a23d7821d8f6fbe652"
+  integrity sha512-HW9vYwuM8f4yx66Izy8xfrzCM+SBJluoZcCbww9A1TySax11S5Vgw6fi3ZjMONw9J4gQwngL7PzkyIpJJpJ7RQ==
   dependencies:
     cookie "^1.0.1"
     set-cookie-parser "^2.6.0"
