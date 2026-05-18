@@ -33,30 +33,42 @@ export const VedtaksperioderOversiktDagligReise: React.FC<Props> = ({
             <Table.Body>
                 {vedtaksperioder.map((periode, index) => {
                     const beregningsperioder = periode.detaljertBeregningsperioder ?? [];
-
-                    const fom = beregningsperioder[beregningsperioder.length - 1]?.fom;
-                    const tom = beregningsperioder[0]?.tom;
+                    const periodeFom =
+                        beregningsperioder[beregningsperioder.length - 1]?.fom ??
+                        periode.rammevedtakPrivatBil?.fom;
+                    const periodeTom =
+                        beregningsperioder[0]?.tom ?? periode.rammevedtakPrivatBil?.tom;
+                    const reisedagerPerUke =
+                        beregningsperioder[0]?.antallReisedagerPerUke ??
+                        periode.rammevedtakPrivatBil?.delperioder[0]?.reisedagerPerUke ??
+                        '-';
+                    const tiltaksadresse =
+                        periode.adresse ?? periode.rammevedtakPrivatBil?.aktivitetsadresse ?? '-';
+                    const rowKey =
+                        periode.rammevedtakPrivatBil?.reiseId ??
+                        `${periodeFom}-${periodeTom}-${index}`;
 
                     return (
                         <Table.ExpandableRow
-                            key={index}
+                            key={rowKey}
                             content={
                                 <Vedtaksdetaljer
                                     detaljertBeregningsperioder={beregningsperioder}
+                                    rammevedtakPrivatBil={periode.rammevedtakPrivatBil}
                                     className={styles.expandedContent}
                                 />
                             }
                             togglePlacement="right"
                         >
-                            <Table.DataCell>{formaterNullablePeriode(fom, tom)}</Table.DataCell>
+                            <Table.DataCell>
+                                {formaterNullablePeriode(periodeFom, periodeTom)}
+                            </Table.DataCell>
 
                             <Table.DataCell>
                                 {typeDagligReiseTilTekst[periode.typeDagligReise]}
                             </Table.DataCell>
-                            <Table.DataCell>{periode.adresse ?? '-'}</Table.DataCell>
-                            <Table.DataCell>
-                                {[beregningsperioder[0].antallReisedagerPerUke]}
-                            </Table.DataCell>
+                            <Table.DataCell>{tiltaksadresse}</Table.DataCell>
+                            <Table.DataCell>{reisedagerPerUke}</Table.DataCell>
                         </Table.ExpandableRow>
                     );
                 })}
