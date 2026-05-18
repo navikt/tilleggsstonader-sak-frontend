@@ -29,8 +29,8 @@ import { RammeForReiseMedPrivatBilDelperiode } from '../../../../typer/vedtak/ve
 export const UkeInnhold: FC<{
     uke: UkeVurdering;
     oppdaterUke: (uke: UkeVurdering) => void;
-    delperioder: RammeForReiseMedPrivatBilDelperiode[];
-}> = ({ uke, oppdaterUke, delperioder }) => {
+    delperiodeForUke: RammeForReiseMedPrivatBilDelperiode;
+}> = ({ uke, oppdaterUke, delperiodeForUke }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
@@ -55,7 +55,7 @@ export const UkeInnhold: FC<{
         settValideringsfeilForDager(feil);
 
         const erAntallGodkjenteDagerInnenforRammevedtak =
-            validerAntallReisedagerInnenforRammevedtak(redigerbareDager, uke, delperioder);
+            validerAntallReisedagerInnenforRammevedtak(redigerbareDager, delperiodeForUke);
 
         settValideringsfeilForUke(
             erAntallGodkjenteDagerInnenforRammevedtak
@@ -103,6 +103,9 @@ export const UkeInnhold: FC<{
 
     return (
         <VStack gap="space-16">
+            <Label size="small">
+                Antall reisedager fra rammevedtak: {delperiodeForUke.reisedagerPerUke}
+            </Label>
             <div>
                 <div className={`${styles.borderToppBunn} ${styles.wrapper}`}>
                     <div className={styles.venstreGrid}>
