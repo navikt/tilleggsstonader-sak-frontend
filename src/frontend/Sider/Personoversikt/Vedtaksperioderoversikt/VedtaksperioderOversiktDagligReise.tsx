@@ -5,6 +5,7 @@ import { Table } from '@navikt/ds-react';
 import { Vedtaksdetaljer } from './DagligReise/VedtaksDetaljer';
 import { BorderTable } from './VedtaksperioderBorderTable';
 import styles from './VedtaksperioderOversiktDagligReise.module.css';
+import { RammeForReiseMedPrivatBilDelperiode } from '../../../typer/vedtak/vedtakDagligReise';
 import { DetaljertVedtaksperiodeDagligReise } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
 import { formaterNullablePeriode } from '../../../utils/dato';
 import { typeDagligReiseTilTekst } from '../../Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
@@ -40,8 +41,9 @@ export const VedtaksperioderOversiktDagligReise: React.FC<Props> = ({
                         beregningsperioder[0]?.tom ?? periode.rammevedtakPrivatBil?.tom;
                     const reisedagerPerUke =
                         beregningsperioder[0]?.antallReisedagerPerUke ??
-                        periode.rammevedtakPrivatBil?.delperioder[0]?.reisedagerPerUke ??
-                        '-';
+                        hentReisedagerPerUkeFraDelperioder(
+                            periode.rammevedtakPrivatBil?.delperioder
+                        );
                     const tiltaksadresse =
                         periode.adresse ?? periode.rammevedtakPrivatBil?.aktivitetsadresse ?? '-';
                     const rowKey =
@@ -76,3 +78,15 @@ export const VedtaksperioderOversiktDagligReise: React.FC<Props> = ({
         </BorderTable>
     );
 };
+
+function hentReisedagerPerUkeFraDelperioder(
+    delperioder: RammeForReiseMedPrivatBilDelperiode[] | undefined
+): number | string {
+    if (delperioder === undefined) {
+        return '-';
+    }
+    if (delperioder.length > 1) {
+        return 'Varierende';
+    }
+    return delperioder[0].reisedagerPerUke;
+}
