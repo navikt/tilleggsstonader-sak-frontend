@@ -3,27 +3,23 @@ import {
     Dag,
     GodkjentGjennomførtKjøring,
     TypeAvvikDag,
-    UkeStatus,
-    UkeVurdering,
     TypeAvvikUke,
+    UkeVurdering,
 } from '../../../typer/kjøreliste';
+import { RammeForReiseMedPrivatBilDelperiode } from '../../../typer/vedtak/vedtakDagligReise';
+import { perioderOverlapper } from '../../../utils/dato';
 
-interface TagInfo {
-    variant: 'success' | 'error' | 'warning' | 'neutral';
-    label: string;
-}
-
-export function utledUkeTag(uke: UkeVurdering): TagInfo | undefined {
-    switch (uke.status) {
-        case UkeStatus.OK_AUTOMATISK:
-            return { label: 'Automatisk ok', variant: 'success' };
-        case UkeStatus.OK_MANUELT:
-            return { label: 'Manuelt ok', variant: 'warning' };
-        case UkeStatus.AVVIK:
-            return { label: 'Avvik', variant: 'error' };
-        case UkeStatus.IKKE_MOTTATT_KJØRELISTE:
-            return undefined;
+export function finnDelperiodeForUke(
+    delperioder: RammeForReiseMedPrivatBilDelperiode[],
+    uke: UkeVurdering
+): RammeForReiseMedPrivatBilDelperiode {
+    const delperiode = delperioder.find((d) =>
+        perioderOverlapper(d, { fom: uke.fraDato, tom: uke.tilDato })
+    );
+    if (!delperiode) {
+        throw new Error(`Fant ingen delperiode for uke ${uke.ukenummer}`);
     }
+    return delperiode;
 }
 
 export function harAvvikPåParkeringsutgift(dag: Dag): boolean {

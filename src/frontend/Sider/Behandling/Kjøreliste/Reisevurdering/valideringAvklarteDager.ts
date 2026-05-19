@@ -5,7 +5,6 @@ import {
     UkeVurdering,
 } from '../../../../typer/kjøreliste';
 import { RammeForReiseMedPrivatBilDelperiode } from '../../../../typer/vedtak/vedtakDagligReise';
-import { perioderOverlapper } from '../../../../utils/dato';
 import { harTallverdi } from '../../../../utils/tall';
 import { harIkkeVerdi, harVerdi } from '../../../../utils/utils';
 
@@ -59,18 +58,13 @@ export const validerAvklarteDager = (
 
 export const validerAntallReisedagerInnenforRammevedtak = (
     avklarteDager: RedigerbarAvklartDag[],
-    uke: UkeVurdering,
-    delperioder: RammeForReiseMedPrivatBilDelperiode[]
+    delperiodeForUke: RammeForReiseMedPrivatBilDelperiode
 ): boolean => {
     const antallDagerMedKjøring = avklarteDager.filter(
         (dag) => dag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.JA
     ).length;
 
-    const rammevedtakDelperiodeForUke = delperioder.filter((delperiode) =>
-        perioderOverlapper(delperiode, { fom: uke.fraDato, tom: uke.tilDato })
-    );
-
-    return antallDagerMedKjøring <= rammevedtakDelperiodeForUke[0].reisedagerPerUke;
+    return antallDagerMedKjøring <= delperiodeForUke.reisedagerPerUke;
 };
 
 const validerAvvikFraKjørelisteErBegrunnet = (

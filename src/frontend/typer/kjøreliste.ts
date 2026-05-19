@@ -18,6 +18,7 @@ export interface UkeVurdering {
     kjørelisteId?: string; // null hvis kjøreliste ikke er mottatt
     avklartUkeId?: string; // null hvis uke ikke er avklart
     dager: Dag[];
+    avklartKjørtUkeStatus: AvklartKjørtUkeStatus;
 }
 
 export interface AvvikUke {
@@ -56,6 +57,12 @@ export enum UkeStatus {
     OK_MANUELT = 'OK_MANUELT', // brukes hvis saksbehandler godtar avvik
     AVVIK = 'AVVIK', // parkeringsutgifter/for mange dager etc. saksbehandler må ta stilling til uka
     IKKE_MOTTATT_KJØRELISTE = 'IKKE_MOTTATT_KJØRELISTE',
+}
+
+export enum AvklartKjørtUkeStatus {
+    NY = 'NY', // Uke finnes ikke i forrige behandling
+    ENDRET = 'ENDRET', // Uke finnes i forrige behandling, men er endret av saksbehandler (inkl. tømt innhold → gir 0 kr)
+    UENDRET = 'UENDRET', // Uke er kopiert uendret fra forrige behandling
 }
 
 export enum UtfyltDagResultat {
