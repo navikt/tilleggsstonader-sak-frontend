@@ -11,7 +11,7 @@ export interface FaktaOffentligTransport extends FaktaDagligReise {
     prisEnkelbillett: number | undefined;
     prisSyvdagersbillett: number | undefined;
     prisTrettidagersbillett: number | undefined;
-    aktivitetId?: string;
+    typeAktivitet?: string;
 }
 
 export interface FaktaDelperiodePrivatBil {

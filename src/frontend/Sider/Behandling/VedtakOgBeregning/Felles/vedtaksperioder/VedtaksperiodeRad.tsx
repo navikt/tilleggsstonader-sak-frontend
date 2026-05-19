@@ -6,7 +6,6 @@ import { Button } from '@navikt/ds-react';
 import { utledStatus } from './vedtaksperiodeUtils';
 import { VelgAktivitet } from './VelgAktivitet';
 import { VelgMålgruppe } from './VelgMålgruppe';
-import { VelgTiltaksvariant } from './VelgTiltaksvariant';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { StatusTag } from '../../../../../komponenter/PerioderStatusTag/StatusTag';
@@ -30,7 +29,6 @@ interface Props {
     slettPeriode: () => void;
     vedtakErLagret: boolean;
     gjelderTsr: boolean;
-    kanKnytteOffentligTransportTilAktivitet: boolean;
 }
 
 export const VedtaksperiodeRad: React.FC<Props> = ({
@@ -42,7 +40,6 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     slettPeriode,
     vedtakErLagret,
     gjelderTsr,
-    kanKnytteOffentligTransportTilAktivitet,
 }) => {
     const { behandling } = useBehandling();
 
@@ -85,14 +82,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                     size="small"
                 />
             </FeilmeldingMaksBredde>
-            {gjelderTsr && !kanKnytteOffentligTransportTilAktivitet ? (
-                <VelgTiltaksvariant
-                    vedtaksperiode={vedtaksperiode}
-                    erLesevisning={erLesevisning}
-                    vedtaksperiodeFeil={vedtaksperiodeFeil}
-                    oppdaterPeriode={oppdaterPeriode}
-                />
-            ) : !gjelderTsr ? (
+            {!gjelderTsr && (
                 <>
                     <VelgAktivitet
                         stønadstype={behandling.stønadstype}
@@ -109,7 +99,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                         oppdaterPeriode={oppdaterPeriode}
                     />
                 </>
-            ) : null}
+            )}
             <div>
                 {!erLesevisning && (
                     <Button

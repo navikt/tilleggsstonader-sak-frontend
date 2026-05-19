@@ -59,11 +59,11 @@ export const validerVilkår = (
     svar: SvarVilkårDagligReise,
     fakta: FaktaDagligReise | undefined,
     regelstruktur: Regelstruktur,
-    kanKnytteOffentligTransportTilAktivitet: boolean = false
+    gjelderTsr: boolean
 ): FeilmeldingerDagligReise => {
     const periodeValidering = validerPeriode(periode);
     const adresseValidering = validerAdresse(adresse);
-    const faktaValidering = validerFakta(fakta, svar, kanKnytteOffentligTransportTilAktivitet);
+    const faktaValidering = validerFakta(fakta, svar, gjelderTsr);
     const svarValidering = validerSvar(svar, regelstruktur);
 
     return {
@@ -104,13 +104,13 @@ const validerSvar = (
 
 const validerFaktaOffentligTransport = (
     fakta: FaktaOffentligTransport | undefined,
-    kanKnytteOffentligTransportTilAktivitet: boolean
+    gjelderTsr: boolean
 ): Partial<FeilmeldingerFaktaOffentligTransport> | undefined => {
     if (!fakta) {
         return { felles: 'Mangler reisedager per uke og minst én billettpris' };
     }
 
-    if (kanKnytteOffentligTransportTilAktivitet && !fakta.aktivitetId) {
+    if (gjelderTsr && !fakta.typeAktivitet) {
         return { aktivitet: 'Du må velge en aktivitet' };
     }
 
@@ -192,16 +192,13 @@ const validerFaktaPrivatBil = (
 const validerFakta = (
     fakta: FaktaDagligReise | undefined,
     svar: SvarVilkårDagligReise,
-    kanKnytteOffentligTransportTilAktivitet: boolean
+    gjelderTsr: boolean
 ): FeilmeldingerFaktaDagligReise | FeilmeldingerFaktaPrivatBil | undefined => {
     if (
         fakta?.type === 'OFFENTLIG_TRANSPORT' ||
         svar.KAN_REISE_MED_OFFENTLIG_TRANSPORT?.svar === 'JA'
     ) {
-        return validerFaktaOffentligTransport(
-            fakta as FaktaOffentligTransport,
-            kanKnytteOffentligTransportTilAktivitet
-        );
+        return validerFaktaOffentligTransport(fakta as FaktaOffentligTransport, gjelderTsr);
     } else if (fakta?.type === 'PRIVAT_BIL' || svar.KAN_KJØRE_MED_EGEN_BIL?.svar === 'JA') {
         return validerFaktaPrivatBil(fakta as FaktaPrivatBil);
     }

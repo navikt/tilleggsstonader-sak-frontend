@@ -12,6 +12,7 @@ import { SlettVilkårDagligReise } from './SlettVilkårDagligReise';
 import { initierGjeldendeFaktaType, initierSvar } from './utils';
 import { FeilmeldingerDagligReise, ingen, validerVilkår } from './validering';
 import { useApp } from '../../../../../context/AppContext';
+import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useVilkårDagligReise } from '../../../../../context/VilkårDagligReiseContext/VilkårDagligReiseContext';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import {
@@ -23,6 +24,7 @@ import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatu
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
+import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import { perioderOverlapper } from '../../../../../utils/dato';
 import { Periode } from '../../../../../utils/periode';
@@ -55,12 +57,11 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
     tomFraVilkårSomKopieres,
 }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
+    const { behandling } = useBehandling();
     const { regelstruktur, aktiviteter } = useVilkårDagligReise();
     const komponentId = useId();
     const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
-    const kanKnytteOffentligTransportTilAktivitet = useFlag(
-        Toggle.KAN_KNYTTE_OFFENTLIG_TRANSPORT_TIL_AKTIVITET
-    );
+    const gjelderTsr = behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSR;
 
     const [svar, settSvar] = useState<SvarVilkårDagligReise>(initierSvar(vilkår));
 
@@ -112,7 +113,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
             svar,
             fakta,
             regelstruktur,
-            kanKnytteOffentligTransportTilAktivitet
+            gjelderTsr
         );
         settFeilmeldinger(valideringsfeil);
         if (!ingen(valideringsfeil)) {
@@ -247,6 +248,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
                     settFakta={settFakta}
                     feilmeldinger={feilmeldinger}
                     oppfylteAktiviteter={oppfylteAktiviteter}
+                    gjelderTsr={gjelderTsr}
                 />
 
                 {gjeldendeFaktaType && <Skillelinje />}

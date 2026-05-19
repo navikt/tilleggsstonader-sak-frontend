@@ -24,6 +24,7 @@ export const EndreFaktaDagligReise: React.FC<{
     nullstillFeilOgUlagretkomponent: () => void;
     feilmeldinger: FeilmeldingerDagligReise;
     oppfylteAktiviteter: Aktivitet[];
+    gjelderTsr: boolean;
 }> = ({
     gjeldendeFaktaType,
     fakta,
@@ -33,6 +34,7 @@ export const EndreFaktaDagligReise: React.FC<{
     oppfylteAktiviteter,
     reiseFom,
     reiseTom,
+    gjelderTsr,
 }) => {
     switch (gjeldendeFaktaType) {
         case 'DAGLIG_REISE_OFFENTLIG_TRANSPORT':
@@ -42,7 +44,7 @@ export const EndreFaktaDagligReise: React.FC<{
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     settFakta={settFakta}
                     feilmeldinger={feilmeldinger.fakta as FeilmeldingerFaktaOffentligTransport}
-                    oppfylteAktiviteter={oppfylteAktiviteter}
+                    gjelderTsr={gjelderTsr}
                 />
             );
         case 'DAGLIG_REISE_PRIVAT_BIL':

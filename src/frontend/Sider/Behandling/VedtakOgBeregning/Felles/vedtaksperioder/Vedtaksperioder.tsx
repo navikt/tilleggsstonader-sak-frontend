@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { PlusCircleIcon } from '@navikt/aksel-icons';
@@ -23,7 +22,6 @@ import {
 import { Kodeverk } from '../../../../../typer/kodeverk';
 import { RessursStatus } from '../../../../../typer/ressurs';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
-import { Toggle } from '../../../../../utils/toggles';
 
 interface Props {
     vedtaksperioder: Vedtaksperiode[];
@@ -53,10 +51,6 @@ export const Vedtaksperioder: React.FC<Props> = ({
     const { erStegRedigerbart } = useSteg();
     const { request, settUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
-
-    const kanKnytteOffentligTransportTilAktivitet = useFlag(
-        Toggle.KAN_KNYTTE_OFFENTLIG_TRANSPORT_TIL_AKTIVITET
-    );
     /**
      * Må trigge rendering av komponent når vi foreslår nye vedtaksperioder
      * fordi DateInput ikke bli rerendret pga hook og har samme key
@@ -120,26 +114,15 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 <VedtaksperiodeReadMore stønadstype={behandling.stønadstype} />
             </div>
             {vedtaksperioder && vedtaksperioder.length > 0 && (
-                <div
-                    className={
-                        gjelderTsr && kanKnytteOffentligTransportTilAktivitet
-                            ? styles.grid4
-                            : gjelderTsr
-                              ? styles.grid5
-                              : styles.grid6
-                    }
-                    key={vedtaksperioderId}
-                >
+                <div className={gjelderTsr ? styles.grid4 : styles.grid6} key={vedtaksperioderId}>
                     <Label size="small">Fra og med</Label>
                     <Label size="small">Til og med</Label>
-                    {gjelderTsr && !kanKnytteOffentligTransportTilAktivitet ? (
-                        <Label size="small">Tiltaksvariant</Label>
-                    ) : !gjelderTsr ? (
+                    {!gjelderTsr && (
                         <>
                             <Label size="small">Aktivitet</Label>
                             <Label size="small">Målgruppe</Label>
                         </>
-                    ) : null}
+                    )}
                     {vedtaksperioder.map((vedtaksperiode, indeks) => (
                         <VedtaksperiodeRad
                             key={vedtaksperiode.id}
@@ -153,9 +136,6 @@ export const Vedtaksperioder: React.FC<Props> = ({
                             vedtaksperiodeFeil={vedtaksperioderFeil && vedtaksperioderFeil[indeks]}
                             vedtakErLagret={vedtakErLagret}
                             gjelderTsr={gjelderTsr}
-                            kanKnytteOffentligTransportTilAktivitet={
-                                kanKnytteOffentligTransportTilAktivitet
-                            }
                         />
                     ))}
                 </div>

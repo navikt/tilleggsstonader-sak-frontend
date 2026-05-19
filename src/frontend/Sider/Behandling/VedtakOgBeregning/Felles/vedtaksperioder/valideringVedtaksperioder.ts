@@ -4,8 +4,7 @@ import { validerPeriode } from '../../../../../utils/periode';
 
 export const validerVedtaksperioder = (
     vedtaksperioder: Vedtaksperiode[],
-    gjelderTsr: boolean = false,
-    kanKnytteOffentligTransportTilAktivitet: boolean = false
+    gjelderTsr: boolean = false
 ): FormErrors<Vedtaksperiode[]> =>
     vedtaksperioder.map((vedtaksperiode) => {
         const feil: FormErrors<Vedtaksperiode> = {
@@ -18,12 +17,7 @@ export const validerVedtaksperioder = (
         };
 
         if (gjelderTsr) {
-            if (!kanKnytteOffentligTransportTilAktivitet && !vedtaksperiode.typeAktivitet) {
-                return {
-                    ...feil,
-                    typeAktivitet: { kode: undefined, beskrivelse: 'Tiltaksvariant mangler' },
-                };
-            }
+            // typeAktivitet utledes fra vilkårets typeAktivitet i beregningen — ikke validert i DTO
         } else {
             if (!vedtaksperiode.aktivitetType) {
                 return { ...feil, aktivitetType: 'Mangler aktivitet for periode' };
