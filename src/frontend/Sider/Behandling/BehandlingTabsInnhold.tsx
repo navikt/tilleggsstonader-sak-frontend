@@ -17,12 +17,14 @@ import { TidligereVedtaksperioder } from './Vilkårvurdering/TidligereVedtaksper
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
+import { useNavigateUtenSjekkForUlagredeKomponenter } from '../../hooks/useNavigateUtenSjekkForUlagredeKomponenter';
 import { SettPåVentSak } from '../../komponenter/SettPåVent/SettPåVentContainer';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
 import { Toast } from '../../typer/toast';
 
 const BehandlingTabsInnhold = () => {
     const navigate = useNavigate();
+    const navigateUtenSjekk = useNavigateUtenSjekkForUlagredeKomponenter();
     const { settToast } = useApp();
     const {
         behandling,
@@ -41,7 +43,7 @@ const BehandlingTabsInnhold = () => {
     useEffect(() => {
         const behandlingSteg = stegTilFaneForBehandling(behandling);
         if (aktivFane !== behandlingSteg) {
-            navigate(`/behandling/${behandling.id}/${behandlingSteg}`);
+            navigateUtenSjekk(`/behandling/${behandling.id}/${behandlingSteg}`);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [behandling]);
