@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -40,9 +40,14 @@ const BehandlingTabsInnhold = () => {
 
     const aktivFane = isFanePath(path) ? path : stegTilFaneForBehandling(behandling);
 
+    const forrigeSteg = useRef(behandling.steg);
     useEffect(() => {
+        const stegHarEndretSeg = behandling.steg !== forrigeSteg.current;
+        forrigeSteg.current = behandling.steg;
+
         const behandlingSteg = stegTilFaneForBehandling(behandling);
-        if (aktivFane !== behandlingSteg) {
+        // Ved stegendring: naviger alltid til nytt steg. Ved refresh/mount: kun naviger hvis fanen er låst.
+        if (stegHarEndretSeg || faneErLåst(behandling, aktivFane)) {
             navigateUtenSjekk(`/behandling/${behandling.id}/${behandlingSteg}`);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
