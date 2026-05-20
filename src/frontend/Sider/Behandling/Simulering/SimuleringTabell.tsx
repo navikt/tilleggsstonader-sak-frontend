@@ -9,7 +9,7 @@ import useSimuleringÅrvelger from './useSimuleringÅrvelger';
 import ÅrVelger from './ÅrVelger';
 import { formaterÅrMåned } from '../../../utils/dato';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../utils/fomatering';
-import { toTitleCase } from '../../../utils/tekstformatering';
+import { storForbokstavFørsteOrd } from '../../../utils/tekstformatering';
 
 interface Props {
     perioder: OppsummeringForPeriode[];
@@ -26,7 +26,7 @@ const SimuleringTabell: React.FC<Props> = ({ perioder }) => {
                     </Table.HeaderCell>
                     {perioderForValgtÅr.map((p) => (
                         <Table.HeaderCell scope={'col'} key={p.måned} style={{ width: '6rem' }}>
-                            {toTitleCase(formaterÅrMåned(p.måned))}
+                            {storForbokstavFørsteOrd(formaterÅrMåned(p.måned))}
                         </Table.HeaderCell>
                     ))}
                 </Table.Row>
