@@ -45,10 +45,10 @@ const BehandlingTabsInnhold = () => {
         const stegHarEndretSeg = behandling.steg !== forrigeSteg.current;
         forrigeSteg.current = behandling.steg;
 
-        const behandlingSteg = stegTilFaneForBehandling(behandling);
+        const forventetFane = stegTilFaneForBehandling(behandling);
         // Ved stegendring: naviger alltid til nytt steg. Ved refresh/mount: kun naviger hvis fanen er låst.
         if (stegHarEndretSeg || faneErLåst(behandling, aktivFane)) {
-            navigateUtenSjekk(`/behandling/${behandling.id}/${behandlingSteg}`);
+            navigateUtenSjekk(`/behandling/${behandling.id}/${forventetFane}`);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [behandling.steg]);
