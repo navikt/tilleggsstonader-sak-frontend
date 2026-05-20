@@ -111,7 +111,7 @@ const validerFaktaOffentligTransport = (
     }
 
     if (gjelderTsr && !fakta.typeAktivitet) {
-        return { aktivitet: 'Du må velge en aktivitet' };
+        return { aktivitet: 'Du må velge en tiltaksvariant' };
     }
 
     if (!fakta.reisedagerPerUke) {
