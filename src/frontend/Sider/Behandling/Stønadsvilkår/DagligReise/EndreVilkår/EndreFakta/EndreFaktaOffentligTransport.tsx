@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Alert, HStack, Select, TextField, VStack } from '@navikt/ds-react';
+import { Alert, HelpText, HStack, Select, TextField, VStack } from '@navikt/ds-react';
 
 import styles from './EndreFaktaOffentligTransport.module.css';
 import { useHentTypeAktivitetValg } from '../../../../../../hooks/useHentTypeAktivitetValg';
@@ -55,7 +55,16 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
                         {({ typeAktivitetValg }) => (
                             <FeilmeldingMaksBredde $maxWidth={180}>
                                 <Select
-                                    label={'Aktivitet'}
+                                    label={
+                                        <HStack gap="space-4" align="center">
+                                            <span>Variant</span>
+                                            <HelpText>
+                                                Velg tiltaksvarianten bruker skal reise med
+                                                offentlig transport til. Dette er for at TS-sak skal
+                                                kunne knytte utbetalinger til riktig konto.
+                                            </HelpText>
+                                        </HStack>
+                                    }
                                     size="small"
                                     className={styles.wideSelect}
                                     error={feilmeldinger?.aktivitet}
