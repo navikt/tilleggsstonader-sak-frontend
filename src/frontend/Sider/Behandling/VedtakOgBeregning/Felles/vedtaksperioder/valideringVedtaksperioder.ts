@@ -16,9 +16,7 @@ export const validerVedtaksperioder = (
             typeAktivitet: { kode: undefined, beskrivelse: undefined },
         };
 
-        if (gjelderTsr) {
-            // typeAktivitet utledes fra vilkårets typeAktivitet i beregningen — ikke validert i DTO
-        } else {
+        if (!gjelderTsr) {
             if (!vedtaksperiode.aktivitetType) {
                 return { ...feil, aktivitetType: 'Mangler aktivitet for periode' };
             }
