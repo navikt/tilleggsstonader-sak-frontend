@@ -35,4 +35,5 @@ export const stegErLåstForBehandling = (behandling: Behandling, faneSteg: Steg)
         Steg.SIMULERING,
         Steg.SEND_TIL_BESLUTTER,
         Steg.BEREGNING,
+        Steg.FULLFØR_KJØRELISTE,
     ].includes(faneSteg) && stegErEtterAnnetSteg(faneSteg, behandling.steg);
