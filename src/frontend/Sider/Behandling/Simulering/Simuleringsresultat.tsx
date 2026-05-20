@@ -29,7 +29,10 @@ export const Simuleringsresultat: React.FC<{ vedtak: VedtakResponse }> = ({ vedt
         );
     }, [request, settSimuleringsresultat, behandling.id]);
 
+    const [laster, settLaster] = useState(false);
+
     const gåTilNesteSteg = () => {
+        settLaster(true);
         hentBehandling.rerun();
     };
 
@@ -73,6 +76,8 @@ export const Simuleringsresultat: React.FC<{ vedtak: VedtakResponse }> = ({ vedt
                                 <Button
                                     variant="primary"
                                     size="small"
+                                    disabled={laster}
+                                    loading={laster}
                                     onClick={() => {
                                         gåTilNesteSteg();
                                     }}

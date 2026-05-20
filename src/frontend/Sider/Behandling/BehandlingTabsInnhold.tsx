@@ -46,7 +46,7 @@ const BehandlingTabsInnhold = () => {
             navigateUtenSjekk(`/behandling/${behandling.id}/${behandlingSteg}`);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [behandling]);
+    }, [behandling.steg]);
 
     const håndterFaneBytte = (nyFane: FanePath) => {
         if (!faneErLåst(behandling, nyFane)) {
