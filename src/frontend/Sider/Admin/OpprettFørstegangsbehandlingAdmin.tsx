@@ -22,7 +22,6 @@ import {
 
 import styles from './OpprettFørstegangsbehandlingAdmin.module.css';
 import { useApp } from '../../context/AppContext';
-import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
 import DataViewer from '../../komponenter/DataViewer';
 import { Feilmelding } from '../../komponenter/Feil/Feilmelding';
 import DateInput from '../../komponenter/Skjema/DateInput';
@@ -66,10 +65,8 @@ const skalVelgeBarn = (stønadstype: Stønadstype | undefined): boolean =>
 
 function OpprettFørstegangsbehandlingAdmin() {
     const { saksbehandler, appEnv } = useApp();
-    const { personopplysninger } = usePersonopplysninger();
     const stønadstyperSaksbehandlerKanBehandle = hentStønadstyperSaksbehandlerKanBehandle(
         saksbehandler,
-        personopplysninger,
         appEnv
     );
     const [stønadstype, settStønadstype] = useState<Stønadstype>();

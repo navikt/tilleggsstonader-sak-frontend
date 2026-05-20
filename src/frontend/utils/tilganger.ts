@@ -26,6 +26,22 @@ export function kanBehandleTema(
             throw Error('Ukjent tema: ', forTema);
     }
 }
+export function kanBehandleForNayUtenSøker(saksbehandler: Saksbehandler, forEnv: AppEnv) {
+    return (
+        harNayTilleggsstønaderRolle(forEnv, saksbehandler) ||
+        harNayEgenAnsattRolle(forEnv, saksbehandler) ||
+        harNayUtlandRolle(forEnv, saksbehandler)
+    );
+}
+export function kanBehandleForTiltaksenhetenUtenSøker(
+    saksbehandler: Saksbehandler,
+    forEnv: AppEnv
+) {
+    return (
+        harTiltaksenhetenTilleggsstønaderRolle(forEnv, saksbehandler) ||
+        harEgenAnsattOsloRolle(forEnv, saksbehandler)
+    );
+}
 
 export function kanBehandleForNay(
     saksbehandler: Saksbehandler,

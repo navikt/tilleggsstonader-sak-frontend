@@ -1,7 +1,9 @@
 import { AppEnv } from '../../utils/env';
 import { Saksbehandler } from '../../utils/saksbehandler';
-import { kanBehandleForNay, kanBehandleForTiltaksenheten } from '../../utils/tilganger';
-import { Personopplysninger } from '../personopplysninger';
+import {
+    kanBehandleForNayUtenSøker,
+    kanBehandleForTiltaksenhetenUtenSøker,
+} from '../../utils/tilganger';
 
 export enum BehandlendeEnhet {
     NAY = 'NAY',
@@ -42,27 +44,24 @@ export const stønadstypeTilTekstUtenBehandlendeEnhet: Record<Stønadstype, stri
 
 export const hentStønadstyperSaksbehandlerKanBehandle = (
     saksbehandler: Saksbehandler,
-    personopplysninger: Personopplysninger,
     appEnv: AppEnv
 ): Stønadstype[] => {
-    const kanBehandlesAvNAY = kanBehandleForNay(saksbehandler, personopplysninger, appEnv);
+    const kanBehandleAvNay = kanBehandleForNayUtenSøker(saksbehandler, appEnv);
 
-    const kanBehandlesAvTiltaksenheten = kanBehandleForTiltaksenheten(
+    const kanBehandleAvTiltaksenhetenUten = kanBehandleForTiltaksenhetenUtenSøker(
         saksbehandler,
-        personopplysninger,
         appEnv
     );
     return Object.values(Stønadstype).filter((type) => {
         const enhetSomKanBehandleStønadstype = stønadstypeTilEnhet[type];
 
-        if (enhetSomKanBehandleStønadstype === BehandlendeEnhet.NAY) {
-            return kanBehandlesAvNAY;
+        switch (enhetSomKanBehandleStønadstype) {
+            case BehandlendeEnhet.NAY:
+                return kanBehandleAvNay;
+            case BehandlendeEnhet.TILTAKSENHETEN:
+                return kanBehandleAvTiltaksenhetenUten;
+            default:
+                throw new Error(`Ukjent behandlende enhet: ${enhetSomKanBehandleStønadstype}`);
         }
-
-        if (enhetSomKanBehandleStønadstype === BehandlendeEnhet.TILTAKSENHETEN) {
-            return kanBehandlesAvTiltaksenheten;
-        }
-
-        return false;
     });
 };
