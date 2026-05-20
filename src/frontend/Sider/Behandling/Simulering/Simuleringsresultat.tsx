@@ -31,6 +31,10 @@ export const Simuleringsresultat: React.FC<{ vedtak: VedtakResponse }> = ({ vedt
 
     const [laster, settLaster] = useState(false);
 
+    useEffect(() => {
+        settLaster(false);
+    }, [behandling]);
+
     const gåTilNesteSteg = () => {
         settLaster(true);
         hentBehandling.rerun();
