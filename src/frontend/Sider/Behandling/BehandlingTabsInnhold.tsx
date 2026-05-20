@@ -6,7 +6,13 @@ import { Alert, Button, Tabs } from '@navikt/ds-react';
 
 import styles from './BehandlingTabsInnhold.module.css';
 import { HamburgermenyBehandling } from './Fanemeny/HamburgermenyBehandling';
-import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath, stegTilFane } from './faner';
+import {
+    faneErLåst,
+    FanePath,
+    hentBehandlingfaner,
+    isFanePath,
+    stegTilFaneForBehandling,
+} from './faner';
 import { TidligereVedtaksperioder } from './Vilkårvurdering/TidligereVedtaksperioder';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
@@ -30,13 +36,13 @@ const BehandlingTabsInnhold = () => {
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
-    const aktivFane = isFanePath(path) ? path : stegTilFane(behandling.steg, behandling.type);
+    const aktivFane = isFanePath(path) ? path : stegTilFaneForBehandling(behandling);
 
     useEffect(() => {
-        if (faneErLåst(behandling, aktivFane)) {
-            navigate(`/behandling/${behandling.id}/${FanePath.INNGANGSVILKÅR}`);
+        const behandlingSteg = stegTilFaneForBehandling(behandling);
+        if (aktivFane !== behandlingSteg) {
+            navigate(`/behandling/${behandling.id}/${behandlingSteg}`);
         }
-        // skal kun sjekke om fane er låst etter at behandling er oppdatert
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [behandling]);
 

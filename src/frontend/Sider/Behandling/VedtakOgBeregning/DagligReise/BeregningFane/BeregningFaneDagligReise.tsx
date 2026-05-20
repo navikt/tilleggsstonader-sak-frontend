@@ -10,7 +10,6 @@ import DataViewer from '../../../../../komponenter/DataViewer';
 import Panel from '../../../../../komponenter/Panel/Panel';
 import { StegKnapp } from '../../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../../typer/behandling/steg';
-import { FanePath } from '../../../faner';
 
 export const BeregningFaneDagligReise: FC = () => {
     const { oppsummertBeregningResponse } = useOppsummertBeregningPrivatBil();
@@ -22,9 +21,7 @@ export const BeregningFaneDagligReise: FC = () => {
                     <Beregning oppsummertBeregning={oppsummertBeregningResponse} />
                 )}
             </DataViewer>
-            <StegKnapp steg={Steg.BEREGNING} nesteFane={FanePath.SIMULERING}>
-                Ferdigstill steg
-            </StegKnapp>
+            <StegKnapp steg={Steg.BEREGNING}>Ferdigstill steg</StegKnapp>
         </VStack>
     );
 };

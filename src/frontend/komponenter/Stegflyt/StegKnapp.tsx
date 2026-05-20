@@ -6,8 +6,6 @@ import { StegBekreftelseModal, StegKnappBekreftelsesModal } from './StegKnappBek
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { useSteg } from '../../context/StegContext';
-import { useNavigateUtenSjekkForUlagredeKomponenter } from '../../hooks/useNavigateUtenSjekkForUlagredeKomponenter';
-import { FanePath } from '../../Sider/Behandling/faner';
 import { Steg, stegErEtterAnnetSteg } from '../../typer/behandling/steg';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
 import { Feilmelding } from '../Feil/Feilmelding';
@@ -20,21 +18,12 @@ const feilmeldingUlagretData = 'Har ulagret data, vennligst ferdigstill';
  * @param validerUlagedeKomponenter default true, settes til false når man eks på vedtakssiden lagrer ned data via "gå til neste steg" og då ikke trenger å validere ulagret data
  */
 export const StegKnapp: FC<{
-    nesteFane: FanePath;
     steg: Steg;
     onNesteSteg?: () => Promise<RessursSuksess<unknown> | RessursFeilet>;
     validerUlagedeKomponenter?: boolean;
     bekreftelseModalProps?: StegBekreftelseModal;
     children: React.ReactNode;
-}> = ({
-    nesteFane,
-    steg,
-    onNesteSteg,
-    validerUlagedeKomponenter = true,
-    bekreftelseModalProps,
-    children,
-}) => {
-    const navigate = useNavigateUtenSjekkForUlagredeKomponenter();
+}> = ({ steg, onNesteSteg, validerUlagedeKomponenter = true, bekreftelseModalProps, children }) => {
     const { request, harUlagradeKomponenter } = useApp();
 
     const { behandling, behandlingErRedigerbar, hentBehandling } = useBehandling();
@@ -92,7 +81,6 @@ export const StegKnapp: FC<{
             .then((res) => {
                 if (res.status === RessursStatus.SUKSESS) {
                     hentBehandling.rerun();
-                    navigate(`/behandling/${behandling.id}/${nesteFane}`);
                 } else {
                     settFeilmelding(
                         feiletRessursTilFeilmelding(res, 'Kunne ikke gå til neste steg')

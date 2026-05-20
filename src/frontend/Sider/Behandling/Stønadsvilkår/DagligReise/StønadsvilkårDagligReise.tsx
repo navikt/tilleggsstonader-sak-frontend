@@ -20,7 +20,6 @@ import DataViewer from '../../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Steg } from '../../../../typer/behandling/steg';
-import { FanePath } from '../../faner';
 
 export const StønadsvilkårDagligReise = () => {
     const { behandling } = useBehandling();
@@ -44,9 +43,7 @@ export const StønadsvilkårDagligReise = () => {
                     </VilkårDagligReiseProvider>
                 )}
             </DataViewer>
-            <StegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
-                Fullfør vilkårsvurdering og gå videre
-            </StegKnapp>
+            <StegKnapp steg={Steg.VILKÅR}>Fullfør vilkårsvurdering og gå videre</StegKnapp>
         </VStack>
     );
 };

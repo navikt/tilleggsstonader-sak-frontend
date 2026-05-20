@@ -96,12 +96,20 @@ export const faneTilSteg: Record<FanePath, Steg> = {
     'fullfor-kjoreliste': Steg.FULLFØR_KJØRELISTE,
 };
 
-export const stegTilFane = (steg: Steg, behandlingType: BehandlingType): FanePath => {
-    if (behandlingType === BehandlingType.KJØRELISTE) {
-        return stegTilFaneForKjørelistebehandling(steg);
+const erDagligReiseRevurdering = (behandling: Behandling) =>
+    behandling.type === BehandlingType.REVURDERING &&
+    [Stønadstype.DAGLIG_REISE_TSO, Stønadstype.DAGLIG_REISE_TSR].includes(behandling.stønadstype);
+
+export const stegTilFaneForBehandling = (behandling: Behandling): FanePath => {
+    if (behandling.type === BehandlingType.KJØRELISTE) {
+        return stegTilFaneForKjørelistebehandling(behandling.steg);
     }
 
-    return stegTilFaneStandard(steg);
+    if (erDagligReiseRevurdering(behandling)) {
+        return stegTilFaneForDagligReiseRevurdering(behandling.steg);
+    }
+
+    return stegTilFaneStandard(behandling.steg);
 };
 
 const stegTilFaneStandard = (steg: Steg): FanePath => {
@@ -133,6 +141,27 @@ const stegTilFaneForKjørelistebehandling = (steg: Steg): FanePath => {
             return FanePath.FULLFØR_KJØRELISTE;
         default:
             return FanePath.KJØRELISTE;
+    }
+};
+
+const stegTilFaneForDagligReiseRevurdering = (steg: Steg): FanePath => {
+    switch (steg) {
+        case Steg.INNGANGSVILKÅR:
+            return FanePath.INNGANGSVILKÅR;
+        case Steg.VILKÅR:
+            return FanePath.STØNADSVILKÅR;
+        case Steg.BEREGNE_YTELSE:
+            return FanePath.VEDTAK_OG_BEREGNING;
+        case Steg.KJØRELISTE:
+            return FanePath.KJØRELISTE;
+        case Steg.BEREGNING:
+            return FanePath.BEREGNING;
+        case Steg.SIMULERING:
+            return FanePath.SIMULERING;
+        case Steg.SEND_TIL_BESLUTTER:
+            return FanePath.BREV;
+        default:
+            return FanePath.INNGANGSVILKÅR;
     }
 };
 
@@ -266,6 +295,10 @@ export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] =>
         return kjørelistebehandlingFaner(behandling);
     }
 
+    if (erDagligReiseRevurdering(behandling)) {
+        return dagligReiseRevurderingFaner(behandling);
+    }
+
     return [
         {
             navn: FaneNavn.INNGANGSVILKÅR,
@@ -291,6 +324,45 @@ export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] =>
         ...sendTilBeslutterUtenBrev(behandling),
     ];
 };
+
+const dagligReiseRevurderingFaner = (behandling: Behandling): FanerMedRouter[] => [
+    {
+        navn: FaneNavn.INNGANGSVILKÅR,
+        path: FanePath.INNGANGSVILKÅR,
+        komponent: () => <Inngangsvilkår />,
+        ikon: <PersonRectangleIcon />,
+    },
+    ...stønadsvilkårFane(behandling),
+    {
+        navn: FaneNavn.VEDTAK_OG_BEREGNING,
+        path: FanePath.VEDTAK_OG_BEREGNING,
+        komponent: () => vedtakForBehandling(behandling),
+        ikon: <CalculatorIcon />,
+        erLåst: faneErLåst(behandling, FanePath.VEDTAK_OG_BEREGNING),
+    },
+    {
+        navn: FaneNavn.KJØRELISTE,
+        path: FanePath.KJØRELISTE,
+        komponent: () => <KjørelisteFane />,
+        ikon: <CarIcon />,
+        erLåst: faneErLåst(behandling, FanePath.KJØRELISTE),
+    },
+    {
+        navn: FaneNavn.BEREGNING,
+        path: FanePath.BEREGNING,
+        komponent: () => <BeregningFaneDagligReise />,
+        ikon: <CalculatorIcon />,
+        erLåst: faneErLåst(behandling, FanePath.BEREGNING),
+    },
+    {
+        navn: FaneNavn.SIMULERING,
+        path: FanePath.SIMULERING,
+        komponent: () => <Simulering />,
+        erLåst: faneErLåst(behandling, FanePath.SIMULERING),
+    },
+    ...brevfane(behandling),
+    ...sendTilBeslutterUtenBrev(behandling),
+];
 
 const kjørelistebehandlingFaner = (behandling: Behandling): FanerMedRouter[] => {
     return [
