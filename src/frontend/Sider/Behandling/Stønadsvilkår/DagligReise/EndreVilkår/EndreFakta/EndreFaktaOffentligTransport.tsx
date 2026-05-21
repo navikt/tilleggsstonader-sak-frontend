@@ -3,9 +3,8 @@ import React from 'react';
 import { Alert, HelpText, HStack, Select, TextField, VStack } from '@navikt/ds-react';
 
 import styles from './EndreFaktaOffentligTransport.module.css';
-import { useHentTypeAktivitetValg } from '../../../../../../hooks/useHentTypeAktivitetValg';
-import DataViewer from '../../../../../../komponenter/DataViewer';
 import { FeilmeldingMaksBredde } from '../../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
+import { Kodeverk } from '../../../../../../typer/kodeverk';
 import { harTallverdi, tilHeltall } from '../../../../../../utils/tall';
 import { fjernSpaces } from '../../../../../../utils/utils';
 import { FaktaDagligReise, FaktaOffentligTransport } from '../../typer/faktaDagligReise';
@@ -18,6 +17,7 @@ interface Props {
     settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise>>;
     nullstillFeilOgUlagretkomponent: () => void;
     gjelderTsr: boolean;
+    tilgjengeligeTypeAktiviteter: Kodeverk[];
 }
 
 export const EndreFaktaOffentligTransport: React.FC<Props> = ({
@@ -26,9 +26,8 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
     nullstillFeilOgUlagretkomponent,
     feilmeldinger,
     gjelderTsr,
+    tilgjengeligeTypeAktiviteter,
 }) => {
-    const { typeAktivitetValg } = useHentTypeAktivitetValg();
-
     const oppdaterFakta = (key: keyof FaktaOffentligTransport, verdi: number | undefined) => {
         settFakta((prevState) => ({
             ...(prevState.type === 'OFFENTLIG_TRANSPORT' ? prevState : tomtOffentligTransport),
@@ -51,36 +50,32 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
         <VStack gap="space-16">
             <HStack gap="space-16" align="start">
                 {gjelderTsr && (
-                    <DataViewer response={{ typeAktivitetValg }} type={'typeAktivitetValg'}>
-                        {({ typeAktivitetValg }) => (
-                            <FeilmeldingMaksBredde $maxWidth={180}>
-                                <Select
-                                    label={
-                                        <HStack gap="space-4" align="center">
-                                            <span>Variant</span>
-                                            <HelpText>
-                                                Velg tiltaksvarianten bruker skal reise med
-                                                offentlig transport til. Dette er for at TS-sak skal
-                                                kunne knytte utbetalinger til riktig konto.
-                                            </HelpText>
-                                        </HStack>
-                                    }
-                                    size="small"
-                                    className={styles.wideSelect}
-                                    error={feilmeldinger?.aktivitet}
-                                    value={fakta.typeAktivitet || ''}
-                                    onChange={(e) => oppdaterTypeAktivitet(e.target.value)}
-                                >
-                                    <option value="">Velg aktivitet</option>
-                                    {typeAktivitetValg.map((valg) => (
-                                        <option key={valg.kode} value={valg.kode}>
-                                            {valg.beskrivelse}
-                                        </option>
-                                    ))}
-                                </Select>
-                            </FeilmeldingMaksBredde>
-                        )}
-                    </DataViewer>
+                    <FeilmeldingMaksBredde $maxWidth={180}>
+                        <Select
+                            label={
+                                <HStack gap="space-4" align="center">
+                                    <span>Variant</span>
+                                    <HelpText>
+                                        Velg tiltaksvarianten bruker skal reise med offentlig
+                                        transport til. Dette er for at TS-sak skal kunne knytte
+                                        utbetalinger til riktig konto.
+                                    </HelpText>
+                                </HStack>
+                            }
+                            size="small"
+                            className={styles.wideSelect}
+                            error={feilmeldinger?.aktivitet}
+                            value={fakta.typeAktivitet || ''}
+                            onChange={(e) => oppdaterTypeAktivitet(e.target.value)}
+                        >
+                            <option value="">Velg aktivitet</option>
+                            {tilgjengeligeTypeAktiviteter.map((valg) => (
+                                <option key={valg.kode} value={valg.kode}>
+                                    {valg.beskrivelse}
+                                </option>
+                            ))}
+                        </Select>
+                    </FeilmeldingMaksBredde>
                 )}
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
