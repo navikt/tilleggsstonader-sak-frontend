@@ -10,14 +10,14 @@ import {
 } from '../../../../typer/behandling/behandlingFakta/faktaBarn';
 import { JaNei, jaNeiTilTekst } from '../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../utils/dato';
-import { tekstMedFallback, toTitleCase } from '../../../../utils/tekstformatering';
+import { storForbokstavHvertOrd, tekstMedFallback } from '../../../../utils/tekstformatering';
 
 export const BarnDetaljer: React.FC<{ barn: FaktaBarn }> = ({ barn }) => {
     const typePass = barn.søknadgrunnlag?.type;
     const startetIFemte = barn.søknadgrunnlag?.startetIFemte;
     const utgifter = barn.søknadgrunnlag?.utgifter;
     const årsak = barn.søknadgrunnlag?.årsak;
-    const navn = toTitleCase(barn.registergrunnlag.navn);
+    const navn = storForbokstavHvertOrd(barn.registergrunnlag.navn);
 
     return (
         <SøknadInfoEkspanderbar

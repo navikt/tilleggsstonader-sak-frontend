@@ -1,7 +1,7 @@
 import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsynBarn';
 import { formaterÅrFullMåned } from '../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../utils/fomatering';
-import { toTitleCase } from '../../../utils/tekstformatering';
+import { storForbokstavFørsteOrd } from '../../../utils/tekstformatering';
 
 const borderStylingCompact = 'border: 1px solid black; padding: 3px 2px 3px 5px;';
 const borderStyling = 'border: 1px solid black; padding: 3px 10px 3px 5px;';
@@ -30,7 +30,7 @@ const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatTilsynBarn): s
     }
     return beregningsresultat.perioder
         .map((periode) => {
-            const datoperiode = `${toTitleCase(formaterÅrFullMåned(periode.grunnlag.måned))}`;
+            const datoperiode = `${storForbokstavFørsteOrd(formaterÅrFullMåned(periode.grunnlag.måned))}`;
             const månedligUtgifter = formaterTallMedTusenSkille(periode.grunnlag.utgifterTotal);
             const beløp = formaterTallMedTusenSkille(periode.månedsbeløp);
 
