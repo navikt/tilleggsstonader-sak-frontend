@@ -54,7 +54,7 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
                         <Select
                             label={
                                 <HStack gap="space-4" align="center">
-                                    <span>Variant</span>
+                                    <span>Tiltaksvariant</span>
                                     <HelpText>
                                         Velg tiltaksvarianten bruker skal reise med offentlig
                                         transport til. Dette er for at TS-sak skal kunne knytte
