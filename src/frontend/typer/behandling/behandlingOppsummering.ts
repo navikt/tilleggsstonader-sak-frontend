@@ -24,7 +24,7 @@ export type OppsummertVilkårperiode<T extends AktivitetType | MålgruppeType> =
     aktivitetsdager?: number;
     varient?: string;
     studienivå: Studienivå;
-    studieProsent: number;
+    studieprosent: number;
 };
 
 export interface Stønadsvilkår {

@@ -19,7 +19,7 @@ interface VilkårOppsummeringRadProps {
     variant?: string;
     aktivitetsdager?: number;
     studienivå?: Studienivå;
-    studieProsent?: number;
+    studieprosent?: number;
 }
 
 export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
@@ -30,7 +30,7 @@ export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
     variant,
     aktivitetsdager,
     studienivå,
-    studieProsent,
+    studieprosent,
 }) => {
     const skalHaKolon = gjelder !== '' || aktivitetsdager !== null;
 
@@ -45,7 +45,7 @@ export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
                 {aktivitetsdager && (
                     <BodyShort size="small">{`${aktivitetsdager} dager/uke`}</BodyShort>
                 )}
-                {studieProsent && <BodyShort size="small">{`${studieProsent}%`}</BodyShort>}
+                {studieprosent && <BodyShort size="small">{`${studieprosent}%`}</BodyShort>}
                 {studienivå && <BodyShort size="small">{studienivåTilTekst[studienivå]}</BodyShort>}
             </VStack>
         </HStack>
