@@ -1,8 +1,5 @@
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 
-export type VedtaksperiodeTso = Omit<Vedtaksperiode, 'typeAktivitet'>;
+export type VedtaksperiodeTso = Vedtaksperiode;
 
-// Brukes for stønadstyper som gjelder nay hvor man ikke bryr seg om typeAktivitet
-export const tilVedtaksperioderTso = (perioder: Vedtaksperiode[]): VedtaksperiodeTso[] =>
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    perioder.map(({ typeAktivitet, ...rest }) => rest);
+export const tilVedtaksperioderTso = (perioder: Vedtaksperiode[]): VedtaksperiodeTso[] => perioder;

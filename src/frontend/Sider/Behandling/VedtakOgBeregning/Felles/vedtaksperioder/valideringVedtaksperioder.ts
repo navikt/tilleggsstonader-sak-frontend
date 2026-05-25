@@ -13,7 +13,6 @@ export const validerVedtaksperioder = (
             tom: undefined,
             målgruppeType: undefined,
             aktivitetType: undefined,
-            typeAktivitet: { kode: undefined, beskrivelse: undefined },
         };
 
         if (!gjelderTsr) {
