@@ -1,4 +1,5 @@
 import {
+    RammeForReiseMedPrivatBil,
     RammeForReiseMedPrivatBilDelperiode,
     RammevedtakPrivatBil,
 } from '../../../typer/vedtak/vedtakDagligReise';
@@ -114,39 +115,32 @@ export function lagRammevedtakstabellPrivatBil(
 
         return `
         <p style="margin-bottom:2px;font-weight:500;">Reise med privat bil til <strong>${reise.aktivitetsadresse ?? '-'}</strong>:</p>
-        ${skalViseTabellMedDelperioder ? tabellMedDelperioder() : lagFlatRammevedtakstabellPrivatBil(rammevedtak)}
+        ${skalViseTabellMedDelperioder ? tabellMedDelperioder() : lagFlatRammevedtakstabellPrivatBil(reise)}
         ${harUbekreftetSats && utledÅrForFørsteSatsjustering ? `<p>* Fra 1. januar ${utledÅrForFørsteSatsjustering} kan kilometersatsene for daglig reise med bil bli endret. Derfor kan beløpet du får utbetalt fra januar ${utledÅrForFørsteSatsjustering}, være et annet enn det som står i utbetalingsplanen.</p>` : ''}
         `;
     });
     return htmlPerReise.join('');
 }
 
-export function lagFlatRammevedtakstabellPrivatBil(
-    rammevedtak: RammevedtakPrivatBil | undefined
-): string {
-    if (!rammevedtak) return '';
-    const visningsrader = rammevedtak.reiser.flatMap((reise) =>
-        reise.delperioder.flatMap((delperiode) =>
-            delperiode.satser.map((sats) => ({
-                periode: formaterIsoPeriodeMedTankestrek({
-                    fom: sats.fom,
-                    tom: sats.tom,
-                }),
-                reiseavstand: reise.reiseavstandEnVei,
-                reisedagerPerUke: delperiode.reisedagerPerUke,
-                kilometersats:
-                    sats.kilometersats + (!sats.satsBekreftetVedVedtakstidspunkt ? ' kr*' : ' kr'),
-                bompengerPerDag: delperiode.bompengerPerDag
-                    ? delperiode.bompengerPerDag + ' kr'
-                    : '',
-                fergekostnadPerDag: delperiode.fergekostnadPerDag
-                    ? delperiode.fergekostnadPerDag + ' kr'
-                    : '',
-                dagsatsUtenParkering:
-                    sats.dagsatsUtenParkering +
-                    (!sats.satsBekreftetVedVedtakstidspunkt ? ' kr*' : ' kr'),
-            }))
-        )
+export function lagFlatRammevedtakstabellPrivatBil(reise: RammeForReiseMedPrivatBil): string {
+    const visningsrader = reise.delperioder.flatMap((delperiode) =>
+        delperiode.satser.map((sats) => ({
+            periode: formaterIsoPeriodeMedTankestrek({
+                fom: sats.fom,
+                tom: sats.tom,
+            }),
+            reiseavstand: reise.reiseavstandEnVei,
+            reisedagerPerUke: delperiode.reisedagerPerUke,
+            kilometersats:
+                sats.kilometersats + (!sats.satsBekreftetVedVedtakstidspunkt ? ' kr*' : ' kr'),
+            bompengerPerDag: delperiode.bompengerPerDag ? delperiode.bompengerPerDag + ' kr' : '',
+            fergekostnadPerDag: delperiode.fergekostnadPerDag
+                ? delperiode.fergekostnadPerDag + ' kr'
+                : '',
+            dagsatsUtenParkering:
+                sats.dagsatsUtenParkering +
+                (!sats.satsBekreftetVedVedtakstidspunkt ? ' kr*' : ' kr'),
+        }))
     );
     if (visningsrader.length === 0) return '';
     // Sjekk om noen rader har bom/ferge for å vise kolonne
