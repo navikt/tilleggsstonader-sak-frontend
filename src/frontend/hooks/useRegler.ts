@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
 import { Regelstruktur } from '../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
+import { RegelstrukturReiseTilSamling } from '../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/typer/regelstrukturReiseTilSamling';
 import { ReglerResponse } from '../typer/regel';
 import { Ressurs, byggTomRessurs } from '../typer/ressurs';
 
@@ -34,6 +35,30 @@ export const useRegelstruktur = (): {
         request<Regelstruktur, null>('/api/sak/vilkar/daglig-reise/regler', 'GET').then(
             settRegelstruktur
         );
+    }, [request]);
+
+    useEffect(() => {
+        hentRegelstruktur();
+    }, [hentRegelstruktur]);
+
+    return {
+        regelStruktur,
+    };
+};
+
+export const useRegelstrukturReiseTilSamling = (): {
+    regelStruktur: Ressurs<RegelstrukturReiseTilSamling>;
+} => {
+    const { request } = useApp();
+
+    const [regelStruktur, settRegelstruktur] =
+        useState<Ressurs<RegelstrukturReiseTilSamling>>(byggTomRessurs());
+
+    const hentRegelstruktur = useCallback(() => {
+        request<RegelstrukturReiseTilSamling, null>(
+            '/api/sak/vilkar/reise-til-samling/regler',
+            'GET'
+        ).then(settRegelstruktur);
     }, [request]);
 
     useEffect(() => {
