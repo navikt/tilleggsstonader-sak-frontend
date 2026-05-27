@@ -144,7 +144,7 @@ export const Brevmeny: React.FC<Props> = ({
                 vedtak
             ),
             [variabelBeregningstabellId]: lagVedtakstabell(behandling, vedtak),
-            [variabelRammevedtaktabellReiseMedBil]: lagRammevedtakstabell(vedtak),
+            [variabelRammevedtaktabellReiseMedBil]: lagRammevedtakstabell(behandling, vedtak),
         };
         return htmlVariabler;
     }

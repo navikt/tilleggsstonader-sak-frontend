@@ -1,10 +1,17 @@
 import { lagRammevedtakstabellMedDelperioder } from './lagRammevedtakstabellMedDelperioder';
 import { lagRammevedtakstabellUtenDelperioder } from './lagRammevedtakstabellUtenDelperioder';
+import { Behandling } from '../../../../typer/behandling/behandling';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
+import { VedtakResponse } from '../../../../typer/vedtak/vedtak';
 import { VedtakDagligReise } from '../../../../typer/vedtak/vedtakDagligReise';
 import { tilDato } from '../../../../utils/dato';
 
-export function lagRammevedtakstabell(vedtak: VedtakDagligReise | undefined): string {
-    if (!vedtak) return '';
+export function lagRammevedtakstabell(
+    behandling: Behandling | undefined,
+    vedtak: VedtakResponse | undefined
+): string {
+    if (!behandling || !vedtak) return '';
+    if (!erVedtakDagligReise(behandling, vedtak)) return '';
     if (vedtak.type !== 'INNVILGELSE') return '';
     if (!vedtak.rammevedtakPrivatBil) return '';
 
@@ -31,4 +38,14 @@ export function lagRammevedtakstabell(vedtak: VedtakDagligReise | undefined): st
     });
 
     return htmlPerReise.join('');
+}
+
+function erVedtakDagligReise(
+    behandling: Behandling,
+    vedtak: VedtakResponse
+): vedtak is VedtakDagligReise {
+    return (
+        behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSO ||
+        behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSR
+    );
 }
