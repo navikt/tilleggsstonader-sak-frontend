@@ -12,7 +12,6 @@ import { StatusTag } from '../../../../../komponenter/PerioderStatusTag/StatusTa
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
-import { Kodeverk } from '../../../../../typer/kodeverk';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useSlettePeriodeFørTidligereVedtak } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
@@ -23,8 +22,8 @@ interface Props {
     erLesevisning: boolean;
     vedtaksperiodeFeil: FormErrors<Vedtaksperiode> | undefined;
     oppdaterPeriode: (
-        property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType' | 'typeAktivitet',
-        value: string | Kodeverk | undefined
+        property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType',
+        value: string | undefined
     ) => void;
     slettPeriode: () => void;
     vedtakErLagret: boolean;
