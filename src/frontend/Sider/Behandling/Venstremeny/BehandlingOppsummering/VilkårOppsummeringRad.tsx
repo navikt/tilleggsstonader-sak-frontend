@@ -28,6 +28,7 @@ export const OppsummeringAktiviteter: React.FC<{
                         variant={aktivitet.varient}
                         aktivitetsdager={aktivitet.aktivitetsdager}
                         studienivå={aktivitet.studienivå}
+                        studieprosent={aktivitet.studieprosent}
                     />
                 ))
             ) : (
