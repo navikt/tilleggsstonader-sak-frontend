@@ -45,7 +45,7 @@ export const VilkårOppsummeringRad: React.FC<VilkårOppsummeringRadProps> = ({
                 {aktivitetsdager && (
                     <BodyShort size="small">{`${aktivitetsdager} dager/uke`}</BodyShort>
                 )}
-                {studieprosent && <BodyShort size="small">{`${studieprosent}%`}</BodyShort>}
+                {studieprosent != null && <BodyShort size="small">{`${studieprosent}%`}</BodyShort>}
                 {studienivå && <BodyShort size="small">{studienivåTilTekst[studienivå]}</BodyShort>}
             </VStack>
         </HStack>
