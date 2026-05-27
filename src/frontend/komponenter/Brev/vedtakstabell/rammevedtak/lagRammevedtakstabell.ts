@@ -42,8 +42,8 @@ export function lagRammevedtakstabell(
 
 function erVedtakDagligReise(
     behandling: Behandling,
-    vedtak: VedtakResponse
-): vedtak is VedtakDagligReise {
+    _vedtak: VedtakResponse
+): _vedtak is VedtakDagligReise {
     return (
         behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSO ||
         behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSR
