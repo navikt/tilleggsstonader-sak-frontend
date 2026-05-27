@@ -1,9 +1,6 @@
 import { AppEnv } from '../../utils/env';
 import { Saksbehandler } from '../../utils/saksbehandler';
-import {
-    kanBehandleForNayUtenSøker,
-    kanBehandleForTiltaksenhetenUtenSøker,
-} from '../../utils/tilganger';
+import { kanBehandleForNay, kanBehandleForTiltaksenheten } from '../../utils/tilganger';
 
 export enum BehandlendeEnhet {
     NAY = 'NAY',
@@ -42,26 +39,23 @@ export const stønadstypeTilTekstUtenBehandlendeEnhet: Record<Stønadstype, stri
     DAGLIG_REISE_TSR: 'Daglige reiser',
 };
 
-export const hentStønadstyperSaksbehandlerKanBehandle = (
+function finnEnheterSaksbehandlerKanBehandleFor(
     saksbehandler: Saksbehandler,
     appEnv: AppEnv
-): Stønadstype[] => {
-    const kanBehandleAvNay = kanBehandleForNayUtenSøker(saksbehandler, appEnv);
-
-    const kanBehandleAvTiltaksenhetenUten = kanBehandleForTiltaksenhetenUtenSøker(
-        saksbehandler,
-        appEnv
-    );
-    return Object.values(Stønadstype).filter((type) => {
-        const enhetSomKanBehandleStønadstype = stønadstypeTilEnhet[type];
-
-        switch (enhetSomKanBehandleStønadstype) {
-            case BehandlendeEnhet.NAY:
-                return kanBehandleAvNay;
-            case BehandlendeEnhet.TILTAKSENHETEN:
-                return kanBehandleAvTiltaksenhetenUten;
-            default:
-                throw new Error(`Ukjent behandlende enhet: ${enhetSomKanBehandleStønadstype}`);
-        }
-    });
-};
+): BehandlendeEnhet[] {
+    const enheter: BehandlendeEnhet[] = [];
+    if (kanBehandleForNay(saksbehandler, appEnv)) {
+        enheter.push(BehandlendeEnhet.NAY);
+    }
+    if (kanBehandleForTiltaksenheten(saksbehandler, appEnv)) {
+        enheter.push(BehandlendeEnhet.TILTAKSENHETEN);
+    }
+    return enheter;
+}
+export function hentStønadstyperSaksbehandlerKanBehandle(
+    saksbehandler: Saksbehandler,
+    appEnv: AppEnv
+): Stønadstype[] {
+    const enheter = finnEnheterSaksbehandlerKanBehandleFor(saksbehandler, appEnv);
+    return Object.values(Stønadstype).filter((type) => enheter.includes(stønadstypeTilEnhet[type]));
+}
