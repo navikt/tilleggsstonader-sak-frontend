@@ -6,7 +6,6 @@ import { Button } from '@navikt/ds-react';
 import { utledStatus } from './vedtaksperiodeUtils';
 import { VelgAktivitet } from './VelgAktivitet';
 import { VelgMålgruppe } from './VelgMålgruppe';
-import { VelgTiltaksvariant } from './VelgTiltaksvariant';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { StatusTag } from '../../../../../komponenter/PerioderStatusTag/StatusTag';
@@ -83,14 +82,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                     size="small"
                 />
             </FeilmeldingMaksBredde>
-            {gjelderTsr ? (
-                <VelgTiltaksvariant
-                    vedtaksperiode={vedtaksperiode}
-                    erLesevisning={erLesevisning}
-                    vedtaksperiodeFeil={vedtaksperiodeFeil}
-                    oppdaterPeriode={oppdaterPeriode}
-                />
-            ) : (
+            {!gjelderTsr && (
                 <>
                     <VelgAktivitet
                         stønadstype={behandling.stønadstype}

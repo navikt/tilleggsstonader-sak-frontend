@@ -1,3 +1,4 @@
+import { RammeForReiseMedPrivatBil } from './vedtakDagligReise';
 import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
@@ -59,8 +60,9 @@ export type DetaljertBeregningsperioderDagligReise = {
 export type DetaljertVedtaksperiodeDagligReise = {
     typeDagligReise: TypeDagligReise;
     stønadstype: Stønadstype;
-    detaljertBeregningsperioder: DetaljertBeregningsperioderDagligReise[];
-    adresse?: string;
+    detaljertBeregningsperioder: DetaljertBeregningsperioderDagligReise[] | null;
+    adresse: string | null;
+    rammevedtakPrivatBil: RammeForReiseMedPrivatBil | null;
 };
 
 export interface UtgiftBoutgift {
