@@ -11,11 +11,13 @@ export function lagRammevedtakstabell(
     vedtak: VedtakResponse | undefined
 ): string {
     if (!behandling || !vedtak) return '';
-    if (!erVedtakDagligReise(behandling, vedtak)) return '';
-    if (vedtak.type !== 'INNVILGELSE') return '';
-    if (!vedtak.rammevedtakPrivatBil) return '';
+    if (!erVedtakDagligReise(behandling)) return '';
 
-    const htmlPerReise = vedtak.rammevedtakPrivatBil.reiser.map((reise) => {
+    const vedtakDagligReise = vedtak as VedtakDagligReise;
+    if (vedtakDagligReise.type !== 'INNVILGELSE') return '';
+    if (!vedtakDagligReise.rammevedtakPrivatBil) return '';
+
+    const htmlPerReise = vedtakDagligReise.rammevedtakPrivatBil.reiser.map((reise) => {
         const skalViseTabellMedDelperioder = reise.delperioder.length !== 1;
 
         const årForUbekreftedeSatser = reise.delperioder
@@ -40,10 +42,7 @@ export function lagRammevedtakstabell(
     return htmlPerReise.join('');
 }
 
-function erVedtakDagligReise(
-    behandling: Behandling,
-    _vedtak: VedtakResponse
-): _vedtak is VedtakDagligReise {
+function erVedtakDagligReise(behandling: Behandling): boolean {
     return (
         behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSO ||
         behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSR
