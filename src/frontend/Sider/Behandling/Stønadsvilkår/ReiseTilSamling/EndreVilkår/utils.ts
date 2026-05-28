@@ -51,7 +51,7 @@ export const initierAktiveDelvilkår = (
             const gjeldendeRegelErBesvart = eksisterendeSvar !== undefined;
             const harHåndtertRegelTidligere = aktiveRegler.has(regelIdReiseTilSamling);
 
-            if (harHåndtertRegelTidligere === false) {
+            if (!harHåndtertRegelTidligere) {
                 aktiveRegler.set(regelIdReiseTilSamling, gjeldendeRegelErBesvart);
             }
 

@@ -116,32 +116,6 @@ export const EndreVurderinger: React.FC<Props> = ({
                     begrunnelseHjelpetekst="Du må fylle ut antall kilometer som er lagt til grunn for vurderingen"
                 />
             )}
-            {aktiveVurderinger.get(RegelIdReiseTilSamling.KAN_REISE_MED_OFFENTLIG_TRANSPORT) && (
-                <EndreDelvilkår
-                    label={'Har søker mulighet til å reise meg offentlig transport?'}
-                    regelId={RegelIdReiseTilSamling.KAN_REISE_MED_OFFENTLIG_TRANSPORT}
-                    vurdering={vurderinger.KAN_REISE_MED_OFFENTLIG_TRANSPORT}
-                    oppdaterVurdering={oppdaterVurdering}
-                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
-                    svaralternativer={finnSvarMappingForRegel(
-                        RegelIdReiseTilSamling.KAN_REISE_MED_OFFENTLIG_TRANSPORT
-                    )}
-                    feilmeldinger={feilmeldinger}
-                />
-            )}
-            {aktiveVurderinger.get(RegelIdReiseTilSamling.KAN_REISE_MED_EGEN_BIL) && (
-                <EndreDelvilkår
-                    label={'Kan søker benytte seg av privat bil?'}
-                    regelId={RegelIdReiseTilSamling.KAN_REISE_MED_EGEN_BIL}
-                    vurdering={vurderinger.KAN_REISE_MED_EGEN_BIL}
-                    oppdaterVurdering={oppdaterVurdering}
-                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
-                    svaralternativer={finnSvarMappingForRegel(
-                        RegelIdReiseTilSamling.KAN_REISE_MED_EGEN_BIL
-                    )}
-                    feilmeldinger={feilmeldinger}
-                />
-            )}
             {aktiveVurderinger.get(RegelIdReiseTilSamling.DOKUMENTERTE_UTGIFTER) && (
                 <EndreDelvilkår
                     label="Har søker dokumenterte utgifter til reisen?"
@@ -164,6 +138,32 @@ export const EndreVurderinger: React.FC<Props> = ({
                     oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
                     svaralternativer={finnSvarMappingForRegel(
                         RegelIdReiseTilSamling.DEKKET_AV_ANNET_STIPEND
+                    )}
+                    feilmeldinger={feilmeldinger}
+                />
+            )}
+            {aktiveVurderinger.get(RegelIdReiseTilSamling.KAN_REISE_MED_OFFENTLIG_TRANSPORT) && (
+                <EndreDelvilkår
+                    label={'Har søker mulighet til å reise meg offentlig transport?'}
+                    regelId={RegelIdReiseTilSamling.KAN_REISE_MED_OFFENTLIG_TRANSPORT}
+                    vurdering={vurderinger.KAN_REISE_MED_OFFENTLIG_TRANSPORT}
+                    oppdaterVurdering={oppdaterVurdering}
+                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
+                    svaralternativer={finnSvarMappingForRegel(
+                        RegelIdReiseTilSamling.KAN_REISE_MED_OFFENTLIG_TRANSPORT
+                    )}
+                    feilmeldinger={feilmeldinger}
+                />
+            )}
+            {aktiveVurderinger.get(RegelIdReiseTilSamling.KAN_REISE_MED_EGEN_BIL) && (
+                <EndreDelvilkår
+                    label={'Kan søker benytte seg av privat bil?'}
+                    regelId={RegelIdReiseTilSamling.KAN_REISE_MED_EGEN_BIL}
+                    vurdering={vurderinger.KAN_REISE_MED_EGEN_BIL}
+                    oppdaterVurdering={oppdaterVurdering}
+                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
+                    svaralternativer={finnSvarMappingForRegel(
+                        RegelIdReiseTilSamling.KAN_REISE_MED_EGEN_BIL
                     )}
                     feilmeldinger={feilmeldinger}
                 />
