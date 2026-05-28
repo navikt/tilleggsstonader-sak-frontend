@@ -5,24 +5,24 @@ import { Kodeverk } from '../typer/kodeverk';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 
 interface Response {
-    typeAktivitetValg: Ressurs<Kodeverk[]>;
+    tiltaksvariantValg: Ressurs<Kodeverk[]>;
 }
 
-export const useHentTypeAktivitetValg = (): Response => {
+export const useHentTiltaksvariantValg = (): Response => {
     const { request } = useApp();
 
-    const [typeAktivitetValg, settTypeAktivitetValg] =
+    const [tiltaksvariantValg, settTiltaksvariantValg] =
         useState<Ressurs<Kodeverk[]>>(byggTomRessurs());
 
     useEffect(() => {
-        settTypeAktivitetValg(byggHenterRessurs());
+        settTiltaksvariantValg(byggHenterRessurs());
 
-        request<Kodeverk[], null>(`/api/sak/vilkarperiode/aktivitet/type-aktivitet`).then(
-            settTypeAktivitetValg
+        request<Kodeverk[], null>(`/api/sak/vilkarperiode/aktivitet/tiltaksvarianter`).then(
+            settTiltaksvariantValg
         );
     }, [request]);
 
     return {
-        typeAktivitetValg,
+        tiltaksvariantValg,
     };
 };

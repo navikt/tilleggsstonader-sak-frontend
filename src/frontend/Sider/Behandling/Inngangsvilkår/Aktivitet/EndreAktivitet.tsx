@@ -7,7 +7,7 @@ import { EndreAktivitetDagligReiseTsr } from './EndreAktivitetDagligReiseTsr';
 import { EndreAktivitetLæremidler } from './EndreAktivitetLæremidler';
 import { EndreAktivitetReiseTilSamlingTso } from './EndreAktivitetReiseTilSamlingTso';
 import { useBehandling } from '../../../../context/BehandlingContext';
-import { useHentTypeAktivitetValg } from '../../../../hooks/useHentTypeAktivitetValg';
+import { useHentTiltaksvariantValg } from '../../../../hooks/useHentTiltaksvariantValg';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
@@ -25,7 +25,7 @@ export const EndreAktivitet: React.FC<{
     avbrytRedigering: () => void;
 }> = ({ aktivitet, aktivitetFraRegister, avbrytRedigering }) => {
     const { behandling } = useBehandling();
-    const { typeAktivitetValg } = useHentTypeAktivitetValg();
+    const { tiltaksvariantValg } = useHentTiltaksvariantValg();
 
     switch (behandling.stønadstype) {
         case Stønadstype.BARNETILSYN:
@@ -62,13 +62,13 @@ export const EndreAktivitet: React.FC<{
             );
         case Stønadstype.DAGLIG_REISE_TSR:
             return (
-                <DataViewer response={{ typeAktivitetValg }} type={'typeAktivitetValg'}>
-                    {({ typeAktivitetValg }) => (
+                <DataViewer response={{ tiltaksvariantValg }} type={'tiltaksvariantValg'}>
+                    {({ tiltaksvariantValg }) => (
                         <EndreAktivitetDagligReiseTsr
                             aktivitet={aktivitet as AktivitetDagligReiseTsr}
                             aktivitetFraRegister={aktivitetFraRegister}
                             avbrytRedigering={avbrytRedigering}
-                            typeAktivitetValg={typeAktivitetValg}
+                            tiltaksvariantValg={tiltaksvariantValg}
                         />
                     )}
                 </DataViewer>
