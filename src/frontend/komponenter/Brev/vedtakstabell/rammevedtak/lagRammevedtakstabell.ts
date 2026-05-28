@@ -18,10 +18,6 @@ export function lagRammevedtakstabell(
     const htmlPerReise = vedtak.rammevedtakPrivatBil.reiser.map((reise) => {
         const skalViseTabellMedDelperioder = reise.delperioder.length !== 1;
 
-        const harUbekreftetSats = reise.delperioder.some((delperiode) =>
-            delperiode.satser.some((sats) => !sats.satsBekreftetVedVedtakstidspunkt)
-        );
-
         const årForUbekreftedeSatser = reise.delperioder
             .flatMap((delperiode) => delperiode.satser)
             .filter((sats) => !sats.satsBekreftetVedVedtakstidspunkt)
@@ -29,6 +25,10 @@ export function lagRammevedtakstabell(
 
         const utledÅrForFørsteSatsjustering =
             årForUbekreftedeSatser.length > 0 ? Math.min(...årForUbekreftedeSatser) : undefined;
+
+        const harUbekreftetSats = reise.delperioder.some((delperiode) =>
+            delperiode.satser.some((sats) => !sats.satsBekreftetVedVedtakstidspunkt)
+        );
 
         return `
         <p style="margin-bottom:2px;font-weight:500;">Reise med privat bil til <strong>${reise.aktivitetsadresse ?? '-'}</strong>:</p>
