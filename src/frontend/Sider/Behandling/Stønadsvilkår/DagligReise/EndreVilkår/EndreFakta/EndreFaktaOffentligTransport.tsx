@@ -17,7 +17,7 @@ interface Props {
     settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise>>;
     nullstillFeilOgUlagretkomponent: () => void;
     gjelderTsr: boolean;
-    tilgjengeligeTypeAktiviteter: Kodeverk[];
+    tilgjengeligeTiltaksvarianter: Kodeverk[];
 }
 
 export const EndreFaktaOffentligTransport: React.FC<Props> = ({
@@ -26,7 +26,7 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
     nullstillFeilOgUlagretkomponent,
     feilmeldinger,
     gjelderTsr,
-    tilgjengeligeTypeAktiviteter,
+    tilgjengeligeTiltaksvarianter,
 }) => {
     const oppdaterFakta = (key: keyof FaktaOffentligTransport, verdi: number | undefined) => {
         settFakta((prevState) => ({
@@ -37,10 +37,10 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
         nullstillFeilOgUlagretkomponent();
     };
 
-    const oppdaterTypeAktivitet = (kode: string) => {
+    const oppdaterTiltaksvariant = (kode: string) => {
         settFakta((prevState) => ({
             ...(prevState.type === 'OFFENTLIG_TRANSPORT' ? prevState : tomtOffentligTransport),
-            typeAktivitet: kode || undefined,
+            tiltaksvariant: kode || undefined,
         }));
 
         nullstillFeilOgUlagretkomponent();
@@ -65,11 +65,11 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
                             size="small"
                             className={styles.wideSelect}
                             error={feilmeldinger?.aktivitet}
-                            value={fakta.typeAktivitet || ''}
-                            onChange={(e) => oppdaterTypeAktivitet(e.target.value)}
+                            value={fakta.tiltaksvariant || ''}
+                            onChange={(e) => oppdaterTiltaksvariant(e.target.value)}
                         >
                             <option value="">Velg aktivitet</option>
-                            {tilgjengeligeTypeAktiviteter.map((valg) => (
+                            {tilgjengeligeTiltaksvarianter.map((valg) => (
                                 <option key={valg.kode} value={valg.kode}>
                                     {valg.beskrivelse}
                                 </option>

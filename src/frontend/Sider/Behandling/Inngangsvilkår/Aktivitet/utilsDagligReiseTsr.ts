@@ -15,10 +15,10 @@ import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyAktivitet = (
     aktivitetFraRegister: Registeraktivitet | undefined,
-    typeAktivitetValg: Kodeverk[]
+    tiltaksvariantValg: Kodeverk[]
 ): EndreAktivitetFormDagligReiseTsr =>
     aktivitetFraRegister
-        ? nyAktivitetFraRegister(aktivitetFraRegister, typeAktivitetValg)
+        ? nyAktivitetFraRegister(aktivitetFraRegister, tiltaksvariantValg)
         : nyTomAktivitet();
 
 export const mapEksisterendeAktivitet = (
@@ -31,13 +31,13 @@ export const mapEksisterendeAktivitet = (
 
 function nyAktivitetFraRegister(
     aktivitetFraRegister: Registeraktivitet,
-    typeAktivitetValg: Kodeverk[]
+    tiltaksvariantValg: Kodeverk[]
 ): EndreAktivitetFormDagligReiseTsr {
     return {
         type: aktivitetFraRegister.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK,
-        typeAktivitet: finnTypeAktivitetForRegisterAktivitet(
+        tiltaksvariant: finnTiltaksvariantForRegisterAktivitet(
             aktivitetFraRegister,
-            typeAktivitetValg
+            tiltaksvariantValg
         ),
         svarHarUtgifter: undefined,
         aktivitetsdager: aktivitetFraRegister.antallDagerPerUke,
@@ -47,28 +47,28 @@ function nyAktivitetFraRegister(
     };
 }
 
-function finnTypeAktivitetForRegisterAktivitet(
+function finnTiltaksvariantForRegisterAktivitet(
     registerAktivitet: Registeraktivitet,
-    typeAktivitetValg: Kodeverk[]
+    tiltaksvariantValg: Kodeverk[]
 ) {
-    return typeAktivitetValg.find(
-        (typeAktivitetValg) => typeAktivitetValg.beskrivelse === registerAktivitet.typeNavn
+    return tiltaksvariantValg.find(
+        (tiltaksvariantValg) => tiltaksvariantValg.beskrivelse === registerAktivitet.typeNavn
     );
 }
 
-export function finnTypeAktivitetForKode(
+export function finnTiltaksvariantForKode(
     registerAktivitetKode: string,
-    typeAktivitetValg: Kodeverk[]
+    tiltaksvariantValg: Kodeverk[]
 ) {
-    return typeAktivitetValg.find(
-        (typeAktivitetValg) => typeAktivitetValg.kode === registerAktivitetKode
+    return tiltaksvariantValg.find(
+        (tiltaksvariantValg) => tiltaksvariantValg.kode === registerAktivitetKode
     );
 }
 
 function nyTomAktivitet(): EndreAktivitetFormDagligReiseTsr {
     return {
         type: '',
-        typeAktivitet: undefined,
+        tiltaksvariant: undefined,
         svarHarUtgifter: undefined,
         aktivitetsdager: undefined,
         fom: '',
