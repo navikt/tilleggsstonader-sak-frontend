@@ -19,15 +19,28 @@ export function kanBehandleTema(
 ) {
     switch (forTema) {
         case 'TSO':
-            return kanBehandleForNay(saksbehandler, forSøker, forEnv);
+            return kanBehandleForNayOgSøker(saksbehandler, forSøker, forEnv);
         case 'TSR':
-            return kanBehandleForTiltaksenheten(saksbehandler, forSøker, forEnv);
+            return kanBehandleForTiltaksenhetenOgSøker(saksbehandler, forSøker, forEnv);
         default:
             throw Error('Ukjent tema: ', forTema);
     }
 }
+export function kanBehandleForNay(saksbehandler: Saksbehandler, forEnv: AppEnv) {
+    return (
+        harNayTilleggsstønaderRolle(forEnv, saksbehandler) ||
+        harNayEgenAnsattRolle(forEnv, saksbehandler) ||
+        harNayUtlandRolle(forEnv, saksbehandler)
+    );
+}
+export function kanBehandleForTiltaksenheten(saksbehandler: Saksbehandler, forEnv: AppEnv) {
+    return (
+        harTiltaksenhetenTilleggsstønaderRolle(forEnv, saksbehandler) ||
+        harEgenAnsattOsloRolle(forEnv, saksbehandler)
+    );
+}
 
-export function kanBehandleForNay(
+export function kanBehandleForNayOgSøker(
     saksbehandler: Saksbehandler,
     forSøker: Personopplysninger,
     forEnv: AppEnv
@@ -41,7 +54,7 @@ export function kanBehandleForNay(
     );
 }
 
-export function kanBehandleForTiltaksenheten(
+export function kanBehandleForTiltaksenhetenOgSøker(
     saksbehandler: Saksbehandler,
     forSøker: Personopplysninger,
     forEnv: AppEnv

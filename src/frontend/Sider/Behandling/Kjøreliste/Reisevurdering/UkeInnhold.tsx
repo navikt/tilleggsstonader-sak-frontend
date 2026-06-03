@@ -116,7 +116,7 @@ export const UkeInnhold: FC<{
                     </div>
                     <div className={redigerer ? styles.høyreGridRedigering : styles.høyreGrid}>
                         <Label size="small">Status</Label>
-                        <Label size="small">Parkering godkjent</Label>
+                        <Label size="small">Godkjent Park. (Kr)</Label>
                         <Label size="small">Kommentar</Label>
                     </div>
                 </div>

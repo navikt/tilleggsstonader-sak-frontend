@@ -37,15 +37,15 @@ export const EndreFaktaDagligReise: React.FC<{
     reiseTom,
     gjelderTsr,
 }) => {
-    const typeAktiviteter = oppfylteAktiviteter
+    const tiltaksvarianter = oppfylteAktiviteter
         .filter(
             (aktivitet): aktivitet is AktivitetDagligReiseTsr =>
                 aktivitet.faktaOgVurderinger['@type'] === 'AKTIVITET_DAGLIG_REISE_TSR'
         )
-        .map((aktivitet) => aktivitet.typeAktivitet)
-        .filter((typeAktivitet) => typeAktivitet != null);
+        .map((aktivitet) => aktivitet.tiltaksvariant)
+        .filter((tiltaksvariant) => tiltaksvariant != null);
 
-    const tilgjengeligeTypeAktiviteter = Array.from(new Set(typeAktiviteter)).sort((a, b) =>
+    const tilgjengeligeTiltaksvarianter = Array.from(new Set(tiltaksvarianter)).sort((a, b) =>
         a.kode.localeCompare(b.kode)
     );
 
@@ -58,7 +58,7 @@ export const EndreFaktaDagligReise: React.FC<{
                     settFakta={settFakta}
                     feilmeldinger={feilmeldinger.fakta as FeilmeldingerFaktaOffentligTransport}
                     gjelderTsr={gjelderTsr}
-                    tilgjengeligeTypeAktiviteter={tilgjengeligeTypeAktiviteter}
+                    tilgjengeligeTiltaksvarianter={tilgjengeligeTiltaksvarianter}
                 />
             );
         case 'DAGLIG_REISE_PRIVAT_BIL':

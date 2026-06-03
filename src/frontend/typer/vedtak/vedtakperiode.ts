@@ -2,7 +2,6 @@ import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgrup
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Periode } from '../../utils/periode';
 import { PeriodeStatus } from '../behandling/periodeStatus';
-import { Kodeverk } from '../kodeverk';
 
 /**
  * Tillater at målgruppe og aktivitet kan være tomme strenger, slik at
@@ -12,7 +11,6 @@ export interface Vedtaksperiode extends Periode {
     id: string;
     målgruppeType: FaktiskMålgruppe | '';
     aktivitetType: AktivitetType | '';
-    typeAktivitet: Kodeverk | undefined;
     status?: PeriodeStatus;
     vedtaksperiodeFraForrigeVedtak?: VedtaksperiodeFraForrigeVedtak;
 }
@@ -21,5 +19,4 @@ export interface VedtaksperiodeFraForrigeVedtak extends Periode {
     id: string;
     målgruppeType: FaktiskMålgruppe | '';
     aktivitetType: AktivitetType | '';
-    typeAktivitet: string | '';
 }

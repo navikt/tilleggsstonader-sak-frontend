@@ -23,7 +23,6 @@ import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
 import { StegKnappInnvilgelseMedVarsel } from '../../Felles/StegKnappInnvilgelseMedVarsel';
 import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
-import { tilVedtaksperioderTso } from '../../Felles/vedtaksperioder/vedtaksperiodeDtoUtil';
 import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
 import { initialiserVedtaksperioder } from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
 
@@ -71,7 +70,7 @@ export const InnvilgeBoutgifter: React.FC<Props> = ({
                 `/api/sak/vedtak/boutgifter/${behandling.id}/innvilgelse`,
                 'POST',
                 {
-                    vedtaksperioder: tilVedtaksperioderTso(vedtaksperioder),
+                    vedtaksperioder: vedtaksperioder,
                     begrunnelse: begrunnelse,
                 }
             );
@@ -98,7 +97,7 @@ export const InnvilgeBoutgifter: React.FC<Props> = ({
             request<BeregningsresultatBoutgifter, BeregnBoutgifterRequest>(
                 `/api/sak/vedtak/boutgifter/${behandling.id}/beregn`,
                 'POST',
-                { vedtaksperioder: tilVedtaksperioderTso(vedtaksperioder) }
+                { vedtaksperioder: vedtaksperioder }
             ).then((result) => {
                 settBeregningsresultat(result);
                 if (result.status === 'SUKSESS') {

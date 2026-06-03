@@ -3,7 +3,7 @@ import { Kodeverk } from '../../../../../typer/kodeverk';
 
 export interface AktivitetDagligReiseTsr extends VilkårPeriodeAktivitet {
     kildeId?: string;
-    typeAktivitet?: Kodeverk;
+    tiltaksvariant?: Kodeverk;
     faktaOgVurderinger: AktivitetDagligReiseTsrFaktaOgVurderinger;
 }
 

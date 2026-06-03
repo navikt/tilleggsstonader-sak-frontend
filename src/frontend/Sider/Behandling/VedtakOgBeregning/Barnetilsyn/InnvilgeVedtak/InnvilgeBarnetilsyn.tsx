@@ -25,7 +25,6 @@ import { lenkerForskriftBeregningTilsynBarn } from '../../../lenker';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
 import { StegKnappInnvilgelseMedVarsel } from '../../Felles/StegKnappInnvilgelseMedVarsel';
 import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
-import { tilVedtaksperioderTso as tilVedtaksperioderTso } from '../../Felles/vedtaksperioder/vedtaksperiodeDtoUtil';
 import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
 import { initialiserVedtaksperioder } from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
 
@@ -73,7 +72,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/innvilgelse`,
                 'POST',
                 {
-                    vedtaksperioder: tilVedtaksperioderTso(vedtaksperioder),
+                    vedtaksperioder: vedtaksperioder,
                     begrunnelse: begrunnelse,
                 }
             );
@@ -100,7 +99,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
             request<BeregningsresultatTilsynBarn, BeregnBarnetilsynRequest>(
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregn`,
                 'POST',
-                { vedtaksperioder: tilVedtaksperioderTso(vedtaksperioder) }
+                { vedtaksperioder: vedtaksperioder }
             ).then((result) => {
                 settBeregningsresultat(result);
                 if (result.status === 'SUKSESS') {

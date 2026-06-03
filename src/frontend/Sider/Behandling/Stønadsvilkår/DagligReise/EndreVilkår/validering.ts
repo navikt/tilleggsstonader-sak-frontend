@@ -110,7 +110,7 @@ const validerFaktaOffentligTransport = (
         return { felles: 'Mangler reisedager per uke og minst én billettpris' };
     }
 
-    if (gjelderTsr && !fakta.typeAktivitet) {
+    if (gjelderTsr && !fakta.tiltaksvariant) {
         return { aktivitet: 'Du må velge en tiltaksvariant' };
     }
 
