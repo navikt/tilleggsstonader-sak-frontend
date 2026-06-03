@@ -3,7 +3,6 @@ import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgrup
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 import { TypeDagligReise } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
-import { TypeReiseTilSamling } from '../../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/vilkårReiseTilSamling';
 import { Stønadstype } from '../behandling/behandlingTema';
 
 export interface VedtakperioderOversiktResponse {
@@ -74,7 +73,8 @@ export interface UtgiftBoutgift {
 }
 
 export type DetaljertVedtaksperiodeReiseTilSamling = {
-    typeDagligReise: TypeReiseTilSamling;
+    utgifterOffentligTransport: number | undefined;
+    reiseavstand: number | undefined;
     stønadstype: Stønadstype;
     // TODO
 };
