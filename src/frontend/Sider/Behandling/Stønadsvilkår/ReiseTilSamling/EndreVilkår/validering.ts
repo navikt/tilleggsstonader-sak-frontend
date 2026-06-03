@@ -30,17 +30,17 @@ export type FeilmeldingerReiseTilSamling = {
     begrunnelse?: Partial<Record<RegelIdReiseTilSamling, string>>;
 };
 
-export function ingen(valideringsfeil: FeilmeldingerReiseTilSamling) {
+export function harValideringsFeil(valideringsfeil: FeilmeldingerReiseTilSamling) {
     const { fakta, ...resten } = valideringsfeil;
     const harAndreFeil = Object.keys(resten).length > 0;
-    if (harAndreFeil) return false;
+    if (harAndreFeil) return true;
     if (Array.isArray(fakta)) {
         return fakta.every((obj) => Object.keys(obj).length === 0);
     }
     if (typeof fakta === 'object' && fakta !== null) {
         return Object.keys(fakta).length === 0;
     }
-    return true;
+    return false;
 }
 
 export const validerVilkår = (

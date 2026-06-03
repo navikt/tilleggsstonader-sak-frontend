@@ -8,7 +8,7 @@ import { HStack, TextField } from '@navikt/ds-react';
 import styles from './EndreVilkårReiseTilSamling.module.css';
 import { SlettVilkårReiseTilSamling } from './SlettVilkårReiseTilSamling';
 import { initierGjeldendeFaktaType, initierSvar } from './utils';
-import { FeilmeldingerReiseTilSamling, ingen, validerVilkår } from './validering';
+import { FeilmeldingerReiseTilSamling, harValideringsFeil, validerVilkår } from './validering';
 import { useApp } from '../../../../../context/AppContext';
 import { useVilkårReiseTilSamling } from '../../../../../context/VilkårReiseTilSamlingContext/VilkårReiseTilSamlingContext';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
@@ -98,7 +98,7 @@ export const EndreVilkårReiseTilSamling: React.FC<Props> = ({
 
         const valideringsfeil = validerVilkår(periode, adresse, svar, fakta, regelstruktur);
         settFeilmeldinger(valideringsfeil);
-        if (!ingen(valideringsfeil)) {
+        if (harValideringsFeil(valideringsfeil)) {
             return;
         }
 
