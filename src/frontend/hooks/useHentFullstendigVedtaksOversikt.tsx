@@ -7,6 +7,7 @@ import {
     DetaljertVedtaksperiodeBoutgifter,
     DetaljertVedtaksperiodeDagligReise,
     DetaljertVedtaksperiodeLæremidler,
+    DetaljertVedtaksperiodeReiseTilSamling,
     DetaljertVedtaksperiodeTilsynBarn,
     VedtakperioderOversiktResponse,
 } from '../typer/vedtak/vedtaksperiodeOppsummering';
@@ -61,7 +62,8 @@ export type DetaljerteVedtaksperioder =
     | DetaljertVedtaksperiodeTilsynBarn[]
     | DetaljertVedtaksperiodeLæremidler[]
     | DetaljertVedtaksperiodeBoutgifter[]
-    | DetaljertVedtaksperiodeDagligReise[];
+    | DetaljertVedtaksperiodeDagligReise[]
+    | DetaljertVedtaksperiodeReiseTilSamling[];
 
 export const useHentFullstendigVedtaksOversiktForStønad = (
     behandlingId?: string

@@ -114,6 +114,7 @@ export const tomtOffentligTransport: FaktaOffentligTransport = {
     prisEnkelbillett: undefined,
     prisSyvdagersbillett: undefined,
     prisTrettidagersbillett: undefined,
+    tiltaksvariant: undefined,
 };
 
 export const defaultPrivatBilPeriode = {

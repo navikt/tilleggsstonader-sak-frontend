@@ -13,17 +13,9 @@ export const validerVedtaksperioder = (
             tom: undefined,
             målgruppeType: undefined,
             aktivitetType: undefined,
-            typeAktivitet: { kode: undefined, beskrivelse: undefined },
         };
 
-        if (gjelderTsr) {
-            if (!vedtaksperiode.typeAktivitet) {
-                return {
-                    ...feil,
-                    typeAktivitet: { kode: undefined, beskrivelse: 'Tiltaksvariant mangler' },
-                };
-            }
-        } else {
+        if (!gjelderTsr) {
             if (!vedtaksperiode.aktivitetType) {
                 return { ...feil, aktivitetType: 'Mangler aktivitet for periode' };
             }

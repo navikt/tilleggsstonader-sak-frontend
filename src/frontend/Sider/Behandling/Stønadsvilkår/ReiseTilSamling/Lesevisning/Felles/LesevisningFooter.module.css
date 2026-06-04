@@ -1,0 +1,16 @@
+.redigeringsknapp {
+    max-height: 24px;
+    align-self: end;
+}
+
+.popoverContent {
+    width: max-content;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem 1rem;
+}

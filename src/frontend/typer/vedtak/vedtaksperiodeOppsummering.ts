@@ -1,8 +1,8 @@
+import { RammeForReiseMedPrivatBil } from './vedtakDagligReise';
 import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 import { TypeDagligReise } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
-import { TypeReiseTilSamling } from '../../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/vilkårReiseTilSamling';
 import { Stønadstype } from '../behandling/behandlingTema';
 
 export interface VedtakperioderOversiktResponse {
@@ -60,8 +60,9 @@ export type DetaljertBeregningsperioderDagligReise = {
 export type DetaljertVedtaksperiodeDagligReise = {
     typeDagligReise: TypeDagligReise;
     stønadstype: Stønadstype;
-    detaljertBeregningsperioder: DetaljertBeregningsperioderDagligReise[];
-    adresse?: string;
+    detaljertBeregningsperioder: DetaljertBeregningsperioderDagligReise[] | null;
+    adresse: string | null;
+    rammevedtakPrivatBil: RammeForReiseMedPrivatBil | null;
 };
 
 export interface UtgiftBoutgift {
@@ -72,7 +73,8 @@ export interface UtgiftBoutgift {
 }
 
 export type DetaljertVedtaksperiodeReiseTilSamling = {
-    typeDagligReise: TypeReiseTilSamling;
+    utgifterOffentligTransport: number | undefined;
+    reiseavstand: number | undefined;
     stønadstype: Stønadstype;
     // TODO
 };

@@ -6,14 +6,12 @@ import { Button } from '@navikt/ds-react';
 import { utledStatus } from './vedtaksperiodeUtils';
 import { VelgAktivitet } from './VelgAktivitet';
 import { VelgMålgruppe } from './VelgMålgruppe';
-import { VelgTiltaksvariant } from './VelgTiltaksvariant';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { StatusTag } from '../../../../../komponenter/PerioderStatusTag/StatusTag';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { BehandlingType } from '../../../../../typer/behandling/behandlingType';
-import { Kodeverk } from '../../../../../typer/kodeverk';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useSlettePeriodeFørTidligereVedtak } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
@@ -24,8 +22,8 @@ interface Props {
     erLesevisning: boolean;
     vedtaksperiodeFeil: FormErrors<Vedtaksperiode> | undefined;
     oppdaterPeriode: (
-        property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType' | 'typeAktivitet',
-        value: string | Kodeverk | undefined
+        property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType',
+        value: string | undefined
     ) => void;
     slettPeriode: () => void;
     vedtakErLagret: boolean;
@@ -83,14 +81,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                     size="small"
                 />
             </FeilmeldingMaksBredde>
-            {gjelderTsr ? (
-                <VelgTiltaksvariant
-                    vedtaksperiode={vedtaksperiode}
-                    erLesevisning={erLesevisning}
-                    vedtaksperiodeFeil={vedtaksperiodeFeil}
-                    oppdaterPeriode={oppdaterPeriode}
-                />
-            ) : (
+            {!gjelderTsr && (
                 <>
                     <VelgAktivitet
                         stønadstype={behandling.stønadstype}

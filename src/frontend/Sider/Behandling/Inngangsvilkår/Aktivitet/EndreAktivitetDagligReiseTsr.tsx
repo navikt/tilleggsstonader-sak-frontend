@@ -8,7 +8,7 @@ import styles from './EndreAktivitetDagligReiseTsr.module.css';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
     finnBegrunnelseGrunnerAktivitet,
-    finnTypeAktivitetForKode,
+    finnTiltaksvariantForKode,
     mapEksisterendeAktivitet,
     mapFaktaOgSvarTilRequest,
     nyAktivitet,
@@ -41,7 +41,7 @@ import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
 
 export interface EndreAktivitetFormDagligReiseTsr extends Periode {
     type: AktivitetType | '';
-    typeAktivitet?: Kodeverk;
+    tiltaksvariant?: Kodeverk;
     svarHarUtgifter: SvarJaNei | undefined;
     aktivitetsdager: number | undefined;
     begrunnelse?: string;
@@ -49,12 +49,12 @@ export interface EndreAktivitetFormDagligReiseTsr extends Periode {
 }
 
 const initaliserForm = (
-    typeAktivitetValg: Kodeverk[],
+    tiltaksvariantValg: Kodeverk[],
     eksisterendeAktivitet?: AktivitetDagligReiseTsr,
     aktivitetFraRegister?: Registeraktivitet
 ): EndreAktivitetFormDagligReiseTsr => {
     return eksisterendeAktivitet === undefined
-        ? nyAktivitet(aktivitetFraRegister, typeAktivitetValg)
+        ? nyAktivitet(aktivitetFraRegister, tiltaksvariantValg)
         : mapEksisterendeAktivitet(eksisterendeAktivitet);
 };
 
@@ -62,14 +62,14 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
     aktivitet?: AktivitetDagligReiseTsr;
     aktivitetFraRegister?: Registeraktivitet;
     avbrytRedigering: () => void;
-    typeAktivitetValg: Kodeverk[];
-}> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister, typeAktivitetValg }) => {
+    tiltaksvariantValg: Kodeverk[];
+}> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister, tiltaksvariantValg }) => {
     const { behandling, behandlingFakta } = useBehandling();
     const { oppdaterAktivitet, leggTilAktivitet } = useInngangsvilkår();
     const { lagreVilkårperiode } = useLagreVilkårperiode();
 
     const [form, settForm] = useState<EndreAktivitetFormDagligReiseTsr>(
-        initaliserForm(typeAktivitetValg, aktivitet, aktivitetFraRegister)
+        initaliserForm(tiltaksvariantValg, aktivitet, aktivitetFraRegister)
     );
 
     const [laster, settLaster] = useState<boolean>(false);
@@ -141,9 +141,9 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
         );
     };
 
-    const oppdaterTypeAktivitet = (typeAktivitetString: string) => {
-        const typeAktivitet = finnTypeAktivitetForKode(typeAktivitetString, typeAktivitetValg);
-        settForm((prevState) => ({ ...prevState, ['typeAktivitet']: typeAktivitet }));
+    const oppdaterTiltaksvariant = (tiltaksvariantString: string) => {
+        const tiltaksvariant = finnTiltaksvariantForKode(tiltaksvariantString, tiltaksvariantValg);
+        settForm((prevState) => ({ ...prevState, ['tiltaksvariant']: tiltaksvariant }));
     };
 
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
@@ -153,11 +153,11 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
 
-    const fantIkkeTypeAktivitet = aktivitetFraRegister && form?.typeAktivitet === undefined;
+    const fantIkkeTiltaksvariant = aktivitetFraRegister && form?.tiltaksvariant === undefined;
 
     return (
         <ResultatOgStatusKort periode={aktivitet} redigeres>
-            {fantIkkeTypeAktivitet && (
+            {fantIkkeTiltaksvariant && (
                 <Alert variant={'error'}>
                     {`Klarte ikke å opprette aktivitet med tiltaksvariant "${aktivitetFraRegister.typeNavn}". Ta kontakt med utviklerteamet.`}
                 </Alert>
@@ -168,11 +168,11 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
                         form={form}
                         oppdaterTypeIForm={oppdaterType}
                         oppdaterPeriode={oppdaterForm}
-                        oppdaterTypeAktivitet={oppdaterTypeAktivitet}
+                        oppdaterTiltaksvariant={oppdaterTiltaksvariant}
                         typeOptions={valgbareAktivitetTyper(Stønadstype.DAGLIG_REISE_TSR)}
-                        typeAktivitetOptions={kodeverkTilOptions(typeAktivitetValg)}
+                        tiltaksvariantOptions={kodeverkTilOptions(tiltaksvariantValg)}
                         formFeil={vilkårsperiodeFeil}
-                        kanEndreTypeAktivitet={
+                        kanEndreTiltaksvariant={
                             aktivitet === undefined && !aktivitetErBruktFraSystem
                         }
                         kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
@@ -211,7 +211,7 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
                 feil={vilkårsperiodeFeil?.begrunnelse}
             />
             <HStack gap="space-16">
-                <Button size="xsmall" onClick={lagre} disabled={fantIkkeTypeAktivitet}>
+                <Button size="xsmall" onClick={lagre} disabled={fantIkkeTiltaksvariant}>
                     Lagre
                 </Button>
                 <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">

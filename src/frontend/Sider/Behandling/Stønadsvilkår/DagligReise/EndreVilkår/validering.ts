@@ -19,6 +19,7 @@ export interface FeilmeldingerFaktaOffentligTransport extends FeilmeldingerFakta
     enkeltbillett?: string;
     syvdagersbillett?: string;
     trettidagersbillett?: string;
+    aktivitet?: string;
 }
 
 export type FeilmeldingerFaktaPrivatBil = Array<{
@@ -57,11 +58,12 @@ export const validerVilkår = (
     adresse: string | undefined,
     svar: SvarVilkårDagligReise,
     fakta: FaktaDagligReise | undefined,
-    regelstruktur: Regelstruktur
+    regelstruktur: Regelstruktur,
+    gjelderTsr: boolean
 ): FeilmeldingerDagligReise => {
     const periodeValidering = validerPeriode(periode);
     const adresseValidering = validerAdresse(adresse);
-    const faktaValidering = validerFakta(fakta, svar);
+    const faktaValidering = validerFakta(fakta, svar, gjelderTsr);
     const svarValidering = validerSvar(svar, regelstruktur);
 
     return {
@@ -101,10 +103,15 @@ const validerSvar = (
 };
 
 const validerFaktaOffentligTransport = (
-    fakta: FaktaOffentligTransport | undefined
+    fakta: FaktaOffentligTransport | undefined,
+    gjelderTsr: boolean
 ): Partial<FeilmeldingerFaktaOffentligTransport> | undefined => {
     if (!fakta) {
         return { felles: 'Mangler reisedager per uke og minst én billettpris' };
+    }
+
+    if (gjelderTsr && !fakta.tiltaksvariant) {
+        return { aktivitet: 'Du må velge en tiltaksvariant' };
     }
 
     if (!fakta.reisedagerPerUke) {
@@ -184,13 +191,14 @@ const validerFaktaPrivatBil = (
 
 const validerFakta = (
     fakta: FaktaDagligReise | undefined,
-    svar: SvarVilkårDagligReise
+    svar: SvarVilkårDagligReise,
+    gjelderTsr: boolean
 ): FeilmeldingerFaktaDagligReise | FeilmeldingerFaktaPrivatBil | undefined => {
     if (
         fakta?.type === 'OFFENTLIG_TRANSPORT' ||
         svar.KAN_REISE_MED_OFFENTLIG_TRANSPORT?.svar === 'JA'
     ) {
-        return validerFaktaOffentligTransport(fakta as FaktaOffentligTransport);
+        return validerFaktaOffentligTransport(fakta as FaktaOffentligTransport, gjelderTsr);
     } else if (fakta?.type === 'PRIVAT_BIL' || svar.KAN_KJØRE_MED_EGEN_BIL?.svar === 'JA') {
         return validerFaktaPrivatBil(fakta as FaktaPrivatBil);
     }

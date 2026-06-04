@@ -15,24 +15,24 @@ type MålgruppeEllerAktivitet = MålgruppeType | AktivitetType;
 
 interface TypeOgDatoFelter extends Periode {
     type: MålgruppeType | AktivitetType | '';
-    typeAktivitet?: Kodeverk;
+    tiltaksvariant?: Kodeverk;
 }
 
 interface TypeOgDatoFelterFeil extends Periode {
     type: MålgruppeType | AktivitetType | '';
-    typeAktivitet?: string;
+    tiltaksvariant?: string;
 }
 
 interface Props<T extends MålgruppeEllerAktivitet> {
     form: TypeOgDatoFelter;
     oppdaterTypeIForm: (type: T) => void;
     oppdaterPeriode: (key: keyof Periode, nyVerdi: string) => void;
-    oppdaterTypeAktivitet?: (typeAktivitet: string) => void;
+    oppdaterTiltaksvariant?: (tiltaksvariant: string) => void;
     typeOptions: SelectOption[];
-    typeAktivitetOptions?: SelectOption[];
+    tiltaksvariantOptions?: SelectOption[];
     formFeil?: FormErrors<TypeOgDatoFelterFeil>;
     kanEndreType: boolean;
-    kanEndreTypeAktivitet?: boolean;
+    kanEndreTiltaksvariant?: boolean;
     erStøttetType?: boolean;
 }
 
@@ -40,12 +40,12 @@ export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
     form,
     oppdaterTypeIForm,
     oppdaterPeriode,
-    oppdaterTypeAktivitet,
+    oppdaterTiltaksvariant,
     typeOptions,
-    typeAktivitetOptions,
+    tiltaksvariantOptions,
     formFeil,
     kanEndreType,
-    kanEndreTypeAktivitet,
+    kanEndreTiltaksvariant,
     erStøttetType = true,
 }: Props<T>) => {
     const { keyDato: fomKeyDato, oppdaterDatoKey: oppdaterFomDatoKey } =
@@ -73,17 +73,17 @@ export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
                     error={formFeil?.type}
                 />
             </FeilmeldingMaksBredde>
-            {typeAktivitetOptions && oppdaterTypeAktivitet && (
+            {tiltaksvariantOptions && oppdaterTiltaksvariant && (
                 <FeilmeldingMaksBredde>
                     <SelectMedOptions
                         className={styles.wideBoi}
                         label={'Variant'}
-                        readOnly={!kanEndreTypeAktivitet}
-                        value={form.typeAktivitet?.kode}
-                        valg={typeAktivitetOptions}
-                        onChange={(e) => oppdaterTypeAktivitet(e.target.value)}
+                        readOnly={!kanEndreTiltaksvariant}
+                        value={form.tiltaksvariant?.kode}
+                        valg={tiltaksvariantOptions}
+                        onChange={(e) => oppdaterTiltaksvariant(e.target.value)}
                         size="small"
-                        error={formFeil?.typeAktivitet}
+                        error={formFeil?.tiltaksvariant}
                     />
                 </FeilmeldingMaksBredde>
             )}

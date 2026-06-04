@@ -19,7 +19,6 @@ import {
     Feil,
     feiletRessursTilFeilmelding,
 } from '../../../../../komponenter/Feil/feilmeldingUtils';
-import { Kodeverk } from '../../../../../typer/kodeverk';
 import { RessursStatus } from '../../../../../typer/ressurs';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 
@@ -51,7 +50,6 @@ export const Vedtaksperioder: React.FC<Props> = ({
     const { erStegRedigerbart } = useSteg();
     const { request, settUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
-
     /**
      * Må trigge rendering av komponent når vi foreslår nye vedtaksperioder
      * fordi DateInput ikke bli rerendret pga hook og har samme key
@@ -60,8 +58,8 @@ export const Vedtaksperioder: React.FC<Props> = ({
 
     const oppdaterPeriodeFelt = (
         indeks: number,
-        property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType' | 'typeAktivitet',
-        value: string | number | Kodeverk | undefined
+        property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType',
+        value: string | undefined
     ) => {
         settVedtaksperioder((prevState) => {
             const oppdatertPeriode = { ...prevState[indeks], [property]: value };
@@ -115,12 +113,10 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 <VedtaksperiodeReadMore stønadstype={behandling.stønadstype} />
             </div>
             {vedtaksperioder && vedtaksperioder.length > 0 && (
-                <div className={gjelderTsr ? styles.grid5 : styles.grid6} key={vedtaksperioderId}>
+                <div className={gjelderTsr ? styles.grid4 : styles.grid6} key={vedtaksperioderId}>
                     <Label size="small">Fra og med</Label>
                     <Label size="small">Til og med</Label>
-                    {gjelderTsr ? (
-                        <Label size="small">Tiltaksvariant</Label>
-                    ) : (
+                    {!gjelderTsr && (
                         <>
                             <Label size="small">Aktivitet</Label>
                             <Label size="small">Målgruppe</Label>

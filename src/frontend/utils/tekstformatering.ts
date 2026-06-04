@@ -5,14 +5,17 @@ const replaceUnderscoreWithSpace = (str: string): string => {
     return str.replaceAll('_', ' ');
 };
 
-export const toTitleCase = (str: string): string =>
+export const storForbokstavFørsteOrd = (str: string): string =>
+    str.charAt(0).toLocaleUpperCase() + str.slice(1).toLocaleLowerCase();
+
+export const storForbokstavHvertOrd = (str: string): string =>
     str.replace(
         /\p{L}+/gu,
         (word) => word.charAt(0).toLocaleUpperCase() + word.slice(1).toLocaleLowerCase()
     );
 
 export const formaterEnumVerdi = (str: string | undefined): string =>
-    str ? replaceUnderscoreWithSpace(toTitleCase(str)) : '';
+    str ? replaceUnderscoreWithSpace(storForbokstavFørsteOrd(str)) : '';
 
 export const formatBoolean = (bool?: boolean): string => {
     if (bool === true) {

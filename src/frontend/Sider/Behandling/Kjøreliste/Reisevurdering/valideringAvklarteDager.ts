@@ -28,7 +28,10 @@ export const validerAvklarteDager = (
         }
 
         if (harTallverdi(avklartDag.parkeringsutgift)) {
-            if (avklartDag.godkjentGjennomførtKjøring !== GodkjentGjennomførtKjøring.JA) {
+            if (
+                avklartDag.godkjentGjennomførtKjøring !== GodkjentGjennomførtKjøring.JA &&
+                avklartDag.parkeringsutgift > 0
+            ) {
                 return {
                     ...feil,
                     parkeringsutgift: 'Parkeringsutgift kan kun fylles ut hvis kjøring er godkjent',

@@ -4,8 +4,10 @@ import styles from './BehandlingInnhold.module.css';
 import BehandlingTabsInnhold from './BehandlingTabsInnhold';
 import HenleggModal from './Modal/HenleggModal';
 import NullstillModal from './Modal/NullstillModal';
+import VenstreMeny from './Venstremeny/Venstremeny';
 import { BehandlingProvider } from '../../context/BehandlingContext';
 import { PersonopplysningerProvider } from '../../context/PersonopplysningerContext';
+import { TotrinnskontrollProvider } from '../../context/TotrinnskontrollContext';
 import { RerrunnableEffect } from '../../hooks/useRerunnableEffect';
 import PersonHeader from '../../komponenter/PersonHeader/PersonHeader';
 import { Behandling, SluttdatoForForrigeVedtak } from '../../typer/behandling/behandling';
@@ -34,9 +36,14 @@ export const KjørelisteBehandlingInnhold: React.FC<{
         >
             <PersonopplysningerProvider personopplysninger={personopplysninger}>
                 <PersonHeader fagsakPersonId={behandling.fagsakPersonId} />
-                <div className={styles.kjørelistebehandlingContainer}>
-                    <BehandlingTabsInnhold />
-                </div>
+                <TotrinnskontrollProvider>
+                    <div className={styles.behandlingContainer}>
+                        <VenstreMeny />
+                        <div className={styles.innholdWrapper}>
+                            <BehandlingTabsInnhold />
+                        </div>
+                    </div>
+                </TotrinnskontrollProvider>
             </PersonopplysningerProvider>
             <HenleggModal />
             <NullstillModal />

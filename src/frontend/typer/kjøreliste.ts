@@ -23,7 +23,6 @@ export interface UkeVurdering {
 
 export interface AvvikUke {
     typeAvvik: TypeAvvikUke;
-    avviksMelding: string;
 }
 
 export interface Dag {

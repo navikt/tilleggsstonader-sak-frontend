@@ -1,8 +1,10 @@
 import React from 'react';
 
-import { Alert, HStack, TextField, VStack } from '@navikt/ds-react';
+import { Alert, HelpText, HStack, Select, TextField, VStack } from '@navikt/ds-react';
 
+import styles from './EndreFaktaOffentligTransport.module.css';
 import { FeilmeldingMaksBredde } from '../../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
+import { Kodeverk } from '../../../../../../typer/kodeverk';
 import { harTallverdi, tilHeltall } from '../../../../../../utils/tall';
 import { fjernSpaces } from '../../../../../../utils/utils';
 import { FaktaDagligReise, FaktaOffentligTransport } from '../../typer/faktaDagligReise';
@@ -14,6 +16,8 @@ interface Props {
     feilmeldinger: FeilmeldingerFaktaOffentligTransport | undefined;
     settFakta: React.Dispatch<React.SetStateAction<FaktaDagligReise>>;
     nullstillFeilOgUlagretkomponent: () => void;
+    gjelderTsr: boolean;
+    tilgjengeligeTiltaksvarianter: Kodeverk[];
 }
 
 export const EndreFaktaOffentligTransport: React.FC<Props> = ({
@@ -21,6 +25,8 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
     settFakta,
     nullstillFeilOgUlagretkomponent,
     feilmeldinger,
+    gjelderTsr,
+    tilgjengeligeTiltaksvarianter,
 }) => {
     const oppdaterFakta = (key: keyof FaktaOffentligTransport, verdi: number | undefined) => {
         settFakta((prevState) => ({
@@ -31,9 +37,46 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
         nullstillFeilOgUlagretkomponent();
     };
 
+    const oppdaterTiltaksvariant = (kode: string) => {
+        settFakta((prevState) => ({
+            ...(prevState.type === 'OFFENTLIG_TRANSPORT' ? prevState : tomtOffentligTransport),
+            tiltaksvariant: kode || undefined,
+        }));
+
+        nullstillFeilOgUlagretkomponent();
+    };
+
     return (
         <VStack gap="space-16">
             <HStack gap="space-16" align="start">
+                {gjelderTsr && (
+                    <FeilmeldingMaksBredde $maxWidth={180}>
+                        <Select
+                            label={
+                                <HStack gap="space-4" align="center">
+                                    <span>Tiltaksvariant</span>
+                                    <HelpText>
+                                        Velg tiltaksvarianten bruker skal reise med offentlig
+                                        transport til. Dette er for at TS-sak skal kunne knytte
+                                        utbetalinger til riktig konto.
+                                    </HelpText>
+                                </HStack>
+                            }
+                            size="small"
+                            className={styles.wideSelect}
+                            error={feilmeldinger?.aktivitet}
+                            value={fakta.tiltaksvariant || ''}
+                            onChange={(e) => oppdaterTiltaksvariant(e.target.value)}
+                        >
+                            <option value="">Velg aktivitet</option>
+                            {tilgjengeligeTiltaksvarianter.map((valg) => (
+                                <option key={valg.kode} value={valg.kode}>
+                                    {valg.beskrivelse}
+                                </option>
+                            ))}
+                        </Select>
+                    </FeilmeldingMaksBredde>
+                )}
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
                         label={'Reisedager pr uke'}

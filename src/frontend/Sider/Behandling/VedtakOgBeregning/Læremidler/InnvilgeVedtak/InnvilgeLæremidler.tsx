@@ -24,10 +24,6 @@ import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
 import { StegKnappInnvilgelseMedVarsel } from '../../Felles/StegKnappInnvilgelseMedVarsel';
 import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
-import {
-    tilVedtaksperioderTso,
-    VedtaksperiodeTso,
-} from '../../Felles/vedtaksperioder/vedtaksperiodeDtoUtil';
 import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
 import { initialiserVedtaksperioder } from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
 
@@ -72,7 +68,7 @@ export const InnvilgeLæremidler: React.FC<{
                 'POST',
                 {
                     type: TypeVedtak.INNVILGELSE,
-                    vedtaksperioder: tilVedtaksperioderTso(vedtaksperioder),
+                    vedtaksperioder: vedtaksperioder,
                     begrunnelse: begrunnelse,
                 }
             );
@@ -109,10 +105,10 @@ export const InnvilgeLæremidler: React.FC<{
         if (kanSendeInn) {
             settBeregningsresultat(byggHenterRessurs());
 
-            request<BeregningsresultatLæremidler, VedtaksperiodeTso[]>(
+            request<BeregningsresultatLæremidler, Vedtaksperiode[]>(
                 `/api/sak/vedtak/laremidler/${behandling.id}/beregn`,
                 'POST',
-                tilVedtaksperioderTso(vedtaksperioder)
+                vedtaksperioder
             ).then((result) => {
                 settBeregningsresultat(result);
                 if (result.status === 'SUKSESS') {

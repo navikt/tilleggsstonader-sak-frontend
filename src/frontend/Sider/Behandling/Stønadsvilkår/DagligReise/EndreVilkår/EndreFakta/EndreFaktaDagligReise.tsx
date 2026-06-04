@@ -3,6 +3,7 @@ import React from 'react';
 import { EndreFaktaOffentligTransport } from './EndreFaktaOffentligTransport';
 import { EndreFaktaPrivatBil } from './EndreFaktaPrivatBil';
 import { Aktivitet } from '../../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import { AktivitetDagligReiseTsr } from '../../../../Inngangsvilkår/typer/vilkårperiode/aktivitetDagligReiseTsr';
 import {
     FaktaDagligReise,
     FaktaOffentligTransport,
@@ -24,6 +25,7 @@ export const EndreFaktaDagligReise: React.FC<{
     nullstillFeilOgUlagretkomponent: () => void;
     feilmeldinger: FeilmeldingerDagligReise;
     oppfylteAktiviteter: Aktivitet[];
+    gjelderTsr: boolean;
 }> = ({
     gjeldendeFaktaType,
     fakta,
@@ -33,7 +35,20 @@ export const EndreFaktaDagligReise: React.FC<{
     oppfylteAktiviteter,
     reiseFom,
     reiseTom,
+    gjelderTsr,
 }) => {
+    const tiltaksvarianter = oppfylteAktiviteter
+        .filter(
+            (aktivitet): aktivitet is AktivitetDagligReiseTsr =>
+                aktivitet.faktaOgVurderinger['@type'] === 'AKTIVITET_DAGLIG_REISE_TSR'
+        )
+        .map((aktivitet) => aktivitet.tiltaksvariant)
+        .filter((tiltaksvariant) => tiltaksvariant != null);
+
+    const tilgjengeligeTiltaksvarianter = Array.from(new Set(tiltaksvarianter)).sort((a, b) =>
+        a.kode.localeCompare(b.kode)
+    );
+
     switch (gjeldendeFaktaType) {
         case 'DAGLIG_REISE_OFFENTLIG_TRANSPORT':
             return (
@@ -42,6 +57,8 @@ export const EndreFaktaDagligReise: React.FC<{
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     settFakta={settFakta}
                     feilmeldinger={feilmeldinger.fakta as FeilmeldingerFaktaOffentligTransport}
+                    gjelderTsr={gjelderTsr}
+                    tilgjengeligeTiltaksvarianter={tilgjengeligeTiltaksvarianter}
                 />
             );
         case 'DAGLIG_REISE_PRIVAT_BIL':

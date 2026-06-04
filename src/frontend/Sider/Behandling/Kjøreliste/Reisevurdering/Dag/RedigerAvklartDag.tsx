@@ -62,7 +62,7 @@ export const RedigerAvklartDag: FC<{
                 label="Parkeringsutgift"
                 hideLabel
                 size="small"
-                value={dag.parkeringsutgift ? tilHeltall(dag.parkeringsutgift) : undefined}
+                value={dag.parkeringsutgift ? tilHeltall(dag.parkeringsutgift) : ''}
                 onChange={(e) => oppdaterParkeringsutgift(e.target.value)}
                 error={feil?.parkeringsutgift}
                 className={styles.maksHøyde}

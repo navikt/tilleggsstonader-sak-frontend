@@ -59,10 +59,10 @@ export const AktivitetKort: React.FC<{
                 </Celle>
                 <Celle $width={180}>
                     <BodyShort size="small">{vilkårperiodeTypeTilTekst[aktivitet.type]}</BodyShort>
-                    {'typeAktivitet' in aktivitet && (
-                        <BodyShort size="small">{aktivitet.typeAktivitet?.beskrivelse}</BodyShort>
+                    {'tiltaksvariant' in aktivitet && (
+                        <BodyShort size="small">{aktivitet.tiltaksvariant?.beskrivelse}</BodyShort>
                     )}
-                    {!('typeAktivitet' in aktivitet) && aktivitetFraRegister?.typeNavn && (
+                    {!('tiltaksvariant' in aktivitet) && aktivitetFraRegister?.typeNavn && (
                         <BodyShort size="small">{aktivitetFraRegister?.typeNavn}</BodyShort>
                     )}
                     {aktivitetFraRegister?.arrangør && (
