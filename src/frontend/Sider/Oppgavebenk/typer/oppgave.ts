@@ -93,14 +93,16 @@ export enum Behandlingstema {
     BOUTGIFTER = 'ab0286',
     DAGLIG_REISE_TSR = 'ab0287',
     DAGLIG_REISE_TSO = 'ab0288',
+    REISE_TIL_SAMLIG_TSO = 'ab0294',
 }
 
 export const behandlingstemaTilTekst: Record<Behandlingstema, string> = {
     ab0300: 'Tilsyn barn',
     ab0292: 'Læremidler',
     ab0286: 'Bolig/overnatting',
-    ab0287: 'Daglige reiser - Tiltaksenheten',
     ab0288: 'Daglige reiser - Nay',
+    ab0287: 'Daglige reiser - Tiltaksenheten',
+    ab0294: 'Reise til samling - Nay',
 };
 
 export enum OppgaveBehandlingstype {
