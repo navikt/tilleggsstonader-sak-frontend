@@ -50,7 +50,7 @@ export enum FaneNavn {
     VEDTAK = 'Vedtak',
     KJØRELISTE = 'Kjøreliste',
     BEREGNING = 'Beregning',
-    FULLFØR_KJØRELISTE = 'Fullfør kjøreliste',
+    FULLFØR_KJØRELISTE = 'Brev',
 }
 
 export enum StønadsvilkårFaneNavn {
