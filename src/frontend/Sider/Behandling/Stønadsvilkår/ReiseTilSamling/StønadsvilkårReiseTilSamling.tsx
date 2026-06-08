@@ -3,6 +3,7 @@ import React, { useEffect, useId } from 'react';
 import { BriefcaseIcon } from '@navikt/aksel-icons';
 import { VStack } from '@navikt/ds-react';
 
+import { NyttVilkårReiseTilSamling } from './EndreVilkår/NyttVilkårReiseTilSamling';
 import { VisEllerEndreVilkårReiseTilSamling } from './VisEllerEndreVilkårReiseTilSamling';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -17,8 +18,6 @@ import DataViewer from '../../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Steg } from '../../../../typer/behandling/steg';
-import { FanePath } from '../../faner';
-import { NyttVilkårReiseTilSamling } from './EndreVilkår/NyttVilkårReiseTilSamling';
 
 export const StønadsvilkårReiseTilSamling: React.FC = () => {
     const { behandling } = useBehandling();
@@ -42,9 +41,7 @@ export const StønadsvilkårReiseTilSamling: React.FC = () => {
                     </VilkårReiseTilSamlingProvider>
                 )}
             </DataViewer>
-            <StegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
-                Fullfør vilkårsvurdering og gå videre
-            </StegKnapp>
+            <StegKnapp steg={Steg.VILKÅR}>Fullfør vilkårsvurdering og gå videre</StegKnapp>
         </VStack>
     );
 };
