@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -6,17 +6,25 @@ import { Alert, Button, Tabs } from '@navikt/ds-react';
 
 import styles from './BehandlingTabsInnhold.module.css';
 import { HamburgermenyBehandling } from './Fanemeny/HamburgermenyBehandling';
-import { faneErLåst, FanePath, hentBehandlingfaner, isFanePath, stegTilFane } from './faner';
+import {
+    faneErLåst,
+    FanePath,
+    hentBehandlingfaner,
+    isFanePath,
+    stegTilFaneForBehandling,
+} from './faner';
 import { TidligereVedtaksperioder } from './Vilkårvurdering/TidligereVedtaksperioder';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
+import { useNavigateUtenSjekkForUlagredeKomponenter } from '../../hooks/useNavigateUtenSjekkForUlagredeKomponenter';
 import { SettPåVentSak } from '../../komponenter/SettPåVent/SettPåVentContainer';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
 import { Toast } from '../../typer/toast';
 
 const BehandlingTabsInnhold = () => {
     const navigate = useNavigate();
+    const navigateUtenSjekk = useNavigateUtenSjekkForUlagredeKomponenter();
     const { settToast } = useApp();
     const {
         behandling,
@@ -30,15 +38,20 @@ const BehandlingTabsInnhold = () => {
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
-    const aktivFane = isFanePath(path) ? path : stegTilFane(behandling.steg, behandling.type);
+    const aktivFane = isFanePath(path) ? path : stegTilFaneForBehandling(behandling);
 
+    const forrigeSteg = useRef(behandling.steg);
     useEffect(() => {
-        if (faneErLåst(behandling, aktivFane)) {
-            navigate(`/behandling/${behandling.id}/${FanePath.INNGANGSVILKÅR}`);
+        const stegHarEndretSeg = behandling.steg !== forrigeSteg.current;
+        forrigeSteg.current = behandling.steg;
+
+        const forventetFane = stegTilFaneForBehandling(behandling);
+        // Ved stegendring: naviger alltid til nytt steg. Ved refresh/mount: kun naviger hvis fanen er låst.
+        if (stegHarEndretSeg || faneErLåst(behandling, aktivFane)) {
+            navigateUtenSjekk(`/behandling/${behandling.id}/${forventetFane}`);
         }
-        // skal kun sjekke om fane er låst etter at behandling er oppdatert
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [behandling]);
+    }, [behandling.steg]);
 
     const håndterFaneBytte = (nyFane: FanePath) => {
         if (!faneErLåst(behandling, nyFane)) {

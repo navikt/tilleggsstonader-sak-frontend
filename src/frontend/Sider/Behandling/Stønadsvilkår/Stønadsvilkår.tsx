@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { VStack } from '@navikt/ds-react';
 
 import StønadsvilkårBoutgifter from './Boutgifter/StønadsvilkårBoutgifter';
+import { StønadsvilkårPassBarn } from './PassBarn/StønadsvilkårPassBarn';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { VilkårProvider } from '../../../context/VilkårContext';
 import { useHentVilkårsvurdering } from '../../../hooks/useHentVilkårsvurdering';
@@ -12,8 +13,6 @@ import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../typer/behandling/steg';
-import { FanePath } from '../faner';
-import { StønadsvilkårPassBarn } from './PassBarn/StønadsvilkårPassBarn';
 
 const Stønadsvilkår: React.FC<{
     stønadstype: Stønadstype;
@@ -55,9 +54,7 @@ const Stønadsvilkår: React.FC<{
                     </VilkårProvider>
                 )}
             </DataViewer>
-            <StegKnapp steg={Steg.VILKÅR} nesteFane={FanePath.VEDTAK_OG_BEREGNING}>
-                Fullfør vilkårsvurdering og gå videre
-            </StegKnapp>
+            <StegKnapp steg={Steg.VILKÅR}>Fullfør vilkårsvurdering og gå videre</StegKnapp>
         </VStack>
     );
 };

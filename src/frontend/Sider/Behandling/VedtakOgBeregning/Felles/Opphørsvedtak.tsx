@@ -14,7 +14,6 @@ import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../../typer/behandling/steg';
 import { erTomtObjekt } from '../../../../typer/typeUtils';
 import { ÅrsakOpphør, årsakOpphørTilTekst } from '../../../../typer/vedtak/vedtak';
-import { FanePath } from '../../faner';
 
 export const OpphørVedtak: React.FC<{
     vedtak?: OpphørRequest;
@@ -95,7 +94,6 @@ export const OpphørVedtak: React.FC<{
             />
             <StegKnapp
                 steg={steg}
-                nesteFane={FanePath.SIMULERING}
                 onNesteSteg={validerOgLagreVedtak}
                 validerUlagedeKomponenter={false}
             >

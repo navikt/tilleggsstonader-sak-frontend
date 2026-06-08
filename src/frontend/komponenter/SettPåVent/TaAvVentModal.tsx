@@ -42,7 +42,6 @@ const TaAvVentModal: React.FC<{
         ).then((resp) => {
             if (resp.status === RessursStatus.SUKSESS) {
                 if (skalTilordnesRessurs) {
-                    // TODO - fungerer ikke med 'hentBehandling.rerun();' da man må laste inn vilkår og
                     window.location.reload();
                 } else {
                     navigate('/');

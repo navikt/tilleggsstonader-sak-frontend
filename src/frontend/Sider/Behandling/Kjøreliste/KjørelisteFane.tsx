@@ -2,15 +2,14 @@ import React, { FC } from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
+import { ReiseKort } from './ReiseKort';
 import { useReisevurderingPrivatBil } from '../../../hooks/useReisevurderingPrivatBil';
 import { useVedtak } from '../../../hooks/useVedtak';
 import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../typer/behandling/steg';
-import { InnvilgelseDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
-import { FanePath } from '../faner';
-import { ReiseKort } from './ReiseKort';
 import { ReisevurderingPrivatBil } from '../../../typer/kjøreliste';
+import { InnvilgelseDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
 
 export const KjørelisteFane: FC = () => {
     const { vedtak } = useVedtak<InnvilgelseDagligReise>();
@@ -50,9 +49,7 @@ const FaneInnhold: React.FC<{ reisevurderingerResponse: ReisevurderingPrivatBil[
                     }
                 />
             ))}
-            <StegKnapp steg={Steg.KJØRELISTE} nesteFane={FanePath.BEREGNING}>
-                Ferdigstill steg
-            </StegKnapp>
+            <StegKnapp steg={Steg.KJØRELISTE}>Ferdigstill steg</StegKnapp>
         </VStack>
     );
 };

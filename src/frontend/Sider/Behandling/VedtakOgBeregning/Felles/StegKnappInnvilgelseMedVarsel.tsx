@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { utledStatus } from './vedtaksperioder/vedtaksperiodeUtils';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { BehandlingFakta } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
@@ -9,8 +10,6 @@ import { RessursFeilet, RessursSuksess } from '../../../../typer/ressurs';
 import { Vedtaksperiode } from '../../../../typer/vedtak/vedtakperiode';
 import { nullableTilDato, tilDato } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
-import { FanePath } from '../../faner';
-import { utledStatus } from './vedtaksperioder/vedtaksperiodeUtils';
 
 const bekreftelseModalPropsArena = {
     tittel: 'Vedtak i Arena i samme periode',
@@ -52,14 +51,12 @@ export const StegKnappInnvilgelseMedVarsel = ({
     lagredeVedtaksperioder,
     vedtakErLagret,
     tidligsteEndring,
-    nesteFane = FanePath.SIMULERING,
 }: {
     vedtaksperioder: Vedtaksperiode[];
     lagredeVedtaksperioder: Map<string, Vedtaksperiode>;
     vedtakErLagret: boolean;
     lagreVedtak: () => Promise<RessursSuksess<unknown> | RessursFeilet>;
     tidligsteEndring: string | undefined;
-    nesteFane?: FanePath;
 }) => {
     const { behandlingFakta } = useBehandling();
 
@@ -89,7 +86,6 @@ export const StegKnappInnvilgelseMedVarsel = ({
     return (
         <StegKnapp
             steg={Steg.BEREGNE_YTELSE}
-            nesteFane={nesteFane}
             onNesteSteg={lagreVedtak}
             validerUlagedeKomponenter={false}
             bekreftelseModalProps={utledBekreftelseModalProps()}

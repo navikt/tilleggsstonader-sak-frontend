@@ -106,6 +106,13 @@ const AvklartKjørtUkeStatusTag: FC<{ avklartKjørtUkeStatus: AvklartKjørtUkeSt
         case AvklartKjørtUkeStatus.UENDRET:
             return <BodyShort size="small">Utbetalt</BodyShort>;
 
+        case AvklartKjørtUkeStatus.SLETTET:
+            return (
+                <Tag size="small" data-color="danger">
+                    Slettet
+                </Tag>
+            );
+
         default:
             return null;
     }

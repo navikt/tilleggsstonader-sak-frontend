@@ -9,23 +9,7 @@ import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext
 import { useVilkårperioder } from '../../../hooks/useVilkårperioder';
 import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
-import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../typer/behandling/steg';
-import { FanePath } from '../faner';
-
-const nesteFane = (stønadstype: Stønadstype): FanePath => {
-    switch (stønadstype) {
-        case Stønadstype.LÆREMIDLER:
-            return FanePath.VEDTAK_OG_BEREGNING;
-
-        case Stønadstype.BARNETILSYN:
-        case Stønadstype.BOUTGIFTER:
-        case Stønadstype.DAGLIG_REISE_TSR:
-        case Stønadstype.DAGLIG_REISE_TSO:
-        case Stønadstype.REISE_TIL_SAMLING_TSO:
-            return FanePath.STØNADSVILKÅR;
-    }
-};
 
 const Inngangsvilkår = () => {
     const { behandling } = useBehandling();
@@ -53,10 +37,7 @@ const Inngangsvilkår = () => {
                             <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
                             <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
                         </InngangsvilkårProvider>
-                        <StegKnapp
-                            steg={Steg.INNGANGSVILKÅR}
-                            nesteFane={nesteFane(behandling.stønadstype)}
-                        >
+                        <StegKnapp steg={Steg.INNGANGSVILKÅR}>
                             Ferdigstill inngangsvilkår og gå videre
                         </StegKnapp>
                     </>

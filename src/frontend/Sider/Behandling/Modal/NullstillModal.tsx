@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
-
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../../../komponenter/Feil/feilmeldingUtils';
 import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
-import { BehandlingType } from '../../../typer/behandling/behandlingType';
 import { RessursStatus } from '../../../typer/ressurs';
-import { FanePath } from '../faner';
 
 const NullstillModal: React.FC = () => {
     const { request } = useApp();
@@ -19,7 +15,6 @@ const NullstillModal: React.FC = () => {
     const [laster, settLaster] = useState(false);
     const [feilmelding, settFeilmelding] = useState<Feil>();
 
-    const navigate = useNavigate();
     const lukkModal = () => {
         settFeilmelding(undefined);
         settVisNullstillModal(false);
@@ -34,12 +29,6 @@ const NullstillModal: React.FC = () => {
             .then((respons) => {
                 if (respons.status === RessursStatus.SUKSESS) {
                     lukkModal();
-                    if (behandling.type === BehandlingType.KJØRELISTE) {
-                        navigate(`/behandling/${behandling.id}/${FanePath.KJØRELISTE}`);
-                    } else {
-                        navigate(`/behandling/${behandling.id}/${FanePath.INNGANGSVILKÅR}`);
-                    }
-                    // TODO bør kunne løses bedre ved å kun refreshe state
                     window.location.reload();
                 } else {
                     settFeilmelding(feiletRessursTilFeilmelding(respons));
