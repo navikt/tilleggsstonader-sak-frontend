@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Alert, Button, Heading } from '@navikt/ds-react';
+import { Alert, Heading } from '@navikt/ds-react';
 
 import Oppsumering from './Oppsumering';
 import SimuleringTabell from './SimuleringTabell';
@@ -9,14 +9,15 @@ import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import Panel from '../../../komponenter/Panel/Panel';
-import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
-import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
 import { VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { formaterÅrFullMåned } from '../../../utils/dato';
 
-export const Simuleringsresultat: React.FC<{ vedtak: VedtakResponse }> = ({ vedtak }) => {
-    const { behandling, hentBehandling } = useBehandling();
+export const Simuleringsresultat: React.FC<{
+    vedtak: VedtakResponse;
+    settLaster: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({ vedtak, settLaster }) => {
+    const { behandling } = useBehandling();
     const { request } = useApp();
 
     const [simuleringsresultatState, settSimuleringsresultat] =
@@ -29,16 +30,9 @@ export const Simuleringsresultat: React.FC<{ vedtak: VedtakResponse }> = ({ vedt
         );
     }, [request, settSimuleringsresultat, behandling.id]);
 
-    const [laster, settLaster] = useState(false);
-
     useEffect(() => {
         settLaster(false);
-    }, [behandling]);
-
-    const gåTilNesteSteg = () => {
-        settLaster(true);
-        hentBehandling.rerun();
-    };
+    }, [behandling, settLaster]);
 
     const utledBeskrivelseIngenSimulering = (simuleringsresultat: SimuleringResponse | null) => {
         if (vedtak.type === 'AVSLAG') {
@@ -75,20 +69,6 @@ export const Simuleringsresultat: React.FC<{ vedtak: VedtakResponse }> = ({ vedt
                                 </Alert>
                             )}
                         </Panel>
-                        {behandling.resultat === BehandlingResultat.IKKE_SATT &&
-                            behandling.status !== BehandlingStatus.FATTER_VEDTAK && (
-                                <Button
-                                    variant="primary"
-                                    size="small"
-                                    disabled={laster}
-                                    loading={laster}
-                                    onClick={() => {
-                                        gåTilNesteSteg();
-                                    }}
-                                >
-                                    Neste
-                                </Button>
-                            )}
                     </>
                 ) : (
                     <Alert variant={'info'} inline>
