@@ -5,6 +5,7 @@ export enum VilkårStatus {
     OPPFYLT = 'OPPFYLT',
     IKKE_OPPFYLT = 'IKKE_OPPFYLT',
     IKKE_SATT = 'IKKE_SATT',
+    GAMMEL_MANGLER_DATA = 'GAMMEL_MANGLER_DATA',
 }
 
 export enum FormkravFristUnntak {
@@ -25,6 +26,7 @@ export const vilkårStatusTilTekst: Record<VilkårStatus, string> = {
     OPPFYLT: 'Oppfylt',
     IKKE_OPPFYLT: 'Ikke oppfylt',
     IKKE_SATT: 'Ikke satt',
+    GAMMEL_MANGLER_DATA: 'Gammel - mangler data',
 };
 
 export interface IFormalkrav {

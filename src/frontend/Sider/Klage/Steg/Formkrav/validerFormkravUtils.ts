@@ -3,6 +3,9 @@ import { utledRadioKnapper } from './utils';
 import { harVerdi } from '../../../../utils/utils';
 import { PåklagetVedtakstype } from '../../typer/klagebehandling/påklagetVedtakstype';
 
+const erOppfyltEllerGammel = (status: VilkårStatus) =>
+    status === VilkårStatus.OPPFYLT || status === VilkårStatus.GAMMEL_MANGLER_DATA;
+
 export const alleVurderingerErStatus = (
     formkravVurdering: IFormkravVilkår,
     status: VilkårStatus
@@ -24,8 +27,14 @@ export const påKlagetVedtakValgt = (vurderinger: IFormkravVilkår) => {
 };
 
 export const alleVilkårOppfylt = (vurderinger: IFormkravVilkår) => {
+    const { klagePart, klagersRettsligInteresse, klageKonkret, klagefristOverholdt, klageSignert } =
+        vurderinger;
     return (
-        alleVurderingerErStatus(vurderinger, VilkårStatus.OPPFYLT) ||
+        (erOppfyltEllerGammel(klagePart) &&
+            erOppfyltEllerGammel(klagersRettsligInteresse) &&
+            erOppfyltEllerGammel(klageKonkret) &&
+            erOppfyltEllerGammel(klageSignert) &&
+            erOppfyltEllerGammel(klagefristOverholdt)) ||
         (alleVurderingerOppfyltUntattKlagefrist(vurderinger) &&
             klagefristUnntakErValgtOgOppfylt(vurderinger.klagefristOverholdtUnntak))
     );
@@ -35,10 +44,10 @@ export const alleVurderingerOppfyltUntattKlagefrist = (formkrav: IFormkravVilkå
     const { klagePart, klagersRettsligInteresse, klageKonkret, klagefristOverholdt, klageSignert } =
         formkrav;
     return (
-        klagePart === VilkårStatus.OPPFYLT &&
-        klagersRettsligInteresse === VilkårStatus.OPPFYLT &&
-        klageKonkret === VilkårStatus.OPPFYLT &&
-        klageSignert === VilkårStatus.OPPFYLT &&
+        erOppfyltEllerGammel(klagePart) &&
+        erOppfyltEllerGammel(klagersRettsligInteresse) &&
+        erOppfyltEllerGammel(klageKonkret) &&
+        erOppfyltEllerGammel(klageSignert) &&
         klagefristOverholdt === VilkårStatus.IKKE_OPPFYLT
     );
 };
