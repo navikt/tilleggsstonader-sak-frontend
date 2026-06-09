@@ -41,6 +41,7 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     AVSTAND_OVER_SEKS_KM: 'Er reiseavstanden 6 km eller mer?',
     KAN_REISE_MED_OFFENTLIG_TRANSPORT: 'Kan bruker benytte offentlig transport?',
     KAN_KJØRE_MED_EGEN_BIL: 'Kan bruker kjøre selv?',
+    KAN_REISE_MED_TAXI: 'Kan bruker reise med taxi?',
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
@@ -60,6 +61,7 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     UNNTAK_SEKS_KM: 'Unntak fra seks kilometers regelen?',
     KAN_REISE_MED_OFFENTLIG_TRANSPORT: 'Kan benytte offentlig transport?',
     KAN_KJØRE_MED_EGEN_BIL: 'Kan bruker kjøre selv?',
+    KAN_REISE_MED_TAXI: 'Kan bruker reise med taxi?',
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {

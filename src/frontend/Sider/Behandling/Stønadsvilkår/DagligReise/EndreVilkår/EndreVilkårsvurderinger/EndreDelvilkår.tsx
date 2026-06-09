@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FC } from 'react';
 
-import { Radio, RadioGroup, ReadMore, Textarea } from '@navikt/ds-react';
+import { LocalAlert, Radio, RadioGroup, ReadMore, Textarea } from '@navikt/ds-react';
 
 import styles from './EndreDelvilkår.module.css';
 import { BegrunnelseRegel, SvarId } from '../../../../../../typer/regel';
@@ -67,6 +67,7 @@ export const EndreDelvilkår: FC<Props> = ({
     };
 
     const begrunnelseLabel = lagBegrunnelsestekst(begrunnelseType);
+    const valgtSvar = svaralternativer.find((svar) => svar.svarId === vurdering?.svar);
 
     return (
         <div
@@ -105,6 +106,19 @@ export const EndreDelvilkår: FC<Props> = ({
                     onChange={(e) => oppdaterBegrunnelse(e.target.value)}
                     description={begrunnelseHjelpetekst}
                 />
+            )}
+
+            {begrunnelseType === BegrunnelseRegel.UTEN && valgtSvar?.feilmelding && (
+                <LocalAlert status="warning">
+                    <LocalAlert.Header>
+                        <LocalAlert.Title>{valgtSvar.feilmelding}</LocalAlert.Title>
+                    </LocalAlert.Header>
+                    <LocalAlert.Content>
+                        {
+                            'Vi har ennå ikke implementert støtte for daglige reiser med Taxi, behandlingen må derfor henlegges og behandles i Arena'
+                        }
+                    </LocalAlert.Content>
+                </LocalAlert>
             )}
         </div>
     );

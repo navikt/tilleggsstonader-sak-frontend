@@ -34,7 +34,7 @@ import { useHarEndretDatoerFørTidligereVedtak } from '../../../Felles/BekreftEn
 import { VilkårPeriodeResultat } from '../../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { ingenFeil } from '../../../Vilkårvurdering/validering';
 import { FaktaDagligReise } from '../typer/faktaDagligReise';
-import { TypeVilkårFakta } from '../typer/regelstrukturDagligReise';
+import { RegelIdDagligReise, TypeVilkårFakta } from '../typer/regelstrukturDagligReise';
 import { SvarVilkårDagligReise, VilkårDagligReise } from '../typer/vilkårDagligReise';
 
 interface Props {
@@ -83,6 +83,14 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
         initierGjeldendeFaktaType(vilkår)
     );
     const [fakta, settFakta] = useState<FaktaDagligReise>(vilkår?.fakta || { type: 'UBESTEMT' });
+
+    const taxiVurdering = svar.KAN_REISE_MED_TAXI;
+    const taxiSvaralternativ = taxiVurdering
+        ? regelstruktur[RegelIdDagligReise.KAN_REISE_MED_TAXI].svaralternativer.find(
+              (svaralternativ) => svaralternativ.svarId === taxiVurdering.svar
+          )
+        : undefined;
+    const taxiMåBehandlesIArena = Boolean(taxiVurdering && taxiSvaralternativ?.feilmelding);
 
     const [laster, settLaster] = useState(false);
     const [feilmeldingVedLagring, settFeilmeldingVedLagring] = useState<Feil | undefined>(
@@ -257,8 +265,9 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
                     <HStack gap="space-16">
                         <SmallButton
                             disabled={
-                                !kanBehandlePrivatBil &&
-                                gjeldendeFaktaType === 'DAGLIG_REISE_PRIVAT_BIL'
+                                (!kanBehandlePrivatBil &&
+                                    gjeldendeFaktaType === 'DAGLIG_REISE_PRIVAT_BIL') ||
+                                taxiMåBehandlesIArena
                             }
                         >
                             Lagre
