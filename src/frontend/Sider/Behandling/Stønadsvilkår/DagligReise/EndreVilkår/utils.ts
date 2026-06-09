@@ -106,6 +106,7 @@ export const tomtSvar: SvarVilkårDagligReise = {
     UNNTAK_SEKS_KM: undefined,
     KAN_REISE_MED_OFFENTLIG_TRANSPORT: undefined,
     KAN_KJØRE_MED_EGEN_BIL: undefined,
+    KAN_REISE_MED_TAXI: undefined,
 };
 
 export const tomtOffentligTransport: FaktaOffentligTransport = {
