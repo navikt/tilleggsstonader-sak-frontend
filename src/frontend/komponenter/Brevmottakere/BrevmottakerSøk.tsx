@@ -5,11 +5,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { BodyShort, Button } from '@navikt/ds-react';
 
 import { Søkefelt } from './Søkefelt';
+import { Søkeresultat } from './Søkeresultat';
 import { EBrevmottakerRolle, IBrevmottaker } from './typer';
 import { VertikalSentrering } from './VertikalSentrering';
 import { usePersonsøk } from '../../hooks/useSøkPerson';
 import DataViewer from '../DataViewer';
-import { Søkeresultat } from './Søkeresultat';
 
 interface Props {
     settValgteMottakere: Dispatch<SetStateAction<IBrevmottaker[]>>;
