@@ -86,9 +86,7 @@ export const BeregningsresultatRammevedtakPrivatBil: FC<Props> = ({ rammevedtak 
                                     <BodyShort size="small">
                                         <strong>Reiseavstand en vei</strong>
                                     </BodyShort>
-                                    <BodyShort size="small">
-                                        {rammevedtak.reiser[0].reiseavstandEnVei} km
-                                    </BodyShort>
+                                    <BodyShort size="small">{reise.reiseavstandEnVei} km</BodyShort>
                                 </VStack>
                             </HStack>
                             <Skillelinje data-color={'neutral'} />
