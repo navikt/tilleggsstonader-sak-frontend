@@ -10,7 +10,12 @@ import { Skillelinje } from '../../../../../../komponenter/Skillelinje';
 import DateInputMedLeservisning from '../../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { FeilmeldingMaksBredde } from '../../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { formaterIsoPeriode } from '../../../../../../utils/dato';
-import { harTallverdi, tilHeltall, tilTallverdi } from '../../../../../../utils/tall';
+import {
+    filtrerTallInput,
+    harTallverdi,
+    tilHeltall,
+    tilTallverdi,
+} from '../../../../../../utils/tall';
 import { Toggle } from '../../../../../../utils/toggles';
 import { fjernSpaces } from '../../../../../../utils/utils';
 import {
@@ -291,12 +296,13 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                     <TextField
                         label={'Reiseavstand en vei (km)'}
                         size="small"
+                        inputMode="decimal"
                         error={feilmeldinger?.[0]?.reiseavstandEnVei}
                         value={harTallverdi(fakta.reiseavstandEnVei) ? fakta.reiseavstandEnVei : ''}
                         onChange={(e) => {
                             oppdaterFelles(
                                 'reiseavstandEnVei',
-                                tilTallverdi(fjernSpaces(e.target.value))
+                                tilTallverdi(filtrerTallInput(e.target.value))
                             );
                         }}
                     />

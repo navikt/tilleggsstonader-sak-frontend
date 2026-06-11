@@ -4,8 +4,7 @@ import { VStack, HStack } from '@navikt/ds-react';
 
 import TextField from '../../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
-import { harTallverdi, tilTallverdi } from '../../../../../utils/tall';
-import { fjernSpaces } from '../../../../../utils/utils';
+import { filtrerTallInput, harTallverdi, tilTallverdi } from '../../../../../utils/tall';
 import { tomtPrivatBil } from '../EndreVilkår/utils';
 import { FeilmeldingerFaktaPrivatBil } from '../EndreVilkår/validering';
 import { FaktaPrivatBil, FaktaReiseTilSamling } from '../typer/faktaReiseTilSamling';
@@ -31,12 +30,13 @@ export const EndreFaktaPrivatBil: React.FC<{
                     <TextField
                         label={'Reiseavstand i km'}
                         size="small"
+                        inputMode="decimal"
                         error={feilmeldinger?.reiseavstand}
                         value={harTallverdi(fakta.reiseavstand) ? fakta.reiseavstand : ''}
                         onChange={(e) => {
                             oppdaterFakta(
                                 'reiseavstand',
-                                tilTallverdi(fjernSpaces(e.target.value))
+                                tilTallverdi(filtrerTallInput(e.target.value))
                             );
                         }}
                     />

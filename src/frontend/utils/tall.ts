@@ -23,6 +23,11 @@ export const tilTallverdi = (verdi: number | string | undefined): number | undef
     return Number(verdi);
 };
 
+// Fjerner alle tegn som ikke er siffer, komma eller punktum – hindrer input som "40.2 km"
+export const filtrerTallInput = (verdi: string): string => {
+    return verdi.replace(/[^0-9.,]/g, '');
+};
+
 export const tilHeltall = (verdi: number | string | undefined): number | undefined => {
     if (!verdi) {
         return undefined;
