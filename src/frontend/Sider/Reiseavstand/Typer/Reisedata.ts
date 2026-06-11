@@ -12,6 +12,7 @@ export interface Reiserute {
     sluttLokasjon: Lokasjon;
     startAdresse: string;
     sluttAdresse: string;
+    harBomvei: boolean;
 }
 
 export interface Strekninger {

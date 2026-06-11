@@ -34,6 +34,10 @@ export const Reiseavstand: React.FC<{ reisedata: Reisedata }> = ({ reisedata }) 
                     <BodyShort>Ingen ferje</BodyShort>
                 )}
             </VStack>
+            <VStack className={styles.kort}>
+                <Label>Bompenger</Label>
+                <BodyShort>{reisedata.reiserute.harBomvei ? 'Ja' : 'Nei'}</BodyShort>
+            </VStack>
         </HGrid>
     );
 };
