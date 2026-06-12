@@ -59,10 +59,10 @@ export const KjørelisteBrevmeny: FC<Props> = ({
     };
 
     return (
-        <ExpansionCard aria-label="Begrunnelse" size="small" defaultOpen>
+        <ExpansionCard aria-label="Vurderingen vår" size="small" defaultOpen>
             <ExpansionCard.Header>
                 <HStack wrap={false} align="center" gap="space-8">
-                    <ExpansionCard.Title size="small">Begrunnelse</ExpansionCard.Title>
+                    <ExpansionCard.Title size="small">Vurderingen vår</ExpansionCard.Title>
                 </HStack>
             </ExpansionCard.Header>
             <ExpansionCard.Content>
@@ -85,7 +85,7 @@ export const KjørelisteBrevmeny: FC<Props> = ({
                         size="small"
                         className={css.lagreKnapp}
                     >
-                        Lagre begrunnelse
+                        Lagre vurderingen
                     </Button>
                 </VStack>
             </ExpansionCard.Content>
