@@ -1,5 +1,5 @@
 import { Periode } from '../../../utils/periode';
-import { JaNei } from '../../common';
+import { JaNei, JaNeiSitterPåMedAndre } from '../../common';
 
 export interface FaktaReise {
     skalReiseFraFolkeregistrertAdresse?: JaNei;
@@ -27,7 +27,7 @@ export interface OffentligTransport {
 }
 export interface PrivatTransport {
     årsakIkkeOffentligTransport: ÅrsakIkkeOffentligTransport[];
-    kanKjøreMedEgenBil?: JaNei;
+    kanKjøreMedEgenBil?: JaNeiSitterPåMedAndre;
     utgifterBil?: UtgifterBil;
     taxi?: Taxi;
 }

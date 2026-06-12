@@ -12,3 +12,15 @@ export const jaNeiTilTekst: Record<JaNei, string> = {
     JA: 'Ja',
     NEI: 'Nei',
 };
+
+export enum JaNeiSitterPåMedAndre {
+    JA = 'JA',
+    NEI = 'NEI',
+    SITTER_PÅ_MED_ANDRE = 'SITTER_PÅ_MED_ANDRE',
+}
+
+export const jaNeiSitterPåMedandreTilTekst: Record<JaNeiSitterPåMedAndre, string> = {
+    JA: 'Ja',
+    NEI: 'Nei',
+    SITTER_PÅ_MED_ANDRE: 'Nei, men jeg sitter på med andre',
+};

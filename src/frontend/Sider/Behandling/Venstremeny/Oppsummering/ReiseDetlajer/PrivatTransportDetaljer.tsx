@@ -9,7 +9,7 @@ import {
     ÅrsakIkkeOffentligTransport,
     ÅrsakIkkeOffentligTransportTilTekst,
 } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
-import { jaNeiTilTekst } from '../../../../../typer/common';
+import { jaNeiSitterPåMedandreTilTekst } from '../../../../../typer/common';
 import { tekstMedFallback } from '../../../../../utils/tekstformatering';
 import { SøknadInfoFelt } from '../Visningskomponenter';
 
@@ -37,7 +37,10 @@ export const PrivatTransportDetaljer: React.FC<{ privatTransport: PrivatTranspor
         {privatTransport.kanKjøreMedEgenBil && (
             <SøknadInfoFelt
                 label="Kan du kjøre bil til aktivitetsstedet?"
-                value={tekstMedFallback(jaNeiTilTekst, privatTransport.kanKjøreMedEgenBil)}
+                value={tekstMedFallback(
+                    jaNeiSitterPåMedandreTilTekst,
+                    privatTransport.kanKjøreMedEgenBil
+                )}
             />
         )}
 
