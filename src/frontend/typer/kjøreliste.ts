@@ -43,6 +43,7 @@ export interface AvklartDag {
     godkjentGjennomførtKjøring: GodkjentGjennomførtKjøring;
     begrunnelse?: string; // må fylles ut om avvik?
     parkeringsutgift?: number;
+    avklartKjørtDagStatus?: AvklartKjørtDagStatus;
 }
 
 export enum GodkjentGjennomførtKjøring {
@@ -62,6 +63,13 @@ export enum AvklartKjørtUkeStatus {
     NY = 'NY', // Uke finnes ikke i forrige behandling
     ENDRET = 'ENDRET', // Uke finnes i forrige behandling, men er endret av saksbehandler (inkl. tømt innhold → gir 0 kr)
     UENDRET = 'UENDRET', // Uke er kopiert uendret fra forrige behandling
+    SLETTET = 'SLETTET',
+}
+
+export enum AvklartKjørtDagStatus {
+    NY = 'NY',
+    ENDRET = 'ENDRET',
+    UENDRET = 'UENDRET',
     SLETTET = 'SLETTET',
 }
 

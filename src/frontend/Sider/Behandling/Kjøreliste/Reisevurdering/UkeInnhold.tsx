@@ -118,6 +118,7 @@ export const UkeInnhold: FC<{
                         <Label size="small">Status</Label>
                         <Label size="small">Godkjent Park. (Kr)</Label>
                         <Label size="small">Begrunnelse</Label>
+                        {!redigerer && <div />}
                     </div>
                 </div>
                 <div className={styles.wrapper}>

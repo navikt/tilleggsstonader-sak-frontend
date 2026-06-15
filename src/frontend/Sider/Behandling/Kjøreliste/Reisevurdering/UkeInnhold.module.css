@@ -47,7 +47,7 @@
 
 .høyre-grid {
     padding-right: 1rem;
-    grid-template-columns: var(--kolonne-5) var(--kolonne-6) var(--kolonne-7);
+    grid-template-columns: var(--kolonne-5) var(--kolonne-6) auto max-content;
 }
 
 .høyre-grid-redigering {
@@ -57,4 +57,8 @@
 
 .maks-høyde {
     max-height: 2rem;
+}
+
+.slettet {
+    text-decoration: line-through;
 }
