@@ -108,15 +108,14 @@ export const EndreDelvilkår: FC<Props> = ({
                 />
             )}
 
-            {begrunnelseType === BegrunnelseRegel.UTEN && valgtSvar?.feilmelding && (
+            {begrunnelseType === BegrunnelseRegel.UTEN && valgtSvar && (
                 <LocalAlert status="warning">
                     <LocalAlert.Header>
-                        <LocalAlert.Title>{valgtSvar.feilmelding}</LocalAlert.Title>
+                        <LocalAlert.Title>Må behandles i Arena</LocalAlert.Title>
                     </LocalAlert.Header>
                     <LocalAlert.Content>
-                        {
-                            'Vi har ennå ikke implementert støtte for daglige reiser med Taxi, behandlingen må derfor henlegges og behandles i Arena'
-                        }
+                        Vi har ennå ikke implementert støtte for daglige reiser med Taxi,
+                        behandlingen må derfor henlegges og behandles i Arena
                     </LocalAlert.Content>
                 </LocalAlert>
             )}

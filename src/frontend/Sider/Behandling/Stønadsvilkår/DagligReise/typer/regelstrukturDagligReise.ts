@@ -21,7 +21,6 @@ export interface SvarAlternativ {
     nesteRegelId: RegelIdDagligReise | undefined;
     begrunnelseType: BegrunnelseRegel;
     tilhørendeFaktaType: TypeVilkårFakta;
-    feilmelding: string | undefined;
 }
 
 export type TypeVilkårFakta =
