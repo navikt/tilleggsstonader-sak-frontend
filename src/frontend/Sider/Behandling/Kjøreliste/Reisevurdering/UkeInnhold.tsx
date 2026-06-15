@@ -3,6 +3,8 @@ import React, { FC, useState } from 'react';
 import { PencilIcon } from '@navikt/aksel-icons';
 import { Button, HStack, InlineMessage, Label, VStack } from '@navikt/ds-react';
 
+import { AvklartDagLesevisning } from './Dag/AvklartDagLesevisning';
+import { KjørelisteDagInfo } from './Dag/KjørelisteDagInfo';
 import { RedigerAvklartDag } from './Dag/RedigerAvklartDag';
 import styles from './UkeInnhold.module.css';
 import {
@@ -11,20 +13,27 @@ import {
 } from './valideringAvklarteDager';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
+import { useKjørelisteContext } from '../../../../context/KjørelisteContext';
 import { useSteg } from '../../../../context/StegContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
-import { RedigerbarAvklartDag, UkeVurdering } from '../../../../typer/kjøreliste';
+import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import { Feil, feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
+import {
+    AvklartKjørtDagStatus,
+    AvklartKjørtUkeStatus,
+    RedigerbarAvklartDag,
+    UkeVurdering,
+} from '../../../../typer/kjøreliste';
 import { RessursStatus } from '../../../../typer/ressurs';
+import {
+    RammeForReiseMedPrivatBilDelperiode,
+    vedtakErOpphør,
+} from '../../../../typer/vedtak/vedtakDagligReise';
 import {
     mapTilRedigerbareAvklarteDager,
     tomRedigerbarAvklartDag,
     typeAvvikTilTekst,
 } from '../utils';
-import { AvklartDagLesevisning } from './Dag/AvklartDagLesevisning';
-import { KjørelisteDagInfo } from './Dag/KjørelisteDagInfo';
-import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import { Feil, feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
-import { RammeForReiseMedPrivatBilDelperiode } from '../../../../typer/vedtak/vedtakDagligReise';
 
 export const UkeInnhold: FC<{
     uke: UkeVurdering;
@@ -34,6 +43,7 @@ export const UkeInnhold: FC<{
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
+    const { vedtak } = useKjørelisteContext();
 
     const [redigerer, settRedigerer] = React.useState(false);
     const [redigerbareDager, settRedigerbareDager] = useState<RedigerbarAvklartDag[]>([]);
@@ -71,10 +81,15 @@ export const UkeInnhold: FC<{
             return;
         }
 
+        const redigerbareDagerSomSkalLagre = redigerbareDager.filter((dag) => {
+            const originalDag = uke.dager.find((d) => d.dato === dag.dato);
+            return originalDag?.avklartDag?.avklartKjørtDagStatus !== AvklartKjørtDagStatus.SLETTET;
+        });
+
         request<UkeVurdering, RedigerbarAvklartDag[]>(
             `/api/sak/kjoreliste/${behandling.id}/${uke.avklartUkeId}`,
             'PUT',
-            redigerbareDager
+            redigerbareDagerSomSkalLagre
         ).then((res) => {
             if (res.status === RessursStatus.SUKSESS) {
                 oppdaterUke(res.data);
@@ -99,7 +114,12 @@ export const UkeInnhold: FC<{
     };
 
     // TODO: Må oppdateres når vi håndterer redigering uten at uke er innsendt
-    const kanRedigereUke = erStegRedigerbart && !!uke.kjørelisteInnsendtDato && !!uke.avklartUkeId;
+    const kanRedigereUke =
+        erStegRedigerbart &&
+        !!uke.kjørelisteInnsendtDato &&
+        !!uke.avklartUkeId &&
+        uke.avklartKjørtUkeStatus !== AvklartKjørtUkeStatus.SLETTET &&
+        !vedtakErOpphør(vedtak);
 
     return (
         <VStack gap="space-16">

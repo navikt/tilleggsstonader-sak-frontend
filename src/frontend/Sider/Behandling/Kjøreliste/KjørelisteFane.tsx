@@ -3,22 +3,25 @@ import React, { FC } from 'react';
 import { VStack } from '@navikt/ds-react';
 
 import { ReiseKort } from './ReiseKort';
+import { KjørelisteProvider } from '../../../context/KjørelisteContext';
 import { useReisevurderingPrivatBil } from '../../../hooks/useReisevurderingPrivatBil';
 import { useVedtak } from '../../../hooks/useVedtak';
 import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../typer/behandling/steg';
 import { ReisevurderingPrivatBil } from '../../../typer/kjøreliste';
-import { InnvilgelseDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
+import { VedtakDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
 
 export const KjørelisteFane: FC = () => {
-    const { vedtak } = useVedtak<InnvilgelseDagligReise>();
+    const { vedtak } = useVedtak<VedtakDagligReise>();
     const { reisevurderingerResponse } = useReisevurderingPrivatBil();
 
     return (
         <DataViewer response={{ vedtak, reisevurderingerResponse }} type={'reisedata'}>
-            {({ reisevurderingerResponse }) => (
-                <FaneInnhold reisevurderingerResponse={reisevurderingerResponse} />
+            {({ vedtak, reisevurderingerResponse }) => (
+                <KjørelisteProvider vedtak={vedtak}>
+                    <FaneInnhold reisevurderingerResponse={reisevurderingerResponse} />
+                </KjørelisteProvider>
             )}
         </DataViewer>
     );
