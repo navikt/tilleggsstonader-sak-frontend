@@ -18,7 +18,7 @@ export const tilTallverdi = (verdi: number | string | undefined): number | undef
             return verdi;
         }
         const formatertVerdi = Number(verdi.replace(/\s/g, '').replace(/,/g, '.'));
-        return isNaN(formatertVerdi) ? verdi : formatertVerdi;
+        return isNaN(formatertVerdi) ? undefined : formatertVerdi;
     }
     return Number(verdi);
 };
