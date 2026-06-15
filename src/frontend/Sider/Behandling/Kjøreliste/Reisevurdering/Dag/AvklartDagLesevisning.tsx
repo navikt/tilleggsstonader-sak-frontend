@@ -24,14 +24,11 @@ export const AvklartDagLesevisning: FC<{
             </HStack>
             <BodyShort
                 size="small"
-                className={skalHaSlettetStyling(avklartDag?.parkeringsutgift !== undefined)}
+                className={skalHaSlettetStyling(!!avklartDag?.parkeringsutgift)}
             >
                 {kronerEllerStrek(avklartDag?.parkeringsutgift)}
             </BodyShort>
-            <BodyShort
-                size="small"
-                className={skalHaSlettetStyling(avklartDag?.begrunnelse != undefined)}
-            >
+            <BodyShort size="small" className={skalHaSlettetStyling(!!avklartDag?.begrunnelse)}>
                 {avklartDag?.begrunnelse || '-'}
             </BodyShort>
             <AvklartKjørtDagStatusTag avklartKjørtDagStatus={avklartDag?.avklartKjørtDagStatus} />
