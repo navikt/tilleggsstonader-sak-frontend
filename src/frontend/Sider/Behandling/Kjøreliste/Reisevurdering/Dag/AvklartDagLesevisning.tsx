@@ -37,20 +37,6 @@ const AvklartKjørtDagStatusTag: FC<{
     avklartKjørtDagStatus: AvklartKjørtDagStatus | undefined;
 }> = ({ avklartKjørtDagStatus }) => {
     switch (avklartKjørtDagStatus) {
-        case AvklartKjørtDagStatus.NY:
-            return (
-                <Tag size="small" data-color="success">
-                    Ny
-                </Tag>
-            );
-        case AvklartKjørtDagStatus.ENDRET:
-            return (
-                <Tag size="small" data-color="warning">
-                    Endret
-                </Tag>
-            );
-        case AvklartKjørtDagStatus.UENDRET:
-            return <BodyShort size="small">Uendret</BodyShort>;
         case AvklartKjørtDagStatus.SLETTET:
             return (
                 <Tag size="small" data-color="danger">
