@@ -96,6 +96,19 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                         />
                     )}
 
+                    {reise.leveringOgHentingIBarnehage && (
+                        <>
+                            <SøknadInfoFelt
+                                label="Gateadressen hvor du henter eller leverer barn"
+                                value={reise.leveringOgHentingIBarnehage.gateadresse}
+                            />
+                            <SøknadInfoFelt
+                                label="Postnummer hvor du henter eller leverer barn"
+                                value={reise.leveringOgHentingIBarnehage.postnummer}
+                            />
+                        </>
+                    )}
+
                     {reise.harMerEnn6KmReisevei && (
                         <SøknadInfoFelt
                             label="Er reiseavstanden mellom der du bor og aktivitetsstedet 6 km eller mer én vei?"

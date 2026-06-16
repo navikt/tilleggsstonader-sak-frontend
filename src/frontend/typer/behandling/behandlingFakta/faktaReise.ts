@@ -10,6 +10,7 @@ export interface FaktaReise {
     harMerEnn6KmReisevei: JaNei;
     lengdeReisevei: number;
     harBehovForTransportUavhengigAvReisensLengde?: JaNei;
+    leveringOgHentingIBarnehage?: LeveringOgHentingIBarnehage;
     kanReiseMedOffentligTransport: JaNei;
     offentligTransport?: OffentligTransport;
     privatTransport?: PrivatTransport;
@@ -30,6 +31,11 @@ export interface PrivatTransport {
     kanKjøreMedEgenBil?: JaNeiSitterPåMedAndre;
     utgifterBil?: UtgifterBil;
     taxi?: Taxi;
+}
+
+export interface LeveringOgHentingIBarnehage {
+    gateadresse: string;
+    postnummer: string;
 }
 
 export enum BillettType {
