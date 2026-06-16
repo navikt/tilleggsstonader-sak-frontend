@@ -11,24 +11,21 @@ export const AvklartDagLesevisning: FC<{
     avklartDag: AvklartDag | undefined;
 }> = ({ avklartDag }) => {
     const erSlettet = avklartDag?.avklartKjørtDagStatus === AvklartKjørtDagStatus.SLETTET;
-    const skalHaSlettetStyling = (harVerdi: boolean) =>
+    const finnClassname = (harVerdi: boolean) =>
         erSlettet && harVerdi ? styles.slettet : undefined;
 
     return (
         <div className={styles.høyreGrid}>
-            <HStack gap="space-4" className={skalHaSlettetStyling(avklartDag !== undefined)}>
+            <HStack gap="space-4" className={finnClassname(avklartDag !== undefined)}>
                 <BodyShort size="small">
                     {avklartDag &&
                         godkjentGjennomførtKjøringTilTekst[avklartDag.godkjentGjennomførtKjøring]}
                 </BodyShort>
             </HStack>
-            <BodyShort
-                size="small"
-                className={skalHaSlettetStyling(!!avklartDag?.parkeringsutgift)}
-            >
+            <BodyShort size="small" className={finnClassname(!!avklartDag?.parkeringsutgift)}>
                 {kronerEllerStrek(avklartDag?.parkeringsutgift)}
             </BodyShort>
-            <BodyShort size="small" className={skalHaSlettetStyling(!!avklartDag?.begrunnelse)}>
+            <BodyShort size="small" className={finnClassname(!!avklartDag?.begrunnelse)}>
                 {avklartDag?.begrunnelse || '-'}
             </BodyShort>
             <AvklartKjørtDagStatusTag avklartKjørtDagStatus={avklartDag?.avklartKjørtDagStatus} />

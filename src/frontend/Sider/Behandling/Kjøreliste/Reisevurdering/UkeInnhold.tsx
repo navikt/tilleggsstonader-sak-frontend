@@ -81,7 +81,7 @@ export const UkeInnhold: FC<{
             return;
         }
 
-        const redigerbareDagerSomSkalLagre = redigerbareDager.filter((dag) => {
+        const redigerbareDagerSomSkalLagres = redigerbareDager.filter((dag) => {
             const originalDag = uke.dager.find((d) => d.dato === dag.dato);
             return originalDag?.avklartDag?.avklartKjørtDagStatus !== AvklartKjørtDagStatus.SLETTET;
         });
@@ -89,7 +89,7 @@ export const UkeInnhold: FC<{
         request<UkeVurdering, RedigerbarAvklartDag[]>(
             `/api/sak/kjoreliste/${behandling.id}/${uke.avklartUkeId}`,
             'PUT',
-            redigerbareDagerSomSkalLagre
+            redigerbareDagerSomSkalLagres
         ).then((res) => {
             if (res.status === RessursStatus.SUKSESS) {
                 oppdaterUke(res.data);
