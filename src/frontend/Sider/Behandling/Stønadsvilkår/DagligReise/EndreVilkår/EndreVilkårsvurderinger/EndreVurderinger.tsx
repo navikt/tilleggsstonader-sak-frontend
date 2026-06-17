@@ -155,6 +155,19 @@ export const EndreVurderinger: React.FC<Props> = ({
                     feilmeldinger={feilmeldinger}
                 />
             )}
+            {aktiveVurderinger.get(RegelIdDagligReise.KAN_REISE_MED_TAXI) && (
+                <EndreDelvilkår
+                    label="Kan søker reise med taxi?"
+                    regelId={RegelIdDagligReise.KAN_REISE_MED_TAXI}
+                    vurdering={vurderinger?.KAN_REISE_MED_TAXI}
+                    oppdaterVurdering={oppdaterVurdering}
+                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
+                    svaralternativer={finnSvarMappingForRegel(
+                        RegelIdDagligReise.KAN_REISE_MED_TAXI
+                    )}
+                    feilmeldinger={feilmeldinger}
+                />
+            )}
         </VStack>
     );
 };

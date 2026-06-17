@@ -84,6 +84,8 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
     );
     const [fakta, settFakta] = useState<FaktaDagligReise>(vilkår?.fakta || { type: 'UBESTEMT' });
 
+    const taxiMåBehandlesIArena = svar.KAN_REISE_MED_TAXI?.svar === 'JA';
+
     const [laster, settLaster] = useState(false);
     const [feilmeldingVedLagring, settFeilmeldingVedLagring] = useState<Feil | undefined>(
         undefined
@@ -257,8 +259,9 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
                     <HStack gap="space-16">
                         <SmallButton
                             disabled={
-                                !kanBehandlePrivatBil &&
-                                gjeldendeFaktaType === 'DAGLIG_REISE_PRIVAT_BIL'
+                                (!kanBehandlePrivatBil &&
+                                    gjeldendeFaktaType === 'DAGLIG_REISE_PRIVAT_BIL') ||
+                                taxiMåBehandlesIArena
                             }
                         >
                             Lagre
