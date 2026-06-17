@@ -35,7 +35,7 @@ export const FrittståendeBrev: React.FC<{
         fil,
         settFil,
         hentMalStruktur,
-        hentBrevmaler,
+        hentBrevmalerForBehandling,
     } = useBrev(valgtStønadstype);
 
     const { mellomlagretBrev } = useMellomlagringFrittståendeBrev(fagsakId);
@@ -47,8 +47,8 @@ export const FrittståendeBrev: React.FC<{
     }, [mellomlagretBrev, settBrevmal]);
 
     useEffect(() => {
-        hentBrevmaler([BrevmalResultat.FRITTSTAENDE]);
-    }, [hentBrevmaler]);
+        hentBrevmalerForBehandling([BrevmalResultat.FRITTSTAENDE]);
+    }, [hentBrevmalerForBehandling]);
 
     useEffect(() => {
         if (brevmal) {

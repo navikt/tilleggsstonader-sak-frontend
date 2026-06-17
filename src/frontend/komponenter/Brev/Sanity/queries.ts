@@ -5,6 +5,11 @@ export const hentMalerQuery = (hentUPubliserte: boolean = false) =>
         ? groq`*[ytelse == $ytelse && resultat in $resultat] | order(visningsnavn asc)`
         : groq`*[ytelse == $ytelse && resultat in $resultat && publisert == true] | order(visningsnavn asc)`;
 
+export const hentFellesMalerQuery = (hentUPubliserte: boolean = false) =>
+    hentUPubliserte
+        ? groq`*[(ytelse == $ytelse && resultat in ['FRITTSTAENDE']) || ytelse == 'FELLES' ] | order(visningsnavn asc)`
+        : groq`*[((ytelse == $ytelse && resultat in ['FRITTSTAENDE']) || ytelse == 'FELLES') && publisert == true] | order(visningsnavn asc)`;
+
 export const malQuery = (id: string, målform: 'bokmål' = 'bokmål') => groq`*[_id == "${id}"][0]{
 ...,
     "brevtittel": brevtittel.${målform === 'bokmål' ? 'tittelNB' : ''},

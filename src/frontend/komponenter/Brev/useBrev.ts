@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 
-import { hentMalerQuery, malQuery } from './Sanity/queries';
+import { hentFellesMalerQuery, hentMalerQuery, malQuery } from './Sanity/queries';
 import { useSanityClient } from './Sanity/useSanityClient';
 import { Brevmal, BrevmalResultat, MalStruktur } from './typer';
 import { Stønadstype } from '../../typer/behandling/behandlingTema';
@@ -52,6 +52,21 @@ export const useBrev = (ytelse: Stønadstype) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const hentBrevmalerPersonoversikt = useCallback((resultat: BrevmalResultat[]) => {
+        sanityClient
+            .fetch<Brevmal[]>(hentFellesMalerQuery(!erProd()), {
+                resultat: resultat,
+                ytelse: stønadstypeTilSanityYtelse(ytelse),
+            })
+            .then((data) => {
+                settBrevmaler(byggRessursSuksess(data));
+            })
+            .catch((error) => {
+                settBrevmaler(byggRessursFeilet(error.message));
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     const hentMalStruktur = useCallback(() => {
         if (brevmal) {
             sanityClient
@@ -68,6 +83,7 @@ export const useBrev = (ytelse: Stønadstype) => {
 
     return {
         hentBrevmaler,
+        hentBrevmalerForBehandling: hentBrevmalerPersonoversikt,
         hentMalStruktur,
         brevmaler,
         brevmal,

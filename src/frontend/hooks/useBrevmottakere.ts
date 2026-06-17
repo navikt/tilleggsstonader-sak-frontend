@@ -64,6 +64,5 @@ const byggBrevmottakerUrlForGittKontekst = (context: ContextBrevmottakere): stri
     if (context.type === 'frittstående-brev') {
         return `/api/sak/brevmottakere/fagsak/${context.fagsakId}`;
     }
-
     return 'IKKE-GYDLIG-URL';
 };
