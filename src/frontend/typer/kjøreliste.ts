@@ -5,12 +5,14 @@ export interface ReisevurderingPrivatBil {
     reiseId: string;
     uker: UkeVurdering[];
     rammevedtak: RammeForReiseMedPrivatBil;
+    forrigeRammevedtak?: RammeForReiseMedPrivatBil;
 }
 
 export interface UkeVurdering {
     ukenummer: number;
     fraDato: string;
     tilDato: string;
+    endringIRammevedtakStatus: UkeEndringIRammevedtakStatus;
     status: UkeStatus;
     avvik?: AvvikUke;
     behandletDato?: string;
@@ -44,6 +46,12 @@ export interface AvklartDag {
     begrunnelse?: string; // må fylles ut om avvik?
     parkeringsutgift?: number;
     avklartKjørtDagStatus?: AvklartKjørtDagStatus;
+}
+
+export enum UkeEndringIRammevedtakStatus {
+    NY = 'NY',
+    SLETTET = 'SLETTET',
+    UENDRET = 'UENDRET',
 }
 
 export enum GodkjentGjennomførtKjøring {

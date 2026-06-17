@@ -10,7 +10,12 @@ import { BodyShort, Heading, HStack, Table, Tag } from '@navikt/ds-react';
 import { UkeInnhold } from './UkeInnhold';
 import styles from './UkeRad.module.css';
 import { TableHeaderCellSmall } from '../../../../komponenter/TabellSmall';
-import { AvklartKjørtUkeStatus, UkeStatus, UkeVurdering } from '../../../../typer/kjøreliste';
+import {
+    AvklartKjørtUkeStatus,
+    UkeEndringIRammevedtakStatus,
+    UkeStatus,
+    UkeVurdering,
+} from '../../../../typer/kjøreliste';
 import { RammeForReiseMedPrivatBilDelperiode } from '../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoPeriode, formaterNullableIsoDato } from '../../../../utils/dato';
 import { finnDelperiodeForUke } from '../utils';
@@ -21,6 +26,9 @@ export const UkeRad: FC<{
     delperioder: RammeForReiseMedPrivatBilDelperiode[];
 }> = ({ uke, oppdaterUke, delperioder }) => {
     const relevantDelperiodeForUke = finnDelperiodeForUke(delperioder, uke);
+    const skalHaSlettetStyling =
+        uke.endringIRammevedtakStatus === UkeEndringIRammevedtakStatus.SLETTET &&
+        uke.avklartKjørtUkeStatus !== AvklartKjørtUkeStatus.SLETTET;
 
     return (
         <Table.ExpandableRow
@@ -36,9 +44,15 @@ export const UkeRad: FC<{
             <TableHeaderCellSmall>
                 <HStack justify="space-between" align="center">
                     <div className={styles.grid}>
-                        <Heading size="small">{`Uke ${uke.ukenummer}`}</Heading>
+                        <Heading
+                            size="small"
+                            className={skalHaSlettetStyling ? styles.slettet : undefined}
+                        >{`Uke ${uke.ukenummer}`}</Heading>
                         <HStack gap="space-40">
-                            <BodyShort size="small">
+                            <BodyShort
+                                size="small"
+                                className={skalHaSlettetStyling ? styles.slettet : undefined}
+                            >
                                 {formaterIsoPeriode(uke.fraDato, uke.tilDato)}
                             </BodyShort>
                             <AutomatiskManuellEllerAvvikTag status={uke.status} />
