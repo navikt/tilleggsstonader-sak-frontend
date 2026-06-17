@@ -29,8 +29,7 @@ const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                         <Select
                             label="Velg stønadstype"
                             onChange={(e) => {
-                                const valgtVerdi = e.target.value as Stønadstype;
-                                settValgtStønadstype(valgtVerdi);
+                                settValgtStønadstype(e.target.value as Stønadstype);
                                 settBrevErSendt(false);
                             }}
                             value={valgtStønadstype || ''}
