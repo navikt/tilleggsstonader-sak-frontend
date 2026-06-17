@@ -83,7 +83,7 @@ export const useBrev = (ytelse: Stønadstype) => {
 
     return {
         hentBrevmaler,
-        hentBrevmalerForBehandling: hentBrevmalerPersonoversikt,
+        hentBrevmalerPersonoversikt,
         hentMalStruktur,
         brevmaler,
         brevmal,

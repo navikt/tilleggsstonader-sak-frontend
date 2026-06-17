@@ -14,23 +14,11 @@ const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
     const { fagsakPerson, hentFagsakPerson } = useHentFagsakPerson();
 
     const [valgtStønadstype, settValgtStønadstype] = useState<Stønadstype>();
-    const [fellesBrev, settFellesBrev] = useState<boolean>();
     const [brevErSendt, settBrevErSendt] = useState<boolean>(false);
 
     useEffect(() => {
         hentFagsakPerson(fagsakPersonId);
     }, [fagsakPersonId, hentFagsakPerson]);
-
-    const handleOnChange = (value: string) => {
-        if (value == 'Felles') {
-            settFellesBrev(true);
-            settValgtStønadstype(undefined);
-        } else {
-            const valgtVerdi = value as Stønadstype;
-            settFellesBrev(false);
-            settValgtStønadstype(valgtVerdi);
-        }
-    };
 
     return (
         <div className={styles.container}>
@@ -41,15 +29,15 @@ const FrittståendeBrevFane: React.FC<{ fagsakPersonId: string }> = ({ fagsakPer
                         <Select
                             label="Velg stønadstype"
                             onChange={(e) => {
-                                handleOnChange(e.target.value);
+                                const valgtVerdi = e.target.value as Stønadstype;
+                                settValgtStønadstype(valgtVerdi);
                                 settBrevErSendt(false);
                             }}
-                            value={valgtStønadstype || '' || (fellesBrev ? 'Felles' : '')}
+                            value={valgtStønadstype || ''}
                             size="small"
                             style={{ maxWidth: 'fit-content' }}
                         >
                             <option value={''}>Velg</option>
-                            <option value={'Felles'}>Felles</option>
                             {Object.keys(Stønadstype).map((key) => {
                                 const stønadstype = key as Stønadstype;
                                 const fagsakId = utledFagsakId(stønadstype, fagsakPerson);
