@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { FC } from 'react';
 
-import { LocalAlert, Radio, RadioGroup, ReadMore, Textarea } from '@navikt/ds-react';
+import { Alert, Radio, RadioGroup, ReadMore, Textarea } from '@navikt/ds-react';
 
 import styles from './EndreDelvilkår.module.css';
 import { BegrunnelseRegel, SvarId } from '../../../../../../typer/regel';
@@ -107,17 +107,11 @@ export const EndreDelvilkår: FC<Props> = ({
                     description={begrunnelseHjelpetekst}
                 />
             )}
-
             {begrunnelseType === BegrunnelseRegel.UTEN && valgtSvar && (
-                <LocalAlert status="warning">
-                    <LocalAlert.Header>
-                        <LocalAlert.Title>Må behandles i Arena</LocalAlert.Title>
-                    </LocalAlert.Header>
-                    <LocalAlert.Content>
-                        Vi har ennå ikke implementert støtte for daglige reiser med Taxi,
-                        behandlingen må derfor henlegges og behandles i Arena
-                    </LocalAlert.Content>
-                </LocalAlert>
+                <Alert variant={'warning'}>
+                    Må behandles i Arena - vi har ennå ikke implementert støtte for daglige reiser
+                    med Taxi, behandlingen må derfor henlegges og behandles i Arena
+                </Alert>
             )}
         </div>
     );
