@@ -61,8 +61,13 @@ export const validerAvklarteDager = (
 
 export const validerAntallReisedagerInnenforRammevedtak = (
     avklarteDager: RedigerbarAvklartDag[],
-    delperiodeForUke: RammeForReiseMedPrivatBilDelperiode
+    delperiodeForUke: RammeForReiseMedPrivatBilDelperiode,
+    tillatOverskridelseRammevedtak: boolean = false
 ): boolean => {
+    if (tillatOverskridelseRammevedtak) {
+        return true;
+    }
+
     const antallDagerMedKjøring = avklarteDager.filter(
         (dag) => dag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.JA
     ).length;
