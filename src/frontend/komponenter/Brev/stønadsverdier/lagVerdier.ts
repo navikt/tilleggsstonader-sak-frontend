@@ -7,6 +7,7 @@ import { TypeVedtak, VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { InnvilgelseBoutgifter } from '../../../typer/vedtak/vedtakBoutgifter';
 import { InnvilgelseDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
 import { InnvilgelseLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
+import { InnvilgelseReiseTilSamling } from '../../../typer/vedtak/vedtakReiseTilSamling';
 import {
     BeregningsresultatTilsynBarn,
     InnvilgelseBarnetilsyn,
@@ -21,6 +22,7 @@ function behandleInnvilgelse(
         | InnvilgelseLæremidler
         | InnvilgelseBoutgifter
         | InnvilgelseDagligReise
+        | InnvilgelseReiseTilSamling
 ) {
     switch (behandling.stønadstype) {
         case Stønadstype.LÆREMIDLER: {
