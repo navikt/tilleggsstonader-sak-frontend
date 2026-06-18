@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import { ErrorMessage, VStack } from '@navikt/ds-react';
 
-import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { useMapById } from '../../../../../hooks/useMapById';
 import { Feil } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
-import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { InnvilgelseReiseTilSamling } from '../../../../../typer/vedtak/vedtakReiseTilSamling';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
@@ -24,7 +22,6 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
     lagretVedtak,
     vedtaksperioderForrigeBehandling,
 }) => {
-    const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
 
     const [vedtaksperioder, settVedtaksperioder] = useState<Vedtaksperiode[]>(
@@ -45,8 +42,6 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
 
     const [begrunnelse, settBegrunnelse] = useState<string | undefined>(lagretVedtak?.begrunnelse);
 
-    const gjelderTsr = behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSR;
-
     useEffect(() => {
         settErVedtaksperioderBeregnet(false);
     }, [vedtaksperioder]);
@@ -63,7 +58,6 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
                         foreslåPeriodeFeil={foreslåPeriodeFeil}
                         settForeslåPeriodeFeil={settForeslåPeriodeFeil}
                         vedtakErLagret={lagretVedtak !== undefined}
-                        gjelderTsr={gjelderTsr}
                     />
                     <Begrunnelsesfelt
                         begrunnelse={begrunnelse}
