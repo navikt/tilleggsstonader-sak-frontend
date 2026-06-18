@@ -4,7 +4,7 @@ import { RammeForReiseMedPrivatBil } from './vedtak/vedtakDagligReise';
 export interface ReisevurderingPrivatBil {
     reiseId: string;
     uker: UkeVurdering[];
-    rammevedtak: RammeForReiseMedPrivatBil;
+    rammevedtak?: RammeForReiseMedPrivatBil;
     forrigeRammevedtak?: RammeForReiseMedPrivatBil;
 }
 

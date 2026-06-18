@@ -24,8 +24,13 @@ export const ReiseKort: FC<{
     return (
         <div className={styles.container}>
             <div className={styles.header}>
-                <Heading size="small">{reisevurdering.rammevedtak.aktivitetsadresse}</Heading>
-                <OppsummeringRammevedtak rammeForReise={reisevurdering.rammevedtak} />
+                <Heading size="small">
+                    {reisevurdering.rammevedtak?.aktivitetsadresse ??
+                        reisevurdering.forrigeRammevedtak?.aktivitetsadresse}
+                </Heading>
+                <OppsummeringRammevedtak
+                    rammeForReise={reisevurdering.rammevedtak ?? reisevurdering.forrigeRammevedtak}
+                />
             </div>
             <div className={styles.innhold}>
                 <Reisevurdering reisevurdering={reisevurdering} oppdaterUke={oppdaterUke} />
