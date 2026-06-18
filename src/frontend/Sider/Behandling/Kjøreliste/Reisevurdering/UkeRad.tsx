@@ -10,12 +10,7 @@ import { BodyShort, Heading, HStack, Table, Tag } from '@navikt/ds-react';
 import { UkeInnhold } from './UkeInnhold';
 import styles from './UkeRad.module.css';
 import { TableHeaderCellSmall } from '../../../../komponenter/TabellSmall';
-import {
-    AvklartKjørtUkeStatus,
-    UkeEndringIRammevedtakStatus,
-    UkeStatus,
-    UkeVurdering,
-} from '../../../../typer/kjøreliste';
+import { AvklartKjørtUkeStatus, UkeStatus, UkeVurdering } from '../../../../typer/kjøreliste';
 import { RammeForReiseMedPrivatBilDelperiode } from '../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoPeriode, formaterNullableIsoDato } from '../../../../utils/dato';
 import { finnDelperiodeForUke } from '../utils';
@@ -27,8 +22,7 @@ export const UkeRad: FC<{
 }> = ({ uke, oppdaterUke, delperioder }) => {
     const relevantDelperiodeForUke = finnDelperiodeForUke(delperioder, uke);
     const skalHaSlettetStyling =
-        uke.endringIRammevedtakStatus === UkeEndringIRammevedtakStatus.SLETTET &&
-        uke.avklartKjørtUkeStatus !== AvklartKjørtUkeStatus.SLETTET;
+        uke.erUkeSlettet && uke.avklartKjørtUkeStatus !== AvklartKjørtUkeStatus.SLETTET;
 
     return (
         <Table.ExpandableRow

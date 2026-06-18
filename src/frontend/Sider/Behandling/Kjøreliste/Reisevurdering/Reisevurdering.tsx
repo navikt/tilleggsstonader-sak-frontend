@@ -3,11 +3,7 @@ import React, { FC } from 'react';
 import { Table } from '@navikt/ds-react';
 
 import { UkeRad } from './UkeRad';
-import {
-    ReisevurderingPrivatBil,
-    UkeEndringIRammevedtakStatus,
-    UkeVurdering,
-} from '../../../../typer/kjøreliste';
+import { ReisevurderingPrivatBil, UkeVurdering } from '../../../../typer/kjøreliste';
 import { RammeForReiseMedPrivatBilDelperiode } from '../../../../typer/vedtak/vedtakDagligReise';
 
 export const Reisevurdering: FC<{
@@ -15,13 +11,10 @@ export const Reisevurdering: FC<{
     oppdaterUke: (uke: UkeVurdering) => void;
 }> = ({ reisevurdering, oppdaterUke }) => {
     const delperioderForUke = (uke: UkeVurdering): RammeForReiseMedPrivatBilDelperiode[] => {
-        if (
-            uke.endringIRammevedtakStatus === UkeEndringIRammevedtakStatus.SLETTET &&
-            reisevurdering.forrigeRammevedtak
-        ) {
+        if (uke.erUkeSlettet && reisevurdering.forrigeRammevedtak) {
             return reisevurdering.forrigeRammevedtak.delperioder;
         }
-        return reisevurdering.rammevedtak.delperioder;
+        return reisevurdering.rammevedtak?.delperioder ?? [];
     };
 
     return (

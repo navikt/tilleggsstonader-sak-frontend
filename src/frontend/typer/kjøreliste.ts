@@ -12,7 +12,7 @@ export interface UkeVurdering {
     ukenummer: number;
     fraDato: string;
     tilDato: string;
-    endringIRammevedtakStatus: UkeEndringIRammevedtakStatus;
+    erUkeSlettet: boolean;
     status: UkeStatus;
     avvik?: AvvikUke;
     behandletDato?: string;
@@ -46,12 +46,6 @@ export interface AvklartDag {
     begrunnelse?: string; // må fylles ut om avvik?
     parkeringsutgift?: number;
     avklartKjørtDagStatus?: AvklartKjørtDagStatus;
-}
-
-export enum UkeEndringIRammevedtakStatus {
-    NY = 'NY',
-    SLETTET = 'SLETTET',
-    UENDRET = 'UENDRET',
 }
 
 export enum GodkjentGjennomførtKjøring {
