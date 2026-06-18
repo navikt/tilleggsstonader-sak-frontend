@@ -18,8 +18,10 @@ import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
 import { StegProvider } from '../../context/StegContext';
 import { useNavigateUtenSjekkForUlagredeKomponenter } from '../../hooks/useNavigateUtenSjekkForUlagredeKomponenter';
+import DataViewer from '../../komponenter/DataViewer';
 import { SettPåVentSak } from '../../komponenter/SettPåVent/SettPåVentContainer';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
+import { RessursStatus } from '../../typer/ressurs';
 import { Toast } from '../../typer/toast';
 
 const BehandlingTabsInnhold = () => {
@@ -33,25 +35,32 @@ const BehandlingTabsInnhold = () => {
         toggleKanSaksbehandle,
         kanSetteBehandlingPåVent,
         sluttDatoForrigeVedtak,
+        privatBilVilkårRessurs,
     } = useBehandling();
 
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
-    const aktivFane = isFanePath(path) ? path : stegTilFaneForBehandling(behandling);
+    const harPrivatBilVilkår =
+        privatBilVilkårRessurs.status === RessursStatus.SUKSESS &&
+        privatBilVilkårRessurs.data.harPrivatBil;
+
+    const aktivFane = isFanePath(path)
+        ? path
+        : stegTilFaneForBehandling(behandling, harPrivatBilVilkår);
 
     const forrigeSteg = useRef(behandling.steg);
     useEffect(() => {
         const stegHarEndretSeg = behandling.steg !== forrigeSteg.current;
         forrigeSteg.current = behandling.steg;
 
-        const forventetFane = stegTilFaneForBehandling(behandling);
+        const forventetFane = stegTilFaneForBehandling(behandling, harPrivatBilVilkår);
         // Ved stegendring: naviger alltid til nytt steg. Ved refresh/mount: kun naviger hvis fanen er låst.
         if (stegHarEndretSeg || faneErLåst(behandling, aktivFane)) {
             navigateUtenSjekk(`/behandling/${behandling.id}/${forventetFane}`);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [behandling.steg]);
+    }, [behandling.steg, harPrivatBilVilkår]);
 
     const håndterFaneBytte = (nyFane: FanePath) => {
         if (!faneErLåst(behandling, nyFane)) {
@@ -61,73 +70,77 @@ const BehandlingTabsInnhold = () => {
         }
     };
 
-    const behandlingFaner = hentBehandlingfaner(behandling);
+    const behandlingFaner = hentBehandlingfaner(behandling, harPrivatBilVilkår);
 
     return (
-        <StegProvider
-            fane={aktivFane}
-            behandling={behandling}
-            behandlingErRedigerbar={behandlingErRedigerbar}
-        >
-            <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
-                <Sticky className={styles.stickyTablistContainer}>
-                    <Tabs.List className={styles.tabsList}>
-                        {behandlingFaner.map((tab) =>
-                            tab.erLåst ? (
-                                <Tabs.Tab
-                                    key={tab.path}
-                                    value={tab.path}
-                                    label={tab.navn}
-                                    icon={tab.ikon}
-                                    className={styles.disabledTab}
-                                />
-                            ) : (
-                                <Tabs.Tab
-                                    key={tab.path}
-                                    value={tab.path}
-                                    label={tab.navn}
-                                    icon={tab.ikon}
-                                />
-                            )
-                        )}
-                        <div className={styles.høyrejustertInnhold}>
-                            {kanSetteBehandlingPåVent && !statusPåVentRedigering && (
-                                <Button
-                                    size={'small'}
-                                    onClick={() => settStatusPåVentRedigering(true)}
-                                    variant="secondary"
-                                >
-                                    Sett på vent
-                                </Button>
+        <DataViewer type={'harPrivatBil'} response={{ privatBilVilkårRessurs }}>
+            <StegProvider
+                fane={aktivFane}
+                behandling={behandling}
+                behandlingErRedigerbar={behandlingErRedigerbar}
+            >
+                <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
+                    <Sticky className={styles.stickyTablistContainer}>
+                        <Tabs.List className={styles.tabsList}>
+                            {behandlingFaner.map((tab) =>
+                                tab.erLåst ? (
+                                    <Tabs.Tab
+                                        key={tab.path}
+                                        value={tab.path}
+                                        label={tab.navn}
+                                        icon={tab.ikon}
+                                        className={styles.disabledTab}
+                                    />
+                                ) : (
+                                    <Tabs.Tab
+                                        key={tab.path}
+                                        value={tab.path}
+                                        label={tab.navn}
+                                        icon={tab.ikon}
+                                    />
+                                )
                             )}
-                            <HamburgermenyBehandling />
-                        </div>
-                    </Tabs.List>
-                </Sticky>
-                <div className={styles.tabContentContainer}>
-                    {!toggleKanSaksbehandle && (
-                        <Alert variant={'error'}>Mulighet for å saksbehandle er skrudd av</Alert>
-                    )}
-                    <SettPåVentSak
-                        statusPåVentRedigering={statusPåVentRedigering}
-                        settStatusPåVentRedigering={settStatusPåVentRedigering}
-                    />
-                    <TidligereVedtaksperioder
-                        behandlingFakta={behandlingFakta}
-                        behandlingId={behandling.id}
-                        stønadstype={behandling.stønadstype}
-                        sluttdatoForrigeVedtak={sluttDatoForrigeVedtak.sluttdato}
-                    />
-                    {behandlingFaner
-                        .filter((fane) => !fane.erLåst)
-                        .map((tab) => (
-                            <Tabs.Panel key={tab.path} value={tab.path}>
-                                {tab.komponent(behandling.id)}
-                            </Tabs.Panel>
-                        ))}
-                </div>
-            </Tabs>
-        </StegProvider>
+                            <div className={styles.høyrejustertInnhold}>
+                                {kanSetteBehandlingPåVent && !statusPåVentRedigering && (
+                                    <Button
+                                        size={'small'}
+                                        onClick={() => settStatusPåVentRedigering(true)}
+                                        variant="secondary"
+                                    >
+                                        Sett på vent
+                                    </Button>
+                                )}
+                                <HamburgermenyBehandling />
+                            </div>
+                        </Tabs.List>
+                    </Sticky>
+                    <div className={styles.tabContentContainer}>
+                        {!toggleKanSaksbehandle && (
+                            <Alert variant={'error'}>
+                                Mulighet for å saksbehandle er skrudd av
+                            </Alert>
+                        )}
+                        <SettPåVentSak
+                            statusPåVentRedigering={statusPåVentRedigering}
+                            settStatusPåVentRedigering={settStatusPåVentRedigering}
+                        />
+                        <TidligereVedtaksperioder
+                            behandlingFakta={behandlingFakta}
+                            behandlingId={behandling.id}
+                            stønadstype={behandling.stønadstype}
+                            sluttdatoForrigeVedtak={sluttDatoForrigeVedtak.sluttdato}
+                        />
+                        {behandlingFaner
+                            .filter((fane) => !fane.erLåst)
+                            .map((tab) => (
+                                <Tabs.Panel key={tab.path} value={tab.path}>
+                                    {tab.komponent(behandling.id)}
+                                </Tabs.Panel>
+                            ))}
+                    </div>
+                </Tabs>
+            </StegProvider>
+        </DataViewer>
     );
 };
 
