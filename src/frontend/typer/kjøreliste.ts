@@ -30,6 +30,7 @@ export interface AvvikUke {
 export interface Dag {
     dato: string;
     ukedag: Ukedag; // avklar om faktisk trenger, eller om frontend skal mappe ut fra dag
+    erDagSlettet: boolean;
     kjørelisteDag?: KjørelisteDag;
     avklartDag?: AvklartDag;
 }

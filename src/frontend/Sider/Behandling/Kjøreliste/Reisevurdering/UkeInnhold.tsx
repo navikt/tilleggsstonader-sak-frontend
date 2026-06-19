@@ -144,7 +144,7 @@ export const UkeInnhold: FC<{
                 <div className={styles.wrapper}>
                     {uke.dager.map((dag, dagIndeks) => (
                         <React.Fragment key={dagIndeks}>
-                            <KjørelisteDagInfo dag={dag} />
+                            <KjørelisteDagInfo dag={dag} erUkeSlettet={uke.erUkeSlettet} />
                             {redigerer ? (
                                 <RedigerAvklartDag
                                     dag={
