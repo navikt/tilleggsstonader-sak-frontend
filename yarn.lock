@@ -1127,10 +1127,10 @@
     "@typescript-eslint/types" "8.60.0"
     eslint-visitor-keys "^5.0.0"
 
-"@unleash/proxy-client-react@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@unleash/proxy-client-react/-/proxy-client-react-5.0.0.tgz#2ec5a6c92d993c6411efa6cc2761eda7627d6c51"
-  integrity sha512-f00yLXSdA2ifB1RvqD1T4Il3Yk0CjVibKYS4cdOeLb6LhyH4kIeyJwtQO1slUrKRUy8VBt8Hmm2Rh1JEGlkfSQ==
+"@unleash/proxy-client-react@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@unleash/proxy-client-react/-/proxy-client-react-6.0.0.tgz#04d69deff612fedf9c5c6a1f580a8e7fcce749a8"
+  integrity sha512-QyRsmRxcr0rYOKWQzovGFvqRhC4nTmjym+bQKSOn/2KsJ7zC9WNZF06M6TWoTjqPGEsiP4zqyEohu/9dYWPf8g==
 
 "@webassemblyjs/ast@1.14.1", "@webassemblyjs/ast@^1.14.1":
   version "1.14.1"
@@ -1793,10 +1793,10 @@ concat-map@0.0.1:
   resolved "https://registry.yarnpkg.com/concat-map/-/concat-map-0.0.1.tgz#d8a96bd77fd68df7793a73036a3ba0d5405d477b"
   integrity sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==
 
-constate@^3.3.3:
-  version "3.3.3"
-  resolved "https://registry.yarnpkg.com/constate/-/constate-3.3.3.tgz#668a4e849986ad68fc4e0e67451e388a1c479e06"
-  integrity sha512-J1P1K/GSB2Bn7uLU9AC9ddJb4PooiMHvektj8PK31Tj6nDWYjnmqVkOajzFp2oT7dpCjE2dL1VXVt/XrNwNwQA==
+constate@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/constate/-/constate-4.0.0.tgz#08439e2ae04da5f6e82a7b02b8c369728f1716c6"
+  integrity sha512-UtqW4acGFSaCk0/2TuzeoS/lWTal+U5Q+oWmcKWQ6/54FwC1iQlurI7BQtHEBTLmzsmaQHkQh8UEackXpP7+7Q==
 
 convert-source-map@^2.0.0:
   version "2.0.0"
