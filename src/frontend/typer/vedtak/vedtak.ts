@@ -1,7 +1,6 @@
 import { VedtakBoutgifter } from './vedtakBoutgifter';
 import { VedtakDagligReise } from './vedtakDagligReise';
 import { VedtakLæremidler } from './vedtakLæremidler';
-import { VedtakReiseTilSamling } from './vedtakReiseTilSamling';
 import { VedtakBarnetilsyn } from './vedtakTilsynBarn';
 import { Stønadstype } from '../behandling/behandlingTema';
 
@@ -9,8 +8,7 @@ export type VedtakResponse =
     | VedtakBarnetilsyn
     | VedtakLæremidler
     | VedtakBoutgifter
-    | VedtakDagligReise
-    | VedtakReiseTilSamling;
+    | VedtakDagligReise;
 
 export enum TypeVedtak {
     INNVILGELSE = 'INNVILGELSE',
