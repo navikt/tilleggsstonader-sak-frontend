@@ -13,4 +13,6 @@ export interface InnvilgelseReiseTilSamling {
     gjelderFraOgMed?: string;
     gjelderTilOgMed?: string;
     begrunnelse?: string;
+    beregningsresultat?: Beregningsresultat;
 }
+export type Beregningsresultat = Record<string, unknown>;
