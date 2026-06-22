@@ -21,6 +21,8 @@ export const UkeRad: FC<{
     delperioder: RammeForReiseMedPrivatBilDelperiode[];
 }> = ({ uke, oppdaterUke, delperioder }) => {
     const relevantDelperiodeForUke = finnDelperiodeForUke(delperioder, uke);
+    const skalHaSlettetStyling =
+        uke.erUkeSlettet && uke.avklartKjørtUkeStatus !== AvklartKjørtUkeStatus.SLETTET;
 
     return (
         <Table.ExpandableRow
@@ -36,9 +38,15 @@ export const UkeRad: FC<{
             <TableHeaderCellSmall>
                 <HStack justify="space-between" align="center">
                     <div className={styles.grid}>
-                        <Heading size="small">{`Uke ${uke.ukenummer}`}</Heading>
+                        <Heading
+                            size="small"
+                            className={skalHaSlettetStyling ? styles.slettet : undefined}
+                        >{`Uke ${uke.ukenummer}`}</Heading>
                         <HStack gap="space-40">
-                            <BodyShort size="small">
+                            <BodyShort
+                                size="small"
+                                className={skalHaSlettetStyling ? styles.slettet : undefined}
+                            >
                                 {formaterIsoPeriode(uke.fraDato, uke.tilDato)}
                             </BodyShort>
                             <AutomatiskManuellEllerAvvikTag status={uke.status} />

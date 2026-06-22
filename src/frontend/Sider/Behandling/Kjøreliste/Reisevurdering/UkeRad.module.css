@@ -3,3 +3,7 @@
     grid-template-columns: 4.5rem auto;
     align-items: center;
 }
+
+.slettet {
+    text-decoration: line-through;
+}
