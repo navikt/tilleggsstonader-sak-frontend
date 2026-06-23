@@ -96,10 +96,6 @@ export const faneTilSteg: Record<FanePath, Steg> = {
     'fullfor-kjoreliste': Steg.FULLFØR_KJØRELISTE,
 };
 
-const erDagligReiseRevurdering = (behandling: Behandling) =>
-    behandling.type === BehandlingType.REVURDERING &&
-    [Stønadstype.DAGLIG_REISE_TSO, Stønadstype.DAGLIG_REISE_TSR].includes(behandling.stønadstype);
-
 export const stegTilFaneForBehandling = (
     behandling: Behandling,
     harRammevedtak: boolean
@@ -108,8 +104,8 @@ export const stegTilFaneForBehandling = (
         return stegTilFaneForKjørelistebehandling(behandling.steg);
     }
 
-    if (erDagligReiseRevurdering(behandling)) {
-        return stegTilFaneForDagligReiseRevurdering(behandling.steg, harRammevedtak);
+    if (harRammevedtak) {
+        return stegTilFaneForDagligReiseMedRammevedtak(behandling.steg);
     }
 
     return stegTilFaneStandard(behandling.steg);
@@ -149,7 +145,7 @@ const stegTilFaneForKjørelistebehandling = (steg: Steg): FanePath => {
     }
 };
 
-const stegTilFaneForDagligReiseRevurdering = (steg: Steg, harRammevedtak: boolean): FanePath => {
+const stegTilFaneForDagligReiseMedRammevedtak = (steg: Steg): FanePath => {
     switch (steg) {
         case Steg.INNGANGSVILKÅR:
             return FanePath.INNGANGSVILKÅR;
@@ -158,9 +154,9 @@ const stegTilFaneForDagligReiseRevurdering = (steg: Steg, harRammevedtak: boolea
         case Steg.BEREGNE_YTELSE:
             return FanePath.VEDTAK_OG_BEREGNING;
         case Steg.KJØRELISTE:
-            return harRammevedtak ? FanePath.KJØRELISTE : FanePath.INNGANGSVILKÅR;
+            return FanePath.KJØRELISTE;
         case Steg.BEREGNING:
-            return harRammevedtak ? FanePath.BEREGNING : FanePath.INNGANGSVILKÅR;
+            return FanePath.BEREGNING;
         case Steg.SIMULERING:
             return FanePath.SIMULERING;
         case Steg.SEND_TIL_BESLUTTER:
@@ -303,7 +299,7 @@ export const hentBehandlingfaner = (
         return kjørelistebehandlingFaner(behandling);
     }
 
-    if (erDagligReiseRevurdering(behandling) && harRammevedtak) {
+    if (harRammevedtak) {
         return dagligReisePrivatBilRevurderingFaner(behandling);
     }
 
