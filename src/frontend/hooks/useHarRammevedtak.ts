@@ -20,7 +20,7 @@ export const useHarRammevedtak = (behandlingId: string): UseHarRammevedtakRespon
 
     const hentRammevedtak = useCallback(() => {
         request<HarRammevedtakDto, null>(
-            `/api/sak/vilkar/daglig-reise/${behandlingId}/har-rammevedtak`
+            `/api/sak/vedtak/daglig-reise/${behandlingId}/har-rammevedtak`
         ).then(settRammevedtakRessurs);
     }, [behandlingId, request]);
 
