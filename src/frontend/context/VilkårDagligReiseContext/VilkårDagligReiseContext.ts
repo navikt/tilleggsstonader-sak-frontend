@@ -46,7 +46,7 @@ interface UseVilkårDagligReiseResponse {
 export const [VilkårDagligReiseProvider, useVilkårDagligReise] = constate(
     ({ eksisterendeVilkår, regelstruktur, aktiviteter }: Props): UseVilkårDagligReiseResponse => {
         const { request } = useApp();
-        const { behandling, hentPrivatBilVilkår } = useBehandling();
+        const { behandling, hentRammevedtak } = useBehandling();
 
         const [vilkårsett, settVilkårsett] = useState<VilkårDagligReise[]>(eksisterendeVilkår);
 
@@ -59,7 +59,7 @@ export const [VilkårDagligReiseProvider, useVilkårDagligReise] = constate(
 
             if (respons.status === RessursStatus.SUKSESS) {
                 settVilkårsett((prevVilkårsvurdering) => [...prevVilkårsvurdering, respons.data]);
-                hentPrivatBilVilkår();
+                hentRammevedtak();
             }
 
             return respons;
@@ -76,7 +76,7 @@ export const [VilkårDagligReiseProvider, useVilkårDagligReise] = constate(
                 settVilkårsett((prevVilkårsvurdering) =>
                     oppdaterVilkårIListe(prevVilkårsvurdering, respons.data)
                 );
-                hentPrivatBilVilkår();
+                hentRammevedtak();
             }
 
             return respons;
@@ -100,7 +100,7 @@ export const [VilkårDagligReiseProvider, useVilkårDagligReise] = constate(
                         oppdaterVilkårIListe(prevVilkårsvurdering, respons.data.vilkår)
                     );
                 }
-                hentPrivatBilVilkår();
+                hentRammevedtak();
             }
 
             return respons.status;

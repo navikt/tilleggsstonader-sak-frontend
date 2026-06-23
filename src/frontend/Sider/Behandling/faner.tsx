@@ -102,14 +102,14 @@ const erDagligReiseRevurdering = (behandling: Behandling) =>
 
 export const stegTilFaneForBehandling = (
     behandling: Behandling,
-    harPrivatBilVilkår: boolean
+    harRammevedtak: boolean
 ): FanePath => {
     if (behandling.type === BehandlingType.KJØRELISTE) {
         return stegTilFaneForKjørelistebehandling(behandling.steg);
     }
 
     if (erDagligReiseRevurdering(behandling)) {
-        return stegTilFaneForDagligReiseRevurdering(behandling.steg, harPrivatBilVilkår);
+        return stegTilFaneForDagligReiseRevurdering(behandling.steg, harRammevedtak);
     }
 
     return stegTilFaneStandard(behandling.steg);
@@ -149,10 +149,7 @@ const stegTilFaneForKjørelistebehandling = (steg: Steg): FanePath => {
     }
 };
 
-const stegTilFaneForDagligReiseRevurdering = (
-    steg: Steg,
-    harPrivatBilVilkår: boolean
-): FanePath => {
+const stegTilFaneForDagligReiseRevurdering = (steg: Steg, harRammevedtak: boolean): FanePath => {
     switch (steg) {
         case Steg.INNGANGSVILKÅR:
             return FanePath.INNGANGSVILKÅR;
@@ -161,9 +158,9 @@ const stegTilFaneForDagligReiseRevurdering = (
         case Steg.BEREGNE_YTELSE:
             return FanePath.VEDTAK_OG_BEREGNING;
         case Steg.KJØRELISTE:
-            return harPrivatBilVilkår ? FanePath.KJØRELISTE : FanePath.INNGANGSVILKÅR;
+            return harRammevedtak ? FanePath.KJØRELISTE : FanePath.INNGANGSVILKÅR;
         case Steg.BEREGNING:
-            return harPrivatBilVilkår ? FanePath.BEREGNING : FanePath.INNGANGSVILKÅR;
+            return harRammevedtak ? FanePath.BEREGNING : FanePath.INNGANGSVILKÅR;
         case Steg.SIMULERING:
             return FanePath.SIMULERING;
         case Steg.SEND_TIL_BESLUTTER:
@@ -300,13 +297,13 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
 
 export const hentBehandlingfaner = (
     behandling: Behandling,
-    harPrivatBilVilkår: boolean
+    harRammevedtak: boolean
 ): FanerMedRouter[] => {
     if (behandling.type === BehandlingType.KJØRELISTE) {
         return kjørelistebehandlingFaner(behandling);
     }
 
-    if (erDagligReiseRevurdering(behandling) && harPrivatBilVilkår) {
+    if (erDagligReiseRevurdering(behandling) && harRammevedtak) {
         return dagligReisePrivatBilRevurderingFaner(behandling);
     }
 

@@ -35,32 +35,32 @@ const BehandlingTabsInnhold = () => {
         toggleKanSaksbehandle,
         kanSetteBehandlingPåVent,
         sluttDatoForrigeVedtak,
-        privatBilVilkårRessurs,
+        rammevedtakRessurs,
     } = useBehandling();
 
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
 
-    const harPrivatBilVilkår =
-        privatBilVilkårRessurs.status === RessursStatus.SUKSESS &&
-        privatBilVilkårRessurs.data.harPrivatBil;
+    const harRammevedtak =
+        rammevedtakRessurs.status === RessursStatus.SUKSESS &&
+        rammevedtakRessurs.data.harRammevedtak;
 
     const aktivFane = isFanePath(path)
         ? path
-        : stegTilFaneForBehandling(behandling, harPrivatBilVilkår);
+        : stegTilFaneForBehandling(behandling, harRammevedtak);
 
     const forrigeSteg = useRef(behandling.steg);
     useEffect(() => {
         const stegHarEndretSeg = behandling.steg !== forrigeSteg.current;
         forrigeSteg.current = behandling.steg;
 
-        const forventetFane = stegTilFaneForBehandling(behandling, harPrivatBilVilkår);
+        const forventetFane = stegTilFaneForBehandling(behandling, harRammevedtak);
         // Ved stegendring: naviger alltid til nytt steg. Ved refresh/mount: kun naviger hvis fanen er låst.
         if (stegHarEndretSeg || faneErLåst(behandling, aktivFane)) {
             navigateUtenSjekk(`/behandling/${behandling.id}/${forventetFane}`);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [behandling.steg, harPrivatBilVilkår]);
+    }, [behandling.steg, harRammevedtak]);
 
     const håndterFaneBytte = (nyFane: FanePath) => {
         if (!faneErLåst(behandling, nyFane)) {
@@ -70,10 +70,10 @@ const BehandlingTabsInnhold = () => {
         }
     };
 
-    const behandlingFaner = hentBehandlingfaner(behandling, harPrivatBilVilkår);
+    const behandlingFaner = hentBehandlingfaner(behandling, harRammevedtak);
 
     return (
-        <DataViewer type={'harPrivatBil'} response={{ privatBilVilkårRessurs }}>
+        <DataViewer type={'harRammevedtak'} response={{ rammevedtakRessurs }}>
             <StegProvider
                 fane={aktivFane}
                 behandling={behandling}

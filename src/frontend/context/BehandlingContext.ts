@@ -5,8 +5,7 @@ import constate from 'constate';
 
 import { useApp } from './AppContext';
 import { useBehandlingshistorikk } from '../hooks/useBehandlingshistorikk';
-import { useHentPrivatBilVilkår } from '../hooks/useHentPrivatBilVilkår';
-import { HarPrivatBilVilkårDto } from '../hooks/useHentPrivatBilVilkår';
+import { HarRammevedtakDto, useHarRammevedtak } from '../hooks/useHarRammevedtak';
 import { RerrunnableEffect } from '../hooks/useRerunnableEffect';
 import { HistorikkHendelse } from '../Sider/Behandling/Venstremeny/Historikk/typer';
 import { Behandling, SluttdatoForForrigeVedtak } from '../typer/behandling/behandling';
@@ -39,8 +38,8 @@ interface BehandlingContext {
     toggleKanSaksbehandle: boolean;
     kanSetteBehandlingPåVent: boolean;
 
-    privatBilVilkårRessurs: Ressurs<HarPrivatBilVilkårDto>;
-    hentPrivatBilVilkår: () => void;
+    rammevedtakRessurs: Ressurs<HarRammevedtakDto>;
+    hentRammevedtak: () => void;
 
     visRedigerGrunnlagFomAdmin: boolean;
     settVisRedigerGrunnlagFomAdmin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -96,7 +95,7 @@ export const [BehandlingProvider, useBehandling] = constate(
         const { hentBehandlingshistorikk, behandlingshistorikk } =
             useBehandlingshistorikk(behandling);
 
-        const { privatBilVilkårRessurs, hentPrivatBilVilkår } = useHentPrivatBilVilkår(
+        const { rammevedtakRessurs, hentRammevedtak } = useHarRammevedtak(
             behandling.id,
             behandling.stønadstype
         );
@@ -119,8 +118,8 @@ export const [BehandlingProvider, useBehandling] = constate(
             behandlingFakta,
             toggleKanSaksbehandle: toggleKanSaksbehandle,
             kanSetteBehandlingPåVent: behandlingErRedigerbar,
-            privatBilVilkårRessurs,
-            hentPrivatBilVilkår,
+            rammevedtakRessurs,
+            hentRammevedtak,
             visRedigerGrunnlagFomAdmin,
             settVisRedigerGrunnlagFomAdmin,
             visHenleggModal,
