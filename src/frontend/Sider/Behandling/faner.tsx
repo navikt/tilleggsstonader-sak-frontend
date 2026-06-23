@@ -96,17 +96,16 @@ export const faneTilSteg: Record<FanePath, Steg> = {
     'fullfor-kjoreliste': Steg.FULLFØR_KJØRELISTE,
 };
 
-const erDagligReiseRevurdering = (behandling: Behandling) =>
-    behandling.type === BehandlingType.REVURDERING &&
-    [Stønadstype.DAGLIG_REISE_TSO, Stønadstype.DAGLIG_REISE_TSR].includes(behandling.stønadstype);
-
-export const stegTilFaneForBehandling = (behandling: Behandling): FanePath => {
+export const stegTilFaneForBehandling = (
+    behandling: Behandling,
+    harRammevedtak: boolean
+): FanePath => {
     if (behandling.type === BehandlingType.KJØRELISTE) {
         return stegTilFaneForKjørelistebehandling(behandling.steg);
     }
 
-    if (erDagligReiseRevurdering(behandling)) {
-        return stegTilFaneForDagligReiseRevurdering(behandling.steg);
+    if (harRammevedtak) {
+        return stegTilFaneForDagligReiseMedRammevedtak(behandling.steg);
     }
 
     return stegTilFaneStandard(behandling.steg);
@@ -146,7 +145,7 @@ const stegTilFaneForKjørelistebehandling = (steg: Steg): FanePath => {
     }
 };
 
-const stegTilFaneForDagligReiseRevurdering = (steg: Steg): FanePath => {
+const stegTilFaneForDagligReiseMedRammevedtak = (steg: Steg): FanePath => {
     switch (steg) {
         case Steg.INNGANGSVILKÅR:
             return FanePath.INNGANGSVILKÅR;
@@ -292,13 +291,16 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
     }
 };
 
-export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] => {
+export const hentBehandlingfaner = (
+    behandling: Behandling,
+    harRammevedtak: boolean
+): FanerMedRouter[] => {
     if (behandling.type === BehandlingType.KJØRELISTE) {
         return kjørelistebehandlingFaner(behandling);
     }
 
-    if (erDagligReiseRevurdering(behandling)) {
-        return dagligReiseRevurderingFaner(behandling);
+    if (harRammevedtak) {
+        return dagligReisePrivatBilRevurderingFaner(behandling);
     }
 
     return [
@@ -327,7 +329,7 @@ export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] =>
     ];
 };
 
-const dagligReiseRevurderingFaner = (behandling: Behandling): FanerMedRouter[] => [
+const dagligReisePrivatBilRevurderingFaner = (behandling: Behandling): FanerMedRouter[] => [
     {
         navn: FaneNavn.INNGANGSVILKÅR,
         path: FanePath.INNGANGSVILKÅR,
