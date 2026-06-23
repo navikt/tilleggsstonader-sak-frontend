@@ -95,10 +95,7 @@ export const [BehandlingProvider, useBehandling] = constate(
         const { hentBehandlingshistorikk, behandlingshistorikk } =
             useBehandlingshistorikk(behandling);
 
-        const { rammevedtakRessurs, hentRammevedtak } = useHarRammevedtak(
-            behandling.id,
-            behandling.stønadstype
-        );
+        const { rammevedtakRessurs, hentRammevedtak } = useHarRammevedtak(behandling.id);
 
         const toggleKanSaksbehandle = useKanSaksbehandle(behandling.stønadstype);
 
