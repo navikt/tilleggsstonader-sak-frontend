@@ -1,8 +1,8 @@
 {
   "collection": "frontend",
-  "version": "2026.06.19-111626-5e3d3eb",
+  "version": "2026.06.24-071557-1b59278",
   "scope": "repo",
-  "source_sha": "5e3d3eb",
+  "source_sha": "1b59278",
   "installed_at": "2026-05-06T13:09:08Z",
   "files": [
     {
@@ -11,7 +11,7 @@
     },
     {
       "path": ".github/agents/aksel.agent.md",
-      "hash": "5619d05aa37ec8f9"
+      "hash": "d190246642818387"
     },
     {
       "path": ".github/agents/forfatter.agent.md",
@@ -71,7 +71,7 @@
     },
     {
       "path": ".github/prompts/aksel-component.prompt.md",
-      "hash": "8f6e07fff457bc3d"
+      "hash": "68c1da8a387cdffe"
     },
     {
       "path": ".github/prompts/nais-manifest.prompt.md",
