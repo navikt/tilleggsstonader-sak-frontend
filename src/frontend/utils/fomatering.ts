@@ -2,8 +2,14 @@ import { harTallverdi } from './tall';
 
 export const TANKESTREKK = `–`;
 
-export const tallMedTusenSkille = (verdi?: number): string | undefined =>
-    harTallverdi(verdi) ? Number(verdi).toLocaleString('no-NO', { currency: 'NOK' }) : undefined;
+export const tallMedTusenSkille = (verdi?: number): string | undefined => {
+    if (!harTallverdi(verdi)) return undefined;
+    const erDesimaltall = !Number.isInteger(verdi);
+    return Number(verdi).toLocaleString('no-NO', {
+        currency: 'NOK',
+        ...(erDesimaltall && { minimumFractionDigits: 2 }),
+    });
+};
 
 export const formaterTallMedTusenSkille = (verdi?: number): string =>
     tallMedTusenSkille(verdi) || '';
