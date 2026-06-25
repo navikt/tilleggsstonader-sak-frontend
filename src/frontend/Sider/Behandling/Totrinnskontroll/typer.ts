@@ -39,6 +39,7 @@ export enum ÅrsakUnderkjent {
     VEDTAKSBREV = 'VEDTAKSBREV',
     FEIL_I_UTGIFTER = 'FEIL_I_UTGIFTER',
     RETUR_ETTER_ØNSKE_FRA_SAKSBEHANDLER = 'RETUR_ETTER_ØNSKE_FRA_SAKSBEHANDLER',
+    BEHANDLE_KJØRELISTE_PÅ_VENT = 'BEHANDLE_KJØRELISTE_PÅ_VENT',
 }
 
 export const årsakUnderkjentTilTekst: Record<ÅrsakUnderkjent, string> = {
@@ -47,6 +48,7 @@ export const årsakUnderkjentTilTekst: Record<ÅrsakUnderkjent, string> = {
     VEDTAKSBREV: 'Vedtaksbrev',
     FEIL_I_UTGIFTER: 'Feil i utgifter',
     RETUR_ETTER_ØNSKE_FRA_SAKSBEHANDLER: 'Retur etter ønske fra saksbehandler',
+    BEHANDLE_KJØRELISTE_PÅ_VENT: 'Behandle kjøreliste på vent',
 };
 
 export interface SendTilBeslutterRequest {
