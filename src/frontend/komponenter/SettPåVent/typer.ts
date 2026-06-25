@@ -43,6 +43,7 @@ export enum ÅrsakSettPåVent {
     BEKREFTE_DELTAKELSE_KVP = 'BEKREFTE_DELTAKELSE_KVP',
     ANNET = 'ANNET',
     AVVENTER_OPPSTART_TILTAK = 'AVVENTER_OPPSTART_TILTAK',
+    BEHANDLE_KJØRELISTE_PÅ_VENT = 'BEHANDLE_KJØRELISTE_PÅ_VENT',
 }
 
 export const årsakTilTekst: Record<ÅrsakSettPåVent, string> = {
@@ -56,6 +57,7 @@ export const årsakTilTekst: Record<ÅrsakSettPåVent, string> = {
     BEKREFTE_DELTAKELSE_KVP: 'Bekrefte deltakelse KVP',
     ANNET: 'Annet',
     AVVENTER_OPPSTART_TILTAK: 'Avventer oppstart tiltak',
+    BEHANDLE_KJØRELISTE_PÅ_VENT: 'Behandle kjøreliste på vent',
 };
 
 const årsaker: Record<SettPåVentContext, Record<ÅrsakSettPåVent, boolean>> = {
@@ -69,6 +71,7 @@ const årsaker: Record<SettPåVentContext, Record<ÅrsakSettPåVent, boolean>> =
         [ÅrsakSettPåVent.REGISTRERING_AV_UTDANNING]: true,
         [ÅrsakSettPåVent.BEKREFTE_DELTAKELSE_KVP]: false,
         [ÅrsakSettPåVent.AVVENTER_OPPSTART_TILTAK]: false,
+        [ÅrsakSettPåVent.BEHANDLE_KJØRELISTE_PÅ_VENT]: true,
         [ÅrsakSettPåVent.ANNET]: true,
     },
     SAK_TSR: {
@@ -81,6 +84,7 @@ const årsaker: Record<SettPåVentContext, Record<ÅrsakSettPåVent, boolean>> =
         [ÅrsakSettPåVent.REGISTRERING_AV_UTDANNING]: false,
         [ÅrsakSettPåVent.BEKREFTE_DELTAKELSE_KVP]: true,
         [ÅrsakSettPåVent.AVVENTER_OPPSTART_TILTAK]: true,
+        [ÅrsakSettPåVent.BEHANDLE_KJØRELISTE_PÅ_VENT]: true,
         [ÅrsakSettPåVent.ANNET]: true,
     },
     KLAGE: {
@@ -93,6 +97,7 @@ const årsaker: Record<SettPåVentContext, Record<ÅrsakSettPåVent, boolean>> =
         [ÅrsakSettPåVent.REGISTRERING_AV_UTDANNING]: true,
         [ÅrsakSettPåVent.BEKREFTE_DELTAKELSE_KVP]: false,
         [ÅrsakSettPåVent.AVVENTER_OPPSTART_TILTAK]: false,
+        [ÅrsakSettPåVent.BEHANDLE_KJØRELISTE_PÅ_VENT]: false,
         [ÅrsakSettPåVent.ANNET]: true,
     },
 };
@@ -121,6 +126,7 @@ export const årsakTilFrist: Record<ÅrsakSettPåVent, number | undefined> = {
     REGISTRERING_AV_UTDANNING: EN_UKE,
     BEKREFTE_DELTAKELSE_KVP: EN_UKE,
     AVVENTER_OPPSTART_TILTAK: undefined,
+    BEHANDLE_KJØRELISTE_PÅ_VENT: undefined,
     ANNET: undefined,
 };
 
