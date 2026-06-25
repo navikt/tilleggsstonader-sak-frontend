@@ -1,9 +1,10 @@
-import { formaterKrVerdi } from './rammevedtakstabellUtils';
+import { formaterKrVerdiVedBekreftetSats } from './rammevedtakstabellUtils';
 import {
     RammeForReiseMedPrivatBil,
     RammeForReiseMedPrivatBilDelperiode,
 } from '../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoPeriodeMedTankestrek } from '../../../../utils/dato';
+import { formaterTallMedTusenSkille } from '../../../../utils/fomatering';
 
 export function lagRammevedtakstabellMedDelperioder(reise: RammeForReiseMedPrivatBil): string {
     return `
@@ -72,12 +73,15 @@ function lagRadData(delperiode: RammeForReiseMedPrivatBilDelperiode) {
     return delperiode.satser.map((sats) => ({
         periode: formaterIsoPeriodeMedTankestrek({ fom: sats.fom, tom: sats.tom }),
         reisedagerPerUke: delperiode.reisedagerPerUke,
-        kilometersats: formaterKrVerdi(sats.kilometersats, sats.satsBekreftetVedVedtakstidspunkt),
-        dagsatsUtenParkering: formaterKrVerdi(
+        kilometersats: formaterKrVerdiVedBekreftetSats(
+            sats.kilometersats,
+            sats.satsBekreftetVedVedtakstidspunkt
+        ),
+        dagsatsUtenParkering: formaterKrVerdiVedBekreftetSats(
             sats.dagsatsUtenParkering,
             sats.satsBekreftetVedVedtakstidspunkt
         ),
-        bompengerPerDag: delperiode.bompengerPerDag,
-        fergekostnadPerDag: delperiode.fergekostnadPerDag,
+        bompengerPerDag: formaterTallMedTusenSkille(delperiode.bompengerPerDag),
+        fergekostnadPerDag: formaterTallMedTusenSkille(delperiode.fergekostnadPerDag),
     }));
 }
