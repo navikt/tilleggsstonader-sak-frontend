@@ -22,6 +22,7 @@ import { useNavigateUtenSjekkForUlagredeKomponenter } from '../../hooks/useNavig
 import DataViewer from '../../komponenter/DataViewer';
 import { SettPåVentSak } from '../../komponenter/SettPåVent/SettPåVentContainer';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
+import { BehandlingType } from '../../typer/behandling/behandlingType';
 import { RessursStatus } from '../../typer/ressurs';
 import { Toast } from '../../typer/toast';
 
@@ -121,9 +122,10 @@ const BehandlingTabsInnhold = () => {
                                 Mulighet for å saksbehandle er skrudd av
                             </Alert>
                         )}
-                        {behandling.harÅpenKjørelistebehandling && (
-                            <KjørelisteBehandlingPåVentAlert />
-                        )}
+                        {behandling.type === BehandlingType.REVURDERING &&
+                            behandling.harÅpenKjørelistebehandling && (
+                                <KjørelisteBehandlingPåVentAlert />
+                            )}
                         <SettPåVentSak
                             statusPåVentRedigering={statusPåVentRedigering}
                             settStatusPåVentRedigering={settStatusPåVentRedigering}
