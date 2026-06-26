@@ -26,6 +26,7 @@ export interface Behandling {
     nyeOpplysningerMetadata?: NyeOpplysningerMetadata;
     harÅpenKjørelistebehandling: boolean;
     tilordnetSaksbehandler: TilordnetSaksbehandlerDto;
+    harTilbakekrevingSak: boolean;
 }
 
 export interface BehandlingForJournalføring {

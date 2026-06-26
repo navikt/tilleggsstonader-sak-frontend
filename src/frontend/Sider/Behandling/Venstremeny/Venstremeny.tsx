@@ -6,12 +6,14 @@ import { BehandlingOppsummering } from './BehandlingOppsummering/BehandlingOppsu
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import Historikk from './Historikk/Historikk';
 import { OppsummeringSøknad } from './Oppsummering/OppsummeringSøknad';
+import Tilbakekreving from './Tilbakekreving/Tilbakekreving';
 import styles from './Venstremeny.module.css';
+import { useBehandling } from '../../../context/BehandlingContext';
 import { TilordnetSaksbehandlerVenstremeny } from '../../../komponenter/TilordnetSaksbehandler/TilordnetSaksbehandlerVenstremeny';
 import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
 import Totrinnskontroll from '../Totrinnskontroll/Totrinnskontroll';
 
-const tabs = [
+const standardTabs = [
     {
         value: 'søknaden',
         label: 'Søknaden',
@@ -29,7 +31,19 @@ const tabs = [
     },
 ];
 
+const tilbakekrevingTab = {
+    value: 'tilbakekreving',
+    label: 'Tilbakekreving',
+    komponent: <Tilbakekreving />,
+};
+
 const VenstreMeny: React.FC = () => {
+    const { behandling } = useBehandling();
+
+    const tabs = behandling.harTilbakekrevingSak
+        ? [...standardTabs, tilbakekrevingTab]
+        : standardTabs;
+
     return (
         <div className={styles.container}>
             <VStack padding="space-16" gap={'space-16'}>
