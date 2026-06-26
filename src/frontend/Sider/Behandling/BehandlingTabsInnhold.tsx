@@ -22,18 +22,13 @@ import { useNavigateUtenSjekkForUlagredeKomponenter } from '../../hooks/useNavig
 import DataViewer from '../../komponenter/DataViewer';
 import { SettPåVentSak } from '../../komponenter/SettPåVent/SettPåVentContainer';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
-import { Stønadstype } from '../../typer/behandling/behandlingTema';
-import { BehandlingType } from '../../typer/behandling/behandlingType';
 import { RessursStatus } from '../../typer/ressurs';
 import { Toast } from '../../typer/toast';
-
-const erDagligReise = (stønadstype: Stønadstype) =>
-    stønadstype === Stønadstype.DAGLIG_REISE_TSO || stønadstype === Stønadstype.DAGLIG_REISE_TSR;
 
 const BehandlingTabsInnhold = () => {
     const navigate = useNavigate();
     const navigateUtenSjekk = useNavigateUtenSjekkForUlagredeKomponenter();
-    const { settToast, request } = useApp();
+    const { settToast } = useApp();
     const {
         behandling,
         behandlingFakta,
@@ -46,7 +41,6 @@ const BehandlingTabsInnhold = () => {
 
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
-    const [harÅpenKjørelisteBehandling, settHarÅpenKjørelisteBehandling] = useState(false);
 
     const harRammevedtak =
         rammevedtakRessurs.status === RessursStatus.SUKSESS &&
@@ -68,21 +62,6 @@ const BehandlingTabsInnhold = () => {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [behandling.steg, harRammevedtak]);
-
-    useEffect(() => {
-        if (
-            behandling.type === BehandlingType.REVURDERING &&
-            erDagligReise(behandling.stønadstype)
-        ) {
-            request<boolean, null>(
-                `/api/sak/behandling/${behandling.id}/apen-kjorelistebehandling`
-            ).then((res) => {
-                if (res.status === 'SUKSESS') {
-                    settHarÅpenKjørelisteBehandling(res.data);
-                }
-            });
-        }
-    }, [behandling.id, behandling.type, behandling.stønadstype, request]);
 
     const håndterFaneBytte = (nyFane: FanePath) => {
         if (!faneErLåst(behandling, nyFane)) {
@@ -142,7 +121,9 @@ const BehandlingTabsInnhold = () => {
                                 Mulighet for å saksbehandle er skrudd av
                             </Alert>
                         )}
-                        {harÅpenKjørelisteBehandling && <KjørelisteBehandlingPåVentAlert />}
+                        {behandling.harÅpenKjørelistebehandling && (
+                            <KjørelisteBehandlingPåVentAlert />
+                        )}
                         <SettPåVentSak
                             statusPåVentRedigering={statusPåVentRedigering}
                             settStatusPåVentRedigering={settStatusPåVentRedigering}
