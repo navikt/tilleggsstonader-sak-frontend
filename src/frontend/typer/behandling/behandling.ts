@@ -24,6 +24,7 @@ export interface Behandling {
     stønadstype: Stønadstype;
     vedtaksdato?: string;
     nyeOpplysningerMetadata?: NyeOpplysningerMetadata;
+    harÅpenKjørelistebehandling: boolean;
     tilordnetSaksbehandler: TilordnetSaksbehandlerDto;
 }
 

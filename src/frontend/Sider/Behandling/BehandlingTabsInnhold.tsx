@@ -13,6 +13,7 @@ import {
     isFanePath,
     stegTilFaneForBehandling,
 } from './faner';
+import { KjørelisteBehandlingPåVentAlert } from './Felles/KjørelisteBehandlingPåVentAlert';
 import { TidligereVedtaksperioder } from './Vilkårvurdering/TidligereVedtaksperioder';
 import { useApp } from '../../context/AppContext';
 import { useBehandling } from '../../context/BehandlingContext';
@@ -21,6 +22,7 @@ import { useNavigateUtenSjekkForUlagredeKomponenter } from '../../hooks/useNavig
 import DataViewer from '../../komponenter/DataViewer';
 import { SettPåVentSak } from '../../komponenter/SettPåVent/SettPåVentContainer';
 import { Sticky } from '../../komponenter/Visningskomponenter/Sticky';
+import { BehandlingType } from '../../typer/behandling/behandlingType';
 import { RessursStatus } from '../../typer/ressurs';
 import { Toast } from '../../typer/toast';
 
@@ -120,6 +122,10 @@ const BehandlingTabsInnhold = () => {
                                 Mulighet for å saksbehandle er skrudd av
                             </Alert>
                         )}
+                        {behandling.type === BehandlingType.REVURDERING &&
+                            behandling.harÅpenKjørelistebehandling && (
+                                <KjørelisteBehandlingPåVentAlert />
+                            )}
                         <SettPåVentSak
                             statusPåVentRedigering={statusPåVentRedigering}
                             settStatusPåVentRedigering={settStatusPåVentRedigering}
