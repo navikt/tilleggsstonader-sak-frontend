@@ -46,7 +46,7 @@ const BehandlingTabsInnhold = () => {
 
     const path = useLocation().pathname.split('/')[3];
     const [statusPåVentRedigering, settStatusPåVentRedigering] = useState(false);
-    const [harKjørelisteBehandlingPåVent, settHarKjørelisteBehandlingPåVent] = useState(false);
+    const [harÅpenKjørelisteBehandling, settHarÅpenKjørelisteBehandling] = useState(false);
 
     const harRammevedtak =
         rammevedtakRessurs.status === RessursStatus.SUKSESS &&
@@ -74,13 +74,13 @@ const BehandlingTabsInnhold = () => {
             behandling.type === BehandlingType.REVURDERING &&
             erDagligReise(behandling.stønadstype)
         ) {
-            request<boolean, null>(`/api/sak/behandling/${behandling.id}/kjoreliste-pa-vent`).then(
-                (res) => {
-                    if (res.status === 'SUKSESS') {
-                        settHarKjørelisteBehandlingPåVent(res.data);
-                    }
+            request<boolean, null>(
+                `/api/sak/behandling/${behandling.id}/apen-kjorelistebehandling`
+            ).then((res) => {
+                if (res.status === 'SUKSESS') {
+                    settHarÅpenKjørelisteBehandling(res.data);
                 }
-            );
+            });
         }
     }, [behandling.id, behandling.type, behandling.stønadstype, request]);
 
@@ -142,7 +142,7 @@ const BehandlingTabsInnhold = () => {
                                 Mulighet for å saksbehandle er skrudd av
                             </Alert>
                         )}
-                        {harKjørelisteBehandlingPåVent && <KjørelisteBehandlingPåVentAlert />}
+                        {harÅpenKjørelisteBehandling && <KjørelisteBehandlingPåVentAlert />}
                         <SettPåVentSak
                             statusPåVentRedigering={statusPåVentRedigering}
                             settStatusPåVentRedigering={settStatusPåVentRedigering}
