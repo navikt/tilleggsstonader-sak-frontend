@@ -24,7 +24,7 @@ export const OppølgingAdmin = () => {
     const [tema, settTema] = useState<Arkivtema>(arkivtemaSaksbehandlerHarTilgangTil[0]);
 
     const hentOppfølginger = useCallback(() => {
-        settOppfølginger(byggHenterRessurs);
+        settOppfølginger(byggHenterRessurs());
         request<Oppfølging[], null>(`/api/sak/oppfolging/${tema}`).then(settOppfølginger);
     }, [request, settOppfølginger, tema]);
 
