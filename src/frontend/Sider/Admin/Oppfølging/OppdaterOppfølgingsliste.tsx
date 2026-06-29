@@ -5,10 +5,11 @@ import { Box, VStack, Heading, HStack, Select, BodyLong } from '@navikt/ds-react
 import { Oppfølging } from './oppfølgingTyper';
 import { useApp } from '../../../context/AppContext';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
+import { Feil, feiletRessursTilFeilmelding } from '../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { ModalWrapper } from '../../../komponenter/Modal/ModalWrapper';
 import { Arkivtema, arkivtemaerTilTekst } from '../../../typer/arkivtema';
-import { Ressurs, byggHenterRessurs } from '../../../typer/ressurs';
+import { byggHenterRessurs, Ressurs, RessursStatus } from '../../../typer/ressurs';
 
 export const OppdaterOppfølgingsliste: React.FC<{
     settOppfølginger: (value: React.SetStateAction<Ressurs<Oppfølging[]>>) => void;
@@ -17,35 +18,37 @@ export const OppdaterOppfølgingsliste: React.FC<{
     settTema: (value: React.SetStateAction<Arkivtema>) => void;
     arkivtemaSaksbehandlerHarTilgangTil: Arkivtema[];
 }> = ({
-    settOppfølginger,
     hentOppfølginger,
     tema,
     settTema,
     arkivtemaSaksbehandlerHarTilgangTil,
+    settOppfølginger,
 }) => {
     const { request } = useApp();
 
     const [visModal, settVisModal] = useState(false);
-    const [feil, settFeil] = useState('');
-    const [laster, settLaster] = useState(false);
+    const [feil, settFeil] = useState<Feil | undefined>(undefined);
 
     const hentBehandlingerForOppfølging = () => {
-        if (laster) return;
-
-        settLaster(true);
-        settOppfølginger(byggHenterRessurs());
-        request(`/api/sak/oppfolging/start/${tema}`, 'POST');
-        lukkModal();
-
-        setTimeout(() => {
-            hentOppfølginger();
-        }, 5000);
+        request(`/api/sak/oppfolging/start/${tema}`, 'POST')
+            .then((resultat) => {
+                if (resultat.status === RessursStatus.SUKSESS) {
+                    lukkModal();
+                } else {
+                    settFeil(feiletRessursTilFeilmelding(resultat));
+                }
+            })
+            .finally(() => {
+                settOppfølginger(byggHenterRessurs());
+                setTimeout(() => {
+                    hentOppfølginger();
+                }, 5000);
+            });
     };
 
     const lukkModal = () => {
-        settFeil('');
+        settFeil(undefined);
         settVisModal(false);
-        settLaster(false);
     };
 
     return (
