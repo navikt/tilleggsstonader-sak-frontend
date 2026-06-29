@@ -1,26 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
-import { Heading, HStack, Select, VStack } from '@navikt/ds-react';
+import { Heading, VStack } from '@navikt/ds-react';
 
-import { InformasjonOppfølging } from './InformasjonOppfølging';
+import { OppdaterOppfølgingsliste } from './OppdaterOppfølgingsliste';
 import styles from './OppfølgingAdmin.module.css';
 import { OppfølgingTabell } from './OppfølgingTabell';
 import { Oppfølging } from './oppfølgingTyper';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
-import SmallButton from '../../../komponenter/Knapper/SmallButton';
-import {
-    Arkivtema,
-    arkivtemaerTilTekst,
-    finnArkivTemaSaksbehandlerHarTilgangTil,
-} from '../../../typer/arkivtema';
+import { Arkivtema, finnArkivTemaSaksbehandlerHarTilgangTil } from '../../../typer/arkivtema';
 import { byggHenterRessurs, Ressurs } from '../../../typer/ressurs';
-import { erProd } from '../../../utils/miljø';
 
 export const OppølgingAdmin = () => {
     const { request, saksbehandler, appEnv } = useApp();
 
-    const [oppfølginger, settOppføginger] = useState<Ressurs<Oppfølging[]>>(byggHenterRessurs());
+    const [oppfølginger, settOppfølginger] = useState<Ressurs<Oppfølging[]>>(byggHenterRessurs());
+
     const arkivtemaSaksbehandlerHarTilgangTil = finnArkivTemaSaksbehandlerHarTilgangTil(
         appEnv,
         saksbehandler
@@ -28,42 +23,25 @@ export const OppølgingAdmin = () => {
 
     const [tema, settTema] = useState<Arkivtema>(arkivtemaSaksbehandlerHarTilgangTil[0]);
 
-    const hentBehandlingerForOppfølging = () => {
-        settOppføginger(byggHenterRessurs());
-        request(`/api/sak/oppfolging/start/${tema}`, 'POST');
-        setTimeout(() => {
-            request<Oppfølging[], null>(`/api/sak/oppfolging/${tema}`).then(settOppføginger);
-        }, 3000);
-    }; // TODO Denne delayen bør gjøres på en bedre måte hvis vi skal gjøre dette tilgjengelig i prod
+    const hentOppfølginger = useCallback(() => {
+        settOppfølginger(byggHenterRessurs);
+        request<Oppfølging[], null>(`/api/sak/oppfolging/${tema}`).then(settOppfølginger);
+    }, [request, settOppfølginger, tema]);
 
     useEffect(() => {
-        request<Oppfølging[], null>(`/api/sak/oppfolging/${tema}`).then(settOppføginger);
-    }, [request, tema]);
+        hentOppfølginger();
+    }, [hentOppfølginger]);
 
     return (
-        <VStack gap={'space-16'} className={styles.container}>
+        <VStack gap={'space-32'} className={styles.container}>
             <Heading size={'medium'}>[Admin] Oppfølging</Heading>
-            <InformasjonOppfølging />
-            <HStack gap={'space-16'} className={styles.formContainer}>
-                <Select
-                    value={tema}
-                    label="Tema"
-                    onChange={(e) => settTema(e.target.value as Arkivtema)}
-                    size="small"
-                >
-                    {arkivtemaSaksbehandlerHarTilgangTil.map((tema) => (
-                        <option key={tema} value={tema}>
-                            {arkivtemaerTilTekst[tema]}
-                        </option>
-                    ))}
-                </Select>
-                {!erProd() && (
-                    <SmallButton onClick={hentBehandlingerForOppfølging}>
-                        {'(TEST) Hent behandlinger for oppfølging'}
-                    </SmallButton>
-                )}
-            </HStack>
-
+            <OppdaterOppfølgingsliste
+                settOppfølginger={settOppfølginger}
+                hentOppfølginger={hentOppfølginger}
+                tema={tema}
+                settTema={settTema}
+                arkivtemaSaksbehandlerHarTilgangTil={arkivtemaSaksbehandlerHarTilgangTil}
+            />
             <DataViewer type={'oppfølginger'} response={{ oppfølginger }}>
                 {({ oppfølginger }) => (
                     <OppfølgingTabell
