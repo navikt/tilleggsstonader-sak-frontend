@@ -8,9 +8,6 @@ import { VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { formaterIsoPeriodeMedTankestrek } from '../../../utils/dato';
 import { kronerMedTusenSkilleEllerStrek } from '../../../utils/tekstformatering';
 
-const borderStylingCompact = 'border: 1px solid black; padding: 3px 2px 3px 5px;';
-const borderStyling = 'border: 1px solid black; padding: 3px 10px 3px 5px;';
-
 export function lagVedtakstabellPrivatBil(
     behandling: Behandling | undefined,
     vedtak: VedtakResponse | undefined,
@@ -55,35 +52,33 @@ function lagVedtakstabellDagligReisePrivatBilPerReise(
     const rader = perioder
         .map(
             (periode) => `
-        <tr>
-            <td style="text-align: right; ${borderStyling}">${periode.ukenummer}</td>
-            <td style="min-width: 140px; ${borderStyling}">${formaterIsoPeriodeMedTankestrek(periode)}</td>
-            <td style="text-align: right; ${borderStyling}">${periode.antallGodkjenteReisedager}</td>
-            ${harBompengeutgifter ? `<td style="text-align: right; ${borderStyling}">${kronerMedTusenSkilleEllerStrek(periode.bompengerTotalt)}</td>` : ''}
-            ${harFergekostnader ? `<td style="text-align: right; ${borderStyling}">${kronerMedTusenSkilleEllerStrek(periode.fergekostnadTotalt)}</td>` : ''}
-            <td style="text-align: right; ${borderStyling}">${kronerMedTusenSkilleEllerStrek(periode.parkeringskostnadTotalt)}</td>
-            <td style="text-align: right; ${borderStyling}">${kronerMedTusenSkilleEllerStrek(periode.stønadsbeløp)}</td>
-        </tr>`
+          <tr>
+            <td style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.95em;text-align:left;">${periode.ukenummer}</td>
+            <td style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.95em;text-align:left;">${formaterIsoPeriodeMedTankestrek(periode)}</td>
+            <td style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.95em;text-align:left;">${periode.antallGodkjenteReisedager}</td>
+            ${harBompengeutgifter ? `<td style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.95em;text-align:right;">${kronerMedTusenSkilleEllerStrek(periode.bompengerTotalt)}</td>` : ''}
+            ${harFergekostnader ? `<td style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.95em;text-align:right;">${kronerMedTusenSkilleEllerStrek(periode.fergekostnadTotalt)}</td>` : ''}
+            <td style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.95em;text-align:right;">${kronerMedTusenSkilleEllerStrek(periode.parkeringskostnadTotalt)}</td>
+            <td style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.95em;text-align:right;">${kronerMedTusenSkilleEllerStrek(periode.stønadsbeløp)}</td>
+          </tr>`
         )
         .join('');
 
     return `
         <p style="margin-bottom:2px;font-weight:500;">Reise med privat bil til <strong>${oppsummertReise.aktivitetsadresse ?? '-'}</strong>:</p>
-        <div>
-            <table style="font-size: 89%; margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
-                <thead>
-                    <tr>
-                        <th style="${borderStylingCompact}">Uke</th>
-                        <th style="${borderStylingCompact}">Periode</th>
-                        <th style="${borderStylingCompact}">Antall dager</th>
-                        ${harBompengeutgifter ? `<th style="${borderStylingCompact}">Bompenger</th>` : ''}
-                        ${harFergekostnader ? `<th style="${borderStylingCompact}">Fergekostnad</th>` : ''}
-                        <th style="${borderStylingCompact}">Parkeringskostnad</th>
-                        <th style="${borderStylingCompact}">Stønadsbeløp</th>
-                    </tr>
-                </thead>
-                <tbody>${rader}</tbody>
-            </table>
-        </div>
+        <table style="border-collapse:collapse;border:1px solid #b0b0b0;width:100%;margin:0;">
+            <thead>
+                <tr>
+                    <th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:left;">Uke</th>
+                    <th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:left;">Periode</th>
+                    <th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:left;">Antall dager</th>
+                    ${harBompengeutgifter ? '<th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:right;">Bompenger</th>' : ''}
+                    ${harFergekostnader ? '<th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:right;">Fergekostnad</th>' : ''}
+                    <th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:right;">Parkeringskostnad</th>
+                    <th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:right;">Stønadsbeløp</th>
+                </tr>
+            </thead>
+            <tbody>${rader}</tbody>
+        </table>
     `;
 }
