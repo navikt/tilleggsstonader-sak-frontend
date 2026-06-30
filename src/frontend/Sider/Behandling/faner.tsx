@@ -4,6 +4,7 @@ import {
     BriefcaseIcon,
     CalculatorIcon,
     CarIcon,
+    DocPencilIcon,
     EnvelopeClosedIcon,
     HouseHeartIcon,
     PersonRectangleIcon,
@@ -14,6 +15,7 @@ import { UtenBrev } from './Fanemeny/UtenBrev';
 import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
 import { FullførKjørelisteFane } from './Kjøreliste/FullførKjørelisteFane';
 import { KjørelisteFane } from './Kjøreliste/KjørelisteFane';
+import { RegistrerKjørelisteFane } from './Kjøreliste/RegistrerKjørelisteFane';
 import { Simulering } from './Simulering/Simulering';
 import { StønadsvilkårDagligReise } from './Stønadsvilkår/DagligReise/StønadsvilkårDagligReise';
 import { StønadsvilkårReiseTilSamling } from './Stønadsvilkår/ReiseTilSamling/StønadsvilkårReiseTilSamling';
@@ -49,6 +51,7 @@ export enum FaneNavn {
     // Faner som tilhører daglig reise
     VEDTAK = 'Vedtak',
     KJØRELISTE = 'Kjøreliste',
+    REGISTRER_KJØRELISTE = 'Registrer kjøreliste',
     BEREGNING = 'Beregning',
     FULLFØR_KJØRELISTE = 'Brev',
 }
@@ -80,6 +83,7 @@ export enum FanePath {
 
     // Faner som tilhører daglig reise
     KJØRELISTE = 'kjoreliste',
+    REGISTRER_KJØRELISTE = 'registrer-kjoreliste',
     BEREGNING = 'beregning',
     FULLFØR_KJØRELISTE = 'fullfor-kjoreliste',
 }
@@ -90,8 +94,8 @@ export const faneTilSteg: Record<FanePath, Steg> = {
     'vedtak-og-beregning': Steg.BEREGNE_YTELSE,
     simulering: Steg.SIMULERING,
     brev: Steg.SEND_TIL_BESLUTTER,
-
     kjoreliste: Steg.KJØRELISTE,
+    'registrer-kjoreliste': Steg.REGISTRER_KJØRELISTE,
     beregning: Steg.BEREGNING,
     'fullfor-kjoreliste': Steg.FULLFØR_KJØRELISTE,
 };
@@ -130,6 +134,8 @@ const stegTilFaneStandard = (steg: Steg): FanePath => {
 
 const stegTilFaneForKjørelistebehandling = (steg: Steg): FanePath => {
     switch (steg) {
+        case Steg.REGISTRER_KJØRELISTE:
+            return FanePath.REGISTRER_KJØRELISTE;
         case Steg.KJØRELISTE:
             return FanePath.KJØRELISTE;
         case Steg.BEREGNING:
@@ -173,6 +179,7 @@ export const isFanePath = (path: string): path is FanePath => {
         case FanePath.VEDTAK_OG_BEREGNING:
         case FanePath.SIMULERING:
         case FanePath.BREV:
+        case FanePath.REGISTRER_KJØRELISTE:
         case FanePath.KJØRELISTE:
         case FanePath.BEREGNING:
         case FanePath.FULLFØR_KJØRELISTE:
@@ -371,17 +378,24 @@ const dagligReisePrivatBilRevurderingFaner = (behandling: Behandling): FanerMedR
 const kjørelistebehandlingFaner = (behandling: Behandling): FanerMedRouter[] => {
     return [
         {
+            navn: FaneNavn.REGISTRER_KJØRELISTE,
+            path: FanePath.REGISTRER_KJØRELISTE,
+            komponent: () => <RegistrerKjørelisteFane />,
+            ikon: <DocPencilIcon />,
+        },
+        {
             navn: FaneNavn.KJØRELISTE,
             path: FanePath.KJØRELISTE,
             komponent: () => <KjørelisteFane />,
             ikon: <CarIcon />,
+            erLåst: faneErLåst(behandling, FanePath.KJØRELISTE),
         },
         {
             navn: FaneNavn.BEREGNING,
             path: FanePath.BEREGNING,
             komponent: () => <BeregningFaneDagligReise />,
             ikon: <CalculatorIcon />,
-            erLåst: faneErLåst(behandling, FanePath.VEDTAK_OG_BEREGNING),
+            erLåst: faneErLåst(behandling, FanePath.BEREGNING),
         },
         {
             navn: FaneNavn.SIMULERING,

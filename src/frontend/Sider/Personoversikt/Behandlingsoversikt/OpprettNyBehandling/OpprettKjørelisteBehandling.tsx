@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
-
 import { Button, HelpText, HStack, Label, Select, VStack } from '@navikt/ds-react';
 
-import MetadataNyeOpplysninger from './MetadataNyeOpplysninger';
 import { OpprettNyBehandlingType } from './OpprettNyBehandlingUtils';
-import { useValiderNyeOpplysningerMetadata } from './validerNyeOpplysningerMetadata';
 import { useApp } from '../../../../context/AppContext';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import {
@@ -16,9 +12,7 @@ import {
 } from '../../../../komponenter/Feil/feilmeldingUtils';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { BehandlingÅrsak } from '../../../../typer/behandling/behandlingÅrsak';
-import { NyeOpplysningerMetadata } from '../../../../typer/behandling/nyeOpplysningerMetadata';
 import { RessursStatus } from '../../../../typer/ressurs';
-import { Toggle } from '../../../../utils/toggles';
 import { harVerdi } from '../../../../utils/utils';
 
 interface Props {
@@ -31,7 +25,6 @@ interface OpprettBehandlingRequest {
     fagsakId: string;
     årsak: BehandlingÅrsak;
     kravMottatt?: string;
-    nyeOpplysningerMetadata?: NyeOpplysningerMetadata;
     forenkletBehandlingstype: OpprettNyBehandlingType;
 }
 
@@ -47,14 +40,8 @@ const OpprettKjørelisteBehandling: React.FC<Props> = ({
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<Feil>();
 
-    const kanVelgeÅrsakUtenBrev = useFlag(Toggle.BEHANDLING_ÅRSAK_UTEN_BREV);
     const [kravMottatt, settKravMottatt] = useState<string | undefined>(undefined);
 
-    const [nyeOpplysninger, settNyeOpplysninger] = useState<NyeOpplysningerMetadata | undefined>(
-        undefined
-    );
-    const { feilNyeOpplysningerMetadata, validerNyeOpplysningerMetadata, nullstillFeilForFelt } =
-        useValiderNyeOpplysningerMetadata();
     const opprett = () => {
         if (laster) {
             return;
@@ -71,19 +58,10 @@ const OpprettKjørelisteBehandling: React.FC<Props> = ({
             return;
         }
 
-        if (
-            årsak === BehandlingÅrsak.NYE_OPPLYSNINGER &&
-            !validerNyeOpplysningerMetadata(nyeOpplysninger)
-        ) {
-            settLaster(false);
-            return;
-        }
-
         request<string, OpprettBehandlingRequest>(`/api/sak/behandling`, 'POST', {
             fagsakId: fagsakId,
             årsak: årsak,
             kravMottatt: kravMottatt,
-            nyeOpplysningerMetadata: nyeOpplysninger,
             forenkletBehandlingstype: OpprettNyBehandlingType.KJØRELISTE,
         }).then((response) => {
             if (response.status === RessursStatus.SUKSESS) {
@@ -100,30 +78,18 @@ const OpprettKjørelisteBehandling: React.FC<Props> = ({
         const value = event.target.value;
         if (harVerdi(value)) {
             settÅrsak(value as BehandlingÅrsak);
-            nullstillNyeOpplysningerMetadata();
         } else {
             settÅrsak(undefined);
         }
-    };
-
-    const nullstillNyeOpplysningerMetadata = () => {
-        settFeilmelding(undefined);
-        settNyeOpplysninger(undefined);
     };
 
     return (
         <VStack gap="space-16">
             <Select label={'Årsak'} onChange={endreÅrsak}>
                 <option value="">- Velg årsak -</option>
-                <option value={BehandlingÅrsak.NYE_OPPLYSNINGER}>Nye opplysninger</option>
-                <option value={BehandlingÅrsak.SØKNAD}>Søknad</option>
-                <option value={BehandlingÅrsak.PAPIRSØKNAD}>Papirsøknad</option>
-                <option value={BehandlingÅrsak.OMGJØRING_ETTER_KLAGE}>Omgjøring etter klage</option>
-                {kanVelgeÅrsakUtenBrev && (
-                    <option value={BehandlingÅrsak.KORRIGERING_UTEN_BREV}>
-                        Korrigering uten brev
-                    </option>
-                )}
+                <option value={BehandlingÅrsak.REGISTRER_KJØRELISTE_FOR_BRUKER}>
+                    Registrer kjøreliste for bruker
+                </option>
             </Select>
             <DateInput
                 label={
@@ -139,14 +105,6 @@ const OpprettKjørelisteBehandling: React.FC<Props> = ({
                 value={kravMottatt}
                 toDate={new Date()}
             />
-            {årsak === BehandlingÅrsak.NYE_OPPLYSNINGER && (
-                <MetadataNyeOpplysninger
-                    nyeOpplysningerMetadata={nyeOpplysninger}
-                    settnyeOpplysningerMetadata={settNyeOpplysninger}
-                    feil={feilNyeOpplysningerMetadata}
-                    nullstillFeilForFelt={nullstillFeilForFelt}
-                />
-            )}
             <Feilmelding feil={feilmelding} />
             <HStack gap="space-16" justify={'end'}>
                 <Button variant="tertiary" onClick={lukkModal} size="small">

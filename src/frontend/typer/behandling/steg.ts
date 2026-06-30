@@ -4,6 +4,7 @@ export enum Steg {
     INNGANGSVILKÅR = 'INNGANGSVILKÅR',
     VILKÅR = 'VILKÅR',
     BEREGNE_YTELSE = 'BEREGNE_YTELSE',
+    REGISTRER_KJØRELISTE = 'REGISTRER_KJØRELISTE',
     KJØRELISTE = 'KJØRELISTE',
     BEREGNING = 'BEREGNING',
     SIMULERING = 'SIMULERING',
@@ -30,6 +31,7 @@ export const stegErEtterAnnetSteg = (steg: Steg, annetSteg: Steg) =>
 
 export const stegErLåstForBehandling = (behandling: Behandling, faneSteg: Steg) =>
     [
+        Steg.REGISTRER_KJØRELISTE,
         Steg.KJØRELISTE,
         Steg.BEREGNE_YTELSE,
         Steg.SIMULERING,
