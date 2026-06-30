@@ -376,13 +376,20 @@ const dagligReisePrivatBilRevurderingFaner = (behandling: Behandling): FanerMedR
 ];
 
 const kjørelistebehandlingFaner = (behandling: Behandling): FanerMedRouter[] => {
+    const harRegistrerKjørelisteSteg =
+        behandling.behandlingsårsak === BehandlingÅrsak.REGISTRER_KJØRELISTE_FOR_BRUKER;
+
     return [
-        {
-            navn: FaneNavn.REGISTRER_KJØRELISTE,
-            path: FanePath.REGISTRER_KJØRELISTE,
-            komponent: () => <RegistrerKjørelisteFane />,
-            ikon: <DocPencilIcon />,
-        },
+        ...(harRegistrerKjørelisteSteg
+            ? [
+                  {
+                      navn: FaneNavn.REGISTRER_KJØRELISTE,
+                      path: FanePath.REGISTRER_KJØRELISTE,
+                      komponent: () => <RegistrerKjørelisteFane />,
+                      ikon: <DocPencilIcon />,
+                  },
+              ]
+            : []),
         {
             navn: FaneNavn.KJØRELISTE,
             path: FanePath.KJØRELISTE,
