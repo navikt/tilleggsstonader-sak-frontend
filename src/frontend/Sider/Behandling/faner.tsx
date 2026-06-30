@@ -388,13 +388,14 @@ const kjørelistebehandlingFaner = (behandling: Behandling): FanerMedRouter[] =>
             path: FanePath.KJØRELISTE,
             komponent: () => <KjørelisteFane />,
             ikon: <CarIcon />,
+            erLåst: faneErLåst(behandling, FanePath.KJØRELISTE),
         },
         {
             navn: FaneNavn.BEREGNING,
             path: FanePath.BEREGNING,
             komponent: () => <BeregningFaneDagligReise />,
             ikon: <CalculatorIcon />,
-            erLåst: faneErLåst(behandling, FanePath.VEDTAK_OG_BEREGNING),
+            erLåst: faneErLåst(behandling, FanePath.BEREGNING),
         },
         {
             navn: FaneNavn.SIMULERING,
