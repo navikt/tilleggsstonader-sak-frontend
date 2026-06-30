@@ -9,12 +9,8 @@ export const lenkerParagrafMålgruppe: Lenke[] = [
         url: 'https://lovdata.no/pro/lov/1997-02-28-19/§11a-3',
     },
     {
-        tekst: '§ 15-11',
-        url: 'https://lovdata.no/pro/lov/1997-02-28-19/§15-11',
-    },
-    {
-        tekst: '§ 17-10',
-        url: 'https://lovdata.no/pro/lov/1997-02-28-19/§17-10',
+        tekst: '§ 17-10 A',
+        url: 'https://lovdata.no/pro/lov/1997-02-28-19/§17-10a',
     },
 ];
 
@@ -24,11 +20,7 @@ export const lenkerRundskrivMålgruppe: Lenke[] = [
         url: 'https://lovdata.no/pro/rundskriv/r11a-00/KAPITTEL_3',
     },
     {
-        tekst: '§ 15-11',
-        url: 'https://lovdata.no/pro/rundskriv/r15-00/KAPITTEL_2-11',
-    },
-    {
-        tekst: '§ 17-10',
+        tekst: '§ 17-10 A',
         url: 'https://lovdata.no/pro/rundskriv/r17-00/KAPITTEL_2-11',
     },
 ];
@@ -50,12 +42,8 @@ export const lenkerParagrafAktivitet: Lenke[] = [
         url: 'https://lovdata.no/pro/lov/1997-02-28-19/§11a-4',
     },
     {
-        tekst: '§ 15-11',
-        url: 'https://lovdata.no/pro/lov/1997-02-28-19/§15-11',
-    },
-    {
-        tekst: '§ 17-10',
-        url: 'https://lovdata.no/pro/lov/1997-02-28-19/§17-10',
+        tekst: '§ 17-10 A',
+        url: 'https://lovdata.no/pro/lov/1997-02-28-19/§17-10a',
     },
 ];
 
@@ -65,11 +53,7 @@ export const lenkerRundskrivAktivitet: Lenke[] = [
         url: 'https://lovdata.no/pro/rundskriv/r11a-00/KAPITTEL_4',
     },
     {
-        tekst: '§ 15-11',
-        url: 'https://lovdata.no/pro/rundskriv/r15-00/KAPITTEL_2-11',
-    },
-    {
-        tekst: '§ 17-10',
+        tekst: '§ 17-10 A',
         url: 'https://lovdata.no/pro/rundskriv/r17-00/KAPITTEL_2-11',
     },
 ];
@@ -91,12 +75,8 @@ export const lenkerParagrafPassBarn: Lenke[] = [
         url: 'https://lovdata.no/pro/lov/1997-02-28-19/§11a-4',
     },
     {
-        tekst: '§ 15-11',
-        url: 'https://lovdata.no/pro/lov/1997-02-28-19/§15-11',
-    },
-    {
-        tekst: '§ 17-10',
-        url: 'https://lovdata.no/pro/lov/1997-02-28-19/§17-10',
+        tekst: '§ 17-10 A',
+        url: 'https://lovdata.no/pro/lov/1997-02-28-19/§17-10a',
     },
 ];
 
