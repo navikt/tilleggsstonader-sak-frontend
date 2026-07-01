@@ -12,6 +12,7 @@ import { BrevFeilContextProvider } from '../../../context/BrevFeilContext';
 import { usePersonopplysninger } from '../../../context/PersonopplysningerContext';
 import { useTotrinnskontroll } from '../../../context/TotrinnskontrollContext';
 import { useContextBrevmottakereSak } from '../../../hooks/useBrevmottakere';
+import { useOppsummertBeregningPrivatBil } from '../../../hooks/useOppsummertBeregningPrivatBil';
 import { useVedtak } from '../../../hooks/useVedtak';
 import { Brevmeny } from '../../../komponenter/Brev/Brevmeny';
 import { mapPersonopplysningerTilPersonopplysningerIBrevmottakere } from '../../../komponenter/Brev/personopplysninger';
@@ -45,6 +46,7 @@ export const Brev: React.FC = () => {
     const { mellomlagretBrev } = useMellomlagrignBrev();
 
     const { vedtak } = useVedtak();
+    const { oppsummertBeregningResponse } = useOppsummertBeregningPrivatBil();
 
     const { totrinnskontroll } = useTotrinnskontroll();
 
@@ -78,8 +80,11 @@ export const Brev: React.FC = () => {
     return (
         <div className={styles.container}>
             {behandlingErRedigerbar ? (
-                <DataViewer type={'brevmaler'} response={{ brevmaler, mellomlagretBrev }}>
-                    {({ brevmaler, mellomlagretBrev }) => (
+                <DataViewer
+                    type={'brevmaler'}
+                    response={{ brevmaler, mellomlagretBrev, oppsummertBeregningResponse }}
+                >
+                    {({ brevmaler, mellomlagretBrev, oppsummertBeregningResponse }) => (
                         <div className={styles.toKolonner}>
                             <VStack gap="space-32" align="start">
                                 <BrevMottakere
@@ -106,6 +111,9 @@ export const Brev: React.FC = () => {
                                                 mellomlagretBrev={mellomlagretBrev}
                                                 settFil={settFil}
                                                 vedtak={vedtak}
+                                                oppsummertBeregningPrivatBil={
+                                                    oppsummertBeregningResponse
+                                                }
                                                 brevknapp={{
                                                     tittel: 'Send til beslutter',
                                                     onClick: sendTilBeslutter,
