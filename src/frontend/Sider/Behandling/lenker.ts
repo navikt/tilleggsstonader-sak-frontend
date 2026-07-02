@@ -5,11 +5,15 @@ export type Lenke = {
 
 export const lenkerParagrafMålgruppe: Lenke[] = [
     {
-        tekst: '§ 11-A3',
+        tekst: '§ 11-A 3',
         url: 'https://lovdata.no/pro/lov/1997-02-28-19/§11a-3',
     },
     {
-        tekst: '§ 17-10 A',
+        tekst: '§ 15-11 (gjelder t.o.m. 30. juni 2026)',
+        url: 'https://lovdata.no/pro/lov/1997-02-28-19/§15-11',
+    },
+    {
+        tekst: '§ 17-10 a',
         url: 'https://lovdata.no/pro/lov/1997-02-28-19/§17-10a',
     },
 ];
@@ -20,8 +24,16 @@ export const lenkerRundskrivMålgruppe: Lenke[] = [
         url: 'https://lovdata.no/pro/rundskriv/r11a-00/KAPITTEL_3',
     },
     {
-        tekst: '§ 17-10 A',
-        url: 'https://lovdata.no/pro/rundskriv/r17-00/KAPITTEL_2-11',
+        tekst: '§ 15-11 (gjelder t.o.m. 30. juni 2026)',
+        url: 'https://lovdata.no/pro/rundskriv/r15-00/KAPITTEL_2-11',
+    },
+    {
+        tekst: '§ 9 i forskrift om overgangsregler',
+        url: 'https://lovdata.no/pro/forskrift/2026-06-25-1361/§9',
+    },
+    {
+        tekst: '§ 17-10 a',
+        url: 'https://lovdata.no/pro/#document/NAV/rundskriv/r17-00/KAPITTEL_2-12',
     },
 ];
 
@@ -29,6 +41,10 @@ export const lenkerForskriftMålgruppe: Lenke[] = [
     {
         tekst: 'Forskrift',
         url: 'https://lovdata.no/pro/forskrift/2015-07-02-867',
+    },
+    {
+        tekst: 'Forskrift om overgangsregler (for enslig mor eller far)',
+        url: 'https://lovdata.no/pro/forskrift/2026-06-25-1361',
     },
     {
         tekst: 'Rundskriv til forskrift',
@@ -42,7 +58,11 @@ export const lenkerParagrafAktivitet: Lenke[] = [
         url: 'https://lovdata.no/pro/lov/1997-02-28-19/§11a-4',
     },
     {
-        tekst: '§ 17-10 A',
+        tekst: '§ 15-11 (gjelder t.o.m. 30. juni 2026)',
+        url: 'https://lovdata.no/pro/lov/1997-02-28-19/§15-11',
+    },
+    {
+        tekst: '§ 17-10 a',
         url: 'https://lovdata.no/pro/lov/1997-02-28-19/§17-10a',
     },
 ];
@@ -53,8 +73,16 @@ export const lenkerRundskrivAktivitet: Lenke[] = [
         url: 'https://lovdata.no/pro/rundskriv/r11a-00/KAPITTEL_4',
     },
     {
-        tekst: '§ 17-10 A',
-        url: 'https://lovdata.no/pro/rundskriv/r17-00/KAPITTEL_2-11',
+        tekst: '§ 15-11 (gjelder t.o.m. 30. juni 2026)',
+        url: 'https://lovdata.no/pro/rundskriv/r15-00/KAPITTEL_2-11',
+    },
+    {
+        tekst: '§ 9 i forskrift om overgangsregler',
+        url: 'https://lovdata.no/pro/forskrift/2026-06-25-1361/§9',
+    },
+    {
+        tekst: '§ 17-10 a',
+        url: 'https://lovdata.no/pro/#document/NAV/rundskriv/r17-00/KAPITTEL_2-12',
     },
 ];
 
@@ -62,6 +90,10 @@ export const lenkerForskriftAktivitet: Lenke[] = [
     {
         tekst: 'Forskrift',
         url: 'https://lovdata.no/pro/forskrift/2015-07-02-867',
+    },
+    {
+        tekst: 'Forskrift om overgangsregler (for enslig mor eller far)',
+        url: 'https://lovdata.no/pro/forskrift/2026-06-25-1361',
     },
     {
         tekst: 'Rundskriv til forskrift',
@@ -75,7 +107,11 @@ export const lenkerParagrafPassBarn: Lenke[] = [
         url: 'https://lovdata.no/pro/lov/1997-02-28-19/§11a-4',
     },
     {
-        tekst: '§ 17-10 A',
+        tekst: '§ 15-11 (gjelder t.o.m. 30. juni 2026)',
+        url: 'https://lovdata.no/pro/lov/1997-02-28-19/§15-11',
+    },
+    {
+        tekst: '§ 17-10 a',
         url: 'https://lovdata.no/pro/lov/1997-02-28-19/§17-10a',
     },
 ];
@@ -88,6 +124,10 @@ export const lenkerForskriftPassBarn: Lenke[] = [
         url: 'https://lovdata.no/pro/forskrift/2015-07-02-867',
     },
     {
+        tekst: 'Forskrift om overgangsregler (for enslig mor eller far)',
+        url: 'https://lovdata.no/pro/forskrift/2026-06-25-1361',
+    },
+    {
         tekst: 'Rundskriv til forskrift',
         url: 'https://lovdata.no/pro/rundskriv/r11a-00-for/KAPITTEL_10',
     },
@@ -97,6 +137,10 @@ export const lenkerForskriftBeregningTilsynBarn: Lenke[] = [
     {
         tekst: 'Forskrift',
         url: 'https://lovdata.no/pro/forskrift/2015-07-02-867/§11',
+    },
+    {
+        tekst: 'Forskrift om overgangsregler (for enslig mor eller far)',
+        url: 'https://lovdata.no/pro/forskrift/2026-06-25-1361',
     },
     {
         tekst: 'Rundskriv til forskrift',
