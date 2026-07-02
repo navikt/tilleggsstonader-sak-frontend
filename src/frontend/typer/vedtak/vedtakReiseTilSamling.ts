@@ -35,6 +35,5 @@ export interface InnvilgelseReiseTilSamling {
     gjelderFraOgMed?: string;
     gjelderTilOgMed?: string;
     begrunnelse?: string;
-    beregningsresultat?: BeregningsresultatForSamling[];
+    beregningsresultat?: BeregningReiseTilSamling;
 }
-export type BeregningsresultatForSamling = Record<string, unknown>;
