@@ -13,7 +13,15 @@ export const lenkerParagrafMålgruppe: Lenke[] = [
         url: 'https://lovdata.no/pro/lov/1997-02-28-19/§15-11',
     },
     {
-        tekst: '§ 17-10 a',
+        tekst: 'Lov av 12. juni 2026 om endringer i folketrygdloven',
+        url: 'https://lovdata.no/pro/#document/LTI/lov/2026-06-12-27/KAPITTEL_1',
+    },
+    {
+        tekst: '§ 17-10 (gjelder t.o.m. 30. juni 2026)',
+        url: 'https://lovdata.no/pro/lov/1997-02-28-19/§17-10',
+    },
+    {
+        tekst: '§ 17-10 a (gjelder f.o.m. 1. juli 2026)',
         url: 'https://lovdata.no/pro/lov/1997-02-28-19/§17-10a',
     },
 ];
@@ -62,7 +70,15 @@ export const lenkerParagrafAktivitet: Lenke[] = [
         url: 'https://lovdata.no/pro/lov/1997-02-28-19/§15-11',
     },
     {
-        tekst: '§ 17-10 a',
+        tekst: 'Lov av 12. juni 2026 om endringer i folketrygdloven',
+        url: 'https://lovdata.no/pro/#document/LTI/lov/2026-06-12-27/KAPITTEL_1',
+    },
+    {
+        tekst: '§ 17-10 (gjelder t.o.m. 30. juni 2026)',
+        url: 'https://lovdata.no/pro/lov/1997-02-28-19/§17-10',
+    },
+    {
+        tekst: '§ 17-10 a (gjelder f.o.m. 1. juli 2026)',
         url: 'https://lovdata.no/pro/lov/1997-02-28-19/§17-10a',
     },
 ];
@@ -111,7 +127,15 @@ export const lenkerParagrafPassBarn: Lenke[] = [
         url: 'https://lovdata.no/pro/lov/1997-02-28-19/§15-11',
     },
     {
-        tekst: '§ 17-10 a',
+        tekst: 'Lov av 12. juni 2026 om endringer i folketrygdloven',
+        url: 'https://lovdata.no/pro/#document/LTI/lov/2026-06-12-27/KAPITTEL_1',
+    },
+    {
+        tekst: '§ 17-10 (gjelder t.o.m. 30. juni 2026)',
+        url: 'https://lovdata.no/pro/lov/1997-02-28-19/§17-10',
+    },
+    {
+        tekst: '§ 17-10 a (gjelder f.o.m. 1. juli 2026)',
         url: 'https://lovdata.no/pro/lov/1997-02-28-19/§17-10a',
     },
 ];
