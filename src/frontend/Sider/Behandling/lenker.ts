@@ -36,7 +36,11 @@ export const lenkerRundskrivMålgruppe: Lenke[] = [
         url: 'https://lovdata.no/pro/rundskriv/r15-00/KAPITTEL_2-11',
     },
     {
-        tekst: '§ 9 i forskrift om overgangsregler',
+        tekst: 'Rundskriv til tilleggsstønadsforskriften',
+        url: 'https://lovdata.no/pro/rundskriv/r11a-00-for',
+    },
+    {
+        tekst: 'Rundskriv til forskrift om overgangsregler § 9',
         url: 'https://lovdata.no/pro/forskrift/2026-06-25-1361/§9',
     },
     {
@@ -47,16 +51,12 @@ export const lenkerRundskrivMålgruppe: Lenke[] = [
 
 export const lenkerForskriftMålgruppe: Lenke[] = [
     {
-        tekst: 'Forskrift',
+        tekst: 'Tilleggsstønadsforskriften',
         url: 'https://lovdata.no/pro/forskrift/2015-07-02-867',
     },
     {
         tekst: 'Forskrift om overgangsregler (for enslig mor eller far)',
         url: 'https://lovdata.no/pro/forskrift/2026-06-25-1361',
-    },
-    {
-        tekst: 'Rundskriv til forskrift',
-        url: 'https://lovdata.no/pro/rundskriv/r11a-00-for',
     },
 ];
 
@@ -93,7 +93,11 @@ export const lenkerRundskrivAktivitet: Lenke[] = [
         url: 'https://lovdata.no/pro/rundskriv/r15-00/KAPITTEL_2-11',
     },
     {
-        tekst: '§ 9 i forskrift om overgangsregler',
+        tekst: 'Rundskriv til tilleggsstønadsforskriften',
+        url: 'https://lovdata.no/pro/rundskriv/r11a-00-for',
+    },
+    {
+        tekst: 'Rundskriv til forskrift om overgangsregler § 9',
         url: 'https://lovdata.no/pro/forskrift/2026-06-25-1361/§9',
     },
     {
@@ -104,16 +108,12 @@ export const lenkerRundskrivAktivitet: Lenke[] = [
 
 export const lenkerForskriftAktivitet: Lenke[] = [
     {
-        tekst: 'Forskrift',
+        tekst: 'Tilleggsstønadsforskriften',
         url: 'https://lovdata.no/pro/forskrift/2015-07-02-867',
     },
     {
         tekst: 'Forskrift om overgangsregler (for enslig mor eller far)',
         url: 'https://lovdata.no/pro/forskrift/2026-06-25-1361',
-    },
-    {
-        tekst: 'Rundskriv til forskrift',
-        url: 'https://lovdata.no/pro/rundskriv/r11a-00-for',
     },
 ];
 
@@ -140,34 +140,38 @@ export const lenkerParagrafPassBarn: Lenke[] = [
     },
 ];
 
-export const lenkerRundskrivPassBarn: Lenke[] = [];
+export const lenkerRundskrivPassBarn: Lenke[] = [
+    {
+        tekst: 'Rundskriv til tilleggsstønadsforskriften',
+        url: 'https://lovdata.no/pro/rundskriv/r11a-00-for/KAPITTEL_10',
+    },
+];
 
 export const lenkerForskriftPassBarn: Lenke[] = [
     {
-        tekst: 'Forskrift',
+        tekst: 'Tilleggsstønadsforskriften',
         url: 'https://lovdata.no/pro/forskrift/2015-07-02-867',
     },
     {
         tekst: 'Forskrift om overgangsregler (for enslig mor eller far)',
         url: 'https://lovdata.no/pro/forskrift/2026-06-25-1361',
     },
+];
+
+export const lenkerRundskrivBeregningTilsynBarn: Lenke[] = [
     {
-        tekst: 'Rundskriv til forskrift',
-        url: 'https://lovdata.no/pro/rundskriv/r11a-00-for/KAPITTEL_10',
+        tekst: 'Rundskriv til tilleggsstønadsforskriften',
+        url: 'https://lovdata.no/pro/rundskriv/r11a-00-for/KAPITTEL_11',
     },
 ];
 
 export const lenkerForskriftBeregningTilsynBarn: Lenke[] = [
     {
-        tekst: 'Forskrift',
+        tekst: 'Tilleggsstønadsforskriften',
         url: 'https://lovdata.no/pro/forskrift/2015-07-02-867/§11',
     },
     {
         tekst: 'Forskrift om overgangsregler (for enslig mor eller far)',
         url: 'https://lovdata.no/pro/forskrift/2026-06-25-1361',
-    },
-    {
-        tekst: 'Rundskriv til forskrift',
-        url: 'https://lovdata.no/pro/rundskriv/r11a-00-for/KAPITTEL_11',
     },
 ];
