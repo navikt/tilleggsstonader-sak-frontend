@@ -2,17 +2,27 @@ import React, { useEffect, useState } from 'react';
 
 import { ErrorMessage, VStack } from '@navikt/ds-react';
 
+import { useApp } from '../../../../../context/AppContext';
+import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
-import { FormErrors } from '../../../../../hooks/felles/useFormState';
+import { FormErrors, isValid } from '../../../../../hooks/felles/useFormState';
 import { useMapById } from '../../../../../hooks/useMapById';
+import DataViewer from '../../../../../komponenter/DataViewer';
 import { Feil } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
+import { byggHenterRessurs, byggTomRessurs } from '../../../../../typer/ressurs';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
-import { InnvilgelseReiseTilSamling } from '../../../../../typer/vedtak/vedtakReiseTilSamling';
+import {
+    BeregningReiseTilSamling,
+    BeregnReiseTilSamlingRequest,
+    InnvilgelseReiseTilSamling,
+} from '../../../../../typer/vedtak/vedtakReiseTilSamling';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
+import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
 import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
 import { initialiserVedtaksperioder } from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
+import { Beregningsresultat } from '../../ReiseTilSamling/innvilgeVedtak/Beregningsresultat/Beregningsresultat';
 
 interface Props {
     lagretVedtak?: InnvilgelseReiseTilSamling;
@@ -22,6 +32,8 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
     lagretVedtak,
     vedtaksperioderForrigeBehandling,
 }) => {
+    const { request } = useApp();
+    const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
 
     const [vedtaksperioder, settVedtaksperioder] = useState<Vedtaksperiode[]>(
@@ -29,7 +41,6 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
             lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling
         )
     );
-
     const lagredeVedtaksperioder = useMapById(
         lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling || []
     );
@@ -37,14 +48,41 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
     const [vedtaksperiodeFeil, settVedtaksperiodeFeil] = useState<FormErrors<Vedtaksperiode>[]>();
     const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<Feil>();
 
+    const [beregningsresultat, settBeregningsresultat] =
+        useState(byggTomRessurs<BeregningReiseTilSamling>());
     const [erVedtaksperioderBeregnet, settErVedtaksperioderBeregnet] = useState(false);
-    const [visHarIkkeBeregnetFeilmelding] = useState<boolean>();
+    const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
 
     const [begrunnelse, settBegrunnelse] = useState<string | undefined>(lagretVedtak?.begrunnelse);
-
     useEffect(() => {
         settErVedtaksperioderBeregnet(false);
     }, [vedtaksperioder]);
+
+    const validerForm = (): boolean => {
+        const vedtaksperiodeFeil = validerVedtaksperioder(vedtaksperioder);
+        settVedtaksperiodeFeil(vedtaksperiodeFeil);
+
+        return isValid(vedtaksperiodeFeil);
+    };
+    const beregnReiseTilSamlingOffentligTransport = () => {
+        settVisHarIkkeBeregnetFeilmelding(false);
+        settForeslåPeriodeFeil(undefined);
+
+        const kanSendeInn = validerForm();
+
+        if (kanSendeInn) {
+            settBeregningsresultat(byggHenterRessurs());
+            const url = `/api/sak/vedtak/reise-til-samling/${behandling.id}/tso/beregn`;
+            request<BeregningReiseTilSamling, BeregnReiseTilSamlingRequest>(url, 'POST', {
+                vedtaksperioder,
+            }).then((result) => {
+                settBeregningsresultat(result);
+                if (result.status === 'SUKSESS') {
+                    settErVedtaksperioderBeregnet(true);
+                }
+            });
+        }
+    };
     return (
         <>
             <Panel tittel="Beregning og vedtaksperiode">
@@ -63,7 +101,20 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
                         begrunnelse={begrunnelse}
                         oppdaterBegrunnelse={settBegrunnelse}
                     />
-                    {erStegRedigerbart && <SmallButton>Beregn</SmallButton>}
+                    {erStegRedigerbart && (
+                        <SmallButton onClick={beregnReiseTilSamlingOffentligTransport}>
+                            Beregn
+                        </SmallButton>
+                    )}
+                    {erStegRedigerbart && (
+                        <DataViewer type={'beregningsresultat'} response={{ beregningsresultat }}>
+                            {({ beregningsresultat }) => (
+                                <Beregningsresultat
+                                    beregningsresultat={beregningsresultat.offentligTransport}
+                                />
+                            )}
+                        </DataViewer>
+                    )}
                 </VStack>
             </Panel>
             {visHarIkkeBeregnetFeilmelding && !erVedtaksperioderBeregnet && (

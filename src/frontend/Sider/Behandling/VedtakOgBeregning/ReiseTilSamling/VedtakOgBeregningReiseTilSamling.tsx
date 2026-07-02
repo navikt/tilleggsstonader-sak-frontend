@@ -11,7 +11,6 @@ import {
     vedtakErInnvilgelse,
     VedtakReiseTilSamling,
 } from '../../../../typer/vedtak/vedtakReiseTilSamling';
-import styles from '../DagligReise/VedtakOgBeregningDagligReise.module.css';
 import { VelgVedtakResultat } from '../Felles/VelgVedtakResultat';
 import { InnvilgelseReiseTilSamlingEllerVedtaksperioderFraForrigeBehandling } from './innvilgeVedtak/InnvilgelseReiseTilSamlingEllerVedtaksperioderFraForrigeBehandling';
 
@@ -27,7 +26,7 @@ export const VedtakOgBeregningReiseTilSamling: React.FC = () => {
         <>
             <DataViewer type={'vedtak'} response={{ vedtak }}>
                 {({ vedtak }) => (
-                    <div className={styles.container}>
+                    <div>
                         <Panel tittel="Vedtak">
                             <HGrid gap="space-64" columns={{ sm: 1, md: '5em auto' }}>
                                 <VelgVedtakResultat
