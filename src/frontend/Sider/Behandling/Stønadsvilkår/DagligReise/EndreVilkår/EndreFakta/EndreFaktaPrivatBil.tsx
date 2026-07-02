@@ -231,7 +231,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                                         oppdaterPeriode(
                                             index,
                                             'bompengerPerDag',
-                                            tilHeltall(fjernSpaces(e.target.value))
+                                            tilTallverdi(fjernSpaces(e.target.value))
                                         );
                                     }}
                                 />
@@ -250,7 +250,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                                         oppdaterPeriode(
                                             index,
                                             'fergekostnadPerDag',
-                                            tilHeltall(fjernSpaces(e.target.value))
+                                            tilTallverdi(fjernSpaces(e.target.value))
                                         );
                                     }}
                                 />

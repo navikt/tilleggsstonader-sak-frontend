@@ -15,6 +15,7 @@ import {
     RammevedtakPrivatBil,
 } from '../../../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoDato } from '../../../../../../utils/dato';
+import { formaterTallMedTusenSkille } from '../../../../../../utils/fomatering';
 
 // Hjelpefunksjon for å flate ut delperioder og satser til visningsrader
 interface VisningsradPrivatBil {
@@ -118,16 +119,18 @@ export const BeregningsresultatRammevedtakPrivatBil: FC<Props> = ({ rammevedtak 
                                                 {rad.reisedagerPerUke}
                                             </TableDataCellSmall>
                                             <TableDataCellSmall>
-                                                {rad.kilometersats}
+                                                {formaterTallMedTusenSkille(rad.kilometersats)}
                                             </TableDataCellSmall>
                                             <TableDataCellSmall>
-                                                {rad.dagsatsUtenParkering}
+                                                {formaterTallMedTusenSkille(
+                                                    rad.dagsatsUtenParkering
+                                                )}
                                             </TableDataCellSmall>
                                             <TableDataCellSmall>
-                                                {rad.bompengerPerDag}
+                                                {formaterTallMedTusenSkille(rad.bompengerPerDag)}
                                             </TableDataCellSmall>
                                             <TableDataCellSmall>
-                                                {rad.fergekostnadPerDag}
+                                                {formaterTallMedTusenSkille(rad.fergekostnadPerDag)}
                                             </TableDataCellSmall>
                                         </Table.Row>
                                     ))}

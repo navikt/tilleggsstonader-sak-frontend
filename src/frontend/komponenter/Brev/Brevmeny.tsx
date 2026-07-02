@@ -8,6 +8,7 @@ import { Delmal } from './Delmal';
 import { lagHtmlStringAvBrev } from './Html';
 import {
     variabelBeregningstabellId,
+    variabelBeregningstabellPrivatBilId,
     variabelInnvilgedePerioderPunktlisteId,
     variabelRammevedtaktabellReiseMedBil,
 } from './htmlVariabler';
@@ -16,9 +17,11 @@ import { lagInnvilgetPerioderPunktliste } from './punktliste/lagInnvilgetPeriode
 import { lagVerdier } from './stønadsverdier/lagVerdier';
 import { Fritekst, FritekstAvsnitt, MalStruktur, Tekst, Valg, Valgfelt } from './typer';
 import { lagVedtakstabell } from './vedtakstabell/lagVedtakstabell';
+import { lagVedtakstabellPrivatBil } from './vedtakstabell/lagVedtakstabellDagligReisePrivatBil';
 import { lagRammevedtakstabell } from './vedtakstabell/rammevedtak/lagRammevedtakstabell';
 import { useApp } from '../../context/AppContext';
 import { usePersonopplysninger } from '../../context/PersonopplysningerContext';
+import { PrivatBilOppsummertBeregning } from '../../Sider/Behandling/VedtakOgBeregning/DagligReise/BeregningFane/typer';
 import { Behandling } from '../../typer/behandling/behandling';
 import { Ressurs } from '../../typer/ressurs';
 import { VedtakResponse } from '../../typer/vedtak/vedtak';
@@ -33,6 +36,7 @@ type Props = {
         visKnapp: boolean;
         kanSendeKommentarTilBeslutter?: boolean;
     };
+    oppsummertBeregningPrivatBil?: PrivatBilOppsummertBeregning;
 } & (
     | { behandling: Behandling; vedtak?: VedtakResponse; fagsakId?: never }
     | { behandling?: never; vedtak?: never; fagsakId: string }
@@ -79,6 +83,7 @@ export const Brevmeny: React.FC<Props> = ({
     settFil,
     vedtak,
     brevknapp,
+    oppsummertBeregningPrivatBil,
 }) => {
     const behandlingId = behandling?.id;
     const { personopplysninger } = usePersonopplysninger();
@@ -145,6 +150,11 @@ export const Brevmeny: React.FC<Props> = ({
             ),
             [variabelBeregningstabellId]: lagVedtakstabell(behandling, vedtak),
             [variabelRammevedtaktabellReiseMedBil]: lagRammevedtakstabell(behandling, vedtak),
+            [variabelBeregningstabellPrivatBilId]: lagVedtakstabellPrivatBil(
+                behandling,
+                vedtak,
+                oppsummertBeregningPrivatBil
+            ),
         };
         return htmlVariabler;
     }
@@ -178,7 +188,15 @@ export const Brevmeny: React.FC<Props> = ({
     useEffect(() => {
         settGenerererBrevPdf(true);
         utsattGenererBrev();
-    }, [utsattGenererBrev, mal, variabler, valgfelt, fritekst, inkluderteDelmaler]);
+    }, [
+        utsattGenererBrev,
+        mal,
+        variabler,
+        valgfelt,
+        fritekst,
+        inkluderteDelmaler,
+        oppsummertBeregningPrivatBil,
+    ]);
 
     function erEndringerIDelmal(delmalId: string) {
         const valgfeltForDelmal = valgfelt[delmalId] || {};

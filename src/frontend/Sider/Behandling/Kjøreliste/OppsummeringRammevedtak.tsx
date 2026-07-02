@@ -7,16 +7,16 @@ import { RammeForReiseMedPrivatBil } from '../../../typer/vedtak/vedtakDagligRei
 import { formaterIsoPeriode } from '../../../utils/dato';
 
 export const OppsummeringRammevedtak: FC<{
-    rammeForReise: RammeForReiseMedPrivatBil;
+    rammeForReise?: RammeForReiseMedPrivatBil;
 }> = ({ rammeForReise }) => {
     return (
         <div className={styles.grid}>
             <Label size="small">Periode</Label>
             <Label size="small">Reiseavstand én vei</Label>
             <BodyShort size="small">
-                {formaterIsoPeriode(rammeForReise.fom, rammeForReise.tom)}
+                {formaterIsoPeriode(rammeForReise?.fom ?? 'ukjent', rammeForReise?.tom ?? 'ukjent')}
             </BodyShort>
-            <BodyShort size="small">{rammeForReise.reiseavstandEnVei} km</BodyShort>
+            <BodyShort size="small">{rammeForReise?.reiseavstandEnVei} km</BodyShort>
         </div>
     );
 };

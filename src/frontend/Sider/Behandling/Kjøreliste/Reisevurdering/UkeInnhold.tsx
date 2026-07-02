@@ -1,5 +1,7 @@
 import React, { FC, useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
+
 import { PencilIcon } from '@navikt/aksel-icons';
 import { Button, HStack, InlineMessage, Label, VStack } from '@navikt/ds-react';
 
@@ -29,6 +31,7 @@ import {
     RammeForReiseMedPrivatBilDelperiode,
     vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakDagligReise';
+import { Toggle } from '../../../../utils/toggles';
 import {
     mapTilRedigerbareAvklarteDager,
     tomRedigerbarAvklartDag,
@@ -44,6 +47,9 @@ export const UkeInnhold: FC<{
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { vedtak } = useKjørelisteContext();
+    const kanOverskrideAntallDagerIRammevedtak = useFlag(
+        Toggle.KAN_OVERSKRIDE_ANTALL_DAGER_I_RAMMEVEDTAK
+    );
 
     const [redigerer, settRedigerer] = React.useState(false);
     const [redigerbareDager, settRedigerbareDager] = useState<RedigerbarAvklartDag[]>([]);
@@ -65,7 +71,11 @@ export const UkeInnhold: FC<{
         settValideringsfeilForDager(feil);
 
         const erAntallGodkjenteDagerInnenforRammevedtak =
-            validerAntallReisedagerInnenforRammevedtak(redigerbareDager, delperiodeForUke);
+            validerAntallReisedagerInnenforRammevedtak(
+                redigerbareDager,
+                delperiodeForUke,
+                kanOverskrideAntallDagerIRammevedtak
+            );
 
         settValideringsfeilForUke(
             erAntallGodkjenteDagerInnenforRammevedtak
@@ -144,7 +154,7 @@ export const UkeInnhold: FC<{
                 <div className={styles.wrapper}>
                     {uke.dager.map((dag, dagIndeks) => (
                         <React.Fragment key={dagIndeks}>
-                            <KjørelisteDagInfo dag={dag} />
+                            <KjørelisteDagInfo dag={dag} erUkeSlettet={uke.erUkeSlettet} />
                             {redigerer ? (
                                 <RedigerAvklartDag
                                     dag={

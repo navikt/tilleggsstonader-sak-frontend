@@ -26,11 +26,20 @@ export interface OffentligTransport {
     syvdagersbillettPris?: number;
     månedskortPris?: number;
 }
+
 export interface PrivatTransport {
     årsakIkkeOffentligTransport: ÅrsakIkkeOffentligTransport[];
     kanKjøreMedEgenBil?: JaNeiSitterPåMedAndre;
     utgifterBil?: UtgifterBil;
     taxi?: Taxi;
+}
+
+export enum Drivstofftype {
+    ELBIL = 'ELBIL',
+    HYDROGEN = 'HYDROGEN',
+    BENSIN = 'BENSIN',
+    HYBRID = 'HYBRID',
+    DIESEL = 'DIESEL',
 }
 
 export interface LeveringOgHentingIBarnehage {
@@ -55,6 +64,7 @@ export interface UtgifterBil {
     ferge?: number;
     piggdekkavgift?: number;
     mottarGrunnstønad?: JaNei;
+    drivstofftype?: Drivstofftype;
 }
 
 export interface Taxi {
@@ -83,6 +93,14 @@ export const ÅrsakIkkeKjøreBilTilTekst: Record<ÅrsakIkkeKjøreBil, string> = 
     HELSEMESSIGE_ÅRSAKER: 'Helsemessige årsaker',
     HAR_IKKE_BIL_FØRERKORT: 'Har ikke bil eller førerkort',
     ANNET: 'Annet',
+};
+
+export const drivstofftypeTilTekst: Record<Drivstofftype, string> = {
+    [Drivstofftype.ELBIL]: 'El',
+    [Drivstofftype.BENSIN]: 'Bensin',
+    [Drivstofftype.DIESEL]: 'Diesel',
+    [Drivstofftype.HYBRID]: 'Hybrid',
+    [Drivstofftype.HYDROGEN]: 'Hydrogen',
 };
 
 export function reiseAdresseTilTekst(adresse: ReiseAdresse) {

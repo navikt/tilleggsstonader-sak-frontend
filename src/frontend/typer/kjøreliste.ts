@@ -4,13 +4,15 @@ import { RammeForReiseMedPrivatBil } from './vedtak/vedtakDagligReise';
 export interface ReisevurderingPrivatBil {
     reiseId: string;
     uker: UkeVurdering[];
-    rammevedtak: RammeForReiseMedPrivatBil;
+    rammevedtak?: RammeForReiseMedPrivatBil;
+    forrigeRammevedtak?: RammeForReiseMedPrivatBil;
 }
 
 export interface UkeVurdering {
     ukenummer: number;
     fraDato: string;
     tilDato: string;
+    erUkeSlettet: boolean;
     status: UkeStatus;
     avvik?: AvvikUke;
     behandletDato?: string;
@@ -28,6 +30,7 @@ export interface AvvikUke {
 export interface Dag {
     dato: string;
     ukedag: Ukedag; // avklar om faktisk trenger, eller om frontend skal mappe ut fra dag
+    erDagSlettet: boolean;
     kjørelisteDag?: KjørelisteDag;
     avklartDag?: AvklartDag;
 }

@@ -38,7 +38,7 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
     vedtaksperioderForrigeBehandling,
 }) => {
     const { request } = useApp();
-    const { behandling } = useBehandling();
+    const { behandling, hentRammevedtak } = useBehandling();
     const { erStegRedigerbart } = useSteg();
 
     const [vedtaksperioder, settVedtaksperioder] = useState<Vedtaksperiode[]>(
@@ -78,6 +78,11 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
                 type: TypeVedtak.INNVILGELSE,
                 vedtaksperioder: tilVedtaksperioderDto(vedtaksperioder, behandling.stønadstype),
                 begrunnelse: begrunnelse,
+            }).then((result) => {
+                if (result.status === RessursStatus.SUKSESS) {
+                    hentRammevedtak();
+                }
+                return result;
             });
         } else {
             settVisHarIkkeBeregnetFeilmelding(true);
