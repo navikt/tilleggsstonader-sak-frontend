@@ -4,6 +4,7 @@ import constate from 'constate';
 
 import {
     variabelBeregningstabellId,
+    variabelBeregningstabellPrivatBilId,
     variabelInnvilgedePerioderPunktlisteId,
     variabelRammevedtaktabellReiseMedBil,
 } from '../komponenter/Brev/htmlVariabler';
@@ -16,6 +17,7 @@ import { harIkkeVerdi } from '../utils/utils';
  */
 const htmlVariabler = new Set([
     variabelBeregningstabellId,
+    variabelBeregningstabellPrivatBilId,
     variabelRammevedtaktabellReiseMedBil,
     variabelInnvilgedePerioderPunktlisteId,
 ]);
