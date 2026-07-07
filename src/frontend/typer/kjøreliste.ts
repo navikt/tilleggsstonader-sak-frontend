@@ -57,6 +57,7 @@ export enum GodkjentGjennomførtKjøring {
 
 export enum UkeStatus {
     OK_AUTOMATISK = 'OK_AUTOMATISK', // brukes hvis automatisk godkjent
+    MANUELT_REGISTRERT = 'MANUELT_REGISTRERT', // brukes når uke er registrert av saksbehandler og krever manuell gjennomgang
     OK_MANUELT = 'OK_MANUELT', // brukes hvis saksbehandler godtar avvik
     AVVIK = 'AVVIK', // parkeringsutgifter/for mange dager etc. saksbehandler må ta stilling til uka
     IKKE_MOTTATT_KJØRELISTE = 'IKKE_MOTTATT_KJØRELISTE',
@@ -100,4 +101,36 @@ export interface RedigerbarAvklartDag {
     godkjentGjennomførtKjøring: GodkjentGjennomførtKjøring;
     parkeringsutgift?: number;
     begrunnelse?: string;
+}
+
+export interface RegistrertKjørtDag {
+    id: string;
+    dato: string;
+    harKjørt: boolean;
+    parkeringsutgift?: number;
+}
+
+export interface RegistrertKjørtUke {
+    id: string;
+    behandlingId: string;
+    reiseId: string;
+    begrunnelse?: string;
+    dager: RegistrertKjørtDag[];
+}
+
+export interface RegistrertKjørtDagRequest {
+    dato: string;
+    harKjørt: boolean;
+    parkeringsutgift?: number;
+}
+
+export interface RegistrertKjørtUkePostRequest {
+    reiseId: string;
+    begrunnelse?: string;
+    dager: RegistrertKjørtDagRequest[];
+}
+
+export interface RegistrertKjørtUkePutRequest {
+    begrunnelse?: string;
+    dager: RegistrertKjørtDagRequest[];
 }
