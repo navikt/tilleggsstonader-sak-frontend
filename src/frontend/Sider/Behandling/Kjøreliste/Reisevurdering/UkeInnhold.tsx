@@ -24,6 +24,7 @@ import {
     AvklartKjørtDagStatus,
     AvklartKjørtUkeStatus,
     RedigerbarAvklartDag,
+    UkeStatus,
     UkeVurdering,
 } from '../../../../typer/kjøreliste';
 import { RessursStatus } from '../../../../typer/ressurs';
@@ -123,10 +124,11 @@ export const UkeInnhold: FC<{
         settRedigerer(false);
     };
 
-    // TODO: Må oppdateres når vi håndterer redigering uten at uke er innsendt
+    const erManueltRegistrert =
+        uke.status === UkeStatus.MANUELT_REGISTRERT || uke.status === UkeStatus.OK_MANUELT;
+
     const kanRedigereUke =
-        erStegRedigerbart &&
-        !!uke.kjørelisteInnsendtDato &&
+        (erManueltRegistrert || erStegRedigerbart) &&
         !!uke.avklartUkeId &&
         uke.avklartKjørtUkeStatus !== AvklartKjørtUkeStatus.SLETTET &&
         !vedtakErOpphør(vedtak);

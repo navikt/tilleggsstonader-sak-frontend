@@ -45,6 +45,11 @@
     border-right: 1px solid var(--ax-border-neutral);
 }
 
+.bakgrunn-og-padding {
+    background: var(--ax-bg-neutral-moderate);
+    padding: 1rem;
+}
+
 .høyre-grid {
     padding-right: 1rem;
     grid-template-columns: var(--kolonne-5) var(--kolonne-6) auto max-content;

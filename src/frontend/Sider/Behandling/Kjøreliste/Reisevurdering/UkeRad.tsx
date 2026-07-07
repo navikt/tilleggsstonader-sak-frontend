@@ -4,6 +4,7 @@ import {
     CogRotationIcon,
     ExclamationmarkTriangleIcon,
     PersonHeadsetIcon,
+    PersonPencilIcon,
 } from '@navikt/aksel-icons';
 import { BodyShort, Heading, HStack, Table, Tag } from '@navikt/ds-react';
 
@@ -26,6 +27,7 @@ export const UkeRad: FC<{
 
     return (
         <Table.ExpandableRow
+            expandOnRowClick={true}
             content={
                 <UkeInnhold
                     uke={uke}
@@ -33,7 +35,7 @@ export const UkeRad: FC<{
                     delperiodeForUke={relevantDelperiodeForUke}
                 />
             }
-            defaultOpen={uke.status === 'AVVIK'}
+            defaultOpen={uke.status === UkeStatus.AVVIK}
         >
             <TableHeaderCellSmall>
                 <HStack justify="space-between" align="center">
@@ -75,6 +77,13 @@ const AutomatiskManuellEllerAvvikTag: FC<{ status: UkeStatus }> = ({ status }) =
                 <HStack align="center" gap="space-4">
                     <CogRotationIcon />
                     <BodyShort size="small">Automatisk</BodyShort>
+                </HStack>
+            );
+        case UkeStatus.MANUELT_REGISTRERT:
+            return (
+                <HStack align="center" gap="space-4">
+                    <PersonPencilIcon />
+                    <BodyShort size="small">Manuelt registrert</BodyShort>
                 </HStack>
             );
         case UkeStatus.OK_MANUELT:
