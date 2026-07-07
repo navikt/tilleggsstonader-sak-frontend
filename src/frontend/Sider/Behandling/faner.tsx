@@ -15,7 +15,7 @@ import { UtenBrev } from './Fanemeny/UtenBrev';
 import Inngangsvilkår from './Inngangsvilkår/Inngangsvilkår';
 import { FullførKjørelisteFane } from './Kjøreliste/FullførKjørelisteFane';
 import { KjørelisteFane } from './Kjøreliste/KjørelisteFane';
-import { RegistrerKjørelisteFane } from './Kjøreliste/RegistrerKjørelisteFane';
+import { RegistrerKjørelisteFane } from './Kjøreliste/RegistrerKjøreliste/RegistrerKjørelisteFane';
 import { Simulering } from './Simulering/Simulering';
 import { StønadsvilkårDagligReise } from './Stønadsvilkår/DagligReise/StønadsvilkårDagligReise';
 import { StønadsvilkårReiseTilSamling } from './Stønadsvilkår/ReiseTilSamling/StønadsvilkårReiseTilSamling';
