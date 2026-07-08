@@ -21,7 +21,7 @@ export interface BeregningsresultatOffentligTransportForSamling {
     adresse?: string;
     fom: string;
     tom: string;
-    utgifterOffentligTransport?: number;
+    beløp?: number;
 }
 
 export type InnvilgeReiseTilSamlingRequest = {
