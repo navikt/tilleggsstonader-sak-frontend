@@ -13,10 +13,10 @@ export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
     return (
         <VStack gap="space-16">
             <>
-                {beregningsresultat?.samling && (
+                {beregningsresultat?.reiser && (
                     <>
                         <BeregningOffentligTransport
-                            beregningsresultat={beregningsresultat.samling}
+                            beregningsresultat={beregningsresultat.reiser}
                         />
                     </>
                 )}

@@ -2,11 +2,11 @@ import React, { FC } from 'react';
 
 import { Heading, HStack, Table } from '@navikt/ds-react';
 
-import { BeregningsResultatForSamling } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
+import { BeregningsresultatOffentligTransportForSamling } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
 import { formaterIsoDato } from '../../../../../../utils/dato';
 
 interface Props {
-    beregningsresultat: BeregningsResultatForSamling[];
+    beregningsresultat: BeregningsresultatOffentligTransportForSamling[];
 }
 
 export const BeregningOffentligTransport: FC<Props> = ({ beregningsresultat }) => {

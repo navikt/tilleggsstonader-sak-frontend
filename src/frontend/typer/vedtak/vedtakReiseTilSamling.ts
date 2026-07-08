@@ -14,9 +14,9 @@ export interface BeregningReiseTilSamling {
     offentligTransport?: BeregningsresultatOffentligTransport;
 }
 export interface BeregningsresultatOffentligTransport {
-    samling: BeregningsResultatForSamling[];
+    reiser: BeregningsresultatOffentligTransportForSamling[];
 }
-export interface BeregningsResultatForSamling {
+export interface BeregningsresultatOffentligTransportForSamling {
     reiseId: string;
     adresse?: string;
     fom: string;
