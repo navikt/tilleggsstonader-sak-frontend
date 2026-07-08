@@ -12,6 +12,7 @@ import {
     resettMålgruppe,
 } from './utils';
 import { MålgruppeValidering, validerMålgruppe } from './valideringMålgruppe';
+import { VarselOvergangsstønad } from './VarselOvergangsstønad';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
@@ -160,6 +161,8 @@ const EndreMålgruppe: React.FC<{
 
     const erMålgruppeSomStøttes = form.type !== MålgruppeType.GJENLEVENDE_GAMMELT_REGELVERK;
 
+    const skalViseAdvarselOmRegelendringer = form.type === MålgruppeType.OVERGANGSSTØNAD;
+
     return (
         <ResultatOgStatusKort periode={målgruppe} redigeres>
             <div className={styles.feltContainer}>
@@ -193,6 +196,7 @@ const EndreMålgruppe: React.FC<{
                     feil={vilkårsperiodeFeil?.begrunnelse}
                 />
             )}
+            {skalViseAdvarselOmRegelendringer && <VarselOvergangsstønad />}
             <HStack gap="space-16">
                 {erMålgruppeSomStøttes && (
                     <Button size="xsmall" onClick={lagre}>
