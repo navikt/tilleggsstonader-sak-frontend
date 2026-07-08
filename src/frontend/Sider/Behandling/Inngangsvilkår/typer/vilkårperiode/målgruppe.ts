@@ -31,7 +31,7 @@ export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
     AAP: 'AAP',
     UFØRETRYGD: 'Uføretrygd',
     OMSTILLINGSSTØNAD: 'Omstillingsstønad',
-    OVERGANGSSTØNAD: 'Overgangsstønad',
+    OVERGANGSSTØNAD: 'Overgangsstønad - (tidl. kap. 15/overgangsregler)',
     NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
     SYKEPENGER_100_PROSENT: '100% sykepenger',
     INGEN_MÅLGRUPPE: 'Ingen målgruppe',

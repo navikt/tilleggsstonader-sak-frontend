@@ -7,6 +7,7 @@ import EndreMålgruppe from './EndreMålgruppe';
 import { MålgruppeHjelpetekst } from './MålgruppeHjelpetekst';
 import { MålgruppeKort } from './MålgruppeKort';
 import RegisterYtelser from './RegisterYtelser';
+import { VarselOvergangsstønad } from './VarselOvergangsstønad';
 import { useApp } from '../../../../context/AppContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../../context/StegContext';
@@ -19,6 +20,7 @@ import {
     lenkerParagrafMålgruppe,
     lenkerRundskrivMålgruppe,
 } from '../../lenker';
+import { MålgruppeType } from '../typer/vilkårperiode/målgruppe';
 import {
     VilkårperioderGrunnlag,
     YtelseGrunnlagPeriode,
@@ -78,6 +80,10 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
         }
     }, [feilmelding]);
 
+    const skalViseAdvarselOmRegelendringer =
+        målgrupper.some((målgruppe) => målgruppe.type === MålgruppeType.OVERGANGSSTØNAD) &&
+        radSomRedigeres === undefined;
+
     return (
         <VilkårPanel
             ikon={<CardIcon />}
@@ -122,6 +128,8 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
                             />
                         </div>
                     )}
+
+                    {skalViseAdvarselOmRegelendringer && <VarselOvergangsstønad />}
 
                     <Feilmelding ref={feilmeldingRef} feil={feilmelding} />
 
