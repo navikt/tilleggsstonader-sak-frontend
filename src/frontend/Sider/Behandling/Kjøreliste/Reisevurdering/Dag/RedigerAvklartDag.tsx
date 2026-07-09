@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 
-import { Checkbox, CheckboxGroup, TextField } from '@navikt/ds-react';
+import { Checkbox, CheckboxGroup, Textarea, TextField } from '@navikt/ds-react';
 
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import { GodkjentGjennomførtKjøring, RedigerbarAvklartDag } from '../../../../../typer/kjøreliste';
@@ -67,10 +67,11 @@ export const RedigerAvklartDag: FC<{
                 error={feil?.parkeringsutgift}
                 className={styles.maksHøyde}
             />
-            <TextField
+            <Textarea
                 label="Kommentar"
                 hideLabel
                 size="small"
+                resize
                 value={dag.begrunnelse || ''}
                 onChange={(e) => oppdaterBegrunnelse(e.target.value)}
                 error={feil?.begrunnelse}
