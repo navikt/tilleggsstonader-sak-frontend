@@ -22,14 +22,14 @@ export function useErKjørelistebehandlingerPåVent(): number {
             const fagsakMedBehandlinger = [
                 behandlingsOversikt.dagligReiseTso,
                 behandlingsOversikt.dagligReiseTsr,
-            ].find((f) => f?.fagsakId === behandling.fagsakId);
+            ].find((fagsak) => fagsak?.fagsakId === behandling.fagsakId);
 
             const andreKjørelisterPåVent =
                 fagsakMedBehandlinger?.behandlinger.filter(
-                    (behandling) =>
-                        behandling.type === BehandlingType.KJØRELISTE &&
-                        behandling.status === BehandlingStatus.SATT_PÅ_VENT &&
-                        behandling.id !== behandling.id
+                    (b) =>
+                        b.type === BehandlingType.KJØRELISTE &&
+                        b.status === BehandlingStatus.SATT_PÅ_VENT &&
+                        b.id !== behandling.id
                 ) ?? [];
 
             settkjørelisterPåVent(andreKjørelisterPåVent.length);
