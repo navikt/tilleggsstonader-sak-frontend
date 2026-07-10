@@ -13,7 +13,7 @@ import {
     isFanePath,
     stegTilFaneForBehandling,
 } from './faner';
-import { AndreKjørelisteBehandlingerPåVentAlert } from './Felles/AndreKjørelisteBehandlingerPåVentAlert';
+import { AndreKjørelistebehandlingerPåVentAlert } from './Felles/AndreKjørelistebehandlingerPåVentAlert';
 import { KjørelisteBehandlingPåVentAlert } from './Felles/KjørelisteBehandlingPåVentAlert';
 import { TidligereVedtaksperioder } from './Vilkårvurdering/TidligereVedtaksperioder';
 import { useApp } from '../../context/AppContext';
@@ -128,7 +128,7 @@ const BehandlingTabsInnhold = () => {
                                 <KjørelisteBehandlingPåVentAlert />
                             )}
                         {behandling.type === BehandlingType.KJØRELISTE && (
-                            <AndreKjørelisteBehandlingerPåVentAlert />
+                            <AndreKjørelistebehandlingerPåVentAlert />
                         )}
                         <SettPåVentSak
                             statusPåVentRedigering={statusPåVentRedigering}
