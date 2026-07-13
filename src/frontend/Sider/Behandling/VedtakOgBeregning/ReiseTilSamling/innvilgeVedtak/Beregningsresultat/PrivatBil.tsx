@@ -2,19 +2,19 @@ import React, { FC } from 'react';
 
 import { Heading, HStack, Table } from '@navikt/ds-react';
 
-import { BeregningsresultatOffentligTransportForSamling } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
+import { BeregningsresultatPrivatBilForSamling } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
 import { formaterIsoDato } from '../../../../../../utils/dato';
 
 interface Props {
-    beregningsresultat: BeregningsresultatOffentligTransportForSamling[];
+    beregningsresultat: BeregningsresultatPrivatBilForSamling[];
 }
 
-export const BeregningOffentligTransport: FC<Props> = ({ beregningsresultat }) => {
+export const BeregningPrivatBil: FC<Props> = ({ beregningsresultat }) => {
     return (
         <div>
             <HStack justify="space-between">
                 <Heading spacing size="xsmall" level="4">
-                    Beregningsresultat for offentlig transport
+                    Beregningsresultat for privat bil
                 </Heading>
             </HStack>
 
@@ -24,6 +24,8 @@ export const BeregningOffentligTransport: FC<Props> = ({ beregningsresultat }) =
                         <Table.HeaderCell>Adresse</Table.HeaderCell>
                         <Table.HeaderCell>F.o.m.</Table.HeaderCell>
                         <Table.HeaderCell>T.o.m.</Table.HeaderCell>
+                        <Table.HeaderCell>Sats</Table.HeaderCell>
+                        <Table.HeaderCell>Totalt reise avstand</Table.HeaderCell>
                         <Table.HeaderCell align="right">Stønadsbeløp</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -34,6 +36,8 @@ export const BeregningOffentligTransport: FC<Props> = ({ beregningsresultat }) =
                             <Table.DataCell>{samling.adresse ?? '-'}</Table.DataCell>
                             <Table.DataCell>{formaterIsoDato(samling.fom)}</Table.DataCell>
                             <Table.DataCell>{formaterIsoDato(samling.tom)}</Table.DataCell>
+                            <Table.DataCell>{samling.sats}</Table.DataCell>
+                            <Table.DataCell>{samling.totaltReiseAvstand}</Table.DataCell>
                             <Table.DataCell align="right">{samling.beløp ?? 0}</Table.DataCell>
                         </Table.Row>
                     ))}
