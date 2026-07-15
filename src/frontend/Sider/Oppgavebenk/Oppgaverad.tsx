@@ -4,7 +4,7 @@ import { CopyButton, HStack, Popover, Table, Tag } from '@navikt/ds-react';
 
 import Oppgaveknapp from './Oppgaveknapp';
 import { utledetFolkeregisterIdent } from './Oppgavetabell';
-import { skalViseOpphørTag, utledTypeBehandling } from './oppgaveutils';
+import { skalViseKjørelisteTag, skalViseOpphørTag, utledTypeBehandling } from './oppgaveutils';
 import { Oppgave } from './typer/oppgave';
 import { oppgaveTypeTilTekst } from './typer/oppgavetema';
 import { useApp } from '../../context/AppContext';
@@ -45,6 +45,11 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
                     {skalViseOpphørTag(oppgave) && (
                         <Tag data-color="danger" variant={'outline'} size={'small'}>
                             Opphør
+                        </Tag>
+                    )}
+                    {skalViseKjørelisteTag(oppgave) && (
+                        <Tag data-color="info" variant={'outline'} size={'small'}>
+                            Kjøreliste
                         </Tag>
                     )}
                 </HStack>

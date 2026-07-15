@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { BodyLong, Button, Table } from '@navikt/ds-react';
+import { BodyLong, Button, HStack, Table, Tag } from '@navikt/ds-react';
 
 import styles from './Oppgaveliste.module.css';
 import { mappeIdTilMappenavn } from './utils';
@@ -11,7 +11,7 @@ import {
     FeilmeldingHåndterOppgaveModal,
 } from '../../Oppgavebenk/FeilmeldingHåndterOppgaveModal';
 import Oppgaveknapp from '../../Oppgavebenk/Oppgaveknapp';
-import { utledTypeBehandling } from '../../Oppgavebenk/oppgaveutils';
+import { skalViseKjørelisteTag, utledTypeBehandling } from '../../Oppgavebenk/oppgaveutils';
 import { Mappe, Oppgave } from '../../Oppgavebenk/typer/oppgave';
 import { oppgaveTypeTilTekst } from '../../Oppgavebenk/typer/oppgavetema';
 
@@ -40,7 +40,14 @@ const EkspanderbarRad: React.FC<{
             open={open}
         >
             <Table.DataCell>
-                {oppgave.oppgavetype && oppgaveTypeTilTekst[oppgave.oppgavetype]}
+                <HStack gap="space-8" align="center">
+                    {oppgave.oppgavetype && oppgaveTypeTilTekst[oppgave.oppgavetype]}
+                    {skalViseKjørelisteTag(oppgave) && (
+                        <Tag data-color="info" variant="outline" size="small">
+                            Kjøreliste
+                        </Tag>
+                    )}
+                </HStack>
             </Table.DataCell>
             <Table.DataCell>
                 {utledTypeBehandling(oppgave.behandlingstype, oppgave.behandlingstema)}
