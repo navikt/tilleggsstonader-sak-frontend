@@ -25,7 +25,7 @@ export const BeregningPrivatBil: FC<Props> = ({ beregningsresultat }) => {
                         <Table.HeaderCell>F.o.m.</Table.HeaderCell>
                         <Table.HeaderCell>T.o.m.</Table.HeaderCell>
                         <Table.HeaderCell>Sats</Table.HeaderCell>
-                        <Table.HeaderCell>Totalt reise avstand</Table.HeaderCell>
+                        <Table.HeaderCell>Totalt reiseavstand</Table.HeaderCell>
                         <Table.HeaderCell align="right">Stønadsbeløp</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -37,7 +37,11 @@ export const BeregningPrivatBil: FC<Props> = ({ beregningsresultat }) => {
                             <Table.DataCell>{formaterIsoDato(samling.fom)}</Table.DataCell>
                             <Table.DataCell>{formaterIsoDato(samling.tom)}</Table.DataCell>
                             <Table.DataCell>{samling.sats}</Table.DataCell>
-                            <Table.DataCell>{samling.totaltReiseAvstand}</Table.DataCell>
+                            <Table.DataCell>
+                                {samling.totaltReiseAvstand !== undefined
+                                    ? `${samling.totaltReiseAvstand} km`
+                                    : '-'}
+                            </Table.DataCell>
                             <Table.DataCell align="right">{samling.beløp ?? 0}</Table.DataCell>
                         </Table.Row>
                     ))}
