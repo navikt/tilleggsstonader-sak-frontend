@@ -1,10 +1,10 @@
 import {
     Behandlingstema,
+    behandlingstemaTilTekst,
     Oppgave,
     OppgaveBehandlingstype,
-    OppgaverResponse,
-    behandlingstemaTilTekst,
     oppgaveBehandlingstypeTilTekst,
+    OppgaverResponse,
 } from './typer/oppgave';
 import { Oppgavetype } from './typer/oppgavetema';
 import { Ressurs, RessursStatus } from '../../typer/ressurs';
@@ -99,5 +99,7 @@ export const oppdaterOppgaveIOppgaveResponse = (
     }
 };
 
-export const skalViseOpphørTag = (oppgave: Oppgave) =>
-    oppgave.erOpphør && oppgave.oppgavetype === 'GOD_VED';
+export const skalViseOpphørTag = (oppgave: Oppgave) => oppgave.oppgavetype === 'GOD_VED';
+
+export const skalViseKjørelisteTag = (oppgave: Oppgave) =>
+    oppgave.erKjøreliste && oppgave.oppgavetype === 'GOD_VED';

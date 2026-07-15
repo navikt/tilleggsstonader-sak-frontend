@@ -72,6 +72,7 @@ export interface Oppgave {
     behandlingId?: string;
     sendtTilTotrinnskontrollAv?: string;
     erOpphør: boolean;
+    erKjøreliste: boolean;
 }
 
 export interface IOppgaveIdent {
