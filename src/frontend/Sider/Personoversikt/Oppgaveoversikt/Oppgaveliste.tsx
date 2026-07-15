@@ -39,7 +39,7 @@ const EkspanderbarRad: React.FC<{
             expansionDisabled={true}
             open={open}
         >
-            <Table.DataCell style={{}}>
+            <Table.DataCell>
                 <HStack gap="space-8" align="center">
                     {oppgave.oppgavetype && oppgaveTypeTilTekst[oppgave.oppgavetype]}
                     {skalViseKjørelisteTag(oppgave) && (
