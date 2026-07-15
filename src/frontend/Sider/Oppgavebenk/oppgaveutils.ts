@@ -99,7 +99,8 @@ export const oppdaterOppgaveIOppgaveResponse = (
     }
 };
 
-export const skalViseOpphørTag = (oppgave: Oppgave) => oppgave.oppgavetype === 'GOD_VED';
+export const skalViseOpphørTag = (oppgave: Oppgave) =>
+    oppgave.erOpphør && oppgave.oppgavetype === 'GOD_VED';
 
 export const skalViseKjørelisteTag = (oppgave: Oppgave) =>
     oppgave.erKjøreliste && oppgave.oppgavetype === 'GOD_VED';
