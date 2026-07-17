@@ -7,7 +7,7 @@ import { formaterIsoDato, ukedagTilKortNorsk } from '../../../../utils/dato';
 import { tilHeltall } from '../../../../utils/tall';
 import { fjernSpaces } from '../../../../utils/utils';
 import styles from '../Reisevurdering/UkeInnhold.module.css';
-import { harAvvikPåHellidagEllerHelg, harAvvikPåParkeringsutgift } from '../utils';
+import { harAvvikPåParkeringsutgift } from '../utils';
 
 export const RegistrerKjørelisteDagInfo: FC<{
     dag: Dag;
@@ -16,7 +16,6 @@ export const RegistrerKjørelisteDagInfo: FC<{
     kanRedigere: boolean | undefined;
 }> = ({ dag, registrertDag, oppdaterDag, kanRedigere }) => {
     const dagHarForHøyParkeringsutgift = harAvvikPåParkeringsutgift(dag);
-    const dagHarAvvikPåHellidagEllerHelg = harAvvikPåHellidagEllerHelg(dag);
 
     const harKjørt = registrertDag?.harKjørt ?? false;
     const parkeringsutgift = registrertDag?.parkeringsutgift;
@@ -39,12 +38,11 @@ export const RegistrerKjørelisteDagInfo: FC<{
             <BodyShort size="small">{ukedagTilKortNorsk[dag.ukedag]}</BodyShort>
             <BodyShort size="small">{formaterIsoDato(dag.dato)}</BodyShort>
 
-            <CheckboxGroup legend={''} hideLegend>
+            <CheckboxGroup legend={'kjørte dager'} hideLegend>
                 <Checkbox
                     size="small"
                     checked={harKjørt}
                     disabled={!kanRedigere || dag.erDagSlettet}
-                    error={dagHarAvvikPåHellidagEllerHelg}
                     onChange={(e) => oppdaterHarKjørt(e.target.checked)}
                 >
                     {''}

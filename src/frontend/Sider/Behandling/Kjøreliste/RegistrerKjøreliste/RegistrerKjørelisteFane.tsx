@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
@@ -52,7 +52,7 @@ const FaneInnhold: React.FC<{
         req: RegistrertKjørtUkePutRequest
     ) => Promise<Ressurs<RegistrertKjørtUke>>;
 }> = ({ reisevurderingerResponse, registrertKjørtUker, lagreUke, oppdaterUke }) => {
-    const [reisevurderinger, settReisevurderinger] = React.useState(reisevurderingerResponse);
+    const [reisevurderinger, settReisevurderinger] = useState(reisevurderingerResponse);
 
     const oppdaterReisevurderinger = (
         reiseId: string,
