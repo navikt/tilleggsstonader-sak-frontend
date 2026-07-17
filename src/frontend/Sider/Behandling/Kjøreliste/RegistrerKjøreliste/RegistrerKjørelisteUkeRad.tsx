@@ -6,7 +6,6 @@ import { RegistrerKjørelisteUkeInnhold } from './RegistrerKjørelisteUkeInnhold
 import { TableHeaderCellSmall } from '../../../../komponenter/TabellSmall';
 import {
     RegistrertKjørtUke,
-    RegistrertKjørtUkePostRequest,
     RegistrertKjørtUkePutRequest,
     UkeVurdering,
 } from '../../../../typer/kjøreliste';
@@ -27,21 +26,12 @@ export const RegistrerKjørelisteUkeRad: FC<{
     delperioder: RammeForReiseMedPrivatBilDelperiode[];
     reiseId: string;
     registrertKjørtUkerForReise: RegistrertKjørtUke[];
-    lagreRegistrertUke: (
-        req: RegistrertKjørtUkePostRequest
-    ) => Promise<Ressurs<RegistrertKjørtUke>>;
-    oppdaterRegistrertUke: (
-        ukeId: string,
+    lagreEllerOppdaterUke: (
+        reiseId: string,
+        eksisterendeId: string | undefined,
         req: RegistrertKjørtUkePutRequest
     ) => Promise<Ressurs<RegistrertKjørtUke>>;
-}> = ({
-    uke,
-    delperioder,
-    reiseId,
-    registrertKjørtUkerForReise,
-    lagreRegistrertUke,
-    oppdaterRegistrertUke,
-}) => {
+}> = ({ uke, delperioder, reiseId, registrertKjørtUkerForReise, lagreEllerOppdaterUke }) => {
     const [erAapen, settErAapen] = useState(false);
     const [redigerer, settRedigerer] = useState(false);
 
@@ -72,8 +62,7 @@ export const RegistrerKjørelisteUkeRad: FC<{
                     utbetaltePerioder={utbetaltePerioder}
                     reiseId={reiseId}
                     registrertKjørtUke={registrertKjørtUke}
-                    lagreRegistrertUke={lagreRegistrertUke}
-                    oppdaterRegistrertUke={oppdaterRegistrertUke}
+                    lagreEllerOppdaterUke={lagreEllerOppdaterUke}
                     redigerer={redigerer}
                     settRedigerer={settRedigerer}
                 />

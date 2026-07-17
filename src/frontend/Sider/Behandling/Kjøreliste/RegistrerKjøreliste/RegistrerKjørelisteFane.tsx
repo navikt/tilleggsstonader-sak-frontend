@@ -12,7 +12,6 @@ import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../../typer/behandling/steg';
 import {
     RegistrertKjørtUke,
-    RegistrertKjørtUkePostRequest,
     RegistrertKjørtUkePutRequest,
     ReisevurderingPrivatBil,
 } from '../../../../typer/kjøreliste';
@@ -22,7 +21,7 @@ import { VedtakDagligReise } from '../../../../typer/vedtak/vedtakDagligReise';
 export const RegistrerKjørelisteFane: React.FC = () => {
     const { vedtak } = useVedtak<VedtakDagligReise>();
     const { reisevurderingerResponse } = useReisevurderingPrivatBil();
-    const { registrertKjørtUker, lagreUke, oppdaterUke } = useRegistrertKjørtDag();
+    const { registrertKjørtUker, lagreEllerOppdaterUke } = useRegistrertKjørtDag();
 
     return (
         <DataViewer
@@ -34,8 +33,7 @@ export const RegistrerKjørelisteFane: React.FC = () => {
                     <FaneInnhold
                         reisevurderingerResponse={reisevurderingerResponse}
                         registrertKjørtUker={registrertKjørtUker}
-                        lagreUke={lagreUke}
-                        oppdaterUke={oppdaterUke}
+                        lagreEllerOppdaterUke={lagreEllerOppdaterUke}
                     />
                 </KjørelisteProvider>
             )}
@@ -46,12 +44,12 @@ export const RegistrerKjørelisteFane: React.FC = () => {
 const FaneInnhold: React.FC<{
     reisevurderingerResponse: ReisevurderingPrivatBil[];
     registrertKjørtUker: RegistrertKjørtUke[];
-    lagreUke: (req: RegistrertKjørtUkePostRequest) => Promise<Ressurs<RegistrertKjørtUke>>;
-    oppdaterUke: (
-        ukeId: string,
+    lagreEllerOppdaterUke: (
+        reiseId: string,
+        ukeId: string | undefined,
         req: RegistrertKjørtUkePutRequest
     ) => Promise<Ressurs<RegistrertKjørtUke>>;
-}> = ({ reisevurderingerResponse, registrertKjørtUker, lagreUke, oppdaterUke }) => {
+}> = ({ reisevurderingerResponse, registrertKjørtUker, lagreEllerOppdaterUke }) => {
     const [reisevurderinger, settReisevurderinger] = useState(reisevurderingerResponse);
 
     const oppdaterReisevurderinger = (
@@ -73,8 +71,7 @@ const FaneInnhold: React.FC<{
                         oppdaterReisevurderinger(reise.reiseId, oppdatertReisevurdering)
                     }
                     registrertKjørtUker={registrertKjørtUker}
-                    lagreUke={lagreUke}
-                    oppdaterUke={oppdaterUke}
+                    lagreEllerOppdaterUke={lagreEllerOppdaterUke}
                 />
             ))}
             <StegKnapp steg={Steg.REGISTRER_KJØRELISTE}>Ferdigstill steg</StegKnapp>

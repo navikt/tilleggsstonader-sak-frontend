@@ -12,7 +12,6 @@ import {
     Dag,
     RegistrertKjørtDagRequest,
     RegistrertKjørtUke,
-    RegistrertKjørtUkePostRequest,
     RegistrertKjørtUkePutRequest,
     UkeVurdering,
 } from '../../../../typer/kjøreliste';
@@ -46,11 +45,9 @@ export const RegistrerKjørelisteUkeInnhold: FC<{
     utbetaltePerioder: boolean | string | undefined;
     reiseId: string;
     registrertKjørtUke: RegistrertKjørtUke | undefined;
-    lagreRegistrertUke: (
-        req: RegistrertKjørtUkePostRequest
-    ) => Promise<Ressurs<RegistrertKjørtUke>>;
-    oppdaterRegistrertUke: (
-        ukeId: string,
+    lagreEllerOppdaterUke: (
+        reiseId: string,
+        eksisterendeId: string | undefined,
         req: RegistrertKjørtUkePutRequest
     ) => Promise<Ressurs<RegistrertKjørtUke>>;
     redigerer: boolean;
@@ -61,8 +58,7 @@ export const RegistrerKjørelisteUkeInnhold: FC<{
     utbetaltePerioder,
     reiseId,
     registrertKjørtUke,
-    lagreRegistrertUke,
-    oppdaterRegistrertUke,
+    lagreEllerOppdaterUke,
     redigerer,
     settRedigerer,
 }) => {
@@ -92,18 +88,10 @@ export const RegistrerKjørelisteUkeInnhold: FC<{
         settLagrer(true);
         settFeilVedLagring(undefined);
 
-        const request = registrertKjørtUke
-            ? oppdaterRegistrertUke(registrertKjørtUke.id, {
-                  begrunnelse: begrunnelse || undefined,
-                  dager: redigerbareDager,
-              })
-            : lagreRegistrertUke({
-                  reiseId,
-                  begrunnelse: begrunnelse || undefined,
-                  dager: redigerbareDager,
-              });
-
-        request
+        lagreEllerOppdaterUke(reiseId, registrertKjørtUke?.id, {
+            begrunnelse: begrunnelse || undefined,
+            dager: redigerbareDager,
+        })
             .then((res) => {
                 if (erFeilressurs(res)) {
                     settFeilVedLagring(feiletRessursTilFeilmelding(res));

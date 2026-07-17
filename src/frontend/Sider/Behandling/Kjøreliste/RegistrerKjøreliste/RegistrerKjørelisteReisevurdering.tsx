@@ -5,7 +5,6 @@ import { Table } from '@navikt/ds-react';
 import { RegistrerKjørelisteUkeRad } from './RegistrerKjørelisteUkeRad';
 import {
     RegistrertKjørtUke,
-    RegistrertKjørtUkePostRequest,
     RegistrertKjørtUkePutRequest,
     ReisevurderingPrivatBil,
     UkeVurdering,
@@ -17,20 +16,12 @@ export const RegistrerKjørelisteReisevurdering: FC<{
     reisevurdering: ReisevurderingPrivatBil;
     oppdaterUkeVurdering: (uke: UkeVurdering) => void;
     registrertKjørtUker: RegistrertKjørtUke[];
-    lagreRegistrertUke: (
-        req: RegistrertKjørtUkePostRequest
-    ) => Promise<Ressurs<RegistrertKjørtUke>>;
-    oppdaterRegistrertUke: (
-        ukeId: string,
+    lagreEllerOppdaterUke: (
+        reiseId: string,
+        ukeId: string | undefined,
         req: RegistrertKjørtUkePutRequest
     ) => Promise<Ressurs<RegistrertKjørtUke>>;
-}> = ({
-    reisevurdering,
-    oppdaterUkeVurdering,
-    registrertKjørtUker,
-    lagreRegistrertUke,
-    oppdaterRegistrertUke,
-}) => {
+}> = ({ reisevurdering, oppdaterUkeVurdering, registrertKjørtUker, lagreEllerOppdaterUke }) => {
     const finnDelperioderForUke = (uke: UkeVurdering): RammeForReiseMedPrivatBilDelperiode[] => {
         if (uke.erUkeSlettet && reisevurdering.forrigeRammevedtak) {
             return reisevurdering.forrigeRammevedtak.delperioder;
@@ -53,8 +44,7 @@ export const RegistrerKjørelisteReisevurdering: FC<{
                         delperioder={finnDelperioderForUke(uke)}
                         reiseId={reisevurdering.reiseId}
                         registrertKjørtUkerForReise={registrertKjørtUkerForReise}
-                        lagreRegistrertUke={lagreRegistrertUke}
-                        oppdaterRegistrertUke={oppdaterRegistrertUke}
+                        lagreEllerOppdaterUke={lagreEllerOppdaterUke}
                     />
                 ))}
             </Table.Body>

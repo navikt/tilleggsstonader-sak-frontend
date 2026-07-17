@@ -63,5 +63,11 @@ export const useRegistrertKjørtDag = () => {
             return res;
         });
 
-    return { registrertKjørtUker, lagreUke, oppdaterUke };
+    const lagreEllerOppdaterUke = (
+        reiseId: string,
+        ukeId: string | undefined,
+        req: RegistrertKjørtUkePutRequest
+    ) => (ukeId ? oppdaterUke(ukeId, req) : lagreUke({ reiseId, ...req }));
+
+    return { registrertKjørtUker, lagreEllerOppdaterUke };
 };

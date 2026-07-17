@@ -5,7 +5,6 @@ import { Heading } from '@navikt/ds-react';
 import { RegistrerKjørelisteReisevurdering } from './RegistrerKjørelisteReisevurdering';
 import {
     RegistrertKjørtUke,
-    RegistrertKjørtUkePostRequest,
     RegistrertKjørtUkePutRequest,
     ReisevurderingPrivatBil,
     UkeVurdering,
@@ -18,12 +17,12 @@ export const RegistrerKjørelisteReiseKort: FC<{
     reisevurdering: ReisevurderingPrivatBil;
     oppdaterReisevurdering: (oppdatertReisevurdering: ReisevurderingPrivatBil) => void;
     registrertKjørtUker: RegistrertKjørtUke[];
-    lagreUke: (req: RegistrertKjørtUkePostRequest) => Promise<Ressurs<RegistrertKjørtUke>>;
-    oppdaterUke: (
-        ukeId: string,
+    lagreEllerOppdaterUke: (
+        reiseId: string,
+        ukeId: string | undefined,
         req: RegistrertKjørtUkePutRequest
     ) => Promise<Ressurs<RegistrertKjørtUke>>;
-}> = ({ reisevurdering, oppdaterReisevurdering, registrertKjørtUker, lagreUke, oppdaterUke }) => {
+}> = ({ reisevurdering, oppdaterReisevurdering, registrertKjørtUker, lagreEllerOppdaterUke }) => {
     const oppdaterUkeVurdering = (oppdatertUke: UkeVurdering) => {
         const oppdaterteUker = reisevurdering.uker.map((uke) =>
             uke.fraDato === oppdatertUke.fraDato ? oppdatertUke : uke
@@ -50,8 +49,7 @@ export const RegistrerKjørelisteReiseKort: FC<{
                     reisevurdering={reisevurdering}
                     oppdaterUkeVurdering={oppdaterUkeVurdering}
                     registrertKjørtUker={registrertKjørtUker}
-                    lagreRegistrertUke={lagreUke}
-                    oppdaterRegistrertUke={oppdaterUke}
+                    lagreEllerOppdaterUke={lagreEllerOppdaterUke}
                 />
             </div>
         </div>
