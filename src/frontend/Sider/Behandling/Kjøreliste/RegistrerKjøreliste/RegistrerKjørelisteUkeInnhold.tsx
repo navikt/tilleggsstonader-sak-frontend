@@ -16,8 +16,7 @@ import {
     RegistrertKjørtUkePutRequest,
     UkeVurdering,
 } from '../../../../typer/kjøreliste';
-import { erFeilressurs } from '../../../../typer/ressurs';
-import { Ressurs } from '../../../../typer/ressurs';
+import { erFeilressurs, Ressurs } from '../../../../typer/ressurs';
 import { RammeForReiseMedPrivatBilDelperiode } from '../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoDato, ukedagTilKortNorsk } from '../../../../utils/dato';
 import { kronerEllerStrek } from '../../../../utils/tekstformatering';
@@ -28,11 +27,13 @@ function tilRedigerbareDager(
     registrertKjørtUke: RegistrertKjørtUke | undefined
 ): RegistrertKjørtDagRequest[] {
     return dager
-        .filter((d) => !d.erDagSlettet)
-        .map((d) => {
-            const registrert = registrertKjørtUke?.dager.find((r) => r.dato === d.dato);
+        .filter((dag) => !dag.erDagSlettet)
+        .map((dag) => {
+            const registrert = registrertKjørtUke?.dager.find(
+                (registrertKjørtDag) => registrertKjørtDag.dato === dag.dato
+            );
             return {
-                dato: d.dato,
+                dato: dag.dato,
                 harKjørt: registrert?.harKjørt ?? false,
                 parkeringsutgift: registrert?.parkeringsutgift,
             };
