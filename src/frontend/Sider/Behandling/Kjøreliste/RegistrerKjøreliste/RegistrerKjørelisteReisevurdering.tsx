@@ -31,7 +31,7 @@ export const RegistrerKjørelisteReisevurdering: FC<{
     lagreRegistrertUke,
     oppdaterRegistrertUke,
 }) => {
-    const delperioderForUke = (uke: UkeVurdering): RammeForReiseMedPrivatBilDelperiode[] => {
+    const finnDelperioderForUke = (uke: UkeVurdering): RammeForReiseMedPrivatBilDelperiode[] => {
         if (uke.erUkeSlettet && reisevurdering.forrigeRammevedtak) {
             return reisevurdering.forrigeRammevedtak.delperioder;
         }
@@ -50,7 +50,7 @@ export const RegistrerKjørelisteReisevurdering: FC<{
                         uke={uke}
                         key={uke.ukenummer}
                         oppdaterUke={oppdaterUkeVurdering}
-                        delperioder={delperioderForUke(uke)}
+                        delperioder={finnDelperioderForUke(uke)}
                         reiseId={reisevurdering.reiseId}
                         registrertKjørtUkerForReise={registrertKjørtUkerForReise}
                         lagreRegistrertUke={lagreRegistrertUke}
