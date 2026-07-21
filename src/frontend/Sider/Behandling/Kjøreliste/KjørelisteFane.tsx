@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
@@ -30,7 +30,11 @@ export const KjørelisteFane: FC = () => {
 const FaneInnhold: React.FC<{ reisevurderingerResponse: ReisevurderingPrivatBil[] }> = ({
     reisevurderingerResponse,
 }) => {
-    const [reisevurderinger, settReisevurderinger] = React.useState(reisevurderingerResponse);
+    const [reisevurderinger, settReisevurderinger] = useState(reisevurderingerResponse);
+
+    useEffect(() => {
+        settReisevurderinger(reisevurderingerResponse);
+    }, [reisevurderingerResponse]);
 
     const oppdaterReisevurderinger = (
         reiseId: string,
