@@ -15,17 +15,17 @@ export interface BeregningReiseTilSamling {
     privatBil?: BeregningsresultatPrivatBil;
 }
 export interface BeregningsresultatOffentligTransport {
-    reiser: BeregningsresultatOffentligTransportForSamling[];
+    samlinger: BeregningsresultatOffentligTransportForSamling[];
 }
 export interface BeregningsresultatPrivatBil {
-    reiser: BeregningsresultatPrivatBilForSamling[];
+    samlinger: BeregningsresultatPrivatBilForSamling[];
 }
 export interface BeregningsresultatOffentligTransportForSamling {
     reiseId: string;
     adresse?: string;
     fom: string;
     tom: string;
-    beløp?: number;
+    beløp: number;
 }
 export interface BeregningsresultatPrivatBilForSamling {
     reiseId: string;
@@ -33,8 +33,8 @@ export interface BeregningsresultatPrivatBilForSamling {
     fom: string;
     tom: string;
     sats: number;
-    totaltReiseAvstand?: number;
-    beløp?: number;
+    totaltReiseavstand: number;
+    beløp: number;
 }
 export type InnvilgeReiseTilSamlingRequest = {
     type: TypeVedtak.INNVILGELSE;

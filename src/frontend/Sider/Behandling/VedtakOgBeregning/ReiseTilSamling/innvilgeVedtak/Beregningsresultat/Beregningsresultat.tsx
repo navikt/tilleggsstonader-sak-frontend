@@ -17,14 +17,14 @@ export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                 {beregningsresultat?.offentligTransport && (
                     <>
                         <BeregningOffentligTransport
-                            beregningsresultat={beregningsresultat.offentligTransport.reiser}
+                            beregningsresultat={beregningsresultat.offentligTransport.samlinger}
                         />
                     </>
                 )}
                 {beregningsresultat?.privatBil && (
                     <>
                         <BeregningPrivatBil
-                            beregningsresultat={beregningsresultat.privatBil.reiser}
+                            beregningsresultat={beregningsresultat.privatBil.samlinger}
                         />
                     </>
                 )}

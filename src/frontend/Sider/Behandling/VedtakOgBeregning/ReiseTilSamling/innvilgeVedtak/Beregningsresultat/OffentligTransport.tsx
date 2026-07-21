@@ -2,6 +2,10 @@ import React, { FC } from 'react';
 
 import { Heading, HStack, Table } from '@navikt/ds-react';
 
+import {
+    TableDataCellSmall,
+    TableHeaderCellSmall,
+} from '../../../../../../komponenter/TabellSmall';
 import { BeregningsresultatOffentligTransportForSamling } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
 import { formaterIsoDato } from '../../../../../../utils/dato';
 
@@ -18,23 +22,25 @@ export const BeregningOffentligTransport: FC<Props> = ({ beregningsresultat }) =
                 </Heading>
             </HStack>
 
-            <Table size="small">
+            <Table>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>Adresse</Table.HeaderCell>
-                        <Table.HeaderCell>F.o.m.</Table.HeaderCell>
-                        <Table.HeaderCell>T.o.m.</Table.HeaderCell>
-                        <Table.HeaderCell align="right">Stønadsbeløp</Table.HeaderCell>
+                        <TableHeaderCellSmall>Adresse</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>F.o.m.</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>T.o.m.</TableHeaderCellSmall>
+                        <TableHeaderCellSmall align="right">Stønadsbeløp</TableHeaderCellSmall>
                     </Table.Row>
                 </Table.Header>
 
                 <Table.Body>
                     {beregningsresultat.map((samling) => (
                         <Table.Row key={`${samling.reiseId}-${samling.fom}`}>
-                            <Table.DataCell>{samling.adresse ?? '-'}</Table.DataCell>
-                            <Table.DataCell>{formaterIsoDato(samling.fom)}</Table.DataCell>
-                            <Table.DataCell>{formaterIsoDato(samling.tom)}</Table.DataCell>
-                            <Table.DataCell align="right">{samling.beløp ?? 0}</Table.DataCell>
+                            <TableDataCellSmall>{samling.adresse ?? '-'}</TableDataCellSmall>
+                            <TableDataCellSmall>{formaterIsoDato(samling.fom)}</TableDataCellSmall>
+                            <TableDataCellSmall>{formaterIsoDato(samling.tom)}</TableDataCellSmall>
+                            <TableDataCellSmall align="right">
+                                {samling.beløp ?? 0}
+                            </TableDataCellSmall>
                         </Table.Row>
                     ))}
                 </Table.Body>
