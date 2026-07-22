@@ -158,14 +158,14 @@ export const lenkerForskriftPassBarn: Lenke[] = [
     },
 ];
 
-export const lenkerRundskrivBeregningTilsynBarn: Lenke[] = [
+export const lenkerRundskrivBeregningPassAvBarn: Lenke[] = [
     {
         tekst: 'Rundskriv til tilleggsstønadsforskriften',
         url: 'https://lovdata.no/pro/rundskriv/r11a-00-for/KAPITTEL_11',
     },
 ];
 
-export const lenkerForskriftBeregningTilsynBarn: Lenke[] = [
+export const lenkerForskriftBeregningPassAvBarn: Lenke[] = [
     {
         tekst: 'Tilleggsstønadsforskriften',
         url: 'https://lovdata.no/pro/forskrift/2015-07-02-867/§11',

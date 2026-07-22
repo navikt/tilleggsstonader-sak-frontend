@@ -42,9 +42,9 @@ export const OpphørVedtak: React.FC<{
     };
     const finnÅrsakerForStønadstype = (): ÅrsakOpphør[] => {
         const alleÅrsaker = Object.values(ÅrsakOpphør) as ÅrsakOpphør[];
-        const erTilsynBarn = behandling.stønadstype === Stønadstype.BARNETILSYN;
+        const erPassAvBarn = behandling.stønadstype === Stønadstype.BARNETILSYN;
 
-        return erTilsynBarn
+        return erPassAvBarn
             ? alleÅrsaker
             : alleÅrsaker.filter((årsak) => årsak !== ÅrsakOpphør.ENDRING_UTGIFTER);
     };

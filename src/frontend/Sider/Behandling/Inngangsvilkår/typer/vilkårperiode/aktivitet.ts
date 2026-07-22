@@ -1,9 +1,4 @@
 import {
-    AktivitetBarnetilsyn,
-    AktivitetBarnetilsynFaktaOgSvar,
-    AktivitetBarnetilsynFaktaOgVurderinger,
-} from './aktivitetBarnetilsyn';
-import {
     AktivitetBoutgifter,
     AktivitetBoutgifterFaktaOgSvar,
     AktivitetBoutgifterFaktaOgVurderinger,
@@ -24,13 +19,18 @@ import {
     AktivitetLæremidlerFaktaOgVurderinger,
 } from './aktivitetLæremidler';
 import {
+    AktivitetPassAvBarn,
+    AktivitetPassAvBarnFaktaOgSvar,
+    AktivitetPassAvBarnFaktaOgVurderinger,
+} from './aktivitetPassAvBarn';
+import {
     AktivitetReiseTilSamlingTso,
     AktivitetReiseTilSamlingTsoFaktaOgSvar,
     AktivitetReiseTilSamlingTsoFaktaOgVurderinger,
 } from './aktivitetReiseTilSamlingTso';
 
 export type Aktivitet =
-    | AktivitetBarnetilsyn
+    | AktivitetPassAvBarn
     | AktivitetLæremidler
     | AktivitetBoutgifter
     | AktivitetDagligReiseTso
@@ -52,7 +52,7 @@ export const AktivitetTypeTilTekst: Record<AktivitetType, string> = {
 };
 
 export type AktivitetFaktaOgVurderinger =
-    | AktivitetBarnetilsynFaktaOgVurderinger
+    | AktivitetPassAvBarnFaktaOgVurderinger
     | AktivitetLæremidlerFaktaOgVurderinger
     | AktivitetBoutgifterFaktaOgVurderinger
     | AktivitetDagligReiseTsoFaktaOgVurderinger
@@ -60,7 +60,7 @@ export type AktivitetFaktaOgVurderinger =
     | AktivitetReiseTilSamlingTsoFaktaOgVurderinger;
 
 export type AktivitetFaktaOgSvar =
-    | AktivitetBarnetilsynFaktaOgSvar
+    | AktivitetPassAvBarnFaktaOgSvar
     | AktivitetLæremidlerFaktaOgSvar
     | AktivitetBoutgifterFaktaOgSvar
     | AktivitetDagligReiseTsoFaktaOgSvar

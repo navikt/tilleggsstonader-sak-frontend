@@ -1,4 +1,4 @@
-import { EndreAktivitetFormBarnetilsyn } from './EndreAktivitetBarnetilsyn';
+import { EndreAktivitetFormPassAvBarn } from './EndreAktivitetPassAvBarn';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånederForut } from '../../../../utils/dato';
@@ -6,19 +6,19 @@ import { Periode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
 import { maksMånederTilbakeFraSøknadsdato } from '../../Felles/grunnlagAntallMndBakITiden';
 import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
-import { AktivitetBarnetilsynFaktaOgSvar } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
-import { AktivitetBarnetilsyn } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
+import { AktivitetPassAvBarnFaktaOgSvar } from '../typer/vilkårperiode/aktivitetPassAvBarn';
+import { AktivitetPassAvBarn } from '../typer/vilkårperiode/aktivitetPassAvBarn';
 import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyAktivitet = (
     aktivitetFraRegister: Registeraktivitet | undefined
-): EndreAktivitetFormBarnetilsyn =>
+): EndreAktivitetFormPassAvBarn =>
     aktivitetFraRegister ? nyAktivitetFraRegister(aktivitetFraRegister) : nyTomAktivitet();
 
 export const mapEksisterendeAktivitet = (
-    eksisterendeAktivitet: AktivitetBarnetilsyn
-): EndreAktivitetFormBarnetilsyn => ({
+    eksisterendeAktivitet: AktivitetPassAvBarn
+): EndreAktivitetFormPassAvBarn => ({
     ...eksisterendeAktivitet,
     aktivitetsdager: eksisterendeAktivitet.faktaOgVurderinger.aktivitetsdager,
     svarLønnet: eksisterendeAktivitet.faktaOgVurderinger.lønnet?.svar,
@@ -33,7 +33,7 @@ const aktivitetsdagerFraRegister = (aktivitetFraRegister: Registeraktivitet) =>
 
 function nyAktivitetFraRegister(
     aktivitetFraRegister: Registeraktivitet
-): EndreAktivitetFormBarnetilsyn {
+): EndreAktivitetFormPassAvBarn {
     return {
         type: aktivitetFraRegister.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK,
         fom: aktivitetFraRegister.fom || '',
@@ -44,7 +44,7 @@ function nyAktivitetFraRegister(
     };
 }
 
-function nyTomAktivitet(): EndreAktivitetFormBarnetilsyn {
+function nyTomAktivitet(): EndreAktivitetFormPassAvBarn {
     return {
         type: '',
         fom: '',
@@ -58,9 +58,9 @@ export const skalVurdereLønnet = (type: AktivitetType | '') => type === Aktivit
 
 export const resettAktivitet = (
     nyType: AktivitetType,
-    eksisterendeAktivitetForm: EndreAktivitetFormBarnetilsyn,
+    eksisterendeAktivitetForm: EndreAktivitetFormPassAvBarn,
     søknadMottattTidspunkt?: string
-): EndreAktivitetFormBarnetilsyn => {
+): EndreAktivitetFormPassAvBarn => {
     const { fom, tom } = resetPeriode(nyType, eksisterendeAktivitetForm, søknadMottattTidspunkt);
 
     return {
@@ -75,7 +75,7 @@ export const resettAktivitet = (
 
 const resetPeriode = (
     nyType: string,
-    eksisterendeForm: EndreAktivitetFormBarnetilsyn,
+    eksisterendeForm: EndreAktivitetFormPassAvBarn,
     søknadMottattTidspunkt?: string
 ): Periode => {
     if (nyType === AktivitetType.INGEN_AKTIVITET) {
@@ -98,7 +98,7 @@ const resetPeriode = (
 
 const resetAktivitetsdager = (
     nyType: AktivitetType,
-    eksisterendeForm: EndreAktivitetFormBarnetilsyn
+    eksisterendeForm: EndreAktivitetFormPassAvBarn
 ) => {
     if (nyType === AktivitetType.INGEN_AKTIVITET) {
         return undefined;
@@ -127,8 +127,8 @@ export const finnBegrunnelseGrunnerAktivitet = (
 };
 
 export const mapFaktaOgSvarTilRequest = (
-    aktivitetForm: EndreAktivitetFormBarnetilsyn
-): AktivitetBarnetilsynFaktaOgSvar => ({
+    aktivitetForm: EndreAktivitetFormPassAvBarn
+): AktivitetPassAvBarnFaktaOgSvar => ({
     '@type': 'AKTIVITET_BARNETILSYN',
     aktivitetsdager: aktivitetForm.aktivitetsdager,
     svarLønnet: aktivitetForm.svarLønnet,

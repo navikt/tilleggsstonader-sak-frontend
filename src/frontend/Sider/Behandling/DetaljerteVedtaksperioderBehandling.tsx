@@ -8,13 +8,13 @@ import {
     DetaljertVedtaksperiodeDagligReise,
     DetaljertVedtaksperiodeLæremidler,
     DetaljertVedtaksperiodeReiseTilSamling,
-    DetaljertVedtaksperiodeTilsynBarn,
+    DetaljertVedtaksperiodePassAvBarn,
 } from '../../typer/vedtak/vedtaksperiodeOppsummering';
 import { VedtaksperioderOversiktBoutgifter } from '../Personoversikt/Vedtaksperioderoversikt/Boutgifter/VedtaksperioderOversiktBoutgifter';
 import { VedtaksperioderOversiktDagligReise } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktDagligReise';
 import { VedtaksperioderOversiktLæremidler } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktLæremidler';
+import { VedtaksperioderOversiktPassAvBarn } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktPassAvBarn';
 import { VedtaksperioderOversiktReiseTilSamling } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktReiseTilSamling';
-import { VedtaksperioderOversiktTilsynBarn } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktTilsynBarn';
 
 type Props = {
     stønadstype: Stønadstype;
@@ -36,9 +36,9 @@ export function DetaljerteVedtaksperioderBehandling({
             />
         ),
         [Stønadstype.BARNETILSYN]: (vedtaksperioder) => (
-            <VedtaksperioderOversiktTilsynBarn
+            <VedtaksperioderOversiktPassAvBarn
                 border={true}
-                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeTilsynBarn[]}
+                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodePassAvBarn[]}
             />
         ),
         [Stønadstype.BOUTGIFTER]: (vedtaksperioder) => (

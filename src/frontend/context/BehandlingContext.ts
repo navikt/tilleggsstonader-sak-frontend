@@ -52,7 +52,7 @@ interface BehandlingContext {
 }
 
 const useKanSaksbehandle = (stønadstype: Stønadstype) => {
-    const kanSaksbehandleBarnetilsyn = useFlag(Toggle.KAN_SAKSBEHANDLE_BARNETILSYN);
+    const kanSaksbehandlePassAvBarn = useFlag(Toggle.KAN_SAKSBEHANDLE_PASS_AV_BARN);
     const kanSaksbehandleLæremidler = useFlag(Toggle.KAN_SAKSBEHANDLE_LÆREMIDLER);
     const kanSaksbehandleBoutgifter = useFlag(Toggle.KAN_SAKSBEHANDLE_BOUTGIFTER);
     const kanSaksbehandleDagligReiseTso = useFlag(Toggle.KAN_SAKSBEHANDLE_DAGLIG_REISE_TSO);
@@ -62,7 +62,7 @@ const useKanSaksbehandle = (stønadstype: Stønadstype) => {
     );
     switch (stønadstype) {
         case Stønadstype.BARNETILSYN:
-            return kanSaksbehandleBarnetilsyn;
+            return kanSaksbehandlePassAvBarn;
         case Stønadstype.LÆREMIDLER:
             return kanSaksbehandleLæremidler;
         case Stønadstype.BOUTGIFTER:

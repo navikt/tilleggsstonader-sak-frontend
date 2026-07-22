@@ -1,13 +1,13 @@
 import React from 'react';
 
-import styles from './AktivitetDelvilkårBarnetilsyn.module.css';
+import styles from './AktivitetDelvilkårPassAvBarn.module.css';
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
 import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
-import { EndreAktivitetFormBarnetilsyn } from '../EndreAktivitetBarnetilsyn';
-import { skalVurdereLønnet } from '../utilsBarnetilsyn';
+import { EndreAktivitetFormPassAvBarn } from '../EndreAktivitetPassAvBarn';
+import { skalVurdereLønnet } from '../utilsPassAvBarn';
 
-export const AktivitetDelvilkårBarnetilsyn: React.FC<{
-    aktivitetForm: EndreAktivitetFormBarnetilsyn;
+export const AktivitetDelvilkårPassAvBarn: React.FC<{
+    aktivitetForm: EndreAktivitetFormPassAvBarn;
     oppdaterLønnet: (svar: SvarJaNei) => void;
 }> = ({ aktivitetForm, oppdaterLønnet }) => {
     if (aktivitetForm.type === '') return null;

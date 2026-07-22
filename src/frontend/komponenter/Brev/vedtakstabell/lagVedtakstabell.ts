@@ -1,14 +1,14 @@
 import { lagVedtakstabellBoutgifter } from './lagVedtakstabellBoutgifter';
 import { lagVedtakstabellDagligReise } from './lagVedtakstabellDagligReise';
 import { lagVedtakstabellLæremidler } from './lagVedtakstabellLæremidler';
-import { lagVedtakstabellTilsynBarn } from './lagVedtakstabellTilsynBarn';
+import { lagVedtakstabellPassAvBarn } from './lagVedtakstabellPassAvBarn';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { BeregningsresultatBoutgifter } from '../../../typer/vedtak/vedtakBoutgifter';
 import { BeregningsresultatDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
 import { BeregningsresultatLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
-import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsynBarn';
+import { BeregningsresultatPassAvBarn } from '../../../typer/vedtak/vedtakPassAvBarn';
 
 /**
  * Lager en vedtakstabell i html som vises i innvilgelsebrevet
@@ -27,8 +27,8 @@ export const lagVedtakstabell = (
 
     switch (behandling.stønadstype) {
         case Stønadstype.BARNETILSYN:
-            return lagVedtakstabellTilsynBarn(
-                vedtak.beregningsresultat as BeregningsresultatTilsynBarn
+            return lagVedtakstabellPassAvBarn(
+                vedtak.beregningsresultat as BeregningsresultatPassAvBarn
             );
         case Stønadstype.LÆREMIDLER:
             return lagVedtakstabellLæremidler(

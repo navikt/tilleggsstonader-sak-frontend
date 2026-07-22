@@ -1,34 +1,34 @@
 import React, { useEffect } from 'react';
 
-import { InnvilgeBarnetilsyn } from './InnvilgeBarnetilsyn';
+import { InnvilgePassAvBarn } from './InnvilgePassAvBarn';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { useVedtakForrigeBehandling } from '../../../../../hooks/useVedtak';
 import DataViewer from '../../../../../komponenter/DataViewer';
 import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
-import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import {
-    InnvilgelseBarnetilsyn,
-    VedtakBarnetilsyn,
-} from '../../../../../typer/vedtak/vedtakTilsynBarn';
+    InnvilgelsePassAvBarn,
+    VedtakPassAvBarn,
+} from '../../../../../typer/vedtak/vedtakPassAvBarn';
+import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 
-export const InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling: React.FC<{
-    lagretVedtak: InnvilgelseBarnetilsyn | undefined;
+export const InnvilgelsePassAvBarnEllerVedtaksperioderFraForrigeBehandling: React.FC<{
+    lagretVedtak: InnvilgelsePassAvBarn | undefined;
 }> = ({ lagretVedtak }) => {
     const { erStegRedigerbart } = useSteg();
     const { behandling } = useBehandling();
 
     if (lagretVedtak || !erStegRedigerbart || !behandling.forrigeIverksatteBehandlingId) {
         return (
-            <InnvilgeBarnetilsyn
+            <InnvilgePassAvBarn
                 lagretVedtak={lagretVedtak}
                 vedtaksperioderForrigeBehandling={undefined}
             />
         );
     } else {
         return (
-            <InnvilgeTilsynBarnMedPerioderFraForrigeBehandling
+            <InnvilgePassAvBarnMedPerioderFraForrigeBehandling
                 stønadstype={behandling.stønadstype}
                 forrigeIverksatteBehandlingId={behandling.forrigeIverksatteBehandlingId}
             />
@@ -36,14 +36,14 @@ export const InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling: Reac
     }
 };
 
-const InnvilgeTilsynBarnMedPerioderFraForrigeBehandling = ({
+const InnvilgePassAvBarnMedPerioderFraForrigeBehandling = ({
     stønadstype,
     forrigeIverksatteBehandlingId,
 }: {
     stønadstype: Stønadstype;
     forrigeIverksatteBehandlingId: string;
 }) => {
-    const { forrigeVedtak, hentForrigeVedtak } = useVedtakForrigeBehandling<VedtakBarnetilsyn>();
+    const { forrigeVedtak, hentForrigeVedtak } = useVedtakForrigeBehandling<VedtakPassAvBarn>();
 
     useEffect(() => {
         hentForrigeVedtak(stønadstype, forrigeIverksatteBehandlingId);
@@ -53,7 +53,7 @@ const InnvilgeTilsynBarnMedPerioderFraForrigeBehandling = ({
         <DataViewer type={'forrige vedtak'} response={{ forrigeVedtak }}>
             {({ forrigeVedtak }) => {
                 return (
-                    <InnvilgeBarnetilsyn
+                    <InnvilgePassAvBarn
                         lagretVedtak={undefined}
                         vedtaksperioderForrigeBehandling={vedtaksperioderForrigeVedtak(
                             forrigeVedtak
@@ -65,7 +65,7 @@ const InnvilgeTilsynBarnMedPerioderFraForrigeBehandling = ({
     );
 };
 
-const vedtaksperioderForrigeVedtak = (vedtak: VedtakBarnetilsyn): Vedtaksperiode[] | undefined => {
+const vedtaksperioderForrigeVedtak = (vedtak: VedtakPassAvBarn): Vedtaksperiode[] | undefined => {
     switch (vedtak.type) {
         case TypeVedtak.INNVILGELSE:
             return vedtak.vedtaksperioder;

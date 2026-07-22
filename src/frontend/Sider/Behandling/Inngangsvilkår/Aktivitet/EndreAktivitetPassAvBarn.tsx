@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 
 import { Button, HStack, VStack } from '@navikt/ds-react';
 
-import { AktivitetDelvilkårBarnetilsyn } from './Delvilkår/AktivitetDelvilkårBarnetilsyn';
 import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
-import styles from './EndreAktivitetBarnetilsyn.module.css';
+import styles from './EndreAktivitetPassAvBarn.module.css';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
     finnBegrunnelseGrunnerAktivitet,
@@ -12,8 +11,8 @@ import {
     mapFaktaOgSvarTilRequest,
     nyAktivitet,
     resettAktivitet,
-} from './utilsBarnetilsyn';
-import { AktivitetValidering, validerAktivitet } from './valideringAktivitetBarnetilsyn';
+} from './utilsPassAvBarn';
+import { AktivitetValidering, validerAktivitet } from './valideringAktivitetPassAvBarn';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
@@ -31,13 +30,14 @@ import { harTallverdi, tilHeltall } from '../../../../utils/tall';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
-import { AktivitetBarnetilsyn } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
+import { AktivitetPassAvBarn } from '../typer/vilkårperiode/aktivitetPassAvBarn';
 import { KildeVilkårsperiode, SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
+import { AktivitetDelvilkårPassAvBarn } from './Delvilkår/AktivitetDelvilkårPassAvBarn';
 
-export interface EndreAktivitetFormBarnetilsyn extends Periode {
+export interface EndreAktivitetFormPassAvBarn extends Periode {
     type: AktivitetType | '';
     aktivitetsdager: number | undefined;
     svarLønnet: SvarJaNei | undefined;
@@ -46,16 +46,16 @@ export interface EndreAktivitetFormBarnetilsyn extends Periode {
 }
 
 const initaliserForm = (
-    eksisterendeAktivitet?: AktivitetBarnetilsyn,
+    eksisterendeAktivitet?: AktivitetPassAvBarn,
     aktivitetFraRegister?: Registeraktivitet
-): EndreAktivitetFormBarnetilsyn => {
+): EndreAktivitetFormPassAvBarn => {
     return eksisterendeAktivitet === undefined
         ? nyAktivitet(aktivitetFraRegister)
         : mapEksisterendeAktivitet(eksisterendeAktivitet);
 };
 
-export const EndreAktivitetBarnetilsyn: React.FC<{
-    aktivitet?: AktivitetBarnetilsyn;
+export const EndreAktivitetPassAvBarn: React.FC<{
+    aktivitet?: AktivitetPassAvBarn;
     aktivitetFraRegister?: Registeraktivitet;
     avbrytRedigering: () => void;
 }> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister }) => {
@@ -63,7 +63,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     const { oppdaterAktivitet, leggTilAktivitet } = useInngangsvilkår();
     const { lagreVilkårperiode } = useLagreVilkårperiode();
 
-    const [form, settForm] = useState<EndreAktivitetFormBarnetilsyn>(
+    const [form, settForm] = useState<EndreAktivitetFormPassAvBarn>(
         initaliserForm(aktivitet, aktivitetFraRegister)
     );
     const [laster, settLaster] = useState<boolean>(false);
@@ -126,7 +126,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
     };
 
     //TODO: fiks
-    const oppdaterForm = (key: keyof AktivitetBarnetilsyn, nyVerdi: string) => {
+    const oppdaterForm = (key: keyof AktivitetPassAvBarn, nyVerdi: string) => {
         settForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
     };
 
@@ -178,7 +178,7 @@ export const EndreAktivitetBarnetilsyn: React.FC<{
                 </div>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
-            <AktivitetDelvilkårBarnetilsyn
+            <AktivitetDelvilkårPassAvBarn
                 aktivitetForm={form}
                 oppdaterLønnet={(svar) =>
                     settForm((prevState) => ({ ...prevState, svarLønnet: svar }))

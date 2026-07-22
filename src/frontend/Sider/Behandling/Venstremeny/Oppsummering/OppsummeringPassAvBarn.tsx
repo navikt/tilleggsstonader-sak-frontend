@@ -8,10 +8,10 @@ import { useOppsummeringFilter } from './useOppsummeringFilter';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
 import { SøknadInfoSeksjonFilter, Søknadsdato } from './Visningskomponenter';
 import { YtelseSituasjon } from './YtelseSituasjon';
-import { BehandlingFaktaTilsynBarn } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
+import { BehandlingFaktaPassAvBarn } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 
-export const OppsummeringTilsynBarn: React.FC<{
-    behandlingFakta: BehandlingFaktaTilsynBarn;
+export const OppsummeringPassAvBarn: React.FC<{
+    behandlingFakta: BehandlingFaktaPassAvBarn;
 }> = ({ behandlingFakta }) => {
     const barnDetSøkesFor = behandlingFakta.barn.filter((barn) => barn.søknadgrunnlag != null);
     const antallDokumenter = antallVedlegg(behandlingFakta.dokumentasjon);
@@ -40,7 +40,7 @@ export const OppsummeringTilsynBarn: React.FC<{
         <>
             <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
             <SøknadInfoSeksjonFilter
-                ariaLabel="Filtrer søknadsopplysninger for tilsyn barn"
+                ariaLabel="Filtrer søknadsopplysninger for pass av barn"
                 onChange={onFilterChange}
                 value={valgtSeksjon}
                 valg={filtervalg}

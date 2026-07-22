@@ -1,6 +1,7 @@
 import { BehandlingStatus } from './behandling/behandlingStatus';
 
 export interface Klagebehandlinger {
+    // Bør være passAvBarn, men sendes fra backend
     tilsynBarn: KlageBehandling[];
     læremidler: KlageBehandling[];
     boutgifter: KlageBehandling[];

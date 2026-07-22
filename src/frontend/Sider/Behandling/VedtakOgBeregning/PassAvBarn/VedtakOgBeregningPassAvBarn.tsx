@@ -2,25 +2,25 @@ import React, { FC, useEffect, useState } from 'react';
 
 import { HGrid } from '@navikt/ds-react';
 
-import { InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling } from './InnvilgeVedtak/InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling';
-import styles from './VedtakOgBeregningBarnetilsyn.module.css';
+import { InnvilgelsePassAvBarnEllerVedtaksperioderFraForrigeBehandling } from './InnvilgeVedtak/InnvilgelsePassAvBarnEllerVedtaksperioderFraForrigeBehandling';
+import styles from './VedtakOgBeregningPassAvBarn.module.css';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
 import {
-    VedtakBarnetilsyn,
+    VedtakPassAvBarn,
     vedtakErAvslag,
     vedtakErInnvilgelse,
     vedtakErOpphør,
-} from '../../../../typer/vedtak/vedtakTilsynBarn';
+} from '../../../../typer/vedtak/vedtakPassAvBarn';
 import { AvslåVedtak } from '../Felles/AvslåVedtak';
 import { OpphørVedtak } from '../Felles/Opphørsvedtak';
 import { VelgVedtakResultat } from '../Felles/VelgVedtakResultat';
 
-const VedtakOgBeregningBarnetilsyn: FC = () => {
-    const { vedtak } = useVedtak<VedtakBarnetilsyn>();
+const VedtakOgBeregningPassAvBarn: FC = () => {
+    const { vedtak } = useVedtak<VedtakPassAvBarn>();
     const [typeVedtak, settTypeVedtak] = useState<TypeVedtak | undefined>();
 
     useEffect(() => {
@@ -54,7 +54,7 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
                         </Panel>
 
                         {typeVedtak === TypeVedtak.INNVILGELSE && (
-                            <InnvilgelseTilsynBarnEllerVedtaksperioderFraForrigeBehandling
+                            <InnvilgelsePassAvBarnEllerVedtaksperioderFraForrigeBehandling
                                 lagretVedtak={vedtakErInnvilgelse(vedtak) ? vedtak : undefined}
                             />
                         )}
@@ -65,4 +65,4 @@ const VedtakOgBeregningBarnetilsyn: FC = () => {
     );
 };
 
-export default VedtakOgBeregningBarnetilsyn;
+export default VedtakOgBeregningPassAvBarn;

@@ -1,9 +1,9 @@
 import { useApp } from '../context/AppContext';
-import { EndreAktivitetFormBarnetilsyn } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetBarnetilsyn';
 import { EndreAktivitetFormBoutgifter } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetBoutgifter';
 import { EndreAktivitetFormDagligReiseTso } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetDagligReiseTso';
 import { EndreAktivitetFormDagligReiseTsr } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetDagligReiseTsr';
 import { EndreAktivitetFormLæremidler } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetLæremidler';
+import { EndreAktivitetFormPassAvBarn } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetPassAvBarn';
 import { EndreMålgruppeForm } from '../Sider/Behandling/Inngangsvilkår/Målgruppe/EndreMålgruppe';
 import {
     Aktivitet,
@@ -32,7 +32,7 @@ type FaktaOgSvar = MålgruppeFaktaOgSvar | AktivitetFaktaOgSvar;
 
 type VilkårperiodeForm =
     | EndreMålgruppeForm
-    | EndreAktivitetFormBarnetilsyn
+    | EndreAktivitetFormPassAvBarn
     | EndreAktivitetFormLæremidler
     | EndreAktivitetFormBoutgifter
     | EndreAktivitetFormDagligReiseTso

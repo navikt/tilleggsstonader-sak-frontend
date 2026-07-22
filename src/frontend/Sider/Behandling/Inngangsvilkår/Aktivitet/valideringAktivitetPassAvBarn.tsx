@@ -1,5 +1,5 @@
-import { EndreAktivitetFormBarnetilsyn } from './EndreAktivitetBarnetilsyn';
-import { finnBegrunnelseGrunnerAktivitet } from './utilsBarnetilsyn';
+import { EndreAktivitetFormPassAvBarn } from './EndreAktivitetPassAvBarn';
+import { finnBegrunnelseGrunnerAktivitet } from './utilsPassAvBarn';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harTallverdi } from '../../../../utils/tall';
@@ -13,7 +13,7 @@ export interface AktivitetValidering extends Periode {
 }
 
 export const validerAktivitet = (
-    endretAktivitet: EndreAktivitetFormBarnetilsyn
+    endretAktivitet: EndreAktivitetFormPassAvBarn
 ): FormErrors<AktivitetValidering> => {
     const feil: FormErrors<AktivitetValidering> = {
         fom: undefined,

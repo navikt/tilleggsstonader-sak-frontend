@@ -6,8 +6,8 @@ import { NyeOpplysningerMetadataVisning } from './NyeOpplysningerMetadata';
 import { OppsummeringBoutgifter } from './OppsummeringBoutgifter';
 import { OppsummeringDagligReise } from './OppsummeringDagligReise';
 import { OppsummeringLæremidler } from './OppsummeringLæremidler';
+import { OppsummeringPassAvBarn } from './OppsummeringPassAvBarn';
 import { OppsummeringReiseTilSamling } from './OppsummeringReiseTilSamling';
-import { OppsummeringTilsynBarn } from './OppsummeringTilsynBarn';
 import { RevurderingTag } from './RevurderingTag';
 import { StønadstypeTag } from './StønadstypeTag';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -30,7 +30,7 @@ export const OppsummeringSøknad: React.FC = () => {
                 )}
             </VStack>
             {behandlingFakta['@type'] === Stønadstype.BARNETILSYN && (
-                <OppsummeringTilsynBarn behandlingFakta={behandlingFakta} key={behandling.id} />
+                <OppsummeringPassAvBarn behandlingFakta={behandlingFakta} key={behandling.id} />
             )}
             {behandlingFakta['@type'] === Stønadstype.LÆREMIDLER && (
                 <OppsummeringLæremidler behandlingFakta={behandlingFakta} key={behandling.id} />

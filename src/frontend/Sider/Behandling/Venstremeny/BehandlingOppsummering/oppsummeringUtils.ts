@@ -1,6 +1,6 @@
 import {
     BehandlingFakta,
-    BehandlingFaktaTilsynBarn,
+    BehandlingFaktaPassAvBarn,
 } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
 import {
     OppsummertVilkår,
@@ -12,7 +12,7 @@ import { vilkårTypeTilTekst } from '../../Vilkårvurdering/tekster';
 
 export const finnNavnFraBarnId = (
     barnId: string | undefined,
-    behandlingFakta: BehandlingFaktaTilsynBarn
+    behandlingFakta: BehandlingFaktaPassAvBarn
 ) => {
     return behandlingFakta.barn.find((barn) => barn.barnId === barnId)?.registergrunnlag.navn;
 };
@@ -22,7 +22,7 @@ export const finnTittelForStønadsvilkår = (
     behandlingFakta: BehandlingFakta
 ) => {
     return vilkår.barnId
-        ? finnNavnFraBarnId(vilkår.barnId, behandlingFakta as BehandlingFaktaTilsynBarn)
+        ? finnNavnFraBarnId(vilkår.barnId, behandlingFakta as BehandlingFaktaPassAvBarn)
         : vilkårTypeTilTekst[vilkår.type];
 };
 

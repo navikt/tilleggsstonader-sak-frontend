@@ -8,7 +8,7 @@ import {
     DetaljertVedtaksperiodeDagligReise,
     DetaljertVedtaksperiodeLæremidler,
     DetaljertVedtaksperiodeReiseTilSamling,
-    DetaljertVedtaksperiodeTilsynBarn,
+    DetaljertVedtaksperiodePassAvBarn,
     VedtakperioderOversiktResponse,
 } from '../typer/vedtak/vedtaksperiodeOppsummering';
 
@@ -59,7 +59,7 @@ export const useVedtaksperioderOversiktArena = (
 };
 
 export type DetaljerteVedtaksperioder =
-    | DetaljertVedtaksperiodeTilsynBarn[]
+    | DetaljertVedtaksperiodePassAvBarn[]
     | DetaljertVedtaksperiodeLæremidler[]
     | DetaljertVedtaksperiodeBoutgifter[]
     | DetaljertVedtaksperiodeDagligReise[]

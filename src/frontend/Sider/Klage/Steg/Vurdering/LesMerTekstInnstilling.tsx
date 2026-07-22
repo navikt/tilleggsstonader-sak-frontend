@@ -16,7 +16,7 @@ export const LesMerTekstInnstilling: React.FC = () => {
                     Hva klagesaken gjelder
                     <ol type="a">
                         <li>
-                            Skriv kort om resultatet i vedtaket. Eksempel: Klagers søknad om tilsyn
+                            Skriv kort om resultatet i vedtaket. Eksempel: Klagers søknad om pass av
                             barn ble avslått fordi hun mangler dokumentasjon på utgifter.
                         </li>
                     </ol>
