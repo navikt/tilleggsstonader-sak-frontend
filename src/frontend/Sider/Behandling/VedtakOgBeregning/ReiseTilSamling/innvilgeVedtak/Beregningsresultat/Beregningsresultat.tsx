@@ -3,20 +3,28 @@ import React, { FC } from 'react';
 import { VStack } from '@navikt/ds-react';
 
 import { BeregningOffentligTransport } from './OffentligTransport';
-import { BeregningsresultatOffentligTransport } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
+import { BeregningPrivatBil } from './PrivatBil';
+import { BeregningReiseTilSamling } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
 
 interface Props {
-    beregningsresultat?: BeregningsresultatOffentligTransport;
+    beregningsresultat?: BeregningReiseTilSamling;
 }
 
 export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
     return (
         <VStack gap="space-16">
             <>
-                {beregningsresultat?.reiser && (
+                {beregningsresultat?.offentligTransport && (
                     <>
                         <BeregningOffentligTransport
-                            beregningsresultat={beregningsresultat.reiser}
+                            beregningsresultat={beregningsresultat.offentligTransport.samlinger}
+                        />
+                    </>
+                )}
+                {beregningsresultat?.privatBil && (
+                    <>
+                        <BeregningPrivatBil
+                            beregningsresultat={beregningsresultat.privatBil.samlinger}
                         />
                     </>
                 )}

@@ -1,26 +1,24 @@
 import React, { FC } from 'react';
 
-import { Heading, HStack, Table } from '@navikt/ds-react';
+import { Heading, Table } from '@navikt/ds-react';
 
 import {
     TableDataCellSmall,
     TableHeaderCellSmall,
 } from '../../../../../../komponenter/TabellSmall';
-import { BeregningsresultatOffentligTransportForSamling } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
+import { BeregningsresultatPrivatBilForSamling } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
 import { formaterIsoDato } from '../../../../../../utils/dato';
 
 interface Props {
-    beregningsresultat: BeregningsresultatOffentligTransportForSamling[];
+    beregningsresultat: BeregningsresultatPrivatBilForSamling[];
 }
 
-export const BeregningOffentligTransport: FC<Props> = ({ beregningsresultat }) => {
+export const BeregningPrivatBil: FC<Props> = ({ beregningsresultat }) => {
     return (
         <div>
-            <HStack justify="space-between">
-                <Heading spacing size="xsmall" level="4">
-                    Beregningsresultat for offentlig transport
-                </Heading>
-            </HStack>
+            <Heading spacing size="xsmall" level="4">
+                Beregningsresultat for privat bil
+            </Heading>
 
             <Table>
                 <Table.Header>
@@ -28,6 +26,8 @@ export const BeregningOffentligTransport: FC<Props> = ({ beregningsresultat }) =
                         <TableHeaderCellSmall>Adresse</TableHeaderCellSmall>
                         <TableHeaderCellSmall>F.o.m.</TableHeaderCellSmall>
                         <TableHeaderCellSmall>T.o.m.</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Sats</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Totalt reiseavstand</TableHeaderCellSmall>
                         <TableHeaderCellSmall align="right">Stønadsbeløp</TableHeaderCellSmall>
                     </Table.Row>
                 </Table.Header>
@@ -38,6 +38,12 @@ export const BeregningOffentligTransport: FC<Props> = ({ beregningsresultat }) =
                             <TableDataCellSmall>{samling.adresse ?? '-'}</TableDataCellSmall>
                             <TableDataCellSmall>{formaterIsoDato(samling.fom)}</TableDataCellSmall>
                             <TableDataCellSmall>{formaterIsoDato(samling.tom)}</TableDataCellSmall>
+                            <TableDataCellSmall>{samling.sats}</TableDataCellSmall>
+                            <TableDataCellSmall>
+                                {samling.totaltReiseavstand !== undefined
+                                    ? `${samling.totaltReiseavstand} km`
+                                    : '-'}
+                            </TableDataCellSmall>
                             <TableDataCellSmall align="right">
                                 {samling.beløp ?? 0}
                             </TableDataCellSmall>

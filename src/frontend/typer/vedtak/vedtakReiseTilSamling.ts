@@ -12,18 +12,30 @@ export type BeregnReiseTilSamlingRequest = {
 };
 export interface BeregningReiseTilSamling {
     offentligTransport?: BeregningsresultatOffentligTransport;
+    privatBil?: BeregningsresultatPrivatBil;
 }
 export interface BeregningsresultatOffentligTransport {
-    reiser: BeregningsresultatOffentligTransportForSamling[];
+    samlinger: BeregningsresultatOffentligTransportForSamling[];
+}
+export interface BeregningsresultatPrivatBil {
+    samlinger: BeregningsresultatPrivatBilForSamling[];
 }
 export interface BeregningsresultatOffentligTransportForSamling {
     reiseId: string;
     adresse?: string;
     fom: string;
     tom: string;
-    beløp?: number;
+    beløp: number;
 }
-
+export interface BeregningsresultatPrivatBilForSamling {
+    reiseId: string;
+    adresse?: string;
+    fom: string;
+    tom: string;
+    sats: number;
+    totaltReiseavstand: number;
+    beløp: number;
+}
 export type InnvilgeReiseTilSamlingRequest = {
     type: TypeVedtak.INNVILGELSE;
     vedtaksperioder: Vedtaksperiode[];

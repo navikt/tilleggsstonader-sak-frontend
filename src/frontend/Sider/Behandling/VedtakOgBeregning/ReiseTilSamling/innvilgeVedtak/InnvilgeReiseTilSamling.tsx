@@ -64,7 +64,7 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
 
         return isValid(vedtaksperiodeFeil);
     };
-    const beregnReiseTilSamlingOffentligTransport = () => {
+    const beregnReiseTilSamling = () => {
         settVisHarIkkeBeregnetFeilmelding(false);
         settForeslåPeriodeFeil(undefined);
 
@@ -102,16 +102,12 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
                         oppdaterBegrunnelse={settBegrunnelse}
                     />
                     {erStegRedigerbart && (
-                        <SmallButton onClick={beregnReiseTilSamlingOffentligTransport}>
-                            Beregn
-                        </SmallButton>
+                        <SmallButton onClick={beregnReiseTilSamling}>Beregn</SmallButton>
                     )}
                     {erStegRedigerbart && (
                         <DataViewer type={'beregningsresultat'} response={{ beregningsresultat }}>
                             {({ beregningsresultat }) => (
-                                <Beregningsresultat
-                                    beregningsresultat={beregningsresultat.offentligTransport}
-                                />
+                                <Beregningsresultat beregningsresultat={beregningsresultat} />
                             )}
                         </DataViewer>
                     )}
