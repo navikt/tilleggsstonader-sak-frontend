@@ -20,11 +20,11 @@ import { Simulering } from './Simulering/Simulering';
 import { StønadsvilkårDagligReise } from './Stønadsvilkår/DagligReise/StønadsvilkårDagligReise';
 import { StønadsvilkårReiseTilSamling } from './Stønadsvilkår/ReiseTilSamling/StønadsvilkårReiseTilSamling';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
-import VedtakOgBeregningBarnetilsyn from './VedtakOgBeregning/Barnetilsyn/VedtakOgBeregningBarnetilsyn';
 import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
 import { BeregningFaneDagligReise } from './VedtakOgBeregning/DagligReise/BeregningFane/BeregningFaneDagligReise';
 import { VedtakOgBeregningDagligReise } from './VedtakOgBeregning/DagligReise/VedtakOgBeregningDagligReise';
 import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/VedtakOgBeregningLæremidler';
+import VedtakOgBeregningPassAvBarn from './VedtakOgBeregning/PassAvBarn/VedtakOgBeregningPassAvBarn';
 import { VedtakOgBeregningReiseTilSamling } from './VedtakOgBeregning/ReiseTilSamling/VedtakOgBeregningReiseTilSamling';
 import { Behandling } from '../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
@@ -233,7 +233,7 @@ const sendTilBeslutterUtenBrev = (behandling: Behandling): FanerMedRouter[] => {
 export const vedtakForBehandling = (behandling: Behandling): React.ReactNode => {
     switch (behandling.stønadstype) {
         case Stønadstype.BARNETILSYN:
-            return <VedtakOgBeregningBarnetilsyn />;
+            return <VedtakOgBeregningPassAvBarn />;
         case Stønadstype.LÆREMIDLER:
             return <VedtakOgBeregningLæremidler />;
         case Stønadstype.BOUTGIFTER:

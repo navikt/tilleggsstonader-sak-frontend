@@ -3,14 +3,14 @@ import React, { FC } from 'react';
 import { BodyShort, Label, VStack } from '@navikt/ds-react';
 
 import styles from './Beregningsresultat.module.css';
-import { BeregningsresultatTilsynBarn } from '../../../../../typer/vedtak/vedtakTilsynBarn';
+import { BeregningsresultatPassAvBarn } from '../../../../../typer/vedtak/vedtakPassAvBarn';
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
 import { BeregningsresultatContainer } from '../../Felles/BeregningsresultatContainer';
 import { GjenbrukForrigeResultatAlert } from '../../Felles/GjenbrukForrigeResultatAlert';
 import { HvorforVisesIkkeFlereEndringerReadMore } from '../../Felles/HvorforVisesIkkeFlereEndringerReadMore';
 
 interface Props {
-    beregningsresultat: BeregningsresultatTilsynBarn;
+    beregningsresultat: BeregningsresultatPassAvBarn;
 }
 
 export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {

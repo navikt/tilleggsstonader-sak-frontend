@@ -5,7 +5,6 @@ import { Detail } from '@navikt/ds-react';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
-import { AktivitetBarnetilsyn } from '../../typer/vilkårperiode/aktivitetBarnetilsyn';
 import { AktivitetBoutgifter } from '../../typer/vilkårperiode/aktivitetBoutgifter';
 import { AktivitetDagligReiseTso } from '../../typer/vilkårperiode/aktivitetDagligReiseTso';
 import { AktivitetDagligReiseTsr } from '../../typer/vilkårperiode/aktivitetDagligReiseTsr';
@@ -13,6 +12,7 @@ import {
     AktivitetLæremidler,
     studienivåTilTekst,
 } from '../../typer/vilkårperiode/aktivitetLæremidler';
+import { AktivitetPassAvBarn } from '../../typer/vilkårperiode/aktivitetPassAvBarn';
 import {
     harRettTilUtstyrsstipendSvarTilTekst,
     harUtgifterSvarTilTekst,
@@ -26,7 +26,7 @@ export const FaktaOgDelvilkårVisning: React.FC<{
 
     switch (behandling.stønadstype) {
         case Stønadstype.BARNETILSYN:
-            return <FaktaOgDelvilkårTilsynBarn aktivitet={aktivitet as AktivitetBarnetilsyn} />;
+            return <FaktaOgDelvilkårPassAvBarn aktivitet={aktivitet as AktivitetPassAvBarn} />;
         case Stønadstype.LÆREMIDLER:
             return <FaktaOgDelvilkårLæremidler aktivitet={aktivitet as AktivitetLæremidler} />;
         case Stønadstype.BOUTGIFTER:
@@ -42,8 +42,8 @@ export const FaktaOgDelvilkårVisning: React.FC<{
     }
 };
 
-const FaktaOgDelvilkårTilsynBarn: React.FC<{
-    aktivitet: AktivitetBarnetilsyn;
+const FaktaOgDelvilkårPassAvBarn: React.FC<{
+    aktivitet: AktivitetPassAvBarn;
 }> = ({ aktivitet }) => {
     const svarLønnet = aktivitet.faktaOgVurderinger.lønnet?.svar;
 

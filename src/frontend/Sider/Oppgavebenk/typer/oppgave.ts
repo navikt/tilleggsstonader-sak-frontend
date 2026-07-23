@@ -89,7 +89,7 @@ export enum IdentGruppe {
 }
 
 export enum Behandlingstema {
-    TILSYN_BARN = 'ab0300',
+    PASS_AV_BARN = 'ab0300',
     LÆREMIDLER = 'ab0292',
     BOUTGIFTER = 'ab0286',
     DAGLIG_REISE_TSR = 'ab0287',
@@ -98,7 +98,7 @@ export enum Behandlingstema {
 }
 
 export const behandlingstemaTilTekst: Record<Behandlingstema, string> = {
-    ab0300: 'Tilsyn barn',
+    ab0300: 'Pass av barn',
     ab0292: 'Læremidler',
     ab0286: 'Bolig/overnatting',
     ab0288: 'Daglige reiser - Nay',

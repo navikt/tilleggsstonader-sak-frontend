@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { EndreAktivitetBarnetilsyn } from './EndreAktivitetBarnetilsyn';
 import { EndreAktivitetBoutgfiter } from './EndreAktivitetBoutgifter';
 import { EndreAktivitetDagligReiseTso } from './EndreAktivitetDagligReiseTso';
 import { EndreAktivitetDagligReiseTsr } from './EndreAktivitetDagligReiseTsr';
 import { EndreAktivitetLæremidler } from './EndreAktivitetLæremidler';
+import { EndreAktivitetPassAvBarn } from './EndreAktivitetPassAvBarn';
 import { EndreAktivitetReiseTilSamlingTso } from './EndreAktivitetReiseTilSamlingTso';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useHentTiltaksvariantValg } from '../../../../hooks/useHentTiltaksvariantValg';
@@ -12,11 +12,11 @@ import DataViewer from '../../../../komponenter/DataViewer';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
-import { AktivitetBarnetilsyn } from '../typer/vilkårperiode/aktivitetBarnetilsyn';
 import { AktivitetBoutgifter } from '../typer/vilkårperiode/aktivitetBoutgifter';
 import { AktivitetDagligReiseTso } from '../typer/vilkårperiode/aktivitetDagligReiseTso';
 import { AktivitetDagligReiseTsr } from '../typer/vilkårperiode/aktivitetDagligReiseTsr';
 import { AktivitetLæremidler } from '../typer/vilkårperiode/aktivitetLæremidler';
+import { AktivitetPassAvBarn } from '../typer/vilkårperiode/aktivitetPassAvBarn';
 import { AktivitetReiseTilSamlingTso } from '../typer/vilkårperiode/aktivitetReiseTilSamlingTso';
 
 export const EndreAktivitet: React.FC<{
@@ -30,8 +30,8 @@ export const EndreAktivitet: React.FC<{
     switch (behandling.stønadstype) {
         case Stønadstype.BARNETILSYN:
             return (
-                <EndreAktivitetBarnetilsyn
-                    aktivitet={aktivitet as AktivitetBarnetilsyn}
+                <EndreAktivitetPassAvBarn
+                    aktivitet={aktivitet as AktivitetPassAvBarn}
                     aktivitetFraRegister={aktivitetFraRegister}
                     avbrytRedigering={avbrytRedigering}
                 />

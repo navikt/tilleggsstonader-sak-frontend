@@ -1,17 +1,17 @@
 import { VilkårPeriodeAktivitet, SvarJaNei, Vurdering } from './vilkårperiode';
 
-export interface AktivitetBarnetilsyn extends VilkårPeriodeAktivitet {
+export interface AktivitetPassAvBarn extends VilkårPeriodeAktivitet {
     kildeId?: string;
-    faktaOgVurderinger: AktivitetBarnetilsynFaktaOgVurderinger;
+    faktaOgVurderinger: AktivitetPassAvBarnFaktaOgVurderinger;
 }
 
-export interface AktivitetBarnetilsynFaktaOgVurderinger {
+export interface AktivitetPassAvBarnFaktaOgVurderinger {
     '@type': 'AKTIVITET_BARNETILSYN';
     aktivitetsdager: number | undefined;
     lønnet: Vurdering | undefined;
 }
 
-export interface AktivitetBarnetilsynFaktaOgSvar {
+export interface AktivitetPassAvBarnFaktaOgSvar {
     '@type': 'AKTIVITET_BARNETILSYN';
     aktivitetsdager: number | undefined;
     svarLønnet: SvarJaNei | undefined;

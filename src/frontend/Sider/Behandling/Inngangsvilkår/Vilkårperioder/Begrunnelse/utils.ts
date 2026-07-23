@@ -10,7 +10,7 @@ export enum BegrunnelseGrunner {
     // Aktivitet felles
     INGEN_AKTIVITET = 'INGEN_AKTIVITET',
 
-    // Barnetilsyn
+    // Pass av barn
     LØNNET = 'LØNNET',
 
     // Læremidler

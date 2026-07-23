@@ -14,14 +14,14 @@ import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
 import { RegelverkKontekstmeny } from '../../../../../komponenter/VilkårPanel/RegelverkKontekstmeny';
 import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
-import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import {
-    BeregnBarnetilsynRequest,
-    BeregningsresultatTilsynBarn,
-    InnvilgeBarnetilsynRequest,
-    InnvilgelseBarnetilsyn,
-} from '../../../../../typer/vedtak/vedtakTilsynBarn';
-import { lenkerForskriftBeregningTilsynBarn } from '../../../lenker';
+    BeregnPassAvBarnRequest,
+    BeregningsresultatPassAvBarn,
+    InnvilgelsePassAvBarnRequest,
+    InnvilgelsePassAvBarn,
+} from '../../../../../typer/vedtak/vedtakPassAvBarn';
+import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
+import { lenkerForskriftBeregningPassAvBarn } from '../../../lenker';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
 import { StegKnappInnvilgelseMedVarsel } from '../../Felles/StegKnappInnvilgelseMedVarsel';
 import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
@@ -29,11 +29,11 @@ import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
 import { initialiserVedtaksperioder } from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
 
 interface Props {
-    lagretVedtak?: InnvilgelseBarnetilsyn;
+    lagretVedtak?: InnvilgelsePassAvBarn;
     vedtaksperioderForrigeBehandling?: Vedtaksperiode[];
 }
 
-export const InnvilgeBarnetilsyn: React.FC<Props> = ({
+export const InnvilgePassAvBarn: React.FC<Props> = ({
     lagretVedtak,
     vedtaksperioderForrigeBehandling,
 }) => {
@@ -55,7 +55,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
     const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<Feil>();
 
     const [beregningsresultat, settBeregningsresultat] =
-        useState(byggTomRessurs<BeregningsresultatTilsynBarn>());
+        useState(byggTomRessurs<BeregningsresultatPassAvBarn>());
 
     const [erVedtaksperioderBeregnet, settErVedtaksperioderBeregnet] = useState(false);
     const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
@@ -68,7 +68,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
 
     const lagreVedtak = () => {
         if (beregningsresultat.status === RessursStatus.SUKSESS && erVedtaksperioderBeregnet) {
-            return request<null, InnvilgeBarnetilsynRequest>(
+            return request<null, InnvilgelsePassAvBarnRequest>(
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/innvilgelse`,
                 'POST',
                 {
@@ -88,7 +88,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
         return isValid(vedtaksperiodeFeil);
     };
 
-    const beregnBarnetilsyn = () => {
+    const beregnPassAvBarn = () => {
         settVisHarIkkeBeregnetFeilmelding(false);
         settForeslåPeriodeFeil(undefined);
 
@@ -96,7 +96,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
 
         if (kanSendeInn) {
             settBeregningsresultat(byggHenterRessurs());
-            request<BeregningsresultatTilsynBarn, BeregnBarnetilsynRequest>(
+            request<BeregningsresultatPassAvBarn, BeregnPassAvBarnRequest>(
                 `/api/sak/vedtak/tilsyn-barn/${behandling.id}/beregn`,
                 'POST',
                 { vedtaksperioder: vedtaksperioder }
@@ -114,7 +114,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
             <Panel
                 tittel="Beregning"
                 kontekstmeny={
-                    <RegelverkKontekstmeny forskriftlenker={lenkerForskriftBeregningTilsynBarn} />
+                    <RegelverkKontekstmeny forskriftlenker={lenkerForskriftBeregningPassAvBarn} />
                 }
             >
                 <VStack gap={'space-32'}>
@@ -133,7 +133,7 @@ export const InnvilgeBarnetilsyn: React.FC<Props> = ({
                         oppdaterBegrunnelse={settBegrunnelse}
                     />
                     {erStegRedigerbart && (
-                        <SmallButton onClick={beregnBarnetilsyn}>Beregn</SmallButton>
+                        <SmallButton onClick={beregnPassAvBarn}>Beregn</SmallButton>
                     )}
                     {erStegRedigerbart && (
                         <DataViewer type={'beregningsresultat'} response={{ beregningsresultat }}>

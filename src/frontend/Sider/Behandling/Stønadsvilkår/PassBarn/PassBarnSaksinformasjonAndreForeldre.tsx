@@ -60,7 +60,7 @@ const AlertVedtaksperioder = ({
         >
             <VStack>
                 <span>
-                    Det utbetales tilsyn barn til annen forelder for dette barnet{' '}
+                    Det utbetales pengestøtte til pass av barn til annen forelder for dette barnet{' '}
                     {vedtaksperioderBarn.length === 1 &&
                         formaterIsoPeriode(vedtaksperioderBarn[0].fom, vedtaksperioderBarn[0].tom)}
                     {sjekketTidspunkt(hentetTidspunkt)}

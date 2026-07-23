@@ -7,6 +7,7 @@ import { Steg } from './steg';
 
 export interface Behandlingsoversikt {
     fagsakPersonId: string;
+    // Bør være passAvBarn, men sendes fra backend
     tilsynBarn?: FagsakMedBehandlinger;
     læremidler?: FagsakMedBehandlinger;
     boutgifter?: FagsakMedBehandlinger;

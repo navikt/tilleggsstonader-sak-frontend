@@ -3,7 +3,7 @@ import React from 'react';
 import { Table } from '@navikt/ds-react';
 
 import { BorderTable } from './VedtaksperioderBorderTable';
-import { DetaljertVedtaksperiodeTilsynBarn } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
+import { DetaljertVedtaksperiodePassAvBarn } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
 import { formaterNullableIsoDato } from '../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../utils/fomatering';
 import { faktiskMålgruppeTilTekst } from '../../Behandling/Felles/faktiskMålgruppe';
@@ -11,10 +11,10 @@ import { aktivitetTypeTilTekst } from '../../Behandling/Inngangsvilkår/Aktivite
 
 interface Props {
     border?: boolean;
-    vedtaksperioder: DetaljertVedtaksperiodeTilsynBarn[];
+    vedtaksperioder: DetaljertVedtaksperiodePassAvBarn[];
 }
 
-export const VedtaksperioderOversiktTilsynBarn: React.FC<Props> = ({ vedtaksperioder, border }) => {
+export const VedtaksperioderOversiktPassAvBarn: React.FC<Props> = ({ vedtaksperioder, border }) => {
     return (
         <BorderTable size={'small'} $border={border}>
             <Table.Header>

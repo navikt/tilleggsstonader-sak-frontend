@@ -1,12 +1,12 @@
 import { VedtakBoutgifter } from './vedtakBoutgifter';
 import { VedtakDagligReise } from './vedtakDagligReise';
 import { VedtakLæremidler } from './vedtakLæremidler';
+import { VedtakPassAvBarn } from './vedtakPassAvBarn';
 import { VedtakReiseTilSamling } from './vedtakReiseTilSamling';
-import { VedtakBarnetilsyn } from './vedtakTilsynBarn';
 import { Stønadstype } from '../behandling/behandlingTema';
 
 export type VedtakResponse =
-    | VedtakBarnetilsyn
+    | VedtakPassAvBarn
     | VedtakLæremidler
     | VedtakBoutgifter
     | VedtakDagligReise

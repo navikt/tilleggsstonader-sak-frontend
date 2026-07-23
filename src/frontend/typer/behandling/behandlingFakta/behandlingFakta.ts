@@ -17,7 +17,7 @@ interface BehandlingFaktaInterface {
     dokumentasjon?: FaktaDokumentasjon;
     '@type': Stønadstype;
 }
-export interface BehandlingFaktaTilsynBarn extends BehandlingFaktaInterface {
+export interface BehandlingFaktaPassAvBarn extends BehandlingFaktaInterface {
     aktivitet: FaktaAktivitet;
     barn: FaktaBarn[];
     '@type': Stønadstype.BARNETILSYN;
@@ -51,7 +51,7 @@ export interface BehandlingFaktaReiseTilSamling extends BehandlingFaktaInterface
 }
 
 export type BehandlingFakta =
-    | BehandlingFaktaTilsynBarn
+    | BehandlingFaktaPassAvBarn
     | BehandlingFaktaLæremidler
     | BehandlingFaktaBoutgifter
     | BehandlingFaktaDagligReise

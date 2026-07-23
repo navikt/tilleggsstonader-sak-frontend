@@ -7,15 +7,15 @@ import { TypeVedtak, VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { InnvilgelseBoutgifter } from '../../../typer/vedtak/vedtakBoutgifter';
 import { InnvilgelseDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
 import { InnvilgelseLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
+import { InnvilgelsePassAvBarn } from '../../../typer/vedtak/vedtakPassAvBarn';
 import { InnvilgelseReiseTilSamling } from '../../../typer/vedtak/vedtakReiseTilSamling';
-import { InnvilgelseBarnetilsyn } from '../../../typer/vedtak/vedtakTilsynBarn';
 
 const TOMME_VERDIER: Brevverdier = { variabelStore: {} };
 
 function behandleInnvilgelse(
     behandling: Behandling,
     vedtak:
-        | InnvilgelseBarnetilsyn
+        | InnvilgelsePassAvBarn
         | InnvilgelseLæremidler
         | InnvilgelseBoutgifter
         | InnvilgelseDagligReise
@@ -31,10 +31,10 @@ function behandleInnvilgelse(
         }
 
         case Stønadstype.BARNETILSYN: {
-            const innvilgelseBarnetilsyn = vedtak as InnvilgelseBarnetilsyn;
+            const innvilgelsePassAvBarn = vedtak as InnvilgelsePassAvBarn;
             return mapVedtaksDatoerForPreutfyllingIBrevfanen(
-                innvilgelseBarnetilsyn.beregningsresultat.gjelderFraOgMed,
-                innvilgelseBarnetilsyn.beregningsresultat.gjelderTilOgMed
+                innvilgelsePassAvBarn.beregningsresultat.gjelderFraOgMed,
+                innvilgelsePassAvBarn.beregningsresultat.gjelderTilOgMed
             );
         }
 

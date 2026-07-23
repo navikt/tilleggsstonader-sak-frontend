@@ -6,14 +6,14 @@ import { TypeDagligReise } from '../../Sider/Behandling/Stønadsvilkår/DagligRe
 import { Stønadstype } from '../behandling/behandlingTema';
 
 export interface VedtakperioderOversiktResponse {
-    tilsynBarn: DetaljertVedtaksperiodeTilsynBarn[];
+    passAvBarn: DetaljertVedtaksperiodePassAvBarn[];
     læremidler: DetaljertVedtaksperiodeLæremidler[];
     boutgifter: DetaljertVedtaksperiodeBoutgifter[];
     dagligReiseTso: DetaljertVedtaksperiodeDagligReise[];
     dagligReiseTsr: DetaljertVedtaksperiodeDagligReise[];
 }
 
-export type DetaljertVedtaksperiodeTilsynBarn = {
+export type DetaljertVedtaksperiodePassAvBarn = {
     fom: string;
     tom: string;
     aktivitet: AktivitetType;

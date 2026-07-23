@@ -1,4 +1,4 @@
-import { BeregningsresultatTilsynBarn } from '../../../typer/vedtak/vedtakTilsynBarn';
+import { BeregningsresultatPassAvBarn } from '../../../typer/vedtak/vedtakPassAvBarn';
 import { formaterÅrFullMåned } from '../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../utils/fomatering';
 import { storForbokstavFørsteOrd } from '../../../utils/tekstformatering';
@@ -6,8 +6,8 @@ import { storForbokstavFørsteOrd } from '../../../utils/tekstformatering';
 const borderStylingCompact = 'border: 1px solid black; padding: 3px 2px 3px 5px;';
 const borderStyling = 'border: 1px solid black; padding: 3px 10px 3px 5px;';
 
-export const lagVedtakstabellTilsynBarn = (
-    beregningsresultat?: BeregningsresultatTilsynBarn
+export const lagVedtakstabellPassAvBarn = (
+    beregningsresultat?: BeregningsresultatPassAvBarn
 ): string => {
     return `<table style="margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
                 <thead>
@@ -24,7 +24,7 @@ export const lagVedtakstabellTilsynBarn = (
             </table>`;
 };
 
-const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatTilsynBarn): string => {
+const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatPassAvBarn): string => {
     if (!beregningsresultat) {
         return '';
     }

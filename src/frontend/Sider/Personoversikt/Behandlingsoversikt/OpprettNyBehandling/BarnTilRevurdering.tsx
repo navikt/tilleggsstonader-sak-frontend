@@ -54,7 +54,7 @@ const BarnTilRevurdering: React.FC<{
                         {eksisterendeBarn.length > 0 ? (
                             <div>
                                 <Heading as="h3" size="small">
-                                    {'Barn det er søkt om tilleggsstønad for tilsyn barn fra før'}
+                                    {'Barn det er søkt om tilleggsstønad for pass av barn fra før'}
                                 </Heading>
                                 <Box marginBlock="space-16" asChild>
                                     <List size={'small'}>

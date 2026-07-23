@@ -6,40 +6,40 @@ import { OpphørRequest } from '../../hooks/useLagreOpphør';
 import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 
-export type VedtakBarnetilsyn = InnvilgelseBarnetilsyn | AvslagBarnetilsyn | OpphørBarnetilsyn;
+export type VedtakPassAvBarn = InnvilgelsePassAvBarn | AvslagPassAvBarn | OpphørPassAvBarn;
 
-export const vedtakErInnvilgelse = (vedtak: VedtakBarnetilsyn): vedtak is InnvilgelseBarnetilsyn =>
+export const vedtakErInnvilgelse = (vedtak: VedtakPassAvBarn): vedtak is InnvilgelsePassAvBarn =>
     vedtak.type === TypeVedtak.INNVILGELSE;
 
-export const vedtakErAvslag = (vedtak: VedtakBarnetilsyn): vedtak is AvslagBarnetilsyn =>
+export const vedtakErAvslag = (vedtak: VedtakPassAvBarn): vedtak is AvslagPassAvBarn =>
     vedtak.type === TypeVedtak.AVSLAG;
 
-export const vedtakErOpphør = (vedtak: VedtakBarnetilsyn): vedtak is OpphørBarnetilsyn =>
+export const vedtakErOpphør = (vedtak: VedtakPassAvBarn): vedtak is OpphørPassAvBarn =>
     vedtak.type === TypeVedtak.OPPHØR;
 
-export type InnvilgeBarnetilsynRequest = {
+export type InnvilgelsePassAvBarnRequest = {
     vedtaksperioder: Vedtaksperiode[];
     begrunnelse?: string;
 };
 
-export interface InnvilgelseBarnetilsyn {
+export interface InnvilgelsePassAvBarn {
     type: TypeVedtak.INNVILGELSE;
-    beregningsresultat: BeregningsresultatTilsynBarn;
+    beregningsresultat: BeregningsresultatPassAvBarn;
     vedtaksperioder: Vedtaksperiode[];
     begrunnelse?: string;
 }
 
-export type AvslagBarnetilsyn = AvslagRequest;
+export type AvslagPassAvBarn = AvslagRequest;
 
-export type OpphørBarnetilsyn = OpphørRequest & {
+export type OpphørPassAvBarn = OpphørRequest & {
     vedtaksperioder: Vedtaksperiode[];
 };
 
-export type BeregnBarnetilsynRequest = {
+export type BeregnPassAvBarnRequest = {
     vedtaksperioder: Vedtaksperiode[];
 };
 
-export type BeregningsresultatTilsynBarn = {
+export type BeregningsresultatPassAvBarn = {
     perioder: Beregningsresultat[];
     vedtaksperioder: VedtaksperiodeBeregningsresultat[];
     gjelderFraOgMed?: string;
