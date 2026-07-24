@@ -42,10 +42,10 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
                         <IngenVedtaksperioderInfo hentetTidspunkt={hentetTidspunkt} />
                     ) : (
                         <VStack gap={'space-32'}>
-                            {vedtaksperioderOversikt.passAvBarn.length > 0 && (
+                            {vedtaksperioderOversikt.tilsynBarn.length > 0 && (
                                 <OversiktKort tittel={'Pass Av Barn'}>
                                     <VedtaksperioderOversiktPassAvBarn
-                                        vedtaksperioder={vedtaksperioderOversikt.passAvBarn}
+                                        vedtaksperioder={vedtaksperioderOversikt.tilsynBarn}
                                     />
                                     <Detail>
                                         Oppdatert: {formaterDatoMedTidspunkt(hentetTidspunkt)}
@@ -124,7 +124,7 @@ const finnesIngenVedtaksperioder = (
     return (
         vedtaksperioderOversikt.boutgifter.length === 0 &&
         vedtaksperioderOversikt.læremidler.length === 0 &&
-        vedtaksperioderOversikt.passAvBarn.length === 0 &&
+        vedtaksperioderOversikt.tilsynBarn.length === 0 &&
         vedtaksperioderOversikt.dagligReiseTso.length === 0 &&
         vedtaksperioderOversikt.dagligReiseTsr.length === 0 &&
         arenaSakOgVedtak.vedtak.length === 0

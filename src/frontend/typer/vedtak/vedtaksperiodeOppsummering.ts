@@ -6,7 +6,8 @@ import { TypeDagligReise } from '../../Sider/Behandling/Stønadsvilkår/DagligRe
 import { Stønadstype } from '../behandling/behandlingTema';
 
 export interface VedtakperioderOversiktResponse {
-    passAvBarn: DetaljertVedtaksperiodePassAvBarn[];
+    // Bør være passAvBarn, men sendes fra backend som tilsynBarn
+    tilsynBarn: DetaljertVedtaksperiodePassAvBarn[];
     læremidler: DetaljertVedtaksperiodeLæremidler[];
     boutgifter: DetaljertVedtaksperiodeBoutgifter[];
     dagligReiseTso: DetaljertVedtaksperiodeDagligReise[];
