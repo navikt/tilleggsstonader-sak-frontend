@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { ArrowsUpDownIcon } from '@navikt/aksel-icons';
 import { Button, HStack, TextField, VStack } from '@navikt/ds-react';
 
 import styles from './ReiseavstandForm.module.css';
@@ -55,48 +56,64 @@ export const ReiseavstandForm: React.FC<{
         }
     };
 
+    const reverserAdresser = () => {
+        const tempFraAdresse = fraAdresse;
+        setFraAdresse(tilAdresse);
+        setTilAdresse(tempFraAdresse);
+    };
+
     return (
         <VStack gap={'space-32'} align={'start'}>
-            <TextField
-                className={styles.adresseInput}
-                list={'fra-forslag'}
-                label={'Startadresse'}
-                size="small"
-                value={fraAdresse}
-                error={formError?.fraAdresseFeil}
-                onChange={(e) => {
-                    oppdaterFraAdresse(e.target.value);
-                }}
-                onKeyDown={hentReisedataHotkey}
-            />
-            <datalist id={'fra-forslag'}>
-                {fraForslag.map((forslag) => (
-                    <option value={forslag} key={forslag} />
-                ))}
-            </datalist>
-            <TextField
-                className={styles.adresseInput}
-                label={'Tiltaksadresse'}
-                list={'til-forslag'}
-                size="small"
-                value={tilAdresse}
-                error={formError?.tilAdresseFeil}
-                onChange={(e) => {
-                    oppdaterTilAdresse(e.target.value);
-                }}
-                onKeyDown={hentReisedataHotkey}
-            />
-            <datalist id={'til-forslag'}>
-                {tilForslag.map((forslag) => (
-                    <option value={forslag} key={forslag} />
-                ))}
-            </datalist>
+            <VStack gap={'space-16'}>
+                <TextField
+                    className={styles.adresseInput}
+                    list={'fra-forslag'}
+                    label={'Startadresse'}
+                    size="small"
+                    value={fraAdresse}
+                    error={formError?.fraAdresseFeil}
+                    onChange={(e) => {
+                        oppdaterFraAdresse(e.target.value);
+                    }}
+                    onKeyDown={hentReisedataHotkey}
+                />
+                <datalist id={'fra-forslag'}>
+                    {fraForslag.map((forslag) => (
+                        <option value={forslag} key={forslag} />
+                    ))}
+                </datalist>
+                <TextField
+                    className={styles.adresseInput}
+                    label={'Tiltaksadresse'}
+                    list={'til-forslag'}
+                    size="small"
+                    value={tilAdresse}
+                    error={formError?.tilAdresseFeil}
+                    onChange={(e) => {
+                        oppdaterTilAdresse(e.target.value);
+                    }}
+                    onKeyDown={hentReisedataHotkey}
+                />
+                <datalist id={'til-forslag'}>
+                    {tilForslag.map((forslag) => (
+                        <option value={forslag} key={forslag} />
+                    ))}
+                </datalist>
+            </VStack>
             <HStack gap={'space-16'}>
                 <Button size={'small'} onClick={hentReisedata}>
                     Regn ut reiseavstand
                 </Button>
                 <Button size={'small'} variant={'secondary'} onClick={nullstillReisedata}>
                     Nullstill
+                </Button>
+                <Button
+                    icon={<ArrowsUpDownIcon />}
+                    onClick={reverserAdresser}
+                    variant="tertiary"
+                    size="small"
+                >
+                    Reverser adresser
                 </Button>
             </HStack>
         </VStack>
