@@ -58,8 +58,10 @@ export const ReiseavstandForm: React.FC<{
 
     const reverserAdresser = () => {
         const tempFraAdresse = fraAdresse;
-        setFraAdresse(tilAdresse);
-        setTilAdresse(tempFraAdresse);
+        const tempTilAdresse = tilAdresse;
+
+        oppdaterFraAdresse(tempTilAdresse);
+        oppdaterTilAdresse(tempFraAdresse);
     };
 
     return (
