@@ -19,6 +19,17 @@ export const VedtaksperioderOversiktDagligReise: React.FC<Props> = ({
     vedtaksperioder,
     border,
 }) => {
+    const sortertVedtaksperioder = [...vedtaksperioder].toSorted((a, b) => {
+        const aFom = a.rammevedtakPrivatBil?.fom;
+        const bFom = b.rammevedtakPrivatBil?.fom;
+
+        if (aFom && bFom) {
+            return new Date(aFom).getTime() - new Date(bFom).getTime();
+        }
+
+        return 0;
+    });
+
     return (
         <BorderTable size={'small'} $border={border}>
             <Table.Header>
@@ -32,7 +43,7 @@ export const VedtaksperioderOversiktDagligReise: React.FC<Props> = ({
             </Table.Header>
 
             <Table.Body>
-                {vedtaksperioder.map((periode, index) => {
+                {sortertVedtaksperioder.map((periode, index) => {
                     const beregningsperioder = periode.detaljertBeregningsperioder ?? [];
                     const periodeFom =
                         beregningsperioder[beregningsperioder.length - 1]?.fom ??

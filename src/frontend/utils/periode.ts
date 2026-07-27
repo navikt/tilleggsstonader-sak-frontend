@@ -22,3 +22,12 @@ export const validerPeriode = (periode: Periode): undefined | Partial<Periode> =
 };
 
 export const tomPeriode: Periode = { fom: '', tom: '' };
+
+export const fomSort = <T extends { fom: string }>(
+    a: T,
+    b: T,
+    ascending: boolean = true
+): number =>
+    ascending
+        ? new Date(a.fom).getTime() - new Date(b.fom).getTime()
+        : new Date(b.fom).getTime() - new Date(a.fom).getTime();

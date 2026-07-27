@@ -8,6 +8,7 @@ import { TableDataCellSmall, TableHeaderCellSmall } from './TabellSmall';
 import { BillettType } from '../typer/behandling/behandlingFakta/faktaReise';
 import { Billettdetaljer } from '../typer/vedtak/vedtakDagligReise';
 import { formaterIsoDato } from '../utils/dato';
+import { fomSort } from '../utils/periode';
 
 interface DagligReiseBeregningstabellPeriode {
     fom: string;
@@ -27,6 +28,8 @@ interface Props {
 }
 
 export const DagligReiseBeregningstabell: FC<Props> = ({ perioder, className }) => {
+    const sortertePerioder = perioder.toSorted(fomSort);
+
     return (
         <Table size="small" className={className}>
             <Table.Header>
@@ -41,7 +44,7 @@ export const DagligReiseBeregningstabell: FC<Props> = ({ perioder, className }) 
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {perioder.map((periode, index) => (
+                {sortertePerioder.map((periode, index) => (
                     <Table.Row
                         key={`${periode.fom}-${periode.tom}-${index}`}
                         className={

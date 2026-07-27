@@ -9,6 +9,7 @@ import {
     RammeForReiseMedPrivatBilDelperiode,
 } from '../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoDato } from '../../../../utils/dato';
+import { fomSort } from '../../../../utils/periode';
 import { kronerEllerStrek } from '../../../../utils/tekstformatering';
 
 type VisningsradPrivatBil = {
@@ -43,7 +44,7 @@ function lagVisningsrader(
 }
 
 export const VedtaksdetaljerPrivatBil: FC<Props> = ({ rammevedtakPrivatBil, className }) => {
-    const visningsrader = lagVisningsrader(rammevedtakPrivatBil.delperioder);
+    const visningsrader = lagVisningsrader(rammevedtakPrivatBil.delperioder).toSorted(fomSort);
 
     return (
         <VStack gap="space-8" className={className}>
