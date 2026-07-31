@@ -72,6 +72,7 @@ export const RedigerAvklartDag: FC<{
                 hideLabel
                 size="small"
                 resize
+                minRows={1}
                 value={dag.begrunnelse || ''}
                 onChange={(e) => oppdaterBegrunnelse(e.target.value)}
                 error={feil?.begrunnelse}
