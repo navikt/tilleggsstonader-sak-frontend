@@ -16,8 +16,10 @@ import {
 } from 'date-fns';
 import { nb } from 'date-fns/locale';
 
-import { TANKESTREKK } from './fomatering';
+import { TANKESTREKK, tilLitenSkriftMedStorForbokstav } from './fomatering';
 import { Periode } from './periode';
+
+export type LocalDate = string;
 
 // Eksempel: formaterNullableIsoDato('2023-09-18') -> '18.09.2023'
 export const formaterNullableIsoDato = (dato?: string): string | undefined =>
@@ -247,6 +249,11 @@ export const datoErIPeriodeInklusivSlutt = (
 export const perioderOverlapper = (periode1: Periode, periode2: Periode) =>
     erDatoFørEllerLik(periode1.fom, periode2.tom) &&
     erDatoEtterEllerLik(periode2.fom, periode1.tom);
+
+export const finnForkortetUkedagFraDato = (dato: string): string => {
+    const ukedag = format(tilDato(dato), 'EE', { locale: nb });
+    return tilLitenSkriftMedStorForbokstav(ukedag);
+};
 
 export type Ukedag =
     | 'MONDAY'

@@ -59,3 +59,6 @@ export function hentStønadstyperSaksbehandlerKanBehandle(
     const enheter = finnEnheterSaksbehandlerKanBehandleFor(saksbehandler, appEnv);
     return Object.values(Stønadstype).filter((type) => enheter.includes(stønadstypeTilEnhet[type]));
 }
+
+export const stønadstypeErDagligReise = (stønadstype: Stønadstype) =>
+    stønadstype === Stønadstype.DAGLIG_REISE_TSO || stønadstype === Stønadstype.DAGLIG_REISE_TSR;

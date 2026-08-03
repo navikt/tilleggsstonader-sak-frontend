@@ -1,0 +1,137 @@
+import React, { FC, useState } from 'react';
+
+import { Box, Button, Heading, Select, Textarea, TextField, VStack } from '@navikt/ds-react';
+
+import { RegistrerKjørelisteUke } from './RegistrerKjørelisteUke';
+import { UkeTilInnsending } from './typer';
+import { initialiserUkerTilInnsending, tilManuellKjørelisteRequest } from './utils';
+import { validerRegistrerKjøreliste } from './validerRegistrerKjøreliste';
+import { useRegistrerKjøreliste } from '../../../../../context/RegistrerKjørelisteContext/RegistrerKjørelisteContext';
+import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
+import {
+    Feil,
+    feiletRessursTilFeilmelding,
+} from '../../../../../komponenter/Feil/feilmeldingUtils';
+import { RessursStatus } from '../../../../../typer/ressurs';
+import { formaterIsoPeriode } from '../../../../../utils/dato';
+import { harVerdi } from '../../../../../utils/utils';
+
+export const RegistrerKjørelisteForm: FC<{
+    lukkSkjema: () => void;
+}> = ({ lukkSkjema }) => {
+    const { tilgjengeligeReiser, lagreKjøreliste } = useRegistrerKjøreliste();
+
+    const [valgtReiseId, settValgtReiseId] = useState<string>('');
+    const [journalpostId, settJournalpostId] = useState<string>('');
+    const [begrunnelse, settBegrunnelse] = useState<string>('');
+    const [uker, settUker] = useState<UkeTilInnsending[]>([]);
+    const [laster, settLaster] = useState<boolean>(false);
+    const [feilmelding, settFeilmelding] = useState<Feil | string | undefined>(undefined);
+
+    const velgReise = (reiseId: string) => {
+        settValgtReiseId(reiseId);
+        settJournalpostId('');
+        settBegrunnelse('');
+
+        const valgtReise = tilgjengeligeReiser.find((reise) => reise.reiseId === reiseId);
+        settUker(valgtReise ? initialiserUkerTilInnsending(valgtReise.uker) : []);
+    };
+
+    const oppdaterUke = (oppdatertUke: UkeTilInnsending) => {
+        settUker((prev) => prev.map((uke) => (uke.fom === oppdatertUke.fom ? oppdatertUke : uke)));
+    };
+
+    const valider = () => {
+        const valideringsfeil = validerRegistrerKjøreliste(valgtReiseId, uker, journalpostId);
+        settFeilmelding(valideringsfeil);
+
+        if (valideringsfeil) {
+            return false;
+        }
+
+        return true;
+    };
+
+    const lagre = () => {
+        if (laster) {
+            return;
+        }
+
+        if (!valider()) return;
+
+        settLaster(true);
+
+        lagreKjøreliste(
+            tilManuellKjørelisteRequest(valgtReiseId, journalpostId, begrunnelse, uker)
+        ).then((res) => {
+            if (res.status === RessursStatus.SUKSESS) {
+                lukkSkjema();
+            } else {
+                settFeilmelding(feiletRessursTilFeilmelding(res));
+                settLaster(false);
+            }
+        });
+    };
+
+    return (
+        <Box
+            padding="space-24"
+            background="info-soft"
+            borderColor="info-strong"
+            borderRadius="12"
+            borderWidth="1"
+        >
+            <VStack gap="space-24" align="start">
+                <Heading size="small">Registrer kjøreliste manuelt</Heading>
+                <Select
+                    label="Velg reise du ønsker å registrere kjøreliste for"
+                    value={valgtReiseId}
+                    onChange={(e) => velgReise(e.target.value)}
+                    size="small"
+                >
+                    <option value="">Velg reise</option>
+                    {tilgjengeligeReiser.map((reise) => (
+                        <option key={reise.reiseId} value={reise.reiseId}>
+                            {reise.aktivitetsadresse} ({formaterIsoPeriode(reise.fom, reise.tom)})
+                        </option>
+                    ))}
+                </Select>
+                {harVerdi(valgtReiseId) && (
+                    <>
+                        <TextField
+                            label="Journalpost ID"
+                            size="small"
+                            value={journalpostId}
+                            onChange={(e) => settJournalpostId(e.target.value)}
+                        />
+                        <VStack gap="space-16">
+                            <Heading size="xsmall">
+                                Huk av og fyll ut ukene du ønsker å registrere
+                            </Heading>
+                            {uker.map((uke) => (
+                                <RegistrerKjørelisteUke
+                                    key={uke.fom}
+                                    uke={uke}
+                                    oppdaterUke={oppdaterUke}
+                                />
+                            ))}
+                        </VStack>
+                        <Textarea
+                            label="Begrunnelse"
+                            description="Hvorfor fylles kjøreliste inn av saksbehandler?"
+                            size="small"
+                            minRows={3}
+                            value={begrunnelse}
+                            onChange={(e) => settBegrunnelse(e.target.value)}
+                            resize
+                        />
+                        <Feilmelding feil={feilmelding} />
+                        <Button size="small" onClick={lagre} loading={laster}>
+                            Lagre
+                        </Button>
+                    </>
+                )}
+            </VStack>
+        </Box>
+    );
+};
