@@ -6,11 +6,11 @@ import {
     TableDataCellSmall,
     TableHeaderCellSmall,
 } from '../../../../../../komponenter/TabellSmall';
-import { BeregningsresultatPrivatBilForSamling } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
+import { BeregningsresultatPrivatBil } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
 import { formaterIsoDato } from '../../../../../../utils/dato';
 
 interface Props {
-    beregningsresultat: BeregningsresultatPrivatBilForSamling[];
+    beregningsresultat: BeregningsresultatPrivatBil[];
 }
 
 export const BeregningPrivatBil: FC<Props> = ({ beregningsresultat }) => {

@@ -6,11 +6,11 @@ import {
     TableDataCellSmall,
     TableHeaderCellSmall,
 } from '../../../../../../komponenter/TabellSmall';
-import { BeregningsresultatOffentligTransportForSamling } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
+import { BeregningsresultatOffentligTransport } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
 import { formaterIsoDato } from '../../../../../../utils/dato';
 
 interface Props {
-    beregningsresultat: BeregningsresultatOffentligTransportForSamling[];
+    beregningsresultat: BeregningsresultatOffentligTransport[];
 }
 
 export const BeregningOffentligTransport: FC<Props> = ({ beregningsresultat }) => {

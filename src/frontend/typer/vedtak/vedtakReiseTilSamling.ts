@@ -11,23 +11,17 @@ export type BeregnReiseTilSamlingRequest = {
     vedtaksperioder: Vedtaksperiode[];
 };
 export interface BeregningReiseTilSamling {
-    offentligTransport?: BeregningsresultatOffentligTransport;
-    privatBil?: BeregningsresultatPrivatBil;
+    offentligTransport?: BeregningsresultatOffentligTransport[];
+    privatBil?: BeregningsresultatPrivatBil[];
 }
 export interface BeregningsresultatOffentligTransport {
-    samlinger: BeregningsresultatOffentligTransportForSamling[];
-}
-export interface BeregningsresultatPrivatBil {
-    samlinger: BeregningsresultatPrivatBilForSamling[];
-}
-export interface BeregningsresultatOffentligTransportForSamling {
     reiseId: string;
     adresse?: string;
     fom: string;
     tom: string;
     beløp: number;
 }
-export interface BeregningsresultatPrivatBilForSamling {
+export interface BeregningsresultatPrivatBil {
     reiseId: string;
     adresse?: string;
     fom: string;
