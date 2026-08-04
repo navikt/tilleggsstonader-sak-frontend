@@ -14,6 +14,8 @@ export const Reiseavstand: React.FC<{ reisedata: Reisedata }> = ({ reisedata }) 
     const erFerjePåReisen =
         reisedata.reiserute.avstandUtenFerje !== reisedata.reiserute.avstandMeter;
 
+    const erBompengerPåReisen = reisedata.reiserute.harBomvei;
+
     return (
         <HGrid gap={'space-8'} columns={2}>
             <VStack className={styles.kort}>
@@ -34,9 +36,9 @@ export const Reiseavstand: React.FC<{ reisedata: Reisedata }> = ({ reisedata }) 
                     <BodyShort>Ingen ferje</BodyShort>
                 )}
             </VStack>
-            <VStack className={styles.kort}>
+            <VStack className={`${styles.kort} ${erBompengerPåReisen ? styles.blåttKort : ''}`}>
                 <Label>Bompenger</Label>
-                <BodyShort>{reisedata.reiserute.harBomvei ? 'Ja' : 'Nei'}</BodyShort>
+                <BodyShort>{erBompengerPåReisen ? 'Ja' : 'Nei'}</BodyShort>
             </VStack>
         </HGrid>
     );
