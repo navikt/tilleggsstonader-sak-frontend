@@ -41,7 +41,7 @@ export const OppsummertLagretKjøreliste: React.FC<{
                     <Table.Body>
                         {kjøreliste.innsendteUker.map((uke) => (
                             <Table.ExpandableRow
-                                key={kjøreliste.id}
+                                key={uke.fom}
                                 content={<UkeInnholdLagretKjøreliste dager={uke.dager} />}
                                 defaultOpen
                             >
