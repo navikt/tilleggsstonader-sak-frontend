@@ -12,19 +12,11 @@ const initialiserUke = (ukeFraRegister: ManuellRegistreringUkeDto): UkeTilInnsen
     tom: ukeFraRegister.tom,
     skalSendesInn: false,
     innsendtTidligere: ukeFraRegister.innsendtTidligere,
-    dager: initialiserDagerTilInnsending(ukeFraRegister.innsendtTidligere, ukeFraRegister.dager),
+    dager: initialiserDagerTilInnsending(ukeFraRegister.dager),
 });
 
-export const initialiserDagerTilInnsending = (
-    innsendtTidligere: boolean,
-    dagerFraRegister: LocalDate[]
-): DagTilInnsending[] | undefined => {
-    if (innsendtTidligere) {
-        return undefined;
-    }
-
-    return dagerFraRegister.map((dag) => tomDag(dag));
-};
+export const initialiserDagerTilInnsending = (dagerFraRegister: LocalDate[]): DagTilInnsending[] =>
+    dagerFraRegister.map((dag) => tomDag(dag));
 
 export const tomDag = (dag: LocalDate): DagTilInnsending => ({
     dato: dag,

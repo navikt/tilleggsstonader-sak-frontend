@@ -50,7 +50,7 @@ export enum FaneNavn {
 
     // Faner som tilhører daglig reise
     VEDTAK = 'Vedtak',
-    KJØRELISTE = 'Kjøreliste',
+    KJØRELISTE = 'Vurder kjøreliste',
     REGISTRER_KJØRELISTE = 'Registrer kjøreliste',
     BEREGNING = 'Beregning',
     FULLFØR_KJØRELISTE = 'Brev',

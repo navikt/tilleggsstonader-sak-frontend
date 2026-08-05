@@ -4,8 +4,7 @@ export interface UkeTilInnsending {
     tom: string;
     skalSendesInn: boolean;
     innsendtTidligere: boolean;
-    // undefined når uken allerede er innsendt av bruker (og dermed låst/ikke redigerbar)
-    dager: DagTilInnsending[] | undefined;
+    dager: DagTilInnsending[];
 }
 
 export interface DagTilInnsending {

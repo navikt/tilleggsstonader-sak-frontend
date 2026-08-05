@@ -37,21 +37,18 @@ export const RegistrerKjørelisteFane: React.FC = () => {
                     kjørelisteOversikt={kjørelisteOversikt}
                     hentKjørelisteOversikt={hentKjørelisteOversikt}
                 >
-                    <FaneInnhold />
+                    <VStack gap="space-24">
+                        <RegistrerKjøreliste />
+                        <LagredeKjørelister />
+                        <StegKnapp
+                            steg={Steg.REGISTRER_KJØRELISTE}
+                            validerUlagedeKomponenter={false}
+                        >
+                            Ferdigstill inngangsvilkår og gå videre
+                        </StegKnapp>
+                    </VStack>
                 </RegistrerKjørelisteProvider>
             )}
         </DataViewer>
-    );
-};
-
-const FaneInnhold: React.FC = () => {
-    return (
-        <VStack gap="space-24">
-            <RegistrerKjøreliste />
-            <LagredeKjørelister />
-            <StegKnapp steg={Steg.REGISTRER_KJØRELISTE} validerUlagedeKomponenter={false}>
-                Ferdigstill inngangsvilkår og gå videre
-            </StegKnapp>
-        </VStack>
     );
 };

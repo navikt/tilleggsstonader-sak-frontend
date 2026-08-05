@@ -37,7 +37,7 @@ export const RegistrerKjørelisteUke: FC<{
                 Uke {uke.ukenummer} ({formaterIsoPeriode(uke.fom, uke.tom)}){' '}
                 {uke.innsendtTidligere && ' - innsendt tidligere'}
             </Checkbox>
-            {uke.skalSendesInn && uke.dager && (
+            {uke.skalSendesInn && (
                 <Box marginBlock="space-16" padding="space-16" background="default">
                     <UkeGrid>
                         {uke.dager.map((dag) => (
