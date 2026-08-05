@@ -5,11 +5,17 @@ import { Button } from '@navikt/ds-react';
 
 import { RegistrerKjørelisteForm } from './RegistrerKjørelisteForm';
 import { useRegistrerKjøreliste } from '../../../../../context/RegistrerKjørelisteContext/RegistrerKjørelisteContext';
+import { useSteg } from '../../../../../context/StegContext';
 
 export const RegistrerKjøreliste: FC = () => {
+    const { erStegRedigerbart } = useSteg();
     const { kjørelisterLagretIBehandling } = useRegistrerKjøreliste();
 
     const [visSkjema, settVisSkjema] = useState<boolean>(kjørelisterLagretIBehandling.length === 0);
+
+    if (!erStegRedigerbart) {
+        return null;
+    }
 
     if (visSkjema) {
         return <RegistrerKjørelisteForm lukkSkjema={() => settVisSkjema(false)} />;
