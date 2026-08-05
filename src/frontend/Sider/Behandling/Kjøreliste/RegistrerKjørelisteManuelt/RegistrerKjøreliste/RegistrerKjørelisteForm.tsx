@@ -6,7 +6,9 @@ import { RegistrerKjørelisteUke } from './RegistrerKjørelisteUke';
 import { UkeTilInnsending } from './typer';
 import { initialiserUkerTilInnsending, tilManuellKjørelisteRequest } from './utils';
 import { validerRegistrerKjøreliste } from './validerRegistrerKjøreliste';
+import { useApp } from '../../../../../context/AppContext';
 import { useRegistrerKjøreliste } from '../../../../../context/RegistrerKjørelisteContext/RegistrerKjørelisteContext';
+import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import {
     Feil,
@@ -20,6 +22,7 @@ export const RegistrerKjørelisteForm: FC<{
     lukkSkjema: () => void;
 }> = ({ lukkSkjema }) => {
     const { tilgjengeligeReiser, lagreKjøreliste } = useRegistrerKjøreliste();
+    const { settUlagretKomponent } = useApp();
 
     const [valgtReiseId, settValgtReiseId] = useState<string>('');
     const [journalpostId, settJournalpostId] = useState<string>('');
@@ -32,6 +35,7 @@ export const RegistrerKjørelisteForm: FC<{
         settValgtReiseId(reiseId);
         settJournalpostId('');
         settBegrunnelse('');
+        settUlagretKomponent(UlagretKomponent.MANUELL_KJØRELISTE);
 
         const valgtReise = tilgjengeligeReiser.find((reise) => reise.reiseId === reiseId);
         settUker(valgtReise ? initialiserUkerTilInnsending(valgtReise.uker) : []);

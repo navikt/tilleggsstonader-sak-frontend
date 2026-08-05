@@ -41,4 +41,5 @@ export enum UlagretKomponent {
     BEREGNING_OPPHØR = 'beregning - opphør',
     BEREGNING_INNVILGE = 'beregning - innvilge',
     FATTE_VEDTAK = 'fatte vedtak',
+    MANUELL_KJØRELISTE = 'manuell kjøreliste',
 }

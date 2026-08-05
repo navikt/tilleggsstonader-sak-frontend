@@ -40,10 +40,7 @@ export const RegistrerKjørelisteFane: React.FC = () => {
                     <VStack gap="space-24">
                         <RegistrerKjøreliste />
                         <LagredeKjørelister />
-                        <StegKnapp
-                            steg={Steg.REGISTRER_KJØRELISTE}
-                            validerUlagedeKomponenter={false}
-                        >
+                        <StegKnapp steg={Steg.REGISTRER_KJØRELISTE}>
                             Ferdigstill inngangsvilkår og gå videre
                         </StegKnapp>
                     </VStack>
