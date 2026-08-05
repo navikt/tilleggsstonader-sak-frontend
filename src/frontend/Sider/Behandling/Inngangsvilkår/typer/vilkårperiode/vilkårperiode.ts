@@ -40,6 +40,7 @@ export interface YtelseGrunnlagPeriode {
     subtype?: SubtypeYtelseGrunnlag;
     kanYtelseBrukesIBehandling: boolean;
     gjenståendeDagerFraTelleverk?: GjennståndeFagerFraTelleverk;
+    erNyttRegelverk2026?: boolean;
 }
 
 export interface GjennståndeFagerFraTelleverk {

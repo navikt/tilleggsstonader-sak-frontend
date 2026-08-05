@@ -214,6 +214,18 @@ export const mapFaktaOgSvarTilRequest = (
         målgruppeForm.vurderinger.svarMottarSykepengerForFulltidsstilling,
 });
 
+const hentEkstraInformasjonYtelse = (periode: YtelseGrunnlagPeriode): string => {
+    if (periode.subtype === SubtypeYtelseGrunnlag.AAP_FERDIG_AVKLART) {
+        return ' (ferdig avklart)';
+    }
+
+    if (periode.erNyttRegelverk2026) {
+        return ' (nytt regelverk 2026)';
+    }
+
+    return '';
+};
+
 export const utledYtelseTekst = (periode: YtelseGrunnlagPeriode): string => {
-    return `${registerYtelseTilTekstStorForbokstav(periode.type)}${periode.subtype === SubtypeYtelseGrunnlag.AAP_FERDIG_AVKLART ? ' (ferdig avklart)' : ''}`;
+    return `${registerYtelseTilTekstStorForbokstav(periode.type)}${hentEkstraInformasjonYtelse(periode)}`;
 };
