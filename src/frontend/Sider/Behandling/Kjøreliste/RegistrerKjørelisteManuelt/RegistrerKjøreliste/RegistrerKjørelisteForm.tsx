@@ -1,6 +1,15 @@
 import React, { FC, useState } from 'react';
 
-import { Box, Button, Heading, Select, Textarea, TextField, VStack } from '@navikt/ds-react';
+import {
+    Box,
+    Button,
+    Heading,
+    HStack,
+    Select,
+    Textarea,
+    TextField,
+    VStack,
+} from '@navikt/ds-react';
 
 import { RegistrerKjørelisteUke } from './RegistrerKjørelisteUke';
 import { UkeTilInnsending } from './typer';
@@ -129,12 +138,17 @@ export const RegistrerKjørelisteForm: FC<{
                             onChange={(e) => settBegrunnelse(e.target.value)}
                             resize
                         />
-                        <Feilmelding feil={feilmelding} />
-                        <Button size="small" onClick={lagre} loading={laster}>
-                            Lagre
-                        </Button>
                     </>
                 )}
+                <Feilmelding feil={feilmelding} />
+                <HStack gap="space-8">
+                    <Button size="small" onClick={lagre} loading={laster}>
+                        Lagre
+                    </Button>
+                    <Button size="small" onClick={lukkSkjema} variant="tertiary">
+                        Avbryt
+                    </Button>
+                </HStack>
             </VStack>
         </Box>
     );
