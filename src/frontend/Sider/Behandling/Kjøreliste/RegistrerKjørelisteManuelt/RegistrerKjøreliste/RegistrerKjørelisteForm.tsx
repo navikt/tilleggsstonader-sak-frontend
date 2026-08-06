@@ -31,7 +31,7 @@ export const RegistrerKjørelisteForm: FC<{
     lukkSkjema: () => void;
 }> = ({ lukkSkjema }) => {
     const { tilgjengeligeReiser, lagreKjøreliste } = useRegistrerKjøreliste();
-    const { settUlagretKomponent } = useApp();
+    const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
 
     const [valgtReiseId, settValgtReiseId] = useState<string>('');
     const [journalpostId, settJournalpostId] = useState<string>('');
@@ -78,12 +78,18 @@ export const RegistrerKjørelisteForm: FC<{
             tilManuellKjørelisteRequest(valgtReiseId, journalpostId, begrunnelse, uker)
         ).then((res) => {
             if (res.status === RessursStatus.SUKSESS) {
+                nullstillUlagretKomponent(UlagretKomponent.MANUELL_KJØRELISTE);
                 lukkSkjema();
             } else {
                 settFeilmelding(feiletRessursTilFeilmelding(res));
                 settLaster(false);
             }
         });
+    };
+
+    const avbrytRedigering = () => {
+        nullstillUlagretKomponent(UlagretKomponent.MANUELL_KJØRELISTE);
+        lukkSkjema();
     };
 
     return (
@@ -145,7 +151,7 @@ export const RegistrerKjørelisteForm: FC<{
                     <Button size="small" onClick={lagre} loading={laster}>
                         Lagre
                     </Button>
-                    <Button size="small" onClick={lukkSkjema} variant="tertiary">
+                    <Button size="small" onClick={avbrytRedigering} variant="tertiary">
                         Avbryt
                     </Button>
                 </HStack>
