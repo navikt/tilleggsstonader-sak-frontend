@@ -161,6 +161,11 @@ export const UkeInnhold: FC<{
                                         redigerbareDager.find((dag2) => dag2.dato === dag.dato) ||
                                         tomRedigerbarAvklartDag(dag.dato)
                                     }
+                                    erSlettetDagFraRammevedtak={
+                                        dag.erDagSlettet ||
+                                        dag.avklartDag?.avklartKjørtDagStatus ===
+                                            AvklartKjørtDagStatus.SLETTET
+                                    }
                                     oppdaterDag={oppdaterDag}
                                     feil={
                                         valideringsfeilForDager &&

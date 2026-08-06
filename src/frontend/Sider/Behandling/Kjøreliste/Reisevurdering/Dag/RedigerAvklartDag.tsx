@@ -11,9 +11,10 @@ import styles from '../UkeInnhold.module.css';
 
 export const RedigerAvklartDag: FC<{
     dag: RedigerbarAvklartDag;
+    erSlettetDagFraRammevedtak: boolean;
     oppdaterDag: (dag: RedigerbarAvklartDag) => void;
     feil: FormErrors<RedigerbarAvklartDag> | undefined;
-}> = ({ dag, oppdaterDag, feil }) => {
+}> = ({ dag, erSlettetDagFraRammevedtak, oppdaterDag, feil }) => {
     const oppdaterParkeringsutgift = (verdi: string) => {
         oppdaterDag({
             ...dag,
@@ -42,6 +43,7 @@ export const RedigerAvklartDag: FC<{
             <CheckboxGroup legend="Status" hideLegend error={feil?.godkjentGjennomførtKjøring}>
                 <Checkbox
                     size="small"
+                    disabled={erSlettetDagFraRammevedtak}
                     indeterminate={
                         dag.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.IKKE_VURDERT
                     }
@@ -62,6 +64,7 @@ export const RedigerAvklartDag: FC<{
                 label="Parkeringsutgift"
                 hideLabel
                 size="small"
+                disabled={erSlettetDagFraRammevedtak}
                 value={dag.parkeringsutgift ? tilHeltall(dag.parkeringsutgift) : ''}
                 onChange={(e) => oppdaterParkeringsutgift(e.target.value)}
                 error={feil?.parkeringsutgift}
@@ -71,6 +74,7 @@ export const RedigerAvklartDag: FC<{
                 label="Kommentar"
                 hideLabel
                 size="small"
+                disabled={erSlettetDagFraRammevedtak}
                 resize
                 minRows={1}
                 value={dag.begrunnelse || ''}
