@@ -4,7 +4,6 @@ import { useFlag } from '@unleash/proxy-client-react';
 
 import { Button, Select, VStack } from '@navikt/ds-react';
 
-import { kanOppretteManuellKjørelistebehandling } from './kjørelisteBehandlingUtils';
 import OpprettKjørelisteBehandling from './OpprettKjørelisteBehandling';
 import OpprettKlageBehandling from './OpprettKlageBehandling';
 import styles from './OpprettNyBehandlingModal.module.css';
@@ -15,21 +14,18 @@ import {
 import OpprettOrdinærBehandling from './OpprettOrdinærBehandling';
 import { useApp } from '../../../../context/AppContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
-import { BehandlingDetaljer } from '../../../../typer/behandling/behandlingoversikt';
-import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
+import { Stønadstype, stønadstypeErDagligReise } from '../../../../typer/behandling/behandlingTema';
 import { Toggle } from '../../../../utils/toggles';
 
 interface Props {
     fagsakId: string;
     stønadstype: Stønadstype;
-    behandlinger: BehandlingDetaljer[];
     hentKlagebehandlinger: () => void;
     hentBehandlinger: () => void;
 }
 export const OpprettNyBehandlingModal: FC<Props> = ({
     fagsakId,
     stønadstype,
-    behandlinger,
     hentKlagebehandlinger,
     hentBehandlinger,
 }) => {
@@ -52,8 +48,7 @@ export const OpprettNyBehandlingModal: FC<Props> = ({
     }
 
     const kanOppretteManuellKjørelisteBehandling =
-        kanOppretteManuellKjørelistebehandling(behandlinger) &&
-        kanBehandleManuellKjørelistebehandling;
+        stønadstypeErDagligReise(stønadstype) && kanBehandleManuellKjørelistebehandling;
 
     const tilgjengeligeBehandlingstyper = [
         OpprettNyBehandlingType.ORDINAER_BEHANDLING,

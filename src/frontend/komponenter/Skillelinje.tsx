@@ -7,9 +7,14 @@ import { classNames } from '../utils/classNames';
 
 interface SkillelinjeProps extends React.HTMLAttributes<HTMLHRElement> {
     utenMargin?: boolean;
+    borderColor?: string;
 }
 
-export const Skillelinje: React.FC<SkillelinjeProps> = ({ utenMargin = false, ...props }) => {
+export const Skillelinje: React.FC<SkillelinjeProps> = ({
+    utenMargin = false,
+    borderColor = BorderAccentSubtle,
+    ...props
+}) => {
     return (
         <hr
             {...props}
@@ -20,7 +25,7 @@ export const Skillelinje: React.FC<SkillelinjeProps> = ({ utenMargin = false, ..
             ])}
             style={
                 {
-                    '--border-color': BorderAccentSubtle,
+                    '--border-color': borderColor,
                     ...props.style,
                 } as React.CSSProperties
             }
