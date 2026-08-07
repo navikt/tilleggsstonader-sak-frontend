@@ -38,9 +38,7 @@ export const BeregningOffentligTransport: FC<Props> = ({ beregningsresultat }) =
                             <TableDataCellSmall>{samling.adresse ?? '-'}</TableDataCellSmall>
                             <TableDataCellSmall>{formaterIsoDato(samling.fom)}</TableDataCellSmall>
                             <TableDataCellSmall>{formaterIsoDato(samling.tom)}</TableDataCellSmall>
-                            <TableDataCellSmall align="right">
-                                {samling.beløp ?? 0}
-                            </TableDataCellSmall>
+                            <TableDataCellSmall align="right">{samling.beløp}</TableDataCellSmall>
                         </Table.Row>
                     ))}
                 </Table.Body>
