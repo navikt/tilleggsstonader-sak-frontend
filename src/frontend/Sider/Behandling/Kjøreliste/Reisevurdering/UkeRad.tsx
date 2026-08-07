@@ -56,10 +56,14 @@ export const UkeRad: FC<{
                         <AvklartKjørtUkeStatusTag
                             avklartKjørtUkeStatus={uke.avklartKjørtUkeStatus}
                         />
-                        {uke.kjørelisteInnsendtDato && (
-                            <BodyShort size="small">
-                                Levert {formaterNullableIsoDato(uke.kjørelisteInnsendtDato)}
-                            </BodyShort>
+                        {uke.erKjørelisteManueltRegistrert ? (
+                            <BodyShort size="small">Manuelt registrert</BodyShort>
+                        ) : (
+                            uke.kjørelisteInnsendtDato && (
+                                <BodyShort size="small">
+                                    Levert {formaterNullableIsoDato(uke.kjørelisteInnsendtDato)}
+                                </BodyShort>
+                            )
                         )}
                     </HStack>
                 </HStack>

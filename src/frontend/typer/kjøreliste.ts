@@ -17,6 +17,7 @@ export interface UkeVurdering {
     avvik?: AvvikUke;
     behandletDato?: string;
     kjørelisteInnsendtDato?: string; // null hvis kjøreliste ikke er mottatt
+    erKjørelisteManueltRegistrert: boolean;
     kjørelisteId?: string; // null hvis kjøreliste ikke er mottatt
     avklartUkeId?: string; // null hvis uke ikke er avklart
     dager: Dag[];
