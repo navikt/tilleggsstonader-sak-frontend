@@ -21,6 +21,7 @@ interface UseRegistrerKjøreliste {
     lagreKjøreliste: (
         request: ManuellKjørelisteRequest
     ) => Promise<RessursSuksess<null> | RessursFeilet>;
+    slettKjøreliste: (kjørelisteId: string) => Promise<RessursSuksess<null> | RessursFeilet>;
 }
 
 export const [RegistrerKjørelisteProvider, useRegistrerKjøreliste] = constate(
@@ -44,10 +45,26 @@ export const [RegistrerKjørelisteProvider, useRegistrerKjøreliste] = constate(
             return respons;
         };
 
+        const slettKjøreliste = async (
+            kjørelisteId: string
+        ): Promise<RessursSuksess<null> | RessursFeilet> => {
+            const respons = await request<null, null>(
+                `/api/sak/kjoreliste/manuell-registrering/${behandling.id}/${kjørelisteId}`,
+                'DELETE'
+            );
+
+            if (respons.status === RessursStatus.SUKSESS) {
+                hentKjørelisteOversikt();
+            }
+
+            return respons;
+        };
+
         return {
             tilgjengeligeReiser: kjørelisteOversikt.tilgjengeligeReiser,
             kjørelisterLagretIBehandling: kjørelisteOversikt.kjørelisterLagretIBehandling,
             lagreKjøreliste,
+            slettKjøreliste,
         };
     }
 );
