@@ -105,7 +105,7 @@ export const stegTilFaneForBehandling = (
     harRammevedtak: boolean
 ): FanePath => {
     if (behandling.type === BehandlingType.KJØRELISTE) {
-        return stegTilFaneForKjørelistebehandling(behandling.steg);
+        return stegTilFaneForKjørelistebehandling(behandling.steg, behandling.behandlingsårsak);
     }
 
     if (harRammevedtak) {
@@ -132,7 +132,7 @@ const stegTilFaneStandard = (steg: Steg): FanePath => {
     }
 };
 
-const stegTilFaneForKjørelistebehandling = (steg: Steg): FanePath => {
+const stegTilFaneForKjørelistebehandling = (steg: Steg, årsak: BehandlingÅrsak): FanePath => {
     switch (steg) {
         case Steg.REGISTRER_KJØRELISTE:
             return FanePath.REGISTRER_KJØRELISTE;
@@ -143,7 +143,9 @@ const stegTilFaneForKjørelistebehandling = (steg: Steg): FanePath => {
         case Steg.SIMULERING:
             return FanePath.SIMULERING;
         case Steg.BESLUTTE_VEDTAK:
-            return FanePath.KJØRELISTE;
+            return årsak === BehandlingÅrsak.REGISTRER_KJØRELISTE_FOR_BRUKER
+                ? FanePath.REGISTRER_KJØRELISTE
+                : FanePath.KJØRELISTE;
         case Steg.SEND_TIL_BESLUTTER:
         case Steg.FULLFØR_KJØRELISTE:
             return FanePath.FULLFØR_KJØRELISTE;
