@@ -50,6 +50,9 @@ interface Props {
 }
 
 export const BeregningsresultatRammevedtakPrivatBil: FC<Props> = ({ rammevedtak }) => {
+    const reiserSomSkalVises = rammevedtak.reiser.filter((reise) => !reise.fraTidligereVedtak);
+    if (reiserSomSkalVises.length === 0) return null;
+
     return (
         <>
             <HStack align={'center'} gap="space-8">
@@ -58,7 +61,7 @@ export const BeregningsresultatRammevedtakPrivatBil: FC<Props> = ({ rammevedtak 
                 </Heading>
                 <CarIcon fontSize={30} />
             </HStack>
-            {rammevedtak.reiser.map((reise) => {
+            {reiserSomSkalVises.map((reise) => {
                 const visningsrader = lagVisningsrader(reise.delperioder);
                 return (
                     <VStack key={reise.reiseId} gap="space-8">
