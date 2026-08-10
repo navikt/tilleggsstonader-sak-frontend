@@ -13,6 +13,8 @@ import { kronerMedTusenSkilleEllerStrek } from '../../../../../utils/tekstformat
 export const DagligReisePrivatBilBeregningsresultatTabell: FC<{
     oppsummertBeregning: OppsummertBeregningForReise;
 }> = ({ oppsummertBeregning }) => {
+    if (oppsummertBeregning.fraTidligereVedtak) return null;
+
     return (
         <HStack gap="space-8" className={styles.reiseSection}>
             <Label size="small">

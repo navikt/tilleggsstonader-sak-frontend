@@ -9,6 +9,7 @@ export interface OppsummertBeregningForReise {
     reiseavstandEnVei: number;
     aktivitetsadresse: string | undefined;
     perioder: OppsummertBeregningForPeriode[];
+    fraTidligereVedtak: boolean;
     totaltStønadsbeløp: number;
     totaltStønadsbeløpMedPerioderFraForrigeVedtak: number;
     totaltStønadsbeløpUtenPerioderFraForrigeVedtak: number;

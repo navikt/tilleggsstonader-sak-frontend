@@ -96,6 +96,7 @@ export interface RammeForReiseMedPrivatBil {
     tom: string;
     delperioder: RammeForReiseMedPrivatBilDelperiode[];
     reiseavstandEnVei: number;
+    fraTidligereVedtak: boolean;
 }
 
 export interface RammeForReiseMedPrivatBilDelperiode extends Periode {
