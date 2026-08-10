@@ -51,6 +51,8 @@ interface Props {
 
 export const BeregningsresultatRammevedtakPrivatBil: FC<Props> = ({ rammevedtak }) => {
     const reiserSomSkalVises = rammevedtak.reiser.filter((reise) => !reise.fraTidligereVedtak);
+    if (reiserSomSkalVises.length === 0) return null;
+
     return (
         <>
             <HStack align={'center'} gap="space-8">
