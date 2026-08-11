@@ -1,10 +1,11 @@
 import React, { useEffect, useId } from 'react';
 
 import { BriefcaseIcon } from '@navikt/aksel-icons';
-import { VStack } from '@navikt/ds-react';
+import { Alert, VStack } from '@navikt/ds-react';
 
 import { KopierVilkårDagligReise } from './EndreVilkår/KopierVilkårDagligReise';
 import { NyttVilkårDagligReise } from './EndreVilkår/NyttVilkårDagligReise';
+import { FaktaPrivatBil } from './typer/faktaDagligReise';
 import { VilkårDagligReise } from './typer/vilkårDagligReise';
 import { VisEllerEndreVilkårDagligReise } from './VisEllerEndreVilkårDagligReise';
 import { useApp } from '../../../../context/AppContext';
@@ -20,6 +21,8 @@ import DataViewer from '../../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Steg } from '../../../../typer/behandling/steg';
+import { AktivitetDagligReiseTsoFaktaOgVurderinger } from '../../Inngangsvilkår/typer/vilkårperiode/aktivitetDagligReiseTso';
+import { AktivitetDagligReiseTsrFaktaOgVurderinger } from '../../Inngangsvilkår/typer/vilkårperiode/aktivitetDagligReiseTsr';
 
 export const StønadsvilkårDagligReise = () => {
     const { behandling } = useBehandling();
@@ -49,7 +52,7 @@ export const StønadsvilkårDagligReise = () => {
 };
 
 const StønadsvilkårInnhold = () => {
-    const { vilkårsett } = useVilkårDagligReise();
+    const { vilkårsett, aktiviteter } = useVilkårDagligReise();
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
 
     const [vilkårSomKopieres, settVilkårSomKopieres] = React.useState<
@@ -70,6 +73,7 @@ const StønadsvilkårInnhold = () => {
         } else {
             nullstillUlagretKomponent(komponentId);
         }
+        // TODO Hvorfor disabler vi denne? Det er da ganske god kotyme å ha exhaustive deps?
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [redigererVilkårId]);
 
@@ -102,6 +106,39 @@ const StønadsvilkårInnhold = () => {
         avsluttRedigering();
     };
 
+    // Bør logikken finnes et annet sted? Utils eller liknende?
+    const totaltAntallReisedagerIStønadsvilkår = vilkårsett
+        .filter((v) => v.fakta.type === 'PRIVAT_BIL')
+        // TODO Jeg vil ikke gjøre dette. Det bør finnes type guards i stedet for at man trenger å caste som dette.
+        .map((v) => v.fakta as FaktaPrivatBil)
+        .reduce(
+            (acc, fakta) =>
+                acc +
+                fakta.faktaDelperioder.reduce(
+                    (sum, delperiode) => sum + (delperiode?.reisedagerPerUke || 0),
+                    0
+                ),
+            0
+        );
+
+    const totaltAntallReisedagerIAktivitetsperioder = aktiviteter
+        .filter((a) =>
+            ['AKTIVITET_DAGLIG_REISE_TSO', 'AKTIVITET_DAGLIG_REISE_TSR'].includes(
+                a.faktaOgVurderinger['@type']
+            )
+        )
+        .map(
+            // TODO Jeg vil ikke gjøre dette. Det bør finnes type guards i stedet for at man trenger å caste som dette.
+            (a) =>
+                a.faktaOgVurderinger as
+                    | AktivitetDagligReiseTsoFaktaOgVurderinger
+                    | AktivitetDagligReiseTsrFaktaOgVurderinger
+        )
+        .reduce((acc, fakta) => acc + (fakta.aktivitetsdager || 0), 0);
+
+    const skalViseAdvarselOmAntallReisedager =
+        totaltAntallReisedagerIStønadsvilkår > totaltAntallReisedagerIAktivitetsperioder;
+
     return (
         <VilkårPanel tittel={'Daglige reiser'} ikon={<BriefcaseIcon />}>
             {vilkårsett.map((vilkår) => (
@@ -125,6 +162,14 @@ const StønadsvilkårInnhold = () => {
                     )}
                 </React.Fragment>
             ))}
+
+            {skalViseAdvarselOmAntallReisedager && (
+                <Alert variant="warning" size="small">
+                    {/* Potensielt upresist språk her, eller? */}
+                    Antall reisedager i vilkårsvurderingen er høyere enn antall aktivitetsdager i
+                    aktivitetsperiodene. Vurder om vilkårsvurderingen bør justeres.
+                </Alert>
+            )}
             <NyttVilkårDagligReise
                 leggerTilNyttVilkår={redigererVilkårId === 'nytt'}
                 startRedigering={() => startRedigering('nytt')}
