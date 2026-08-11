@@ -1,12 +1,15 @@
 import React from 'react';
 
-import { Box, Tabs } from '@navikt/ds-react';
+import { Box, Tabs, VStack } from '@navikt/ds-react';
 
+import { BehandlingOppsummering } from './BehandlingOppsummering/BehandlingOppsummering';
 import Dokumentoversikt from './Dokumentoversikt/Dokumentoversikt';
 import Historikk from './Historikk/Historikk';
 import { OppsummeringSøknad } from './Oppsummering/OppsummeringSøknad';
 import styles from './Venstremeny.module.css';
+import { TilordnetSaksbehandlerVenstremeny } from '../../../komponenter/TilordnetSaksbehandler/TilordnetSaksbehandlerVenstremeny';
 import { Sticky } from '../../../komponenter/Visningskomponenter/Sticky';
+import Totrinnskontroll from '../Totrinnskontroll/Totrinnskontroll';
 
 const tabs = [
     {
@@ -25,10 +28,14 @@ const tabs = [
         komponent: <Dokumentoversikt />,
     },
 ];
-
 const VenstreMeny: React.FC = () => {
     return (
         <div className={styles.container}>
+            <VStack padding="space-16" gap={'space-16'}>
+                <TilordnetSaksbehandlerVenstremeny />
+                <Totrinnskontroll />
+                <BehandlingOppsummering />
+            </VStack>
             <Tabs defaultValue="søknaden" fill className={styles.hviteTabs}>
                 <Sticky>
                     <Tabs.List>
