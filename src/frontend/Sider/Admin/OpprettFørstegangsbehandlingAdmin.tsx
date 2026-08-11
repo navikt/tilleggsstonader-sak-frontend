@@ -51,13 +51,17 @@ interface OpprettFørstegansbehandlingHentPersonRequest {
     stønadstype: Stønadstype;
     ident: string;
 }
-
+interface ManuellOpprettelseMetadata {
+    kilde: string;
+    beskrivelse?: string;
+}
 interface OpprettFørstegansbehandlingRequest {
     stønadstype: Stønadstype;
     ident: string;
     valgteBarn: string[];
     medBrev: boolean;
     kravMottatt: string;
+    manuellOpprettelseMetadata: ManuellOpprettelseMetadata;
 }
 
 const skalVelgeBarn = (stønadstype: Stønadstype | undefined): boolean =>
@@ -127,6 +131,11 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
     const [valgteBarn, settValgteBarn] = useState<string[]>([]);
     const [personinfo, settPersoninfo] = useState<Ressurs<Personinfo>>(byggTomRessurs());
     const [feilmelding, settFeilmelding] = useState<string>();
+    const [manuellOpprettelseMetadata, settManuellOpprettelseMetadata] =
+        useState<ManuellOpprettelseMetadata>({
+            kilde: '',
+            beskrivelse: '',
+        });
 
     const [opprettBehandlingResponse, settOpprettBehandlingResponse] =
         useState<Ressurs<null>>(byggTomRessurs());
@@ -154,11 +163,16 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
             settFeilmelding('Krav mottatt må fylles ut');
             return;
         }
+        if (!manuellOpprettelseMetadata.kilde) {
+            settFeilmelding('Kilde til opplysning må velges');
+            return;
+        }
+
         settOpprettBehandlingResponse(byggHenterRessurs());
         request<Personinfo, OpprettFørstegansbehandlingRequest>(
             `/api/sak/behandling/admin/opprett-foerstegangsbehandling`,
             'POST',
-            { stønadstype, ident, valgteBarn, medBrev, kravMottatt }
+            { stønadstype, ident, valgteBarn, medBrev, kravMottatt, manuellOpprettelseMetadata }
         ).then((res) => {
             if (res.status === RessursStatus.SUKSESS) {
                 navigate(`/behandling/${res.data}`);
@@ -178,6 +192,10 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                         settValgteBarn([]);
                         settPersoninfo(byggTomRessurs());
                         settOpprettBehandlingResponse(byggTomRessurs());
+                        settManuellOpprettelseMetadata({
+                            kilde: '',
+                            beskrivelse: '',
+                        });
                     }}
                     autoComplete="off"
                 />
@@ -205,6 +223,35 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                             }
                             onChange={(dato) => settKravMottatt(dato || '')}
                             toDate={new Date()}
+                        />
+                        <Select
+                            label="Kilde til opplysning"
+                            value={manuellOpprettelseMetadata.kilde}
+                            onChange={(event) => {
+                                settManuellOpprettelseMetadata((metadata) => ({
+                                    ...metadata,
+                                    kilde: event.target.value,
+                                }));
+                                settFeilmelding(undefined);
+                            }}
+                        >
+                            <option value="">- Velg kilde -</option>
+                            <option value="GOSYS">Gosys</option>
+                            <option value="ARENA">Arena</option>
+                            <option value="PAPIRSØKNAD">Papirsøknad</option>
+                            <option value="ANNET">Annet</option>
+                        </Select>
+
+                        <TextField
+                            label="Årsak til manual behandling"
+                            description="Beskriv gjerne kort hvorfor førstegangsbehandlingen opprettes."
+                            value={manuellOpprettelseMetadata.beskrivelse ?? ''}
+                            onChange={(event) => {
+                                settManuellOpprettelseMetadata((metadata) => ({
+                                    ...metadata,
+                                    beskrivelse: event.target.value,
+                                }));
+                            }}
                         />
                         <RadioGroup
                             legend={

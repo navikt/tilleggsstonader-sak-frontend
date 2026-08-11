@@ -26,6 +26,7 @@ export interface Behandling {
     nyeOpplysningerMetadata?: NyeOpplysningerMetadata;
     harÅpenKjørelistebehandling: boolean;
     tilordnetSaksbehandler: TilordnetSaksbehandlerDto;
+    manuellOpprettelseMetadata?: ManuellOpprettelseMetadata;
 }
 
 export interface BehandlingForJournalføring {
@@ -44,4 +45,8 @@ export interface HentBehandlingerRequest {
 
 export interface SluttdatoForForrigeVedtak {
     sluttdato?: string;
+}
+export interface ManuellOpprettelseMetadata {
+    kilde: string;
+    beskrivelse: string | null;
 }

@@ -2,3 +2,14 @@
     margin: 0;
     padding: 0;
 }
+.manuellOpprettelse {
+    display: grid;
+    grid-template-columns: 1.5rem 1fr;
+    column-gap: 0.75rem;
+    margin-block: 0 1rem;
+    align-items: start;
+}
+.innholdContainer {
+    margin-bottom: 1rem;
+    color: var(--ax-text-neutral-subtle);
+}
