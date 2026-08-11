@@ -1,8 +1,8 @@
 {
   "collection": "frontend",
-  "version": "2026.07.01-205322-ecb3952",
+  "version": "2026.08.06-131157-11ad3c7",
   "scope": "repo",
-  "source_sha": "ecb3952",
+  "source_sha": "11ad3c7",
   "installed_at": "2026-05-06T13:09:08Z",
   "files": [
     {
@@ -71,7 +71,7 @@
     },
     {
       "path": ".github/prompts/aksel-component.prompt.md",
-      "hash": "68c1da8a387cdffe"
+      "hash": "721f879cfd8e89da"
     },
     {
       "path": ".github/prompts/nais-manifest.prompt.md",
@@ -79,7 +79,7 @@
     },
     {
       "path": ".github/skills/observability-debugging/",
-      "hash": "b01ef3cd48eca1aa"
+      "hash": "107a99f70451c01b"
     }
   ]
 }
