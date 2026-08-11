@@ -1,6 +1,5 @@
 import React, { useId, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { v7 } from 'uuid';
 
 import { HStack, TextField } from '@navikt/ds-react';
@@ -28,7 +27,6 @@ import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
 import { perioderOverlapper } from '../../../../../utils/dato';
 import { Periode } from '../../../../../utils/periode';
-import { Toggle } from '../../../../../utils/toggles';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useHarEndretDatoerFørTidligereVedtak } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { VilkårPeriodeResultat } from '../../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
@@ -60,7 +58,6 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
     const { behandling } = useBehandling();
     const { regelstruktur, aktiviteter } = useVilkårDagligReise();
     const komponentId = useId();
-    const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
     const gjelderTsr = behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSR;
 
     const [svar, settSvar] = useState<SvarVilkårDagligReise>(initierSvar(vilkår));
@@ -257,15 +254,7 @@ export const EndreVilkårDagligReise: React.FC<Props> = ({
 
                 <HStack justify="space-between">
                     <HStack gap="space-16">
-                        <SmallButton
-                            disabled={
-                                (!kanBehandlePrivatBil &&
-                                    gjeldendeFaktaType === 'DAGLIG_REISE_PRIVAT_BIL') ||
-                                taxiMåBehandlesIArena
-                            }
-                        >
-                            Lagre
-                        </SmallButton>
+                        <SmallButton disabled={taxiMåBehandlesIArena}>Lagre</SmallButton>
                         <SmallButton variant="secondary" onClick={handleAvsluttRedigering}>
                             Avbryt
                         </SmallButton>

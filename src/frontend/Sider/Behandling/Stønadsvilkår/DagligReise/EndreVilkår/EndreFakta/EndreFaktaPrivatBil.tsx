@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
-
 import { TrashIcon } from '@navikt/aksel-icons';
-import { BodyShort, Heading, HStack, Select, TextField, VStack } from '@navikt/ds-react';
+import { Heading, HStack, Select, TextField, VStack } from '@navikt/ds-react';
 
 import SmallButton from '../../../../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../../../../komponenter/Skillelinje';
@@ -11,7 +9,6 @@ import DateInputMedLeservisning from '../../../../../../komponenter/Skjema/DateI
 import { FeilmeldingMaksBredde } from '../../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { formaterIsoPeriode } from '../../../../../../utils/dato';
 import { harTallverdi, tilHeltall, tilTallverdi } from '../../../../../../utils/tall';
-import { Toggle } from '../../../../../../utils/toggles';
 import { fjernSpaces } from '../../../../../../utils/utils';
 import {
     Aktivitet,
@@ -46,8 +43,6 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
     reiseFom,
     reiseTom,
 }) => {
-    const kanBehandlePrivatBil = useFlag(Toggle.KAN_BEHANDLE_PRIVAT_BIL);
-
     useEffect(() => {
         if (fakta.type !== 'PRIVAT_BIL') {
             const privatBilFakta: FaktaPrivatBil = {
@@ -71,14 +66,6 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
             });
         }
     }, [fakta.type, reiseFom, reiseTom, settFakta]);
-
-    if (!kanBehandlePrivatBil) {
-        return (
-            <BodyShort size="small">
-                Vi jobber med å gjøre det mulig å behandle kjøring med privat bil 🚗.
-            </BodyShort>
-        );
-    }
 
     const oppdaterPeriode = (
         index: number,
