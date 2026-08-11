@@ -9,8 +9,7 @@ import { useBehandling } from '../../../../context/BehandlingContext';
 import DataViewer from '../../../../komponenter/DataViewer';
 
 const Historikk: React.FC = () => {
-    const { behandlingshistorikk } = useBehandling();
-    const { behandling } = useBehandling();
+    const { behandlingshistorikk, behandling } = useBehandling();
 
     return (
         <>
