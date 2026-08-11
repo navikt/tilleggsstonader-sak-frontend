@@ -28,6 +28,7 @@ const tabs = [
         komponent: <Dokumentoversikt />,
     },
 ];
+
 const VenstreMeny: React.FC = () => {
     return (
         <div className={styles.container}>
