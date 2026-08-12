@@ -22,7 +22,6 @@ export enum Toggle {
      * features-under-utvikling
      */
     BRUK_DYNAMISK_KART = 'sak.frontend.bruk-dynamisk-kart',
-    KAN_BEHANDLE_PRIVAT_BIL = 'sak.daglig-reise-privat-bil',
     KAN_OVERSKRIDE_ANTALL_DAGER_I_RAMMEVEDTAK = 'sak.kan-overskride-antall-dager-i-rammevedtak',
     KAN_OPPHØRE_DAGLIG_REISE_TSO = 'sak.frontend.kan-oppheve-daglig-reise-tso',
     KAN_OPPRETTE_MANUELL_KJØRELISTEBEHANDLING = 'sak.frontend.kan-opprette-manuell-kjorelistebehandling',
