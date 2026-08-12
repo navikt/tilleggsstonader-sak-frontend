@@ -9,8 +9,9 @@ import { KjørelisteDag } from '../typer';
 
 export const RedigerLagretKjørelisteDag: FC<{
     dag: KjørelisteDag;
+    forsøktLagret: boolean;
     oppdaterDag: (oppdatertDag: KjørelisteDag) => void;
-}> = ({ dag, oppdaterDag }) => {
+}> = ({ dag, forsøktLagret, oppdaterDag }) => {
     const oppdaterHarKjørt = (harKjørt: boolean) => {
         oppdaterDag({ ...dag, harKjørt });
     };
@@ -39,6 +40,14 @@ export const RedigerLagretKjørelisteDag: FC<{
                 size="small"
                 label="Parkeringskostnad"
                 hideLabel
+                error={
+                    forsøktLagret &&
+                    !dag.harKjørt &&
+                    dag.parkeringsutgift &&
+                    dag.parkeringsutgift > 0
+                        ? 'Velg «Kjørt» eller fjern utgiften.'
+                        : undefined
+                }
             />
         </>
     );

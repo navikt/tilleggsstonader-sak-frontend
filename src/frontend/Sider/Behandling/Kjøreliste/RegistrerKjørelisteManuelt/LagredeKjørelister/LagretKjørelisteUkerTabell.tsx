@@ -14,6 +14,7 @@ interface Props {
     ukerForRendering: KjørelisteUke[];
     dagerPerUke: Record<string, KjørelisteDag[]>;
     oppdaterDagForUke: (ukeFom: string, oppdatertDag: KjørelisteDag) => void;
+    forsøktLagret: boolean;
 }
 
 export const LagretKjørelisteUkerTabell: FC<Props> = ({
@@ -21,6 +22,7 @@ export const LagretKjørelisteUkerTabell: FC<Props> = ({
     ukerForRendering,
     dagerPerUke,
     oppdaterDagForUke,
+    forsøktLagret,
 }) => {
     return (
         <Table size="small" width="fit-content">
@@ -37,6 +39,7 @@ export const LagretKjørelisteUkerTabell: FC<Props> = ({
                                         <RedigerLagretKjørelisteDag
                                             key={dag.dato}
                                             dag={dag}
+                                            forsøktLagret={forsøktLagret}
                                             oppdaterDag={(oppdatertDag) =>
                                                 oppdaterDagForUke(uke.fom, oppdatertDag)
                                             }

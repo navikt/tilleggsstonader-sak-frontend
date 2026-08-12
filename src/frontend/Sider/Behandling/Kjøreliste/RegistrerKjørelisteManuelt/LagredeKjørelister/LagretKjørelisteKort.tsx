@@ -10,6 +10,7 @@ import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import {
     Feil,
     feiletRessursTilFeilmelding,
+    lagFeilmelding,
 } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import { RessursStatus } from '../../../../../typer/ressurs';
@@ -37,6 +38,7 @@ export const LagretKjørelisteKort: FC<{
     const [visSletteModal, settVisSletteModal] = useState(false);
     const [laster, settLaster] = useState(false);
     const [feilmelding, settFeilmelding] = useState<Feil | undefined>(undefined);
+    const [forsøktLagret, settForsøktLagret] = useState(false);
 
     const tilgjengeligeUker =
         tilgjengeligeReiser
@@ -61,6 +63,7 @@ export const LagretKjørelisteKort: FC<{
         settRedigerer(false);
         settVisLeggTilUkerPanel(false);
         settFeilmelding(undefined);
+        settForsøktLagret(false);
     };
 
     const oppdaterDagForUke = (ukeFom: string, oppdatertDag: KjørelisteDag) => {
@@ -94,6 +97,21 @@ export const LagretKjørelisteKort: FC<{
         if (laster) return;
         settLaster(true);
         settFeilmelding(undefined);
+
+        const parkeringsutgiftPåDagSomIkkeErKjørt = Object.values(dagerPerUke)
+            .flat()
+            .some((dag) => !dag.harKjørt && dag.parkeringsutgift && dag.parkeringsutgift > 0);
+
+        if (parkeringsutgiftPåDagSomIkkeErKjørt) {
+            settForsøktLagret(true);
+            settFeilmelding(
+                lagFeilmelding(
+                    'En parkeringsutgift er registrert for dager det ikke er kjørt. Fjern parkeringsutgiften eller huk av for kjørt.'
+                )
+            );
+            settLaster(false);
+            return;
+        }
 
         const respons = await oppdaterKjøreliste(kjøreliste.id, {
             begrunnelse: begrunnelseInput || undefined,
@@ -159,6 +177,7 @@ export const LagretKjørelisteKort: FC<{
                         ukerForRendering={ukerForRendering}
                         dagerPerUke={dagerPerUke}
                         oppdaterDagForUke={oppdaterDagForUke}
+                        forsøktLagret={forsøktLagret}
                     />
                     <LagretKjørelisteKortFooter
                         redigerer={redigerer}
