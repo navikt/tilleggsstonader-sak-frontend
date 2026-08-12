@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 
 import { CalculatorIcon } from '@navikt/aksel-icons';
-import { Heading, HStack, Switch, VStack } from '@navikt/ds-react';
+import { BodyShort, Heading, HStack, Switch, VStack } from '@navikt/ds-react';
 
 import { DagligReisePrivatBilBeregningsresultatTabell } from './DagligReisePrivatBilBeregningsresultatTabell';
 import { PrivatBilOppsummertBeregning } from './typer';
@@ -53,27 +53,31 @@ const Beregning: FC<{ oppsummertBeregning: PrivatBilOppsummertBeregning }> = ({
                         </Switch>
                     )}
                 </HStack>
-                {oppsummertBeregning.reiser.map((reise) => {
-                    const relevantePerioder = reise.perioder.filter(
-                        (periode) => visTidligerePerioder || !periode.fraTidligereVedtak
-                    );
-                    if (relevantePerioder.length === 0) {
-                        return null;
-                    }
-                    const totaltStønadsbeløp = visTidligerePerioder
-                        ? reise.totaltStønadsbeløpMedPerioderFraForrigeVedtak
-                        : reise.totaltStønadsbeløpUtenPerioderFraForrigeVedtak;
-                    return (
-                        <DagligReisePrivatBilBeregningsresultatTabell
-                            key={reise.reiseId}
-                            oppsummertBeregning={{
-                                ...reise,
-                                perioder: relevantePerioder,
-                                totaltStønadsbeløp,
-                            }}
-                        />
-                    );
-                })}
+                {!visTidligerePerioder && !harPerioderFraTidligereVedtak ? (
+                    <BodyShort>Ingen nye kjørelister å beregne</BodyShort>
+                ) : (
+                    oppsummertBeregning.reiser.map((reise) => {
+                        const relevantePerioder = reise.perioder.filter(
+                            (periode) => visTidligerePerioder || !periode.fraTidligereVedtak
+                        );
+                        if (relevantePerioder.length === 0) {
+                            return null;
+                        }
+                        const totaltStønadsbeløp = visTidligerePerioder
+                            ? reise.totaltStønadsbeløpMedPerioderFraForrigeVedtak
+                            : reise.totaltStønadsbeløpUtenPerioderFraForrigeVedtak;
+                        return (
+                            <DagligReisePrivatBilBeregningsresultatTabell
+                                key={reise.reiseId}
+                                oppsummertBeregning={{
+                                    ...reise,
+                                    perioder: relevantePerioder,
+                                    totaltStønadsbeløp,
+                                }}
+                            />
+                        );
+                    })
+                )}
             </VStack>
         </Panel>
     );
