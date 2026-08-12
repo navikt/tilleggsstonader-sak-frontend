@@ -31,9 +31,6 @@ const Beregning: FC<{ oppsummertBeregning: PrivatBilOppsummertBeregning }> = ({
 }) => {
     const [visTidligerePerioder, setVisTidligerePerioder] = useState(false);
 
-    const harNyeKjorelister = oppsummertBeregning.reiser.some((reise) =>
-        reise.perioder.some((periode) => !periode.fraTidligereVedtak)
-    );
     const harPerioderFraTidligereVedtak = oppsummertBeregning.reiser.some((reise) =>
         reise.perioder.some((periode) => periode.fraTidligereVedtak)
     );
@@ -56,7 +53,7 @@ const Beregning: FC<{ oppsummertBeregning: PrivatBilOppsummertBeregning }> = ({
                         </Switch>
                     )}
                 </HStack>
-                {!harNyeKjorelister ? (
+                {!visTidligerePerioder && !harPerioderFraTidligereVedtak ? (
                     <BodyShort>Ingen nye kjørelister å beregne</BodyShort>
                 ) : (
                     oppsummertBeregning.reiser.map((reise) => {
