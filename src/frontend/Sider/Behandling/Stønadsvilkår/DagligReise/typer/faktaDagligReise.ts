@@ -30,6 +30,13 @@ export interface FaktaPrivatBil extends FaktaDagligReise {
     aktivitetType: string | undefined;
 }
 
+export const erFaktaOffentligTransport = (
+    fakta: FaktaDagligReise
+): fakta is FaktaOffentligTransport => fakta.type === 'OFFENTLIG_TRANSPORT';
+
+export const erFaktaPrivatBil = (fakta: FaktaDagligReise): fakta is FaktaPrivatBil =>
+    fakta.type === 'PRIVAT_BIL';
+
 export const typeDagligReiseTilTypeVilkårfakta: Record<TypeDagligReise, TypeVilkårFakta> = {
     OFFENTLIG_TRANSPORT: 'DAGLIG_REISE_OFFENTLIG_TRANSPORT',
     PRIVAT_BIL: 'DAGLIG_REISE_PRIVAT_BIL',

@@ -2,8 +2,10 @@ import React from 'react';
 
 import { EndreFaktaOffentligTransport } from './EndreFaktaOffentligTransport';
 import { EndreFaktaPrivatBil } from './EndreFaktaPrivatBil';
-import { Aktivitet } from '../../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
-import { AktivitetDagligReiseTsr } from '../../../../Inngangsvilkår/typer/vilkårperiode/aktivitetDagligReiseTsr';
+import {
+    Aktivitet,
+    erAktivitetDagligReiseTsr,
+} from '../../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import {
     FaktaDagligReise,
     FaktaOffentligTransport,
@@ -38,10 +40,7 @@ export const EndreFaktaDagligReise: React.FC<{
     gjelderTsr,
 }) => {
     const tiltaksvarianter = oppfylteAktiviteter
-        .filter(
-            (aktivitet): aktivitet is AktivitetDagligReiseTsr =>
-                aktivitet.faktaOgVurderinger['@type'] === 'AKTIVITET_DAGLIG_REISE_TSR'
-        )
+        .filter(erAktivitetDagligReiseTsr)
         .map((aktivitet) => aktivitet.tiltaksvariant)
         .filter((tiltaksvariant) => tiltaksvariant != null);
 

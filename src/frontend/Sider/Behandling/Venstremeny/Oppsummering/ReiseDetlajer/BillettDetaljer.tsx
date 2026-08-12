@@ -10,6 +10,7 @@ import {
 import { formaterTallMedTusenSkille } from '../../../../../utils/fomatering';
 import { harTallverdi } from '../../../../../utils/tall';
 import { tekstMedFallback } from '../../../../../utils/tekstformatering';
+import { erDefinert } from '../../../../../utils/utils';
 import { SøknadInfoFelt, SøknadInfoFeltKompakt } from '../Visningskomponenter';
 
 type Billett = {
@@ -35,7 +36,7 @@ export const BillettDetaljer: React.FC<{ offentligTransport: OffentligTransport 
                   }
                 : undefined;
         })
-        .filter((billettpris): billettpris is Billett => Boolean(billettpris));
+        .filter(erDefinert);
 
     return (
         <SøknadInfoFelt

@@ -5,7 +5,7 @@ import { HGrid, Tag } from '@navikt/ds-react';
 
 import { LesevisningFaktaOffentligTransport } from './LesevisningFaktaOffentligTransport';
 import { VertikalSkillelinje } from '../../../../../../komponenter/VertikalSkillelinje';
-import { FaktaOffentligTransport } from '../../typer/faktaDagligReise';
+import { erFaktaOffentligTransport } from '../../typer/faktaDagligReise';
 import { VilkårDagligReise } from '../../typer/vilkårDagligReise';
 import { LesevisningDelvilkår } from '../Felles/LesevisningDelvilkår';
 import { RedigerVilkårProps } from '../Felles/LesevisningFooter';
@@ -15,7 +15,10 @@ export const LesevisningVilkårOffentligTransport: FC<{
     vilkår: VilkårDagligReise;
     redigerVilkårProps: RedigerVilkårProps;
 }> = ({ vilkår, redigerVilkårProps }) => {
-    const fakta = vilkår.fakta as FaktaOffentligTransport;
+    if (!erFaktaOffentligTransport(vilkår.fakta)) {
+        return null;
+    }
+    const fakta = vilkår.fakta;
 
     return (
         <LesevisningVilkårKort

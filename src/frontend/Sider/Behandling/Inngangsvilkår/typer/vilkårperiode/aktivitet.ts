@@ -66,3 +66,33 @@ export type AktivitetFaktaOgSvar =
     | AktivitetDagligReiseTsoFaktaOgSvar
     | AktivitetDagligReiseTsrFaktaOgSvar
     | AktivitetReiseTilSamlingTsoFaktaOgSvar;
+
+export const erAktivitetPassAvBarn = (
+    aktivitet: Aktivitet | undefined
+): aktivitet is AktivitetPassAvBarn =>
+    aktivitet?.faktaOgVurderinger['@type'] === 'AKTIVITET_BARNETILSYN';
+
+export const erAktivitetLæremidler = (
+    aktivitet: Aktivitet | undefined
+): aktivitet is AktivitetLæremidler =>
+    aktivitet?.faktaOgVurderinger['@type'] === 'AKTIVITET_LÆREMIDLER';
+
+export const erAktivitetBoutgifter = (
+    aktivitet: Aktivitet | undefined
+): aktivitet is AktivitetBoutgifter =>
+    aktivitet?.faktaOgVurderinger['@type'] === 'AKTIVITET_BOUTGIFTER';
+
+export const erAktivitetDagligReiseTso = (
+    aktivitet: Aktivitet | undefined
+): aktivitet is AktivitetDagligReiseTso =>
+    aktivitet?.faktaOgVurderinger['@type'] === 'AKTIVITET_DAGLIG_REISE_TSO';
+
+export const erAktivitetDagligReiseTsr = (
+    aktivitet: Aktivitet | undefined
+): aktivitet is AktivitetDagligReiseTsr =>
+    aktivitet?.faktaOgVurderinger['@type'] === 'AKTIVITET_DAGLIG_REISE_TSR';
+
+export const erAktivitetReiseTilSamlingTso = (
+    aktivitet: Aktivitet | undefined
+): aktivitet is AktivitetReiseTilSamlingTso =>
+    aktivitet?.faktaOgVurderinger['@type'] === 'AKTIVITET_REISE_TIL_SAMLING_TSO';
