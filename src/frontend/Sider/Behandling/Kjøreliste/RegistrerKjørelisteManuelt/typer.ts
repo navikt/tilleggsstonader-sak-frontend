@@ -22,6 +22,16 @@ export interface KjørelisteUke {
     dager: KjørelisteDag[];
 }
 
+export interface OppdaterKjørelisteUkeRequest {
+    fom: string;
+    dager: KjørelisteDag[];
+}
+
+export interface OppdaterKjørelisteRequest {
+    begrunnelse?: string;
+    uker: OppdaterKjørelisteUkeRequest[];
+}
+
 export interface KjørelisteDag {
     dato: string;
     harKjørt: boolean;

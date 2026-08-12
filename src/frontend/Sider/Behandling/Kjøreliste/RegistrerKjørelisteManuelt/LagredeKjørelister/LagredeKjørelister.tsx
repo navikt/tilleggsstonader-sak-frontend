@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Heading, VStack } from '@navikt/ds-react';
 
-import { OppsummertLagretKjøreliste } from './LagretKjøreliste';
+import { LagretKjøreliste } from './LagretKjøreliste';
 import { useRegistrerKjøreliste } from '../../../../../context/RegistrerKjørelisteContext/RegistrerKjørelisteContext';
 
 export const LagredeKjørelister: React.FC = () => {
@@ -16,7 +16,7 @@ export const LagredeKjørelister: React.FC = () => {
         <VStack gap="space-16">
             <Heading size="medium">Kjørelister registrert i denne behandlingen</Heading>
             {kjørelisterLagretIBehandling.map((reise) => (
-                <OppsummertLagretKjøreliste key={reise.id} kjøreliste={reise} />
+                <LagretKjøreliste key={reise.id} kjøreliste={reise} />
             ))}
         </VStack>
     );
