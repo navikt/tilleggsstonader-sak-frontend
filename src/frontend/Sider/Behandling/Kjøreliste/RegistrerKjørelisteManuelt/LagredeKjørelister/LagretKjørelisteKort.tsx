@@ -3,7 +3,7 @@ import React, { FC, useState } from 'react';
 import { Box, VStack } from '@navikt/ds-react';
 import { BorderNeutralSubtle } from '@navikt/ds-tokens/js';
 
-import { LagretKjRelisteKortFooter } from './LagretKjørelisteKortFooter';
+import { LagretKjørelisteKortFooter } from './LagretKjørelisteKortFooter';
 import { useRegistrerKjøreliste } from '../../../../../context/RegistrerKjørelisteContext/RegistrerKjørelisteContext';
 import { useSteg } from '../../../../../context/StegContext';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
@@ -160,7 +160,7 @@ export const LagretKjørelisteKort: FC<{
                         dagerPerUke={dagerPerUke}
                         oppdaterDagForUke={oppdaterDagForUke}
                     />
-                    <LagretKjRelisteKortFooter
+                    <LagretKjørelisteKortFooter
                         redigerer={redigerer}
                         tilgjengeligeUker={tilgjengeligeUker}
                         visLeggTilUkerPanel={visLeggTilUkerPanel}

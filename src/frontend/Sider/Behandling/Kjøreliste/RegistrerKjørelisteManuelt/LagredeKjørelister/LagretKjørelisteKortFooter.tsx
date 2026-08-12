@@ -18,7 +18,7 @@ interface Props {
     laster: boolean;
 }
 
-export const LagretKjRelisteKortFooter: FC<Props> = ({
+export const LagretKjørelisteKortFooter: FC<Props> = ({
     redigerer,
     tilgjengeligeUker,
     visLeggTilUkerPanel,
