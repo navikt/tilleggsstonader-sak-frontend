@@ -1,9 +1,15 @@
+import { Aktivitet } from './aktivitet';
 import { SvarJaNei, VilkårPeriodeAktivitet, Vurdering } from './vilkårperiode';
 
 export interface AktivitetDagligReiseTso extends VilkårPeriodeAktivitet {
     kildeId?: string;
     faktaOgVurderinger: AktivitetDagligReiseTsoFaktaOgVurderinger;
 }
+
+export const erAktivitetDagligReiseTso = (
+    aktivitet: Aktivitet
+): aktivitet is AktivitetDagligReiseTso =>
+    aktivitet.faktaOgVurderinger['@type'] === 'AKTIVITET_DAGLIG_REISE_TSO';
 
 export interface AktivitetDagligReiseTsoFaktaOgVurderinger {
     '@type': 'AKTIVITET_DAGLIG_REISE_TSO';

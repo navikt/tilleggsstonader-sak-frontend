@@ -1,3 +1,4 @@
+import { Aktivitet } from './aktivitet';
 import { SvarJaNei, VilkårPeriodeAktivitet, Vurdering } from './vilkårperiode';
 import { Kodeverk } from '../../../../../typer/kodeverk';
 
@@ -6,6 +7,11 @@ export interface AktivitetDagligReiseTsr extends VilkårPeriodeAktivitet {
     tiltaksvariant?: Kodeverk;
     faktaOgVurderinger: AktivitetDagligReiseTsrFaktaOgVurderinger;
 }
+
+export const erAktivitetDagligReiseTsr = (
+    aktivitet: Aktivitet
+): aktivitet is AktivitetDagligReiseTsr =>
+    aktivitet.faktaOgVurderinger['@type'] === 'AKTIVITET_DAGLIG_REISE_TSR';
 
 export interface AktivitetDagligReiseTsrFaktaOgVurderinger {
     '@type': 'AKTIVITET_DAGLIG_REISE_TSR';
