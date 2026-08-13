@@ -9,7 +9,7 @@ import {
     AktivitetType,
     AktivitetTypeTilTekst,
 } from '../../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
-import { FaktaPrivatBil } from '../../typer/faktaDagligReise';
+import { FaktaPrivatBil, erFaktaPrivatBil } from '../../typer/faktaDagligReise';
 import { VilkårDagligReise } from '../../typer/vilkårDagligReise';
 import { LesevisningDelvilkår } from '../Felles/LesevisningDelvilkår';
 import { RedigerVilkårProps } from '../Felles/LesevisningFooter';
@@ -19,7 +19,10 @@ export const LesevisningVilkårPrivatBil: FC<{
     vilkår: VilkårDagligReise;
     redigerVilkårProps: RedigerVilkårProps;
 }> = ({ vilkår, redigerVilkårProps }) => {
-    const faktaPrivatBil = vilkår.fakta as FaktaPrivatBil;
+    if (!erFaktaPrivatBil(vilkår.fakta)) {
+        return null;
+    }
+    const faktaPrivatBil = vilkår.fakta;
 
     return (
         <LesevisningVilkårKort

@@ -2,9 +2,14 @@ import React from 'react';
 
 import { Detail } from '@navikt/ds-react';
 
-import { useBehandling } from '../../../../../context/BehandlingContext';
-import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
-import { Aktivitet } from '../../typer/vilkårperiode/aktivitet';
+import {
+    Aktivitet,
+    erAktivitetBoutgifter,
+    erAktivitetDagligReiseTso,
+    erAktivitetDagligReiseTsr,
+    erAktivitetLæremidler,
+    erAktivitetPassAvBarn,
+} from '../../typer/vilkårperiode/aktivitet';
 import { AktivitetBoutgifter } from '../../typer/vilkårperiode/aktivitetBoutgifter';
 import { AktivitetDagligReiseTso } from '../../typer/vilkårperiode/aktivitetDagligReiseTso';
 import { AktivitetDagligReiseTsr } from '../../typer/vilkårperiode/aktivitetDagligReiseTsr';
@@ -22,24 +27,22 @@ import {
 export const FaktaOgDelvilkårVisning: React.FC<{
     aktivitet: Aktivitet;
 }> = ({ aktivitet }) => {
-    const { behandling } = useBehandling();
-
-    switch (behandling.stønadstype) {
-        case Stønadstype.BARNETILSYN:
-            return <FaktaOgDelvilkårPassAvBarn aktivitet={aktivitet as AktivitetPassAvBarn} />;
-        case Stønadstype.LÆREMIDLER:
-            return <FaktaOgDelvilkårLæremidler aktivitet={aktivitet as AktivitetLæremidler} />;
-        case Stønadstype.BOUTGIFTER:
-            return <FaktaOgDelvilkårBoutgifter aktivitet={aktivitet as AktivitetBoutgifter} />;
-        case Stønadstype.DAGLIG_REISE_TSO:
-            return (
-                <FaktaOgDelvilkårDagligReiseTso aktivitet={aktivitet as AktivitetDagligReiseTso} />
-            );
-        case Stønadstype.DAGLIG_REISE_TSR:
-            return (
-                <FaktaOgDelvilkårDagligReiseTsr aktivitet={aktivitet as AktivitetDagligReiseTsr} />
-            );
+    if (erAktivitetPassAvBarn(aktivitet)) {
+        return <FaktaOgDelvilkårPassAvBarn aktivitet={aktivitet} />;
     }
+    if (erAktivitetLæremidler(aktivitet)) {
+        return <FaktaOgDelvilkårLæremidler aktivitet={aktivitet} />;
+    }
+    if (erAktivitetBoutgifter(aktivitet)) {
+        return <FaktaOgDelvilkårBoutgifter aktivitet={aktivitet} />;
+    }
+    if (erAktivitetDagligReiseTso(aktivitet)) {
+        return <FaktaOgDelvilkårDagligReiseTso aktivitet={aktivitet} />;
+    }
+    if (erAktivitetDagligReiseTsr(aktivitet)) {
+        return <FaktaOgDelvilkårDagligReiseTsr aktivitet={aktivitet} />;
+    }
+    return null;
 };
 
 const FaktaOgDelvilkårPassAvBarn: React.FC<{

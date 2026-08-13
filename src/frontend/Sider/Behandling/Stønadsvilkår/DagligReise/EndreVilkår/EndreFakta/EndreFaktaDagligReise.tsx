@@ -2,8 +2,10 @@ import React from 'react';
 
 import { EndreFaktaOffentligTransport } from './EndreFaktaOffentligTransport';
 import { EndreFaktaPrivatBil } from './EndreFaktaPrivatBil';
-import { Aktivitet } from '../../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
-import { erAktivitetDagligReiseTsr } from '../../../../Inngangsvilkår/typer/vilkårperiode/aktivitetDagligReiseTsr';
+import {
+    Aktivitet,
+    erAktivitetDagligReiseTsr,
+} from '../../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import {
     FaktaDagligReise,
     FaktaOffentligTransport,

@@ -5,7 +5,7 @@ import { BodyShort, HGrid, Label, Tag } from '@navikt/ds-react';
 
 import { LesevisningFaktaPrivatBil } from './LesevisningFaktaPrivatBil';
 import { VertikalSkillelinje } from '../../../../../../komponenter/VertikalSkillelinje';
-import { FaktaPrivatBil } from '../../typer/faktaReiseTilSamling';
+import { FaktaPrivatBil, erFaktaPrivatBil } from '../../typer/faktaReiseTilSamling';
 import { VilkårReiseTilSamling } from '../../typer/vilkårReiseTilSamling';
 import { LesevisningDelvilkår } from '../Felles/LesevisningDelvilkår';
 import { RedigerVilkårProps } from '../Felles/LesevisningFooter';
@@ -15,7 +15,10 @@ export const LesevisningVilkårPrivatBil: FC<{
     vilkår: VilkårReiseTilSamling;
     redigerVilkårProps: RedigerVilkårProps;
 }> = ({ vilkår, redigerVilkårProps }) => {
-    const faktaPrivatBil = vilkår.fakta as FaktaPrivatBil;
+    if (!erFaktaPrivatBil(vilkår.fakta)) {
+        return null;
+    }
+    const faktaPrivatBil = vilkår.fakta;
 
     return (
         <LesevisningVilkårKort

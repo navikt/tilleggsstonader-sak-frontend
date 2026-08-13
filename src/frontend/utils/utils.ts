@@ -3,6 +3,8 @@ export const harIkkeVerdi = (str: string | undefined | null): boolean => !harVer
 export const harVerdi = (str: string | undefined | null): str is string =>
     !!str && str.trim() !== '';
 
+export const erDefinert = <T>(verdi: T | undefined | null): verdi is T => verdi != null;
+
 export const fjernSpaces = (str: string) => str.replace(/ /g, '');
 
 const REGEX_FNR = /^\d{11}$/;

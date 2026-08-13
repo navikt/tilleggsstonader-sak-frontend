@@ -11,13 +11,15 @@ import { useHentTiltaksvariantValg } from '../../../../hooks/useHentTiltaksvaria
 import DataViewer from '../../../../komponenter/DataViewer';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
-import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
-import { AktivitetBoutgifter } from '../typer/vilkårperiode/aktivitetBoutgifter';
-import { AktivitetDagligReiseTso } from '../typer/vilkårperiode/aktivitetDagligReiseTso';
-import { AktivitetDagligReiseTsr } from '../typer/vilkårperiode/aktivitetDagligReiseTsr';
-import { AktivitetLæremidler } from '../typer/vilkårperiode/aktivitetLæremidler';
-import { AktivitetPassAvBarn } from '../typer/vilkårperiode/aktivitetPassAvBarn';
-import { AktivitetReiseTilSamlingTso } from '../typer/vilkårperiode/aktivitetReiseTilSamlingTso';
+import {
+    Aktivitet,
+    erAktivitetBoutgifter,
+    erAktivitetDagligReiseTso,
+    erAktivitetDagligReiseTsr,
+    erAktivitetLæremidler,
+    erAktivitetPassAvBarn,
+    erAktivitetReiseTilSamlingTso,
+} from '../typer/vilkårperiode/aktivitet';
 
 export const EndreAktivitet: React.FC<{
     aktivitet?: Aktivitet;
@@ -31,7 +33,7 @@ export const EndreAktivitet: React.FC<{
         case Stønadstype.BARNETILSYN:
             return (
                 <EndreAktivitetPassAvBarn
-                    aktivitet={aktivitet as AktivitetPassAvBarn}
+                    aktivitet={erAktivitetPassAvBarn(aktivitet) ? aktivitet : undefined}
                     aktivitetFraRegister={aktivitetFraRegister}
                     avbrytRedigering={avbrytRedigering}
                 />
@@ -39,7 +41,7 @@ export const EndreAktivitet: React.FC<{
         case Stønadstype.LÆREMIDLER:
             return (
                 <EndreAktivitetLæremidler
-                    aktivitet={aktivitet as AktivitetLæremidler}
+                    aktivitet={erAktivitetLæremidler(aktivitet) ? aktivitet : undefined}
                     aktivitetFraRegister={aktivitetFraRegister}
                     avbrytRedigering={avbrytRedigering}
                 />
@@ -47,7 +49,7 @@ export const EndreAktivitet: React.FC<{
         case Stønadstype.BOUTGIFTER:
             return (
                 <EndreAktivitetBoutgfiter
-                    aktivitet={aktivitet as AktivitetBoutgifter}
+                    aktivitet={erAktivitetBoutgifter(aktivitet) ? aktivitet : undefined}
                     aktivitetFraRegister={aktivitetFraRegister}
                     avbrytRedigering={avbrytRedigering}
                 />
@@ -55,7 +57,7 @@ export const EndreAktivitet: React.FC<{
         case Stønadstype.DAGLIG_REISE_TSO:
             return (
                 <EndreAktivitetDagligReiseTso
-                    aktivitet={aktivitet as AktivitetDagligReiseTso}
+                    aktivitet={erAktivitetDagligReiseTso(aktivitet) ? aktivitet : undefined}
                     aktivitetFraRegister={aktivitetFraRegister}
                     avbrytRedigering={avbrytRedigering}
                 />
@@ -65,7 +67,7 @@ export const EndreAktivitet: React.FC<{
                 <DataViewer response={{ tiltaksvariantValg }} type={'tiltaksvariantValg'}>
                     {({ tiltaksvariantValg }) => (
                         <EndreAktivitetDagligReiseTsr
-                            aktivitet={aktivitet as AktivitetDagligReiseTsr}
+                            aktivitet={erAktivitetDagligReiseTsr(aktivitet) ? aktivitet : undefined}
                             aktivitetFraRegister={aktivitetFraRegister}
                             avbrytRedigering={avbrytRedigering}
                             tiltaksvariantValg={tiltaksvariantValg}
@@ -76,7 +78,7 @@ export const EndreAktivitet: React.FC<{
         case Stønadstype.REISE_TIL_SAMLING_TSO:
             return (
                 <EndreAktivitetReiseTilSamlingTso
-                    aktivitet={aktivitet as AktivitetReiseTilSamlingTso}
+                    aktivitet={erAktivitetReiseTilSamlingTso(aktivitet) ? aktivitet : undefined}
                     aktivitetFraRegister={aktivitetFraRegister}
                     avbrytRedigering={avbrytRedigering}
                 />

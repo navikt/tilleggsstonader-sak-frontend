@@ -10,6 +10,7 @@ import { RessursFeilet, RessursSuksess } from '../../../../typer/ressurs';
 import { Vedtaksperiode } from '../../../../typer/vedtak/vedtakperiode';
 import { nullableTilDato, tilDato } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
+import { erDefinert } from '../../../../utils/utils';
 
 const bekreftelseModalPropsArena = {
     tittel: 'Vedtak i Arena i samme periode',
@@ -123,7 +124,7 @@ const finnFørsteDagIVedtaksperiodeEtterTidligsteEndring = (
 
     const fraOgMedDatoer = vedtaksperioder
         .map((periode) => førsteGyldigeDatoForPeriode(periode, tidligsteEndringDate))
-        .filter((d): d is Date => !!d);
+        .filter(erDefinert);
 
     return fraOgMedDatoer.length > 0
         ? fraOgMedDatoer.reduce((tidligst, dato) => (dato < tidligst ? dato : tidligst))
