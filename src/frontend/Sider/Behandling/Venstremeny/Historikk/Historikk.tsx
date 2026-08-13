@@ -7,6 +7,7 @@ import styles from './Historikk.module.css';
 import HistorikkElement from './HistorikkElement';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import DataViewer from '../../../../komponenter/DataViewer';
+import { årsakMetadataKildeeTilTekst } from '../../../../typer/behandling/nyeOpplysningerMetadata';
 
 const Historikk: React.FC = () => {
     const { behandlingshistorikk, behandling } = useBehandling();
@@ -30,13 +31,14 @@ const Historikk: React.FC = () => {
                     </ul>
                 )}
             </DataViewer>
-            {behandling.årsakMetadata && (
+            {behandling.årsakMetadata?.kilde && (
                 <div className={styles.manuellOpprettelse}>
                     <FileTextIcon fontSize="1.5rem" />
                     <VStack gap="space-2" className={styles.innholdContainer}>
                         <Label size="small">Hvorfor behandlingen er opprettet</Label>
                         <BodyShort size="small">
-                            <Label size="small">Kilde:</Label> {behandling.årsakMetadata.kilde}
+                            <Label size="small">Kilde:</Label>{' '}
+                            {årsakMetadataKildeeTilTekst[behandling.årsakMetadata.kilde]}
                         </BodyShort>
                         {behandling.årsakMetadata.beskrivelse && (
                             <BodyShort size="small">

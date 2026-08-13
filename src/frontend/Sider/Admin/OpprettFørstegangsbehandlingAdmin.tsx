@@ -132,10 +132,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
     const [valgteBarn, settValgteBarn] = useState<string[]>([]);
     const [personinfo, settPersoninfo] = useState<Ressurs<Personinfo>>(byggTomRessurs());
     const [feilmelding, settFeilmelding] = useState<string>();
-    const [årsakMetadata, settÅrsakMetadata] = useState<ÅrsakMetadata>({
-        kilde: ÅrsakMetadataKilde.ANNET,
-        beskrivelse: '',
-    });
+    const [årsakMetadata, settÅrsakMetadata] = useState<ÅrsakMetadata | undefined>(undefined);
 
     const [opprettBehandlingResponse, settOpprettBehandlingResponse] =
         useState<Ressurs<null>>(byggTomRessurs());
@@ -163,7 +160,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
             settFeilmelding('Krav mottatt må fylles ut');
             return;
         }
-        if (!årsakMetadata.kilde) {
+        if (!årsakMetadata?.kilde) {
             settFeilmelding('Kilde til opplysning må velges');
             return;
         }
@@ -192,10 +189,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                         settValgteBarn([]);
                         settPersoninfo(byggTomRessurs());
                         settOpprettBehandlingResponse(byggTomRessurs());
-                        settÅrsakMetadata({
-                            kilde: ÅrsakMetadataKilde.ANNET,
-                            beskrivelse: '',
-                        });
+                        settÅrsakMetadata(undefined);
                     }}
                     autoComplete="off"
                 />
@@ -226,15 +220,27 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                         />
                         <Select
                             label="Kilde til opplysninger"
-                            value={årsakMetadata.kilde}
+                            value={årsakMetadata?.kilde ?? ''}
                             onChange={(event) => {
-                                settÅrsakMetadata((metadata) => ({
-                                    ...metadata,
-                                    kilde: event.target.value as ÅrsakMetadataKilde,
-                                }));
+                                const kilde = event.target.value as ÅrsakMetadataKilde;
+                                settÅrsakMetadata((prevState) => {
+                                    if (prevState) {
+                                        return {
+                                            ...prevState,
+                                            kilde,
+                                        };
+                                    }
+
+                                    return {
+                                        kilde,
+                                        beskrivelse: '',
+                                    };
+                                });
+
                                 settFeilmelding(undefined);
                             }}
                         >
+                            <option value="">- Velg kilde -</option>
                             {Object.keys(ÅrsakMetadataKilde).map((kilde) => (
                                 <option key={kilde} value={kilde}>
                                     {årsakMetadataKildeeTilTekst[kilde]}
@@ -245,12 +251,21 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                         <TextField
                             label="Årsak til manual behandling"
                             description="Beskriv gjerne kort hvorfor førstegangsbehandlingen opprettes."
-                            value={årsakMetadata.beskrivelse ?? ''}
+                            value={årsakMetadata?.beskrivelse ?? ''}
                             onChange={(event) => {
-                                settÅrsakMetadata((metadata) => ({
-                                    ...metadata,
-                                    beskrivelse: event.target.value,
-                                }));
+                                settÅrsakMetadata((prevState) => {
+                                    if (prevState) {
+                                        return {
+                                            ...prevState,
+                                            beskrivelse: event.target.value,
+                                        };
+                                    }
+
+                                    return {
+                                        kilde: undefined,
+                                        beskrivelse: event.target.value,
+                                    };
+                                });
                             }}
                         />
                         <RadioGroup
