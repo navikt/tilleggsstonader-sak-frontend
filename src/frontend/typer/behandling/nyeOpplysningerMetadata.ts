@@ -36,4 +36,6 @@ export const årsakMetadataKildeeTilTekst: Record<ÅrsakMetadataKilde | string, 
     ETTERSENDING: 'Ettersending',
     OPPFØLGINGSLISTE: 'Oppfølgingsliste',
     ANNET: 'Annet',
+    ARENA: 'Arena',
+    PAPIRSØKNAD: 'Papiersøknad',
 };

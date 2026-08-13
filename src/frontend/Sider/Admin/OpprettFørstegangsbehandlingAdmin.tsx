@@ -30,7 +30,11 @@ import {
     Stønadstype,
     stønadstypeTilTekst,
 } from '../../typer/behandling/behandlingTema';
-import { ÅrsakMetadata, ÅrsakMetadataKilde } from '../../typer/behandling/nyeOpplysningerMetadata';
+import {
+    ÅrsakMetadata,
+    ÅrsakMetadataKilde,
+    årsakMetadataKildeeTilTekst,
+} from '../../typer/behandling/nyeOpplysningerMetadata';
 import {
     byggHenterRessurs,
     byggRessursFeilet,
@@ -231,11 +235,11 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                                 settFeilmelding(undefined);
                             }}
                         >
-                            <option value="">- Velg kilde -</option>
-                            <option value="GOSYS">Gosys</option>
-                            <option value="ARENA">Arena</option>
-                            <option value="PAPIRSØKNAD">Papirsøknad</option>
-                            <option value="ANNET">Annet</option>
+                            {Object.keys(ÅrsakMetadataKilde).map((kilde) => (
+                                <option key={kilde} value={kilde}>
+                                    {årsakMetadataKildeeTilTekst[kilde]}
+                                </option>
+                            ))}
                         </Select>
 
                         <TextField
