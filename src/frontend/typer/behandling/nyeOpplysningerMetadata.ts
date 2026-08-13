@@ -1,16 +1,20 @@
-export type NyeOpplysningerMetadata = {
-    kilde: NyeOpplysningerKilde | undefined;
-    endringer: NyeOpplysningerEndring[];
+export type ÅrsakMetadata = {
+    kilde: ÅrsakMetadataKilde | undefined;
     beskrivelse: string | undefined;
 };
 
-export enum NyeOpplysningerKilde {
+export enum ÅrsakMetadataKilde {
     MODIA = 'MODIA',
     GOSYS = 'GOSYS',
     ETTERSENDING = 'ETTERSENDING',
     OPPFØLGINGSLISTE = 'OPPFØLGINGSLISTE',
     ANNET = 'ANNET',
+    ARENA = 'ARENA',
+    PAPIRSØKNAD = 'PAPIRSØKNAD',
 }
+export type NyeOpplysningerEndringer = {
+    endringer: NyeOpplysningerEndring[];
+};
 
 export enum NyeOpplysningerEndring {
     AKTIVITET = 'AKTIVITET',
@@ -26,7 +30,7 @@ export const nyeOpplysningerEndringTilTekst: Record<NyeOpplysningerEndring, stri
     ANNET: 'Annet',
 };
 
-export const nyeOpplysningerKildeTilTekst: Record<NyeOpplysningerKilde | string, string> = {
+export const årsakMetadataKildeeTilTekst: Record<ÅrsakMetadataKilde | string, string> = {
     MODIA: 'Modia',
     GOSYS: 'Gosys',
     ETTERSENDING: 'Ettersending',

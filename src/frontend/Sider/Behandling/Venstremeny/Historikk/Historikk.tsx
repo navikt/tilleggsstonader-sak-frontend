@@ -30,19 +30,18 @@ const Historikk: React.FC = () => {
                     </ul>
                 )}
             </DataViewer>
-            {behandling.manuellOpprettelseMetadata && (
+            {behandling.årsakMetadata && (
                 <div className={styles.manuellOpprettelse}>
                     <FileTextIcon fontSize="1.5rem" />
                     <VStack gap="space-2" className={styles.innholdContainer}>
                         <Label size="small">Hvorfor behandlingen er opprettet</Label>
                         <BodyShort size="small">
-                            <Label size="small">Kilde:</Label>{' '}
-                            {behandling.manuellOpprettelseMetadata.kilde}
+                            <Label size="small">Kilde:</Label> {behandling.årsakMetadata.kilde}
                         </BodyShort>
-                        {behandling.manuellOpprettelseMetadata.beskrivelse && (
+                        {behandling.årsakMetadata.beskrivelse && (
                             <BodyShort size="small">
                                 <Label size="small">Beskrivelse:</Label>{' '}
-                                {behandling.manuellOpprettelseMetadata.beskrivelse}
+                                {behandling.årsakMetadata.beskrivelse}
                             </BodyShort>
                         )}
                     </VStack>

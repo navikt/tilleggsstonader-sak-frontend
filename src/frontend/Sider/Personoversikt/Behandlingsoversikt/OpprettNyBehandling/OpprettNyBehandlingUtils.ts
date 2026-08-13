@@ -1,4 +1,4 @@
-import { NyeOpplysningerMetadata } from '../../../../typer/behandling/nyeOpplysningerMetadata';
+import { ÅrsakMetadata } from '../../../../typer/behandling/nyeOpplysningerMetadata';
 
 export enum OpprettNyBehandlingType {
     ORDINAER_BEHANDLING = 'ORDINAER_BEHANDLING',
@@ -14,8 +14,7 @@ export const opprettNyBehandlingTypeTilTekst: Record<OpprettNyBehandlingType, st
     KJØRELISTE: 'Kjørelistebehandling',
 };
 
-export const tomNyeOpplysningerMetadata: NyeOpplysningerMetadata = {
+export const tomÅrsakMetadata: ÅrsakMetadata = {
     kilde: undefined,
-    endringer: [],
     beskrivelse: undefined,
 };

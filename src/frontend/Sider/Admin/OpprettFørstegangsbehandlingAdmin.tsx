@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import {
     BodyShort,
+    Box,
     Button,
     Checkbox,
     CheckboxGroup,
@@ -17,7 +18,6 @@ import {
     Select,
     TextField,
     VStack,
-    Box,
 } from '@navikt/ds-react';
 
 import styles from './OpprettFørstegangsbehandlingAdmin.module.css';
@@ -30,6 +30,7 @@ import {
     Stønadstype,
     stønadstypeTilTekst,
 } from '../../typer/behandling/behandlingTema';
+import { ÅrsakMetadata, ÅrsakMetadataKilde } from '../../typer/behandling/nyeOpplysningerMetadata';
 import {
     byggHenterRessurs,
     byggRessursFeilet,
@@ -51,17 +52,13 @@ interface OpprettFørstegansbehandlingHentPersonRequest {
     stønadstype: Stønadstype;
     ident: string;
 }
-interface ManuellOpprettelseMetadata {
-    kilde: string;
-    beskrivelse?: string;
-}
 interface OpprettFørstegansbehandlingRequest {
     stønadstype: Stønadstype;
     ident: string;
     valgteBarn: string[];
     medBrev: boolean;
     kravMottatt: string;
-    manuellOpprettelseMetadata: ManuellOpprettelseMetadata;
+    årsakMetadata: ÅrsakMetadata;
 }
 
 const skalVelgeBarn = (stønadstype: Stønadstype | undefined): boolean =>
@@ -131,11 +128,10 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
     const [valgteBarn, settValgteBarn] = useState<string[]>([]);
     const [personinfo, settPersoninfo] = useState<Ressurs<Personinfo>>(byggTomRessurs());
     const [feilmelding, settFeilmelding] = useState<string>();
-    const [manuellOpprettelseMetadata, settManuellOpprettelseMetadata] =
-        useState<ManuellOpprettelseMetadata>({
-            kilde: '',
-            beskrivelse: '',
-        });
+    const [årsakMetadata, settÅrsakMetadata] = useState<ÅrsakMetadata>({
+        kilde: ÅrsakMetadataKilde.ANNET,
+        beskrivelse: '',
+    });
 
     const [opprettBehandlingResponse, settOpprettBehandlingResponse] =
         useState<Ressurs<null>>(byggTomRessurs());
@@ -163,7 +159,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
             settFeilmelding('Krav mottatt må fylles ut');
             return;
         }
-        if (!manuellOpprettelseMetadata.kilde) {
+        if (!årsakMetadata.kilde) {
             settFeilmelding('Kilde til opplysning må velges');
             return;
         }
@@ -172,7 +168,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
         request<Personinfo, OpprettFørstegansbehandlingRequest>(
             `/api/sak/behandling/admin/opprett-foerstegangsbehandling`,
             'POST',
-            { stønadstype, ident, valgteBarn, medBrev, kravMottatt, manuellOpprettelseMetadata }
+            { stønadstype, ident, valgteBarn, medBrev, kravMottatt, årsakMetadata }
         ).then((res) => {
             if (res.status === RessursStatus.SUKSESS) {
                 navigate(`/behandling/${res.data}`);
@@ -192,8 +188,8 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                         settValgteBarn([]);
                         settPersoninfo(byggTomRessurs());
                         settOpprettBehandlingResponse(byggTomRessurs());
-                        settManuellOpprettelseMetadata({
-                            kilde: '',
+                        settÅrsakMetadata({
+                            kilde: ÅrsakMetadataKilde.ANNET,
                             beskrivelse: '',
                         });
                     }}
@@ -225,12 +221,12 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                             toDate={new Date()}
                         />
                         <Select
-                            label="Kilde til opplysning"
-                            value={manuellOpprettelseMetadata.kilde}
+                            label="Kilde til opplysninger"
+                            value={årsakMetadata.kilde}
                             onChange={(event) => {
-                                settManuellOpprettelseMetadata((metadata) => ({
+                                settÅrsakMetadata((metadata) => ({
                                     ...metadata,
-                                    kilde: event.target.value,
+                                    kilde: event.target.value as ÅrsakMetadataKilde,
                                 }));
                                 settFeilmelding(undefined);
                             }}
@@ -245,9 +241,9 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                         <TextField
                             label="Årsak til manual behandling"
                             description="Beskriv gjerne kort hvorfor førstegangsbehandlingen opprettes."
-                            value={manuellOpprettelseMetadata.beskrivelse ?? ''}
+                            value={årsakMetadata.beskrivelse ?? ''}
                             onChange={(event) => {
-                                settManuellOpprettelseMetadata((metadata) => ({
+                                settÅrsakMetadata((metadata) => ({
                                     ...metadata,
                                     beskrivelse: event.target.value,
                                 }));

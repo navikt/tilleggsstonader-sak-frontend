@@ -1,6 +1,9 @@
 import { useState } from 'react';
 
-import { NyeOpplysningerMetadata } from '../../../../typer/behandling/nyeOpplysningerMetadata';
+import {
+    NyeOpplysningerEndringer,
+    ÅrsakMetadata,
+} from '../../../../typer/behandling/nyeOpplysningerMetadata';
 import { harIkkeVerdi } from '../../../../utils/utils';
 
 export interface FeilNyeOpplysningerMetadata {
@@ -15,7 +18,10 @@ export const useValiderNyeOpplysningerMetadata = () => {
             endringer: undefined,
         });
 
-    const validerNyeOpplysningerMetadata = (metadata: NyeOpplysningerMetadata | undefined) => {
+    const validerNyeOpplysningerMetadata = (
+        metadata: ÅrsakMetadata | undefined,
+        nyeOpplysningerEndringer: NyeOpplysningerEndringer | undefined
+    ) => {
         if (!metadata) {
             settFeilNyeOpplysningerMetadata({
                 kilde: 'Kilde må velges',
@@ -32,7 +38,7 @@ export const useValiderNyeOpplysningerMetadata = () => {
             return false;
         }
 
-        if (metadata.endringer.length === 0) {
+        if (nyeOpplysningerEndringer?.endringer.length === 0) {
             settFeilNyeOpplysningerMetadata((prevState) => ({
                 ...prevState,
                 endringer: 'Minst en endring må velges',
