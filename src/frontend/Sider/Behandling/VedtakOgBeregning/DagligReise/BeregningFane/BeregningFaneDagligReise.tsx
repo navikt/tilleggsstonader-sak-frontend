@@ -35,6 +35,10 @@ const Beregning: FC<{ oppsummertBeregning: PrivatBilOppsummertBeregning }> = ({
         reise.perioder.some((periode) => periode.fraTidligereVedtak)
     );
 
+    const harNyeKjorelister = oppsummertBeregning.reiser.some((reise) =>
+        reise.perioder.some((periode) => !periode.fraTidligereVedtak)
+    );
+
     return (
         <Panel ikon={<CalculatorIcon />} tittel="Beregningsresultat inkludert kjøreliste">
             <VStack gap="space-16">
@@ -53,7 +57,7 @@ const Beregning: FC<{ oppsummertBeregning: PrivatBilOppsummertBeregning }> = ({
                         </Switch>
                     )}
                 </HStack>
-                {!visTidligerePerioder && !harPerioderFraTidligereVedtak ? (
+                {!visTidligerePerioder && !harNyeKjorelister ? (
                     <BodyShort>Ingen nye kjørelister å beregne</BodyShort>
                 ) : (
                     oppsummertBeregning.reiser.map((reise) => {

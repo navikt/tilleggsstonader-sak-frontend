@@ -12,8 +12,8 @@ import {
 } from './oppgaverequestUtil';
 import styles from './Oppgavetabell.module.css';
 import {
-    IdentGruppe,
     Oppgave,
+    OppgaveBrukerType,
     OppgaveOrderBy,
     OppgaveRequest,
     OppgaverResponse,
@@ -30,7 +30,7 @@ const tabellHeaders: PartialRecord<keyof Oppgave, { tittel: string; orderBy?: Op
     behandlingstema: { tittel: 'Stønad' },
     opprettetTidspunkt: { tittel: 'Opprettet', orderBy: 'OPPRETTET_TIDSPUNKT' },
     fristFerdigstillelse: { tittel: 'Frist', orderBy: 'FRIST' },
-    identer: { tittel: 'Ident' },
+    bruker: { tittel: 'Ident' },
     navn: { tittel: 'Navn' },
     tilordnetRessurs: { tittel: 'Tildelt' },
 };
@@ -46,8 +46,7 @@ const orderByTilHeader: Record<OppgaveOrderBy, keyof Oppgave> = Object.entries(
 );
 
 export const utledetFolkeregisterIdent = (oppgave: Oppgave) =>
-    oppgave.identer?.filter((i) => i.gruppe === IdentGruppe.FOLKEREGISTERIDENT)[0].ident ||
-    'Ukjent ident';
+    (oppgave.bruker.type === OppgaveBrukerType.PERSON && oppgave.bruker.ident) || 'Ukjent ident';
 
 const utledOrderByFraKey = (oppgaveKey: keyof Oppgave): OppgaveOrderBy =>
     tabellHeaders[oppgaveKey]?.orderBy ?? defaultSortering.orderBy;

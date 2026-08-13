@@ -1,10 +1,11 @@
 import React, { useEffect, useId } from 'react';
 
 import { BriefcaseIcon } from '@navikt/aksel-icons';
-import { VStack } from '@navikt/ds-react';
+import { Alert, VStack } from '@navikt/ds-react';
 
 import { KopierVilkårDagligReise } from './EndreVilkår/KopierVilkårDagligReise';
 import { NyttVilkårDagligReise } from './EndreVilkår/NyttVilkårDagligReise';
+import { erFaktaPrivatBil } from './typer/faktaDagligReise';
 import { VilkårDagligReise } from './typer/vilkårDagligReise';
 import { VisEllerEndreVilkårDagligReise } from './VisEllerEndreVilkårDagligReise';
 import { useApp } from '../../../../context/AppContext';
@@ -20,6 +21,33 @@ import DataViewer from '../../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Steg } from '../../../../typer/behandling/steg';
+import { Aktivitet } from '../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import { erAktivitetDagligReiseTso } from '../../Inngangsvilkår/typer/vilkårperiode/aktivitetDagligReiseTso';
+import { erAktivitetDagligReiseTsr } from '../../Inngangsvilkår/typer/vilkårperiode/aktivitetDagligReiseTsr';
+
+function totaltAntallReisedagerIStønadsvilkår(vilkårsett: VilkårDagligReise[]): number {
+    return vilkårsett
+        .map((vilkår) => vilkår.fakta)
+        .filter(erFaktaPrivatBil)
+        .reduce(
+            (acc, fakta) =>
+                acc +
+                fakta.faktaDelperioder.reduce(
+                    (sum, delperiode) => sum + (delperiode?.reisedagerPerUke || 0),
+                    0
+                ),
+            0
+        );
+}
+
+function totaltAntallReisedagerIAktivitetsperioder(aktiviteter: Aktivitet[]): number {
+    return aktiviteter
+        .filter(
+            (aktivitet) =>
+                erAktivitetDagligReiseTso(aktivitet) || erAktivitetDagligReiseTsr(aktivitet)
+        )
+        .reduce((acc, aktivitet) => acc + (aktivitet.faktaOgVurderinger.aktivitetsdager || 0), 0);
+}
 
 export const StønadsvilkårDagligReise = () => {
     const { behandling } = useBehandling();
@@ -49,7 +77,7 @@ export const StønadsvilkårDagligReise = () => {
 };
 
 const StønadsvilkårInnhold = () => {
-    const { vilkårsett } = useVilkårDagligReise();
+    const { vilkårsett, aktiviteter } = useVilkårDagligReise();
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
 
     const [vilkårSomKopieres, settVilkårSomKopieres] = React.useState<
@@ -102,6 +130,10 @@ const StønadsvilkårInnhold = () => {
         avsluttRedigering();
     };
 
+    const skalViseAdvarselOmAntallReisedager =
+        totaltAntallReisedagerIStønadsvilkår(vilkårsett) >
+        totaltAntallReisedagerIAktivitetsperioder(aktiviteter);
+
     return (
         <VilkårPanel tittel={'Daglige reiser'} ikon={<BriefcaseIcon />}>
             {vilkårsett.map((vilkår) => (
@@ -125,6 +157,12 @@ const StønadsvilkårInnhold = () => {
                     )}
                 </React.Fragment>
             ))}
+
+            {skalViseAdvarselOmAntallReisedager && (
+                <Alert variant="warning" size="small">
+                    Antall reisedager er høyere enn antall aktivitetsdager.
+                </Alert>
+            )}
             <NyttVilkårDagligReise
                 leggerTilNyttVilkår={redigererVilkårId === 'nytt'}
                 startRedigering={() => startRedigering('nytt')}

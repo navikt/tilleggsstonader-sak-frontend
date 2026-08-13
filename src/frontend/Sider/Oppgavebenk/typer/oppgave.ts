@@ -31,10 +31,23 @@ export interface OppgaverResponse {
     oppgaver: Oppgave[];
 }
 
+export interface OppgaveBruker {
+    ident?: string;
+    type?: OppgaveBrukerType;
+}
+
 export interface Oppgave {
     id: number;
-    identer?: IOppgaveIdent[];
-    tildeltEnhetsnr?: string;
+    versjon: number;
+
+    bruker: OppgaveBruker;
+    tildeltEnhetsnr: string;
+    tema: string;
+    oppgavetype: Oppgavetype;
+    aktivDato: string;
+    prioritet: Prioritet;
+    status: string;
+
     endretAvEnhetsnr?: string;
     eksisterendeOppgaveId?: string;
     opprettetAvEnhetsnr?: string;
@@ -49,21 +62,15 @@ export interface Oppgave {
     tilordnetRessurs?: string;
     beskrivelse?: string;
     temagruppe?: string;
-    tema?: string;
     behandlingstema?: Behandlingstema;
-    oppgavetype?: Oppgavetype;
     behandlingstype?: OppgaveBehandlingstype;
-    versjon: number;
     mappeId?: number;
     fristFerdigstillelse?: string;
-    aktivDato?: string;
     opprettetTidspunkt?: string;
     opprettetAv?: string;
     endretAv?: string;
     ferdigstiltTidspunkt?: string;
     endretTidspunkt?: string;
-    prioritet?: Prioritet;
-    status?: string;
 
     /*
     Ekstra felter som er lagt til i backend
@@ -86,6 +93,12 @@ export enum IdentGruppe {
     NPID = 'NPID',
     ORGNR = 'ORGNR',
     SAMHANDLERNR = 'SAMHANDLERNR',
+}
+
+export enum OppgaveBrukerType {
+    PERSON = 'PERSON',
+    ARBEIDSGIVER = 'ARBEIDSGIVER',
+    SAMHANDLER = 'SAMHANDLER',
 }
 
 export enum Behandlingstema {
