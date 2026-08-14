@@ -32,9 +32,7 @@ export const LagretKjørelisteBegrunnelse: FC<Props> = ({
     return (
         <div>
             <Label size="small">Begrunnelse for manuell registrering: </Label>
-            <BodyShort size="small">
-                {begrunnelse ? begrunnelse : 'Ingen begrunnelse lagt ved'}
-            </BodyShort>
+            <BodyShort size="small">{begrunnelse || 'Ingen begrunnelse lagt ved'}</BodyShort>
         </div>
     );
 };

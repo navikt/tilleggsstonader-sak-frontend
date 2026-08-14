@@ -121,7 +121,7 @@ export const LagretKjørelisteKort: FC<{
         }
 
         const respons = await oppdaterKjøreliste(kjøreliste.id, {
-            begrunnelse: begrunnelseInput || undefined,
+            begrunnelse: begrunnelseInput,
             uker: ukerIRedigering.map((uke) => ({
                 ukeIÅr: uke.ukeIÅr,
                 dager: dagerPerUke[uke.fom] ?? uke.dager,

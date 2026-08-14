@@ -9,7 +9,7 @@ import { LagretKjørelisteBegrunnelse } from './LagretKjørelisteBegrunnelse';
 
 interface Props {
     kjøreliste: ManueltInnsendtKjørelisteUke;
-    erStegRedigerbart: boolean | undefined;
+    erStegRedigerbart: boolean;
     redigerer: boolean;
     startRedigering: () => void;
     åpneSletteModal: () => void;

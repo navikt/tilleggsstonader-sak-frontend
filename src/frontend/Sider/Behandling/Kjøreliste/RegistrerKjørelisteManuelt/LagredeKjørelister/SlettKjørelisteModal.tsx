@@ -26,19 +26,18 @@ export const SlettKjørelisteModal: React.FC<{
         lukkModal();
     };
 
-    const slett = () => {
+    const slett = async () => {
         if (laster) return;
         settLaster(true);
 
-        slettKjøreliste(kjørelisteId)
-            .then((respons) => {
-                if (respons.status === RessursStatus.SUKSESS) {
-                    lukkOgNullstillModal();
-                } else {
-                    settFeilmelding(feiletRessursTilFeilmelding(respons));
-                }
-            })
-            .finally(() => settLaster(false));
+        const respons = await slettKjøreliste(kjørelisteId);
+        if (respons.status === RessursStatus.SUKSESS) {
+            lukkOgNullstillModal();
+        } else {
+            settFeilmelding(feiletRessursTilFeilmelding(respons));
+        }
+
+        settLaster(false);
     };
 
     return (
