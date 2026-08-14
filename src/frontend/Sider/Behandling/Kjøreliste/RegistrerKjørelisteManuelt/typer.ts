@@ -17,13 +17,14 @@ export interface ManueltInnsendtKjørelisteUke {
 
 export interface KjørelisteUke {
     ukenummer: number;
+    ukeIÅr: string;
     fom: LocalDate;
     tom: LocalDate;
     dager: KjørelisteDag[];
 }
 
 export interface OppdaterKjørelisteUkeRequest {
-    fom: string;
+    ukeIÅr: string;
     dager: KjørelisteDag[];
 }
 
@@ -48,6 +49,7 @@ export interface ManuellRegistreringReise {
 
 export interface ManuellRegistreringUkeDto {
     ukenummer: number;
+    ukeIÅr: string;
     fom: string;
     tom: string;
     innsendtTidligere: boolean;

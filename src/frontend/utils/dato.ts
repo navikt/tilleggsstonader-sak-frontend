@@ -6,6 +6,8 @@ import {
     endOfMonth,
     format,
     formatISO,
+    getISOWeek,
+    getISOWeekYear,
     isAfter,
     isBefore,
     isEqual,
@@ -272,4 +274,9 @@ export const ukedagTilKortNorsk: Record<Ukedag, string> = {
     FRIDAY: 'Fre',
     SATURDAY: 'Lør',
     SUNDAY: 'Søn',
+};
+
+export const tilUkeIÅr = (fom: string): string => {
+    const dato = parseISO(fom);
+    return `${getISOWeekYear(dato)}-${getISOWeek(dato)}`;
 };

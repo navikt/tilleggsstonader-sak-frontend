@@ -1,4 +1,4 @@
-import { LocalDate } from '../../../../../utils/dato';
+import { LocalDate, tilUkeIÅr } from '../../../../../utils/dato';
 import { KjørelisteDag, ManuellKjørelisteRequest, ManuellRegistreringUkeDto } from '../typer';
 import { DagTilInnsending, UkeTilInnsending } from './typer';
 
@@ -8,6 +8,7 @@ export const initialiserUkerTilInnsending = (
 
 const initialiserUke = (ukeFraRegister: ManuellRegistreringUkeDto): UkeTilInnsending => ({
     ukenummer: ukeFraRegister.ukenummer,
+    ukeIÅr: ukeFraRegister.ukeIÅr ?? tilUkeIÅr(ukeFraRegister.fom),
     fom: ukeFraRegister.fom,
     tom: ukeFraRegister.tom,
     skalSendesInn: false,

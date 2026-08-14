@@ -23,6 +23,7 @@ import {
 import { LagretKjørelisteKortHeader } from './LagretKjørelisteKortHeader';
 import { LagretKjørelisteUkerTabell } from './LagretKjørelisteUkerTabell';
 import { SlettKjørelisteModal } from './SlettKjørelisteModal';
+import { tilUkeIÅr } from '../../../../../utils/dato';
 
 export const LagretKjørelisteKort: FC<{
     kjøreliste: ManueltInnsendtKjørelisteUke;
@@ -84,7 +85,13 @@ export const LagretKjørelisteKort: FC<{
                 parkeringsutgift: undefined,
             }));
             nyeDager[uke.fom] = dager;
-            return { ukenummer: uke.ukenummer, fom: uke.fom, tom: uke.tom, dager };
+            return {
+                ukenummer: uke.ukenummer,
+                ukeIÅr: uke.ukeIÅr ?? tilUkeIÅr(uke.fom),
+                fom: uke.fom,
+                tom: uke.tom,
+                dager,
+            };
         });
 
         settDagerPerUke((prev) => ({ ...prev, ...nyeDager }));
@@ -116,7 +123,7 @@ export const LagretKjørelisteKort: FC<{
         const respons = await oppdaterKjøreliste(kjøreliste.id, {
             begrunnelse: begrunnelseInput || undefined,
             uker: ukerIRedigering.map((uke) => ({
-                fom: uke.fom,
+                ukeIÅr: uke.ukeIÅr,
                 dager: dagerPerUke[uke.fom] ?? uke.dager,
             })),
         });
