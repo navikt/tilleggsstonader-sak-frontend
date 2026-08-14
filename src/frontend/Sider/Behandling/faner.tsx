@@ -23,6 +23,7 @@ import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
 import { BeregningFaneDagligReise } from './VedtakOgBeregning/DagligReise/BeregningFane/BeregningFaneDagligReise';
 import { VedtakOgBeregningDagligReise } from './VedtakOgBeregning/DagligReise/VedtakOgBeregningDagligReise';
+import { VedtakOgBeregningFlytting } from './VedtakOgBeregning/Flytting/VedtakOgBeregningFlytting';
 import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/VedtakOgBeregningLæremidler';
 import VedtakOgBeregningPassAvBarn from './VedtakOgBeregning/PassAvBarn/VedtakOgBeregningPassAvBarn';
 import { VedtakOgBeregningReiseTilSamling } from './VedtakOgBeregning/ReiseTilSamling/VedtakOgBeregningReiseTilSamling';
@@ -61,6 +62,7 @@ export enum StønadsvilkårFaneNavn {
     VILKÅR = 'Bolig/overnatting',
     DAGLIG_REISE = 'Daglige reiser',
     REISE_TIL_SAMLING = 'Samling',
+    FLYTTING = 'Flytting',
 }
 
 export const faneNavnStønadsvilkår: Record<
@@ -72,6 +74,8 @@ export const faneNavnStønadsvilkår: Record<
     DAGLIG_REISE_TSO: StønadsvilkårFaneNavn.DAGLIG_REISE,
     DAGLIG_REISE_TSR: StønadsvilkårFaneNavn.DAGLIG_REISE,
     REISE_TIL_SAMLING_TSO: StønadsvilkårFaneNavn.REISE_TIL_SAMLING,
+    FLYTTING_TSO: StønadsvilkårFaneNavn.FLYTTING,
+    FLYTTING_TSR: StønadsvilkårFaneNavn.FLYTTING,
 };
 
 export enum FanePath {
@@ -246,6 +250,9 @@ export const vedtakForBehandling = (behandling: Behandling): React.ReactNode => 
             return <VedtakOgBeregningDagligReise />;
         case Stønadstype.REISE_TIL_SAMLING_TSO:
             return <VedtakOgBeregningReiseTilSamling />;
+        case Stønadstype.FLYTTING_TSO:
+        case Stønadstype.FLYTTING_TSR:
+            return <VedtakOgBeregningFlytting />;
     }
 };
 
@@ -298,6 +305,9 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
                     ikon: <BriefcaseIcon />,
                 },
             ];
+        case Stønadstype.FLYTTING_TSO:
+        case Stønadstype.FLYTTING_TSR:
+            return [];
     }
 };
 

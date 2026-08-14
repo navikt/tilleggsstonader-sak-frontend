@@ -16,4 +16,6 @@ export const maksMånederTilbakeFraSøknadsdato: Record<Stønadstype, number> = 
     DAGLIG_REISE_TSO: 3,
 
     REISE_TIL_SAMLING_TSO: 6,
+    FLYTTING_TSO: 6,
+    FLYTTING_TSR: 6,
 };

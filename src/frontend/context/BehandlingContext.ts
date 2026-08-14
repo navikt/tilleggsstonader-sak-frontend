@@ -60,6 +60,8 @@ const useKanSaksbehandle = (stønadstype: Stønadstype) => {
     const kanSaksbehandleReiseTilSamlingTso = useFlag(
         Toggle.KAN_SAKSBEHANDLE_REISE_TIL_SAMLING_TSO
     );
+    const kanSaksbehandleFlyttingTso = useFlag(Toggle.KAN_SAKSBEHANDLE_FLYTTING_TSO);
+    const kanSaksbehandleFlyttingTsr = useFlag(Toggle.KAN_SAKSBEHANDLE_FLYTTING_TSR);
     switch (stønadstype) {
         case Stønadstype.BARNETILSYN:
             return kanSaksbehandlePassAvBarn;
@@ -73,6 +75,10 @@ const useKanSaksbehandle = (stønadstype: Stønadstype) => {
             return kanSaksbehandleDagligReiseTsr;
         case Stønadstype.REISE_TIL_SAMLING_TSO:
             return kanSaksbehandleReiseTilSamlingTso;
+        case Stønadstype.FLYTTING_TSO:
+            return kanSaksbehandleFlyttingTso;
+        case Stønadstype.FLYTTING_TSR:
+            return kanSaksbehandleFlyttingTsr;
         default:
             return false;
     }

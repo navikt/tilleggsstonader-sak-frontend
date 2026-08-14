@@ -11,6 +11,7 @@ import {
     DetaljertVedtaksperiodePassAvBarn,
 } from '../../typer/vedtak/vedtaksperiodeOppsummering';
 import { VedtaksperioderOversiktBoutgifter } from '../Personoversikt/Vedtaksperioderoversikt/Boutgifter/VedtaksperioderOversiktBoutgifter';
+import { VedtaksperioderOversiktFlytting } from '../Personoversikt/Vedtaksperioderoversikt/Flytting/VedtaksperioderOversiktFlytting';
 import { VedtaksperioderOversiktDagligReise } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktDagligReise';
 import { VedtaksperioderOversiktLæremidler } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktLæremidler';
 import { VedtaksperioderOversiktPassAvBarn } from '../Personoversikt/Vedtaksperioderoversikt/VedtaksperioderOversiktPassAvBarn';
@@ -64,6 +65,12 @@ export function DetaljerteVedtaksperioderBehandling({
                 border={true}
                 vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeReiseTilSamling[]}
             />
+        ),
+        [Stønadstype.FLYTTING_TSO]: (vedtaksperioder) => (
+            <VedtaksperioderOversiktFlytting border={true} vedtaksperioder={vedtaksperioder} />
+        ),
+        [Stønadstype.FLYTTING_TSR]: (vedtaksperioder) => (
+            <VedtaksperioderOversiktFlytting border={true} vedtaksperioder={vedtaksperioder} />
         ),
     };
 

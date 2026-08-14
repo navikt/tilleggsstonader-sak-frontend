@@ -13,6 +13,8 @@ export enum Stønadstype {
     DAGLIG_REISE_TSO = 'DAGLIG_REISE_TSO',
     DAGLIG_REISE_TSR = 'DAGLIG_REISE_TSR',
     REISE_TIL_SAMLING_TSO = 'REISE_TIL_SAMLING_TSO',
+    FLYTTING_TSO = 'FLYTTING_TSO',
+    FLYTTING_TSR = 'FLYTTING_TSR',
 }
 
 export const stønadstypeTilTekst: Record<Stønadstype, string> = {
@@ -22,6 +24,8 @@ export const stønadstypeTilTekst: Record<Stønadstype, string> = {
     DAGLIG_REISE_TSO: 'Daglige reiser (Nay)',
     DAGLIG_REISE_TSR: 'Daglige reiser (Tiltaksenheten)',
     REISE_TIL_SAMLING_TSO: 'Reise til samling (Nay)',
+    FLYTTING_TSO: 'Flytting (Nay)',
+    FLYTTING_TSR: 'Flytting (Tiltaksenheten)',
 };
 
 const stønadstypeTilEnhet: Record<Stønadstype, BehandlendeEnhet> = {
@@ -30,13 +34,17 @@ const stønadstypeTilEnhet: Record<Stønadstype, BehandlendeEnhet> = {
     [Stønadstype.BOUTGIFTER]: BehandlendeEnhet.NAY,
     [Stønadstype.DAGLIG_REISE_TSO]: BehandlendeEnhet.NAY,
     [Stønadstype.REISE_TIL_SAMLING_TSO]: BehandlendeEnhet.NAY,
+    [Stønadstype.FLYTTING_TSO]: BehandlendeEnhet.NAY,
     [Stønadstype.DAGLIG_REISE_TSR]: BehandlendeEnhet.TILTAKSENHETEN,
+    [Stønadstype.FLYTTING_TSR]: BehandlendeEnhet.TILTAKSENHETEN,
 };
 
 export const stønadstypeTilTekstUtenBehandlendeEnhet: Record<Stønadstype, string> = {
     ...stønadstypeTilTekst,
     DAGLIG_REISE_TSO: 'Daglige reiser',
     DAGLIG_REISE_TSR: 'Daglige reiser',
+    FLYTTING_TSO: 'Flytting',
+    FLYTTING_TSR: 'Flytting',
 };
 
 function finnEnheterSaksbehandlerKanBehandleFor(
@@ -62,3 +70,6 @@ export function hentStønadstyperSaksbehandlerKanBehandle(
 
 export const stønadstypeErDagligReise = (stønadstype: Stønadstype) =>
     stønadstype === Stønadstype.DAGLIG_REISE_TSO || stønadstype === Stønadstype.DAGLIG_REISE_TSR;
+
+export const stønadstypeErFlytting = (stønadstype: Stønadstype) =>
+    stønadstype === Stønadstype.FLYTTING_TSO || stønadstype === Stønadstype.FLYTTING_TSR;

@@ -50,9 +50,17 @@ export interface BehandlingFaktaReiseTilSamling extends BehandlingFaktaInterface
     // TODO: Legg til alt de andre fra søknaden
 }
 
+export interface BehandlingFaktaFlytting extends BehandlingFaktaInterface {
+    '@type': Stønadstype.FLYTTING_TSO | Stønadstype.FLYTTING_TSR;
+    aktiviteter: FaktaAktivitet;
+    personopplysninger: FaktaPersonopplysninger;
+    // TODO - legg til fakta om flytting
+}
+
 export type BehandlingFakta =
     | BehandlingFaktaPassAvBarn
     | BehandlingFaktaLæremidler
     | BehandlingFaktaBoutgifter
     | BehandlingFaktaDagligReise
-    | BehandlingFaktaReiseTilSamling;
+    | BehandlingFaktaReiseTilSamling
+    | BehandlingFaktaFlytting;

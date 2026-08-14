@@ -148,6 +148,32 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         LØNN_I_TILTAK: false,
         ANNET: true,
     },
+    [Stønadstype.FLYTTING_TSO]: {
+        INGEN_AKTIVITET: true,
+        IKKE_I_MÅLGRUPPE: true,
+        INGEN_OVERLAPP_AKTIVITET_MÅLGRUPPE: true,
+        MANGELFULL_DOKUMENTASJON: true,
+        HAR_IKKE_UTGIFTER: false,
+        RETT_TIL_UTSTYRSSTIPEND: false,
+        HAR_IKKE_MERUTGIFTER: false,
+        RETT_TIL_BOSTØTTE: false,
+        REISEAVSTAND_UNDER_6_KM: false,
+        LØNN_I_TILTAK: false,
+        ANNET: true,
+    },
+    [Stønadstype.FLYTTING_TSR]: {
+        INGEN_AKTIVITET: true,
+        IKKE_I_MÅLGRUPPE: true,
+        INGEN_OVERLAPP_AKTIVITET_MÅLGRUPPE: true,
+        MANGELFULL_DOKUMENTASJON: true,
+        HAR_IKKE_UTGIFTER: false,
+        RETT_TIL_UTSTYRSSTIPEND: false,
+        HAR_IKKE_MERUTGIFTER: false,
+        RETT_TIL_BOSTØTTE: false,
+        REISEAVSTAND_UNDER_6_KM: false,
+        LØNN_I_TILTAK: false,
+        ANNET: true,
+    },
 };
 
 export const årsakerForStønad: Record<Stønadstype, ÅrsakAvslag[]> = Object.entries(årsaker).reduce(

@@ -68,7 +68,12 @@ function OpprettFørstegangsbehandlingAdmin() {
     const stønadstyperSaksbehandlerKanBehandle = hentStønadstyperSaksbehandlerKanBehandle(
         saksbehandler,
         appEnv
-    ).filter((type) => type !== Stønadstype.REISE_TIL_SAMLING_TSO);
+    ).filter(
+        (type) =>
+            type !== Stønadstype.REISE_TIL_SAMLING_TSO &&
+            type !== Stønadstype.FLYTTING_TSO &&
+            type !== Stønadstype.FLYTTING_TSR
+    );
     const [stønadstype, settStønadstype] = useState<Stønadstype>();
 
     const endreStønadstype = (event: React.ChangeEvent<HTMLSelectElement>) => {

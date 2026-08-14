@@ -39,6 +39,8 @@ export const finnGjelderForOppsummertVilkår = (
         case Stønadstype.DAGLIG_REISE_TSR:
         case Stønadstype.LÆREMIDLER:
         case Stønadstype.REISE_TIL_SAMLING_TSO:
+        case Stønadstype.FLYTTING_TSO:
+        case Stønadstype.FLYTTING_TSR:
             return '';
     }
 };
