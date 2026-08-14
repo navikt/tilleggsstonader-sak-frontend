@@ -11,7 +11,7 @@ interface Props {
 
 export const [StegProvider, useSteg] = constate(
     ({ fane, behandling, behandlingErRedigerbar }: Props) => {
-        const erISteg = fane && behandling.steg === faneTilSteg[fane];
+        const erISteg = fane !== undefined && behandling.steg === faneTilSteg[fane];
 
         const erStegRedigerbart = erISteg && behandlingErRedigerbar;
 

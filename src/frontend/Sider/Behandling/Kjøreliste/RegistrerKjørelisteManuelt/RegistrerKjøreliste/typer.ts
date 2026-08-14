@@ -1,5 +1,6 @@
 export interface UkeTilInnsending {
     ukenummer: number;
+    ukeIÅr: string;
     fom: string;
     tom: string;
     skalSendesInn: boolean;
