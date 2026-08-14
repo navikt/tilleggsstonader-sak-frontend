@@ -46,7 +46,7 @@ const orderByTilHeader: Record<OppgaveOrderBy, keyof Oppgave> = Object.entries(
 );
 
 export const utledetFolkeregisterIdent = (oppgave: Oppgave) =>
-    (oppgave.bruker.type === OppgaveBrukerType.PERSON && oppgave.bruker.ident) || 'Ukjent ident';
+    (oppgave.bruker?.type === OppgaveBrukerType.PERSON && oppgave.bruker.ident) || 'Ukjent ident';
 
 const utledOrderByFraKey = (oppgaveKey: keyof Oppgave): OppgaveOrderBy =>
     tabellHeaders[oppgaveKey]?.orderBy ?? defaultSortering.orderBy;

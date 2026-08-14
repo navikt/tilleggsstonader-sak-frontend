@@ -40,13 +40,13 @@ export interface Oppgave {
     id: number;
     versjon: number;
 
-    bruker: OppgaveBruker;
-    tildeltEnhetsnr: string;
-    tema: string;
-    oppgavetype: Oppgavetype;
-    aktivDato: string;
-    prioritet: Prioritet;
-    status: string;
+    bruker?: OppgaveBruker;
+    tildeltEnhetsnr?: string;
+    tema?: string;
+    oppgavetype?: Oppgavetype;
+    aktivDato?: string;
+    prioritet?: Prioritet;
+    status?: string;
 
     endretAvEnhetsnr?: string;
     eksisterendeOppgaveId?: string;

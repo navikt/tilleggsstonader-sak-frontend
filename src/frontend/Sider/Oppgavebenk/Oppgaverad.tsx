@@ -39,7 +39,9 @@ const Oppgaverad: React.FC<{ oppgave: Oppgave }> = ({ oppgave }) => {
         <Table.Row key={oppgave.id}>
             <Table.DataCell>
                 <HStack gap={'space-8'} align={'center'}>
-                    {oppgaveTypeTilTekst[oppgave.oppgavetype]}
+                    {oppgave.oppgavetype
+                        ? oppgaveTypeTilTekst[oppgave.oppgavetype]
+                        : 'Mangler oppgavetype'}
                     {skalViseOpphørTag(oppgave) && (
                         <Tag data-color="danger" variant={'outline'} size={'small'}>
                             Opphør
