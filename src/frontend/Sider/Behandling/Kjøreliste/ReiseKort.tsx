@@ -46,7 +46,7 @@ export const ReiseKort: FC<{
                                 <BodyShort size="medium">{periode}</BodyShort>
                             </VStack>
                             <VStack gap="space-4">
-                                <Label size="medium">Reiseavstand en vei</Label>
+                                <Label size="medium">Reiseavstand én vei</Label>
                                 <BodyShort size="medium">{reiseavstand}</BodyShort>
                             </VStack>
                         </HStack>
