@@ -5,6 +5,7 @@ import { Alert, VStack } from '@navikt/ds-react';
 
 import { KopierVilkårDagligReise } from './EndreVilkår/KopierVilkårDagligReise';
 import { NyttVilkårDagligReise } from './EndreVilkår/NyttVilkårDagligReise';
+import { PiggdekkavgiftPanel } from './PiggdekkavgiftPanel';
 import { erFaktaPrivatBil } from './typer/faktaDagligReise';
 import { VilkårDagligReise } from './typer/vilkårDagligReise';
 import { VisEllerEndreVilkårDagligReise } from './VisEllerEndreVilkårDagligReise';
@@ -135,39 +136,42 @@ const StønadsvilkårInnhold = () => {
         totaltAntallReisedagerIAktivitetsperioder(aktiviteter);
 
     return (
-        <VilkårPanel tittel={'Daglige reiser'} ikon={<BriefcaseIcon />}>
-            {vilkårsett.map((vilkår) => (
-                <React.Fragment key={vilkår.id}>
-                    <VisEllerEndreVilkårDagligReise
-                        vilkår={vilkår}
-                        redigerer={redigererVilkårId === vilkår.id}
-                        redigererAnnetVilkår={
-                            redigererVilkårId !== undefined && redigererVilkårId !== vilkår.id
-                        }
-                        startRedigering={() => startRedigering(vilkår.id)}
-                        avsluttRedigering={avsluttRedigering}
-                        startKopiering={startKopiering}
-                    />
-                    {vilkårSomKopieres && vilkårSomKopieres.id === vilkår.id && (
-                        <KopierVilkårDagligReise
-                            kopierFra={vilkårSomKopieres}
-                            avsluttKopiering={avsluttKopiering}
-                            tomFraVilkårSomKopieres={originalTomForKopiering}
+        <>
+            <VilkårPanel tittel={'Daglige reiser'} ikon={<BriefcaseIcon />}>
+                {vilkårsett.map((vilkår) => (
+                    <React.Fragment key={vilkår.id}>
+                        <VisEllerEndreVilkårDagligReise
+                            vilkår={vilkår}
+                            redigerer={redigererVilkårId === vilkår.id}
+                            redigererAnnetVilkår={
+                                redigererVilkårId !== undefined && redigererVilkårId !== vilkår.id
+                            }
+                            startRedigering={() => startRedigering(vilkår.id)}
+                            avsluttRedigering={avsluttRedigering}
+                            startKopiering={startKopiering}
                         />
-                    )}
-                </React.Fragment>
-            ))}
+                        {vilkårSomKopieres && vilkårSomKopieres.id === vilkår.id && (
+                            <KopierVilkårDagligReise
+                                kopierFra={vilkårSomKopieres}
+                                avsluttKopiering={avsluttKopiering}
+                                tomFraVilkårSomKopieres={originalTomForKopiering}
+                            />
+                        )}
+                    </React.Fragment>
+                ))}
 
-            {skalViseAdvarselOmAntallReisedager && (
-                <Alert variant="warning" size="small">
-                    Antall reisedager er høyere enn antall aktivitetsdager.
-                </Alert>
-            )}
-            <NyttVilkårDagligReise
-                leggerTilNyttVilkår={redigererVilkårId === 'nytt'}
-                startRedigering={() => startRedigering('nytt')}
-                avsluttRedigering={avsluttRedigering}
-            />
-        </VilkårPanel>
+                {skalViseAdvarselOmAntallReisedager && (
+                    <Alert variant="warning" size="small">
+                        Antall reisedager er høyere enn antall aktivitetsdager.
+                    </Alert>
+                )}
+                <NyttVilkårDagligReise
+                    leggerTilNyttVilkår={redigererVilkårId === 'nytt'}
+                    startRedigering={() => startRedigering('nytt')}
+                    avsluttRedigering={avsluttRedigering}
+                />
+            </VilkårPanel>
+            <PiggdekkavgiftPanel />
+        </>
     );
 };
