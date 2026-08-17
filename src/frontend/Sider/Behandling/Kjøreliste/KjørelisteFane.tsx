@@ -91,22 +91,26 @@ const FaneInnhold: React.FC<{ reisevurderingerResponse: ReisevurderingPrivatBil[
 
     return (
         <VStack gap="space-24">
-            <HStack>
-                <Button
-                    icon={
-                        <ArrowDownIcon
-                            aria-hidden
-                            className={`${styles.pil}${sortering === 'eldst' ? ` ${styles.pilSnudd}` : ''}`}
-                        />
-                    }
-                    iconPosition="left"
-                    onClick={() => settSortering((prev) => (prev === 'nyest' ? 'eldst' : 'nyest'))}
-                    size="small"
-                    variant="secondary"
-                >
-                    {sortering === 'nyest' ? 'Nyest først' : 'Eldst først'}
-                </Button>
-            </HStack>
+            {sorterteReisevurderinger.length > 1 && (
+                <HStack>
+                    <Button
+                        icon={
+                            <ArrowDownIcon
+                                aria-hidden
+                                className={`${styles.pil}${sortering === 'eldst' ? ` ${styles.pilSnudd}` : ''}`}
+                            />
+                        }
+                        iconPosition="left"
+                        onClick={() =>
+                            settSortering((prev) => (prev === 'nyest' ? 'eldst' : 'nyest'))
+                        }
+                        size="small"
+                        variant="secondary"
+                    >
+                        {sortering === 'nyest' ? 'Nyest først' : 'Eldst først'}
+                    </Button>
+                </HStack>
+            )}
 
             {sorterteReisevurderinger.map((reise) => (
                 <ReiseKort
