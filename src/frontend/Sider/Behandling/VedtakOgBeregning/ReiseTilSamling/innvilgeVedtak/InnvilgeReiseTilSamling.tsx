@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { ErrorMessage, VStack } from '@navikt/ds-react';
 
+import { Beregningsresultat } from './Beregningsresultat/Beregningsresultat';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
@@ -11,18 +12,20 @@ import DataViewer from '../../../../../komponenter/DataViewer';
 import { Feil } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
-import { byggHenterRessurs, byggTomRessurs } from '../../../../../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
+import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import {
     BeregningReiseTilSamling,
     BeregnReiseTilSamlingRequest,
     InnvilgelseReiseTilSamling,
+    InnvilgeReiseTilSamlingRequest,
 } from '../../../../../typer/vedtak/vedtakReiseTilSamling';
 import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
+import { StegKnappInnvilgelseMedVarsel } from '../../Felles/StegKnappInnvilgelseMedVarsel';
 import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
 import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
 import { initialiserVedtaksperioder } from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
-import { Beregningsresultat } from '../../ReiseTilSamling/innvilgeVedtak/Beregningsresultat/Beregningsresultat';
 
 interface Props {
     lagretVedtak?: InnvilgelseReiseTilSamling;
@@ -54,9 +57,25 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
     const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
 
     const [begrunnelse, settBegrunnelse] = useState<string | undefined>(lagretVedtak?.begrunnelse);
+
     useEffect(() => {
         settErVedtaksperioderBeregnet(false);
     }, [vedtaksperioder]);
+
+    const lagreVedtak = () => {
+        if (beregningsresultat.status === RessursStatus.SUKSESS && erVedtaksperioderBeregnet) {
+            const url = `/api/sak/vedtak/reise-til-samling/${behandling.id}/tso/innvilgelse`;
+
+            return request<null, InnvilgeReiseTilSamlingRequest>(url, 'POST', {
+                type: TypeVedtak.INNVILGELSE,
+                vedtaksperioder: vedtaksperioder,
+                begrunnelse: begrunnelse,
+            });
+        } else {
+            settVisHarIkkeBeregnetFeilmelding(true);
+            return Promise.reject();
+        }
+    };
 
     const validerForm = (): boolean => {
         const vedtaksperiodeFeil = validerVedtaksperioder(vedtaksperioder);
@@ -111,11 +130,21 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
                             )}
                         </DataViewer>
                     )}
+                    {!erStegRedigerbart && lagretVedtak?.beregningsresultat && (
+                        <Beregningsresultat beregningsresultat={lagretVedtak.beregningsresultat} />
+                    )}
                 </VStack>
             </Panel>
             {visHarIkkeBeregnetFeilmelding && !erVedtaksperioderBeregnet && (
                 <ErrorMessage>{'Du må beregne før du kan gå videre'}</ErrorMessage>
             )}
+            <StegKnappInnvilgelseMedVarsel
+                lagreVedtak={lagreVedtak}
+                vedtaksperioder={vedtaksperioder}
+                lagredeVedtaksperioder={lagredeVedtaksperioder}
+                vedtakErLagret={lagretVedtak !== undefined}
+                tidligsteEndring={undefined}
+            />
         </>
     );
 };

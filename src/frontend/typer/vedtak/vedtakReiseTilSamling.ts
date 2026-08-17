@@ -33,7 +33,7 @@ export interface BeregningsresultatPrivatBil {
 export type InnvilgeReiseTilSamlingRequest = {
     type: TypeVedtak.INNVILGELSE;
     vedtaksperioder: Vedtaksperiode[];
-    begrunnelse: string;
+    begrunnelse?: string;
 };
 export interface InnvilgelseReiseTilSamling {
     type: TypeVedtak.INNVILGELSE;
