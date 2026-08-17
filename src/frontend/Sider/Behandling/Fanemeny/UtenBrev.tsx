@@ -33,10 +33,12 @@ export const UtenBrev: React.FC = () => {
     };
 
     return (
-        <VStack gap="space-8" align="start" className={styles.container}>
-            <Alert variant={'warning'}>Årsak til behandling er uten brev</Alert>
+        <VStack gap="space-24" align="start">
+            <Alert variant={'info'} inline>
+                Årsak til behandling er uten brev
+            </Alert>
             {erStegRedigerbart && (
-                <Button className={styles.knapp} onClick={onClick} disabled={laster}>
+                <Button className={styles.knapp} size="small" onClick={onClick} disabled={laster}>
                     Send til beslutter
                 </Button>
             )}
