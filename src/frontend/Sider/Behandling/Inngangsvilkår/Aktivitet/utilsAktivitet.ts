@@ -43,6 +43,7 @@ export const finnRelevanteAktivitetTyperForStønad = (stønadstype: Stønadstype
             return [AktivitetType.TILTAK, AktivitetType.UTDANNING, AktivitetType.INGEN_AKTIVITET];
 
         case Stønadstype.DAGLIG_REISE_TSR:
+        case Stønadstype.REISE_TIL_SAMLING_TSR:
         case Stønadstype.FLYTTING_TSR:
             return [AktivitetType.TILTAK, AktivitetType.INGEN_AKTIVITET];
     }

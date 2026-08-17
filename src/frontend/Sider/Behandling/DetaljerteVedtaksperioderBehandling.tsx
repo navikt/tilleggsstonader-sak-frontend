@@ -66,6 +66,12 @@ export function DetaljerteVedtaksperioderBehandling({
                 vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeReiseTilSamling[]}
             />
         ),
+        [Stønadstype.REISE_TIL_SAMLING_TSR]: (vedtaksperioder) => (
+            <VedtaksperioderOversiktReiseTilSamling
+                border={true}
+                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeReiseTilSamling[]}
+            />
+        ),
         [Stønadstype.FLYTTING_TSO]: (vedtaksperioder) => (
             <VedtaksperioderOversiktFlytting border={true} vedtaksperioder={vedtaksperioder} />
         ),

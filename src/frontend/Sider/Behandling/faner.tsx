@@ -74,6 +74,7 @@ export const faneNavnStønadsvilkår: Record<
     DAGLIG_REISE_TSO: StønadsvilkårFaneNavn.DAGLIG_REISE,
     DAGLIG_REISE_TSR: StønadsvilkårFaneNavn.DAGLIG_REISE,
     REISE_TIL_SAMLING_TSO: StønadsvilkårFaneNavn.REISE_TIL_SAMLING,
+    REISE_TIL_SAMLING_TSR: StønadsvilkårFaneNavn.REISE_TIL_SAMLING,
     FLYTTING_TSO: StønadsvilkårFaneNavn.FLYTTING,
     FLYTTING_TSR: StønadsvilkårFaneNavn.FLYTTING,
 };
@@ -249,6 +250,7 @@ export const vedtakForBehandling = (behandling: Behandling): React.ReactNode => 
         case Stønadstype.DAGLIG_REISE_TSR:
             return <VedtakOgBeregningDagligReise />;
         case Stønadstype.REISE_TIL_SAMLING_TSO:
+        case Stønadstype.REISE_TIL_SAMLING_TSR:
             return <VedtakOgBeregningReiseTilSamling />;
         case Stønadstype.FLYTTING_TSO:
         case Stønadstype.FLYTTING_TSR:
@@ -297,6 +299,7 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
                 },
             ];
         case Stønadstype.REISE_TIL_SAMLING_TSO:
+        case Stønadstype.REISE_TIL_SAMLING_TSR:
             return [
                 {
                     navn: faneNavnStønadsvilkår[behandling.stønadstype],

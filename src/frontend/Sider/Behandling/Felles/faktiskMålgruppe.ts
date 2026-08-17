@@ -45,6 +45,12 @@ const faktiskeMålgrupper: Record<Stønadstype, Record<FaktiskMålgruppe, boolea
         GJENLEVENDE: true,
         ARBEIDSSØKER: false,
     },
+    [Stønadstype.REISE_TIL_SAMLING_TSR]: {
+        NEDSATT_ARBEIDSEVNE: false,
+        ENSLIG_FORSØRGER: false,
+        GJENLEVENDE: false,
+        ARBEIDSSØKER: true,
+    },
     [Stønadstype.FLYTTING_TSO]: {
         NEDSATT_ARBEIDSEVNE: true,
         ENSLIG_FORSØRGER: true,

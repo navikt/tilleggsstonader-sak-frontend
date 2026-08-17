@@ -129,6 +129,20 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         TILTAKSPENGER: false,
         INNSATT_I_FENGSEL: false,
     },
+    [Stønadstype.REISE_TIL_SAMLING_TSR]: {
+        DAGPENGER: true,
+        KVALIFISERINGSSTØNAD: true,
+        TILTAKSPENGER: true,
+        INNSATT_I_FENGSEL: true,
+        INGEN_MÅLGRUPPE: true,
+        AAP: false,
+        UFØRETRYGD: false,
+        OMSTILLINGSSTØNAD: false,
+        OVERGANGSSTØNAD: false,
+        NEDSATT_ARBEIDSEVNE: false,
+        SYKEPENGER_100_PROSENT: false,
+        GJENLEVENDE_GAMMELT_REGELVERK: false,
+    },
 
     [Stønadstype.FLYTTING_TSO]: {
         AAP: true,

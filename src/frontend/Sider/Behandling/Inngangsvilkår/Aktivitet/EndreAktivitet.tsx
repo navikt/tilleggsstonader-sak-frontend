@@ -84,6 +84,9 @@ export const EndreAktivitet: React.FC<{
                     avbrytRedigering={avbrytRedigering}
                 />
             );
+        case Stønadstype.REISE_TIL_SAMLING_TSR:
+            // TODO: Implementer EndreAktivitetReiseTilSamlingTsr
+            return null;
         case Stønadstype.FLYTTING_TSO:
         case Stønadstype.FLYTTING_TSR:
             return (
