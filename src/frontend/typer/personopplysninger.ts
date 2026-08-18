@@ -9,6 +9,12 @@ export interface Personopplysninger {
     vergemål: Vergemål[];
     dødsdato?: string;
     harGeografiskTilknytningUtland: boolean;
+    navKontor?: NavKontor;
+}
+
+export interface NavKontor {
+    enhetId: string;
+    navn: string;
 }
 
 interface Navn {

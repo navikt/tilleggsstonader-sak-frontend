@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { Buildings3Icon } from '@navikt/aksel-icons';
 import { BodyShort, CopyButton, Heading, HStack, Link } from '@navikt/ds-react';
 
 import styles from './PersonHeader.module.css';
@@ -21,6 +22,18 @@ const PersonHeader: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) 
                 <Link href={`/person/${fagsakPersonId}`}>{personopplysninger.personIdent}</Link>
                 <CopyButton copyText={personopplysninger.personIdent} size="small" />
             </HStack>
+            {personopplysninger.navKontor && (
+                <>
+                    <BodyShort>|</BodyShort>
+                    <HStack gap="space-4" align="center">
+                        <Buildings3Icon aria-hidden />
+                        <BodyShort>
+                            {personopplysninger.navKontor.enhetId} -{' '}
+                            {personopplysninger.navKontor.navn}
+                        </BodyShort>
+                    </HStack>
+                </>
+            )}
             <BodyShort>|</BodyShort>
             <TagAdressebeskyttelse adressebeskyttelse={personopplysninger.adressebeskyttelse} />
             {personopplysninger.erSkjermet && <SmallWarningTag>Skjermet</SmallWarningTag>}
