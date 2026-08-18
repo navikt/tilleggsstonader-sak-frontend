@@ -71,6 +71,7 @@ function OpprettFørstegangsbehandlingAdmin() {
     ).filter(
         (type) =>
             type !== Stønadstype.REISE_TIL_SAMLING_TSO &&
+            type !== Stønadstype.REISE_TIL_SAMLING_TSR &&
             type !== Stønadstype.FLYTTING_TSO &&
             type !== Stønadstype.FLYTTING_TSR
     );
