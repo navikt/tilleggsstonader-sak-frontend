@@ -1,7 +1,7 @@
 import React, { useEffect, useId } from 'react';
 
 import { BriefcaseIcon } from '@navikt/aksel-icons';
-import { Alert, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, VStack } from '@navikt/ds-react';
 
 import { KopierVilkårDagligReise } from './EndreVilkår/KopierVilkårDagligReise';
 import { NyttVilkårDagligReise } from './EndreVilkår/NyttVilkårDagligReise';
@@ -221,16 +221,17 @@ const StønadsvilkårInnhold = () => {
             {perioderMedForMangeReisedager.length > 0 && (
                 <Alert variant="warning" size="small">
                     <VStack gap="space-4">
-                        <span>
+                        <BodyShort size="small">
                             Antall reisedager er høyere enn antall aktivitetsdager i følgende
                             periode(r):
-                        </span>
+                        </BodyShort>
+
                         {perioderMedForMangeReisedager.map((periode) => (
-                            <span key={`${periode.fom}-${periode.tom}`}>
+                            <BodyShort size="small" key={`${periode.fom}-${periode.tom}`}>
                                 {formaterIsoPeriode(periode.fom, periode.tom)}:{' '}
                                 {periode.antallReisedager} reisedager.{' '}
-                                {`${AktivitetTypeTilTekst[periode.relevantAktivitet.type]} med periode ${formaterIsoPeriode(periode.relevantAktivitet.fom, periode.relevantAktivitet.tom!)} har kun ${periode.relevantAktivitet.faktaOgVurderinger.aktivitetsdager ?? 0} tilgjengelige reisedager`}
-                            </span>
+                                {`${AktivitetTypeTilTekst[periode.relevantAktivitet.type]} med periode ${formaterIsoPeriode(periode.relevantAktivitet.fom, periode.relevantAktivitet.tom)} har kun ${periode.relevantAktivitet.faktaOgVurderinger.aktivitetsdager ?? 0} aktivitetsdager`}
+                            </BodyShort>
                         ))}
                     </VStack>
                 </Alert>
