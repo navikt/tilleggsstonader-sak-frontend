@@ -6,15 +6,13 @@ import {
     nyeOpplysningerEndringTilTekst,
     årsakMetadataKildeeTilTekst,
     type ÅrsakMetadata,
-    type NyeOpplysningerEndringer,
 } from '../../../../typer/behandling/nyeOpplysningerMetadata';
 import { tekstMedFallback } from '../../../../utils/tekstformatering';
 
 export const NyeOpplysningerMetadataVisning: React.FC<{
     årsakMetadata: ÅrsakMetadata;
-    nyeOpplysningerEndringer: NyeOpplysningerEndringer;
-}> = ({ årsakMetadata, nyeOpplysningerEndringer }) => {
-    const endringer = nyeOpplysningerEndringer.endringer
+}> = ({ årsakMetadata }) => {
+    const endringer = årsakMetadata.endringer
         .map((endring) => tekstMedFallback(nyeOpplysningerEndringTilTekst, endring))
         .join(', ');
 

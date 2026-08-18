@@ -5,10 +5,9 @@ import { Checkbox, CheckboxGroup, Select, Textarea } from '@navikt/ds-react';
 import { tomÅrsakMetadata } from './OpprettNyBehandlingUtils';
 import { FeilNyeOpplysningerMetadata } from './validerNyeOpplysningerMetadata';
 import {
-    NyeOpplysningerEndring,
-    NyeOpplysningerEndringer,
     nyeOpplysningerEndringTilTekst,
     ÅrsakMetadata,
+    ÅrsakMetadataEndring,
     ÅrsakMetadataKilde,
     årsakMetadataKildeeTilTekst,
 } from '../../../../typer/behandling/nyeOpplysningerMetadata';
@@ -26,7 +25,10 @@ const MetadataNyeOpplysninger = ({
     feil,
     nullstillFeilForFelt,
 }: Props) => {
-    const oppdater = (key: keyof ÅrsakMetadata, value: ÅrsakMetadataKilde | string | undefined) => {
+    const oppdater = (
+        key: keyof ÅrsakMetadata,
+        value: ÅrsakMetadataKilde | ÅrsakMetadataEndring[] | string | undefined
+    ) => {
         settårsakMetadata((prevState) => {
             if (prevState) {
                 return { ...prevState, [key]: value };
@@ -37,21 +39,6 @@ const MetadataNyeOpplysninger = ({
             nullstillFeilForFelt(key);
         }
     };
-    const oppdaterEndringer = (
-        key: keyof NyeOpplysningerEndringer,
-        value: NyeOpplysningerEndring[] | string | undefined
-    ) => {
-        settårsakMetadata((prevState) => {
-            if (prevState) {
-                return { ...prevState, [key]: value };
-            }
-            return { ...tomÅrsakMetadata, [key]: value };
-        });
-        if (key !== 'endringer') {
-            nullstillFeilForFelt(key);
-        }
-    };
-
     return (
         <>
             <Select
@@ -69,12 +56,12 @@ const MetadataNyeOpplysninger = ({
 
             <CheckboxGroup
                 legend={'Hva er endret?'}
-                onChange={(endringer: NyeOpplysningerEndring[]) =>
-                    oppdaterEndringer('endringer', endringer as NyeOpplysningerEndring[])
+                onChange={(endringer: ÅrsakMetadataEndring[]) =>
+                    oppdater('endringer', endringer as ÅrsakMetadataEndring[])
                 }
                 error={feil.endringer}
             >
-                {Object.values(NyeOpplysningerEndring).map((endring) => (
+                {Object.values(ÅrsakMetadataEndring).map((endring) => (
                     <Checkbox key={endring} value={endring}>
                         {nyeOpplysningerEndringTilTekst[endring]}
                     </Checkbox>

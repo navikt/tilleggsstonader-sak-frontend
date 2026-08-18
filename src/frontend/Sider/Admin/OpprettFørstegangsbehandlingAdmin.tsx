@@ -234,6 +234,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                                     return {
                                         kilde,
                                         beskrivelse: '',
+                                        endringer: [],
                                     };
                                 });
 
@@ -264,6 +265,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                                     return {
                                         kilde: undefined,
                                         beskrivelse: event.target.value,
+                                        endringer: [],
                                     };
                                 });
                             }}

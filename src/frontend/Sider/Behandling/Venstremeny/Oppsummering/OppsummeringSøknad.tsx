@@ -23,11 +23,8 @@ export const OppsummeringSøknad: React.FC = () => {
                     <StønadstypeTag stønadstype={behandling.stønadstype} />
                     <RevurderingTag behandling={behandling} />
                 </HStack>
-                {behandling.årsakMetadata && behandling.nyeOpplysningerEndringer && (
-                    <NyeOpplysningerMetadataVisning
-                        årsakMetadata={behandling.årsakMetadata}
-                        nyeOpplysningerEndringer={behandling.nyeOpplysningerEndringer}
-                    />
+                {behandling.årsakMetadata && (
+                    <NyeOpplysningerMetadataVisning årsakMetadata={behandling.årsakMetadata} />
                 )}
             </VStack>
             {behandlingFakta['@type'] === Stønadstype.BARNETILSYN && (

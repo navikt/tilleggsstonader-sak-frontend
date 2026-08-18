@@ -17,4 +17,5 @@ export const opprettNyBehandlingTypeTilTekst: Record<OpprettNyBehandlingType, st
 export const tomÅrsakMetadata: ÅrsakMetadata = {
     kilde: undefined,
     beskrivelse: undefined,
+    endringer: [],
 };

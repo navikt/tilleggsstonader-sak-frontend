@@ -18,10 +18,7 @@ import {
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { BehandlingÅrsak } from '../../../../typer/behandling/behandlingÅrsak';
-import {
-    NyeOpplysningerEndringer,
-    ÅrsakMetadata,
-} from '../../../../typer/behandling/nyeOpplysningerMetadata';
+import { ÅrsakMetadata } from '../../../../typer/behandling/nyeOpplysningerMetadata';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../../typer/ressurs';
 import { Toggle } from '../../../../utils/toggles';
 import { harVerdi } from '../../../../utils/utils';
@@ -39,7 +36,6 @@ interface OpprettBehandlingRequest {
     kravMottatt?: string;
     valgteBarn: string[];
     årsakMetadata?: ÅrsakMetadata;
-    nyeOpplysningerEndringer?: NyeOpplysningerEndringer;
     forenkletBehandlingstype: OpprettNyBehandlingType;
 }
 
@@ -75,7 +71,6 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
     const [kravMottatt, settKravMottatt] = useState<string | undefined>(undefined);
 
     const [årsakMetadata, settÅrsakMetadata] = useState<ÅrsakMetadata | undefined>(undefined);
-    const [nyeOpplysningerEndringer] = useState<NyeOpplysningerEndringer | undefined>(undefined);
     const { feilNyeOpplysningerMetadata, validerNyeOpplysningerMetadata, nullstillFeilForFelt } =
         useValiderNyeOpplysningerMetadata();
     const opprett = () => {
@@ -96,7 +91,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
 
         if (
             årsak === BehandlingÅrsak.NYE_OPPLYSNINGER &&
-            !validerNyeOpplysningerMetadata(årsakMetadata, nyeOpplysningerEndringer)
+            !validerNyeOpplysningerMetadata(årsakMetadata)
         ) {
             settLaster(false);
             return;

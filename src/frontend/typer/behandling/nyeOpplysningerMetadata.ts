@@ -1,6 +1,7 @@
 export type ÅrsakMetadata = {
     kilde: ÅrsakMetadataKilde | undefined;
     beskrivelse: string | undefined;
+    endringer: ÅrsakMetadataEndring[];
 };
 
 export enum ÅrsakMetadataKilde {
@@ -12,18 +13,15 @@ export enum ÅrsakMetadataKilde {
     ARENA = 'ARENA',
     PAPIRSØKNAD = 'PAPIRSØKNAD',
 }
-export type NyeOpplysningerEndringer = {
-    endringer: NyeOpplysningerEndring[];
-};
 
-export enum NyeOpplysningerEndring {
+export enum ÅrsakMetadataEndring {
     AKTIVITET = 'AKTIVITET',
     MÅLGRUPPE = 'MÅLGRUPPE',
     UTGIFT = 'UTGIFT',
     ANNET = 'ANNET',
 }
 
-export const nyeOpplysningerEndringTilTekst: Record<NyeOpplysningerEndring, string> = {
+export const nyeOpplysningerEndringTilTekst: Record<ÅrsakMetadataEndring, string> = {
     AKTIVITET: 'Aktivitet',
     MÅLGRUPPE: 'Målgruppe',
     UTGIFT: 'Utgift',
