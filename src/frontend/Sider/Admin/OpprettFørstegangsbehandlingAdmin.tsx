@@ -31,7 +31,6 @@ import {
     stønadstypeTilTekst,
 } from '../../typer/behandling/behandlingTema';
 import {
-    ÅrsakMetadata,
     ÅrsakMetadataKilde,
     årsakMetadataKildeeTilTekst,
 } from '../../typer/behandling/nyeOpplysningerMetadata';
@@ -62,7 +61,8 @@ interface OpprettFørstegansbehandlingRequest {
     valgteBarn: string[];
     medBrev: boolean;
     kravMottatt: string;
-    årsakMetadata: ÅrsakMetadata;
+    årsakKilde: string;
+    årsakBeskrivelse: string | undefined;
 }
 
 const skalVelgeBarn = (stønadstype: Stønadstype | undefined): boolean =>
@@ -132,7 +132,8 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
     const [valgteBarn, settValgteBarn] = useState<string[]>([]);
     const [personinfo, settPersoninfo] = useState<Ressurs<Personinfo>>(byggTomRessurs());
     const [feilmelding, settFeilmelding] = useState<string>();
-    const [årsakMetadata, settÅrsakMetadata] = useState<ÅrsakMetadata | undefined>(undefined);
+    const [årsakKilde, settÅrsakKilde] = useState<ÅrsakMetadataKilde | undefined>(undefined);
+    const [årsakBeskrivelse, settÅrsakBeskrivelse] = useState<string | undefined>(undefined);
 
     const [opprettBehandlingResponse, settOpprettBehandlingResponse] =
         useState<Ressurs<null>>(byggTomRessurs());
@@ -160,7 +161,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
             settFeilmelding('Krav mottatt må fylles ut');
             return;
         }
-        if (!årsakMetadata?.kilde) {
+        if (!årsakKilde) {
             settFeilmelding('Kilde til opplysning må velges');
             return;
         }
@@ -169,7 +170,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
         request<Personinfo, OpprettFørstegansbehandlingRequest>(
             `/api/sak/behandling/admin/opprett-foerstegangsbehandling`,
             'POST',
-            { stønadstype, ident, valgteBarn, medBrev, kravMottatt, årsakMetadata }
+            { stønadstype, ident, valgteBarn, medBrev, kravMottatt, årsakKilde, årsakBeskrivelse }
         ).then((res) => {
             if (res.status === RessursStatus.SUKSESS) {
                 navigate(`/behandling/${res.data}`);
@@ -189,7 +190,8 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                         settValgteBarn([]);
                         settPersoninfo(byggTomRessurs());
                         settOpprettBehandlingResponse(byggTomRessurs());
-                        settÅrsakMetadata(undefined);
+                        settÅrsakKilde(undefined);
+                        settÅrsakBeskrivelse('');
                     }}
                     autoComplete="off"
                 />
@@ -220,24 +222,10 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                         />
                         <Select
                             label="Kilde til opplysninger"
-                            value={årsakMetadata?.kilde ?? ''}
+                            value={årsakKilde ?? ''}
                             onChange={(event) => {
                                 const kilde = event.target.value as ÅrsakMetadataKilde;
-                                settÅrsakMetadata((prevState) => {
-                                    if (prevState) {
-                                        return {
-                                            ...prevState,
-                                            kilde,
-                                        };
-                                    }
-
-                                    return {
-                                        kilde,
-                                        beskrivelse: '',
-                                        endringer: [],
-                                    };
-                                });
-
+                                settÅrsakKilde(kilde);
                                 settFeilmelding(undefined);
                             }}
                         >
@@ -252,22 +240,9 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                         <TextField
                             label="Årsak til manual behandling"
                             description="Beskriv gjerne kort hvorfor førstegangsbehandlingen opprettes."
-                            value={årsakMetadata?.beskrivelse ?? ''}
+                            value={årsakBeskrivelse ?? ''}
                             onChange={(event) => {
-                                settÅrsakMetadata((prevState) => {
-                                    if (prevState) {
-                                        return {
-                                            ...prevState,
-                                            beskrivelse: event.target.value,
-                                        };
-                                    }
-
-                                    return {
-                                        kilde: undefined,
-                                        beskrivelse: event.target.value,
-                                        endringer: [],
-                                    };
-                                });
+                                settÅrsakBeskrivelse(event.target.value);
                             }}
                         />
                         <RadioGroup
