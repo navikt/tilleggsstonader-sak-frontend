@@ -15,7 +15,6 @@ export const NyeOpplysningerMetadataVisning: React.FC<{
     const endringer = årsakMetadata.endringer
         .map((endring) => tekstMedFallback(nyeOpplysningerEndringTilTekst, endring))
         .join(', ');
-
     return (
         <VStack>
             <HStack gap={'space-4'}>
@@ -26,18 +25,22 @@ export const NyeOpplysningerMetadataVisning: React.FC<{
                     {tekstMedFallback(årsakMetadataKildeeTilTekst, årsakMetadata.kilde)}
                 </BodyShort>
             </HStack>
-            <HStack gap={'space-4'}>
-                <BodyShort size={'small'} weight={'semibold'}>
-                    Endring:
-                </BodyShort>
-                <BodyShort size="small">{endringer || '-'}</BodyShort>
-            </HStack>
-            <HStack gap={'space-4'}>
-                <BodyShort size={'small'} weight={'semibold'}>
-                    Beskrivelse:
-                </BodyShort>
-                <BodyShort size={'small'}>{årsakMetadata.beskrivelse || '-'}</BodyShort>
-            </HStack>
+            {årsakMetadata.endringer.length != 0 && (
+                <HStack gap={'space-4'}>
+                    <BodyShort size={'small'} weight={'semibold'}>
+                        Endring:
+                    </BodyShort>
+                    <BodyShort size="small">{endringer}</BodyShort>
+                </HStack>
+            )}
+            {årsakMetadata.beskrivelse?.trim() && (
+                <HStack gap={'space-4'}>
+                    <BodyShort size={'small'} weight={'semibold'}>
+                        Beskrivelse:
+                    </BodyShort>
+                    <BodyShort size={'small'}>{årsakMetadata.beskrivelse}</BodyShort>
+                </HStack>
+            )}
         </VStack>
     );
 };
