@@ -1,7 +1,7 @@
 import React, { useEffect, useId } from 'react';
 
 import { BriefcaseIcon } from '@navikt/aksel-icons';
-import { Alert, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, VStack } from '@navikt/ds-react';
 
 import { KopierVilkårDagligReise } from './EndreVilkår/KopierVilkårDagligReise';
 import { NyttVilkårDagligReise } from './EndreVilkår/NyttVilkårDagligReise';
@@ -21,32 +21,91 @@ import DataViewer from '../../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Steg } from '../../../../typer/behandling/steg';
-import { Aktivitet } from '../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
-import { erAktivitetDagligReiseTso } from '../../Inngangsvilkår/typer/vilkårperiode/aktivitetDagligReiseTso';
-import { erAktivitetDagligReiseTsr } from '../../Inngangsvilkår/typer/vilkårperiode/aktivitetDagligReiseTsr';
+import { formaterIsoPeriode, leggTilDager } from '../../../../utils/dato';
+import {
+    Aktivitet,
+    AktivitetTypeTilTekst,
+} from '../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import {
+    AktivitetDagligReiseTso,
+    erAktivitetDagligReiseTso,
+} from '../../Inngangsvilkår/typer/vilkårperiode/aktivitetDagligReiseTso';
+import {
+    AktivitetDagligReiseTsr,
+    erAktivitetDagligReiseTsr,
+} from '../../Inngangsvilkår/typer/vilkårperiode/aktivitetDagligReiseTsr';
 
-function totaltAntallReisedagerIStønadsvilkår(vilkårsett: VilkårDagligReise[]): number {
-    return vilkårsett
-        .map((vilkår) => vilkår.fakta)
-        .filter(erFaktaPrivatBil)
-        .reduce(
-            (acc, fakta) =>
-                acc +
-                fakta.faktaDelperioder.reduce(
-                    (sum, delperiode) => sum + (delperiode?.reisedagerPerUke || 0),
-                    0
-                ),
-            0
-        );
+type AktivitetDagligReise = AktivitetDagligReiseTso | AktivitetDagligReiseTsr;
+
+interface ReisedagerPeriode {
+    fom: string;
+    tom: string;
+    antallReisedager: number;
+    relevantAktivitet: AktivitetDagligReise;
 }
 
-function totaltAntallReisedagerIAktivitetsperioder(aktiviteter: Aktivitet[]): number {
-    return aktiviteter
-        .filter(
-            (aktivitet) =>
-                erAktivitetDagligReiseTso(aktivitet) || erAktivitetDagligReiseTsr(aktivitet)
-        )
-        .reduce((acc, aktivitet) => acc + (aktivitet.faktaOgVurderinger.aktivitetsdager || 0), 0);
+function finnPerioderMedForMangeReisedager(
+    vilkårsett: VilkårDagligReise[],
+    aktiviteter: Aktivitet[]
+): ReisedagerPeriode[] {
+    const relevanteAktiviteter = aktiviteter.filter(
+        (a) => erAktivitetDagligReiseTso(a) || erAktivitetDagligReiseTsr(a)
+    );
+
+    const alleDelperioder = vilkårsett
+        .map((vilkår) => vilkår.fakta)
+        .filter(erFaktaPrivatBil)
+        .flatMap((fakta) =>
+            fakta.faktaDelperioder
+                .filter((d) => d.reisedagerPerUke)
+                .map((d) => ({ ...d, aktivitetId: fakta.aktivitetId }))
+        );
+
+    if (alleDelperioder.length === 0) return [];
+
+    const aktivitetIds = [...new Set(alleDelperioder.map((d) => d.aktivitetId))];
+
+    const perioderMedForMange: ReisedagerPeriode[] = [];
+
+    for (const aktivitetId of aktivitetIds) {
+        const delperioder = alleDelperioder.filter((d) => d.aktivitetId === aktivitetId);
+        const aktivitet = relevanteAktiviteter.find((a) => a.globalId === aktivitetId);
+        if (!aktivitet) {
+            // Bør ikke skje, men gjør at vi slipper nullability fremover
+            continue;
+        }
+
+        const breakpoints = [
+            ...new Set([
+                ...delperioder.flatMap((d) => [d.fom, leggTilDager(d.tom, 1)]),
+                ...[aktivitet.fom, leggTilDager(aktivitet.tom, 1)],
+            ]),
+        ].sort();
+
+        for (let i = 0; i < breakpoints.length - 1; i++) {
+            const segmentFom = breakpoints[i];
+            const segmentTom = leggTilDager(breakpoints[i + 1], -1);
+
+            const totalReisedager = delperioder
+                .filter((d) => d.fom <= segmentFom && d.tom >= segmentTom)
+                .reduce((sum, d) => sum + (d.reisedagerPerUke || 0), 0);
+
+            if (totalReisedager === 0) continue;
+
+            const aktivitetsdager = aktivitet.faktaOgVurderinger.aktivitetsdager ?? 0;
+
+            if (totalReisedager > aktivitetsdager) {
+                perioderMedForMange.push({
+                    fom: segmentFom,
+                    tom: segmentTom,
+                    antallReisedager: totalReisedager,
+                    relevantAktivitet: aktivitet,
+                });
+            }
+        }
+    }
+
+    return perioderMedForMange;
 }
 
 export const StønadsvilkårDagligReise = () => {
@@ -130,9 +189,10 @@ const StønadsvilkårInnhold = () => {
         avsluttRedigering();
     };
 
-    const skalViseAdvarselOmAntallReisedager =
-        totaltAntallReisedagerIStønadsvilkår(vilkårsett) >
-        totaltAntallReisedagerIAktivitetsperioder(aktiviteter);
+    const perioderMedForMangeReisedager = finnPerioderMedForMangeReisedager(
+        vilkårsett,
+        aktiviteter
+    );
 
     return (
         <VilkårPanel tittel={'Daglige reiser'} ikon={<BriefcaseIcon />}>
@@ -158,9 +218,22 @@ const StønadsvilkårInnhold = () => {
                 </React.Fragment>
             ))}
 
-            {skalViseAdvarselOmAntallReisedager && (
+            {perioderMedForMangeReisedager.length > 0 && (
                 <Alert variant="warning" size="small">
-                    Antall reisedager er høyere enn antall aktivitetsdager.
+                    <VStack gap="space-4">
+                        <BodyShort size="small">
+                            Antall reisedager er høyere enn antall aktivitetsdager i følgende
+                            periode(r):
+                        </BodyShort>
+
+                        {perioderMedForMangeReisedager.map((periode) => (
+                            <BodyShort size="small" key={`${periode.fom}-${periode.tom}`}>
+                                {formaterIsoPeriode(periode.fom, periode.tom)}:{' '}
+                                {periode.antallReisedager} reisedager.{' '}
+                                {`${AktivitetTypeTilTekst[periode.relevantAktivitet.type]} med periode ${formaterIsoPeriode(periode.relevantAktivitet.fom, periode.relevantAktivitet.tom)} har kun ${periode.relevantAktivitet.faktaOgVurderinger.aktivitetsdager ?? 0} aktivitetsdager`}
+                            </BodyShort>
+                        ))}
+                    </VStack>
                 </Alert>
             )}
             <NyttVilkårDagligReise
