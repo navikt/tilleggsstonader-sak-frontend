@@ -55,7 +55,13 @@ export const RegistrerKjørelisteForm: FC<{
     };
 
     const valider = () => {
-        const valideringsfeil = validerRegistrerKjøreliste(valgtReiseId, uker, journalpostId);
+        const valgtReise = tilgjengeligeReiser.find((reise) => reise.reiseId === valgtReiseId);
+        const valideringsfeil = validerRegistrerKjøreliste(
+            valgtReiseId,
+            uker,
+            journalpostId,
+            valgtReise
+        );
         settFeilmelding(valideringsfeil);
 
         if (valideringsfeil) {
