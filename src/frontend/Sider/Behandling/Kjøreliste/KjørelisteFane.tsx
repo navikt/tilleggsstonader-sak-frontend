@@ -3,6 +3,11 @@ import React, { FC } from 'react';
 import { VStack } from '@navikt/ds-react';
 
 import { ReiseKort } from './ReiseKort';
+import {
+    SorterKjørelisteKnapp,
+    Sorteringsretning,
+    sorterReisevurderinger,
+} from './SorterKjørelisteKnapp';
 import { KjørelisteProvider } from '../../../context/KjørelisteContext';
 import { useReisevurderingPrivatBil } from '../../../hooks/useReisevurderingPrivatBil';
 import { useVedtak } from '../../../hooks/useVedtak';
@@ -31,6 +36,12 @@ const FaneInnhold: React.FC<{ reisevurderingerResponse: ReisevurderingPrivatBil[
     reisevurderingerResponse,
 }) => {
     const [reisevurderinger, settReisevurderinger] = React.useState(reisevurderingerResponse);
+    const [sortering, settSortering] = React.useState<Sorteringsretning>('nyest');
+
+    const sorterteReisevurderinger = React.useMemo(
+        () => sorterReisevurderinger(reisevurderinger, sortering),
+        [reisevurderinger, sortering]
+    );
 
     const oppdaterReisevurderinger = (
         reiseId: string,
@@ -43,7 +54,11 @@ const FaneInnhold: React.FC<{ reisevurderingerResponse: ReisevurderingPrivatBil[
 
     return (
         <VStack gap="space-24">
-            {reisevurderinger.map((reise) => (
+            {sorterteReisevurderinger.length > 1 && (
+                <SorterKjørelisteKnapp sortering={sortering} settSortering={settSortering} />
+            )}
+
+            {sorterteReisevurderinger.map((reise) => (
                 <ReiseKort
                     key={reise.reiseId}
                     reisevurdering={reise}
