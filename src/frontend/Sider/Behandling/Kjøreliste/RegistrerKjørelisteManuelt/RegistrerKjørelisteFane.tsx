@@ -41,7 +41,7 @@ export const RegistrerKjørelisteFane: React.FC = () => {
                         <RegistrerKjøreliste />
                         <LagredeKjørelister />
                         <StegKnapp steg={Steg.REGISTRER_KJØRELISTE}>
-                            Ferdigstill inngangsvilkår og gå videre
+                            Ferdigstill registrering og gå videre
                         </StegKnapp>
                     </VStack>
                 </RegistrerKjørelisteProvider>
