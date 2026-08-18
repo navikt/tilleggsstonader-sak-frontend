@@ -4,6 +4,7 @@ import { BodyShort, ExpansionCard, HStack, Label, VStack } from '@navikt/ds-reac
 
 import styles from './ReiseKort.module.css';
 import { Reisevurdering } from './Reisevurdering/Reisevurdering';
+import { hentRammevedtakForVurdering } from './utils';
 import { ReisevurderingPrivatBil, UkeVurdering } from '../../../typer/kjøreliste';
 import { formaterIsoPeriode } from '../../../utils/dato';
 
@@ -11,16 +12,8 @@ export const ReiseKort: FC<{
     reisevurdering: ReisevurderingPrivatBil;
     oppdaterReisevurdering: (oppdatertReisevurdering: ReisevurderingPrivatBil) => void;
 }> = ({ reisevurdering, oppdaterReisevurdering }) => {
-    const rammeForReise = reisevurdering.rammevedtak ?? reisevurdering.forrigeRammevedtak;
-    const tittel = rammeForReise?.aktivitetsadresse ?? 'Ukjent aktivitetsadresse';
-    const periode = formaterIsoPeriode(
-        rammeForReise?.fom ?? 'ukjent',
-        rammeForReise?.tom ?? 'ukjent'
-    );
-    const reiseavstand =
-        rammeForReise?.reiseavstandEnVei !== undefined
-            ? `${rammeForReise.reiseavstandEnVei} km`
-            : 'ukjent';
+    const rammeForReise = hentRammevedtakForVurdering(reisevurdering);
+    const aktivitetsAdresse = rammeForReise.aktivitetsadresse;
 
     const oppdaterUke = (oppdatertUke: UkeVurdering) => {
         const oppdaterteUker = reisevurdering.uker.map((uke) =>
@@ -33,21 +26,23 @@ export const ReiseKort: FC<{
     };
 
     return (
-        <ExpansionCard aria-label={tittel} defaultOpen={false}>
+        <ExpansionCard aria-label={aktivitetsAdresse} defaultOpen={false}>
             <ExpansionCard.Header>
                 <VStack gap="space-8">
                     <ExpansionCard.Title size="medium" className={styles.headerTittel}>
-                        {tittel}
+                        {aktivitetsAdresse}
                     </ExpansionCard.Title>
                     <ExpansionCard.Description>
                         <HStack gap="space-16">
                             <VStack gap="space-4">
                                 <Label size="medium">Periode</Label>
-                                <BodyShort size="medium">{periode}</BodyShort>
+                                <BodyShort size="medium">
+                                    {formaterIsoPeriode(rammeForReise.fom, rammeForReise.tom)}
+                                </BodyShort>
                             </VStack>
                             <VStack gap="space-4">
                                 <Label size="medium">Reiseavstand én vei</Label>
-                                <BodyShort size="medium">{reiseavstand}</BodyShort>
+                                <BodyShort size="medium">{`${rammeForReise.reiseavstandEnVei} km`}</BodyShort>
                             </VStack>
                         </HStack>
                     </ExpansionCard.Description>

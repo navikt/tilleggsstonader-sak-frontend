@@ -1,0 +1,11 @@
+.pil {
+    transition: transform 0.1s ease;
+}
+
+.pilSnudd {
+    transform: rotate(180deg);
+}
+
+.knapp {
+    width: fit-content;
+}

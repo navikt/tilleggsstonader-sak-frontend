@@ -5,8 +5,12 @@ import {
     TypeAvvikDag,
     TypeAvvikUke,
     UkeVurdering,
+    ReisevurderingPrivatBil,
 } from '../../../typer/kjøreliste';
-import { RammeForReiseMedPrivatBilDelperiode } from '../../../typer/vedtak/vedtakDagligReise';
+import {
+    RammeForReiseMedPrivatBil,
+    RammeForReiseMedPrivatBilDelperiode,
+} from '../../../typer/vedtak/vedtakDagligReise';
 import { perioderOverlapper } from '../../../utils/dato';
 
 export function finnDelperiodeForUke(
@@ -49,6 +53,20 @@ export const mapTilRedigerbareAvklarteDager = (dager: Dag[]): RedigerbarAvklartD
         parkeringsutgift: dag.avklartDag?.parkeringsutgift,
         begrunnelse: dag.avklartDag?.begrunnelse,
     }));
+
+/**
+ * Reisevurderingen skal enten inneholde rammevedtak eller forrigeRammevedtak
+ */
+export const hentRammevedtakForVurdering = (
+    reisevurdering: ReisevurderingPrivatBil
+): RammeForReiseMedPrivatBil => {
+    const rammevedtak = reisevurdering.rammevedtak || reisevurdering.forrigeRammevedtak;
+    if (!rammevedtak) {
+        throw new Error('Rammevedtak mangler for reisevurdering');
+    }
+
+    return rammevedtak;
+};
 
 export const typeAvvikTilTekst: Record<TypeAvvikUke, string> = {
     [TypeAvvikUke.FLERE_REISEDAGER_ENN_I_RAMMEVEDTAK]:
