@@ -8,6 +8,9 @@ export enum Toggle {
     KAN_SAKSBEHANDLE_DAGLIG_REISE_TSO = 'sak.frontend.kan-saksbehandle.daglig-reise-tso',
     KAN_SAKSBEHANDLE_DAGLIG_REISE_TSR = 'sak.frontend.kan-saksbehandle.daglig-reise-tsr',
     KAN_SAKSBEHANDLE_REISE_TIL_SAMLING_TSO = 'sak.frontend.kan-saksbehandle.reise-til-samling-tso',
+    KAN_SAKSBEHANDLE_REISE_TIL_SAMLING_TSR = 'sak.frontend.kan-saksbehandle.reise-til-samling-tsr',
+    KAN_SAKSBEHANDLE_FLYTTING_TSO = 'sak.frontend.kan-saksbehandle.flytting-tso',
+    KAN_SAKSBEHANDLE_FLYTTING_TSR = 'sak.frontend.kan-saksbehandle.flytting-tsr',
     /**
      * Permission-toggles
      */
@@ -26,4 +29,5 @@ export enum Toggle {
     KAN_OPPHØRE_DAGLIG_REISE_TSO = 'sak.frontend.kan-oppheve-daglig-reise-tso',
     KAN_OPPRETTE_MANUELL_KJØRELISTEBEHANDLING = 'sak.frontend.kan-opprette-manuell-kjorelistebehandling',
     KAN_BEHANDLE_REISE_TIL_SAMLING = 'sak.reise-til-samling',
+    KAN_BEHANDLE_FLYTTING = 'sak.flytting',
 }

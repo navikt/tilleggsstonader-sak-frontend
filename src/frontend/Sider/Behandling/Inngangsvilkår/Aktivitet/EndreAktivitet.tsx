@@ -3,6 +3,7 @@ import React from 'react';
 import { EndreAktivitetBoutgfiter } from './EndreAktivitetBoutgifter';
 import { EndreAktivitetDagligReiseTso } from './EndreAktivitetDagligReiseTso';
 import { EndreAktivitetDagligReiseTsr } from './EndreAktivitetDagligReiseTsr';
+import { EndreAktivitetFlytting } from './EndreAktivitetFlytting';
 import { EndreAktivitetLæremidler } from './EndreAktivitetLæremidler';
 import { EndreAktivitetPassAvBarn } from './EndreAktivitetPassAvBarn';
 import { EndreAktivitetReiseTilSamlingTso } from './EndreAktivitetReiseTilSamlingTso';
@@ -79,6 +80,18 @@ export const EndreAktivitet: React.FC<{
             return (
                 <EndreAktivitetReiseTilSamlingTso
                     aktivitet={erAktivitetReiseTilSamlingTso(aktivitet) ? aktivitet : undefined}
+                    aktivitetFraRegister={aktivitetFraRegister}
+                    avbrytRedigering={avbrytRedigering}
+                />
+            );
+        case Stønadstype.REISE_TIL_SAMLING_TSR:
+            // TODO: Implementer EndreAktivitetReiseTilSamlingTsr
+            return null;
+        case Stønadstype.FLYTTING_TSO:
+        case Stønadstype.FLYTTING_TSR:
+            return (
+                <EndreAktivitetFlytting
+                    aktivitet={aktivitet}
                     aktivitetFraRegister={aktivitetFraRegister}
                     avbrytRedigering={avbrytRedigering}
                 />

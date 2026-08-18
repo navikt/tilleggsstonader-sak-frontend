@@ -8,6 +8,10 @@ export interface FagsakPerson {
     boutgifter?: string;
     dagligReiseTso?: string;
     dagligReiseTsr?: string;
+    reiseTilSamlingTso?: string;
+    reiseTilSamlingTsr?: string;
+    flyttingTso?: string;
+    flyttingTsr?: string;
 }
 
 export function utledFagsakId(
@@ -25,6 +29,14 @@ export function utledFagsakId(
             return fagsakPerson.dagligReiseTso;
         case Stønadstype.DAGLIG_REISE_TSR:
             return fagsakPerson.dagligReiseTsr;
+        case Stønadstype.REISE_TIL_SAMLING_TSO:
+            return fagsakPerson.reiseTilSamlingTso;
+        case Stønadstype.REISE_TIL_SAMLING_TSR:
+            return fagsakPerson.reiseTilSamlingTsr;
+        case Stønadstype.FLYTTING_TSO:
+            return fagsakPerson.flyttingTso;
+        case Stønadstype.FLYTTING_TSR:
+            return fagsakPerson.flyttingTsr;
     }
 }
 

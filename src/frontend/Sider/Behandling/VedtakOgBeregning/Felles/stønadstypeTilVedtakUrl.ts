@@ -7,4 +7,7 @@ export const stønadstypeTilVedtakUrl: Record<Stønadstype, string> = {
     [Stønadstype.DAGLIG_REISE_TSR]: 'daglig-reise',
     [Stønadstype.DAGLIG_REISE_TSO]: 'daglig-reise',
     [Stønadstype.REISE_TIL_SAMLING_TSO]: 'reise-til-samling',
+    [Stønadstype.REISE_TIL_SAMLING_TSR]: 'reise-til-samling',
+    [Stønadstype.FLYTTING_TSO]: 'flytting',
+    [Stønadstype.FLYTTING_TSR]: 'flytting',
 };
