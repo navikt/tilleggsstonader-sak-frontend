@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
 import { DokumentInfo, VedleggRequest } from '../typer/dokument';
-import { byggTomRessurs, Ressurs } from '../typer/ressurs';
+import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 
 export function useHentDokumenter(
     fagsakPersonId: string,
@@ -11,10 +11,10 @@ export function useHentDokumenter(
     const { request } = useApp();
     const [dokumenter, settDokumenter] = useState<Ressurs<DokumentInfo[]>>(byggTomRessurs());
 
-    // JSON.stringify brukes for stabil samanlikning av vedleggRequest-objektet
     const vedleggRequestJson = JSON.stringify(vedleggRequest);
 
     useEffect(() => {
+        settDokumenter(byggHenterRessurs());
         request<DokumentInfo[], VedleggRequest>(
             `/api/sak/vedlegg/fagsak-person/${fagsakPersonId}`,
             'POST',

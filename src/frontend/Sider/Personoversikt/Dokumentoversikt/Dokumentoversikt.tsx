@@ -18,7 +18,10 @@ const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId
 
     const [hentetTidspunkt, settHentetTidspunkt] = useState<Date | undefined>();
 
-    const dokumenter = useHentDokumenter(fagsakPersonId, vedleggRequest);
+    const dokumenter = useHentDokumenter(fagsakPersonId, {
+        ...vedleggRequest,
+        tema: vedleggRequest.tema?.length ? vedleggRequest.tema : relevanteArkivtemaer,
+    });
 
     useEffect(() => {
         if (dokumenter.status === RessursStatus.SUKSESS) {
