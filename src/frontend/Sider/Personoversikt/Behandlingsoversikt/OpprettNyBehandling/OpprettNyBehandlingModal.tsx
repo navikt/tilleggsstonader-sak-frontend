@@ -56,15 +56,17 @@ export const OpprettNyBehandlingModal: FC<Props> = ({
         OpprettNyBehandlingType.KLAGE,
     ];
 
+    const tittel = 'Opprett ny behandling';
+
     return (
         <div className={styles.container}>
             <Button size={'small'} variant={'secondary'} onClick={() => settVisModal(true)}>
-                Opprett ny behandling
+                {tittel}
             </Button>
             <ModalWrapper
                 visModal={visModal}
                 onClose={lukkModal}
-                tittel={'Opprett ny behandling'}
+                tittel={tittel}
                 umamiId={'opprett-ny-behandling'}
             >
                 <VStack gap="space-16" className={styles.modalBody}>
