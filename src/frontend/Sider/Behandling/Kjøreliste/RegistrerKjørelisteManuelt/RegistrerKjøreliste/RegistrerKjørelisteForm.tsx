@@ -25,7 +25,6 @@ import {
     sorterJournalpostPåTid,
 } from '../../../../Personoversikt/Dokumentoversikt/utils';
 
-// Hva betyr I?
 const VEDLEGG_REQUEST = { tema: relevanteArkivtemaerIBehandling };
 
 export const RegistrerKjørelisteForm: FC<{
