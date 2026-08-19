@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
 
-import { Button, HStack, VStack } from '@navikt/ds-react';
-
+import { OpprettBehandlingForm } from './OpprettBehandlingForm';
+import { OpprettBehandlingResponse } from './opprettBehandlingTypes';
+import { useOpprettBehandling } from './useOpprettBehandling';
 import { useApp } from '../../../../context/AppContext';
-import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import {
-    Feil,
-    feiletRessursTilFeilmelding,
-    lagFeilmelding,
-} from '../../../../komponenter/Feil/feilmeldingUtils';
+import { lagFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { RessursStatus } from '../../../../typer/ressurs';
 
@@ -28,52 +24,46 @@ const OpprettKlageBehandling: React.FC<Props> = ({
     lukkModal,
 }) => {
     const { request } = useApp();
+    const { laster, feilmelding, settFeilmelding, utførOpprett } = useOpprettBehandling();
     const [klageMottattDato, settKlageMottattDato] = useState('');
-    const [laster, settLaster] = useState<boolean>(false);
-    const [feilmelding, settFeilmelding] = useState<Feil>();
 
     const opprett = () => {
-        if (laster) {
-            return;
-        }
         if (!klageMottattDato) {
             settFeilmelding(
                 lagFeilmelding('Må sette dato for klage mottatt', RessursStatus.FUNKSJONELL_FEIL)
             );
             return;
         }
-        settLaster(true);
-        request<string, OpprettKlageRequest>(`/api/sak/klage/fagsak/${fagsakId}`, 'POST', {
-            mottattDato: klageMottattDato,
-        }).then((response) => {
-            if (response.status === RessursStatus.SUKSESS) {
+        utførOpprett(
+            () =>
+                request<OpprettBehandlingResponse, OpprettKlageRequest>(
+                    `/api/sak/klage/fagsak/${fagsakId}`,
+                    'POST',
+                    {
+                        mottattDato: klageMottattDato,
+                    }
+                ),
+            () => {
                 hentKlagebehandlinger();
                 lukkModal();
-            } else {
-                settFeilmelding(feiletRessursTilFeilmelding(response));
-                settLaster(false);
             }
-        });
+        );
     };
 
     return (
-        <VStack gap="space-16">
+        <OpprettBehandlingForm
+            lukkModal={lukkModal}
+            onSubmit={opprett}
+            laster={laster}
+            feilmelding={feilmelding}
+        >
             <DateInput
                 label={'Klage mottatt'}
                 onChange={(dato: string | undefined) => settKlageMottattDato(dato || '')}
                 value={klageMottattDato}
                 toDate={new Date()}
             />
-            <HStack gap="space-16" justify={'end'}>
-                <Button variant="tertiary" onClick={lukkModal} size="small">
-                    Avbryt
-                </Button>
-                <Button variant="primary" onClick={opprett} size="small">
-                    Lagre
-                </Button>
-            </HStack>
-            <Feilmelding feil={feilmelding} />
-        </VStack>
+        </OpprettBehandlingForm>
     );
 };
 
