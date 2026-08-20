@@ -13,6 +13,7 @@ import { Feil } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
 import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
+import { BeregningsplanOmfang } from '../../../../../typer/vedtak/beregningsplan';
 import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import {
@@ -102,6 +103,8 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
             });
         }
     };
+
+    const beregningsplan = lagretVedtak?.beregningsresultat?.beregningsplan;
     return (
         <>
             <Panel tittel="Beregning og vedtaksperiode">
@@ -143,7 +146,11 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
                 vedtaksperioder={vedtaksperioder}
                 lagredeVedtaksperioder={lagredeVedtaksperioder}
                 vedtakErLagret={lagretVedtak !== undefined}
-                tidligsteEndring={undefined}
+                tidligsteEndring={
+                    beregningsplan?.omfang === BeregningsplanOmfang.FRA_DATO
+                        ? beregningsplan.tidligsteEndring
+                        : undefined
+                }
             />
         </>
     );
