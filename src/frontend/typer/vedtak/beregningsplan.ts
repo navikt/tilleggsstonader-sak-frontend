@@ -11,6 +11,7 @@ type BeregningsplanAllePerioder = {
 type BeregningsplanFraDato = {
     omfang: BeregningsplanOmfang.FRA_DATO;
     fraDato: string;
+    tidligsteEndring: string;
 };
 
 type BeregningsplanGjenbrukForrigeResultat = {
