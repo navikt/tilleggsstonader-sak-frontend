@@ -38,9 +38,9 @@ export type SvarId =
 export type Begrunnelse = string | undefined;
 
 export enum BegrunnelseRegel {
-    'PÅKREVD' = 'PÅKREVD',
-    'VALGFRI' = 'VALGFRI',
-    'UTEN' = 'UTEN',
+    PÅKREVD = 'PÅKREVD',
+    VALGFRI = 'VALGFRI',
+    UTEN = 'UTEN',
 }
 
 export interface Svaralternativ {

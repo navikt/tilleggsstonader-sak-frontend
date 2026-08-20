@@ -43,9 +43,7 @@ export interface OppsummertVilkår {
 }
 
 export type OppsummertVedtak =
-    | OppsummertVedtakInnvilgelse
-    | OppsummertVedtakAvslag
-    | OppsummertVedtakOpphør;
+    OppsummertVedtakInnvilgelse | OppsummertVedtakAvslag | OppsummertVedtakOpphør;
 
 export interface OppsummertVedtakInnvilgelse {
     resultat: TypeVedtak.INNVILGELSE;
