@@ -10,10 +10,7 @@ export interface HistorikkHendelse {
 }
 
 export type HendelseMetadata =
-    | SattPåVentMetadata
-    | VedtakUnderkjentMetadata
-    | TattAvVentMetadata
-    | SendtTilBeslutterMetadata;
+    SattPåVentMetadata | VedtakUnderkjentMetadata | TattAvVentMetadata | SendtTilBeslutterMetadata;
 
 export interface SattPåVentMetadata {
     årsaker: ÅrsakSettPåVent[];
