@@ -2,75 +2,74 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import { Checkbox, CheckboxGroup, Select, Textarea } from '@navikt/ds-react';
 
-import { tomNyeOpplysningerMetadata } from './OpprettNyBehandlingUtils';
+import { tomÅrsakMetadata } from './OpprettNyBehandlingUtils';
 import { FeilNyeOpplysningerMetadata } from './validerNyeOpplysningerMetadata';
 import {
-    NyeOpplysningerEndring,
-    nyeOpplysningerEndringTilTekst,
-    NyeOpplysningerKilde,
-    nyeOpplysningerKildeTilTekst,
-    NyeOpplysningerMetadata,
+    årsakMetadataEndringTilTekst,
+    ÅrsakMetadata,
+    ÅrsakMetadataEndring,
+    ÅrsakMetadataKilde,
+    årsakMetadataKildeTilTekst,
 } from '../../../../typer/behandling/nyeOpplysningerMetadata';
 
 interface Props {
-    nyeOpplysningerMetadata: NyeOpplysningerMetadata | undefined;
-    settnyeOpplysningerMetadata: Dispatch<SetStateAction<NyeOpplysningerMetadata | undefined>>;
+    årsakMetadata: ÅrsakMetadata | undefined;
+    settårsakMetadata: Dispatch<SetStateAction<ÅrsakMetadata | undefined>>;
     feil: FeilNyeOpplysningerMetadata;
     nullstillFeilForFelt: (key: keyof FeilNyeOpplysningerMetadata) => void;
 }
 
 const MetadataNyeOpplysninger = ({
-    nyeOpplysningerMetadata,
-    settnyeOpplysningerMetadata,
+    årsakMetadata,
+    settårsakMetadata,
     feil,
     nullstillFeilForFelt,
 }: Props) => {
     const oppdater = (
-        key: keyof NyeOpplysningerMetadata,
-        value: NyeOpplysningerKilde | NyeOpplysningerEndring[] | string | undefined
+        key: keyof ÅrsakMetadata,
+        value: ÅrsakMetadataKilde | ÅrsakMetadataEndring[] | string | undefined
     ) => {
-        settnyeOpplysningerMetadata((prevState) => {
+        settårsakMetadata((prevState) => {
             if (prevState) {
                 return { ...prevState, [key]: value };
             }
-            return { ...tomNyeOpplysningerMetadata, [key]: value };
+            return { ...tomÅrsakMetadata, [key]: value };
         });
         if (key !== 'beskrivelse') {
             nullstillFeilForFelt(key);
         }
     };
-
     return (
         <>
             <Select
                 label={'Kilde til opplysninger'}
-                onChange={(e) => oppdater('kilde', e.target.value as NyeOpplysningerKilde)}
+                onChange={(e) => oppdater('kilde', e.target.value as ÅrsakMetadataKilde)}
                 error={feil.kilde}
             >
                 <option value={''}>-Velg kilde-</option>
-                {Object.keys(NyeOpplysningerKilde).map((kilde) => (
+                {Object.keys(ÅrsakMetadataKilde).map((kilde) => (
                     <option key={kilde} value={kilde}>
-                        {nyeOpplysningerKildeTilTekst[kilde]}
+                        {årsakMetadataKildeTilTekst[kilde]}
                     </option>
                 ))}
             </Select>
 
             <CheckboxGroup
                 legend={'Hva er endret?'}
-                onChange={(endringer: NyeOpplysningerEndring[]) =>
-                    oppdater('endringer', endringer as NyeOpplysningerEndring[])
+                onChange={(endringer: ÅrsakMetadataEndring[]) =>
+                    oppdater('endringer', endringer as ÅrsakMetadataEndring[])
                 }
                 error={feil.endringer}
             >
-                {Object.values(NyeOpplysningerEndring).map((endring) => (
+                {Object.values(ÅrsakMetadataEndring).map((endring) => (
                     <Checkbox key={endring} value={endring}>
-                        {nyeOpplysningerEndringTilTekst[endring]}
+                        {årsakMetadataEndringTilTekst[endring]}
                     </Checkbox>
                 ))}
             </CheckboxGroup>
             <Textarea
                 label={'Beskrivelse (valgfri)'}
-                value={nyeOpplysningerMetadata?.beskrivelse}
+                value={årsakMetadata?.beskrivelse}
                 onChange={(e) => oppdater('beskrivelse', e.target.value)}
             />
         </>

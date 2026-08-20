@@ -3,7 +3,7 @@ import { BehandlingStatus } from './behandlingStatus';
 import { Stønadstype } from './behandlingTema';
 import { BehandlingType } from './behandlingType';
 import { BehandlingÅrsak, HenlagtÅrsak } from './behandlingÅrsak';
-import { NyeOpplysningerMetadata } from './nyeOpplysningerMetadata';
+import { ÅrsakMetadata } from './nyeOpplysningerMetadata';
 import { Steg } from './steg';
 import { TilordnetSaksbehandlerDto } from './tilordnetSaksbehandlerDto';
 
@@ -23,7 +23,7 @@ export interface Behandling {
     henlagtÅrsak?: HenlagtÅrsak;
     stønadstype: Stønadstype;
     vedtaksdato?: string;
-    nyeOpplysningerMetadata?: NyeOpplysningerMetadata;
+    årsakMetadata?: ÅrsakMetadata;
     harÅpenKjørelistebehandling: boolean;
     tilordnetSaksbehandler: TilordnetSaksbehandlerDto;
 }

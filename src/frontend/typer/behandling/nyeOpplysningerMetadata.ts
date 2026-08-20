@@ -1,35 +1,39 @@
-export type NyeOpplysningerMetadata = {
-    kilde: NyeOpplysningerKilde | undefined;
-    endringer: NyeOpplysningerEndring[];
+export type ÅrsakMetadata = {
+    kilde: ÅrsakMetadataKilde | undefined;
     beskrivelse: string | undefined;
+    endringer: ÅrsakMetadataEndring[];
 };
 
-export enum NyeOpplysningerKilde {
+export enum ÅrsakMetadataKilde {
     MODIA = 'MODIA',
     GOSYS = 'GOSYS',
     ETTERSENDING = 'ETTERSENDING',
     OPPFØLGINGSLISTE = 'OPPFØLGINGSLISTE',
     ANNET = 'ANNET',
+    ARENA = 'ARENA',
+    PAPIRSØKNAD = 'PAPIRSØKNAD',
 }
 
-export enum NyeOpplysningerEndring {
+export enum ÅrsakMetadataEndring {
     AKTIVITET = 'AKTIVITET',
     MÅLGRUPPE = 'MÅLGRUPPE',
     UTGIFT = 'UTGIFT',
     ANNET = 'ANNET',
 }
 
-export const nyeOpplysningerEndringTilTekst: Record<NyeOpplysningerEndring, string> = {
+export const årsakMetadataEndringTilTekst: Record<ÅrsakMetadataEndring, string> = {
     AKTIVITET: 'Aktivitet',
     MÅLGRUPPE: 'Målgruppe',
     UTGIFT: 'Utgift',
     ANNET: 'Annet',
 };
 
-export const nyeOpplysningerKildeTilTekst: Record<NyeOpplysningerKilde | string, string> = {
+export const årsakMetadataKildeTilTekst: Record<ÅrsakMetadataKilde | string, string> = {
     MODIA: 'Modia',
     GOSYS: 'Gosys',
     ETTERSENDING: 'Ettersending',
     OPPFØLGINGSLISTE: 'Oppfølgingsliste',
     ANNET: 'Annet',
+    ARENA: 'Arena',
+    PAPIRSØKNAD: 'Papiersøknad',
 };

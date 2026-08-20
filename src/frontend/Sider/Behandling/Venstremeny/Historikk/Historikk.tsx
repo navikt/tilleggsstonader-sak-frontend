@@ -9,23 +9,25 @@ const Historikk: React.FC = () => {
     const { behandlingshistorikk } = useBehandling();
 
     return (
-        <DataViewer type={'behandlingshistorikk'} response={{ behandlingshistorikk }}>
-            {({ behandlingshistorikk }) => (
-                <ul className={styles.container}>
-                    {behandlingshistorikk.map((historikkElement, index) => {
-                        const erSisteElementIListe = index === behandlingshistorikk.length - 1;
+        <>
+            <DataViewer type={'behandlingshistorikk'} response={{ behandlingshistorikk }}>
+                {({ behandlingshistorikk }) => (
+                    <ul className={styles.container}>
+                        {behandlingshistorikk.map((historikkElement, index) => {
+                            const erSisteElementIListe = index === behandlingshistorikk.length - 1;
 
-                        return (
-                            <HistorikkElement
-                                erSisteElementIListe={erSisteElementIListe}
-                                historikkHendelse={historikkElement}
-                                key={index}
-                            />
-                        );
-                    })}
-                </ul>
-            )}
-        </DataViewer>
+                            return (
+                                <HistorikkElement
+                                    erSisteElementIListe={erSisteElementIListe}
+                                    historikkHendelse={historikkElement}
+                                    key={index}
+                                />
+                            );
+                        })}
+                    </ul>
+                )}
+            </DataViewer>
+        </>
     );
 };
 

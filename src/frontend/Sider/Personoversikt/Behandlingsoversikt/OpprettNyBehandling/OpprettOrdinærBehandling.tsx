@@ -18,7 +18,7 @@ import {
 import DateInput from '../../../../komponenter/Skjema/DateInput';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { BehandlingÅrsak } from '../../../../typer/behandling/behandlingÅrsak';
-import { NyeOpplysningerMetadata } from '../../../../typer/behandling/nyeOpplysningerMetadata';
+import { ÅrsakMetadata } from '../../../../typer/behandling/nyeOpplysningerMetadata';
 import { byggTomRessurs, Ressurs, RessursStatus } from '../../../../typer/ressurs';
 import { Toggle } from '../../../../utils/toggles';
 import { harVerdi } from '../../../../utils/utils';
@@ -35,7 +35,7 @@ interface OpprettBehandlingRequest {
     årsak: BehandlingÅrsak;
     kravMottatt?: string;
     valgteBarn: string[];
-    nyeOpplysningerMetadata?: NyeOpplysningerMetadata;
+    årsakMetadata?: ÅrsakMetadata;
     forenkletBehandlingstype: OpprettNyBehandlingType;
 }
 
@@ -70,9 +70,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
     const kanVelgeÅrsakUtenBrev = useFlag(Toggle.BEHANDLING_ÅRSAK_UTEN_BREV);
     const [kravMottatt, settKravMottatt] = useState<string | undefined>(undefined);
 
-    const [nyeOpplysninger, settNyeOpplysninger] = useState<NyeOpplysningerMetadata | undefined>(
-        undefined
-    );
+    const [årsakMetadata, settÅrsakMetadata] = useState<ÅrsakMetadata | undefined>(undefined);
     const { feilNyeOpplysningerMetadata, validerNyeOpplysningerMetadata, nullstillFeilForFelt } =
         useValiderNyeOpplysningerMetadata();
     const opprett = () => {
@@ -93,7 +91,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
 
         if (
             årsak === BehandlingÅrsak.NYE_OPPLYSNINGER &&
-            !validerNyeOpplysningerMetadata(nyeOpplysninger)
+            !validerNyeOpplysningerMetadata(årsakMetadata)
         ) {
             settLaster(false);
             return;
@@ -104,7 +102,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
             årsak: årsak,
             kravMottatt: kravMottatt,
             valgteBarn: valgteBarn,
-            nyeOpplysningerMetadata: nyeOpplysninger,
+            årsakMetadata: årsakMetadata,
             forenkletBehandlingstype: OpprettNyBehandlingType.ORDINAER_BEHANDLING,
         }).then((response) => {
             if (response.status === RessursStatus.SUKSESS) {
@@ -129,7 +127,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
 
     const nullstillNyeOpplysningerMetadata = () => {
         settFeilmelding(undefined);
-        settNyeOpplysninger(undefined);
+        settÅrsakMetadata(undefined);
     };
 
     const skalViseBarnTilRevurdering = utledSkalViseBarnTilRevurdering(stønadstype, årsak);
@@ -165,8 +163,8 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
             />
             {årsak === BehandlingÅrsak.NYE_OPPLYSNINGER && (
                 <MetadataNyeOpplysninger
-                    nyeOpplysningerMetadata={nyeOpplysninger}
-                    settnyeOpplysningerMetadata={settNyeOpplysninger}
+                    årsakMetadata={årsakMetadata}
+                    settårsakMetadata={settÅrsakMetadata}
                     feil={feilNyeOpplysningerMetadata}
                     nullstillFeilForFelt={nullstillFeilForFelt}
                 />
