@@ -21,14 +21,14 @@ export enum ÅrsakMetadataEndring {
     ANNET = 'ANNET',
 }
 
-export const nyeOpplysningerEndringTilTekst: Record<ÅrsakMetadataEndring, string> = {
+export const årsakMetadataEndringTilTekst: Record<ÅrsakMetadataEndring, string> = {
     AKTIVITET: 'Aktivitet',
     MÅLGRUPPE: 'Målgruppe',
     UTGIFT: 'Utgift',
     ANNET: 'Annet',
 };
 
-export const årsakMetadataKildeeTilTekst: Record<ÅrsakMetadataKilde | string, string> = {
+export const årsakMetadataKildeTilTekst: Record<ÅrsakMetadataKilde | string, string> = {
     MODIA: 'Modia',
     GOSYS: 'Gosys',
     ETTERSENDING: 'Ettersending',

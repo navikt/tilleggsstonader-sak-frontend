@@ -32,7 +32,7 @@ import {
 } from '../../typer/behandling/behandlingTema';
 import {
     ÅrsakMetadataKilde,
-    årsakMetadataKildeeTilTekst,
+    årsakMetadataKildeTilTekst,
 } from '../../typer/behandling/nyeOpplysningerMetadata';
 import {
     byggHenterRessurs,
@@ -232,7 +232,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                             <option value="">- Velg kilde -</option>
                             {Object.keys(ÅrsakMetadataKilde).map((kilde) => (
                                 <option key={kilde} value={kilde}>
-                                    {årsakMetadataKildeeTilTekst[kilde]}
+                                    {årsakMetadataKildeTilTekst[kilde]}
                                 </option>
                             ))}
                         </Select>

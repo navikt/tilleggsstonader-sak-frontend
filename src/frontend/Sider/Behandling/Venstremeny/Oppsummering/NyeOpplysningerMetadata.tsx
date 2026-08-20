@@ -3,8 +3,8 @@ import React from 'react';
 import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import {
-    nyeOpplysningerEndringTilTekst,
-    årsakMetadataKildeeTilTekst,
+    årsakMetadataEndringTilTekst,
+    årsakMetadataKildeTilTekst,
     type ÅrsakMetadata,
 } from '../../../../typer/behandling/nyeOpplysningerMetadata';
 import { tekstMedFallback } from '../../../../utils/tekstformatering';
@@ -13,7 +13,7 @@ export const NyeOpplysningerMetadataVisning: React.FC<{
     årsakMetadata: ÅrsakMetadata;
 }> = ({ årsakMetadata }) => {
     const endringer = årsakMetadata.endringer
-        .map((endring) => tekstMedFallback(nyeOpplysningerEndringTilTekst, endring))
+        .map((endring) => tekstMedFallback(årsakMetadataEndringTilTekst, endring))
         .join(', ');
     return (
         <VStack>
@@ -22,7 +22,7 @@ export const NyeOpplysningerMetadataVisning: React.FC<{
                     Kilde:
                 </BodyShort>
                 <BodyShort size={'small'}>
-                    {tekstMedFallback(årsakMetadataKildeeTilTekst, årsakMetadata.kilde)}
+                    {tekstMedFallback(årsakMetadataKildeTilTekst, årsakMetadata.kilde)}
                 </BodyShort>
             </HStack>
             {årsakMetadata.endringer.length != 0 && (

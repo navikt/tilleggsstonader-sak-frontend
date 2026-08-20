@@ -5,11 +5,11 @@ import { Checkbox, CheckboxGroup, Select, Textarea } from '@navikt/ds-react';
 import { tomÅrsakMetadata } from './OpprettNyBehandlingUtils';
 import { FeilNyeOpplysningerMetadata } from './validerNyeOpplysningerMetadata';
 import {
-    nyeOpplysningerEndringTilTekst,
+    årsakMetadataEndringTilTekst,
     ÅrsakMetadata,
     ÅrsakMetadataEndring,
     ÅrsakMetadataKilde,
-    årsakMetadataKildeeTilTekst,
+    årsakMetadataKildeTilTekst,
 } from '../../../../typer/behandling/nyeOpplysningerMetadata';
 
 interface Props {
@@ -49,7 +49,7 @@ const MetadataNyeOpplysninger = ({
                 <option value={''}>-Velg kilde-</option>
                 {Object.keys(ÅrsakMetadataKilde).map((kilde) => (
                     <option key={kilde} value={kilde}>
-                        {årsakMetadataKildeeTilTekst[kilde]}
+                        {årsakMetadataKildeTilTekst[kilde]}
                     </option>
                 ))}
             </Select>
@@ -63,7 +63,7 @@ const MetadataNyeOpplysninger = ({
             >
                 {Object.values(ÅrsakMetadataEndring).map((endring) => (
                     <Checkbox key={endring} value={endring}>
-                        {nyeOpplysningerEndringTilTekst[endring]}
+                        {årsakMetadataEndringTilTekst[endring]}
                     </Checkbox>
                 ))}
             </CheckboxGroup>
