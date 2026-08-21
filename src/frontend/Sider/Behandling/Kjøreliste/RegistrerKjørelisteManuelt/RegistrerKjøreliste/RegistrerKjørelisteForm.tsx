@@ -9,23 +9,16 @@ import { validerRegistrerKjøreliste } from './validerRegistrerKjøreliste';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useRegistrerKjøreliste } from '../../../../../context/RegistrerKjørelisteContext/RegistrerKjørelisteContext';
-import { useHentDokumenter } from '../../../../../hooks/useHentDokumenter';
+import { useHentJournalposterForFagsak } from '../../../../../hooks/useHentJournalposterForFagsak';
 import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import {
     Feil,
     feiletRessursTilFeilmelding,
 } from '../../../../../komponenter/Feil/feilmeldingUtils';
-import { relevanteArkivtemaerIBehandling } from '../../../../../typer/arkivtema';
 import { RessursStatus } from '../../../../../typer/ressurs';
 import { erEtterDagensDato, formaterIsoDato, formaterIsoPeriode } from '../../../../../utils/dato';
 import { harVerdi } from '../../../../../utils/utils';
-import {
-    grupperDokumenterPåJournalpost,
-    sorterJournalpostPåTid,
-} from '../../../../Personoversikt/Dokumentoversikt/utils';
-
-const VEDLEGG_REQUEST = { tema: relevanteArkivtemaerIBehandling };
 
 export const RegistrerKjørelisteForm: FC<{
     lukkSkjema: () => void;
@@ -33,7 +26,7 @@ export const RegistrerKjørelisteForm: FC<{
     const { tilgjengeligeReiser, lagreKjøreliste } = useRegistrerKjøreliste();
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
-    const dokumenter = useHentDokumenter(behandling.fagsakPersonId, VEDLEGG_REQUEST);
+    const journalposter = useHentJournalposterForFagsak(behandling.fagsakId);
 
     const [valgtReiseId, settValgtReiseId] = useState<string>('');
     const [journalpostId, settJournalpostId] = useState<string>('');
@@ -41,12 +34,6 @@ export const RegistrerKjørelisteForm: FC<{
     const [uker, settUker] = useState<UkeTilInnsending[]>([]);
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<Feil | string | undefined>(undefined);
-
-    const dokumenterGruppert =
-        dokumenter.status === RessursStatus.SUKSESS
-            ? grupperDokumenterPåJournalpost(dokumenter.data)
-            : {};
-    const journalposter = sorterJournalpostPåTid(dokumenterGruppert);
 
     const velgReise = (reiseId: string) => {
         settValgtReiseId(reiseId);
@@ -136,25 +123,32 @@ export const RegistrerKjørelisteForm: FC<{
                                 value={journalpostId}
                                 onChange={(e) => settJournalpostId(e.target.value)}
                                 size="small"
-                                disabled={dokumenter.status !== RessursStatus.SUKSESS}
+                                disabled={journalposter.status !== RessursStatus.SUKSESS}
                             >
                                 <option value="">
-                                    {dokumenter.status === RessursStatus.HENTER
+                                    {journalposter.status === RessursStatus.HENTER
                                         ? 'Laster dokumenter...'
                                         : 'Velg journalpost'}
                                 </option>
-                                {journalposter.map((id) => {
-                                    const hoveddokument = dokumenterGruppert[id]?.[0];
-                                    const tittel = hoveddokument?.tittel ?? id;
-                                    const dato = hoveddokument?.dato
-                                        ? formaterIsoDato(hoveddokument.dato)
-                                        : '—';
-                                    return (
-                                        <option title={'JournalpostId: ' + id} key={id} value={id}>
-                                            {tittel} – {dato}
-                                        </option>
-                                    );
-                                })}
+                                {journalposter.status === RessursStatus.SUKSESS &&
+                                    journalposter.data.map((journalpost) => {
+                                        const tittel =
+                                            journalpost.tittel ?? journalpost.journalpostId;
+                                        const dato = journalpost.datoMottatt
+                                            ? formaterIsoDato(journalpost.datoMottatt)
+                                            : '—';
+                                        return (
+                                            <option
+                                                title={
+                                                    'JournalpostId: ' + journalpost.journalpostId
+                                                }
+                                                key={journalpost.journalpostId}
+                                                value={journalpost.journalpostId}
+                                            >
+                                                {tittel} – {dato}
+                                            </option>
+                                        );
+                                    })}
                             </Select>
                             <VStack gap="space-16">
                                 <Heading size="xsmall">
