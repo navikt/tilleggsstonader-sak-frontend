@@ -17,7 +17,7 @@ export interface UseOpprettBehandlingReturn {
     utførOpprett: (
         requestCallback: () => Promise<Ressurs<OpprettBehandlingResponse>>,
         onSuccess: () => void
-    ) => void;
+    ) => Promise<void>;
 }
 
 export function useOpprettBehandling(): UseOpprettBehandlingReturn {
