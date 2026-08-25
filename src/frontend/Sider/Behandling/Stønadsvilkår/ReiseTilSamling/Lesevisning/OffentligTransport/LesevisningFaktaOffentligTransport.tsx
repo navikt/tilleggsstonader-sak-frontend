@@ -17,6 +17,13 @@ export const LesevisningFaktaOffentligTransport: FC<{
                     ? `${formaterTallMedTusenSkilleEllerStrek(fakta.utgifterOffentligTransport)} kr`
                     : '-'}
             </BodyShort>
+
+            {fakta?.tiltaksvariant && (
+                <>
+                    <BodyShort size="small">{'Tiltaksvariant'}</BodyShort>
+                    <BodyShort size="small">{fakta.tiltaksvariant}</BodyShort>
+                </>
+            )}
         </div>
     );
 };

@@ -1,6 +1,5 @@
 import React, { useId, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
 import { v7 } from 'uuid';
 
 import { HStack, TextField } from '@navikt/ds-react';
@@ -10,6 +9,7 @@ import { SlettVilkårReiseTilSamling } from './SlettVilkårReiseTilSamling';
 import { initierGjeldendeFaktaType, initierSvar } from './utils';
 import { FeilmeldingerReiseTilSamling, harValideringsFeil, validerVilkår } from './validering';
 import { useApp } from '../../../../../context/AppContext';
+import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useVilkårReiseTilSamling } from '../../../../../context/VilkårReiseTilSamlingContext/VilkårReiseTilSamlingContext';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import {
@@ -21,11 +21,13 @@ import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatu
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
+import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
+import { perioderOverlapper } from '../../../../../utils/dato';
 import { Periode } from '../../../../../utils/periode';
-import { Toggle } from '../../../../../utils/toggles';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useHarEndretDatoerFørTidligereVedtak } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
+import { VilkårPeriodeResultat } from '../../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { ingenFeil } from '../../../Vilkårvurdering/validering';
 import { EndreFaktaReiseTilSamling } from '../EndreFakta/EndreFaktaReiseTilSamling';
 import { EndreVurderinger } from '../EndreVilkårsVurderinger/EndreVurderinger';
@@ -51,9 +53,10 @@ export const EndreVilkårReiseTilSamling: React.FC<Props> = ({
     avsluttRedigering,
 }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
-    const { regelstruktur } = useVilkårReiseTilSamling();
+    const { behandling } = useBehandling();
+    const { regelstruktur, aktiviteter } = useVilkårReiseTilSamling();
     const komponentId = useId();
-    const kanBehandleReiseTilSamling = useFlag(Toggle.KAN_BEHANDLE_REISE_TIL_SAMLING);
+    const gjelderTsr = behandling.stønadstype === Stønadstype.REISE_TIL_SAMLING_TSR;
 
     const [svar, settSvar] = useState<SvarVilkårReiseTilSamling>(initierSvar(vilkår));
 
@@ -61,6 +64,12 @@ export const EndreVilkårReiseTilSamling: React.FC<Props> = ({
         fom: vilkår?.fom || '',
         tom: vilkår?.tom || '',
     });
+
+    const oppfylteAktiviteter = aktiviteter
+        .filter((aktivitet) => aktivitet.resultat === VilkårPeriodeResultat.OPPFYLT)
+        .filter(
+            (aktivitet) => !periode.fom || !periode.tom || perioderOverlapper(aktivitet, periode)
+        );
 
     const [adresse, settAdresse] = useState<string | undefined>(vilkår?.adresse);
     const [reiseId] = useState<string>(vilkår?.reiseId || v7());
@@ -96,7 +105,14 @@ export const EndreVilkårReiseTilSamling: React.FC<Props> = ({
 
         if (laster) return;
 
-        const valideringsfeil = validerVilkår(periode, adresse, svar, fakta, regelstruktur);
+        const valideringsfeil = validerVilkår(
+            periode,
+            adresse,
+            svar,
+            fakta,
+            regelstruktur,
+            gjelderTsr
+        );
         settFeilmeldinger(valideringsfeil);
         if (harValideringsFeil(valideringsfeil)) {
             return;
@@ -219,13 +235,13 @@ export const EndreVilkårReiseTilSamling: React.FC<Props> = ({
                     settFakta={settFakta}
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     feilmeldinger={feilmeldinger}
+                    oppfylteAktiviteter={oppfylteAktiviteter}
+                    gjelderTsr={gjelderTsr}
                 />
 
                 <HStack justify="space-between">
                     <HStack gap="space-16">
-                        <SmallButton disabled={!kanBehandleReiseTilSamling} onClick={lagreVilkår}>
-                            Lagre
-                        </SmallButton>
+                        <SmallButton>Lagre</SmallButton>
                         <SmallButton variant="secondary" onClick={handleAvsluttRedigering}>
                             Avbryt
                         </SmallButton>

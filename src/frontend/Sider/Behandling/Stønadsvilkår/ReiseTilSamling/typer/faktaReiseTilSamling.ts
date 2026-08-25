@@ -8,11 +8,14 @@ export interface FaktaReiseTilSamling {
 export interface FaktaOffentligTransport extends FaktaReiseTilSamling {
     type: 'OFFENTLIG_TRANSPORT';
     utgifterOffentligTransport: number | undefined;
+    tiltaksvariant?: string;
 }
 
 export interface FaktaPrivatBil extends FaktaReiseTilSamling {
     type: 'PRIVAT_BIL';
     reiseavstand: number | undefined;
+    aktivitetId: string | undefined;
+    aktivitetType: string | undefined;
 }
 
 export const erFaktaOffentligTransport = (
