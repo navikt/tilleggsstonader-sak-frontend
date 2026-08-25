@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { HGrid } from '@navikt/ds-react';
 
+import styles from './VedtakOgBeregningReiseTilSamling.module.css';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
@@ -26,7 +27,7 @@ export const VedtakOgBeregningReiseTilSamling: React.FC = () => {
         <>
             <DataViewer type={'vedtak'} response={{ vedtak }}>
                 {({ vedtak }) => (
-                    <div>
+                    <div className={styles.container}>
                         <Panel tittel="Vedtak">
                             <HGrid gap="space-64" columns={{ sm: 1, md: '5em auto' }}>
                                 <VelgVedtakResultat

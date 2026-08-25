@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 
 import {
+    Alert,
     Box,
     Button,
     Heading,
@@ -24,7 +25,7 @@ import {
     feiletRessursTilFeilmelding,
 } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import { RessursStatus } from '../../../../../typer/ressurs';
-import { formaterIsoPeriode } from '../../../../../utils/dato';
+import { erEtterDagensDato, formaterIsoPeriode } from '../../../../../utils/dato';
 import { harVerdi } from '../../../../../utils/utils';
 
 export const RegistrerKjørelisteForm: FC<{
@@ -50,6 +51,10 @@ export const RegistrerKjørelisteForm: FC<{
         settUker(valgtReise ? initialiserUkerTilInnsending(valgtReise.uker) : []);
     };
 
+    const valgtReise = tilgjengeligeReiser.find((reise) => reise.reiseId === valgtReiseId);
+    const reiseStarterFremITid =
+        uker.length === 0 && valgtReise !== undefined && erEtterDagensDato(valgtReise.fom);
+
     const oppdaterUke = (oppdatertUke: UkeTilInnsending) => {
         settUker((prev) => prev.map((uke) => (uke.fom === oppdatertUke.fom ? oppdatertUke : uke)));
     };
@@ -58,11 +63,7 @@ export const RegistrerKjørelisteForm: FC<{
         const valideringsfeil = validerRegistrerKjøreliste(valgtReiseId, uker, journalpostId);
         settFeilmelding(valideringsfeil);
 
-        if (valideringsfeil) {
-            return false;
-        }
-
-        return true;
+        return !valideringsfeil;
     };
 
     const lagre = () => {
@@ -115,38 +116,44 @@ export const RegistrerKjørelisteForm: FC<{
                         </option>
                     ))}
                 </Select>
-                {harVerdi(valgtReiseId) && (
-                    <>
-                        <TextField
-                            label="Journalpost ID"
-                            size="small"
-                            value={journalpostId}
-                            onChange={(e) => settJournalpostId(e.target.value)}
-                        />
-                        <VStack gap="space-16">
-                            <Heading size="xsmall">
-                                Huk av og fyll ut ukene du ønsker å registrere
-                            </Heading>
-                            {uker.map((uke) => (
-                                <RegistrerKjørelisteUke
-                                    key={uke.fom}
-                                    uke={uke}
-                                    oppdaterUke={oppdaterUke}
-                                />
-                            ))}
-                        </VStack>
-                        <Textarea
-                            label="Begrunnelse"
-                            description="Hvorfor fylles kjøreliste inn av saksbehandler?"
-                            size="small"
-                            minRows={3}
-                            value={begrunnelse}
-                            onChange={(e) => settBegrunnelse(e.target.value)}
-                            resize
-                        />
-                    </>
-                )}
-                <Feilmelding feil={feilmelding} />
+                {harVerdi(valgtReiseId) &&
+                    (reiseStarterFremITid ? (
+                        <Alert variant="info" size="small">
+                            Reisen starter frem i tid, det er derfor ingen tilgjengelige uker å
+                            registrere enda.
+                        </Alert>
+                    ) : (
+                        <>
+                            <TextField
+                                label="Journalpost ID"
+                                size="small"
+                                value={journalpostId}
+                                onChange={(e) => settJournalpostId(e.target.value)}
+                            />
+                            <VStack gap="space-16">
+                                <Heading size="xsmall">
+                                    Huk av og fyll ut ukene du ønsker å registrere
+                                </Heading>
+                                {uker.map((uke) => (
+                                    <RegistrerKjørelisteUke
+                                        key={uke.fom}
+                                        uke={uke}
+                                        oppdaterUke={oppdaterUke}
+                                    />
+                                ))}
+                            </VStack>
+                            <Textarea
+                                label="Begrunnelse"
+                                description="Hvorfor fylles kjøreliste inn av saksbehandler?"
+                                size="small"
+                                minRows={3}
+                                value={begrunnelse}
+                                onChange={(e) => settBegrunnelse(e.target.value)}
+                                resize
+                            />
+                        </>
+                    ))}
+                {!reiseStarterFremITid && <Feilmelding feil={feilmelding} />}
                 <HStack gap="space-8">
                     <Button size="small" onClick={lagre} loading={laster}>
                         Lagre

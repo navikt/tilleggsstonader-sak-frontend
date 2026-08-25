@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import {
     BodyShort,
+    Box,
     Button,
     Checkbox,
     CheckboxGroup,
@@ -17,7 +18,6 @@ import {
     Select,
     TextField,
     VStack,
-    Box,
 } from '@navikt/ds-react';
 
 import styles from './OpprettFørstegangsbehandlingAdmin.module.css';
@@ -30,6 +30,10 @@ import {
     Stønadstype,
     stønadstypeTilTekst,
 } from '../../typer/behandling/behandlingTema';
+import {
+    ÅrsakMetadataKilde,
+    årsakMetadataKildeTilTekst,
+} from '../../typer/behandling/nyeOpplysningerMetadata';
 import {
     byggHenterRessurs,
     byggRessursFeilet,
@@ -51,13 +55,14 @@ interface OpprettFørstegansbehandlingHentPersonRequest {
     stønadstype: Stønadstype;
     ident: string;
 }
-
 interface OpprettFørstegansbehandlingRequest {
     stønadstype: Stønadstype;
     ident: string;
     valgteBarn: string[];
     medBrev: boolean;
     kravMottatt: string;
+    årsakKilde: string;
+    årsakBeskrivelse: string | undefined;
 }
 
 const skalVelgeBarn = (stønadstype: Stønadstype | undefined): boolean =>
@@ -133,6 +138,8 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
     const [valgteBarn, settValgteBarn] = useState<string[]>([]);
     const [personinfo, settPersoninfo] = useState<Ressurs<Personinfo>>(byggTomRessurs());
     const [feilmelding, settFeilmelding] = useState<string>();
+    const [årsakKilde, settÅrsakKilde] = useState<ÅrsakMetadataKilde | undefined>(undefined);
+    const [årsakBeskrivelse, settÅrsakBeskrivelse] = useState<string | undefined>(undefined);
 
     const [opprettBehandlingResponse, settOpprettBehandlingResponse] =
         useState<Ressurs<null>>(byggTomRessurs());
@@ -160,11 +167,16 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
             settFeilmelding('Krav mottatt må fylles ut');
             return;
         }
+        if (!årsakKilde) {
+            settFeilmelding('Kilde til opplysning må velges');
+            return;
+        }
+
         settOpprettBehandlingResponse(byggHenterRessurs());
         request<Personinfo, OpprettFørstegansbehandlingRequest>(
             `/api/sak/behandling/admin/opprett-foerstegangsbehandling`,
             'POST',
-            { stønadstype, ident, valgteBarn, medBrev, kravMottatt }
+            { stønadstype, ident, valgteBarn, medBrev, kravMottatt, årsakKilde, årsakBeskrivelse }
         ).then((res) => {
             if (res.status === RessursStatus.SUKSESS) {
                 navigate(`/behandling/${res.data}`);
@@ -184,6 +196,8 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                         settValgteBarn([]);
                         settPersoninfo(byggTomRessurs());
                         settOpprettBehandlingResponse(byggTomRessurs());
+                        settÅrsakKilde(undefined);
+                        settÅrsakBeskrivelse('');
                     }}
                     autoComplete="off"
                 />
@@ -211,6 +225,31 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                             }
                             onChange={(dato) => settKravMottatt(dato || '')}
                             toDate={new Date()}
+                        />
+                        <Select
+                            label="Kilde til opplysninger"
+                            value={årsakKilde ?? ''}
+                            onChange={(event) => {
+                                const kilde = event.target.value as ÅrsakMetadataKilde;
+                                settÅrsakKilde(kilde);
+                                settFeilmelding(undefined);
+                            }}
+                        >
+                            <option value="">- Velg kilde -</option>
+                            {Object.keys(ÅrsakMetadataKilde).map((kilde) => (
+                                <option key={kilde} value={kilde}>
+                                    {årsakMetadataKildeTilTekst[kilde]}
+                                </option>
+                            ))}
+                        </Select>
+
+                        <TextField
+                            label="Årsak til manual behandling"
+                            description="Beskriv gjerne kort hvorfor førstegangsbehandlingen opprettes."
+                            value={årsakBeskrivelse ?? ''}
+                            onChange={(event) => {
+                                settÅrsakBeskrivelse(event.target.value);
+                            }}
                         />
                         <RadioGroup
                             legend={

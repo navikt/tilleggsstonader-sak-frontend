@@ -1,3 +1,4 @@
+import { Beregningsplan } from './beregningsplan';
 import { TypeVedtak } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 
@@ -13,6 +14,7 @@ export type BeregnReiseTilSamlingRequest = {
 export interface BeregningReiseTilSamling {
     offentligTransport?: BeregningsresultatOffentligTransport[];
     privatBil?: BeregningsresultatPrivatBil[];
+    beregningsplan: Beregningsplan;
 }
 export interface BeregningsresultatOffentligTransport {
     reiseId: string;
@@ -33,7 +35,7 @@ export interface BeregningsresultatPrivatBil {
 export type InnvilgeReiseTilSamlingRequest = {
     type: TypeVedtak.INNVILGELSE;
     vedtaksperioder: Vedtaksperiode[];
-    begrunnelse: string;
+    begrunnelse?: string;
 };
 export interface InnvilgelseReiseTilSamling {
     type: TypeVedtak.INNVILGELSE;

@@ -3,19 +3,18 @@ import React from 'react';
 import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import {
-    nyeOpplysningerEndringTilTekst,
-    nyeOpplysningerKildeTilTekst,
-    type NyeOpplysningerMetadata,
+    årsakMetadataEndringTilTekst,
+    årsakMetadataKildeTilTekst,
+    type ÅrsakMetadata,
 } from '../../../../typer/behandling/nyeOpplysningerMetadata';
 import { tekstMedFallback } from '../../../../utils/tekstformatering';
 
 export const NyeOpplysningerMetadataVisning: React.FC<{
-    nyeOpplysningerMetadata: NyeOpplysningerMetadata;
-}> = ({ nyeOpplysningerMetadata }) => {
-    const endringer = nyeOpplysningerMetadata.endringer
-        .map((endring) => tekstMedFallback(nyeOpplysningerEndringTilTekst, endring))
+    årsakMetadata: ÅrsakMetadata;
+}> = ({ årsakMetadata }) => {
+    const endringer = årsakMetadata.endringer
+        .map((endring) => tekstMedFallback(årsakMetadataEndringTilTekst, endring))
         .join(', ');
-
     return (
         <VStack>
             <HStack gap={'space-4'}>
@@ -23,21 +22,25 @@ export const NyeOpplysningerMetadataVisning: React.FC<{
                     Kilde:
                 </BodyShort>
                 <BodyShort size={'small'}>
-                    {tekstMedFallback(nyeOpplysningerKildeTilTekst, nyeOpplysningerMetadata.kilde)}
+                    {tekstMedFallback(årsakMetadataKildeTilTekst, årsakMetadata.kilde)}
                 </BodyShort>
             </HStack>
-            <HStack gap={'space-4'}>
-                <BodyShort size={'small'} weight={'semibold'}>
-                    Endring:
-                </BodyShort>
-                <BodyShort size="small">{endringer || '-'}</BodyShort>
-            </HStack>
-            <HStack gap={'space-4'}>
-                <BodyShort size={'small'} weight={'semibold'}>
-                    Beskrivelse:
-                </BodyShort>
-                <BodyShort size={'small'}>{nyeOpplysningerMetadata.beskrivelse || '-'}</BodyShort>
-            </HStack>
+            {årsakMetadata.endringer.length != 0 && (
+                <HStack gap={'space-4'}>
+                    <BodyShort size={'small'} weight={'semibold'}>
+                        Endring:
+                    </BodyShort>
+                    <BodyShort size="small">{endringer}</BodyShort>
+                </HStack>
+            )}
+            {årsakMetadata.beskrivelse?.trim() && (
+                <HStack gap={'space-4'}>
+                    <BodyShort size={'small'} weight={'semibold'}>
+                        Beskrivelse:
+                    </BodyShort>
+                    <BodyShort size={'small'}>{årsakMetadata.beskrivelse}</BodyShort>
+                </HStack>
+            )}
         </VStack>
     );
 };
