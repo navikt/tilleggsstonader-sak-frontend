@@ -17,6 +17,8 @@ export const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaU
         faktaUtdanning.søknadsgrunnlag?.harRettTilUtstyrsstipend?.erLærlingEllerLiknende;
     const harTidligereFullførtVgs =
         faktaUtdanning.søknadsgrunnlag?.harRettTilUtstyrsstipend?.harTidligereFullførtVgs;
+    const tarOpplæringVgsSamtidig =
+        faktaUtdanning.søknadsgrunnlag?.harRettTilUtstyrsstipend?.tarOpplæringVgsSamtidig;
     const harFunksjonsnedsettelse = faktaUtdanning.søknadsgrunnlag?.harFunksjonsnedsettelse;
     const aktiviteterTekst = aktiviteter?.join(', ');
 
@@ -26,6 +28,7 @@ export const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaU
                 annenUtdanning ||
                 erLærlingEllerLiknende ||
                 harTidligereFullførtVgs ||
+                tarOpplæringVgsSamtidig ||
                 harFunksjonsnedsettelse) && (
                 <SøknadInfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
                     {aktiviteterTekst && (
@@ -50,6 +53,12 @@ export const Utdanning: React.FC<{ faktaUtdanning: FaktaUtdanning }> = ({ faktaU
                         <SøknadInfoFelt
                             label="Har du tidligere fullført videregående opplæring?"
                             value={tekstMedFallback(jaNeiTilTekst, harTidligereFullførtVgs)}
+                        />
+                    )}
+                    {tarOpplæringVgsSamtidig && (
+                        <SøknadInfoFelt
+                            label="Tar du opplæring i videregående skole samtidig som du er lærling, lærekandidat, praksisbrevkandidat eller tar fagbrev på jobb?"
+                            value={tekstMedFallback(jaNeiTilTekst, tarOpplæringVgsSamtidig)}
                         />
                     )}
                     {harFunksjonsnedsettelse && (

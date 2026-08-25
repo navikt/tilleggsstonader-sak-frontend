@@ -10,6 +10,7 @@ interface SøknadsgrunnlagUtdanning {
     harRettTilUtstyrsstipend?: {
         erLærlingEllerLiknende?: JaNei;
         harTidligereFullførtVgs?: JaNei;
+        tarOpplæringVgsSamtidig?: JaNei;
     };
     harFunksjonsnedsettelse: JaNei;
 }
