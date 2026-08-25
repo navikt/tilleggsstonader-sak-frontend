@@ -21,12 +21,14 @@ export const EndreFaktaPrivatBil: React.FC<{
     nullstillFeilOgUlagretkomponent: () => void;
     feilmeldinger: FeilmeldingerFaktaPrivatBil | undefined;
     oppfylteAktiviteter: Aktivitet[];
+    gjelderTsr: boolean;
 }> = ({
     fakta,
     nullstillFeilOgUlagretkomponent,
     settFakta,
     feilmeldinger,
     oppfylteAktiviteter,
+    gjelderTsr,
 }) => {
     const oppdaterFakta = (key: keyof FaktaPrivatBil, verdi: number | string | undefined) => {
         settFakta((prevState) => ({
@@ -64,25 +66,27 @@ export const EndreFaktaPrivatBil: React.FC<{
                         }}
                     />
                 </FeilmeldingMaksBredde>
-                <FeilmeldingMaksBredde $maxWidth={300}>
-                    <Select
-                        label={'Aktivitet'}
-                        size="small"
-                        error={feilmeldinger?.aktivitet}
-                        value={fakta.aktivitetId || ''}
-                        onChange={(e) => {
-                            oppdaterAktivitet(e.target.value);
-                        }}
-                    >
-                        <option value="">Velg aktivitet</option>
-                        {oppfylteAktiviteter.map((aktivitet) => (
-                            <option key={aktivitet.globalId} value={aktivitet.globalId}>
-                                {AktivitetTypeTilTekst[aktivitet.type]} (
-                                {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)})
-                            </option>
-                        ))}
-                    </Select>
-                </FeilmeldingMaksBredde>
+                {gjelderTsr && (
+                    <FeilmeldingMaksBredde $maxWidth={300}>
+                        <Select
+                            label={'Aktivitet'}
+                            size="small"
+                            error={feilmeldinger?.aktivitet}
+                            value={fakta.aktivitetId || ''}
+                            onChange={(e) => {
+                                oppdaterAktivitet(e.target.value);
+                            }}
+                        >
+                            <option value="">Velg aktivitet</option>
+                            {oppfylteAktiviteter.map((aktivitet) => (
+                                <option key={aktivitet.globalId} value={aktivitet.globalId}>
+                                    {AktivitetTypeTilTekst[aktivitet.type]} (
+                                    {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)})
+                                </option>
+                            ))}
+                        </Select>
+                    </FeilmeldingMaksBredde>
+                )}
             </HStack>
         </VStack>
     );

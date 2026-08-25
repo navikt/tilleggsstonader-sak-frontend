@@ -64,6 +64,7 @@ export const EndreFaktaReiseTilSamling: React.FC<{
                     settFakta={settFakta as () => FaktaPrivatBil}
                     feilmeldinger={feilmeldinger.fakta as FeilmeldingerFaktaPrivatBil}
                     oppfylteAktiviteter={oppfylteAktiviteter}
+                    gjelderTsr={gjelderTsr}
                 />
             );
     }

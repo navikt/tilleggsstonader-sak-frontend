@@ -110,13 +110,14 @@ const validerFaktaOffentligTransport = (
 };
 
 const validerFaktaPrivatBil = (
-    fakta: FaktaPrivatBil | undefined
+    fakta: FaktaPrivatBil | undefined,
+    gjelderTsr: boolean
 ): Partial<FeilmeldingerFaktaPrivatBil> | undefined => {
     if (!fakta) return undefined;
     if (!fakta.reiseavstand) {
         return { reiseavstand: 'Reiseavstand må være større enn 0' };
     }
-    if (!fakta.aktivitetId) {
+    if (gjelderTsr && !fakta.aktivitetId) {
         return { aktivitet: 'Du må velge en aktivitet' };
     }
 };
@@ -135,7 +136,7 @@ const validerFakta = (
     ) {
         return validerFaktaOffentligTransport(fakta as FaktaOffentligTransport, gjelderTsr);
     } else if (fakta?.type === 'PRIVAT_BIL' || svar.KAN_REISE_MED_EGEN_BIL?.svar === 'JA') {
-        return validerFaktaPrivatBil(fakta as FaktaPrivatBil);
+        return validerFaktaPrivatBil(fakta as FaktaPrivatBil, gjelderTsr);
     }
 };
 
