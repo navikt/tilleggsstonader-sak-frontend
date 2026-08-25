@@ -77,6 +77,9 @@ export const faneNavnStønadsvilkår: Record<
     REISE_TIL_SAMLING_TSR: StønadsvilkårFaneNavn.REISE_TIL_SAMLING,
     FLYTTING_TSO: StønadsvilkårFaneNavn.FLYTTING,
     FLYTTING_TSR: StønadsvilkårFaneNavn.FLYTTING,
+    // TODO: legg til riktig fanenavn for STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE
+    STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO: StønadsvilkårFaneNavn.REISE_TIL_SAMLING,
+    STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR: StønadsvilkårFaneNavn.REISE_TIL_SAMLING,
 };
 
 export enum FanePath {
@@ -255,6 +258,10 @@ export const vedtakForBehandling = (behandling: Behandling): React.ReactNode => 
         case Stønadstype.FLYTTING_TSO:
         case Stønadstype.FLYTTING_TSR:
             return <VedtakOgBeregningFlytting />;
+        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
+        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
+            // TODO: Implementer VedtakOgBeregningStøtteTilReiseOppstartAvslutningHjemreise
+            return <VedtakOgBeregningFlytting />;
     }
 };
 
@@ -310,6 +317,10 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
             ];
         case Stønadstype.FLYTTING_TSO:
         case Stønadstype.FLYTTING_TSR:
+            return [];
+        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
+        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
+            // TODO: Implementer stønadsvilkårfane for STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE
             return [];
     }
 };

@@ -42,6 +42,8 @@ export const finnGjelderForOppsummertVilkår = (
         case Stønadstype.REISE_TIL_SAMLING_TSR:
         case Stønadstype.FLYTTING_TSO:
         case Stønadstype.FLYTTING_TSR:
+        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
+        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
             return '';
     }
 };

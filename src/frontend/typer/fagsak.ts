@@ -12,6 +12,8 @@ export interface FagsakPerson {
     reiseTilSamlingTsr?: string;
     flyttingTso?: string;
     flyttingTsr?: string;
+    støtteTilReiseOppstartAvslutningHjemreiseTso?: string;
+    støtteTilReiseOppstartAvslutningHjemreiseTsr?: string;
 }
 
 export function utledFagsakId(
@@ -37,6 +39,10 @@ export function utledFagsakId(
             return fagsakPerson.flyttingTso;
         case Stønadstype.FLYTTING_TSR:
             return fagsakPerson.flyttingTsr;
+        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
+            return fagsakPerson.støtteTilReiseOppstartAvslutningHjemreiseTso;
+        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
+            return fagsakPerson.støtteTilReiseOppstartAvslutningHjemreiseTsr;
     }
 }
 

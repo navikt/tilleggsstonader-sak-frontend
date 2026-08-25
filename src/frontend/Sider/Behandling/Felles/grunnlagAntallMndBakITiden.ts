@@ -19,4 +19,6 @@ export const maksMånederTilbakeFraSøknadsdato: Record<Stønadstype, number> = 
     REISE_TIL_SAMLING_TSR: 6,
     FLYTTING_TSO: 6,
     FLYTTING_TSR: 6,
+    STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO: 6,
+    STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR: 6,
 };
