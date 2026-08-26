@@ -26,7 +26,7 @@ export const RegistrerKjørelisteForm: FC<{
     const { tilgjengeligeReiser, lagreKjøreliste } = useRegistrerKjøreliste();
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
-    const journalposter = useHentJournalposterForFagsak(behandling.fagsakId);
+    const journalposter = useHentJournalposterForFagsak(behandling.fagsakId, ['I', 'N']);
 
     const [valgtReiseId, settValgtReiseId] = useState<string>('');
     const [journalpostId, settJournalpostId] = useState<string>('');
