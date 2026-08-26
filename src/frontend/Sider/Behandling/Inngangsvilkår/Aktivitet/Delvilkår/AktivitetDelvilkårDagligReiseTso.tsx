@@ -15,15 +15,16 @@ export const AktivitetDelvilkårDagligReiseTso: React.FC<{
 }> = ({ aktivitetForm, oppdaterLønnet, oppdaterHarUtgifter }) => {
     if (aktivitetForm.type === '') return null;
 
-    if (!skalVurdereLønnet(aktivitetForm.type)) return null;
-
     return (
         <VStack gap={'space-8'}>
-            <JaNeiVurdering
-                label="Mottar bruker ordinær lønn i tiltaket?"
-                svar={aktivitetForm.svarLønnet}
-                oppdaterSvar={oppdaterLønnet}
-            />
+            {skalVurdereLønnet(aktivitetForm.type) && (
+                <JaNeiVurdering
+                    label="Mottar bruker ordinær lønn i tiltaket?"
+                    svar={aktivitetForm.svarLønnet}
+                    oppdaterSvar={oppdaterLønnet}
+                />
+            )}
+
             {erUtdanningEllerTiltak(aktivitetForm.type) && (
                 <HarBrukerUtgifterTilDagligReise
                     svarHarUtgifter={aktivitetForm.svarHarUtgifter}
