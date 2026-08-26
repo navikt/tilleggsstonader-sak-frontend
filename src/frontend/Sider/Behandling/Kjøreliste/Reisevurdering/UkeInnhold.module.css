@@ -62,3 +62,12 @@
 .slettet {
     text-decoration: line-through;
 }
+
+.grønnSirkel {
+    display: inline-block;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 50%;
+    background-color: var(--ax-bg-success-strong);
+    flex-shrink: 0;
+}

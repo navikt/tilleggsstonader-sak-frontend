@@ -4,5 +4,5 @@
 }
 
 .modalBody {
-    padding-bottom: 80px;
+    min-height: 128px;
 }
