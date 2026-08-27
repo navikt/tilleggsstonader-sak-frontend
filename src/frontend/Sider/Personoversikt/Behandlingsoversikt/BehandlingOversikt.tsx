@@ -81,6 +81,15 @@ export const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fags
                                 gjelderTema="TSO"
                             />
                         )}
+                        {behandlingsoversikt.reiseTilSamlingTsr && (
+                            <FagsakOversikt
+                                fagsakMedBehandlinger={behandlingsoversikt.reiseTilSamlingTsr}
+                                klagebehandlinger={[]}
+                                hentBehandlinger={rekjørHentBehandlinger}
+                                hentKlagebehandlinger={rekjørHentKlagebehandlinger}
+                                gjelderTema="TSR"
+                            />
+                        )}
                     </>
                 )}
             </DataViewer>
