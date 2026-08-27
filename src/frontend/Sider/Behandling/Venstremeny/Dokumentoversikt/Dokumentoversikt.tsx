@@ -1,28 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import Dokumentliste from './Dokumentliste';
-import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
+import { useHentDokumenter } from '../../../../hooks/useHentDokumenter';
 import DataViewer from '../../../../komponenter/DataViewer';
 import { relevanteArkivtemaerIBehandling } from '../../../../typer/arkivtema';
-import { DokumentInfo, VedleggRequest } from '../../../../typer/dokument';
-import { Ressurs, byggTomRessurs } from '../../../../typer/ressurs';
+
+const VEDLEGG_REQUEST = { tema: relevanteArkivtemaerIBehandling };
 
 const Dokumentoversikt: React.FC = () => {
-    const { request } = useApp();
     const { behandling } = useBehandling();
-
-    const [dokumenter, settDokumenter] = useState<Ressurs<DokumentInfo[]>>(byggTomRessurs());
-
-    useEffect(() => {
-        request<DokumentInfo[], VedleggRequest>(
-            `/api/sak/vedlegg/fagsak-person/${behandling.fagsakPersonId}`,
-            'POST',
-            {
-                tema: relevanteArkivtemaerIBehandling,
-            }
-        ).then(settDokumenter);
-    }, [request, behandling]);
+    const dokumenter = useHentDokumenter(behandling.fagsakPersonId, VEDLEGG_REQUEST);
 
     return (
         <DataViewer type={'dokumenter'} response={{ dokumenter }}>

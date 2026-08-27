@@ -1,23 +1,15 @@
 import React, { FC, useState } from 'react';
 
-import {
-    Alert,
-    Box,
-    Button,
-    Heading,
-    HStack,
-    Select,
-    Textarea,
-    TextField,
-    VStack,
-} from '@navikt/ds-react';
+import { Alert, Box, Button, Heading, HStack, Select, Textarea, VStack } from '@navikt/ds-react';
 
 import { RegistrerKjørelisteUke } from './RegistrerKjørelisteUke';
 import { UkeTilInnsending } from './typer';
 import { initialiserUkerTilInnsending, tilManuellKjørelisteRequest } from './utils';
 import { validerRegistrerKjøreliste } from './validerRegistrerKjøreliste';
 import { useApp } from '../../../../../context/AppContext';
+import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useRegistrerKjøreliste } from '../../../../../context/RegistrerKjørelisteContext/RegistrerKjørelisteContext';
+import { useHentJournalposterForFagsak } from '../../../../../hooks/useHentJournalposterForFagsak';
 import { UlagretKomponent } from '../../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import {
@@ -25,7 +17,7 @@ import {
     feiletRessursTilFeilmelding,
 } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import { RessursStatus } from '../../../../../typer/ressurs';
-import { erEtterDagensDato, formaterIsoPeriode } from '../../../../../utils/dato';
+import { erEtterDagensDato, formaterIsoDato, formaterIsoPeriode } from '../../../../../utils/dato';
 import { harVerdi } from '../../../../../utils/utils';
 
 export const RegistrerKjørelisteForm: FC<{
@@ -33,6 +25,8 @@ export const RegistrerKjørelisteForm: FC<{
 }> = ({ lukkSkjema }) => {
     const { tilgjengeligeReiser, lagreKjøreliste } = useRegistrerKjøreliste();
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
+    const { behandling } = useBehandling();
+    const journalposter = useHentJournalposterForFagsak(behandling.fagsakId, ['I', 'N']);
 
     const [valgtReiseId, settValgtReiseId] = useState<string>('');
     const [journalpostId, settJournalpostId] = useState<string>('');
@@ -124,12 +118,38 @@ export const RegistrerKjørelisteForm: FC<{
                         </Alert>
                     ) : (
                         <>
-                            <TextField
-                                label="Journalpost ID"
-                                size="small"
+                            <Select
+                                label="Journalpost"
                                 value={journalpostId}
                                 onChange={(e) => settJournalpostId(e.target.value)}
-                            />
+                                size="small"
+                                disabled={journalposter.status !== RessursStatus.SUKSESS}
+                            >
+                                <option value="">
+                                    {journalposter.status === RessursStatus.HENTER
+                                        ? 'Laster dokumenter...'
+                                        : 'Velg journalpost'}
+                                </option>
+                                {journalposter.status === RessursStatus.SUKSESS &&
+                                    journalposter.data.map((journalpost) => {
+                                        const tittel =
+                                            journalpost.tittel ?? journalpost.journalpostId;
+                                        const dato = journalpost.datoMottatt
+                                            ? formaterIsoDato(journalpost.datoMottatt)
+                                            : '—';
+                                        return (
+                                            <option
+                                                title={
+                                                    'JournalpostId: ' + journalpost.journalpostId
+                                                }
+                                                key={journalpost.journalpostId}
+                                                value={journalpost.journalpostId}
+                                            >
+                                                {tittel} – {dato}
+                                            </option>
+                                        );
+                                    })}
+                            </Select>
                             <VStack gap="space-16">
                                 <Heading size="xsmall">
                                     Huk av og fyll ut ukene du ønsker å registrere
