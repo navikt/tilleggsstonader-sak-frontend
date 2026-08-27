@@ -7,6 +7,7 @@ import { EndreAktivitetFlytting } from './EndreAktivitetFlytting';
 import { EndreAktivitetLæremidler } from './EndreAktivitetLæremidler';
 import { EndreAktivitetPassAvBarn } from './EndreAktivitetPassAvBarn';
 import { EndreAktivitetReiseTilSamlingTso } from './EndreAktivitetReiseTilSamlingTso';
+import { EndreAktivitetReiseTilSamlingTsr } from './EndreAktivitetReiseTilSamlingTsr';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useHentTiltaksvariantValg } from '../../../../hooks/useHentTiltaksvariantValg';
 import DataViewer from '../../../../komponenter/DataViewer';
@@ -20,6 +21,7 @@ import {
     erAktivitetLæremidler,
     erAktivitetPassAvBarn,
     erAktivitetReiseTilSamlingTso,
+    erAktivitetReiseTilSamlingTsr,
 } from '../typer/vilkårperiode/aktivitet';
 
 export const EndreAktivitet: React.FC<{
@@ -85,8 +87,20 @@ export const EndreAktivitet: React.FC<{
                 />
             );
         case Stønadstype.REISE_TIL_SAMLING_TSR:
-            // TODO: Implementer EndreAktivitetReiseTilSamlingTsr
-            return null;
+            return (
+                <DataViewer response={{ tiltaksvariantValg }} type={'tiltaksvariantValg'}>
+                    {({ tiltaksvariantValg }) => (
+                        <EndreAktivitetReiseTilSamlingTsr
+                            aktivitet={
+                                erAktivitetReiseTilSamlingTsr(aktivitet) ? aktivitet : undefined
+                            }
+                            aktivitetFraRegister={aktivitetFraRegister}
+                            avbrytRedigering={avbrytRedigering}
+                            tiltaksvariantValg={tiltaksvariantValg}
+                        />
+                    )}
+                </DataViewer>
+            );
         case Stønadstype.FLYTTING_TSO:
         case Stønadstype.FLYTTING_TSR:
             return (

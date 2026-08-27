@@ -22,6 +22,7 @@ export interface BeregningsresultatOffentligTransport {
     fom: string;
     tom: string;
     beløp: number;
+    aktivitetId?: string;
 }
 export interface BeregningsresultatPrivatBil {
     reiseId: string;

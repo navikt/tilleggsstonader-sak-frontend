@@ -28,6 +28,11 @@ import {
     AktivitetReiseTilSamlingTsoFaktaOgSvar,
     AktivitetReiseTilSamlingTsoFaktaOgVurderinger,
 } from './aktivitetReiseTilSamlingTso';
+import {
+    AktivitetReiseTilSamlingTsr,
+    AktivitetReiseTilSamlingTsrFaktaOgSvar,
+    AktivitetReiseTilSamlingTsrFaktaOgVurderinger,
+} from './aktivitetReiseTilSamlingTsr';
 
 export type Aktivitet =
     | AktivitetPassAvBarn
@@ -35,7 +40,8 @@ export type Aktivitet =
     | AktivitetBoutgifter
     | AktivitetDagligReiseTso
     | AktivitetDagligReiseTsr
-    | AktivitetReiseTilSamlingTso;
+    | AktivitetReiseTilSamlingTso
+    | AktivitetReiseTilSamlingTsr;
 
 export enum AktivitetType {
     TILTAK = 'TILTAK',
@@ -57,7 +63,8 @@ export type AktivitetFaktaOgVurderinger =
     | AktivitetBoutgifterFaktaOgVurderinger
     | AktivitetDagligReiseTsoFaktaOgVurderinger
     | AktivitetDagligReiseTsrFaktaOgVurderinger
-    | AktivitetReiseTilSamlingTsoFaktaOgVurderinger;
+    | AktivitetReiseTilSamlingTsoFaktaOgVurderinger
+    | AktivitetReiseTilSamlingTsrFaktaOgVurderinger;
 
 export type AktivitetFaktaOgSvar =
     | AktivitetPassAvBarnFaktaOgSvar
@@ -65,7 +72,8 @@ export type AktivitetFaktaOgSvar =
     | AktivitetBoutgifterFaktaOgSvar
     | AktivitetDagligReiseTsoFaktaOgSvar
     | AktivitetDagligReiseTsrFaktaOgSvar
-    | AktivitetReiseTilSamlingTsoFaktaOgSvar;
+    | AktivitetReiseTilSamlingTsoFaktaOgSvar
+    | AktivitetReiseTilSamlingTsrFaktaOgSvar;
 
 export const erAktivitetPassAvBarn = (
     aktivitet: Aktivitet | undefined
@@ -96,3 +104,8 @@ export const erAktivitetReiseTilSamlingTso = (
     aktivitet: Aktivitet | undefined
 ): aktivitet is AktivitetReiseTilSamlingTso =>
     aktivitet?.faktaOgVurderinger['@type'] === 'AKTIVITET_REISE_TIL_SAMLING_TSO';
+
+export const erAktivitetReiseTilSamlingTsr = (
+    aktivitet: Aktivitet | undefined
+): aktivitet is AktivitetReiseTilSamlingTsr =>
+    aktivitet?.faktaOgVurderinger['@type'] === 'AKTIVITET_REISE_TIL_SAMLING_TSR';

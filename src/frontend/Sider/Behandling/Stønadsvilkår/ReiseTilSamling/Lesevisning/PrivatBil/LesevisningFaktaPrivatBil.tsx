@@ -11,12 +11,19 @@ export const LesevisningFaktaPrivatBil: FC<{
 }> = ({ fakta }) => {
     return (
         <div className={styles.grid}>
-            <BodyShort size="small">{'Reiseavstand in km'}</BodyShort>
+            <BodyShort size="small">{'Reiseavstand i km'}</BodyShort>
             <BodyShort size="small">
                 {fakta?.reiseavstand
                     ? `${formaterTallMedTusenSkilleEllerStrek(fakta.reiseavstand)} km`
                     : '-'}
             </BodyShort>
+
+            {fakta?.aktivitetId && (
+                <>
+                    <BodyShort size="small">{'Aktivitet'}</BodyShort>
+                    <BodyShort size="small">{fakta.aktivitetId}</BodyShort>
+                </>
+            )}
         </div>
     );
 };
