@@ -2,10 +2,7 @@ import React from 'react';
 
 import { EndreFaktaOffentligTransport } from './EndreFaktaOffentligTransport';
 import { EndreFaktaPrivatBil } from './EndreFaktaPrivatBil';
-import {
-    Aktivitet,
-    erAktivitetReiseTilSamlingTsr,
-} from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import { Aktivitet } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import {
     FeilmeldingerFaktaOffentligTransport,
     FeilmeldingerFaktaPrivatBil,
@@ -35,15 +32,6 @@ export const EndreFaktaReiseTilSamling: React.FC<{
     oppfylteAktiviteter,
     gjelderTsr,
 }) => {
-    const tiltaksvarianter = oppfylteAktiviteter
-        .filter(erAktivitetReiseTilSamlingTsr)
-        .map((aktivitet) => aktivitet.tiltaksvariant)
-        .filter((tiltaksvariant) => tiltaksvariant != null);
-
-    const tilgjengeligeTiltaksvarianter = Array.from(new Set(tiltaksvarianter)).sort((a, b) =>
-        a.kode.localeCompare(b.kode)
-    );
-
     switch (gjeldendeFaktaType) {
         case 'REISE_TIL_SAMLING_OFFENTLIG_TRANSPORT':
             return (
@@ -53,7 +41,7 @@ export const EndreFaktaReiseTilSamling: React.FC<{
                     settFakta={settFakta}
                     feilmeldinger={feilmeldinger.fakta as FeilmeldingerFaktaOffentligTransport}
                     gjelderTsr={gjelderTsr}
-                    tilgjengeligeTiltaksvarianter={tilgjengeligeTiltaksvarianter}
+                    oppfylteAktiviteter={oppfylteAktiviteter}
                 />
             );
         case 'REISE_TIL_SAMLING_PRIVAT_BIL':

@@ -18,10 +18,10 @@ export const LesevisningFaktaOffentligTransport: FC<{
                     : '-'}
             </BodyShort>
 
-            {fakta?.tiltaksvariant && (
+            {fakta?.aktivitetId && (
                 <>
-                    <BodyShort size="small">{'Tiltaksvariant'}</BodyShort>
-                    <BodyShort size="small">{fakta.tiltaksvariant}</BodyShort>
+                    <BodyShort size="small">{'Aktivitet'}</BodyShort>
+                    <BodyShort size="small">{fakta.aktivitetId}</BodyShort>
                 </>
             )}
         </div>

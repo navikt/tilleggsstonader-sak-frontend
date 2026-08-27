@@ -111,7 +111,8 @@ export const tomtSvar: SvarVilkårReiseTilSamling = {
 export const tomtOffentligTransport: FaktaOffentligTransport = {
     type: 'OFFENTLIG_TRANSPORT',
     utgifterOffentligTransport: undefined,
-    tiltaksvariant: undefined,
+    aktivitetId: undefined,
+    aktivitetType: undefined,
 };
 
 export const tomtPrivatBil: FaktaPrivatBil = {

@@ -8,7 +8,8 @@ export interface FaktaReiseTilSamling {
 export interface FaktaOffentligTransport extends FaktaReiseTilSamling {
     type: 'OFFENTLIG_TRANSPORT';
     utgifterOffentligTransport: number | undefined;
-    tiltaksvariant?: string;
+    aktivitetId?: string;
+    aktivitetType?: string;
 }
 
 export interface FaktaPrivatBil extends FaktaReiseTilSamling {

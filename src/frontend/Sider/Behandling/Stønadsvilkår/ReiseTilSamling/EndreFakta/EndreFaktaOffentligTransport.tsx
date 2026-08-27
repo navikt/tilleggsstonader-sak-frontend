@@ -1,12 +1,16 @@
 import React from 'react';
 
-import { HelpText, HStack, Select, VStack } from '@navikt/ds-react';
+import { Select, VStack, HStack } from '@navikt/ds-react';
 
 import TextField from '../../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
-import { Kodeverk } from '../../../../../typer/kodeverk';
+import { formaterIsoPeriode } from '../../../../../utils/dato';
 import { harTallverdi, tilHeltall } from '../../../../../utils/tall';
 import { fjernSpaces } from '../../../../../utils/utils';
+import {
+    Aktivitet,
+    AktivitetTypeTilTekst,
+} from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { tomtOffentligTransport } from '../EndreVilkår/utils';
 import { FeilmeldingerFaktaOffentligTransport } from '../EndreVilkår/validering';
 import { FaktaOffentligTransport, FaktaReiseTilSamling } from '../typer/faktaReiseTilSamling';
@@ -17,14 +21,14 @@ export const EndreFaktaOffentligTransport: React.FC<{
     nullstillFeilOgUlagretkomponent: () => void;
     feilmeldinger: FeilmeldingerFaktaOffentligTransport | undefined;
     gjelderTsr: boolean;
-    tilgjengeligeTiltaksvarianter: Kodeverk[];
+    oppfylteAktiviteter: Aktivitet[];
 }> = ({
     fakta,
     nullstillFeilOgUlagretkomponent,
     settFakta,
     feilmeldinger,
     gjelderTsr,
-    tilgjengeligeTiltaksvarianter,
+    oppfylteAktiviteter,
 }) => {
     const oppdaterFakta = (key: keyof FaktaOffentligTransport, verdi: number | undefined) => {
         settFakta((prevState) => ({
@@ -35,12 +39,13 @@ export const EndreFaktaOffentligTransport: React.FC<{
         nullstillFeilOgUlagretkomponent();
     };
 
-    const oppdaterTiltaksvariant = (kode: string) => {
+    const oppdaterAktivitet = (aktivitetGlobalId: string) => {
+        const valgtAktivitet = oppfylteAktiviteter.find((a) => a.globalId === aktivitetGlobalId);
         settFakta((prevState) => ({
             ...(prevState.type === 'OFFENTLIG_TRANSPORT' ? prevState : tomtOffentligTransport),
-            tiltaksvariant: kode || undefined,
+            aktivitetId: aktivitetGlobalId || undefined,
+            aktivitetType: valgtAktivitet?.type,
         }));
-
         nullstillFeilOgUlagretkomponent();
     };
 
@@ -48,27 +53,21 @@ export const EndreFaktaOffentligTransport: React.FC<{
         <VStack gap="space-16">
             <HStack gap="space-16" align="start">
                 {gjelderTsr && (
-                    <FeilmeldingMaksBredde $maxWidth={220}>
+                    <FeilmeldingMaksBredde $maxWidth={300}>
                         <Select
-                            label={
-                                <HStack gap="space-4" align="center">
-                                    <span>Tiltaksvariant</span>
-                                    <HelpText>
-                                        Velg tiltaksvarianten bruker skal reise med offentlig
-                                        transport til. Dette er for at TS-sak skal kunne knytte
-                                        utbetalinger til riktig konto.
-                                    </HelpText>
-                                </HStack>
-                            }
+                            label={'Aktivitet'}
                             size="small"
                             error={feilmeldinger?.aktivitet}
-                            value={fakta.tiltaksvariant || ''}
-                            onChange={(e) => oppdaterTiltaksvariant(e.target.value)}
+                            value={fakta.aktivitetId || ''}
+                            onChange={(e) => {
+                                oppdaterAktivitet(e.target.value);
+                            }}
                         >
                             <option value="">Velg aktivitet</option>
-                            {tilgjengeligeTiltaksvarianter.map((valg) => (
-                                <option key={valg.kode} value={valg.kode}>
-                                    {valg.beskrivelse}
+                            {oppfylteAktiviteter.map((aktivitet) => (
+                                <option key={aktivitet.globalId} value={aktivitet.globalId}>
+                                    {AktivitetTypeTilTekst[aktivitet.type]} (
+                                    {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)})
                                 </option>
                             ))}
                         </Select>

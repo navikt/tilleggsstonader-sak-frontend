@@ -37,10 +37,10 @@ export function harValideringsFeil(valideringsfeil: FeilmeldingerReiseTilSamling
     const harAndreFeil = Object.keys(resten).length > 0;
     if (harAndreFeil) return true;
     if (Array.isArray(fakta)) {
-        return fakta.every((obj) => Object.keys(obj).length === 0);
+        return fakta.some((obj) => Object.keys(obj).length > 0);
     }
     if (typeof fakta === 'object' && fakta !== null) {
-        return Object.keys(fakta).length === 0;
+        return Object.keys(fakta).length > 0;
     }
     return false;
 }
@@ -60,7 +60,7 @@ export const validerVilkår = (
     return {
         ...adresseValidering,
         ...svarValidering,
-        ...faktaValidering,
+        ...(faktaValidering ? { fakta: faktaValidering } : {}),
     };
 };
 
@@ -104,8 +104,8 @@ const validerFaktaOffentligTransport = (
             utgifterOffentligTransport: 'Utgifter for offentlig transport må være større enn 0',
         };
     }
-    if (gjelderTsr && !fakta.tiltaksvariant) {
-        return { aktivitet: 'Du må velge en tiltaksvariant' };
+    if (gjelderTsr && !fakta.aktivitetId) {
+        return { aktivitet: 'Du må velge en aktivitet' };
     }
 };
 
