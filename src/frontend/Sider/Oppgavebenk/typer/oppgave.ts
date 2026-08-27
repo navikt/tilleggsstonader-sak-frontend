@@ -107,8 +107,8 @@ export enum Behandlingstema {
     BOUTGIFTER = 'ab0286',
     DAGLIG_REISE_TSR = 'ab0287',
     DAGLIG_REISE_TSO = 'ab0288',
-    REISE_TIL_SAMLIG_TSO = 'ab0294',
-    REISE_TIL_SAMLIG_TSR = 'ab0293',
+    REISE_TIL_SAMLING_TSO = 'ab0294',
+    REISE_TIL_SAMLING_TSR = 'ab0293',
 }
 
 export const behandlingstemaTilTekst: Record<Behandlingstema, string> = {
