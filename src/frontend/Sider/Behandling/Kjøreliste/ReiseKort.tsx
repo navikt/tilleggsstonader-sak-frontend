@@ -26,7 +26,7 @@ export const ReiseKort: FC<{
     };
 
     return (
-        <ExpansionCard aria-label={aktivitetsAdresse} defaultOpen={false}>
+        <ExpansionCard aria-label={aktivitetsAdresse} defaultOpen={true}>
             <ExpansionCard.Header>
                 <VStack gap="space-8">
                     <ExpansionCard.Title size="medium" className={styles.headerTittel}>
