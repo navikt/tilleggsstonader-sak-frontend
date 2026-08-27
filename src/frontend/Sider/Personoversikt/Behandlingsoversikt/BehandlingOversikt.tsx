@@ -75,7 +75,9 @@ export const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fags
                         {behandlingsoversikt.reiseTilSamlingTso && (
                             <FagsakOversikt
                                 fagsakMedBehandlinger={behandlingsoversikt.reiseTilSamlingTso}
-                                klagebehandlinger={[]}
+                                klagebehandlinger={
+                                    utpakkedeKlagebehandlinger?.reiseTilSamlingTso ?? []
+                                }
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
                                 gjelderTema="TSO"
@@ -84,7 +86,9 @@ export const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fags
                         {behandlingsoversikt.reiseTilSamlingTsr && (
                             <FagsakOversikt
                                 fagsakMedBehandlinger={behandlingsoversikt.reiseTilSamlingTsr}
-                                klagebehandlinger={[]}
+                                klagebehandlinger={
+                                    utpakkedeKlagebehandlinger?.reiseTilSamlingTsr ?? []
+                                }
                                 hentBehandlinger={rekjørHentBehandlinger}
                                 hentKlagebehandlinger={rekjørHentKlagebehandlinger}
                                 gjelderTema="TSR"

@@ -7,6 +7,8 @@ export interface Klagebehandlinger {
     boutgifter: KlageBehandling[];
     dagligReiseTso: KlageBehandling[];
     dagligReiseTsr: KlageBehandling[];
+    reiseTilSamlingTso: KlageBehandling[];
+    reiseTilSamlingTsr: KlageBehandling[];
 }
 
 export interface KlageBehandling {
