@@ -83,7 +83,7 @@ const OpprettOrdinærBehandling: React.FC<Props> = ({
 
     const opprett = (
         skalTillateFlereÅpneBehandlinger = false,
-        skalSetteSaksbehandlerSomOppgaveEier = false
+        skalSetteSaksbehandlerSomOppgaveEier = true
     ) => {
         if (!årsak) {
             settFeilmelding(lagFeilmelding('Mangler årsak'));
