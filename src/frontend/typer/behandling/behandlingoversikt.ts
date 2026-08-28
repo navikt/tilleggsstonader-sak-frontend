@@ -13,6 +13,8 @@ export interface Behandlingsoversikt {
     boutgifter?: FagsakMedBehandlinger;
     dagligReiseTso?: FagsakMedBehandlinger;
     dagligReiseTsr?: FagsakMedBehandlinger;
+    reiseTilSamlingTso?: FagsakMedBehandlinger;
+    reiseTilSamlingTsr?: FagsakMedBehandlinger;
 }
 
 export interface FagsakMedBehandlinger {
