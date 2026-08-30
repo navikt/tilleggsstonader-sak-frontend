@@ -2716,10 +2716,10 @@ eslint-visitor-keys@^5.0.0, eslint-visitor-keys@^5.0.1:
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-5.0.1.tgz#9e3c9489697824d2d4ce3a8ad12628f91e9f59be"
   integrity sha512-tD40eHxA35h0PEIZNeIjkHoDR4YjjJp34biM0mDvplBe//mB+IHCqHDGV7pxF+7MklTvighcCPPZC7ynWyjdTA==
 
-eslint@^10.8.1:
-  version "10.8.1"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-10.8.1.tgz#fb37d514c19b6dd5b2d6b70169fd26fddfa97967"
-  integrity sha512-wqA7W2jbsC/BnV9Iv1UZpKVFkO1AdNoSmYW8NWG4HNOBbkAMvIqDZ27pI2f07dqn583NcIC44ckjAcOXDL1QbQ==
+eslint@^10.9.0:
+  version "10.9.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-10.9.0.tgz#3d86068a06c6c78161a4062e69874d38f59d498b"
+  integrity sha512-5KeEOJZBfEVA47boFiBsf+6MmmJpffM7qEBg4pLla2e4nlKgdKlqCW0oSLOGsT8Wl5uCGJptLV1bkaiShj90Gw==
   dependencies:
     "@eslint-community/eslint-utils" "^4.8.0"
     "@eslint-community/regexpp" "^4.12.2"
@@ -3278,10 +3278,10 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.11,
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.11.tgz#4183e4e8bf08bb6e05bbb2f7d2e0c8f712ca40e3"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
 
-groq@^6.9.1:
-  version "6.9.1"
-  resolved "https://registry.yarnpkg.com/groq/-/groq-6.9.1.tgz#ea65ac028535f75c17bacf01fc619d9d776b9b6b"
-  integrity sha512-yFZIMIUCgYUDmrmOx7LNynPEe9hJK5dGFAXY0CpUJPmBy1+3UoJz0sje6XR5lGQEjdwO4zEcC55sUlLg7TLxsQ==
+groq@^6.10.1:
+  version "6.10.1"
+  resolved "https://registry.yarnpkg.com/groq/-/groq-6.10.1.tgz#be881c18c93ab09422ac8a121dcd70638e0a364b"
+  integrity sha512-UyvLyV3Ge61Lusoyv7VvpXlM16KHAEUN5v2SZg0xdY5GD5IDeBMbDxAiwq9OEWSkiYMM7qPRinMh2suGL9qQ3Q==
 
 hard-rejection@^2.1.0:
   version "2.1.0"
