@@ -11,8 +11,8 @@ export enum Toggle {
     KAN_SAKSBEHANDLE_REISE_TIL_SAMLING_TSR = 'sak.frontend.kan-saksbehandle.reise-til-samling-tsr',
     KAN_SAKSBEHANDLE_FLYTTING_TSO = 'sak.frontend.kan-saksbehandle.flytting-tso',
     KAN_SAKSBEHANDLE_FLYTTING_TSR = 'sak.frontend.kan-saksbehandle.flytting-tsr',
-    KAN_SAKSBEHANDLE_STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO = 'sak.frontend.kan-saksbehandle.støtte-til-reise-oppstart-avslutning-hjemreise-tso',
-    KAN_SAKSBEHANDLE_STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR = 'sak.frontend.kan-saksbehandle.støtte-til-reise-oppstart-avslutning-hjemreise-tsr',
+    KAN_SAKSBEHANDLE_STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO = 'sak.frontend.kan-saksbehandle.stotte-til-reise-oppstart-avslutning-hjemreise-tso',
+    KAN_SAKSBEHANDLE_STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR = 'sak.frontend.kan-saksbehandle.stotte-til-reise-oppstart-avslutning-hjemreise-tsr',
     /**
      * Permission-toggles
      */
