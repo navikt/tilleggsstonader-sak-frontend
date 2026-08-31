@@ -6,6 +6,8 @@ import { EndreAktivitetDagligReiseTsr } from './EndreAktivitetDagligReiseTsr';
 import { EndreAktivitetFlytting } from './EndreAktivitetFlytting';
 import { EndreAktivitetLæremidler } from './EndreAktivitetLæremidler';
 import { EndreAktivitetPassAvBarn } from './EndreAktivitetPassAvBarn';
+import { EndreAktivitetReiseOppstartAvslutningHjemreiseTso } from './EndreAktivitetReiseOppstartAvslutningHjemreiseTso';
+import { EndreAktivitetReiseOppstartAvslutningHjemreiseTsr } from './EndreAktivitetReiseOppstartAvslutningHjemreiseTsr';
 import { EndreAktivitetReiseTilSamlingTso } from './EndreAktivitetReiseTilSamlingTso';
 import { EndreAktivitetReiseTilSamlingTsr } from './EndreAktivitetReiseTilSamlingTsr';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -22,6 +24,8 @@ import {
     erAktivitetPassAvBarn,
     erAktivitetReiseTilSamlingTso,
     erAktivitetReiseTilSamlingTsr,
+    erAktivitetReiseOppstartAvslutningHjemreiseTso,
+    erAktivitetReiseOppstartAvslutningHjemreiseTsr,
 } from '../typer/vilkårperiode/aktivitet';
 
 export const EndreAktivitet: React.FC<{
@@ -111,8 +115,28 @@ export const EndreAktivitet: React.FC<{
                 />
             );
         case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
+            return (
+                <EndreAktivitetReiseOppstartAvslutningHjemreiseTso
+                    aktivitet={
+                        erAktivitetReiseOppstartAvslutningHjemreiseTso(aktivitet)
+                            ? aktivitet
+                            : undefined
+                    }
+                    aktivitetFraRegister={aktivitetFraRegister}
+                    avbrytRedigering={avbrytRedigering}
+                />
+            );
         case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
-            // TODO: Implementer EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreise
-            return null;
+            return (
+                <EndreAktivitetReiseOppstartAvslutningHjemreiseTsr
+                    aktivitet={
+                        erAktivitetReiseOppstartAvslutningHjemreiseTsr(aktivitet)
+                            ? aktivitet
+                            : undefined
+                    }
+                    aktivitetFraRegister={aktivitetFraRegister}
+                    avbrytRedigering={avbrytRedigering}
+                />
+            );
     }
 };
