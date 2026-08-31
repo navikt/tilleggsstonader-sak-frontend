@@ -33,6 +33,14 @@ import {
     AktivitetReiseTilSamlingTsrFaktaOgSvar,
     AktivitetReiseTilSamlingTsrFaktaOgVurderinger,
 } from './aktivitetReiseTilSamlingTsr';
+import {
+    AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso,
+    AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsoFaktaOgSvar,
+    AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsoFaktaOgVurderinger,
+    AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr,
+    AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsrFaktaOgSvar,
+    AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsrFaktaOgVurderinger,
+} from './aktivitetStøtteTilReiseOppstartAvslutningHjemreise';
 
 export type Aktivitet =
     | AktivitetPassAvBarn
@@ -41,7 +49,9 @@ export type Aktivitet =
     | AktivitetDagligReiseTso
     | AktivitetDagligReiseTsr
     | AktivitetReiseTilSamlingTso
-    | AktivitetReiseTilSamlingTsr;
+    | AktivitetReiseTilSamlingTsr
+    | AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso
+    | AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr;
 
 export enum AktivitetType {
     TILTAK = 'TILTAK',
@@ -64,7 +74,9 @@ export type AktivitetFaktaOgVurderinger =
     | AktivitetDagligReiseTsoFaktaOgVurderinger
     | AktivitetDagligReiseTsrFaktaOgVurderinger
     | AktivitetReiseTilSamlingTsoFaktaOgVurderinger
-    | AktivitetReiseTilSamlingTsrFaktaOgVurderinger;
+    | AktivitetReiseTilSamlingTsrFaktaOgVurderinger
+    | AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsoFaktaOgVurderinger
+    | AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsrFaktaOgVurderinger;
 
 export type AktivitetFaktaOgSvar =
     | AktivitetPassAvBarnFaktaOgSvar
@@ -73,7 +85,9 @@ export type AktivitetFaktaOgSvar =
     | AktivitetDagligReiseTsoFaktaOgSvar
     | AktivitetDagligReiseTsrFaktaOgSvar
     | AktivitetReiseTilSamlingTsoFaktaOgSvar
-    | AktivitetReiseTilSamlingTsrFaktaOgSvar;
+    | AktivitetReiseTilSamlingTsrFaktaOgSvar
+    | AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsoFaktaOgSvar
+    | AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsrFaktaOgSvar;
 
 export const erAktivitetPassAvBarn = (
     aktivitet: Aktivitet | undefined
@@ -109,3 +123,15 @@ export const erAktivitetReiseTilSamlingTsr = (
     aktivitet: Aktivitet | undefined
 ): aktivitet is AktivitetReiseTilSamlingTsr =>
     aktivitet?.faktaOgVurderinger['@type'] === 'AKTIVITET_REISE_TIL_SAMLING_TSR';
+
+export const erAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso = (
+    aktivitet: Aktivitet | undefined
+): aktivitet is AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso =>
+    aktivitet?.faktaOgVurderinger['@type'] ===
+    'AKTIVITET_STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO';
+
+export const erAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr = (
+    aktivitet: Aktivitet | undefined
+): aktivitet is AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr =>
+    aktivitet?.faktaOgVurderinger['@type'] ===
+    'AKTIVITET_STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR';

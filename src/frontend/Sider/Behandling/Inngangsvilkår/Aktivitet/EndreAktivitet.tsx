@@ -8,6 +8,8 @@ import { EndreAktivitetLæremidler } from './EndreAktivitetLæremidler';
 import { EndreAktivitetPassAvBarn } from './EndreAktivitetPassAvBarn';
 import { EndreAktivitetReiseTilSamlingTso } from './EndreAktivitetReiseTilSamlingTso';
 import { EndreAktivitetReiseTilSamlingTsr } from './EndreAktivitetReiseTilSamlingTsr';
+import { EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso } from './EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso';
+import { EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr } from './EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useHentTiltaksvariantValg } from '../../../../hooks/useHentTiltaksvariantValg';
 import DataViewer from '../../../../komponenter/DataViewer';
@@ -22,6 +24,8 @@ import {
     erAktivitetPassAvBarn,
     erAktivitetReiseTilSamlingTso,
     erAktivitetReiseTilSamlingTsr,
+    erAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso,
+    erAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr,
 } from '../typer/vilkårperiode/aktivitet';
 
 export const EndreAktivitet: React.FC<{
@@ -111,8 +115,28 @@ export const EndreAktivitet: React.FC<{
                 />
             );
         case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
+            return (
+                <EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso
+                    aktivitet={
+                        erAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso(aktivitet)
+                            ? aktivitet
+                            : undefined
+                    }
+                    aktivitetFraRegister={aktivitetFraRegister}
+                    avbrytRedigering={avbrytRedigering}
+                />
+            );
         case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
-            // TODO: Implementer EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreise
-            return null;
+            return (
+                <EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr
+                    aktivitet={
+                        erAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr(aktivitet)
+                            ? aktivitet
+                            : undefined
+                    }
+                    aktivitetFraRegister={aktivitetFraRegister}
+                    avbrytRedigering={avbrytRedigering}
+                />
+            );
     }
 };
