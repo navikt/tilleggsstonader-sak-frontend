@@ -66,6 +66,42 @@ export const EndreFaktaPrivatBil: React.FC<{
                         }}
                     />
                 </FeilmeldingMaksBredde>
+                <FeilmeldingMaksBredde $maxWidth={180}>
+                    <TextField
+                        label={'Bompenger'}
+                        size="small"
+                        error={feilmeldinger?.bompenger}
+                        value={harTallverdi(fakta.bompenger) ? fakta.bompenger : ''}
+                        onChange={(e) => {
+                            oppdaterFakta('bompenger', tilTallverdi(fjernSpaces(e.target.value)));
+                        }}
+                    />
+                </FeilmeldingMaksBredde>
+                <FeilmeldingMaksBredde $maxWidth={180}>
+                    <TextField
+                        label={'Fergekostnad'}
+                        size="small"
+                        error={feilmeldinger?.fergekostnad}
+                        value={harTallverdi(fakta.fergekostnad) ? fakta.fergekostnad : ''}
+                        onChange={(e) => {
+                            oppdaterFakta(
+                                'fergekostnad',
+                                tilTallverdi(fjernSpaces(e.target.value))
+                            );
+                        }}
+                    />
+                </FeilmeldingMaksBredde>
+                <FeilmeldingMaksBredde $maxWidth={180}>
+                    <TextField
+                        label={'Parkering'}
+                        size="small"
+                        error={feilmeldinger?.parkering}
+                        value={harTallverdi(fakta.parkering) ? fakta.parkering : ''}
+                        onChange={(e) => {
+                            oppdaterFakta('parkering', tilTallverdi(fjernSpaces(e.target.value)));
+                        }}
+                    />
+                </FeilmeldingMaksBredde>
                 {gjelderTsr && (
                     <FeilmeldingMaksBredde $maxWidth={300}>
                         <Select
