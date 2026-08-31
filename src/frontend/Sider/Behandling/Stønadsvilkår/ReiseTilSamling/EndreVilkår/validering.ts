@@ -120,6 +120,9 @@ const validerFaktaPrivatBil = (
     if (gjelderTsr && !fakta.aktivitetId) {
         return { aktivitet: 'Du må velge en aktivitet' };
     }
+    if (fakta.reiseavstand < 30) {
+        return { reiseavstand: 'Reiseavstand må være 30 km eller mer' };
+    }
 };
 
 const validerFakta = (
