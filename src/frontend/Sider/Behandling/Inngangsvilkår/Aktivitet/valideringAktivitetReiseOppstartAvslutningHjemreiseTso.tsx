@@ -1,5 +1,5 @@
-import { EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso } from './EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso';
-import { finnBegrunnelseGrunnerAktivitet } from './utilsStøtteTilReiseOppstartAvslutningHjemreiseTso';
+import { EndreAktivitetFormReiseOppstartAvslutningHjemreiseTso } from './EndreAktivitetReiseOppstartAvslutningHjemreiseTso';
+import { finnBegrunnelseGrunnerAktivitet } from './utilsReiseOppstartAvslutningHjemreiseTso';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harIkkeVerdi } from '../../../../utils/utils';
@@ -11,7 +11,7 @@ export interface AktivitetValidering extends Periode {
 }
 
 export const validerAktivitet = (
-    endretAktivitet: EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso
+    endretAktivitet: EndreAktivitetFormReiseOppstartAvslutningHjemreiseTso
 ): FormErrors<AktivitetValidering> => {
     const feil: FormErrors<AktivitetValidering> = {
         fom: undefined,

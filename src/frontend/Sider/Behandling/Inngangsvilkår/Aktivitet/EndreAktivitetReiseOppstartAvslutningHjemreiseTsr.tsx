@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 
 import { Button, HStack, VStack } from '@navikt/ds-react';
 
-import { AktivitetDelvilkårStøtteTilReiseOppstartAvslutningHjemreiseTso } from './Delvilkår/AktivitetDelvilkårStøtteTilReiseOppstartAvslutningHjemreiseTso';
+import { AktivitetDelvilkårReiseOppstartAvslutningHjemreiseTsr } from './Delvilkår/AktivitetDelvilkårReiseOppstartAvslutningHjemreiseTsr';
 import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
-import styles from './EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso.module.css';
+import styles from './EndreAktivitetReiseOppstartAvslutningHjemreiseTsr.module.css';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
     finnBegrunnelseGrunnerAktivitet,
@@ -12,11 +12,11 @@ import {
     mapFaktaOgSvarTilRequest,
     nyAktivitet,
     resettAktivitet,
-} from './utilsStøtteTilReiseOppstartAvslutningHjemreiseTso';
+} from './utilsReiseOppstartAvslutningHjemreiseTsr';
 import {
     AktivitetValidering,
     validerAktivitet,
-} from './valideringAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso';
+} from './valideringAktivitetReiseOppstartAvslutningHjemreiseTsr';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { FormErrors, isValid } from '../../../../hooks/felles/useFormState';
@@ -31,13 +31,13 @@ import { Periode } from '../../../../utils/periode';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
-import { AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso } from '../typer/vilkårperiode/aktivitetStøtteTilReiseOppstartAvslutningHjemreise';
+import { AktivitetReiseOppstartAvslutningHjemreiseTsr } from '../typer/vilkårperiode/aktivitetReiseOppstartAvslutningHjemreise';
 import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
 
-export interface EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso extends Periode {
+export interface EndreAktivitetFormReiseOppstartAvslutningHjemreiseTsr extends Periode {
     type: AktivitetType | '';
     svarLønnet: SvarJaNei | undefined;
     svarHarUtgifter: SvarJaNei | undefined;
@@ -47,16 +47,16 @@ export interface EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso
 }
 
 const initaliserForm = (
-    eksisterendeAktivitet?: AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso,
+    eksisterendeAktivitet?: AktivitetReiseOppstartAvslutningHjemreiseTsr,
     aktivitetFraRegister?: Registeraktivitet
-): EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso => {
+): EndreAktivitetFormReiseOppstartAvslutningHjemreiseTsr => {
     return eksisterendeAktivitet === undefined
         ? nyAktivitet(aktivitetFraRegister)
         : mapEksisterendeAktivitet(eksisterendeAktivitet);
 };
 
-export const EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso: React.FC<{
-    aktivitet?: AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso;
+export const EndreAktivitetReiseOppstartAvslutningHjemreiseTsr: React.FC<{
+    aktivitet?: AktivitetReiseOppstartAvslutningHjemreiseTsr;
     aktivitetFraRegister?: Registeraktivitet;
     avbrytRedigering: () => void;
 }> = ({ aktivitet, avbrytRedigering, aktivitetFraRegister }) => {
@@ -64,10 +64,9 @@ export const EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso: React.
     const { oppdaterAktivitet, leggTilAktivitet } = useInngangsvilkår();
     const { lagreVilkårperiode } = useLagreVilkårperiode();
 
-    const [form, settForm] =
-        useState<EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso>(
-            initaliserForm(aktivitet, aktivitetFraRegister)
-        );
+    const [form, settForm] = useState<EndreAktivitetFormReiseOppstartAvslutningHjemreiseTsr>(
+        initaliserForm(aktivitet, aktivitetFraRegister)
+    );
 
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<Feil>();
@@ -129,7 +128,7 @@ export const EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso: React.
     };
 
     const oppdaterForm = (
-        key: keyof EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso,
+        key: keyof EndreAktivitetFormReiseOppstartAvslutningHjemreiseTsr,
         nyVerdi: string
     ) => {
         settForm((prevState) => ({ ...prevState, [key]: nyVerdi }));
@@ -159,7 +158,7 @@ export const EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso: React.
                         oppdaterTypeIForm={oppdaterType}
                         oppdaterPeriode={oppdaterForm}
                         typeOptions={valgbareAktivitetTyper(
-                            Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO
+                            Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR
                         )}
                         formFeil={vilkårsperiodeFeil}
                         kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
@@ -167,7 +166,7 @@ export const EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso: React.
                 </div>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
-            <AktivitetDelvilkårStøtteTilReiseOppstartAvslutningHjemreiseTso
+            <AktivitetDelvilkårReiseOppstartAvslutningHjemreiseTsr
                 aktivitetForm={form}
                 oppdaterLønnet={(svar) =>
                     settForm((prevState) => ({ ...prevState, svarLønnet: svar }))

@@ -4,15 +4,12 @@ import { VStack } from '@navikt/ds-react';
 
 import { JaNeiVurdering } from '../../../Vilkårvurdering/JaNeiVurdering';
 import { SvarJaNei } from '../../typer/vilkårperiode/vilkårperiode';
-import { EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso } from '../EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso';
-import {
-    erTiltak,
-    erUtdanningEllerTiltak,
-} from '../utilsStøtteTilReiseOppstartAvslutningHjemreiseTso';
+import { EndreAktivitetFormReiseOppstartAvslutningHjemreiseTso } from '../EndreAktivitetReiseOppstartAvslutningHjemreiseTso';
+import { erTiltak, erUtdanningEllerTiltak } from '../utilsReiseOppstartAvslutningHjemreiseTso';
 import { HarBrukerUtgifterTilReiseOppstartAvslutningHjemreise } from './HarBrukerUtgifterTilReiseOppstartAvslutningHjemreise';
 
-export const AktivitetDelvilkårStøtteTilReiseOppstartAvslutningHjemreiseTso: React.FC<{
-    aktivitetForm: EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso;
+export const AktivitetDelvilkårReiseOppstartAvslutningHjemreiseTso: React.FC<{
+    aktivitetForm: EndreAktivitetFormReiseOppstartAvslutningHjemreiseTso;
     oppdaterLønnet: (svar: SvarJaNei) => void;
     oppdaterHarUtgifter: (svar: SvarJaNei) => void;
     oppdaterErObligatorisk: (svar: SvarJaNei) => void;

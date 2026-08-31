@@ -6,10 +6,10 @@ import { EndreAktivitetDagligReiseTsr } from './EndreAktivitetDagligReiseTsr';
 import { EndreAktivitetFlytting } from './EndreAktivitetFlytting';
 import { EndreAktivitetLæremidler } from './EndreAktivitetLæremidler';
 import { EndreAktivitetPassAvBarn } from './EndreAktivitetPassAvBarn';
+import { EndreAktivitetReiseOppstartAvslutningHjemreiseTso } from './EndreAktivitetReiseOppstartAvslutningHjemreiseTso';
+import { EndreAktivitetReiseOppstartAvslutningHjemreiseTsr } from './EndreAktivitetReiseOppstartAvslutningHjemreiseTsr';
 import { EndreAktivitetReiseTilSamlingTso } from './EndreAktivitetReiseTilSamlingTso';
 import { EndreAktivitetReiseTilSamlingTsr } from './EndreAktivitetReiseTilSamlingTsr';
-import { EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso } from './EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso';
-import { EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr } from './EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useHentTiltaksvariantValg } from '../../../../hooks/useHentTiltaksvariantValg';
 import DataViewer from '../../../../komponenter/DataViewer';
@@ -24,8 +24,8 @@ import {
     erAktivitetPassAvBarn,
     erAktivitetReiseTilSamlingTso,
     erAktivitetReiseTilSamlingTsr,
-    erAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso,
-    erAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr,
+    erAktivitetReiseOppstartAvslutningHjemreiseTso,
+    erAktivitetReiseOppstartAvslutningHjemreiseTsr,
 } from '../typer/vilkårperiode/aktivitet';
 
 export const EndreAktivitet: React.FC<{
@@ -116,9 +116,9 @@ export const EndreAktivitet: React.FC<{
             );
         case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
             return (
-                <EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso
+                <EndreAktivitetReiseOppstartAvslutningHjemreiseTso
                     aktivitet={
-                        erAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso(aktivitet)
+                        erAktivitetReiseOppstartAvslutningHjemreiseTso(aktivitet)
                             ? aktivitet
                             : undefined
                     }
@@ -128,9 +128,9 @@ export const EndreAktivitet: React.FC<{
             );
         case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
             return (
-                <EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr
+                <EndreAktivitetReiseOppstartAvslutningHjemreiseTsr
                     aktivitet={
-                        erAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr(aktivitet)
+                        erAktivitetReiseOppstartAvslutningHjemreiseTsr(aktivitet)
                             ? aktivitet
                             : undefined
                     }

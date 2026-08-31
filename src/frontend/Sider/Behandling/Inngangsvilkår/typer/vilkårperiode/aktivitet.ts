@@ -24,6 +24,14 @@ import {
     AktivitetPassAvBarnFaktaOgVurderinger,
 } from './aktivitetPassAvBarn';
 import {
+    AktivitetReiseOppstartAvslutningHjemreiseTso,
+    AktivitetReiseOppstartAvslutningHjemreiseTsoFaktaOgSvar,
+    AktivitetReiseOppstartAvslutningHjemreiseTsoFaktaOgVurderinger,
+    AktivitetReiseOppstartAvslutningHjemreiseTsr,
+    AktivitetReiseOppstartAvslutningHjemreiseTsrFaktaOgSvar,
+    AktivitetReiseOppstartAvslutningHjemreiseTsrFaktaOgVurderinger,
+} from './aktivitetReiseOppstartAvslutningHjemreise';
+import {
     AktivitetReiseTilSamlingTso,
     AktivitetReiseTilSamlingTsoFaktaOgSvar,
     AktivitetReiseTilSamlingTsoFaktaOgVurderinger,
@@ -33,14 +41,6 @@ import {
     AktivitetReiseTilSamlingTsrFaktaOgSvar,
     AktivitetReiseTilSamlingTsrFaktaOgVurderinger,
 } from './aktivitetReiseTilSamlingTsr';
-import {
-    AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso,
-    AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsoFaktaOgSvar,
-    AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsoFaktaOgVurderinger,
-    AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr,
-    AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsrFaktaOgSvar,
-    AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsrFaktaOgVurderinger,
-} from './aktivitetStøtteTilReiseOppstartAvslutningHjemreise';
 
 export type Aktivitet =
     | AktivitetPassAvBarn
@@ -50,8 +50,8 @@ export type Aktivitet =
     | AktivitetDagligReiseTsr
     | AktivitetReiseTilSamlingTso
     | AktivitetReiseTilSamlingTsr
-    | AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso
-    | AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr;
+    | AktivitetReiseOppstartAvslutningHjemreiseTso
+    | AktivitetReiseOppstartAvslutningHjemreiseTsr;
 
 export enum AktivitetType {
     TILTAK = 'TILTAK',
@@ -75,8 +75,8 @@ export type AktivitetFaktaOgVurderinger =
     | AktivitetDagligReiseTsrFaktaOgVurderinger
     | AktivitetReiseTilSamlingTsoFaktaOgVurderinger
     | AktivitetReiseTilSamlingTsrFaktaOgVurderinger
-    | AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsoFaktaOgVurderinger
-    | AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsrFaktaOgVurderinger;
+    | AktivitetReiseOppstartAvslutningHjemreiseTsoFaktaOgVurderinger
+    | AktivitetReiseOppstartAvslutningHjemreiseTsrFaktaOgVurderinger;
 
 export type AktivitetFaktaOgSvar =
     | AktivitetPassAvBarnFaktaOgSvar
@@ -86,8 +86,8 @@ export type AktivitetFaktaOgSvar =
     | AktivitetDagligReiseTsrFaktaOgSvar
     | AktivitetReiseTilSamlingTsoFaktaOgSvar
     | AktivitetReiseTilSamlingTsrFaktaOgSvar
-    | AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsoFaktaOgSvar
-    | AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsrFaktaOgSvar;
+    | AktivitetReiseOppstartAvslutningHjemreiseTsoFaktaOgSvar
+    | AktivitetReiseOppstartAvslutningHjemreiseTsrFaktaOgSvar;
 
 export const erAktivitetPassAvBarn = (
     aktivitet: Aktivitet | undefined
@@ -124,14 +124,12 @@ export const erAktivitetReiseTilSamlingTsr = (
 ): aktivitet is AktivitetReiseTilSamlingTsr =>
     aktivitet?.faktaOgVurderinger['@type'] === 'AKTIVITET_REISE_TIL_SAMLING_TSR';
 
-export const erAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso = (
+export const erAktivitetReiseOppstartAvslutningHjemreiseTso = (
     aktivitet: Aktivitet | undefined
-): aktivitet is AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso =>
-    aktivitet?.faktaOgVurderinger['@type'] ===
-    'AKTIVITET_STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO';
+): aktivitet is AktivitetReiseOppstartAvslutningHjemreiseTso =>
+    aktivitet?.faktaOgVurderinger['@type'] === 'AKTIVITET_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO';
 
-export const erAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr = (
+export const erAktivitetReiseOppstartAvslutningHjemreiseTsr = (
     aktivitet: Aktivitet | undefined
-): aktivitet is AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsr =>
-    aktivitet?.faktaOgVurderinger['@type'] ===
-    'AKTIVITET_STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR';
+): aktivitet is AktivitetReiseOppstartAvslutningHjemreiseTsr =>
+    aktivitet?.faktaOgVurderinger['@type'] === 'AKTIVITET_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR';

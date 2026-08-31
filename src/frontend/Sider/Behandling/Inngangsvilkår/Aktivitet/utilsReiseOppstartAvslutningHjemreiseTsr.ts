@@ -1,4 +1,4 @@
-import { EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso } from './EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso';
+import { EndreAktivitetFormReiseOppstartAvslutningHjemreiseTsr } from './EndreAktivitetReiseOppstartAvslutningHjemreiseTsr';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { dagensDato, førsteDagIMånederForut } from '../../../../utils/dato';
@@ -6,20 +6,20 @@ import { Periode } from '../../../../utils/periode';
 import { maksMånederTilbakeFraSøknadsdato } from '../../Felles/grunnlagAntallMndBakITiden';
 import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import {
-    AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso,
-    AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsoFaktaOgSvar,
-} from '../typer/vilkårperiode/aktivitetStøtteTilReiseOppstartAvslutningHjemreise';
+    AktivitetReiseOppstartAvslutningHjemreiseTsr,
+    AktivitetReiseOppstartAvslutningHjemreiseTsrFaktaOgSvar,
+} from '../typer/vilkårperiode/aktivitetReiseOppstartAvslutningHjemreise';
 import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyAktivitet = (
     aktivitetFraRegister: Registeraktivitet | undefined
-): EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso =>
+): EndreAktivitetFormReiseOppstartAvslutningHjemreiseTsr =>
     aktivitetFraRegister ? nyAktivitetFraRegister(aktivitetFraRegister) : nyTomAktivitet();
 
 export const mapEksisterendeAktivitet = (
-    eksisterendeAktivitet: AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTso
-): EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso => ({
+    eksisterendeAktivitet: AktivitetReiseOppstartAvslutningHjemreiseTsr
+): EndreAktivitetFormReiseOppstartAvslutningHjemreiseTsr => ({
     ...eksisterendeAktivitet,
     svarLønnet: eksisterendeAktivitet.faktaOgVurderinger.lønnet?.svar,
     svarHarUtgifter: eksisterendeAktivitet.faktaOgVurderinger.harUtgifter?.svar,
@@ -29,9 +29,9 @@ export const mapEksisterendeAktivitet = (
 
 function nyAktivitetFraRegister(
     aktivitetFraRegister: Registeraktivitet
-): EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso {
+): EndreAktivitetFormReiseOppstartAvslutningHjemreiseTsr {
     return {
-        type: aktivitetFraRegister.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK,
+        type: AktivitetType.TILTAK,
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
         svarLønnet: undefined,
@@ -41,7 +41,7 @@ function nyAktivitetFraRegister(
     };
 }
 
-function nyTomAktivitet(): EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso {
+function nyTomAktivitet(): EndreAktivitetFormReiseOppstartAvslutningHjemreiseTsr {
     return {
         type: '',
         fom: '',
@@ -54,14 +54,11 @@ function nyTomAktivitet(): EndreAktivitetFormStøtteTilReiseOppstartAvslutningHj
 
 export const erTiltak = (type: AktivitetType | '') => type === AktivitetType.TILTAK;
 
-export const erUtdanningEllerTiltak = (type: AktivitetType | '') =>
-    type === AktivitetType.UTDANNING || type === AktivitetType.TILTAK;
-
 export const resettAktivitet = (
     nyType: AktivitetType,
-    eksisterendeAktivitetForm: EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso,
+    eksisterendeAktivitetForm: EndreAktivitetFormReiseOppstartAvslutningHjemreiseTsr,
     søknadMottattTidspunkt?: string
-): EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso => {
+): EndreAktivitetFormReiseOppstartAvslutningHjemreiseTsr => {
     const { fom, tom } = resetPeriode(nyType, eksisterendeAktivitetForm, søknadMottattTidspunkt);
 
     return {
@@ -76,14 +73,14 @@ export const resettAktivitet = (
 
 const resetPeriode = (
     nyType: string,
-    eksisterendeForm: EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso,
+    eksisterendeForm: EndreAktivitetFormReiseOppstartAvslutningHjemreiseTsr,
     søknadMottattTidspunkt?: string
 ): Periode => {
     if (nyType === AktivitetType.INGEN_AKTIVITET) {
         return {
             fom: førsteDagIMånederForut(
                 maksMånederTilbakeFraSøknadsdato[
-                    Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO
+                    Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR
                 ],
                 søknadMottattTidspunkt
             ),
@@ -127,9 +124,9 @@ export const finnBegrunnelseGrunnerAktivitet = (
 };
 
 export const mapFaktaOgSvarTilRequest = (
-    aktivitetForm: EndreAktivitetFormStøtteTilReiseOppstartAvslutningHjemreiseTso
-): AktivitetStøtteTilReiseOppstartAvslutningHjemreiseTsoFaktaOgSvar => ({
-    '@type': 'AKTIVITET_STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO',
+    aktivitetForm: EndreAktivitetFormReiseOppstartAvslutningHjemreiseTsr
+): AktivitetReiseOppstartAvslutningHjemreiseTsrFaktaOgSvar => ({
+    '@type': 'AKTIVITET_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR',
     svarLønnet: aktivitetForm.svarLønnet,
     svarHarUtgifter: aktivitetForm.svarHarUtgifter,
     svarErAktivitetenObligatorisk: aktivitetForm.svarErAktivitetenObligatorisk,
