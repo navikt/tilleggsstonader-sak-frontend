@@ -261,7 +261,7 @@ export const vedtakForBehandling = (behandling: Behandling): React.ReactNode => 
         case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
         case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
             // TODO: Implementer VedtakOgBeregningStøtteTilReiseOppstartAvslutningHjemreise
-            return <VedtakOgBeregningFlytting />;
+            return <div>Vedtak og beregning er ikke implementert for denne stønadstypen ennå.</div>;
     }
 };
 
