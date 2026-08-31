@@ -114,14 +114,11 @@ const validerFaktaPrivatBil = (
     gjelderTsr: boolean
 ): Partial<FeilmeldingerFaktaPrivatBil> | undefined => {
     if (!fakta) return undefined;
-    if (!fakta.reiseavstand) {
-        return { reiseavstand: 'Reiseavstand må være større enn 0' };
+    if (!fakta.reiseavstand || fakta.reiseavstand < 30) {
+        return { reiseavstand: 'Reiseavstand må være 30 km eller mer' };
     }
     if (gjelderTsr && !fakta.aktivitetId) {
         return { aktivitet: 'Du må velge en aktivitet' };
-    }
-    if (fakta.reiseavstand < 30) {
-        return { reiseavstand: 'Reiseavstand må være 30 km eller mer' };
     }
 };
 
