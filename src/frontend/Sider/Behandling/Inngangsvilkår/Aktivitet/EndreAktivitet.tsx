@@ -110,5 +110,9 @@ export const EndreAktivitet: React.FC<{
                     avbrytRedigering={avbrytRedigering}
                 />
             );
+        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
+        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
+            // TODO: Implementer EndreAktivitetStøtteTilReiseOppstartAvslutningHjemreise
+            return null;
     }
 };

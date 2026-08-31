@@ -64,6 +64,19 @@ const faktiskeMålgrupper: Record<Stønadstype, Record<FaktiskMålgruppe, boolea
         GJENLEVENDE: false,
         ARBEIDSSØKER: true,
     },
+    // TODO: avklar faktiske målgrupper for STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE
+    [Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO]: {
+        NEDSATT_ARBEIDSEVNE: true,
+        ENSLIG_FORSØRGER: true,
+        GJENLEVENDE: true,
+        ARBEIDSSØKER: false,
+    },
+    [Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR]: {
+        NEDSATT_ARBEIDSEVNE: false,
+        ENSLIG_FORSØRGER: false,
+        GJENLEVENDE: false,
+        ARBEIDSSØKER: true,
+    },
 };
 
 export const faktiskeMålgrupperForStønad: Record<Stønadstype, FaktiskMålgruppe[]> = Object.entries(

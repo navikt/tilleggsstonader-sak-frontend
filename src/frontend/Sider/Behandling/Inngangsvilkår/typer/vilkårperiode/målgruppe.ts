@@ -173,6 +173,35 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         SYKEPENGER_100_PROSENT: false,
         GJENLEVENDE_GAMMELT_REGELVERK: false,
     },
+    // TODO: avklar målgrupper for STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE
+    [Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO]: {
+        AAP: true,
+        UFØRETRYGD: true,
+        OMSTILLINGSSTØNAD: true,
+        OVERGANGSSTØNAD: true,
+        NEDSATT_ARBEIDSEVNE: true,
+        INGEN_MÅLGRUPPE: true,
+        GJENLEVENDE_GAMMELT_REGELVERK: true,
+        SYKEPENGER_100_PROSENT: false,
+        DAGPENGER: false,
+        KVALIFISERINGSSTØNAD: false,
+        TILTAKSPENGER: false,
+        INNSATT_I_FENGSEL: false,
+    },
+    [Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR]: {
+        DAGPENGER: true,
+        KVALIFISERINGSSTØNAD: true,
+        TILTAKSPENGER: true,
+        INNSATT_I_FENGSEL: true,
+        INGEN_MÅLGRUPPE: true,
+        AAP: false,
+        UFØRETRYGD: false,
+        OMSTILLINGSSTØNAD: false,
+        OVERGANGSSTØNAD: false,
+        NEDSATT_ARBEIDSEVNE: false,
+        SYKEPENGER_100_PROSENT: false,
+        GJENLEVENDE_GAMMELT_REGELVERK: false,
+    },
 };
 
 export const målgrupperForStønad: Record<Stønadstype, MålgruppeType[]> = Object.entries(
