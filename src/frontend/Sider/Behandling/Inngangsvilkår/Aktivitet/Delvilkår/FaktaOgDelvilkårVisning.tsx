@@ -9,6 +9,8 @@ import {
     erAktivitetDagligReiseTsr,
     erAktivitetLæremidler,
     erAktivitetPassAvBarn,
+    erAktivitetReiseTilSamlingTso,
+    erAktivitetReiseTilSamlingTsr,
 } from '../../typer/vilkårperiode/aktivitet';
 import { AktivitetBoutgifter } from '../../typer/vilkårperiode/aktivitetBoutgifter';
 import { AktivitetDagligReiseTso } from '../../typer/vilkårperiode/aktivitetDagligReiseTso';
@@ -18,7 +20,10 @@ import {
     studienivåTilTekst,
 } from '../../typer/vilkårperiode/aktivitetLæremidler';
 import { AktivitetPassAvBarn } from '../../typer/vilkårperiode/aktivitetPassAvBarn';
+import { AktivitetReiseTilSamlingTso } from '../../typer/vilkårperiode/aktivitetReiseTilSamlingTso';
+import { AktivitetReiseTilSamlingTsr } from '../../typer/vilkårperiode/aktivitetReiseTilSamlingTsr';
 import {
+    erObligatoriskSvarTilTekst,
     harRettTilUtstyrsstipendSvarTilTekst,
     harUtgifterSvarTilTekst,
     lønnetSvarTilTekst,
@@ -41,6 +46,12 @@ export const FaktaOgDelvilkårVisning: React.FC<{
     }
     if (erAktivitetDagligReiseTsr(aktivitet)) {
         return <FaktaOgDelvilkårDagligReiseTsr aktivitet={aktivitet} />;
+    }
+    if (erAktivitetReiseTilSamlingTso(aktivitet)) {
+        return <FaktaOgDelvilkårReiseTilSamlingTso aktivitet={aktivitet} />;
+    }
+    if (erAktivitetReiseTilSamlingTsr(aktivitet)) {
+        return <FaktaOgDelvilkårReiseTilSamlingTsr aktivitet={aktivitet} />;
     }
     return null;
 };
@@ -117,6 +128,44 @@ const FaktaOgDelvilkårDagligReiseTsr: React.FC<{
     return (
         <>
             {svarHarUtgifter && <Detail>{harUtgifterSvarTilTekst[svarHarUtgifter]}</Detail>}
+            {aktivitetsdager && <Detail>{`${aktivitetsdager} dager/uke`}</Detail>}
+        </>
+    );
+};
+
+const FaktaOgDelvilkårReiseTilSamlingTso: React.FC<{
+    aktivitet: AktivitetReiseTilSamlingTso;
+}> = ({ aktivitet }) => {
+    const svarLønnet = aktivitet.faktaOgVurderinger.lønnet?.svar;
+    const svarHarUtgifter = aktivitet.faktaOgVurderinger.harUtgifter?.svar;
+    const svarErObligatorisk = aktivitet.faktaOgVurderinger.erAktivitetenObligatorisk?.svar;
+
+    return (
+        <>
+            {svarLønnet && <Detail>{lønnetSvarTilTekst[svarLønnet]}</Detail>}
+            {svarHarUtgifter && <Detail>{harUtgifterSvarTilTekst[svarHarUtgifter]}</Detail>}
+            {svarErObligatorisk && (
+                <Detail>{erObligatoriskSvarTilTekst[svarErObligatorisk]}</Detail>
+            )}
+        </>
+    );
+};
+
+const FaktaOgDelvilkårReiseTilSamlingTsr: React.FC<{
+    aktivitet: AktivitetReiseTilSamlingTsr;
+}> = ({ aktivitet }) => {
+    const svarLønnet = aktivitet.faktaOgVurderinger.lønnet?.svar;
+    const svarHarUtgifter = aktivitet.faktaOgVurderinger.harUtgifter?.svar;
+    const svarErObligatorisk = aktivitet.faktaOgVurderinger.erAktivitetenObligatorisk?.svar;
+    const aktivitetsdager = aktivitet.faktaOgVurderinger.aktivitetsdager;
+
+    return (
+        <>
+            {svarLønnet && <Detail>{lønnetSvarTilTekst[svarLønnet]}</Detail>}
+            {svarHarUtgifter && <Detail>{harUtgifterSvarTilTekst[svarHarUtgifter]}</Detail>}
+            {svarErObligatorisk && (
+                <Detail>{erObligatoriskSvarTilTekst[svarErObligatorisk]}</Detail>
+            )}
             {aktivitetsdager && <Detail>{`${aktivitetsdager} dager/uke`}</Detail>}
         </>
     );

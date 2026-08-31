@@ -46,6 +46,13 @@ export const harUtgifterSvarTilTekst: Record<SvarJaNei, string | undefined> = {
     [SvarJaNei.NEI_IMPLISITT]: undefined,
 };
 
+export const erObligatoriskSvarTilTekst: Record<SvarJaNei, string | undefined> = {
+    [SvarJaNei.JA]: 'Samlingen er obligatorisk',
+    [SvarJaNei.NEI]: 'Samlingen er ikke obligatorisk',
+    [SvarJaNei.JA_IMPLISITT]: undefined,
+    [SvarJaNei.NEI_IMPLISITT]: undefined,
+};
+
 export const harRettTilUtstyrsstipendSvarTilTekst: Record<SvarJaNei, string | undefined> = {
     [SvarJaNei.JA]: 'Har rett til utstyrsstipend',
     [SvarJaNei.NEI]: 'Har ikke rett til utsstyrsstipend',
