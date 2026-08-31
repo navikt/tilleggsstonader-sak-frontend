@@ -118,6 +118,6 @@ export const tomtOffentligTransport: FaktaOffentligTransport = {
 export const tomtPrivatBil: FaktaPrivatBil = {
     type: 'PRIVAT_BIL',
     reiseavstand: undefined,
-    aktivitetId: '',
+    aktivitetId: undefined,
     aktivitetType: undefined,
 };
