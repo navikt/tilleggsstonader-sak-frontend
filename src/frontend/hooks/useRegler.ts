@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
 import { Regelstruktur } from '../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
+import { RegelstrukturReiseOppstartAvslutningHjemreise } from '../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/regelstrukturReiseOppstartAvslutningHjemreise';
 import { RegelstrukturReiseTilSamling } from '../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/typer/regelstrukturReiseTilSamling';
 import { ReglerResponse } from '../typer/regel';
 import { Ressurs, byggTomRessurs } from '../typer/ressurs';
@@ -57,6 +58,30 @@ export const useRegelstrukturReiseTilSamling = (): {
     const hentRegelstruktur = useCallback(() => {
         request<RegelstrukturReiseTilSamling, null>(
             '/api/sak/vilkar/reise-til-samling/regler',
+            'GET'
+        ).then(settRegelstruktur);
+    }, [request]);
+
+    useEffect(() => {
+        hentRegelstruktur();
+    }, [hentRegelstruktur]);
+
+    return {
+        regelStruktur,
+    };
+};
+
+export const useRegelstrukturReiseOppstartAvslutningHjemreise = (): {
+    regelStruktur: Ressurs<RegelstrukturReiseOppstartAvslutningHjemreise>;
+} => {
+    const { request } = useApp();
+
+    const [regelStruktur, settRegelstruktur] =
+        useState<Ressurs<RegelstrukturReiseOppstartAvslutningHjemreise>>(byggTomRessurs());
+
+    const hentRegelstruktur = useCallback(() => {
+        request<RegelstrukturReiseOppstartAvslutningHjemreise, null>(
+            '/api/sak/vilkar/reise-oppstart-avslutning-hjemreise/regler',
             'GET'
         ).then(settRegelstruktur);
     }, [request]);

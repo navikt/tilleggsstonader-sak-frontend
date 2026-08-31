@@ -18,6 +18,7 @@ import { KjørelisteFane } from './Kjøreliste/KjørelisteFane';
 import { RegistrerKjørelisteFane } from './Kjøreliste/RegistrerKjørelisteManuelt/RegistrerKjørelisteFane';
 import { Simulering } from './Simulering/Simulering';
 import { StønadsvilkårDagligReise } from './Stønadsvilkår/DagligReise/StønadsvilkårDagligReise';
+import { StønadsvilkårReiseOppstartAvslutningHjemreise } from './Stønadsvilkår/ReiseOppstartAvslutningHjemreise/StønadsvilkårReiseOppstartAvslutningHjemreise';
 import { StønadsvilkårReiseTilSamling } from './Stønadsvilkår/ReiseTilSamling/StønadsvilkårReiseTilSamling';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
 import { VedtakOgBeregningBoutgifter } from './VedtakOgBeregning/Boutgifter/VedtakOgBeregningBoutgifter';
@@ -63,6 +64,7 @@ export enum StønadsvilkårFaneNavn {
     DAGLIG_REISE = 'Daglige reiser',
     REISE_TIL_SAMLING = 'Samling',
     FLYTTING = 'Flytting',
+    OPPSTART_AVSLUTNING_HJEMREISE = 'Oppstart, avslutning og hjemreiser',
 }
 
 export const faneNavnStønadsvilkår: Record<
@@ -77,9 +79,10 @@ export const faneNavnStønadsvilkår: Record<
     REISE_TIL_SAMLING_TSR: StønadsvilkårFaneNavn.REISE_TIL_SAMLING,
     FLYTTING_TSO: StønadsvilkårFaneNavn.FLYTTING,
     FLYTTING_TSR: StønadsvilkårFaneNavn.FLYTTING,
-    // TODO: legg til riktig fanenavn for STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE
-    STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO: StønadsvilkårFaneNavn.REISE_TIL_SAMLING,
-    STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR: StønadsvilkårFaneNavn.REISE_TIL_SAMLING,
+    STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
+        StønadsvilkårFaneNavn.OPPSTART_AVSLUTNING_HJEMREISE,
+    STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
+        StønadsvilkårFaneNavn.OPPSTART_AVSLUTNING_HJEMREISE,
 };
 
 export enum FanePath {
@@ -320,8 +323,14 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
             return [];
         case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
         case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
-            // TODO: Implementer stønadsvilkårfane for STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE
-            return [];
+            return [
+                {
+                    navn: faneNavnStønadsvilkår[behandling.stønadstype],
+                    path: FanePath.STØNADSVILKÅR,
+                    komponent: () => <StønadsvilkårReiseOppstartAvslutningHjemreise />,
+                    ikon: <BriefcaseIcon />,
+                },
+            ];
     }
 };
 

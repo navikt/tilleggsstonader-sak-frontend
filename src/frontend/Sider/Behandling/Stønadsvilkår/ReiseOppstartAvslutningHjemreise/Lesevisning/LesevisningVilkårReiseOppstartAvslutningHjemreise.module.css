@@ -1,0 +1,8 @@
+.redigeringsknapp {
+    max-height: 24px;
+    align-self: end;
+}
+
+.popoverContent {
+    width: max-content;
+}
