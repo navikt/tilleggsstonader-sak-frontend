@@ -79,11 +79,11 @@ export function DetaljerteVedtaksperioderBehandling({
             <VedtaksperioderOversiktFlytting border={true} vedtaksperioder={vedtaksperioder} />
         ),
         // TODO: Implementer VedtaksperioderOversiktStøtteTilReiseOppstartAvslutningHjemreise
-        [Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO]: (vedtaksperioder) => (
-            <VedtaksperioderOversiktFlytting border={true} vedtaksperioder={vedtaksperioder} />
+        [Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO]: () => (
+            <div>Detaljerte vedtaksperioder er ikke implementert for denne stønadstypen ennå.</div>
         ),
-        [Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR]: (vedtaksperioder) => (
-            <VedtaksperioderOversiktFlytting border={true} vedtaksperioder={vedtaksperioder} />
+        [Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR]: () => (
+            <div>Detaljerte vedtaksperioder er ikke implementert for denne stønadstypen ennå.</div>
         ),
     };
 
