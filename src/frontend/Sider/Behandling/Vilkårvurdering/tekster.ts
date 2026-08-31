@@ -42,6 +42,10 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     KAN_REISE_MED_OFFENTLIG_TRANSPORT: 'Kan bruker benytte offentlig transport?',
     KAN_KJØRE_MED_EGEN_BIL: 'Kan bruker kjøre selv?',
     KAN_REISE_MED_TAXI: 'Kan bruker reise med taxi?',
+    AVSTAND_OVER_TRETTI_KM: 'Er reiseavstanden 30 km eller mer?',
+    DOKUMENTERTE_UTGIFTER: 'Har søker dokumenterte utgifter til reisen?',
+    DEKKET_AV_ANNET_STIPEND: 'Er reisen dekket av et annet stipend?',
+    KAN_REISE_MED_EGEN_BIL: 'Kan søker benytte seg av privat bil?',
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
@@ -62,6 +66,10 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     KAN_REISE_MED_OFFENTLIG_TRANSPORT: 'Kan benytte offentlig transport?',
     KAN_KJØRE_MED_EGEN_BIL: 'Kan bruker kjøre selv?',
     KAN_REISE_MED_TAXI: 'Kan bruker reise med taxi?',
+    AVSTAND_OVER_TRETTI_KM: 'Reiseavstand 30 km eller mer?',
+    DOKUMENTERTE_UTGIFTER: 'Dokumenterte utgifter til reisen?',
+    DEKKET_AV_ANNET_STIPEND: 'Dekket av annet stipend?',
+    KAN_REISE_MED_EGEN_BIL: 'Kan benytte privat bil?',
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {
