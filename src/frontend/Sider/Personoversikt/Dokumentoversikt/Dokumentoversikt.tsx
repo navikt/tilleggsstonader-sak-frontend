@@ -1,49 +1,33 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Detail, Heading, UNSAFE_Combobox } from '@navikt/ds-react';
 
 import styles from './Dokumentoversikt.module.css';
 import { DokumentTabell } from './DokumentTabell';
-import { useApp } from '../../../context/AppContext';
+import { useHentDokumenter } from '../../../hooks/useHentDokumenter';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Arkivtema, arkivtemaerTilTekst, relevanteArkivtemaer } from '../../../typer/arkivtema';
-import { DokumentInfo, VedleggRequest } from '../../../typer/dokument';
-import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../../../typer/ressurs';
+import { VedleggRequest } from '../../../typer/dokument';
+import { RessursStatus } from '../../../typer/ressurs';
 import { formaterDatoMedTidspunkt } from '../../../utils/dato';
 
 const Dokumentoversikt: React.FC<{ fagsakPersonId: string }> = ({ fagsakPersonId }) => {
-    const { request } = useApp();
-
-    const [dokumenter, settDokumenter] = useState<Ressurs<DokumentInfo[]>>(byggTomRessurs());
-
     const [vedleggRequest, settVedleggRequest] = useState<VedleggRequest>({
         tema: [Arkivtema.TSO, Arkivtema.TSR],
     });
 
     const [hentetTidspunkt, settHentetTidspunkt] = useState<Date | undefined>();
 
-    const hentDokumenter = useCallback(
-        (fagsakPersonId: string) => {
-            settDokumenter(byggHenterRessurs());
-            request<DokumentInfo[], VedleggRequest>(
-                `/api/sak/vedlegg/fagsak-person/${fagsakPersonId}`,
-                'POST',
-                {
-                    ...vedleggRequest,
-                    tema:
-                        vedleggRequest.tema.length > 0 ? vedleggRequest.tema : relevanteArkivtemaer,
-                }
-            ).then((res) => {
-                settDokumenter(res);
-                settHentetTidspunkt(new Date());
-            });
-        },
-        [request, vedleggRequest]
-    );
+    const dokumenter = useHentDokumenter(fagsakPersonId, {
+        ...vedleggRequest,
+        tema: vedleggRequest.tema?.length ? vedleggRequest.tema : relevanteArkivtemaer,
+    });
 
     useEffect(() => {
-        hentDokumenter(fagsakPersonId);
-    }, [fagsakPersonId, hentDokumenter]);
+        if (dokumenter.status === RessursStatus.SUKSESS) {
+            settHentetTidspunkt(new Date());
+        }
+    }, [dokumenter.status]);
 
     const arkivtemaTilOption = (t: Arkivtema) => ({
         value: t,

@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 
-import { Button, HelpText, HStack, Label, Select, VStack } from '@navikt/ds-react';
+import { Radio, RadioGroup, Select } from '@navikt/ds-react';
 
+import { KravMottattDatoFelt } from './KravMottattDatoFelt';
+import { OpprettBehandlingForm } from './OpprettBehandlingForm';
+import { OpprettBehandlingResponse } from './opprettBehandlingTypes';
 import { OpprettNyBehandlingType } from './OpprettNyBehandlingUtils';
+import { useOpprettBehandling } from './useOpprettBehandling';
 import { useApp } from '../../../../context/AppContext';
-import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
-import {
-    Feil,
-    feiletRessursTilFeilmelding,
-    lagFeilmelding,
-} from '../../../../komponenter/Feil/feilmeldingUtils';
-import DateInput from '../../../../komponenter/Skjema/DateInput';
+import { lagFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
 import { BehandlingÅrsak } from '../../../../typer/behandling/behandlingÅrsak';
-import { RessursStatus } from '../../../../typer/ressurs';
 import { harVerdi } from '../../../../utils/utils';
 
 interface Props {
@@ -26,7 +23,11 @@ interface OpprettBehandlingRequest {
     årsak: BehandlingÅrsak;
     kravMottatt?: string;
     forenkletBehandlingstype: OpprettNyBehandlingType;
+    skalTillateFlereÅpneBehandlinger: boolean;
+    skalSetteSaksbehandlerSomOppgaveEier: boolean;
 }
+
+type OppgaveEierValg = 'bli_eier' | 'ikke_bli_eier';
 
 const OpprettKjørelisteBehandling: React.FC<Props> = ({
     fagsakId,
@@ -34,44 +35,58 @@ const OpprettKjørelisteBehandling: React.FC<Props> = ({
     hentBehandlinger,
 }) => {
     const { request } = useApp();
+    const {
+        laster,
+        feilmelding,
+        settFeilmelding,
+        åpneBehandlingerFunnet,
+        settÅpneBehandlingerFunnet,
+        utførOpprett,
+    } = useOpprettBehandling();
 
     const [årsak, settÅrsak] = useState<BehandlingÅrsak>();
-
-    const [laster, settLaster] = useState<boolean>(false);
-    const [feilmelding, settFeilmelding] = useState<Feil>();
-
     const [kravMottatt, settKravMottatt] = useState<string | undefined>(undefined);
+    const [oppgaveEierValg, settOppgaveEierValg] = useState<OppgaveEierValg | undefined>(undefined);
 
-    const opprett = () => {
-        if (laster) {
-            return;
-        }
-        settLaster(true);
+    const opprett = (
+        skalTillateFlereÅpneBehandlinger = false,
+        skalSetteSaksbehandlerSomOppgaveEier = true
+    ) => {
         if (!årsak) {
             settFeilmelding(lagFeilmelding('Mangler årsak'));
-            settLaster(false);
             return;
         }
         if (!kravMottatt) {
             settFeilmelding(lagFeilmelding('Krav mottatt må settes'));
-            settLaster(false);
             return;
         }
-
-        request<string, OpprettBehandlingRequest>(`/api/sak/behandling`, 'POST', {
-            fagsakId: fagsakId,
-            årsak: årsak,
-            kravMottatt: kravMottatt,
-            forenkletBehandlingstype: OpprettNyBehandlingType.KJØRELISTE,
-        }).then((response) => {
-            if (response.status === RessursStatus.SUKSESS) {
+        utførOpprett(
+            () =>
+                request<OpprettBehandlingResponse, OpprettBehandlingRequest>(
+                    `/api/sak/behandling/v2`,
+                    'POST',
+                    {
+                        fagsakId,
+                        årsak,
+                        kravMottatt,
+                        forenkletBehandlingstype: OpprettNyBehandlingType.KJØRELISTE,
+                        skalTillateFlereÅpneBehandlinger,
+                        skalSetteSaksbehandlerSomOppgaveEier,
+                    }
+                ),
+            () => {
                 hentBehandlinger();
                 lukkModal();
-            } else {
-                settFeilmelding(feiletRessursTilFeilmelding(response));
-                settLaster(false);
             }
-        });
+        );
+    };
+
+    const handleSubmit = () => {
+        if (åpneBehandlingerFunnet) {
+            opprett(true, oppgaveEierValg === 'bli_eier');
+        } else {
+            opprett();
+        }
     };
 
     const endreÅrsak = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -84,37 +99,35 @@ const OpprettKjørelisteBehandling: React.FC<Props> = ({
     };
 
     return (
-        <VStack gap="space-16">
+        <OpprettBehandlingForm
+            lukkModal={lukkModal}
+            onSubmit={handleSubmit}
+            laster={laster}
+            feilmelding={feilmelding}
+            disableLagre={åpneBehandlingerFunnet && !oppgaveEierValg}
+        >
             <Select label={'Årsak'} onChange={endreÅrsak}>
                 <option value="">- Velg årsak -</option>
                 <option value={BehandlingÅrsak.REGISTRER_KJØRELISTE_FOR_BRUKER}>
                     Registrer kjøreliste for bruker
                 </option>
             </Select>
-            <DateInput
-                label={
-                    <HStack gap={'space-8'}>
-                        <Label>Krav mottatt</Label>
-                        <HelpText title={'Krav mottatt'}>
-                            Krav mottatt kan være når man fikk beskjed om endring eller søknadsdato
-                            i tilfelle årsak er søknad
-                        </HelpText>
-                    </HStack>
-                }
-                onChange={(dato: string | undefined) => settKravMottatt(dato)}
-                value={kravMottatt}
-                toDate={new Date()}
-            />
-            <Feilmelding feil={feilmelding} />
-            <HStack gap="space-16" justify={'end'}>
-                <Button variant="tertiary" onClick={lukkModal} size="small">
-                    Avbryt
-                </Button>
-                <Button variant="primary" onClick={opprett} size="small">
-                    Lagre
-                </Button>
-            </HStack>
-        </VStack>
+            <KravMottattDatoFelt kravMottatt={kravMottatt} onChange={settKravMottatt} />
+            {åpneBehandlingerFunnet && (
+                <RadioGroup
+                    legend="Det finnes åpne behandlinger"
+                    description="Din oppgave vil settes på vent. Velg hvordan du vil gå videre."
+                    value={oppgaveEierValg ?? ''}
+                    onChange={(val) => {
+                        settÅpneBehandlingerFunnet(true);
+                        settOppgaveEierValg(val as OppgaveEierValg);
+                    }}
+                >
+                    <Radio value="bli_eier">Opprett og bli oppgaveeier</Radio>
+                    <Radio value="ikke_bli_eier">Opprett uten å være oppgaveeier</Radio>
+                </RadioGroup>
+            )}
+        </OpprettBehandlingForm>
     );
 };
 
