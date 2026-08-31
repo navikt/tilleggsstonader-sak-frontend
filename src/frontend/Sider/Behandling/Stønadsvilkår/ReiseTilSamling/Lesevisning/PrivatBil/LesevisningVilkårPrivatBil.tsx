@@ -5,7 +5,7 @@ import { BodyShort, HGrid, Label, Tag } from '@navikt/ds-react';
 
 import { LesevisningFaktaPrivatBil } from './LesevisningFaktaPrivatBil';
 import { VertikalSkillelinje } from '../../../../../../komponenter/VertikalSkillelinje';
-import { FaktaPrivatBil, erFaktaPrivatBil } from '../../typer/faktaReiseTilSamling';
+import { erFaktaPrivatBil, FaktaPrivatBil } from '../../typer/faktaReiseTilSamling';
 import { VilkårReiseTilSamling } from '../../typer/vilkårReiseTilSamling';
 import { LesevisningDelvilkår } from '../Felles/LesevisningDelvilkår';
 import { RedigerVilkårProps } from '../Felles/LesevisningFooter';
@@ -31,7 +31,7 @@ export const LesevisningVilkårPrivatBil: FC<{
                 </Tag>
             }
         >
-            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 400px) 1px auto">
+            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 234px) 1px auto">
                 <LesevisningFaktaPrivatBil fakta={faktaPrivatBil} />
                 <VertikalSkillelinje />
                 <LesevisningDelvilkår delvilkårsett={vilkår.delvilkårsett} />

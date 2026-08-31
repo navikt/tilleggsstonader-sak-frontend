@@ -1,4 +1,5 @@
 import { RegelIdDagligReise } from '../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
+import { RegelIdReiseTilSamling } from '../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/typer/regelstrukturReiseTilSamling';
 import { Vilkårtype } from '../Sider/Behandling/vilkår';
 
 /*
@@ -8,7 +9,13 @@ import { Vilkårtype } from '../Sider/Behandling/vilkår';
  *
  * regelId = SLUTT_NODE brukes for å definere at svaret  *ikke* krever oppfølgingssørsmål
  */
-export type RegelId = SluttNode | ReglerPassBarn | ReglerBoutgifter | RegelIdDagligReise | string;
+export type RegelId =
+    | SluttNode
+    | ReglerPassBarn
+    | ReglerBoutgifter
+    | RegelIdDagligReise
+    | RegelIdReiseTilSamling
+    | string;
 
 export type ReglerPassBarn =
     | 'ANNEN_FORELDER_MOTTAR_STØTTE'
