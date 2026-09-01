@@ -31,6 +31,9 @@ export interface BeregningsresultatPrivatBil {
     tom: string;
     sats: number;
     totaltReiseavstand: number;
+    bompenger?: number;
+    fergekostnad?: number;
+    parkering?: number;
     beløp: number;
 }
 export type InnvilgeReiseTilSamlingRequest = {

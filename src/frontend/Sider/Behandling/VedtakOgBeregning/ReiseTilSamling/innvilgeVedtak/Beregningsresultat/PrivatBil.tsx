@@ -8,6 +8,7 @@ import {
 } from '../../../../../../komponenter/TabellSmall';
 import { BeregningsresultatPrivatBil } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
 import { formaterIsoDato } from '../../../../../../utils/dato';
+import { kronerMedTusenSkilleEllerStrek } from '../../../../../../utils/tekstformatering';
 
 interface Props {
     beregningsresultat: BeregningsresultatPrivatBil[];
@@ -28,6 +29,9 @@ export const BeregningPrivatBil: FC<Props> = ({ beregningsresultat }) => {
                         <TableHeaderCellSmall>T.o.m.</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Sats</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Totalt reiseavstand</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Bompenger</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Fergekostnad</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Parkering</TableHeaderCellSmall>
                         <TableHeaderCellSmall align="right">Stønadsbeløp</TableHeaderCellSmall>
                     </Table.Row>
                 </Table.Header>
@@ -40,7 +44,18 @@ export const BeregningPrivatBil: FC<Props> = ({ beregningsresultat }) => {
                             <TableDataCellSmall>{formaterIsoDato(samling.tom)}</TableDataCellSmall>
                             <TableDataCellSmall>{samling.sats}</TableDataCellSmall>
                             <TableDataCellSmall>{samling.totaltReiseavstand} km</TableDataCellSmall>
-                            <TableDataCellSmall align="right">{samling.beløp}</TableDataCellSmall>
+                            <TableDataCellSmall>
+                                {kronerMedTusenSkilleEllerStrek(samling.bompenger)}
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>
+                                {kronerMedTusenSkilleEllerStrek(samling.fergekostnad)}
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>
+                                {kronerMedTusenSkilleEllerStrek(samling.parkering)}
+                            </TableDataCellSmall>
+                            <TableDataCellSmall align="right">
+                                {kronerMedTusenSkilleEllerStrek(samling.beløp)}
+                            </TableDataCellSmall>
                         </Table.Row>
                     ))}
                 </Table.Body>
