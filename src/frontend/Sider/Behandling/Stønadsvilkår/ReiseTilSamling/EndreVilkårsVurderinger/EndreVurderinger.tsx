@@ -144,7 +144,7 @@ export const EndreVurderinger: React.FC<Props> = ({
             )}
             {aktiveVurderinger.get(RegelIdReiseTilSamling.KAN_REISE_MED_OFFENTLIG_TRANSPORT) && (
                 <EndreDelvilkår
-                    label={'Har søker mulighet til å reise meg offentlig transport?'}
+                    label={'Har søker mulighet til å reise med offentlig transport?'}
                     regelId={RegelIdReiseTilSamling.KAN_REISE_MED_OFFENTLIG_TRANSPORT}
                     vurdering={vurderinger.KAN_REISE_MED_OFFENTLIG_TRANSPORT}
                     oppdaterVurdering={oppdaterVurdering}
