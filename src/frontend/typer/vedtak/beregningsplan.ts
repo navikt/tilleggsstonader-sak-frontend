@@ -19,6 +19,4 @@ type BeregningsplanGjenbrukForrigeResultat = {
 };
 
 export type Beregningsplan =
-    | BeregningsplanAllePerioder
-    | BeregningsplanFraDato
-    | BeregningsplanGjenbrukForrigeResultat;
+    BeregningsplanAllePerioder | BeregningsplanFraDato | BeregningsplanGjenbrukForrigeResultat;

@@ -8,9 +8,7 @@ type ContextBrevmottakereSak = { type: Applikasjonskontekst.SAK; behandlingId: s
 type ContextBrevmottakereKlage = { type: Applikasjonskontekst.KLAGE; behandlingId: string };
 type ContextBrevmottakereFrittståendeBrev = { type: 'frittstående-brev'; fagsakId: string };
 export type ContextBrevmottakere =
-    | ContextBrevmottakereSak
-    | ContextBrevmottakereKlage
-    | ContextBrevmottakereFrittståendeBrev;
+    ContextBrevmottakereSak | ContextBrevmottakereKlage | ContextBrevmottakereFrittståendeBrev;
 
 export const useContextBrevmottakereSak = (behandlingId: string): ContextBrevmottakereSak =>
     useMemo(() => ({ type: Applikasjonskontekst.SAK, behandlingId: behandlingId }), [behandlingId]);

@@ -11,9 +11,7 @@ export interface VilkårReiseOppstartAvslutningHjemreise extends VilkårBase {
 }
 
 export type TypeReiseOppstartAvslutningHjemreise =
-    | 'OFFENTLIG_TRANSPORT'
-    | 'PRIVAT_BIL'
-    | 'UBESTEMT';
+    'OFFENTLIG_TRANSPORT' | 'PRIVAT_BIL' | 'UBESTEMT';
 
 export const typeReiseOppstartAvslutningHjemreiseTilTekst: Record<
     TypeReiseOppstartAvslutningHjemreise,

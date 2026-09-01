@@ -7,8 +7,7 @@ export enum MålgruppeSomIkkeGirRettPåStønad {
 }
 
 export type FaktiskMålgruppeEllerIngenMålgruppe =
-    | FaktiskMålgruppe
-    | MålgruppeSomIkkeGirRettPåStønad;
+    FaktiskMålgruppe | MålgruppeSomIkkeGirRettPåStønad;
 
 export const målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe: Record<
     MålgruppeType,
