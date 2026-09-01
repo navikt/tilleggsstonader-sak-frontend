@@ -13,7 +13,6 @@ import {
     validerVilkår,
 } from './validering';
 import { useApp } from '../../../../../context/AppContext';
-import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useVilkårReiseOppstartAvslutningHjemreise } from '../../../../../context/VilkårReiseOppstartAvslutningHjemreiseContext/VilkårReiseOppstartAvslutningHjemreiseContext';
 import { Feilmelding } from '../../../../../komponenter/Feil/Feilmelding';
 import {
@@ -25,13 +24,11 @@ import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatu
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
-import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
-import { perioderOverlapper } from '../../../../../utils/dato';
 import { Periode } from '../../../../../utils/periode';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useHarEndretDatoerFørTidligereVedtak } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
-import { VilkårPeriodeResultat } from '../../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
+import { Aktivitet } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { ingenFeil } from '../../../Vilkårvurdering/validering';
 import { EndreFaktaReiseOppstartAvslutningHjemreise } from '../EndreFakta/EndreFaktaReiseOppstartAvslutningHjemreise';
 import { EndreVurderinger } from '../EndreVilkårsVurderinger/EndreVurderinger';
@@ -46,6 +43,7 @@ import {
 
 interface Props {
     vilkår?: VilkårReiseOppstartAvslutningHjemreise;
+    aktivitet: Aktivitet;
     lagre: (
         periode: Periode,
         adresse: string | undefined,
@@ -59,30 +57,22 @@ interface Props {
 
 export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
     vilkår,
+    aktivitet,
     lagre,
     avsluttRedigering,
 }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
-    const { behandling } = useBehandling();
-    const { regelstruktur, aktiviteter } = useVilkårReiseOppstartAvslutningHjemreise();
+    const { regelstruktur } = useVilkårReiseOppstartAvslutningHjemreise();
     const komponentId = useId();
-    const gjelderTsr =
-        behandling.stønadstype === Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR;
 
     const [svar, settSvar] = useState<SvarVilkårReiseOppstartAvslutningHjemreise>(
         initierSvar(vilkår)
     );
 
     const [periode, settPeriode] = useState<Periode>({
-        fom: vilkår?.fom || '',
-        tom: vilkår?.tom || '',
+        fom: vilkår?.fom || aktivitet.fom,
+        tom: vilkår?.tom || aktivitet.tom,
     });
-
-    const oppfylteAktiviteter = aktiviteter
-        .filter((aktivitet) => aktivitet.resultat === VilkårPeriodeResultat.OPPFYLT)
-        .filter(
-            (aktivitet) => !periode.fom || !periode.tom || perioderOverlapper(aktivitet, periode)
-        );
 
     const [adresse, settAdresse] = useState<string | undefined>(vilkår?.adresse);
     const [reiseId] = useState<string>(vilkår?.reiseId || v7());
@@ -128,8 +118,7 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
             typeReiseformål,
             svar,
             fakta,
-            regelstruktur,
-            gjelderTsr
+            regelstruktur
         );
         settFeilmeldinger(valideringsfeil);
         if (harValideringsFeil(valideringsfeil)) {
@@ -281,8 +270,7 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
                     settFakta={settFakta}
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     feilmeldinger={feilmeldinger}
-                    oppfylteAktiviteter={oppfylteAktiviteter}
-                    gjelderTsr={gjelderTsr}
+                    aktivitet={aktivitet}
                 />
 
                 <HStack justify="space-between">

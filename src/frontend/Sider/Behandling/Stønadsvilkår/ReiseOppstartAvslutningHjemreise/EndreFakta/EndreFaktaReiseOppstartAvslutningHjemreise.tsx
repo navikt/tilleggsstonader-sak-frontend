@@ -21,16 +21,14 @@ export const EndreFaktaReiseOppstartAvslutningHjemreise: React.FC<{
     settFakta: React.Dispatch<React.SetStateAction<FaktaReiseOppstartAvslutningHjemreise>>;
     nullstillFeilOgUlagretkomponent: () => void;
     feilmeldinger: FeilmeldingerReiseOppstartAvslutningHjemreise;
-    oppfylteAktiviteter: Aktivitet[];
-    gjelderTsr: boolean;
+    aktivitet: Aktivitet;
 }> = ({
     gjeldendeFaktaType,
     fakta,
     nullstillFeilOgUlagretkomponent,
     settFakta,
     feilmeldinger,
-    oppfylteAktiviteter,
-    gjelderTsr,
+    aktivitet,
 }) => {
     switch (gjeldendeFaktaType) {
         case 'REISE_OPPSTART_AVSLUTNING_HJEMREISE_OFFENTLIG_TRANSPORT':
@@ -40,8 +38,7 @@ export const EndreFaktaReiseOppstartAvslutningHjemreise: React.FC<{
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     settFakta={settFakta}
                     feilmeldinger={feilmeldinger.fakta as FeilmeldingerFaktaOffentligTransport}
-                    gjelderTsr={gjelderTsr}
-                    oppfylteAktiviteter={oppfylteAktiviteter}
+                    aktivitet={aktivitet}
                 />
             );
         case 'REISE_OPPSTART_AVSLUTNING_HJEMREISE_PRIVAT_BIL':
@@ -51,8 +48,7 @@ export const EndreFaktaReiseOppstartAvslutningHjemreise: React.FC<{
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     settFakta={settFakta as () => FaktaPrivatBil}
                     feilmeldinger={feilmeldinger.fakta as FeilmeldingerFaktaPrivatBil}
-                    oppfylteAktiviteter={oppfylteAktiviteter}
-                    gjelderTsr={gjelderTsr}
+                    aktivitet={aktivitet}
                 />
             );
     }

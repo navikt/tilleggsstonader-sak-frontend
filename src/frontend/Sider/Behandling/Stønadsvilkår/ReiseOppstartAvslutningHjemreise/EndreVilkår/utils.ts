@@ -1,4 +1,5 @@
 import { BegrunnelseRegel, SvarId } from '../../../../../typer/regel';
+import { Aktivitet } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import {
     FaktaOffentligTransport,
     FaktaPrivatBil,
@@ -112,16 +113,16 @@ export const tomtSvar: SvarVilkårReiseOppstartAvslutningHjemreise = {
     KAN_REISE_MED_EGEN_BIL: undefined,
 };
 
-export const tomtOffentligTransport: FaktaOffentligTransport = {
+export const tomtOffentligTransport = (aktivitet: Aktivitet): FaktaOffentligTransport => ({
     type: 'OFFENTLIG_TRANSPORT',
     utgifterOffentligTransport: undefined,
-    aktivitetId: undefined,
-    aktivitetType: undefined,
-};
+    aktivitetId: aktivitet.globalId,
+    aktivitetType: aktivitet.type,
+});
 
-export const tomtPrivatBil: FaktaPrivatBil = {
+export const tomtPrivatBil = (aktivitet: Aktivitet): FaktaPrivatBil => ({
     type: 'PRIVAT_BIL',
     reiseavstand: undefined,
-    aktivitetId: undefined,
-    aktivitetType: undefined,
-};
+    aktivitetId: aktivitet.globalId,
+    aktivitetType: aktivitet.type,
+});

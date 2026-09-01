@@ -56,12 +56,11 @@ export const validerVilkår = (
     typeReiseformål: TypeReiseformål | undefined,
     svar: SvarVilkårReiseOppstartAvslutningHjemreise,
     fakta: FaktaReiseOppstartAvslutningHjemreise | undefined,
-    regelstruktur: RegelstrukturReiseOppstartAvslutningHjemreise,
-    gjelderTsr: boolean
+    regelstruktur: RegelstrukturReiseOppstartAvslutningHjemreise
 ): FeilmeldingerReiseOppstartAvslutningHjemreise => {
     const adresseValidering = validerAdresse(adresse);
     const typeReiseformålValidering = validerTypeReiseformål(typeReiseformål);
-    const faktaValidering = validerFakta(fakta, svar, gjelderTsr);
+    const faktaValidering = validerFakta(fakta, svar);
     const svarValidering = validerSvar(svar, regelstruktur);
 
     return {
@@ -121,8 +120,7 @@ const validerSvar = (
 };
 
 const validerFaktaOffentligTransport = (
-    fakta: FaktaOffentligTransport | undefined,
-    gjelderTsr: boolean
+    fakta: FaktaOffentligTransport | undefined
 ): Partial<FeilmeldingerFaktaOffentligTransport> | undefined => {
     if (!fakta?.utgifterOffentligTransport) {
         return { utgifterOffentligTransport: 'Mangler utgifter for offentlig transport' };
@@ -132,28 +130,26 @@ const validerFaktaOffentligTransport = (
             utgifterOffentligTransport: 'Utgifter for offentlig transport må være større enn 0',
         };
     }
-    if (gjelderTsr && !fakta.aktivitetId) {
-        return { aktivitet: 'Du må velge en aktivitet' };
+    if (!fakta.aktivitetId) {
+        return { aktivitet: 'Mangler aktivitet' };
     }
 };
 
 const validerFaktaPrivatBil = (
-    fakta: FaktaPrivatBil | undefined,
-    gjelderTsr: boolean
+    fakta: FaktaPrivatBil | undefined
 ): Partial<FeilmeldingerFaktaPrivatBil> | undefined => {
     if (!fakta) return undefined;
     if (!fakta.reiseavstand) {
         return { reiseavstand: 'Reiseavstand må være større enn 0' };
     }
-    if (gjelderTsr && !fakta.aktivitetId) {
-        return { aktivitet: 'Du må velge en aktivitet' };
+    if (!fakta.aktivitetId) {
+        return { aktivitet: 'Mangler aktivitet' };
     }
 };
 
 const validerFakta = (
     fakta: FaktaReiseOppstartAvslutningHjemreise | undefined,
-    svar: SvarVilkårReiseOppstartAvslutningHjemreise,
-    gjelderTsr: boolean
+    svar: SvarVilkårReiseOppstartAvslutningHjemreise
 ):
     | Partial<FeilmeldingerFaktaOffentligTransport>
     | Partial<FeilmeldingerFaktaPrivatBil>
@@ -162,9 +158,9 @@ const validerFakta = (
         fakta?.type === 'OFFENTLIG_TRANSPORT' ||
         svar.KAN_REISE_MED_OFFENTLIG_TRANSPORT?.svar === 'JA'
     ) {
-        return validerFaktaOffentligTransport(fakta as FaktaOffentligTransport, gjelderTsr);
+        return validerFaktaOffentligTransport(fakta as FaktaOffentligTransport);
     } else if (fakta?.type === 'PRIVAT_BIL' || svar.KAN_REISE_MED_EGEN_BIL?.svar === 'JA') {
-        return validerFaktaPrivatBil(fakta as FaktaPrivatBil, gjelderTsr);
+        return validerFaktaPrivatBil(fakta as FaktaPrivatBil);
     }
 };
 

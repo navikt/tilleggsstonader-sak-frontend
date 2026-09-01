@@ -1,16 +1,12 @@
 import React from 'react';
 
-import { Select, VStack, HStack } from '@navikt/ds-react';
+import { VStack, HStack } from '@navikt/ds-react';
 
 import TextField from '../../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
-import { formaterIsoPeriode } from '../../../../../utils/dato';
 import { harTallverdi, tilTallverdi } from '../../../../../utils/tall';
 import { fjernSpaces } from '../../../../../utils/utils';
-import {
-    Aktivitet,
-    AktivitetTypeTilTekst,
-} from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import { Aktivitet } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { tomtPrivatBil } from '../EndreVilkår/utils';
 import { FeilmeldingerFaktaPrivatBil } from '../EndreVilkår/validering';
 import {
@@ -18,37 +14,23 @@ import {
     FaktaReiseOppstartAvslutningHjemreise,
 } from '../typer/faktaReiseOppstartAvslutningHjemreise';
 
+/**
+ * Aktiviteten som vilkåret gjelder er fastsatt av hvilken aktivitetsgruppe brukeren la til reisen under
+ * (se StønadsvilkårReiseOppstartAvslutningHjemreise), og lagres direkte i fakta – den skal ikke velges her.
+ */
 export const EndreFaktaPrivatBil: React.FC<{
     fakta: FaktaPrivatBil;
     settFakta: React.Dispatch<React.SetStateAction<FaktaReiseOppstartAvslutningHjemreise>>;
     nullstillFeilOgUlagretkomponent: () => void;
     feilmeldinger: FeilmeldingerFaktaPrivatBil | undefined;
-    oppfylteAktiviteter: Aktivitet[];
-    gjelderTsr: boolean;
-}> = ({
-    fakta,
-    nullstillFeilOgUlagretkomponent,
-    settFakta,
-    feilmeldinger,
-    oppfylteAktiviteter,
-    gjelderTsr,
-}) => {
+    aktivitet: Aktivitet;
+}> = ({ fakta, nullstillFeilOgUlagretkomponent, settFakta, feilmeldinger, aktivitet }) => {
     const oppdaterFakta = (key: keyof FaktaPrivatBil, verdi: number | string | undefined) => {
         settFakta((prevState) => ({
-            ...(prevState.type === 'PRIVAT_BIL' ? prevState : tomtPrivatBil),
+            ...(prevState.type === 'PRIVAT_BIL' ? prevState : tomtPrivatBil(aktivitet)),
             [key]: verdi,
         }));
 
-        nullstillFeilOgUlagretkomponent();
-    };
-
-    const oppdaterAktivitet = (aktivitetGlobalId: string) => {
-        const valgtAktivitet = oppfylteAktiviteter.find((a) => a.globalId === aktivitetGlobalId);
-        settFakta((prevState) => ({
-            ...(prevState.type === 'PRIVAT_BIL' ? prevState : tomtPrivatBil),
-            aktivitetId: aktivitetGlobalId || undefined,
-            aktivitetType: valgtAktivitet?.type,
-        }));
         nullstillFeilOgUlagretkomponent();
     };
 
@@ -69,27 +51,6 @@ export const EndreFaktaPrivatBil: React.FC<{
                         }}
                     />
                 </FeilmeldingMaksBredde>
-                {gjelderTsr && (
-                    <FeilmeldingMaksBredde $maxWidth={300}>
-                        <Select
-                            label={'Aktivitet'}
-                            size="small"
-                            error={feilmeldinger?.aktivitet}
-                            value={fakta.aktivitetId || ''}
-                            onChange={(e) => {
-                                oppdaterAktivitet(e.target.value);
-                            }}
-                        >
-                            <option value="">Velg aktivitet</option>
-                            {oppfylteAktiviteter.map((aktivitet) => (
-                                <option key={aktivitet.globalId} value={aktivitet.globalId}>
-                                    {AktivitetTypeTilTekst[aktivitet.type]} (
-                                    {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)})
-                                </option>
-                            ))}
-                        </Select>
-                    </FeilmeldingMaksBredde>
-                )}
             </HStack>
         </VStack>
     );

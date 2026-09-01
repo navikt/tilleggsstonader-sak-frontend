@@ -3,10 +3,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { useBehandling } from '../context/BehandlingContext';
 import { VilkårDagligReise } from '../Sider/Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
-import { VilkårReiseOppstartAvslutningHjemreise } from '../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/vilkårReiseOppstartAvslutningHjemreise';
+import {
+    AktivitetMedReiser,
+    VilkårReiseOppstartAvslutningHjemreise,
+} from '../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/vilkårReiseOppstartAvslutningHjemreise';
 import { VilkårReiseTilSamling } from '../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/typer/vilkårReiseTilSamling';
 import { Vilkårsvurdering } from '../Sider/Behandling/vilkår';
-import { byggTomRessurs, Ressurs } from '../typer/ressurs';
+import { byggRessursSuksess, byggTomRessurs, Ressurs, RessursStatus } from '../typer/ressurs';
 
 export const useHentVilkårsvurdering = (): {
     hentVilkårsvurdering: (behandlingsId: string) => void;
@@ -92,10 +95,20 @@ export const useHentVilkårReiseOppstartAvslutningHjemreise = (): {
         useState<Ressurs<VilkårReiseOppstartAvslutningHjemreise[]>>(byggTomRessurs());
 
     const hentEksisterendeVilkår = useCallback(() => {
-        request<VilkårReiseOppstartAvslutningHjemreise[], null>(
+        // Backend grupperer reisene per aktivitet fra inngangsvilkår. Vi flater ut til en enkel liste her,
+        // og grupperer på nytt for visning basert på aktivitetene i konteksten (samme aktivitet-data).
+        request<AktivitetMedReiser[], null>(
             `/api/sak/vilkar/reise-oppstart-avslutning-hjemreise/${behandling.id}`,
             'GET'
-        ).then(settEksisterendeVilkår);
+        ).then((respons) => {
+            if (respons.status === RessursStatus.SUKSESS) {
+                settEksisterendeVilkår(
+                    byggRessursSuksess(respons.data.flatMap((aktivitet) => aktivitet.reiser))
+                );
+            } else {
+                settEksisterendeVilkår(respons);
+            }
+        });
     }, [request, behandling.id]);
 
     useEffect(() => {
