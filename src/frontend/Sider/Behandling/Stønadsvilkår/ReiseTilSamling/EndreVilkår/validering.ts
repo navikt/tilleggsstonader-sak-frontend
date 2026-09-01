@@ -21,6 +21,9 @@ export type FeilmeldingerFaktaOffentligTransport = {
 export type FeilmeldingerFaktaPrivatBil = {
     reiseavstand?: string;
     aktivitet?: string;
+    bompenger?: string;
+    fergekostnad?: string;
+    parkering?: string;
 };
 
 export type FeilmeldingerReiseTilSamling = {
@@ -116,6 +119,15 @@ const validerFaktaPrivatBil = (
     if (!fakta) return undefined;
     if (!fakta.reiseavstand || fakta.reiseavstand < 30) {
         return { reiseavstand: 'Reiseavstand må være 30 km eller mer' };
+    }
+    if (fakta.bompenger !== undefined && fakta.bompenger < 0) {
+        return { bompenger: 'Bompenger kan ikke være negativt' };
+    }
+    if (fakta.fergekostnad !== undefined && fakta.fergekostnad < 0) {
+        return { fergekostnad: 'Fergekostnad kan ikke være negativ' };
+    }
+    if (fakta.parkering !== undefined && fakta.parkering < 0) {
+        return { parkering: 'Parkering kan ikke være negativ' };
     }
     if (gjelderTsr && !fakta.aktivitetId) {
         return { aktivitet: 'Du må velge en aktivitet' };

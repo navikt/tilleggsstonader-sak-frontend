@@ -120,4 +120,7 @@ export const tomtPrivatBil: FaktaPrivatBil = {
     reiseavstand: undefined,
     aktivitetId: undefined,
     aktivitetType: undefined,
+    bompenger: undefined,
+    fergekostnad: undefined,
+    parkering: undefined,
 };

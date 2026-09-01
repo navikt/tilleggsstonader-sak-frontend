@@ -17,6 +17,9 @@ export interface FaktaPrivatBil extends FaktaReiseTilSamling {
     reiseavstand: number | undefined;
     aktivitetId: string | undefined;
     aktivitetType: string | undefined;
+    bompenger: number | undefined;
+    fergekostnad: number | undefined;
+    parkering: number | undefined;
 }
 
 export const erFaktaOffentligTransport = (
