@@ -19,8 +19,8 @@ Dersom tokenet allerede er generert, finnes det typisk i m2-settings/gradle.prop
 Secrets kan hentes fra cluster:
 
 1. `nais auth login`
-2. `kubectl --context dev-gcp -n tilleggsstonader get secret azuread-tilleggsstonader-sak-frontend-lokal -o json | jq '.data | map_values(@base64d)' | grep CLIENT`
-3. `kubectl --context dev-gcp -n tilleggsstonader get secret google-maps-api-key -o json | jq '.data | map_values(@base64d)'`
+2. Hent AZURE_APP_CLIENT_ID og AZURE_APP_CLIENT_SECRET fra `nais secret get azuread-tilleggsstonader-sak-frontend-lokal -e dev-gcp -t tilleggsstonader --with-values --reason "Lokal utvikling" --output json | jq '.[]'`
+3. Hent GOOGLE_MAPS_EMBEDDED_MAP_API_KEY og GOOGLE_MAPS_PLACES_API_KEY fra `nais secret get google-maps-api-key -e dev-gcp -t tilleggsstonader --with-values --reason "Lokal utvikling" --output json | jq '.[]'`
 4. Legg til en .env-fil i prosjektet med innholdet `AZURE_APP_CLIENT_ID={secret}` , `AZURE_APP_CLIENT_SECRET={secret},` 
    `GOOGLE_MAPS_EMBEDDED_MAP_API_KEY={secret}` og `GOOGLE_MAPS_PLACES_API_KEY={secret}`
 
@@ -32,7 +32,7 @@ Lokalt er unleash mocket. Default er at flagg er enabled. Hvis man ønsker å se
 ### Bruke unleash fra lokalt
 
 Hent token mot unleash
-`kubectl -n tilleggsstonader get secret tilleggsstonader-sak-frontend-unleash-api-token -o json | jq '.data | map_values(@base64d)' | grep TOKEN`
+`nais secret get tilleggsstonader-sak-frontend-unleash-api-token -e dev-gcp -t tilleggsstonader --with-values --reason "Lokal utvikling" --output json | jq '.[]'`
 Legg inn token i `.env`
 
 * `UNLEASH_SERVER_API_TOKEN` (fra secret)
