@@ -17,6 +17,16 @@ export const LesevisningFaktaPrivatBil: FC<{
                     ? `${formaterTallMedTusenSkilleEllerStrek(fakta.reiseavstand)} km`
                     : '-'}
             </BodyShort>
+            <BodyShort size="small">{'Bompenger'}</BodyShort>
+            <BodyShort size="small">
+                {fakta?.bompenger ? formaterTallMedTusenSkilleEllerStrek(fakta.bompenger) : '-'}
+            </BodyShort>
+            <BodyShort size="small">{'Fergekostnad'}</BodyShort>
+            <BodyShort size="small">
+                {fakta?.fergekostnad
+                    ? formaterTallMedTusenSkilleEllerStrek(fakta.fergekostnad)
+                    : '-'}
+            </BodyShort>
         </div>
     );
 };

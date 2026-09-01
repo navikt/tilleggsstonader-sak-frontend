@@ -25,6 +25,8 @@ export type FeilmeldingerFaktaOffentligTransport = {
 export type FeilmeldingerFaktaPrivatBil = {
     reiseavstand?: string;
     aktivitet?: string;
+    bompenger?: string;
+    fergekostnad?: string;
 };
 
 export type FeilmeldingerReiseOppstartAvslutningHjemreise = {
@@ -144,6 +146,12 @@ const validerFaktaPrivatBil = (
     }
     if (!fakta.aktivitetId) {
         return { aktivitet: 'Mangler aktivitet' };
+    }
+    if (fakta.bompenger !== undefined && fakta.bompenger < 0) {
+        return { bompenger: 'Bompenger må være større enn 0' };
+    }
+    if (fakta.fergekostnad !== undefined && fakta.fergekostnad < 0) {
+        return { fergekostnad: 'Fergekostnad må være større enn 0' };
     }
 };
 
