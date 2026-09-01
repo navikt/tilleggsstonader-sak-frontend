@@ -17,13 +17,6 @@ export const LesevisningFaktaPrivatBil: FC<{
                     ? `${formaterTallMedTusenSkilleEllerStrek(fakta.reiseavstand)} km`
                     : '-'}
             </BodyShort>
-
-            {fakta?.aktivitetId && (
-                <>
-                    <BodyShort size="small">{'Aktivitet'}</BodyShort>
-                    <BodyShort size="small">{fakta.aktivitetId}</BodyShort>
-                </>
-            )}
         </div>
     );
 };

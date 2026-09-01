@@ -62,3 +62,17 @@ export interface SlettVilkårReiseOppstartAvslutningHjemreiseRespons {
     slettetPermanent: boolean;
     vilkår: VilkårReiseOppstartAvslutningHjemreise;
 }
+
+/**
+ * Responsen fra GET-endepunktet grupperer reisene per aktivitet fra inngangsvilkår. Brukes kun til henting/flating
+ * ut av responsen – selve grupperingen for visning gjøres på nytt ut fra aktivitetene i konteksten, se
+ * StønadsvilkårReiseOppstartAvslutningHjemreise.
+ */
+export interface AktivitetMedReiser {
+    aktivitetId: string;
+    aktivitetType: string;
+    tiltaksvariant?: string;
+    fom: string;
+    tom: string;
+    reiser: VilkårReiseOppstartAvslutningHjemreise[];
+}

@@ -7,6 +7,7 @@ import { LeggTilNyPeriodeKnapp } from './LeggTilNyPeriodeKnapp';
 import { useSteg } from '../../../../../context/StegContext';
 import { useVilkårReiseOppstartAvslutningHjemreise } from '../../../../../context/VilkårReiseOppstartAvslutningHjemreiseContext/VilkårReiseOppstartAvslutningHjemreiseContext';
 import { Periode } from '../../../../../utils/periode';
+import { Aktivitet } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { FaktaReiseOppstartAvslutningHjemreise } from '../typer/faktaReiseOppstartAvslutningHjemreise';
 import {
     SvarVilkårReiseOppstartAvslutningHjemreise,
@@ -14,12 +15,14 @@ import {
 } from '../typer/vilkårReiseOppstartAvslutningHjemreise';
 
 interface Props {
+    aktivitet: Aktivitet;
     leggerTilNyttVilkår: boolean;
     startRedigering: () => boolean;
     avsluttRedigering: () => void;
 }
 
 export const NyttVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
+    aktivitet,
     leggerTilNyttVilkår,
     startRedigering,
     avsluttRedigering,
@@ -69,6 +72,7 @@ export const NyttVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
         <VStack gap="space-8">
             {leggerTilNyttVilkår ? (
                 <EndreVilkårReiseOppstartAvslutningHjemreise
+                    aktivitet={aktivitet}
                     lagre={opprettVilkår}
                     avsluttRedigering={avsluttRedigering}
                 />

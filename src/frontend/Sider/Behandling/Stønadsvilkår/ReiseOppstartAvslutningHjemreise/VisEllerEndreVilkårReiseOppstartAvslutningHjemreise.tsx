@@ -11,10 +11,12 @@ import {
 import { useSteg } from '../../../../context/StegContext';
 import { useVilkårReiseOppstartAvslutningHjemreise } from '../../../../context/VilkårReiseOppstartAvslutningHjemreiseContext/VilkårReiseOppstartAvslutningHjemreiseContext';
 import { Periode } from '../../../../utils/periode';
+import { Aktivitet } from '../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { PeriodeStatus } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 
 interface Props {
     vilkår: VilkårReiseOppstartAvslutningHjemreise;
+    aktivitet: Aktivitet;
     redigerer: boolean;
     redigererAnnetVilkår: boolean;
     startRedigering: () => boolean;
@@ -23,6 +25,7 @@ interface Props {
 
 export const VisEllerEndreVilkårReiseOppstartAvslutningHjemreise: FC<Props> = ({
     vilkår,
+    aktivitet,
     redigerer,
     startRedigering,
     avsluttRedigering,
@@ -77,6 +80,7 @@ export const VisEllerEndreVilkårReiseOppstartAvslutningHjemreise: FC<Props> = (
             {erStegRedigerbart && redigerer ? (
                 <EndreVilkårReiseOppstartAvslutningHjemreise
                     vilkår={vilkår}
+                    aktivitet={aktivitet}
                     lagre={lagre}
                     avsluttRedigering={avsluttRedigering}
                 />

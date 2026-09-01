@@ -17,13 +17,6 @@ export const LesevisningFaktaOffentligTransport: FC<{
                     ? `${formaterTallMedTusenSkilleEllerStrek(fakta.utgifterOffentligTransport)} kr`
                     : '-'}
             </BodyShort>
-
-            {fakta?.aktivitetId && (
-                <>
-                    <BodyShort size="small">{'Aktivitet'}</BodyShort>
-                    <BodyShort size="small">{fakta.aktivitetId}</BodyShort>
-                </>
-            )}
         </div>
     );
 };

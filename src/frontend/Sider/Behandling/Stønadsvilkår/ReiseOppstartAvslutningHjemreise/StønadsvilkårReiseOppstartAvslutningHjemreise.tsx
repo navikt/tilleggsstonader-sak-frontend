@@ -1,9 +1,10 @@
 import React, { useEffect, useId } from 'react';
 
 import { BriefcaseIcon } from '@navikt/aksel-icons';
-import { VStack } from '@navikt/ds-react';
+import { BodyShort, Box, Heading, VStack } from '@navikt/ds-react';
 
 import { NyttVilkårReiseOppstartAvslutningHjemreise } from './EndreVilkår/NyttVilkårReiseOppstartAvslutningHjemreise';
+import { finnAktivitetIdForFakta } from './typer/faktaReiseOppstartAvslutningHjemreise';
 import { VisEllerEndreVilkårReiseOppstartAvslutningHjemreise } from './VisEllerEndreVilkårReiseOppstartAvslutningHjemreise';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -18,6 +19,12 @@ import DataViewer from '../../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Steg } from '../../../../typer/behandling/steg';
+import { formaterIsoPeriode } from '../../../../utils/dato';
+import {
+    Aktivitet,
+    AktivitetTypeTilTekst,
+} from '../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import { VilkårPeriodeResultat } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 
 export const StønadsvilkårReiseOppstartAvslutningHjemreise: React.FC = () => {
     const { behandling } = useBehandling();
@@ -47,56 +54,91 @@ export const StønadsvilkårReiseOppstartAvslutningHjemreise: React.FC = () => {
 };
 
 const StønadsvilkårInnhold = () => {
-    const { vilkårsett } = useVilkårReiseOppstartAvslutningHjemreise();
+    const { vilkårsett, aktiviteter } = useVilkårReiseOppstartAvslutningHjemreise();
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
 
-    const [redigererVilkårId, settRedigererVilkårId] = React.useState<string | 'nytt' | undefined>(
-        undefined
-    );
+    const [redigererId, settRedigererId] = React.useState<string | undefined>(undefined);
 
     const komponentId = useId();
 
     useEffect(() => {
-        if (redigererVilkårId !== undefined) {
+        if (redigererId !== undefined) {
             settUlagretKomponent(komponentId);
         } else {
             nullstillUlagretKomponent(komponentId);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [redigererVilkårId]);
+    }, [redigererId]);
 
-    const startRedigering = (vilkårId: string | 'nytt') => {
-        if (redigererVilkårId !== undefined) {
+    const startRedigering = (id: string) => {
+        if (redigererId !== undefined) {
             return false;
         }
-        settRedigererVilkårId(vilkårId);
+        settRedigererId(id);
         return true;
     };
 
     const avsluttRedigering = () => {
-        settRedigererVilkårId(undefined);
+        settRedigererId(undefined);
     };
+
+    const aktiviteterSortert = [...aktiviteter].sort((a, b) => a.fom.localeCompare(b.fom));
 
     return (
         <VilkårPanel tittel={'Oppstart, avslutning og hjemreiser'} ikon={<BriefcaseIcon />}>
-            {vilkårsett.map((vilkår) => (
-                <React.Fragment key={vilkår.id}>
-                    <VisEllerEndreVilkårReiseOppstartAvslutningHjemreise
-                        vilkår={vilkår}
-                        redigerer={redigererVilkårId === vilkår.id}
-                        redigererAnnetVilkår={
-                            redigererVilkårId !== undefined && redigererVilkårId !== vilkår.id
-                        }
-                        startRedigering={() => startRedigering(vilkår.id)}
-                        avsluttRedigering={avsluttRedigering}
-                    />
-                </React.Fragment>
-            ))}
-            <NyttVilkårReiseOppstartAvslutningHjemreise
-                leggerTilNyttVilkår={redigererVilkårId === 'nytt'}
-                startRedigering={() => startRedigering('nytt')}
-                avsluttRedigering={avsluttRedigering}
-            />
+            <VStack gap="space-16">
+                {aktiviteterSortert.length === 0 && (
+                    <BodyShort>
+                        Det finnes ingen aktiviteter å knytte reiser til. Legg til en aktivitet
+                        under inngangsvilkår.
+                    </BodyShort>
+                )}
+                {aktiviteterSortert.map((aktivitet: Aktivitet) => {
+                    const reiserForAktivitet = vilkårsett.filter(
+                        (vilkår) => finnAktivitetIdForFakta(vilkår.fakta) === aktivitet.globalId
+                    );
+                    const nyttVilkårId = `nytt-${aktivitet.globalId}`;
+
+                    return (
+                        <Box
+                            key={aktivitet.globalId}
+                            background="default"
+                            borderColor="neutral-subtle"
+                            borderRadius="12"
+                            borderWidth="1"
+                            padding="space-16"
+                        >
+                            <VStack gap="space-12">
+                                <Heading size="xsmall" level="3">
+                                    {AktivitetTypeTilTekst[aktivitet.type]} (
+                                    {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)})
+                                </Heading>
+                                {reiserForAktivitet.map((vilkår) => (
+                                    <VisEllerEndreVilkårReiseOppstartAvslutningHjemreise
+                                        key={vilkår.id}
+                                        vilkår={vilkår}
+                                        aktivitet={aktivitet}
+                                        redigerer={redigererId === vilkår.id}
+                                        redigererAnnetVilkår={
+                                            redigererId !== undefined && redigererId !== vilkår.id
+                                        }
+                                        startRedigering={() => startRedigering(vilkår.id)}
+                                        avsluttRedigering={avsluttRedigering}
+                                    />
+                                ))}
+                                {aktivitet.resultat === VilkårPeriodeResultat.OPPFYLT && (
+                                    <NyttVilkårReiseOppstartAvslutningHjemreise
+                                        aktivitet={aktivitet}
+                                        leggerTilNyttVilkår={redigererId === nyttVilkårId}
+                                        startRedigering={() => startRedigering(nyttVilkårId)}
+                                        avsluttRedigering={avsluttRedigering}
+                                    />
+                                )}
+                            </VStack>
+                        </Box>
+                    );
+                })}
+            </VStack>
         </VilkårPanel>
     );
 };
