@@ -1,0 +1,55 @@
+import React, { FC } from 'react';
+
+import { CarIcon } from '@navikt/aksel-icons';
+import { BodyShort, HGrid, Label, Tag } from '@navikt/ds-react';
+
+import { LesevisningFaktaPrivatBil } from './LesevisningFaktaPrivatBil';
+import { VertikalSkillelinje } from '../../../../../../komponenter/VertikalSkillelinje';
+import { RedigerVilkårProps } from '../../../DagligReise/Lesevisning/Felles/LesevisningFooter';
+import {
+    erFaktaPrivatBil,
+    FaktaPrivatBil,
+} from '../../typer/faktaReiseOppstartAvslutningHjemreise';
+import { VilkårReiseOppstartAvslutningHjemreise } from '../../typer/vilkårReiseOppstartAvslutningHjemreise';
+import { LesevisningDelvilkår } from '../Felles/LesevisningDelvilkår';
+import { LesevisningVilkårKort } from '../Felles/LesevisningVilkårKort';
+
+export const LesevisningVilkårPrivatBil: FC<{
+    vilkår: VilkårReiseOppstartAvslutningHjemreise;
+    redigerVilkårProps: RedigerVilkårProps;
+}> = ({ vilkår, redigerVilkårProps }) => {
+    if (!erFaktaPrivatBil(vilkår.fakta)) {
+        return null;
+    }
+    const faktaPrivatBil = vilkår.fakta;
+
+    return (
+        <LesevisningVilkårKort
+            vilkår={vilkår}
+            redigerVilkårProps={redigerVilkårProps}
+            ekstraHeader={<EkstraHeader fakta={faktaPrivatBil} />}
+            typeTag={
+                <Tag size="small" icon={<CarIcon />}>
+                    Privat bil
+                </Tag>
+            }
+        >
+            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 234px) 1px auto">
+                <LesevisningFaktaPrivatBil fakta={faktaPrivatBil} />
+                <VertikalSkillelinje />
+                <LesevisningDelvilkår delvilkårsett={vilkår.delvilkårsett} />
+            </HGrid>
+        </LesevisningVilkårKort>
+    );
+};
+
+const EkstraHeader: FC<{ fakta: FaktaPrivatBil }> = ({ fakta }) => {
+    return (
+        <>
+            <div>
+                <BodyShort size="small">Totalt reiseavstand:</BodyShort>
+                <Label size="small">{fakta.reiseavstand} km</Label>
+            </div>
+        </>
+    );
+};

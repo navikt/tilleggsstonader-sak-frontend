@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { useBehandling } from '../context/BehandlingContext';
 import { VilkårDagligReise } from '../Sider/Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
+import { VilkårReiseOppstartAvslutningHjemreise } from '../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/vilkårReiseOppstartAvslutningHjemreise';
 import { VilkårReiseTilSamling } from '../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/typer/vilkårReiseTilSamling';
 import { Vilkårsvurdering } from '../Sider/Behandling/vilkår';
 import { byggTomRessurs, Ressurs } from '../typer/ressurs';
@@ -68,6 +69,31 @@ export const useHentVilkårReiseTilSamling = (): {
     const hentEksisterendeVilkår = useCallback(() => {
         request<VilkårReiseTilSamling[], null>(
             `/api/sak/vilkar/reise-til-samling/${behandling.id}`,
+            'GET'
+        ).then(settEksisterendeVilkår);
+    }, [request, behandling.id]);
+
+    useEffect(() => {
+        hentEksisterendeVilkår();
+    }, [hentEksisterendeVilkår]);
+
+    return {
+        eksisterendeVilkår,
+    };
+};
+
+export const useHentVilkårReiseOppstartAvslutningHjemreise = (): {
+    eksisterendeVilkår: Ressurs<VilkårReiseOppstartAvslutningHjemreise[]>;
+} => {
+    const { request } = useApp();
+    const { behandling } = useBehandling();
+
+    const [eksisterendeVilkår, settEksisterendeVilkår] =
+        useState<Ressurs<VilkårReiseOppstartAvslutningHjemreise[]>>(byggTomRessurs());
+
+    const hentEksisterendeVilkår = useCallback(() => {
+        request<VilkårReiseOppstartAvslutningHjemreise[], null>(
+            `/api/sak/vilkar/reise-oppstart-avslutning-hjemreise/${behandling.id}`,
             'GET'
         ).then(settEksisterendeVilkår);
     }, [request, behandling.id]);
