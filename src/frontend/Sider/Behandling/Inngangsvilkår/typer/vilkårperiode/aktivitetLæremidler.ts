@@ -8,7 +8,9 @@ export interface AktivitetLæremidler extends VilkårPeriodeAktivitet {
 }
 
 export type AktivitetTypeLæremidler =
-    AktivitetType.TILTAK | AktivitetType.UTDANNING | AktivitetType.INGEN_AKTIVITET;
+    | AktivitetType.TILTAK
+    | AktivitetType.UTDANNING
+    | AktivitetType.INGEN_AKTIVITET;
 
 export interface AktivitetLæremidlerFaktaOgVurderinger {
     '@type': 'AKTIVITET_LÆREMIDLER';

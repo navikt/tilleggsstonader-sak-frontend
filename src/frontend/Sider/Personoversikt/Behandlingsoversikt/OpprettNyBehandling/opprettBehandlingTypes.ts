@@ -8,7 +8,8 @@ export interface OpprettBehandlingResponseÅpneBehandlinger {
 }
 
 export type OpprettBehandlingResponse =
-    OpprettBehandlingResponseOpprettet | OpprettBehandlingResponseÅpneBehandlinger;
+    | OpprettBehandlingResponseOpprettet
+    | OpprettBehandlingResponseÅpneBehandlinger;
 
 export function erOpprettet(
     response: OpprettBehandlingResponse

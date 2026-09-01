@@ -8,7 +8,9 @@ export enum RessursStatus {
 }
 
 export type RessursStatusFeilet =
-    RessursStatus.FEILET | RessursStatus.FUNKSJONELL_FEIL | RessursStatus.IKKE_TILGANG;
+    | RessursStatus.FEILET
+    | RessursStatus.FUNKSJONELL_FEIL
+    | RessursStatus.IKKE_TILGANG;
 
 export type RessursSuksess<T> = {
     data: T;
@@ -28,7 +30,10 @@ export type RessursFeilet = {
 };
 
 export type Ressurs<T> =
-    { status: RessursStatus.IKKE_HENTET } | RessursLaster | RessursSuksess<T> | RessursFeilet;
+    | { status: RessursStatus.IKKE_HENTET }
+    | RessursLaster
+    | RessursSuksess<T>
+    | RessursFeilet;
 
 export const byggTomRessurs = <T>(): Ressurs<T> => {
     return {

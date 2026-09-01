@@ -258,7 +258,13 @@ export const finnForkortetUkedagFraDato = (dato: string): string => {
 };
 
 export type Ukedag =
-    'MONDAY' | 'TUESDAY' | 'WEDNESDAY' | 'THURSDAY' | 'FRIDAY' | 'SATURDAY' | 'SUNDAY';
+    | 'MONDAY'
+    | 'TUESDAY'
+    | 'WEDNESDAY'
+    | 'THURSDAY'
+    | 'FRIDAY'
+    | 'SATURDAY'
+    | 'SUNDAY';
 
 export const ukedagTilKortNorsk: Record<Ukedag, string> = {
     MONDAY: 'Man',
