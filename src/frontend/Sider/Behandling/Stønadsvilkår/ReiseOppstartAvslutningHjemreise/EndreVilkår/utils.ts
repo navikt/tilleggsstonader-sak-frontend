@@ -125,4 +125,6 @@ export const tomtPrivatBil = (aktivitet: Aktivitet): FaktaPrivatBil => ({
     reiseavstand: undefined,
     aktivitetId: aktivitet.globalId,
     aktivitetType: aktivitet.type,
+    bompenger: undefined,
+    fergekostnad: undefined,
 });
