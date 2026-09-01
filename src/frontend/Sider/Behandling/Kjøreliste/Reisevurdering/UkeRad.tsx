@@ -5,14 +5,15 @@ import {
     ExclamationmarkTriangleIcon,
     PersonHeadsetIcon,
 } from '@navikt/aksel-icons';
-import { BodyShort, Heading, HStack, Table, Tag } from '@navikt/ds-react';
+import { BodyShort, HStack, Label, Table, Tag } from '@navikt/ds-react';
 
 import { UkeInnhold } from './UkeInnhold';
 import styles from './UkeRad.module.css';
-import { TableHeaderCellSmall } from '../../../../komponenter/TabellSmall';
+import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../komponenter/TabellSmall';
 import { AvklartKjørtUkeStatus, UkeStatus, UkeVurdering } from '../../../../typer/kjøreliste';
 import { RammeForReiseMedPrivatBilDelperiode } from '../../../../typer/vedtak/vedtakDagligReise';
 import { formaterIsoPeriode, formaterNullableIsoDato } from '../../../../utils/dato';
+import { harVerdi } from '../../../../utils/utils';
 import { finnDelperiodeForUke } from '../utils';
 
 export const UkeRad: FC<{
@@ -23,6 +24,10 @@ export const UkeRad: FC<{
     const relevantDelperiodeForUke = finnDelperiodeForUke(delperioder, uke);
     const skalHaSlettetStyling =
         uke.erUkeSlettet && uke.avklartKjørtUkeStatus !== AvklartKjørtUkeStatus.SLETTET;
+
+    const erUtbetalt =
+        uke.avklartKjørtUkeStatus !== AvklartKjørtUkeStatus.NY &&
+        harVerdi(uke.avklartKjørtUkeStatus);
 
     return (
         <Table.ExpandableRow
@@ -35,39 +40,31 @@ export const UkeRad: FC<{
             }
             defaultOpen={uke.status === 'AVVIK'}
         >
-            <TableHeaderCellSmall>
-                <HStack justify="space-between" align="center">
-                    <div className={styles.grid}>
-                        <Heading
-                            size="small"
-                            className={skalHaSlettetStyling ? styles.slettet : undefined}
-                        >{`Uke ${uke.ukenummer}`}</Heading>
-                        <HStack gap="space-40">
-                            <BodyShort
-                                size="small"
-                                className={skalHaSlettetStyling ? styles.slettet : undefined}
-                            >
-                                {formaterIsoPeriode(uke.fraDato, uke.tilDato)}
-                            </BodyShort>
-                            <AutomatiskManuellEllerAvvikTag status={uke.status} />
-                        </HStack>
-                    </div>
-                    <HStack gap="space-40" align="center">
-                        <AvklartKjørtUkeStatusTag
-                            avklartKjørtUkeStatus={uke.avklartKjørtUkeStatus}
-                        />
-                        {uke.erKjørelisteManueltRegistrert ? (
-                            <BodyShort size="small">Manuelt registrert</BodyShort>
-                        ) : (
-                            uke.kjørelisteInnsendtDato && (
-                                <BodyShort size="small">
-                                    Levert {formaterNullableIsoDato(uke.kjørelisteInnsendtDato)}
-                                </BodyShort>
-                            )
-                        )}
-                    </HStack>
-                </HStack>
+            <TableHeaderCellSmall className={styles.ukeKolonne}>
+                <Label size="small" className={skalHaSlettetStyling ? styles.slettet : undefined}>
+                    {uke.ukenummer}
+                </Label>
             </TableHeaderCellSmall>
+            <TableDataCellSmall
+                className={`${styles.periodeKolonne} ${skalHaSlettetStyling ? styles.slettet : undefined}`}
+            >
+                {formaterIsoPeriode(uke.fraDato, uke.tilDato)}
+            </TableDataCellSmall>
+            <TableHeaderCellSmall>
+                <AutomatiskManuellEllerAvvikTag status={uke.status} />
+            </TableHeaderCellSmall>
+            <TableHeaderCellSmall className={styles.statusKolonne} align="center">
+                <AvklartKjørtUkeStatusTag avklartKjørtUkeStatus={uke.avklartKjørtUkeStatus} />
+            </TableHeaderCellSmall>
+            <TableDataCellSmall className={styles.utbetaltKolonne} align="center">
+                {erUtbetalt && 'Ja'}
+            </TableDataCellSmall>
+            <TableDataCellSmall className={styles.levertDatoKolonne}>
+                {uke.erKjørelisteManueltRegistrert
+                    ? 'Manuelt registrert'
+                    : uke.kjørelisteInnsendtDato &&
+                      formaterNullableIsoDato(uke.kjørelisteInnsendtDato)}
+            </TableDataCellSmall>
         </Table.ExpandableRow>
     );
 };
@@ -99,7 +96,7 @@ const AutomatiskManuellEllerAvvikTag: FC<{ status: UkeStatus }> = ({ status }) =
     }
 };
 
-const AvklartKjørtUkeStatusTag: FC<{ avklartKjørtUkeStatus: AvklartKjørtUkeStatus }> = ({
+const AvklartKjørtUkeStatusTag: FC<{ avklartKjørtUkeStatus: AvklartKjørtUkeStatus | null }> = ({
     avklartKjørtUkeStatus,
 }) => {
     switch (avklartKjørtUkeStatus) {
@@ -115,9 +112,6 @@ const AvklartKjørtUkeStatusTag: FC<{ avklartKjørtUkeStatus: AvklartKjørtUkeSt
                     Endret
                 </Tag>
             );
-        case AvklartKjørtUkeStatus.UENDRET:
-            return <BodyShort size="small">Utbetalt</BodyShort>;
-
         case AvklartKjørtUkeStatus.SLETTET:
             return (
                 <Tag size="small" data-color="danger">
