@@ -34,7 +34,7 @@ export const EndreAktivitet: React.FC<{
     avbrytRedigering: () => void;
 }> = ({ aktivitet, aktivitetFraRegister, avbrytRedigering }) => {
     const { behandling } = useBehandling();
-    const { tiltaksvariantValg } = useHentTiltaksvariantValg();
+    const { tiltaksvariantValg } = useHentTiltaksvariantValg(behandling.stønadstype);
 
     switch (behandling.stønadstype) {
         case Stønadstype.BARNETILSYN:
