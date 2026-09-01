@@ -7,3 +7,29 @@
 .slettet {
     text-decoration: line-through;
 }
+
+.uke-kolonne {
+    width: 2rem;
+}
+
+.periode-kolonne {
+    width: 11.5rem;
+}
+
+.vurdering-kolonne {
+    width: 8rem;
+}
+
+.status-kolonne {
+    margin-right: 0;
+}
+
+.utbetalt-kolonne {
+    width: 7rem;
+    align-items: end;
+}
+
+.levert-dato-kolonne {
+    width: 10rem;
+    align-items: end;
+}

@@ -21,7 +21,7 @@ export interface UkeVurdering {
     kjørelisteId?: string; // null hvis kjøreliste ikke er mottatt
     avklartUkeId?: string; // null hvis uke ikke er avklart
     dager: Dag[];
-    avklartKjørtUkeStatus: AvklartKjørtUkeStatus;
+    avklartKjørtUkeStatus: AvklartKjørtUkeStatus | null;
 }
 
 export interface AvvikUke {
