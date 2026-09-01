@@ -27,6 +27,7 @@ import { VedtakOgBeregningDagligReise } from './VedtakOgBeregning/DagligReise/Ve
 import { VedtakOgBeregningFlytting } from './VedtakOgBeregning/Flytting/VedtakOgBeregningFlytting';
 import VedtakOgBeregningLæremidler from './VedtakOgBeregning/Læremidler/VedtakOgBeregningLæremidler';
 import VedtakOgBeregningPassAvBarn from './VedtakOgBeregning/PassAvBarn/VedtakOgBeregningPassAvBarn';
+import { VedtakOgBeregningReiseOppstartAvslutningHjemreise } from './VedtakOgBeregning/ReiseOppstartAvslutningHjemreise/VedtakOgBeregningReiseOppstartAvslutningHjemreise';
 import { VedtakOgBeregningReiseTilSamling } from './VedtakOgBeregning/ReiseTilSamling/VedtakOgBeregningReiseTilSamling';
 import { Behandling } from '../../typer/behandling/behandling';
 import { BehandlingResultat } from '../../typer/behandling/behandlingResultat';
@@ -263,8 +264,7 @@ export const vedtakForBehandling = (behandling: Behandling): React.ReactNode => 
             return <VedtakOgBeregningFlytting />;
         case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
         case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
-            // TODO: Implementer VedtakOgBeregningStøtteTilReiseOppstartAvslutningHjemreise
-            return <div>Vedtak og beregning er ikke implementert for denne stønadstypen ennå.</div>;
+            return <VedtakOgBeregningReiseOppstartAvslutningHjemreise />;
     }
 };
 
