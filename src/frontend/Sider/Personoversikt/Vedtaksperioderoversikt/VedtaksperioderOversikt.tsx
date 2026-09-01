@@ -10,6 +10,7 @@ import { VedtaksperioderOversiktArena } from './VedtaksperioderOversiktArena';
 import { VedtaksperioderOversiktDagligReise } from './VedtaksperioderOversiktDagligReise';
 import { VedtaksperioderOversiktLæremidler } from './VedtaksperioderOversiktLæremidler';
 import { VedtaksperioderOversiktPassAvBarn } from './VedtaksperioderOversiktPassAvBarn';
+import { VedtaksperioderOversiktReiseTilSamling } from './VedtaksperioderOversiktReiseTilSamling';
 import {
     useHentFullstendigVedtaksOversikt,
     useVedtaksperioderOversiktArena,
@@ -92,6 +93,26 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
                                     </Detail>
                                 </OversiktKort>
                             )}
+                            {vedtaksperioderOversikt.reiseTilSamlingTso.length > 0 && (
+                                <OversiktKort tittel={'Reise til samling Nay'}>
+                                    <VedtaksperioderOversiktReiseTilSamling
+                                        vedtaksperioder={vedtaksperioderOversikt.reiseTilSamlingTso}
+                                    />
+                                    <Detail>
+                                        Oppdatert: {formaterDatoMedTidspunkt(hentetTidspunkt)}
+                                    </Detail>
+                                </OversiktKort>
+                            )}
+                            {vedtaksperioderOversikt.reiseTilSamlingTsr.length > 0 && (
+                                <OversiktKort tittel={'Reise til samling Tiltaksenheten'}>
+                                    <VedtaksperioderOversiktReiseTilSamling
+                                        vedtaksperioder={vedtaksperioderOversikt.reiseTilSamlingTsr}
+                                    />
+                                    <Detail>
+                                        Oppdatert: {formaterDatoMedTidspunkt(hentetTidspunkt)}
+                                    </Detail>
+                                </OversiktKort>
+                            )}
                             {arenaSakOgVedtak.vedtak.length > 0 && (
                                 <OversiktKort
                                     tittel={'TS vedtak i Arena'}
@@ -127,6 +148,8 @@ const finnesIngenVedtaksperioder = (
         vedtaksperioderOversikt.tilsynBarn.length === 0 &&
         vedtaksperioderOversikt.dagligReiseTso.length === 0 &&
         vedtaksperioderOversikt.dagligReiseTsr.length === 0 &&
+        vedtaksperioderOversikt.reiseTilSamlingTso.length === 0 &&
+        vedtaksperioderOversikt.reiseTilSamlingTsr.length === 0 &&
         arenaSakOgVedtak.vedtak.length === 0
     );
 };
