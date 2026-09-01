@@ -57,10 +57,10 @@ export interface BehandlingFaktaFlytting extends BehandlingFaktaInterface {
     // TODO - legg til fakta om flytting
 }
 
-export interface BehandlingFaktaStøtteTilReiseOppstartAvslutningHjemreise extends BehandlingFaktaInterface {
+export interface BehandlingFaktaReiseOppstartAvslutningHjemreise extends BehandlingFaktaInterface {
     '@type':
-        | Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO
-        | Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR;
+        | Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO
+        | Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR;
     aktiviteter: FaktaAktivitet;
     personopplysninger: FaktaPersonopplysninger;
     // TODO - legg til fakta om støtte til reise oppstart/avslutning/hjemreise
@@ -73,4 +73,4 @@ export type BehandlingFakta =
     | BehandlingFaktaDagligReise
     | BehandlingFaktaReiseTilSamling
     | BehandlingFaktaFlytting
-    | BehandlingFaktaStøtteTilReiseOppstartAvslutningHjemreise;
+    | BehandlingFaktaReiseOppstartAvslutningHjemreise;

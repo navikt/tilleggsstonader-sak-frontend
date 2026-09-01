@@ -83,7 +83,7 @@ const resetPeriode = (
         return {
             fom: førsteDagIMånederForut(
                 maksMånederTilbakeFraSøknadsdato[
-                    Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO
+                    Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO
                 ],
                 søknadMottattTidspunkt
             ),

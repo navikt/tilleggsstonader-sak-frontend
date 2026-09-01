@@ -65,11 +65,11 @@ const useKanSaksbehandle = (stønadstype: Stønadstype) => {
     );
     const kanSaksbehandleFlyttingTso = useFlag(Toggle.KAN_SAKSBEHANDLE_FLYTTING_TSO);
     const kanSaksbehandleFlyttingTsr = useFlag(Toggle.KAN_SAKSBEHANDLE_FLYTTING_TSR);
-    const kanSaksbehandleStøtteTilReiseOppstartAvslutningHjemreiseTso = useFlag(
-        Toggle.KAN_SAKSBEHANDLE_STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO
+    const kanSaksbehandleReiseOppstartAvslutningHjemreiseTso = useFlag(
+        Toggle.KAN_SAKSBEHANDLE_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO
     );
-    const kanSaksbehandleStøtteTilReiseOppstartAvslutningHjemreiseTsr = useFlag(
-        Toggle.KAN_SAKSBEHANDLE_STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR
+    const kanSaksbehandleReiseOppstartAvslutningHjemreiseTsr = useFlag(
+        Toggle.KAN_SAKSBEHANDLE_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR
     );
     switch (stønadstype) {
         case Stønadstype.BARNETILSYN:
@@ -90,10 +90,10 @@ const useKanSaksbehandle = (stønadstype: Stønadstype) => {
             return kanSaksbehandleFlyttingTso;
         case Stønadstype.FLYTTING_TSR:
             return kanSaksbehandleFlyttingTsr;
-        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
-            return kanSaksbehandleStøtteTilReiseOppstartAvslutningHjemreiseTso;
-        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
-            return kanSaksbehandleStøtteTilReiseOppstartAvslutningHjemreiseTsr;
+        case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
+            return kanSaksbehandleReiseOppstartAvslutningHjemreiseTso;
+        case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
+            return kanSaksbehandleReiseOppstartAvslutningHjemreiseTsr;
         default:
             return false;
     }

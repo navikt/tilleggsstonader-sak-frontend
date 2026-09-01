@@ -80,10 +80,8 @@ export const faneNavnStønadsvilkår: Record<
     REISE_TIL_SAMLING_TSR: StønadsvilkårFaneNavn.REISE_TIL_SAMLING,
     FLYTTING_TSO: StønadsvilkårFaneNavn.FLYTTING,
     FLYTTING_TSR: StønadsvilkårFaneNavn.FLYTTING,
-    STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
-        StønadsvilkårFaneNavn.OPPSTART_AVSLUTNING_HJEMREISE,
-    STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
-        StønadsvilkårFaneNavn.OPPSTART_AVSLUTNING_HJEMREISE,
+    REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO: StønadsvilkårFaneNavn.OPPSTART_AVSLUTNING_HJEMREISE,
+    REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR: StønadsvilkårFaneNavn.OPPSTART_AVSLUTNING_HJEMREISE,
 };
 
 export enum FanePath {
@@ -262,8 +260,8 @@ export const vedtakForBehandling = (behandling: Behandling): React.ReactNode => 
         case Stønadstype.FLYTTING_TSO:
         case Stønadstype.FLYTTING_TSR:
             return <VedtakOgBeregningFlytting />;
-        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
-        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
+        case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
+        case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
             return <VedtakOgBeregningReiseOppstartAvslutningHjemreise />;
     }
 };
@@ -321,8 +319,8 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
         case Stønadstype.FLYTTING_TSO:
         case Stønadstype.FLYTTING_TSR:
             return [];
-        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
-        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
+        case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
+        case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
             return [
                 {
                     navn: faneNavnStønadsvilkår[behandling.stønadstype],

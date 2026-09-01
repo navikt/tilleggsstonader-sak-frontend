@@ -158,7 +158,7 @@ export const EndreAktivitetReiseOppstartAvslutningHjemreiseTso: React.FC<{
                         oppdaterTypeIForm={oppdaterType}
                         oppdaterPeriode={oppdaterForm}
                         typeOptions={valgbareAktivitetTyper(
-                            Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO
+                            Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO
                         )}
                         formFeil={vilkårsperiodeFeil}
                         kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}

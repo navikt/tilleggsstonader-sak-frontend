@@ -79,8 +79,8 @@ function OpprettFørstegangsbehandlingAdmin() {
             type !== Stønadstype.REISE_TIL_SAMLING_TSR &&
             type !== Stønadstype.FLYTTING_TSO &&
             type !== Stønadstype.FLYTTING_TSR &&
-            type !== Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO &&
-            type !== Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR
+            type !== Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO &&
+            type !== Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR
     );
     const [stønadstype, settStønadstype] = useState<Stønadstype>();
 

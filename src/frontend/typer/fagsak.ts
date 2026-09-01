@@ -39,9 +39,9 @@ export function utledFagsakId(
             return fagsakPerson.flyttingTso;
         case Stønadstype.FLYTTING_TSR:
             return fagsakPerson.flyttingTsr;
-        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
+        case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
             return fagsakPerson.støtteTilReiseOppstartAvslutningHjemreiseTso;
-        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
+        case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
             return fagsakPerson.støtteTilReiseOppstartAvslutningHjemreiseTsr;
     }
 }

@@ -40,13 +40,13 @@ export const finnRelevanteAktivitetTyperForStønad = (stønadstype: Stønadstype
         case Stønadstype.DAGLIG_REISE_TSO:
         case Stønadstype.REISE_TIL_SAMLING_TSO:
         case Stønadstype.FLYTTING_TSO:
-        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
+        case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
             return [AktivitetType.TILTAK, AktivitetType.UTDANNING, AktivitetType.INGEN_AKTIVITET];
 
         case Stønadstype.DAGLIG_REISE_TSR:
         case Stønadstype.REISE_TIL_SAMLING_TSR:
         case Stønadstype.FLYTTING_TSR:
-        case Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
+        case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
             return [AktivitetType.TILTAK, AktivitetType.INGEN_AKTIVITET];
     }
 };

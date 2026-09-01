@@ -158,8 +158,8 @@ const EndreMålgruppe: React.FC<{
             Stønadstype.REISE_TIL_SAMLING_TSR,
             Stønadstype.FLYTTING_TSO,
             Stønadstype.FLYTTING_TSR,
-            Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO,
-            Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR,
+            Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO,
+            Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR,
         ].includes(stønadstype)
             ? målgruppeTypeOptionsForStønad(stønadstype)
             : [];

@@ -10,8 +10,6 @@ export const stønadstypeTilVedtakUrl: Record<Stønadstype, string> = {
     [Stønadstype.REISE_TIL_SAMLING_TSR]: 'reise-til-samling',
     [Stønadstype.FLYTTING_TSO]: 'flytting',
     [Stønadstype.FLYTTING_TSR]: 'flytting',
-    [Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO]:
-        'reise-oppstart-avslutning-hjemreise',
-    [Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR]:
-        'reise-oppstart-avslutning-hjemreise',
+    [Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO]: 'reise-oppstart-avslutning-hjemreise',
+    [Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR]: 'reise-oppstart-avslutning-hjemreise',
 };

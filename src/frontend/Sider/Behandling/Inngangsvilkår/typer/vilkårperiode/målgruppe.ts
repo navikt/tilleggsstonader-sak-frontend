@@ -173,8 +173,8 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         SYKEPENGER_100_PROSENT: false,
         GJENLEVENDE_GAMMELT_REGELVERK: false,
     },
-    // TODO: avklar målgrupper for STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE
-    [Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO]: {
+    // TODO: avklar målgrupper for REISE_OPPSTART_AVSLUTNING_HJEMREISE
+    [Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO]: {
         AAP: true,
         UFØRETRYGD: true,
         OMSTILLINGSSTØNAD: true,
@@ -188,7 +188,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         TILTAKSPENGER: false,
         INNSATT_I_FENGSEL: false,
     },
-    [Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR]: {
+    [Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR]: {
         DAGPENGER: true,
         KVALIFISERINGSSTØNAD: true,
         TILTAKSPENGER: true,

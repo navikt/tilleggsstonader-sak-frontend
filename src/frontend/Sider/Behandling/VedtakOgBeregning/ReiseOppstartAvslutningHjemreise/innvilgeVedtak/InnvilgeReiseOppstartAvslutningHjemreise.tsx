@@ -42,7 +42,7 @@ export const InnvilgeReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
     const { erStegRedigerbart } = useSteg();
 
     const gjelderTsr =
-        behandling.stønadstype === Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR;
+        behandling.stønadstype === Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR;
 
     const [vedtaksperioder, settVedtaksperioder] = useState<Vedtaksperiode[]>(
         initialiserVedtaksperioder(

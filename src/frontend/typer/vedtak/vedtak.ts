@@ -187,8 +187,8 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         LØNN_I_TILTAK: false,
         ANNET: true,
     },
-    // TODO: avklar gyldige årsaker for STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE
-    [Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO]: {
+    // TODO: avklar gyldige årsaker for REISE_OPPSTART_AVSLUTNING_HJEMREISE
+    [Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO]: {
         INGEN_AKTIVITET: true,
         IKKE_I_MÅLGRUPPE: true,
         INGEN_OVERLAPP_AKTIVITET_MÅLGRUPPE: true,
@@ -201,7 +201,7 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         LØNN_I_TILTAK: false,
         ANNET: true,
     },
-    [Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR]: {
+    [Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR]: {
         INGEN_AKTIVITET: true,
         IKKE_I_MÅLGRUPPE: true,
         INGEN_OVERLAPP_AKTIVITET_MÅLGRUPPE: true,

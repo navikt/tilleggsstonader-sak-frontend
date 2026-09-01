@@ -16,8 +16,8 @@ export enum Stønadstype {
     REISE_TIL_SAMLING_TSR = 'REISE_TIL_SAMLING_TSR',
     FLYTTING_TSO = 'FLYTTING_TSO',
     FLYTTING_TSR = 'FLYTTING_TSR',
-    STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO = 'STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO',
-    STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR = 'STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR',
+    REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO = 'REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO',
+    REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR = 'REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR',
 }
 
 export const stønadstypeTilTekst: Record<Stønadstype, string> = {
@@ -31,9 +31,9 @@ export const stønadstypeTilTekst: Record<Stønadstype, string> = {
     FLYTTING_TSO: 'Flytting (Nay)',
     FLYTTING_TSR: 'Flytting (Tiltaksenheten)',
     // TODO: avklar visningsnavn
-    STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
+    REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
         'Støtte til reise ved oppstart, avslutning og hjemreise (Nay)',
-    STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
+    REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
         'Støtte til reise ved oppstart, avslutning og hjemreise (Tiltaksenheten)',
 };
 
@@ -47,9 +47,8 @@ const stønadstypeTilEnhet: Record<Stønadstype, BehandlendeEnhet> = {
     [Stønadstype.FLYTTING_TSO]: BehandlendeEnhet.NAY,
     [Stønadstype.DAGLIG_REISE_TSR]: BehandlendeEnhet.TILTAKSENHETEN,
     [Stønadstype.FLYTTING_TSR]: BehandlendeEnhet.TILTAKSENHETEN,
-    [Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO]: BehandlendeEnhet.NAY,
-    [Stønadstype.STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR]:
-        BehandlendeEnhet.TILTAKSENHETEN,
+    [Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO]: BehandlendeEnhet.NAY,
+    [Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR]: BehandlendeEnhet.TILTAKSENHETEN,
 };
 
 export const stønadstypeTilTekstUtenBehandlendeEnhet: Record<Stønadstype, string> = {
@@ -58,9 +57,9 @@ export const stønadstypeTilTekstUtenBehandlendeEnhet: Record<Stønadstype, stri
     DAGLIG_REISE_TSR: 'Daglige reiser',
     FLYTTING_TSO: 'Flytting',
     FLYTTING_TSR: 'Flytting',
-    STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
+    REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
         'Støtte til reise ved oppstart, avslutning og hjemreise',
-    STØTTE_TIL_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
+    REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
         'Støtte til reise ved oppstart, avslutning og hjemreise',
 };
 
