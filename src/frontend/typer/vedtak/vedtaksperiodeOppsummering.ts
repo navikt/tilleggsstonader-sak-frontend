@@ -12,6 +12,8 @@ export interface VedtakperioderOversiktResponse {
     boutgifter: DetaljertVedtaksperiodeBoutgifter[];
     dagligReiseTso: DetaljertVedtaksperiodeDagligReise[];
     dagligReiseTsr: DetaljertVedtaksperiodeDagligReise[];
+    reiseTilSamlingTso: DetaljertVedtaksperiodeReiseTilSamling[];
+    reiseTilSamlingTsr: DetaljertVedtaksperiodeReiseTilSamling[];
 }
 
 export type DetaljertVedtaksperiodePassAvBarn = {
@@ -74,8 +76,8 @@ export interface UtgiftBoutgift {
 }
 
 export type DetaljertVedtaksperiodeReiseTilSamling = {
-    utgifterOffentligTransport: number | undefined;
-    reiseavstand: number | undefined;
     stønadstype: Stønadstype;
-    // TODO
+    fom: string;
+    tom: string;
+    beløp: number;
 };
