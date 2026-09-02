@@ -26,19 +26,21 @@ export const VedtaksperioderOversiktReiseTilSamling: React.FC<Props> = ({
                 <Table.Row>
                     <Table.HeaderCell scope="col">Periode</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Enhet</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Beløp</Table.HeaderCell>
+                    <Table.HeaderCell scope="col" align={'right'}>
+                        Beløp
+                    </Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
-                {vedtaksperioder.map((periode, index) => (
-                    <Table.Row key={`${periode.fom}-${periode.tom}-${index}`}>
+                {vedtaksperioder.map((periode) => (
+                    <Table.Row key={`${periode.stønadstype}-${periode.fom}`}>
                         <Table.DataCell>
                             {formaterIsoPeriode(periode.fom, periode.tom)}
                         </Table.DataCell>
                         <Table.DataCell>
                             {behandlendeEnhetTilTekst[stønadstypeTilEnhet[periode.stønadstype]]}
                         </Table.DataCell>
-                        <Table.DataCell>
+                        <Table.DataCell align={'right'}>
                             {formaterTallMedTusenSkille(periode.beløp)} kr
                         </Table.DataCell>
                     </Table.Row>
