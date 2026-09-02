@@ -19,9 +19,11 @@ export const initierSvar = (
         return tomtSvar;
     }
 
-    const delvilkår = eksisterendeVilkår.delvilkårsett[0]; // Daglige reiser har kun ett delvilkårsett
+    const vurderinger = eksisterendeVilkår.delvilkårsett.flatMap(
+        (delvilkår) => delvilkår.vurderinger
+    );
 
-    return delvilkår.vurderinger.reduce((acc, vurdering) => {
+    return vurderinger.reduce((acc, vurdering) => {
         acc[vurdering.regelId as RegelIdReiseTilSamling] = vurdering.svar
             ? { svar: vurdering.svar, begrunnelse: vurdering.begrunnelse || '' }
             : undefined;
@@ -34,6 +36,11 @@ export const initierSvar = (
  *
  * Regler med svar aktiveres, og eventuelle nesteRegelId fra valgte svar aktiveres også.
  * Allerede aktiverte regler overskrives ikke.
+ *
+ * Til slutt filtreres resultatet mot avhengerAvHovedregler: en regel som avhenger av
+ * andre (uavhengige) hovedregler blir kun stående som aktiv dersom alle disse er besvart Ja.
+ * Dette gjør at f.eks. spørsmål 4 (som avhenger av spørsmål 1 og 2, i tillegg til å være
+ * kjedet fra spørsmål 3) kun vises når alle tre foregående spørsmål er besvart Ja.
  */
 export const initierAktiveDelvilkår = (
     svar: SvarVilkårReiseTilSamling,
@@ -41,43 +48,98 @@ export const initierAktiveDelvilkår = (
 ): Map<RegelIdReiseTilSamling, boolean> => {
     const harEksisterendeSvar = Object.values(svar).find((svar) => svar !== undefined);
 
-    if (harEksisterendeSvar) {
-        const aktiveRegler = new Map<RegelIdReiseTilSamling, boolean>();
+    const aktiveRegler = harEksisterendeSvar
+        ? aktiveReglerFraEksisterendeSvar(svar, regelstruktur)
+        : aktiveReglerForNyttVilkår(regelstruktur);
 
-        Object.entries(regelstruktur).forEach(([regelId, regelInfo]) => {
-            const regelIdReiseTilSamling = regelId as RegelIdReiseTilSamling;
-            const eksisterendeSvar = svar[regelIdReiseTilSamling]?.svar;
+    return filtrerBortReglerSomErAvhengigAvUbesvarthovedregel(aktiveRegler, svar, regelstruktur);
+};
 
-            const gjeldendeRegelErBesvart = eksisterendeSvar !== undefined;
-            const harHåndtertRegelTidligere = aktiveRegler.has(regelIdReiseTilSamling);
+const aktiveReglerFraEksisterendeSvar = (
+    svar: SvarVilkårReiseTilSamling,
+    regelstruktur: RegelstrukturReiseTilSamling
+): Map<RegelIdReiseTilSamling, boolean> => {
+    const aktiveRegler = new Map<RegelIdReiseTilSamling, boolean>();
 
-            if (!harHåndtertRegelTidligere) {
-                aktiveRegler.set(regelIdReiseTilSamling, gjeldendeRegelErBesvart);
+    Object.entries(regelstruktur).forEach(([regelId, regelInfo]) => {
+        const regelIdReiseTilSamling = regelId as RegelIdReiseTilSamling;
+        const eksisterendeSvar = svar[regelIdReiseTilSamling]?.svar;
+
+        const gjeldendeRegelErBesvart = eksisterendeSvar !== undefined;
+        const harHåndtertRegelTidligere = aktiveRegler.has(regelIdReiseTilSamling);
+
+        if (!harHåndtertRegelTidligere) {
+            aktiveRegler.set(regelIdReiseTilSamling, regelInfo.erHovedregel);
+        }
+
+        if (gjeldendeRegelErBesvart && aktiveRegler.get(regelIdReiseTilSamling)) {
+            const valgtAlternativ = regelInfo.svaralternativer.find(
+                (svaralternativ) => svaralternativ.svarId === eksisterendeSvar
+            );
+
+            if (valgtAlternativ?.nesteRegelId) {
+                aktiveRegler.set(valgtAlternativ.nesteRegelId, true);
             }
+        }
+    });
 
-            // Sett etterfølgelde regelId-er til aktive dersom regel er besvart
-            if (gjeldendeRegelErBesvart) {
-                const valgtAlternativ = regelInfo.svaralternativer.find(
-                    (svaralternativ) => svaralternativ.svarId === eksisterendeSvar
-                );
+    return aktiveRegler;
+};
 
-                if (valgtAlternativ?.nesteRegelId) {
-                    aktiveRegler.set(valgtAlternativ.nesteRegelId, true);
-                }
-            }
-        });
-
-        return aktiveRegler;
-    }
-
-    // Hvis ingen eksisterende svar, sett kun hovedregeler som aktive
-    return new Map(
+const aktiveReglerForNyttVilkår = (
+    regelstruktur: RegelstrukturReiseTilSamling
+): Map<RegelIdReiseTilSamling, boolean> =>
+    new Map(
         Object.entries(regelstruktur).map(([regelId, regelInfo]) => [
             regelId as RegelIdReiseTilSamling,
             regelInfo.erHovedregel,
         ])
     );
+
+const filtrerBortReglerSomErAvhengigAvUbesvarthovedregel = (
+    aktiveRegler: Map<RegelIdReiseTilSamling, boolean>,
+    svar: SvarVilkårReiseTilSamling,
+    regelstruktur: RegelstrukturReiseTilSamling
+): Map<RegelIdReiseTilSamling, boolean> => {
+    const resultat = new Map(aktiveRegler);
+
+    Object.entries(regelstruktur).forEach(([regelId, regelInfo]) => {
+        const regelIdReiseTilSamling = regelId as RegelIdReiseTilSamling;
+
+        if (regelInfo.avhengerAvHovedregler.length === 0) {
+            return;
+        }
+
+        const alleAvhengigheterErBesvartJa = regelInfo.avhengerAvHovedregler.every(
+            (avhengighet) => svar[avhengighet]?.svar === 'JA'
+        );
+
+        if (!alleAvhengigheterErBesvartJa) {
+            resultat.set(regelIdReiseTilSamling, false);
+            regelInfo.reglerSomMåNullstilles.forEach((etterkommer) => {
+                resultat.set(etterkommer, false);
+            });
+        }
+    });
+
+    return resultat;
 };
+
+/**
+ * Fjerner svar for regler som ikke lenger er aktive, slik at "foreldreløse" svar
+ * (f.eks. et tidligere besvart spørsmål 5 som nå er skjult fordi spørsmål 1 endret
+ * seg til Nei) ikke blir stående igjen og sendt til backend som et ugyldig/uforeslutt svar.
+ */
+export const nullstillSvarForInaktiveRegler = (
+    svar: SvarVilkårReiseTilSamling,
+    aktiveRegler: Map<RegelIdReiseTilSamling, boolean>
+): SvarVilkårReiseTilSamling =>
+    Object.fromEntries(
+        Object.entries(svar).map(([regelId, verdi]) => [
+            regelId,
+            aktiveRegler.get(regelId as RegelIdReiseTilSamling) ? verdi : undefined,
+        ])
+    ) as SvarVilkårReiseTilSamling;
 
 export const initierGjeldendeFaktaType = (
     vilkår: VilkårReiseTilSamling | undefined

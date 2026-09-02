@@ -15,6 +15,7 @@ interface RegelInfo {
     erHovedregel: boolean;
     reglerSomMåNullstilles: RegelIdReiseTilSamling[];
     svaralternativer: SvarAlternativ[];
+    avhengerAvHovedregler: RegelIdReiseTilSamling[];
 }
 
 export interface SvarAlternativ {

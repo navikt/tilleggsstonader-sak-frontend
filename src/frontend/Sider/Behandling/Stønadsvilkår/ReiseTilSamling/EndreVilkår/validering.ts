@@ -142,10 +142,7 @@ const validerFakta = (
     | Partial<FeilmeldingerFaktaOffentligTransport>
     | Partial<FeilmeldingerFaktaPrivatBil>
     | undefined => {
-    if (
-        fakta?.type === 'OFFENTLIG_TRANSPORT' ||
-        svar.KAN_REISE_MED_OFFENTLIG_TRANSPORT?.svar === 'JA'
-    ) {
+    if (fakta?.type === 'OFFENTLIG_TRANSPORT' || svar.DOKUMENTERTE_UTGIFTER?.svar === 'JA') {
         return validerFaktaOffentligTransport(fakta as FaktaOffentligTransport, gjelderTsr);
     } else if (fakta?.type === 'PRIVAT_BIL' || svar.KAN_REISE_MED_EGEN_BIL?.svar === 'JA') {
         return validerFaktaPrivatBil(fakta as FaktaPrivatBil, gjelderTsr);

@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 
 import { Tag } from '@navikt/ds-react';
 
+import { Vilkårsresultat } from '../../../vilkår';
 import { RedigerVilkårProps } from '../../DagligReise/Lesevisning/Felles/LesevisningFooter';
 import { VilkårReiseTilSamling } from '../typer/vilkårReiseTilSamling';
 import { LesevisningDelvilkår } from './Felles/LesevisningDelvilkår';
@@ -50,13 +51,25 @@ export const LesevisningVilkårReiseTilSamling: FC<VilkårProps> = ({
         <LesevisningVilkårKort
             vilkår={vilkår}
             redigerVilkårProps={redigerVilkårProps}
-            typeTag={
-                <Tag data-color="danger" size="small">
-                    Vilkår ikke oppfylt
-                </Tag>
-            }
+            typeTag={<TypeTagForResultat resultat={vilkår.resultat} />}
         >
             <LesevisningDelvilkår delvilkårsett={vilkår.delvilkårsett} />
         </LesevisningVilkårKort>
+    );
+};
+
+const TypeTagForResultat: FC<{ resultat: Vilkårsresultat }> = ({ resultat }) => {
+    if (resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL) {
+        return (
+            <Tag data-color="warning" size="small">
+                Ikke ferdig utfylt
+            </Tag>
+        );
+    }
+
+    return (
+        <Tag data-color="danger" size="small">
+            Vilkår ikke oppfylt
+        </Tag>
     );
 };
