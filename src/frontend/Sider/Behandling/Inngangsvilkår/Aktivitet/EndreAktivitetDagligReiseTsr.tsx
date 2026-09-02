@@ -25,7 +25,7 @@ import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKo
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
-import { Kodeverk, kodeverkTilOptions } from '../../../../typer/kodeverk';
+import { Kodeverk, kodeverkTilOptionsMedGjeldendeValgt } from '../../../../typer/kodeverk';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
@@ -162,7 +162,10 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
                         oppdaterPeriode={oppdaterForm}
                         oppdaterTiltaksvariant={oppdaterTiltaksvariant}
                         typeOptions={valgbareAktivitetTyper(Stønadstype.DAGLIG_REISE_TSR)}
-                        tiltaksvariantOptions={kodeverkTilOptions(tiltaksvariantValg)}
+                        tiltaksvariantOptions={kodeverkTilOptionsMedGjeldendeValgt(
+                            tiltaksvariantValg,
+                            form.tiltaksvariant
+                        )}
                         formFeil={vilkårsperiodeFeil}
                         kanEndreTiltaksvariant={
                             aktivitet === undefined && !aktivitetErBruktFraSystem
