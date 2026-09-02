@@ -49,7 +49,7 @@ function nyAktivitetFraRegister(
  * Aktiviteter fra Arena har alltid en tiltaksvariant (type/typeNavn). Denne kan brukes direkte som
  * tiltaksvariant på aktiviteten, selv om varianten ikke finnes i det reduserte utvalget som vises i
  * dropdownen for manuelt tillagte aktiviteter (`tiltaksvariantValg`). En tiltaksvariant som ikke er
- * mappet til en utbetalingstype vil kunne føre til avslag, men skal fortsatt kunne velges.
+ * mappet til en utbetalingstype vil ikke kunne innvilges med, man skal kunne velges i tilfelle avslag.
  */
 function tiltaksvariantForRegisterAktivitet(registerAktivitet: Registeraktivitet): Kodeverk {
     return { kode: registerAktivitet.type, beskrivelse: registerAktivitet.typeNavn };
