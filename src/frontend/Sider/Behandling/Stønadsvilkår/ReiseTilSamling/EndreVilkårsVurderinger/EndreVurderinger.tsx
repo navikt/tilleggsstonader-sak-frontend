@@ -5,6 +5,7 @@ import { VStack } from '@navikt/ds-react';
 import { EndreDelvilkår } from './EndreDelvilkår';
 import { useVilkårReiseTilSamling } from '../../../../../context/VilkårReiseTilSamlingContext/VilkårReiseTilSamlingContext';
 import { SvarId } from '../../../../../typer/regel';
+import { hjelpetekstNødvendigeUtgifterTilReiseTilSamling } from '../../../Inngangsvilkår/Aktivitet/Delvilkår/HarBrukerUtgifterTilReiseTilSamling';
 import { initierAktiveDelvilkår } from '../EndreVilkår/utils';
 import { FeilmeldingerReiseTilSamling } from '../EndreVilkår/validering';
 import {
@@ -102,6 +103,36 @@ export const EndreVurderinger: React.FC<Props> = ({
 
     return (
         <VStack gap="space-16">
+            {aktiveVurderinger.get(
+                RegelIdReiseTilSamling.HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING
+            ) && (
+                <EndreDelvilkår
+                    label="Har bruker nødvendige utgifter til reise til samling?"
+                    regelId={RegelIdReiseTilSamling.HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING}
+                    vurdering={vurderinger.HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING}
+                    oppdaterVurdering={oppdaterVurdering}
+                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
+                    svaralternativer={finnSvarMappingForRegel(
+                        RegelIdReiseTilSamling.HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING
+                    )}
+                    feilmeldinger={feilmeldinger}
+                    hjelpetekstHeader="Slik vurderer du om søker har nødvendige utgifter"
+                    hjelpetekst={hjelpetekstNødvendigeUtgifterTilReiseTilSamling}
+                />
+            )}
+            {aktiveVurderinger.get(RegelIdReiseTilSamling.ER_SAMLING_OBLIGATORISK) && (
+                <EndreDelvilkår
+                    label="Er samlingen obligatorisk?"
+                    regelId={RegelIdReiseTilSamling.ER_SAMLING_OBLIGATORISK}
+                    vurdering={vurderinger.ER_SAMLING_OBLIGATORISK}
+                    oppdaterVurdering={oppdaterVurdering}
+                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
+                    svaralternativer={finnSvarMappingForRegel(
+                        RegelIdReiseTilSamling.ER_SAMLING_OBLIGATORISK
+                    )}
+                    feilmeldinger={feilmeldinger}
+                />
+            )}
             {aktiveVurderinger.get(RegelIdReiseTilSamling.AVSTAND_OVER_TRETTI_KM) && (
                 <EndreDelvilkår
                     label="Er reiseavstanden 30 km eller mer?"
@@ -116,32 +147,6 @@ export const EndreVurderinger: React.FC<Props> = ({
                     begrunnelseHjelpetekst="Du må fylle ut antall kilometer som er lagt til grunn for vurderingen"
                 />
             )}
-            {aktiveVurderinger.get(RegelIdReiseTilSamling.DOKUMENTERTE_UTGIFTER) && (
-                <EndreDelvilkår
-                    label="Har søker dokumenterte utgifter til reisen?"
-                    regelId={RegelIdReiseTilSamling.DOKUMENTERTE_UTGIFTER}
-                    vurdering={vurderinger.DOKUMENTERTE_UTGIFTER}
-                    oppdaterVurdering={oppdaterVurdering}
-                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
-                    svaralternativer={finnSvarMappingForRegel(
-                        RegelIdReiseTilSamling.DOKUMENTERTE_UTGIFTER
-                    )}
-                    feilmeldinger={feilmeldinger}
-                />
-            )}
-            {aktiveVurderinger.get(RegelIdReiseTilSamling.DEKKET_AV_ANNET_STIPEND) && (
-                <EndreDelvilkår
-                    label="Er reisen dekket av et annet stipend?"
-                    regelId={RegelIdReiseTilSamling.DEKKET_AV_ANNET_STIPEND}
-                    vurdering={vurderinger.DEKKET_AV_ANNET_STIPEND}
-                    oppdaterVurdering={oppdaterVurdering}
-                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
-                    svaralternativer={finnSvarMappingForRegel(
-                        RegelIdReiseTilSamling.DEKKET_AV_ANNET_STIPEND
-                    )}
-                    feilmeldinger={feilmeldinger}
-                />
-            )}
             {aktiveVurderinger.get(RegelIdReiseTilSamling.KAN_REISE_MED_OFFENTLIG_TRANSPORT) && (
                 <EndreDelvilkår
                     label={'Har søker mulighet til å reise med offentlig transport?'}
@@ -151,6 +156,19 @@ export const EndreVurderinger: React.FC<Props> = ({
                     oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
                     svaralternativer={finnSvarMappingForRegel(
                         RegelIdReiseTilSamling.KAN_REISE_MED_OFFENTLIG_TRANSPORT
+                    )}
+                    feilmeldinger={feilmeldinger}
+                />
+            )}
+            {aktiveVurderinger.get(RegelIdReiseTilSamling.DOKUMENTERTE_UTGIFTER) && (
+                <EndreDelvilkår
+                    label="Har søker dokumenterte utgifter til reisen?"
+                    regelId={RegelIdReiseTilSamling.DOKUMENTERTE_UTGIFTER}
+                    vurdering={vurderinger.DOKUMENTERTE_UTGIFTER}
+                    oppdaterVurdering={oppdaterVurdering}
+                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
+                    svaralternativer={finnSvarMappingForRegel(
+                        RegelIdReiseTilSamling.DOKUMENTERTE_UTGIFTER
                     )}
                     feilmeldinger={feilmeldinger}
                 />

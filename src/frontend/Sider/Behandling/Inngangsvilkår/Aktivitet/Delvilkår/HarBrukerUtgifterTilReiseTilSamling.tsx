@@ -16,13 +16,13 @@ export const HarBrukerUtgifterTilReiseTilSamling: React.FC<{
             oppdaterSvar={(nyttSvar: SvarJaNei) => {
                 oppdaterSvar(nyttSvar);
             }}
-            hjelpetekst={hjelpetekst}
+            hjelpetekst={hjelpetekstNødvendigeUtgifterTilReiseTilSamling}
             hjelpetekstHeader={'Slik vurderer du om søker har nødvendige utgifter'}
         />
     );
 };
 
-const hjelpetekst = (
+export const hjelpetekstNødvendigeUtgifterTilReiseTilSamling = (
     <>
         <BodyShort size={'small'} spacing>
             Personer som deltar i arbeidsrettet utredning, tiltak eller godkjent utdanning anses
