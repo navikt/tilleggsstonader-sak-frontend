@@ -6,6 +6,12 @@ export enum BehandlendeEnhet {
     NAY = 'NAY',
     TILTAKSENHETEN = 'TILTAKSENHETEN',
 }
+
+export const behandlendeEnhetTilTekst: Record<BehandlendeEnhet, string> = {
+    [BehandlendeEnhet.NAY]: 'Nay',
+    [BehandlendeEnhet.TILTAKSENHETEN]: 'Tiltaksenheten',
+};
+
 export enum Stønadstype {
     BARNETILSYN = 'BARNETILSYN',
     LÆREMIDLER = 'LÆREMIDLER',
@@ -37,7 +43,7 @@ export const stønadstypeTilTekst: Record<Stønadstype, string> = {
         'Støtte til reise ved oppstart, avslutning og hjemreise (Tiltaksenheten)',
 };
 
-const stønadstypeTilEnhet: Record<Stønadstype, BehandlendeEnhet> = {
+export const stønadstypeTilEnhet: Record<Stønadstype, BehandlendeEnhet> = {
     [Stønadstype.BARNETILSYN]: BehandlendeEnhet.NAY,
     [Stønadstype.LÆREMIDLER]: BehandlendeEnhet.NAY,
     [Stønadstype.BOUTGIFTER]: BehandlendeEnhet.NAY,

@@ -3,6 +3,10 @@ import React from 'react';
 import { Table } from '@navikt/ds-react';
 
 import { BorderTable } from './VedtaksperioderBorderTable';
+import {
+    behandlendeEnhetTilTekst,
+    stønadstypeTilEnhet,
+} from '../../../typer/behandling/behandlingTema';
 import { DetaljertVedtaksperiodeReiseTilSamling } from '../../../typer/vedtak/vedtaksperiodeOppsummering';
 import { formaterIsoPeriode } from '../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../utils/fomatering';
@@ -21,6 +25,7 @@ export const VedtaksperioderOversiktReiseTilSamling: React.FC<Props> = ({
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell scope="col">Periode</Table.HeaderCell>
+                    <Table.HeaderCell scope="col">Enhet</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Beløp</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
@@ -29,6 +34,9 @@ export const VedtaksperioderOversiktReiseTilSamling: React.FC<Props> = ({
                     <Table.Row key={`${periode.fom}-${periode.tom}-${index}`}>
                         <Table.DataCell>
                             {formaterIsoPeriode(periode.fom, periode.tom)}
+                        </Table.DataCell>
+                        <Table.DataCell>
+                            {behandlendeEnhetTilTekst[stønadstypeTilEnhet[periode.stønadstype]]}
                         </Table.DataCell>
                         <Table.DataCell>
                             {formaterTallMedTusenSkille(periode.beløp)} kr

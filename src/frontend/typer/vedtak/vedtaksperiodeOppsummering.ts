@@ -76,6 +76,7 @@ export interface UtgiftBoutgift {
 }
 
 export type DetaljertVedtaksperiodeReiseTilSamling = {
+    stønadstype: Stønadstype;
     fom: string;
     tom: string;
     beløp: number;
