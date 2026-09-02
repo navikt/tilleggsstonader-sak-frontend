@@ -9,9 +9,11 @@ import Panel from '../../../../komponenter/Panel/Panel';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
 import {
+    vedtakErAvslag,
     vedtakErInnvilgelse,
     VedtakReiseTilSamling,
 } from '../../../../typer/vedtak/vedtakReiseTilSamling';
+import { AvslåVedtak } from '../Felles/AvslåVedtak';
 import { VelgVedtakResultat } from '../Felles/VelgVedtakResultat';
 import { InnvilgelseReiseTilSamlingEllerVedtaksperioderFraForrigeBehandling } from './innvilgeVedtak/InnvilgelseReiseTilSamlingEllerVedtaksperioderFraForrigeBehandling';
 
@@ -34,6 +36,11 @@ export const VedtakOgBeregningReiseTilSamling: React.FC = () => {
                                     typeVedtak={typeVedtak}
                                     settTypeVedtak={settTypeVedtak}
                                 />
+                                {typeVedtak === TypeVedtak.AVSLAG && (
+                                    <AvslåVedtak
+                                        vedtak={vedtakErAvslag(vedtak) ? vedtak : undefined}
+                                    />
+                                )}
                             </HGrid>
                         </Panel>
 
