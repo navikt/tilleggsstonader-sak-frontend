@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Alert, Button, HStack, VStack } from '@navikt/ds-react';
+import { Button, HStack, VStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårDagligReiseTsr } from './Delvilkår/AktivitetDelvilkårDagligReiseTsr';
 import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
@@ -49,12 +49,11 @@ export interface EndreAktivitetFormDagligReiseTsr extends Periode {
 }
 
 const initaliserForm = (
-    tiltaksvariantValg: Kodeverk[],
     eksisterendeAktivitet?: AktivitetDagligReiseTsr,
     aktivitetFraRegister?: Registeraktivitet
 ): EndreAktivitetFormDagligReiseTsr => {
     return eksisterendeAktivitet === undefined
-        ? nyAktivitet(aktivitetFraRegister, tiltaksvariantValg)
+        ? nyAktivitet(aktivitetFraRegister)
         : mapEksisterendeAktivitet(eksisterendeAktivitet);
 };
 
@@ -69,7 +68,7 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
     const { lagreVilkårperiode } = useLagreVilkårperiode();
 
     const [form, settForm] = useState<EndreAktivitetFormDagligReiseTsr>(
-        initaliserForm(tiltaksvariantValg, aktivitet, aktivitetFraRegister)
+        initaliserForm(aktivitet, aktivitetFraRegister)
     );
 
     const [laster, settLaster] = useState<boolean>(false);
@@ -153,15 +152,8 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
 
-    const fantIkkeTiltaksvariant = aktivitetFraRegister && form?.tiltaksvariant === undefined;
-
     return (
         <ResultatOgStatusKort periode={aktivitet} redigeres>
-            {fantIkkeTiltaksvariant && (
-                <Alert variant={'error'}>
-                    {`Klarte ikke å opprette aktivitet med tiltaksvariant "${aktivitetFraRegister.typeNavn}". Ta kontakt med utviklerteamet.`}
-                </Alert>
-            )}
             <VStack gap={'space-16'}>
                 <div className={styles.feltContainer}>
                     <EndreTypeOgDatoer
@@ -211,7 +203,7 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
                 feil={vilkårsperiodeFeil?.begrunnelse}
             />
             <HStack gap="space-16">
-                <Button size="xsmall" onClick={lagre} disabled={fantIkkeTiltaksvariant}>
+                <Button size="xsmall" onClick={lagre}>
                     Lagre
                 </Button>
                 <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
