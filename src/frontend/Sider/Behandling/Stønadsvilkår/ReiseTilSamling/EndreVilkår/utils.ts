@@ -101,11 +101,12 @@ export const finnBegrunnelsestypeForSvar = (
 };
 
 export const tomtSvar: SvarVilkårReiseTilSamling = {
+    HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING: undefined,
     AVSTAND_OVER_TRETTI_KM: undefined,
+    ER_SAMLING_OBLIGATORISK: undefined,
     KAN_REISE_MED_OFFENTLIG_TRANSPORT: undefined,
     DOKUMENTERTE_UTGIFTER: undefined,
     KAN_REISE_MED_EGEN_BIL: undefined,
-    DEKKET_AV_ANNET_STIPEND: undefined,
 };
 
 export const tomtOffentligTransport: FaktaOffentligTransport = {

@@ -8,6 +8,7 @@ import { LesevisningDelvilkår } from './Felles/LesevisningDelvilkår';
 import { LesevisningVilkårKort } from './Felles/LesevisningVilkårKort';
 import { LesevisningVilkårOffentligTransport } from './OffentligTransport/LesevisningVilkårOffentligTransport';
 import { LesevisningVilkårPrivatBil } from './PrivatBil/LesevisningVilkårPrivatBil';
+import { Vilkårsresultat } from '../../../vilkår';
 
 interface VilkårProps {
     vilkår: VilkårReiseTilSamling;
@@ -50,13 +51,25 @@ export const LesevisningVilkårReiseTilSamling: FC<VilkårProps> = ({
         <LesevisningVilkårKort
             vilkår={vilkår}
             redigerVilkårProps={redigerVilkårProps}
-            typeTag={
-                <Tag data-color="danger" size="small">
-                    Vilkår ikke oppfylt
-                </Tag>
-            }
+            typeTag={<TypeTagForResultat resultat={vilkår.resultat} />}
         >
             <LesevisningDelvilkår delvilkårsett={vilkår.delvilkårsett} />
         </LesevisningVilkårKort>
+    );
+};
+
+const TypeTagForResultat: FC<{ resultat: Vilkårsresultat }> = ({ resultat }) => {
+    if (resultat === Vilkårsresultat.IKKE_TATT_STILLING_TIL) {
+        return (
+            <Tag data-color="warning" size="small">
+                Ikke ferdig utfylt
+            </Tag>
+        );
+    }
+
+    return (
+        <Tag data-color="danger" size="small">
+            Vilkår ikke oppfylt
+        </Tag>
     );
 };

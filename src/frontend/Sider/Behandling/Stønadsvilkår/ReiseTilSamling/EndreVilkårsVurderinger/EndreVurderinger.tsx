@@ -102,6 +102,21 @@ export const EndreVurderinger: React.FC<Props> = ({
 
     return (
         <VStack gap="space-16">
+            {aktiveVurderinger.get(
+                RegelIdReiseTilSamling.HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING
+            ) && (
+                <EndreDelvilkår
+                    label="Har bruker nødvendige utgifter til reise til samling?"
+                    regelId={RegelIdReiseTilSamling.HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING}
+                    vurdering={vurderinger.HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING}
+                    oppdaterVurdering={oppdaterVurdering}
+                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
+                    svaralternativer={finnSvarMappingForRegel(
+                        RegelIdReiseTilSamling.HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING
+                    )}
+                    feilmeldinger={feilmeldinger}
+                />
+            )}
             {aktiveVurderinger.get(RegelIdReiseTilSamling.AVSTAND_OVER_TRETTI_KM) && (
                 <EndreDelvilkår
                     label="Er reiseavstanden 30 km eller mer?"
@@ -116,35 +131,22 @@ export const EndreVurderinger: React.FC<Props> = ({
                     begrunnelseHjelpetekst="Du må fylle ut antall kilometer som er lagt til grunn for vurderingen"
                 />
             )}
-            {aktiveVurderinger.get(RegelIdReiseTilSamling.DOKUMENTERTE_UTGIFTER) && (
+            {aktiveVurderinger.get(RegelIdReiseTilSamling.ER_SAMLING_OBLIGATORISK) && (
                 <EndreDelvilkår
-                    label="Har søker dokumenterte utgifter til reisen?"
-                    regelId={RegelIdReiseTilSamling.DOKUMENTERTE_UTGIFTER}
-                    vurdering={vurderinger.DOKUMENTERTE_UTGIFTER}
+                    label="Er samlingen obligatorisk?"
+                    regelId={RegelIdReiseTilSamling.ER_SAMLING_OBLIGATORISK}
+                    vurdering={vurderinger.ER_SAMLING_OBLIGATORISK}
                     oppdaterVurdering={oppdaterVurdering}
                     oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
                     svaralternativer={finnSvarMappingForRegel(
-                        RegelIdReiseTilSamling.DOKUMENTERTE_UTGIFTER
-                    )}
-                    feilmeldinger={feilmeldinger}
-                />
-            )}
-            {aktiveVurderinger.get(RegelIdReiseTilSamling.DEKKET_AV_ANNET_STIPEND) && (
-                <EndreDelvilkår
-                    label="Er reisen dekket av et annet stipend?"
-                    regelId={RegelIdReiseTilSamling.DEKKET_AV_ANNET_STIPEND}
-                    vurdering={vurderinger.DEKKET_AV_ANNET_STIPEND}
-                    oppdaterVurdering={oppdaterVurdering}
-                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
-                    svaralternativer={finnSvarMappingForRegel(
-                        RegelIdReiseTilSamling.DEKKET_AV_ANNET_STIPEND
+                        RegelIdReiseTilSamling.ER_SAMLING_OBLIGATORISK
                     )}
                     feilmeldinger={feilmeldinger}
                 />
             )}
             {aktiveVurderinger.get(RegelIdReiseTilSamling.KAN_REISE_MED_OFFENTLIG_TRANSPORT) && (
                 <EndreDelvilkår
-                    label={'Har søker mulighet til å reise med offentlig transport?'}
+                    label={'Har bruker mulighet til å reise med offentlig transport?'}
                     regelId={RegelIdReiseTilSamling.KAN_REISE_MED_OFFENTLIG_TRANSPORT}
                     vurdering={vurderinger.KAN_REISE_MED_OFFENTLIG_TRANSPORT}
                     oppdaterVurdering={oppdaterVurdering}
@@ -155,9 +157,22 @@ export const EndreVurderinger: React.FC<Props> = ({
                     feilmeldinger={feilmeldinger}
                 />
             )}
+            {aktiveVurderinger.get(RegelIdReiseTilSamling.DOKUMENTERTE_UTGIFTER) && (
+                <EndreDelvilkår
+                    label="Har bruker dokumenterte utgifter til reisen?"
+                    regelId={RegelIdReiseTilSamling.DOKUMENTERTE_UTGIFTER}
+                    vurdering={vurderinger.DOKUMENTERTE_UTGIFTER}
+                    oppdaterVurdering={oppdaterVurdering}
+                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
+                    svaralternativer={finnSvarMappingForRegel(
+                        RegelIdReiseTilSamling.DOKUMENTERTE_UTGIFTER
+                    )}
+                    feilmeldinger={feilmeldinger}
+                />
+            )}
             {aktiveVurderinger.get(RegelIdReiseTilSamling.KAN_REISE_MED_EGEN_BIL) && (
                 <EndreDelvilkår
-                    label={'Kan søker benytte seg av privat bil?'}
+                    label={'Kan bruker benytte seg av privat bil?'}
                     regelId={RegelIdReiseTilSamling.KAN_REISE_MED_EGEN_BIL}
                     vurdering={vurderinger.KAN_REISE_MED_EGEN_BIL}
                     oppdaterVurdering={oppdaterVurdering}
