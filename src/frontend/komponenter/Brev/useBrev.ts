@@ -24,6 +24,10 @@ function stønadstypeTilSanityYtelse(ytelse: Stønadstype) {
             return 'DAGLIG_REISE_TSO';
         case Stønadstype.DAGLIG_REISE_TSR:
             return 'DAGLIG_REISE_TSR';
+        case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
+            return 'REISE_OPPSTART_AVSLUTNING_HJEMREISER_TSO';
+        case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
+            return 'REISE_OPPSTART_AVSLUTNING_HJEMREISER_TSR';
         default:
             return 'ikke-definiert';
     }
