@@ -146,7 +146,7 @@ export const EndreVurderinger: React.FC<Props> = ({
             )}
             {aktiveVurderinger.get(RegelIdReiseTilSamling.KAN_REISE_MED_OFFENTLIG_TRANSPORT) && (
                 <EndreDelvilkår
-                    label={'Har søker mulighet til å reise med offentlig transport?'}
+                    label={'Har bruker mulighet til å reise med offentlig transport?'}
                     regelId={RegelIdReiseTilSamling.KAN_REISE_MED_OFFENTLIG_TRANSPORT}
                     vurdering={vurderinger.KAN_REISE_MED_OFFENTLIG_TRANSPORT}
                     oppdaterVurdering={oppdaterVurdering}
@@ -159,7 +159,7 @@ export const EndreVurderinger: React.FC<Props> = ({
             )}
             {aktiveVurderinger.get(RegelIdReiseTilSamling.DOKUMENTERTE_UTGIFTER) && (
                 <EndreDelvilkår
-                    label="Har søker dokumenterte utgifter til reisen?"
+                    label="Har bruker dokumenterte utgifter til reisen?"
                     regelId={RegelIdReiseTilSamling.DOKUMENTERTE_UTGIFTER}
                     vurdering={vurderinger.DOKUMENTERTE_UTGIFTER}
                     oppdaterVurdering={oppdaterVurdering}
@@ -172,7 +172,7 @@ export const EndreVurderinger: React.FC<Props> = ({
             )}
             {aktiveVurderinger.get(RegelIdReiseTilSamling.KAN_REISE_MED_EGEN_BIL) && (
                 <EndreDelvilkår
-                    label={'Kan søker benytte seg av privat bil?'}
+                    label={'Kan bruker benytte seg av privat bil?'}
                     regelId={RegelIdReiseTilSamling.KAN_REISE_MED_EGEN_BIL}
                     vurdering={vurderinger.KAN_REISE_MED_EGEN_BIL}
                     oppdaterVurdering={oppdaterVurdering}
