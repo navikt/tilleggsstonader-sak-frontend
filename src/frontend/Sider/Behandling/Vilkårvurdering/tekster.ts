@@ -46,6 +46,9 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     DOKUMENTERTE_UTGIFTER: 'Har søker dokumenterte utgifter til reisen?',
     DEKKET_AV_ANNET_STIPEND: 'Er reisen dekket av et annet stipend?',
     KAN_REISE_MED_EGEN_BIL: 'Kan søker benytte seg av privat bil?',
+    HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING:
+        'Har søker nødvendige utgifter til reise til samling?',
+    ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
@@ -70,6 +73,8 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     DOKUMENTERTE_UTGIFTER: 'Dokumenterte utgifter til reisen?',
     DEKKET_AV_ANNET_STIPEND: 'Dekket av annet stipend?',
     KAN_REISE_MED_EGEN_BIL: 'Kan benytte privat bil?',
+    HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING: 'Har nødvendige utgifter?',
+    ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {
