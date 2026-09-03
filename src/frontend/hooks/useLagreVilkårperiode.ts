@@ -4,6 +4,8 @@ import { EndreAktivitetFormDagligReiseTso } from '../Sider/Behandling/Inngangsvi
 import { EndreAktivitetFormDagligReiseTsr } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetDagligReiseTsr';
 import { EndreAktivitetFormLæremidler } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetLæremidler';
 import { EndreAktivitetFormPassAvBarn } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetPassAvBarn';
+import { EndreAktivitetFormReiseTilSamlingTso } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetReiseTilSamlingTso';
+import { EndreAktivitetFormReiseTilSamlingTsr } from '../Sider/Behandling/Inngangsvilkår/Aktivitet/EndreAktivitetReiseTilSamlingTsr';
 import { EndreMålgruppeForm } from '../Sider/Behandling/Inngangsvilkår/Målgruppe/EndreMålgruppe';
 import {
     Aktivitet,
@@ -36,7 +38,9 @@ type VilkårperiodeForm =
     | EndreAktivitetFormLæremidler
     | EndreAktivitetFormBoutgifter
     | EndreAktivitetFormDagligReiseTso
-    | EndreAktivitetFormDagligReiseTsr;
+    | EndreAktivitetFormDagligReiseTsr
+    | EndreAktivitetFormReiseTilSamlingTso
+    | EndreAktivitetFormReiseTilSamlingTsr;
 
 export const useLagreVilkårperiode = () => {
     const { request } = useApp();
