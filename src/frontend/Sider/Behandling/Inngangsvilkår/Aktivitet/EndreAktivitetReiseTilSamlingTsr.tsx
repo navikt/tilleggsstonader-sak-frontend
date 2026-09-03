@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Alert, Button, HStack, VStack } from '@navikt/ds-react';
+import { Button, HStack, VStack } from '@navikt/ds-react';
 
 import { AktivitetDelvilkårReiseTilSamlingTsr } from './Delvilkår/AktivitetDelvilkårReiseTilSamlingTsr';
 import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
@@ -25,7 +25,7 @@ import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKo
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
-import { Kodeverk, kodeverkTilOptions } from '../../../../typer/kodeverk';
+import { Kodeverk, kodeverkTilOptionsMedGjeldendeValgt } from '../../../../typer/kodeverk';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
@@ -51,12 +51,11 @@ export interface EndreAktivitetFormReiseTilSamlingTsr extends Periode {
 }
 
 const initaliserForm = (
-    tiltaksvariantValg: Kodeverk[],
     eksisterendeAktivitet?: AktivitetReiseTilSamlingTsr,
     aktivitetFraRegister?: Registeraktivitet
 ): EndreAktivitetFormReiseTilSamlingTsr => {
     return eksisterendeAktivitet === undefined
-        ? nyAktivitet(aktivitetFraRegister, tiltaksvariantValg)
+        ? nyAktivitet(aktivitetFraRegister)
         : mapEksisterendeAktivitet(eksisterendeAktivitet);
 };
 
@@ -71,7 +70,7 @@ export const EndreAktivitetReiseTilSamlingTsr: React.FC<{
     const { lagreVilkårperiode } = useLagreVilkårperiode();
 
     const [form, settForm] = useState<EndreAktivitetFormReiseTilSamlingTsr>(
-        initaliserForm(tiltaksvariantValg, aktivitet, aktivitetFraRegister)
+        initaliserForm(aktivitet, aktivitetFraRegister)
     );
 
     const [laster, settLaster] = useState<boolean>(false);
@@ -157,15 +156,8 @@ export const EndreAktivitetReiseTilSamlingTsr: React.FC<{
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
 
-    const fantIkkeTiltaksvariant = aktivitetFraRegister && form?.tiltaksvariant === undefined;
-
     return (
         <ResultatOgStatusKort periode={aktivitet} redigeres>
-            {fantIkkeTiltaksvariant && (
-                <Alert variant={'error'}>
-                    {`Klarte ikke å opprette aktivitet med tiltaksvariant "${aktivitetFraRegister.typeNavn}". Ta kontakt med utviklerteamet.`}
-                </Alert>
-            )}
             <VStack gap={'space-16'}>
                 <div className={styles.feltContainer}>
                     <EndreTypeOgDatoer
@@ -174,7 +166,10 @@ export const EndreAktivitetReiseTilSamlingTsr: React.FC<{
                         oppdaterPeriode={oppdaterForm}
                         oppdaterTiltaksvariant={oppdaterTiltaksvariant}
                         typeOptions={valgbareAktivitetTyper(Stønadstype.REISE_TIL_SAMLING_TSR)}
-                        tiltaksvariantOptions={kodeverkTilOptions(tiltaksvariantValg)}
+                        tiltaksvariantOptions={kodeverkTilOptionsMedGjeldendeValgt(
+                            tiltaksvariantValg,
+                            form.tiltaksvariant
+                        )}
                         formFeil={vilkårsperiodeFeil}
                         kanEndreTiltaksvariant={
                             aktivitet === undefined && !aktivitetErBruktFraSystem
@@ -224,7 +219,7 @@ export const EndreAktivitetReiseTilSamlingTsr: React.FC<{
                 feil={vilkårsperiodeFeil?.begrunnelse}
             />
             <HStack gap="space-16">
-                <Button size="xsmall" onClick={lagre} disabled={fantIkkeTiltaksvariant}>
+                <Button size="xsmall" onClick={lagre}>
                     Lagre
                 </Button>
                 <Button onClick={avbrytRedigering} variant="secondary" size="xsmall">
