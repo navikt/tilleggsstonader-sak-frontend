@@ -179,9 +179,9 @@ export const UkeInnhold: FC<{
                     ))}
                 </div>
             </div>
-            {uke.avvik && (
+            {uke.avvik.length > 0 && (
                 <InlineMessage size="small" status="error">
-                    {typeAvvikTilTekst[uke.avvik.typeAvvik]}
+                    {uke.avvik.map((avvik) => typeAvvikTilTekst[avvik]).join(', ')}
                 </InlineMessage>
             )}
             <Feilmelding feil={feilVedLagring} />
