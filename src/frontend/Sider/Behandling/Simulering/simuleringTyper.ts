@@ -1,3 +1,5 @@
+import { Stønadstype } from '../../../typer/behandling/behandlingTema';
+
 export interface SimuleringResponse {
     perioder: OppsummeringForPeriode[] | null;
     ingenEndringIUtbetaling: boolean;
@@ -18,4 +20,16 @@ export interface OppsummeringForPeriode {
     nyUtbetaling: number;
     totalEtterbetaling: number;
     totalFeilutbetaling: number;
+    beløpFraAndreStønadstyper: BeløpForStønadstype[];
+    beløpFraUkjentKilde: BeløpFraUkjentKilde[];
+}
+
+export interface BeløpForStønadstype {
+    stønadstype: Stønadstype;
+    beløp: number;
+}
+
+export interface BeløpFraUkjentKilde {
+    kilde: string;
+    beløp: number;
 }
