@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
+import { OverlappendeKjørelisterAlert } from './OverlappendeKjørelisterAlert';
 import { ReiseKort } from './ReiseKort';
 import {
     SorterKjørelisteKnapp,
@@ -54,6 +55,8 @@ const FaneInnhold: React.FC<{ reisevurderingerResponse: ReisevurderingPrivatBil[
 
     return (
         <VStack gap="space-24">
+            <OverlappendeKjørelisterAlert reisevurderinger={sorterteReisevurderinger} />
+
             {sorterteReisevurderinger.length > 1 && (
                 <SorterKjørelisteKnapp sortering={sortering} settSortering={settSortering} />
             )}
