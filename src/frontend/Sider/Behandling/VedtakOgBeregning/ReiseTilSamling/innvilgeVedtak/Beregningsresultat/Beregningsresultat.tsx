@@ -4,10 +4,10 @@ import { VStack } from '@navikt/ds-react';
 
 import { BeregningOffentligTransport } from './OffentligTransport';
 import { BeregningPrivatBil } from './PrivatBil';
-import { BeregningReiseTilSamling } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
+import { BeregningResultatReiseTilSamling } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
 
 interface Props {
-    beregningsresultat?: BeregningReiseTilSamling;
+    beregningsresultat?: BeregningResultatReiseTilSamling;
 }
 
 export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
