@@ -17,7 +17,7 @@ import { BeregningsplanOmfang } from '../../../../../typer/vedtak/beregningsplan
 import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import {
-    BeregningReiseTilSamling,
+    BeregningResultatReiseTilSamling,
     BeregnReiseTilSamlingRequest,
     InnvilgelseReiseTilSamling,
     InnvilgeReiseTilSamlingRequest,
@@ -53,7 +53,7 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
     const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<Feil>();
 
     const [beregningsresultat, settBeregningsresultat] =
-        useState(byggTomRessurs<BeregningReiseTilSamling>());
+        useState(byggTomRessurs<BeregningResultatReiseTilSamling>());
     const [erVedtaksperioderBeregnet, settErVedtaksperioderBeregnet] = useState(false);
     const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
 
@@ -93,7 +93,7 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
         if (kanSendeInn) {
             settBeregningsresultat(byggHenterRessurs());
             const url = `/api/sak/vedtak/reise-til-samling/${behandling.id}/tso/beregn`;
-            request<BeregningReiseTilSamling, BeregnReiseTilSamlingRequest>(url, 'POST', {
+            request<BeregningResultatReiseTilSamling, BeregnReiseTilSamlingRequest>(url, 'POST', {
                 vedtaksperioder,
             }).then((result) => {
                 settBeregningsresultat(result);
