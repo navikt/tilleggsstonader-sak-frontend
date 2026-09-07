@@ -46,6 +46,15 @@ export const LesevisningFaktaPrivatBil: FC<{
                 </BodyShort>
             </HStack>
 
+            <HStack justify={'space-between'}>
+                <BodyShort size="small">{'Piggdekkavgift'}</BodyShort>
+                <BodyShort size="small">
+                    {fakta?.piggdekkavgift
+                        ? `${formaterTallMedTusenSkilleEllerStrek(fakta.piggdekkavgift)} kr`
+                        : '-'}
+                </BodyShort>
+            </HStack>
+
             {fakta?.aktivitetId && (
                 <HStack justify={'space-between'}>
                     <BodyShort size="small">{'Aktivitet'}</BodyShort>

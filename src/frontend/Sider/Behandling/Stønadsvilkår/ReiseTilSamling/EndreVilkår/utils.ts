@@ -124,4 +124,5 @@ export const tomtPrivatBil: FaktaPrivatBil = {
     bompenger: undefined,
     fergekostnad: undefined,
     parkering: undefined,
+    piggdekkavgift: undefined,
 };

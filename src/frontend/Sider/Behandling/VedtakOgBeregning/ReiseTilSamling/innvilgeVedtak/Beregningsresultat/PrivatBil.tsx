@@ -32,6 +32,7 @@ export const BeregningPrivatBil: FC<Props> = ({ beregningsresultat }) => {
                         <TableHeaderCellSmall>Bompenger</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Fergekostnad</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Parkering</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Piggdekkavgift</TableHeaderCellSmall>
                         <TableHeaderCellSmall align="right">Stønadsbeløp</TableHeaderCellSmall>
                     </Table.Row>
                 </Table.Header>
@@ -52,6 +53,9 @@ export const BeregningPrivatBil: FC<Props> = ({ beregningsresultat }) => {
                             </TableDataCellSmall>
                             <TableDataCellSmall>
                                 {kronerMedTusenSkilleEllerStrek(samling.parkering)}
+                            </TableDataCellSmall>
+                            <TableDataCellSmall>
+                                {kronerMedTusenSkilleEllerStrek(samling.piggdekkavgift)}
                             </TableDataCellSmall>
                             <TableDataCellSmall align="right">
                                 {kronerMedTusenSkilleEllerStrek(samling.beløp)}
