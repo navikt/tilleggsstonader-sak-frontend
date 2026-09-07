@@ -32,4 +32,5 @@ export enum Toggle {
     KAN_OPPRETTE_MANUELL_KJØRELISTEBEHANDLING = 'sak.frontend.kan-opprette-manuell-kjorelistebehandling',
     KAN_BEHANDLE_REISE_TIL_SAMLING = 'sak.reise-til-samling',
     KAN_BEHANDLE_FLYTTING = 'sak.flytting',
+    VIS_BELØP_FRA_ANDRE_STØNADSTYPER_I_SIMULERING = 'sak.frontend.vis-belop-fra-andre-stonadstyper-i-simulering',
 }
