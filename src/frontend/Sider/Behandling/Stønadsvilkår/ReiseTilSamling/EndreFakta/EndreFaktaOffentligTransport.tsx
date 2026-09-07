@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Select, VStack, HStack } from '@navikt/ds-react';
+import { Select, VStack, HStack, Textarea } from '@navikt/ds-react';
 
 import TextField from '../../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
@@ -30,7 +30,10 @@ export const EndreFaktaOffentligTransport: React.FC<{
     gjelderTsr,
     oppfylteAktiviteter,
 }) => {
-    const oppdaterFakta = (key: keyof FaktaOffentligTransport, verdi: number | undefined) => {
+    const oppdaterFakta = (
+        key: keyof FaktaOffentligTransport,
+        verdi: number | string | undefined
+    ) => {
         settFakta((prevState) => ({
             ...(prevState.type === 'OFFENTLIG_TRANSPORT' ? prevState : tomtOffentligTransport),
             [key]: verdi,
@@ -88,6 +91,18 @@ export const EndreFaktaOffentligTransport: React.FC<{
                                 'utgifterOffentligTransport',
                                 tilHeltall(fjernSpaces(e.target.value))
                             );
+                        }}
+                    />
+                </FeilmeldingMaksBredde>
+                <FeilmeldingMaksBredde $maxWidth={300}>
+                    <Textarea
+                        label={'Spesifikasjon av utgift (obligatorisk)'}
+                        description="Beskriv utregningen for utgiften"
+                        size="small"
+                        error={feilmeldinger?.spesifikasjonAvUtgift}
+                        value={fakta.begrunnelse || ''}
+                        onChange={(e) => {
+                            oppdaterFakta('begrunnelse', e.target.value || undefined);
                         }}
                     />
                 </FeilmeldingMaksBredde>

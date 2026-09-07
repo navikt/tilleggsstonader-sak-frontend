@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Select, VStack, HStack } from '@navikt/ds-react';
+import { Select, VStack, HStack, Textarea } from '@navikt/ds-react';
 
 import TextField from '../../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
@@ -99,6 +99,18 @@ export const EndreFaktaPrivatBil: React.FC<{
                         value={harTallverdi(fakta.parkering) ? fakta.parkering : ''}
                         onChange={(e) => {
                             oppdaterFakta('parkering', tilTallverdi(fjernSpaces(e.target.value)));
+                        }}
+                    />
+                </FeilmeldingMaksBredde>
+                <FeilmeldingMaksBredde $maxWidth={300}>
+                    <Textarea
+                        label={'Spesifikasjon av utgift (obligatorisk)'}
+                        description="Beskriv utregningen for utgiften"
+                        size="small"
+                        error={feilmeldinger?.spesifikasjonAvUtgift}
+                        value={fakta.begrunnelse || ''}
+                        onChange={(e) => {
+                            oppdaterFakta('begrunnelse', e.target.value || undefined);
                         }}
                     />
                 </FeilmeldingMaksBredde>
