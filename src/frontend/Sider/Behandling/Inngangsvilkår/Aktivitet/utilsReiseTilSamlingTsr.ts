@@ -13,12 +13,9 @@ import {
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyAktivitet = (
-    aktivitetFraRegister: Registeraktivitet | undefined,
-    tiltaksvariantValg: Kodeverk[]
+    aktivitetFraRegister: Registeraktivitet | undefined
 ): EndreAktivitetFormReiseTilSamlingTsr =>
-    aktivitetFraRegister
-        ? nyAktivitetFraRegister(aktivitetFraRegister, tiltaksvariantValg)
-        : nyTomAktivitet();
+    aktivitetFraRegister ? nyAktivitetFraRegister(aktivitetFraRegister) : nyTomAktivitet();
 
 export const mapEksisterendeAktivitet = (
     eksisterendeAktivitet: AktivitetReiseTilSamlingTsr
@@ -27,26 +24,25 @@ export const mapEksisterendeAktivitet = (
 });
 
 function nyAktivitetFraRegister(
-    aktivitetFraRegister: Registeraktivitet,
-    tiltaksvariantValg: Kodeverk[]
+    aktivitetFraRegister: Registeraktivitet
 ): EndreAktivitetFormReiseTilSamlingTsr {
     return {
         type: aktivitetFraRegister.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK,
-        tiltaksvariant: finnTiltaksvariantForRegisterAktivitet(
-            aktivitetFraRegister,
-            tiltaksvariantValg
-        ),
+        tiltaksvariant: tiltaksvariantForRegisterAktivitet(aktivitetFraRegister),
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
         kildeId: aktivitetFraRegister.id,
     };
 }
 
-function finnTiltaksvariantForRegisterAktivitet(
-    registerAktivitet: Registeraktivitet,
-    tiltaksvariantValg: Kodeverk[]
-) {
-    return tiltaksvariantValg.find((valg) => valg.beskrivelse === registerAktivitet.typeNavn);
+/**
+ * Aktiviteter fra Arena har alltid en tiltaksvariant (type/typeNavn). Denne kan brukes direkte som
+ * tiltaksvariant på aktiviteten, selv om varianten ikke finnes i det reduserte utvalget som vises i
+ * dropdownen for manuelt tillagte aktiviteter (`tiltaksvariantValg`). En tiltaksvariant som ikke er
+ * mappet til en utbetalingstype vil ikke kunne innvilges med, man skal kunne velges i tilfelle avslag.
+ */
+function tiltaksvariantForRegisterAktivitet(registerAktivitet: Registeraktivitet): Kodeverk {
+    return { kode: registerAktivitet.type, beskrivelse: registerAktivitet.typeNavn };
 }
 
 export function finnTiltaksvariantForKode(kode: string, tiltaksvariantValg: Kodeverk[]) {
