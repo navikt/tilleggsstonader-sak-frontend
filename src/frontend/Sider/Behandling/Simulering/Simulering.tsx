@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import { Button } from '@navikt/ds-react';
 
 import styles from './Simulering.module.css';
 import { Simuleringsresultat } from './Simuleringsresultat';
 import { useBehandling } from '../../../context/BehandlingContext';
+import { useSteg } from '../../../context/StegContext';
 import { useVedtak } from '../../../hooks/useVedtak';
 import DataViewer from '../../../komponenter/DataViewer';
 import { BehandlingResultat } from '../../../typer/behandling/behandlingResultat';
 import { BehandlingStatus } from '../../../typer/behandling/behandlingStatus';
 
 export const Simulering: React.FC = () => {
+    const navigate = useNavigate();
     const { vedtak } = useVedtak();
     const { behandling, hentBehandling } = useBehandling();
-
+    const { nesteFanePath } = useSteg();
     const [laster, settLaster] = useState(false);
-
-    const gåTilNesteSteg = () => {
-        settLaster(true);
-        hentBehandling.rerun();
-    };
 
     return (
         <div className={styles.container}>
@@ -34,7 +33,11 @@ export const Simulering: React.FC = () => {
                         disabled={laster}
                         loading={laster}
                         onClick={() => {
-                            gåTilNesteSteg();
+                            settLaster(true);
+                            hentBehandling.rerun();
+                            navigate(`/behandling/${behandling.id}/${nesteFanePath}`, {
+                                replace: true,
+                            });
                         }}
                     >
                         Neste
