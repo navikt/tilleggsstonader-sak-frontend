@@ -40,6 +40,7 @@ export interface BeregningsresultatPrivatBil {
     bompenger?: number;
     fergekostnad?: number;
     parkering?: number;
+    piggdekkavgift?: number;
     beløp: number;
 }
 export type InnvilgeReiseTilSamlingRequest = {
