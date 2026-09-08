@@ -14,12 +14,12 @@ export const [StegProvider, useSteg] = constate(
     ({ fane, behandling, behandlingErRedigerbar, behandlingFaner }: Props) => {
         const erISteg = behandling.steg === faneTilSteg[fane];
         const indeksForAktivFane = behandlingFaner.findIndex((faneInfo) => faneInfo.path === fane);
-        const nesteFane = behandlingFaner[indeksForAktivFane + 1]!;
+        const nesteFane = behandlingFaner.at(indeksForAktivFane + 1);
         const erStegRedigerbart = erISteg && behandlingErRedigerbar;
 
         return {
             erStegRedigerbart,
-            nesteFanePath: nesteFane.path,
+            nesteFanePath: nesteFane?.path,
         };
     }
 );

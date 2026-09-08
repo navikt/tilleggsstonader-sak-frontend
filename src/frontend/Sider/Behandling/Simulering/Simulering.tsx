@@ -35,9 +35,11 @@ export const Simulering: React.FC = () => {
                         onClick={() => {
                             settLaster(true);
                             hentBehandling.rerun();
-                            navigate(`/behandling/${behandling.id}/${nesteFanePath}`, {
-                                replace: true,
-                            });
+                            if (nesteFanePath) {
+                                navigate(`/behandling/${behandling.id}/${nesteFanePath}`, {
+                                    replace: true,
+                                });
+                            }
                         }}
                     >
                         Neste
