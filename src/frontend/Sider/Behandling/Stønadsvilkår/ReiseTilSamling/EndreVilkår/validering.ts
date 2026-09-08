@@ -1,6 +1,6 @@
 import { finnBegrunnelsestypeForSvar } from './utils';
 import { BegrunnelseRegel } from '../../../../../typer/regel';
-import { Periode } from '../../../../../utils/periode';
+import { Periode, validerPeriode } from '../../../../../utils/periode';
 import { harVerdi } from '../../../../../utils/utils';
 import {
     erFaktaOffentligTransport,
@@ -56,18 +56,20 @@ export const validerVilkår = (
     periode: Periode,
     adresse: string | undefined,
     svar: SvarVilkårReiseTilSamling,
-    fakta: FaktaReiseTilSamling | undefined,
+    fakta: FaktaReiseTilSamling,
     regelstruktur: RegelstrukturReiseTilSamling,
     gjelderTsr: boolean
 ): FeilmeldingerReiseTilSamling => {
+    const periodeValidering = validerPeriode(periode);
     const adresseValidering = validerAdresse(adresse);
     const faktaValidering = validerFakta(fakta, gjelderTsr);
     const svarValidering = validerSvar(svar, regelstruktur);
 
     return {
+        ...periodeValidering,
         ...adresseValidering,
         ...svarValidering,
-        ...faktaValidering,
+        ...{ fakta: faktaValidering },
     };
 };
 
@@ -150,13 +152,14 @@ const validerFaktaPrivatBil = (
 };
 
 const validerFakta = (
-    fakta: FaktaReiseTilSamling | undefined,
+    fakta: FaktaReiseTilSamling,
     gjelderTsr: boolean
 ): FeilmeldingerFaktaOffentligTransport | FeilmeldingerFaktaPrivatBil => {
-    if (fakta && erFaktaOffentligTransport(fakta)) {
+    if (erFaktaOffentligTransport(fakta)) {
         return validerFaktaOffentligTransport(fakta, gjelderTsr);
     }
-    if (fakta && erFaktaPrivatBil(fakta)) {
+
+    if (erFaktaPrivatBil(fakta)) {
         return validerFaktaPrivatBil(fakta, gjelderTsr);
     }
 

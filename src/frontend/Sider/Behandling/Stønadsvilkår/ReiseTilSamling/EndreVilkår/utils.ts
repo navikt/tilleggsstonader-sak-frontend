@@ -1,5 +1,6 @@
 import { BegrunnelseRegel, SvarId } from '../../../../../typer/regel';
 import {
+    FaktaReiseTilSamling,
     FaktaOffentligTransport,
     FaktaPrivatBil,
     typeReiseTilSamlingTilTypeVilkårFakta,
@@ -86,6 +87,16 @@ export const initierGjeldendeFaktaType = (
         return 'REISE_TIL_SAMLING_UBESTEMT';
     }
     return typeReiseTilSamlingTilTypeVilkårFakta[vilkår.fakta.type];
+};
+
+export const tomFaktaForType = (type: TypeVilkårFakta): FaktaReiseTilSamling => {
+    if (type === 'REISE_TIL_SAMLING_OFFENTLIG_TRANSPORT') {
+        return { ...tomtOffentligTransport };
+    }
+    if (type === 'REISE_TIL_SAMLING_PRIVAT_BIL') {
+        return { ...tomtPrivatBil };
+    }
+    return { type: 'UBESTEMT' as const };
 };
 export const finnBegrunnelsestypeForSvar = (
     svaralternativer: SvarAlternativ[],

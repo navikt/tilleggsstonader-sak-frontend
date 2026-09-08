@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { Select, VStack, HStack, Textarea } from '@navikt/ds-react';
+import { Select, VStack, HStack } from '@navikt/ds-react';
 
+import { SpesifikasjonAvUtgift } from './SpesifikasjonAvUtgift';
 import TextField from '../../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
@@ -103,15 +104,10 @@ export const EndreFaktaPrivatBil: React.FC<{
                     />
                 </FeilmeldingMaksBredde>
                 <FeilmeldingMaksBredde $maxWidth={300}>
-                    <Textarea
-                        label={'Spesifikasjon av utgift (obligatorisk)'}
-                        description="Beskriv utregningen for utgiften"
-                        size="small"
-                        error={feilmeldinger?.spesifikasjonAvUtgift}
+                    <SpesifikasjonAvUtgift
                         value={fakta.begrunnelse || ''}
-                        onChange={(e) => {
-                            oppdaterFakta('begrunnelse', e.target.value || undefined);
-                        }}
+                        error={feilmeldinger?.spesifikasjonAvUtgift}
+                        onChange={(value) => oppdaterFakta('begrunnelse', value || undefined)}
                     />
                 </FeilmeldingMaksBredde>
                 {gjelderTsr && (
