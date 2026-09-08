@@ -5,6 +5,7 @@ import {
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { VedtakResponse } from '../../../typer/vedtak/vedtak';
+import { BeregningResultatReiseTilSamling } from '../../../typer/vedtak/vedtakReiseTilSamling';
 import { formaterIsoPeriodeMedTankestrek } from '../../../utils/dato';
 import { kronerMedTusenSkilleEllerStrek } from '../../../utils/tekstformatering';
 
@@ -25,6 +26,10 @@ export function lagVedtakstabellPrivatBil(
             return lagVedtakstabellDagligReisePrivatBil(oppsummertBeregningPrivatBil);
         case Stønadstype.DAGLIG_REISE_TSR:
             return lagVedtakstabellDagligReisePrivatBil(oppsummertBeregningPrivatBil);
+        case Stønadstype.REISE_TIL_SAMLING_TSO:
+            return lagVedtakstabellReiseTilSamlingPrivatBil(
+                vedtak.beregningsresultat as BeregningResultatReiseTilSamling
+            );
         default:
             return '';
     }
