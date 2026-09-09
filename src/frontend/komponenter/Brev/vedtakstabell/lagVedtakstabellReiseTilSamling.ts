@@ -81,17 +81,18 @@ function lagVedtakstabellReiseTilSamlingPrivatBilPerSamling(
 
     return `
         <p style="margin-bottom:2px;font-weight:500;">Reise til samling med privat bil til <strong>${samling.adresse ?? '-'}</strong>:</p>
-        <table style="border-collapse:collapse;border:1px solid #b0b0b0;width:100%;margin:0;">
-            <thead>
-                <tr>
-                    <th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:left;">Periode</th>
-                    ${harBompengeutgifter ? '<th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:right;">Bompenger</th>' : ''}
-                    ${harFergekostnader ? '<th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:right;">Fergekostnad</th>' : ''}
-                    <th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:right;">Parkeringskostnad</th>
-                    <th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:right;">Stønadsbeløp</th>
-                </tr>
-            </thead>
-            <tbody>${rader}</tbody>
-        </table>
+        <table style="border-collapse: collapse; width: 100%; margin: 0;">
+            <table style="border-collapse: collapse; width: 100%; margin: 0; ${borderStylingCompact}">
+    <thead>
+        <tr>
+            <th style="width: 170px; ${borderStylingCompact}">Periode</th>
+            ${harBompengeutgifter ? `<th style="width: 130px; ${borderStylingCompact}">Bompenger</th>` : ''}
+            ${harFergekostnader ? `<th style="width: 130px; ${borderStylingCompact}">Fergekostnad</th>` : ''}
+            <th style="width: 130px; ${borderStylingCompact}">Parkeringskostnad</th>
+            <th style="width: 130px; ${borderStylingCompact}">Stønadsbeløp</th>
+        </tr>
+    </thead>
+    <tbody>${rader}</tbody>
+</table>
 `;
 }
