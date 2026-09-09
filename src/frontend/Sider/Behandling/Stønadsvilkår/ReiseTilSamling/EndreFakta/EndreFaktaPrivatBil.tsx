@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Select, VStack, HStack } from '@navikt/ds-react';
 
+import { SpesifikasjonAvUtgift } from './SpesifikasjonAvUtgift';
 import TextField from '../../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
@@ -114,6 +115,13 @@ export const EndreFaktaPrivatBil: React.FC<{
                                 tilTallverdi(fjernSpaces(e.target.value))
                             );
                         }}
+                    />
+                </FeilmeldingMaksBredde>
+                <FeilmeldingMaksBredde $maxWidth={300}>
+                    <SpesifikasjonAvUtgift
+                        value={fakta.begrunnelse || ''}
+                        error={feilmeldinger?.spesifikasjonAvUtgift}
+                        onChange={(value) => oppdaterFakta('begrunnelse', value || undefined)}
                     />
                 </FeilmeldingMaksBredde>
                 {gjelderTsr && (
