@@ -29,9 +29,9 @@ export function lagVedtakstabellReiseTilSamlingOffentligTranport(
         <th style="width: 160px; ${borderStylingCompact}">Samling</th>
         <th style="width: 130px; ${borderStylingCompact}">Stønadsbeløp</th>
 `;
-        const rader = lagRaderForSamling(samling);
+        const rader = lagRaderForReiseTilSamlingOffentligTransport(samling);
         return `
-        <p style="margin-bottom: 1px" >Reise til samling <strong>${samling.adresse ?? '-'}</strong>:</p>
+        <p style="margin-bottom:2px;font-weight:500;">Reise til samling med offentlig transport til <strong>${samling.adresse ?? '-'}</strong>:</p>
         <table style="margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
             <thead><tr>${kolonneOverskrift}</tr></thead>
             <tbody>${rader}</tbody>
@@ -41,11 +41,13 @@ export function lagVedtakstabellReiseTilSamlingOffentligTranport(
     return htmlPerSamling.join('');
 }
 
-function lagRaderForSamling(samling: BeregningsresultatOffentligTransport): string {
+function lagRaderForReiseTilSamlingOffentligTransport(
+    samling: BeregningsresultatOffentligTransport
+): string {
     const datoperiode: Periode = { fom: samling.fom, tom: samling.tom };
     const datoperiodeString = formaterIsoPeriodeMedTankestrek(datoperiode);
     return `
-    <tr style="text-align: right;">
+    <tr>
         <td style="${borderStylingCompact}">${datoperiodeString ?? '-'}</td>
         <td style="${borderStyling}">${samling.beløp ?? '-'} kr</td>
     </tr>`;
@@ -70,15 +72,15 @@ function lagVedtakstabellReiseTilSamlingPrivatBilPerSamling(
 
     const rader = `
           <tr>
-            <td style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.95em;text-align:left;">${formaterIsoPeriodeMedTankestrek(periode)}</td>
-            ${harBompengeutgifter ? `<td style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.95em;text-align:right;">${kronerMedTusenSkilleEllerStrek(samling.bompenger)}</td>` : ''}
-            ${harFergekostnader ? `<td style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.95em;text-align:right;">${kronerMedTusenSkilleEllerStrek(samling.fergekostnad)}</td>` : ''}
-            <td style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.95em;text-align:right;">${kronerMedTusenSkilleEllerStrek(samling.parkering)}</td>
-            <td style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.95em;text-align:right;">${kronerMedTusenSkilleEllerStrek(samling.beløp)}</td>
+            <td style="${borderStylingCompact}">${formaterIsoPeriodeMedTankestrek(periode)}</td>
+            ${harBompengeutgifter ? `<td style="${borderStylingCompact}">${kronerMedTusenSkilleEllerStrek(samling.bompenger)}</td>` : ''}
+            ${harFergekostnader ? `<td style="${borderStylingCompact}">${kronerMedTusenSkilleEllerStrek(samling.fergekostnad)}</td>` : ''}
+            <td style="${borderStylingCompact}">${kronerMedTusenSkilleEllerStrek(samling.parkering)}</td>
+            <td style="${borderStylingCompact}">${kronerMedTusenSkilleEllerStrek(samling.beløp)}</td>
           </tr>`;
 
     return `
-        <p style="margin-bottom:2px;font-weight:500;">Reise med privat bil til <strong>${samling.adresse ?? '-'}</strong>:</p>
+        <p style="margin-bottom:2px;font-weight:500;">Reise til samling med privat bil til <strong>${samling.adresse ?? '-'}</strong>:</p>
         <table style="border-collapse:collapse;border:1px solid #b0b0b0;width:100%;margin:0;">
             <thead>
                 <tr>
