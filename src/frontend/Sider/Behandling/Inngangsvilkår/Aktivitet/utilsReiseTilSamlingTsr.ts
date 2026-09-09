@@ -10,53 +10,39 @@ import {
     AktivitetReiseTilSamlingTsr,
     AktivitetReiseTilSamlingTsrFaktaOgSvar,
 } from '../typer/vilkårperiode/aktivitetReiseTilSamlingTsr';
-import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyAktivitet = (
-    aktivitetFraRegister: Registeraktivitet | undefined,
-    tiltaksvariantValg: Kodeverk[]
+    aktivitetFraRegister: Registeraktivitet | undefined
 ): EndreAktivitetFormReiseTilSamlingTsr =>
-    aktivitetFraRegister
-        ? nyAktivitetFraRegister(aktivitetFraRegister, tiltaksvariantValg)
-        : nyTomAktivitet();
+    aktivitetFraRegister ? nyAktivitetFraRegister(aktivitetFraRegister) : nyTomAktivitet();
 
 export const mapEksisterendeAktivitet = (
     eksisterendeAktivitet: AktivitetReiseTilSamlingTsr
 ): EndreAktivitetFormReiseTilSamlingTsr => ({
     ...eksisterendeAktivitet,
-    svarLønnet: eksisterendeAktivitet.faktaOgVurderinger.lønnet?.svar,
-    svarHarUtgifter: eksisterendeAktivitet.faktaOgVurderinger.harUtgifter?.svar,
-    svarErAktivitetenObligatorisk:
-        eksisterendeAktivitet.faktaOgVurderinger.erAktivitetenObligatorisk?.svar,
-    aktivitetsdager: eksisterendeAktivitet.faktaOgVurderinger.aktivitetsdager,
 });
 
 function nyAktivitetFraRegister(
-    aktivitetFraRegister: Registeraktivitet,
-    tiltaksvariantValg: Kodeverk[]
+    aktivitetFraRegister: Registeraktivitet
 ): EndreAktivitetFormReiseTilSamlingTsr {
     return {
         type: aktivitetFraRegister.erUtdanning ? AktivitetType.UTDANNING : AktivitetType.TILTAK,
-        tiltaksvariant: finnTiltaksvariantForRegisterAktivitet(
-            aktivitetFraRegister,
-            tiltaksvariantValg
-        ),
+        tiltaksvariant: tiltaksvariantForRegisterAktivitet(aktivitetFraRegister),
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
-        svarLønnet: undefined,
-        svarHarUtgifter: undefined,
-        svarErAktivitetenObligatorisk: undefined,
-        aktivitetsdager: aktivitetFraRegister.antallDagerPerUke,
         kildeId: aktivitetFraRegister.id,
     };
 }
 
-function finnTiltaksvariantForRegisterAktivitet(
-    registerAktivitet: Registeraktivitet,
-    tiltaksvariantValg: Kodeverk[]
-) {
-    return tiltaksvariantValg.find((valg) => valg.beskrivelse === registerAktivitet.typeNavn);
+/**
+ * Aktiviteter fra Arena har alltid en tiltaksvariant (type/typeNavn). Denne kan brukes direkte som
+ * tiltaksvariant på aktiviteten, selv om varianten ikke finnes i det reduserte utvalget som vises i
+ * dropdownen for manuelt tillagte aktiviteter (`tiltaksvariantValg`). En tiltaksvariant som ikke er
+ * mappet til en utbetalingstype vil ikke kunne innvilges med, man skal kunne velges i tilfelle avslag.
+ */
+function tiltaksvariantForRegisterAktivitet(registerAktivitet: Registeraktivitet): Kodeverk {
+    return { kode: registerAktivitet.type, beskrivelse: registerAktivitet.typeNavn };
 }
 
 export function finnTiltaksvariantForKode(kode: string, tiltaksvariantValg: Kodeverk[]) {
@@ -69,10 +55,6 @@ function nyTomAktivitet(): EndreAktivitetFormReiseTilSamlingTsr {
         tiltaksvariant: undefined,
         fom: '',
         tom: '',
-        svarLønnet: undefined,
-        svarHarUtgifter: undefined,
-        svarErAktivitetenObligatorisk: undefined,
-        aktivitetsdager: undefined,
     };
 }
 
@@ -93,9 +75,6 @@ export const resettAktivitet = (
         type: nyType,
         fom,
         tom,
-        svarLønnet: undefined,
-        svarHarUtgifter: undefined,
-        svarErAktivitetenObligatorisk: undefined,
     };
 };
 
@@ -121,25 +100,8 @@ const resetPeriode = (
     return { fom: eksisterendeForm.fom, tom: eksisterendeForm.tom };
 };
 
-export const finnBegrunnelseGrunnerAktivitet = (
-    type: AktivitetType | '',
-    svarLønnet: SvarJaNei | undefined,
-    svarHarUtgifter: SvarJaNei | undefined,
-    svarErAktivitetenObligatorisk: SvarJaNei | undefined
-) => {
+export const finnBegrunnelseGrunnerAktivitet = (type: AktivitetType | '') => {
     const delvilkårSomMåBegrunnes = [];
-
-    if (svarLønnet === SvarJaNei.JA) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.LØNNET);
-    }
-
-    if (svarHarUtgifter === SvarJaNei.NEI) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.HAR_UTGIFTER);
-    }
-
-    if (svarErAktivitetenObligatorisk === SvarJaNei.NEI) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.AKTIVITETEN_ER_OBLIGATORISK);
-    }
 
     if (type === AktivitetType.INGEN_AKTIVITET) {
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.INGEN_AKTIVITET);
@@ -148,12 +110,6 @@ export const finnBegrunnelseGrunnerAktivitet = (
     return delvilkårSomMåBegrunnes;
 };
 
-export const mapFaktaOgSvarTilRequest = (
-    aktivitetForm: EndreAktivitetFormReiseTilSamlingTsr
-): AktivitetReiseTilSamlingTsrFaktaOgSvar => ({
+export const faktaOgSvarRequest: AktivitetReiseTilSamlingTsrFaktaOgSvar = {
     '@type': 'AKTIVITET_REISE_TIL_SAMLING_TSR',
-    svarLønnet: aktivitetForm.svarLønnet,
-    svarHarUtgifter: aktivitetForm.svarHarUtgifter,
-    svarErAktivitetenObligatorisk: aktivitetForm.svarErAktivitetenObligatorisk,
-    aktivitetsdager: aktivitetForm.aktivitetsdager,
-});
+};

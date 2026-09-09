@@ -102,6 +102,20 @@ export const EndreFaktaPrivatBil: React.FC<{
                         }}
                     />
                 </FeilmeldingMaksBredde>
+                <FeilmeldingMaksBredde $maxWidth={180}>
+                    <TextField
+                        label={'Piggdekkavgift'}
+                        size="small"
+                        error={feilmeldinger?.piggdekkavgift}
+                        value={harTallverdi(fakta.piggdekkavgift) ? fakta.piggdekkavgift : ''}
+                        onChange={(e) => {
+                            oppdaterFakta(
+                                'piggdekkavgift',
+                                tilTallverdi(fjernSpaces(e.target.value))
+                            );
+                        }}
+                    />
+                </FeilmeldingMaksBredde>
                 {gjelderTsr && (
                     <FeilmeldingMaksBredde $maxWidth={300}>
                         <Select

@@ -276,16 +276,14 @@ const HøyereUtgifterPgaHelse = ({
 }) => {
     const særligUtgifter = boligEllerOvernatting.harSærligStoreUtgifterPgaFunksjonsnedsettelse;
     return (
-        særligUtgifter === JaNei.JA && (
-            <SøknadInfoFelt
-                label="Trenger du tilpasset bolig på grunn av helseutfordringer?"
-                ikon={<WheelchairIcon />}
-                value={
-                    <BodyShort size="small">
-                        <i>{tekstMedFallback(jaNeiTilTekst, særligUtgifter)}</i>
-                    </BodyShort>
-                }
-            />
-        )
+        <SøknadInfoFelt
+            label="Trenger du tilpasset bolig på grunn av helseutfordringer?"
+            ikon={<WheelchairIcon />}
+            value={
+                <BodyShort size="small">
+                    <i>{tekstMedFallback(jaNeiTilTekst, særligUtgifter)}</i>
+                </BodyShort>
+            }
+        />
     );
 };

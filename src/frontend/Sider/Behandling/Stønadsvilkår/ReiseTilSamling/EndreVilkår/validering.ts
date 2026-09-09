@@ -24,6 +24,7 @@ export type FeilmeldingerFaktaPrivatBil = {
     bompenger?: string;
     fergekostnad?: string;
     parkering?: string;
+    piggdekkavgift?: string;
 };
 
 export type FeilmeldingerReiseTilSamling = {
@@ -128,6 +129,9 @@ const validerFaktaPrivatBil = (
     }
     if (fakta.parkering !== undefined && fakta.parkering < 0) {
         return { parkering: 'Parkering kan ikke være negativ' };
+    }
+    if (fakta.piggdekkavgift !== undefined && fakta.piggdekkavgift < 0) {
+        return { piggdekkavgift: 'Piggdekkavgift kan ikke være negativ' };
     }
     if (gjelderTsr && !fakta.aktivitetId) {
         return { aktivitet: 'Du må velge en aktivitet' };
