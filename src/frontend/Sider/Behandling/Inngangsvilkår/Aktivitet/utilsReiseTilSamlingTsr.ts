@@ -10,7 +10,6 @@ import {
     AktivitetReiseTilSamlingTsr,
     AktivitetReiseTilSamlingTsrFaktaOgSvar,
 } from '../typer/vilkårperiode/aktivitetReiseTilSamlingTsr';
-import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyAktivitet = (
@@ -22,11 +21,6 @@ export const mapEksisterendeAktivitet = (
     eksisterendeAktivitet: AktivitetReiseTilSamlingTsr
 ): EndreAktivitetFormReiseTilSamlingTsr => ({
     ...eksisterendeAktivitet,
-    svarLønnet: eksisterendeAktivitet.faktaOgVurderinger.lønnet?.svar,
-    svarHarUtgifter: eksisterendeAktivitet.faktaOgVurderinger.harUtgifter?.svar,
-    svarErAktivitetenObligatorisk:
-        eksisterendeAktivitet.faktaOgVurderinger.erAktivitetenObligatorisk?.svar,
-    aktivitetsdager: eksisterendeAktivitet.faktaOgVurderinger.aktivitetsdager,
 });
 
 function nyAktivitetFraRegister(
@@ -37,10 +31,6 @@ function nyAktivitetFraRegister(
         tiltaksvariant: tiltaksvariantForRegisterAktivitet(aktivitetFraRegister),
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
-        svarLønnet: undefined,
-        svarHarUtgifter: undefined,
-        svarErAktivitetenObligatorisk: undefined,
-        aktivitetsdager: aktivitetFraRegister.antallDagerPerUke,
         kildeId: aktivitetFraRegister.id,
     };
 }
@@ -65,10 +55,6 @@ function nyTomAktivitet(): EndreAktivitetFormReiseTilSamlingTsr {
         tiltaksvariant: undefined,
         fom: '',
         tom: '',
-        svarLønnet: undefined,
-        svarHarUtgifter: undefined,
-        svarErAktivitetenObligatorisk: undefined,
-        aktivitetsdager: undefined,
     };
 }
 
@@ -89,9 +75,6 @@ export const resettAktivitet = (
         type: nyType,
         fom,
         tom,
-        svarLønnet: undefined,
-        svarHarUtgifter: undefined,
-        svarErAktivitetenObligatorisk: undefined,
     };
 };
 
@@ -117,25 +100,8 @@ const resetPeriode = (
     return { fom: eksisterendeForm.fom, tom: eksisterendeForm.tom };
 };
 
-export const finnBegrunnelseGrunnerAktivitet = (
-    type: AktivitetType | '',
-    svarLønnet: SvarJaNei | undefined,
-    svarHarUtgifter: SvarJaNei | undefined,
-    svarErAktivitetenObligatorisk: SvarJaNei | undefined
-) => {
+export const finnBegrunnelseGrunnerAktivitet = (type: AktivitetType | '') => {
     const delvilkårSomMåBegrunnes = [];
-
-    if (svarLønnet === SvarJaNei.JA) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.LØNNET);
-    }
-
-    if (svarHarUtgifter === SvarJaNei.NEI) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.HAR_UTGIFTER);
-    }
-
-    if (svarErAktivitetenObligatorisk === SvarJaNei.NEI) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.AKTIVITETEN_ER_OBLIGATORISK);
-    }
 
     if (type === AktivitetType.INGEN_AKTIVITET) {
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.INGEN_AKTIVITET);
@@ -144,12 +110,6 @@ export const finnBegrunnelseGrunnerAktivitet = (
     return delvilkårSomMåBegrunnes;
 };
 
-export const mapFaktaOgSvarTilRequest = (
-    aktivitetForm: EndreAktivitetFormReiseTilSamlingTsr
-): AktivitetReiseTilSamlingTsrFaktaOgSvar => ({
+export const faktaOgSvarRequest: AktivitetReiseTilSamlingTsrFaktaOgSvar = {
     '@type': 'AKTIVITET_REISE_TIL_SAMLING_TSR',
-    svarLønnet: aktivitetForm.svarLønnet,
-    svarHarUtgifter: aktivitetForm.svarHarUtgifter,
-    svarErAktivitetenObligatorisk: aktivitetForm.svarErAktivitetenObligatorisk,
-    aktivitetsdager: aktivitetForm.aktivitetsdager,
-});
+};

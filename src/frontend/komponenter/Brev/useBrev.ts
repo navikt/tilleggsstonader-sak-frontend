@@ -28,6 +28,10 @@ function stønadstypeTilSanityYtelse(ytelse: Stønadstype) {
             return 'REISE_OPPSTART_AVSLUTNING_HJEMREISER_TSO';
         case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
             return 'REISE_OPPSTART_AVSLUTNING_HJEMREISER_TSR';
+        case Stønadstype.REISE_TIL_SAMLING_TSO:
+            return 'REISE_TIL_SAMLING_TSO';
+        case Stønadstype.REISE_TIL_SAMLING_TSR:
+            return 'REISE_TIL_SAMLING_TSR';
         default:
             return 'ikke-definiert';
     }

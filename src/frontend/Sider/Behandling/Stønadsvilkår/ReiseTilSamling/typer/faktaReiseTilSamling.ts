@@ -22,6 +22,7 @@ export interface FaktaPrivatBil extends FaktaReiseTilSamling {
     bompenger: number | undefined;
     fergekostnad: number | undefined;
     parkering: number | undefined;
+    piggdekkavgift: number | undefined;
 }
 
 export const erFaktaOffentligTransport = (

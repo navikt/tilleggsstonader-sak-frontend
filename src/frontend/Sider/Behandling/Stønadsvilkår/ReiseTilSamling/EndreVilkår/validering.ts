@@ -28,6 +28,7 @@ export type FeilmeldingerFaktaPrivatBil = {
     fergekostnad?: string;
     parkering?: string;
     spesifikasjonAvUtgift?: string;
+    piggdekkavgift?: string;
 };
 
 export type FeilmeldingerReiseTilSamling = {
@@ -143,6 +144,9 @@ const validerFaktaPrivatBil = (
     }
     if (!harVerdi(fakta.begrunnelse)) {
         feil.spesifikasjonAvUtgift = 'Mangler spesifikasjon av utgift';
+    }
+    if (fakta.piggdekkavgift !== undefined && fakta.piggdekkavgift < 0) {
+        feil.piggdekkavgift = 'Piggdekkavgift kan ikke være negativ';
     }
     if (gjelderTsr && !fakta.aktivitetId) {
         feil.aktivitet = 'Du må velge en aktivitet';

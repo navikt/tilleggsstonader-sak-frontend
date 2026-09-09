@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 
 import { Button, HStack, VStack } from '@navikt/ds-react';
 
-import { AktivitetDelvilkårReiseTilSamlingTsr } from './Delvilkår/AktivitetDelvilkårReiseTilSamlingTsr';
 import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
 import styles from './EndreAktivitetReiseTilSamlingTsr.module.css';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
+    faktaOgSvarRequest,
     finnBegrunnelseGrunnerAktivitet,
     finnTiltaksvariantForKode,
     mapEksisterendeAktivitet,
-    mapFaktaOgSvarTilRequest,
     nyAktivitet,
     resettAktivitet,
 } from './utilsReiseTilSamlingTsr';
@@ -22,19 +21,15 @@ import { useLagreVilkårperiode } from '../../../../hooks/useLagreVilkårperiode
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../../../../komponenter/Feil/feilmeldingUtils';
 import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
-import TextField from '../../../../komponenter/Skjema/TextField';
-import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Kodeverk, kodeverkTilOptionsMedGjeldendeValgt } from '../../../../typer/kodeverk';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
-import { harTallverdi, tilHeltall } from '../../../../utils/tall';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import { AktivitetReiseTilSamlingTsr } from '../typer/vilkårperiode/aktivitetReiseTilSamlingTsr';
-import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
@@ -42,10 +37,6 @@ import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
 export interface EndreAktivitetFormReiseTilSamlingTsr extends Periode {
     type: AktivitetType | '';
     tiltaksvariant?: Kodeverk;
-    svarLønnet: SvarJaNei | undefined;
-    svarHarUtgifter: SvarJaNei | undefined;
-    svarErAktivitetenObligatorisk: SvarJaNei | undefined;
-    aktivitetsdager: number | undefined;
     begrunnelse?: string;
     kildeId?: string;
 }
@@ -111,7 +102,7 @@ export const EndreAktivitetReiseTilSamlingTsr: React.FC<{
         const response = lagreVilkårperiode<Aktivitet>(
             behandling.id,
             form,
-            mapFaktaOgSvarTilRequest(form),
+            faktaOgSvarRequest,
             aktivitet?.id
         );
 
@@ -147,14 +138,9 @@ export const EndreAktivitetReiseTilSamlingTsr: React.FC<{
         settForm((prevState) => ({ ...prevState, tiltaksvariant }));
     };
 
-    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
-        form.type,
-        form.svarLønnet,
-        form.svarHarUtgifter,
-        form.svarErAktivitetenObligatorisk
-    );
-
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
+
+    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(form.type);
 
     return (
         <ResultatOgStatusKort periode={aktivitet} redigeres>
@@ -176,42 +162,9 @@ export const EndreAktivitetReiseTilSamlingTsr: React.FC<{
                         }
                         kanEndreType={aktivitet === undefined && !aktivitetErBruktFraSystem}
                     />
-                    {form.type !== AktivitetType.INGEN_AKTIVITET && (
-                        <FeilmeldingMaksBredde $maxWidth={140}>
-                            <TextField
-                                label="Aktivitetsdager"
-                                value={
-                                    harTallverdi(form.aktivitetsdager) ? form.aktivitetsdager : ''
-                                }
-                                onChange={(event) =>
-                                    settForm((prevState) => ({
-                                        ...prevState,
-                                        aktivitetsdager: tilHeltall(event.target.value),
-                                    }))
-                                }
-                                size="small"
-                                error={vilkårsperiodeFeil?.aktivitetsdager}
-                            />
-                        </FeilmeldingMaksBredde>
-                    )}
                 </div>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
-            <AktivitetDelvilkårReiseTilSamlingTsr
-                aktivitetForm={form}
-                oppdaterLønnet={(svar) =>
-                    settForm((prevState) => ({ ...prevState, svarLønnet: svar }))
-                }
-                oppdaterHarUtgifter={(svar) =>
-                    settForm((prevState) => ({ ...prevState, svarHarUtgifter: svar }))
-                }
-                oppdaterErObligatorisk={(svar) =>
-                    settForm((prevState) => ({
-                        ...prevState,
-                        svarErAktivitetenObligatorisk: svar,
-                    }))
-                }
-            />
             <Begrunnelse
                 begrunnelse={form?.begrunnelse || ''}
                 oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}

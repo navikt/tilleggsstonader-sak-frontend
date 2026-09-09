@@ -17,7 +17,7 @@ export type AvslagReiseTilSamling = AvslagRequest;
 export type BeregnReiseTilSamlingRequest = {
     vedtaksperioder: Vedtaksperiode[];
 };
-export interface BeregningReiseTilSamling {
+export interface BeregningResultatReiseTilSamling {
     offentligTransport?: BeregningsresultatOffentligTransport[];
     privatBil?: BeregningsresultatPrivatBil[];
     beregningsplan: Beregningsplan;
@@ -40,6 +40,7 @@ export interface BeregningsresultatPrivatBil {
     bompenger?: number;
     fergekostnad?: number;
     parkering?: number;
+    piggdekkavgift?: number;
     beløp: number;
 }
 export type InnvilgeReiseTilSamlingRequest = {
@@ -53,5 +54,5 @@ export interface InnvilgelseReiseTilSamling {
     gjelderFraOgMed?: string;
     gjelderTilOgMed?: string;
     begrunnelse?: string;
-    beregningsresultat?: BeregningReiseTilSamling;
+    beregningsresultat?: BeregningResultatReiseTilSamling;
 }

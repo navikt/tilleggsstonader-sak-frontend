@@ -22,9 +22,6 @@ export const mapEksisterendeAktivitet = (
 ): EndreAktivitetFormReiseTilSamlingTso => ({
     ...eksisterendeAktivitet,
     svarLønnet: eksisterendeAktivitet.faktaOgVurderinger.lønnet?.svar,
-    svarHarUtgifter: eksisterendeAktivitet.faktaOgVurderinger.harUtgifter?.svar,
-    svarErAktivitetenObligatorisk:
-        eksisterendeAktivitet.faktaOgVurderinger.erAktivitetenObligatorisk?.svar,
 });
 
 function nyAktivitetFraRegister(
@@ -35,9 +32,7 @@ function nyAktivitetFraRegister(
         fom: aktivitetFraRegister.fom || '',
         tom: aktivitetFraRegister.tom || '',
         svarLønnet: undefined,
-        svarHarUtgifter: undefined,
         kildeId: aktivitetFraRegister.id,
-        svarErAktivitetenObligatorisk: undefined,
     };
 }
 
@@ -47,8 +42,6 @@ function nyTomAktivitet(): EndreAktivitetFormReiseTilSamlingTso {
         fom: '',
         tom: '',
         svarLønnet: undefined,
-        svarHarUtgifter: undefined,
-        svarErAktivitetenObligatorisk: undefined,
     };
 }
 
@@ -70,7 +63,6 @@ export const resettAktivitet = (
         fom: fom,
         tom: tom,
         svarLønnet: undefined,
-        svarHarUtgifter: undefined,
     };
 };
 
@@ -99,22 +91,12 @@ const resetPeriode = (
 
 export const finnBegrunnelseGrunnerAktivitet = (
     type: AktivitetType | '',
-    svarLønnet: SvarJaNei | undefined,
-    svarHarUtgifter: SvarJaNei | undefined,
-    svarErAktivitetenObligatorisk: SvarJaNei | undefined
+    svarLønnet: SvarJaNei | undefined
 ) => {
     const delvilkårSomMåBegrunnes = [];
 
     if (svarLønnet === SvarJaNei.JA) {
         delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.LØNNET);
-    }
-
-    if (svarHarUtgifter === SvarJaNei.NEI) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.HAR_UTGIFTER);
-    }
-
-    if (svarErAktivitetenObligatorisk === SvarJaNei.NEI) {
-        delvilkårSomMåBegrunnes.push(BegrunnelseGrunner.AKTIVITETEN_ER_OBLIGATORISK);
     }
 
     if (type === AktivitetType.INGEN_AKTIVITET) {
@@ -129,6 +111,4 @@ export const mapFaktaOgSvarTilRequest = (
 ): AktivitetReiseTilSamlingTsoFaktaOgSvar => ({
     '@type': 'AKTIVITET_REISE_TIL_SAMLING_TSO',
     svarLønnet: aktivitetForm.svarLønnet,
-    svarHarUtgifter: aktivitetForm.svarHarUtgifter,
-    svarErAktivitetenObligatorisk: aktivitetForm.svarErAktivitetenObligatorisk,
 });
