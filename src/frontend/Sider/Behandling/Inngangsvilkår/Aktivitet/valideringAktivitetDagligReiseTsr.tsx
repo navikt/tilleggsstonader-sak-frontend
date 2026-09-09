@@ -1,5 +1,6 @@
 import { EndreAktivitetFormDagligReiseTsr } from './EndreAktivitetDagligReiseTsr';
 import { finnBegrunnelseGrunnerAktivitet } from './utilsDagligReiseTsr';
+import { aktivitetsdagerErGyldigTall } from './valideringAktivitetsdager';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
 import { harIkkeVerdi } from '../../../../utils/utils';
@@ -42,6 +43,13 @@ export const validerAktivitet = (
             ...feil,
             ...periodeValidering,
         };
+    }
+
+    if (
+        endretAktivitet.type !== AktivitetType.INGEN_AKTIVITET &&
+        !aktivitetsdagerErGyldigTall(endretAktivitet.aktivitetsdager)
+    ) {
+        return { ...feil, aktivitetsdager: 'Aktivitetsdager må være et tall mellom 1 og 5' };
     }
 
     const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerAktivitet(
