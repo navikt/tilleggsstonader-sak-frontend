@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 
-import { DatePicker, useDatepicker } from '@navikt/ds-react';
+import { DatePicker, useDatepicker, DatePickerProps } from '@navikt/ds-react';
 
 import { nullableTilDato, tilLocaleDateString } from '../../utils/dato';
 
@@ -16,6 +16,7 @@ export interface DateInputProps {
     fromDate?: Date;
     toDate?: Date;
     defaultMonth?: Date;
+    strategy?: DatePickerProps['strategy'];
 }
 
 const DateInput: React.FC<DateInputProps> = ({
@@ -30,6 +31,7 @@ const DateInput: React.FC<DateInputProps> = ({
     fromDate,
     toDate,
     defaultMonth,
+    strategy,
 }) => {
     const { datepickerProps, inputProps } = useDatepicker({
         defaultSelected: nullableTilDato(value),
@@ -41,7 +43,7 @@ const DateInput: React.FC<DateInputProps> = ({
 
     return (
         <div className={className}>
-            <DatePicker {...datepickerProps}>
+            <DatePicker {...datepickerProps} fixedWeeks strategy={strategy}>
                 <DatePicker.Input
                     {...inputProps}
                     label={label}
