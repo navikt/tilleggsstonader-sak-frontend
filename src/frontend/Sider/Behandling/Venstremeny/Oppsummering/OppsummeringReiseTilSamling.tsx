@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Aktivitet } from './Aktivitet';
+import { AktivitetReiseTilSamling } from './AktivitetReiseTilSamling';
+import { Samlinger } from './Samlinger';
 import { useOppsummeringFilter } from './useOppsummeringFilter';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
 import { SøknadInfoSeksjonFilter, Søknadsdato } from './Visningskomponenter';
@@ -43,7 +44,7 @@ export const OppsummeringReiseTilSamling: React.FC<{
             />
             {visFellesopplysninger && (
                 <>
-                    <Aktivitet aktivitet={behandlingFakta.aktiviteter} />
+                    <AktivitetReiseTilSamling aktiviterer={behandlingFakta.aktiviteter} />
                     <YtelseSituasjon
                         faktaHovedytelse={behandlingFakta.hovedytelse}
                         arbeidOgOpphold={
@@ -52,7 +53,9 @@ export const OppsummeringReiseTilSamling: React.FC<{
                     />
                 </>
             )}
-            {visSeksjon('samlinger') && behandlingFakta.samlinger?.length > 0 && <>TODO</>}
+            {visSeksjon('samlinger') && behandlingFakta.samlinger?.length > 0 && (
+                <Samlinger samlinger={behandlingFakta.samlinger} />
+            )}
             {visVedlegg && <Vedlegg fakta={behandlingFakta.dokumentasjon} />}
         </>
     );
