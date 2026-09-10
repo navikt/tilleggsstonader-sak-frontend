@@ -14,12 +14,12 @@ export function lagVedtakstabellReiseTilSamling(
     beregningsresultat: BeregningResultatReiseTilSamling | undefined
 ): string {
     return (
-        lagVedtakstabellReiseTilSamlingOffentligTranport(beregningsresultat) +
+        lagVedtakstabellReiseTilSamlingOffentligTransport(beregningsresultat) +
         lagVedtakstabellReiseTilSamlingPrivatBil(beregningsresultat)
     );
 }
 
-export function lagVedtakstabellReiseTilSamlingOffentligTranport(
+export function lagVedtakstabellReiseTilSamlingOffentligTransport(
     beregningsresultat: BeregningResultatReiseTilSamling | undefined
 ): string {
     if (!beregningsresultat?.offentligTransport) return '';
