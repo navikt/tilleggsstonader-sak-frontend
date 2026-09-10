@@ -26,7 +26,7 @@ export function lagVedtakstabellReiseTilSamlingOffentligTransport(
 
     const htmlPerSamling = beregningsresultat.offentligTransport.map((samling) => {
         const kolonneOverskrift = `
-        <th style="width: 160px; ${borderStylingCompact}">Samling</th>
+        <th style="width: 160px; ${borderStylingCompact}">Periode</th>
         <th style="width: 130px; ${borderStylingCompact}">Stønadsbeløp</th>
 `;
         const rader = lagRaderForReiseTilSamlingOffentligTransport(samling);
@@ -81,7 +81,6 @@ function lagVedtakstabellReiseTilSamlingPrivatBilPerSamling(
 
     return `
         <p style="margin-bottom:2px;font-weight:500;">Reise til samling med privat bil til <strong>${samling.adresse ?? '-'}</strong>:</p>
-        <table style="border-collapse: collapse; width: 100%; margin: 0;">
             <table style="border-collapse: collapse; width: 100%; margin: 0; ${borderStylingCompact}">
     <thead>
         <tr>
