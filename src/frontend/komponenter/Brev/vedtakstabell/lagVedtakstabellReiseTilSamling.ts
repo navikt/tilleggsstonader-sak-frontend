@@ -49,7 +49,7 @@ function lagRaderForReiseTilSamlingOffentligTransport(
     return `
     <tr>
         <td style="${borderStylingCompact}">${datoperiodeString ?? '-'}</td>
-        <td style="${borderStyling}">${samling.beløp ?? '-'} kr</td>
+        <td style="${borderStyling}">${kronerMedTusenSkilleEllerStrek(samling.beløp)}</td>
     </tr>`;
 }
 
