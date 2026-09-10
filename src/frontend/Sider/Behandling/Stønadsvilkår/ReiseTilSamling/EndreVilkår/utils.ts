@@ -1,5 +1,6 @@
 import { BegrunnelseRegel, SvarId } from '../../../../../typer/regel';
 import {
+    FaktaReiseTilSamling,
     FaktaOffentligTransport,
     FaktaPrivatBil,
     typeReiseTilSamlingTilTypeVilkårFakta,
@@ -87,6 +88,16 @@ export const initierGjeldendeFaktaType = (
     }
     return typeReiseTilSamlingTilTypeVilkårFakta[vilkår.fakta.type];
 };
+
+export const tomFaktaForType = (type: TypeVilkårFakta): FaktaReiseTilSamling => {
+    if (type === 'REISE_TIL_SAMLING_OFFENTLIG_TRANSPORT') {
+        return { ...tomtOffentligTransport };
+    }
+    if (type === 'REISE_TIL_SAMLING_PRIVAT_BIL') {
+        return { ...tomtPrivatBil };
+    }
+    return { type: 'UBESTEMT' as const };
+};
 export const finnBegrunnelsestypeForSvar = (
     svaralternativer: SvarAlternativ[],
     valgtSvar?: SvarId
@@ -112,6 +123,7 @@ export const tomtSvar: SvarVilkårReiseTilSamling = {
 export const tomtOffentligTransport: FaktaOffentligTransport = {
     type: 'OFFENTLIG_TRANSPORT',
     utgifterOffentligTransport: undefined,
+    begrunnelse: undefined,
     aktivitetId: undefined,
     aktivitetType: undefined,
 };
@@ -119,6 +131,7 @@ export const tomtOffentligTransport: FaktaOffentligTransport = {
 export const tomtPrivatBil: FaktaPrivatBil = {
     type: 'PRIVAT_BIL',
     reiseavstand: undefined,
+    begrunnelse: undefined,
     aktivitetId: undefined,
     aktivitetType: undefined,
     bompenger: undefined,

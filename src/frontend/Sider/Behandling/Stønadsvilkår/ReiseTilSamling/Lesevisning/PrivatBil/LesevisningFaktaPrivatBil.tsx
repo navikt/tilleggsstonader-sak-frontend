@@ -45,6 +45,10 @@ export const LesevisningFaktaPrivatBil: FC<{
                         : '-'}
                 </BodyShort>
             </HStack>
+            <HStack justify={'space-between'}>
+                <BodyShort size="small">{'Spesifikasjon av utgift'}</BodyShort>
+                <BodyShort size="small">{fakta?.begrunnelse || '-'}</BodyShort>
+            </HStack>
 
             <HStack justify={'space-between'}>
                 <BodyShort size="small">{'Piggdekkavgift'}</BodyShort>

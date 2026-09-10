@@ -6,19 +6,22 @@ export type Periode = {
 };
 
 export const validerPeriode = (periode: Periode): undefined | Partial<Periode> => {
+    const feil: Partial<Periode> = {};
+
     if (!periode.fom) {
-        return { fom: 'Mangler fra-dato' };
+        feil.fom = 'Mangler fra-dato';
     }
 
     if (!periode.tom) {
-        return { tom: 'Mangler til-dato' };
+        feil.tom = 'Mangler til-dato';
     }
 
-    if (!erDatoEtterEllerLik(periode.fom, periode.tom)) {
-        return {
-            tom: 'Til-dato må være etter fra-dato',
-        };
+    if (periode.fom && periode.tom && !erDatoEtterEllerLik(periode.fom, periode.tom)) {
+        feil.tom = 'Til-dato må være etter fra-dato';
     }
+
+    if (Object.keys(feil).length === 0) return undefined;
+    return feil;
 };
 
 export const tomPeriode: Periode = { fom: '', tom: '' };
