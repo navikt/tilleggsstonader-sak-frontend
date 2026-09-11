@@ -59,7 +59,10 @@ export const LesevisningVilkårDagligReise: FC<VilkårProps> = ({
                 </Tag>
             }
         >
-            <LesevisningDelvilkår delvilkårsett={vilkår.delvilkårsett} />
+            <LesevisningDelvilkår
+                delvilkårsett={vilkår.delvilkårsett}
+                slettetKommentar={vilkår.slettetKommentar}
+            />
         </LesevisningVilkårKort>
     );
 };
