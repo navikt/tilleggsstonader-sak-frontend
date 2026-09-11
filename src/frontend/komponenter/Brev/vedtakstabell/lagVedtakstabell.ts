@@ -2,6 +2,7 @@ import { lagVedtakstabellBoutgifter } from './lagVedtakstabellBoutgifter';
 import { lagVedtakstabellDagligReise } from './lagVedtakstabellDagligReise';
 import { lagVedtakstabellLæremidler } from './lagVedtakstabellLæremidler';
 import { lagVedtakstabellPassAvBarn } from './lagVedtakstabellPassAvBarn';
+import { lagVedtakstabellReiseTilSamling } from './lagVedtakstabellReiseTilSamling';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { VedtakResponse } from '../../../typer/vedtak/vedtak';
@@ -9,6 +10,7 @@ import { BeregningsresultatBoutgifter } from '../../../typer/vedtak/vedtakBoutgi
 import { BeregningsresultatDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
 import { BeregningsresultatLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
 import { BeregningsresultatPassAvBarn } from '../../../typer/vedtak/vedtakPassAvBarn';
+import { BeregningResultatReiseTilSamling } from '../../../typer/vedtak/vedtakReiseTilSamling';
 
 /**
  * Lager en vedtakstabell i html som vises i innvilgelsebrevet
@@ -45,6 +47,10 @@ export const lagVedtakstabell = (
         case Stønadstype.DAGLIG_REISE_TSR:
             return lagVedtakstabellDagligReise(
                 vedtak.beregningsresultat as BeregningsresultatDagligReise
+            );
+        case Stønadstype.REISE_TIL_SAMLING_TSO:
+            return lagVedtakstabellReiseTilSamling(
+                vedtak.beregningsresultat as BeregningResultatReiseTilSamling
             );
         default:
             return '';
