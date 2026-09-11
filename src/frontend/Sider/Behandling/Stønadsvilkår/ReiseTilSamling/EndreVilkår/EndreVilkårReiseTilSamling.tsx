@@ -6,7 +6,7 @@ import { HStack, TextField } from '@navikt/ds-react';
 
 import styles from './EndreVilkårReiseTilSamling.module.css';
 import { SlettVilkårReiseTilSamling } from './SlettVilkårReiseTilSamling';
-import { initierGjeldendeFaktaType, initierSvar } from './utils';
+import { initierGjeldendeFaktaType, initierSvar, tomFaktaForType } from './utils';
 import { FeilmeldingerReiseTilSamling, harValideringsFeil, validerVilkår } from './validering';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
@@ -79,7 +79,7 @@ export const EndreVilkårReiseTilSamling: React.FC<Props> = ({
     );
 
     const [fakta, settFakta] = useState<FaktaReiseTilSamling>(
-        vilkår?.fakta || { type: 'UBESTEMT' }
+        vilkår?.fakta || tomFaktaForType(gjeldendeFaktaType)
     );
 
     const [laster, settLaster] = useState(false);
@@ -160,7 +160,7 @@ export const EndreVilkårReiseTilSamling: React.FC<Props> = ({
 
     const oppdaterGjeldendeFaktaType = (nyGjeldendeFaktaType: TypeVilkårFakta) => {
         if (gjeldendeFaktaType !== nyGjeldendeFaktaType) {
-            settFakta({ type: 'UBESTEMT' });
+            settFakta(tomFaktaForType(nyGjeldendeFaktaType));
         }
         settGjeldendeFaktaType(nyGjeldendeFaktaType);
         nullstillFeilmeldingFor(['fakta']);

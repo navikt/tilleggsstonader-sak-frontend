@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Select, VStack, HStack } from '@navikt/ds-react';
 
+import { SpesifikasjonAvUtgift } from './SpesifikasjonAvUtgift';
 import TextField from '../../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
@@ -30,7 +31,10 @@ export const EndreFaktaOffentligTransport: React.FC<{
     gjelderTsr,
     oppfylteAktiviteter,
 }) => {
-    const oppdaterFakta = (key: keyof FaktaOffentligTransport, verdi: number | undefined) => {
+    const oppdaterFakta = (
+        key: keyof FaktaOffentligTransport,
+        verdi: number | string | undefined
+    ) => {
         settFakta((prevState) => ({
             ...(prevState.type === 'OFFENTLIG_TRANSPORT' ? prevState : tomtOffentligTransport),
             [key]: verdi,
@@ -89,6 +93,13 @@ export const EndreFaktaOffentligTransport: React.FC<{
                                 tilHeltall(fjernSpaces(e.target.value))
                             );
                         }}
+                    />
+                </FeilmeldingMaksBredde>
+                <FeilmeldingMaksBredde $maxWidth={300}>
+                    <SpesifikasjonAvUtgift
+                        value={fakta.begrunnelse || ''}
+                        error={feilmeldinger?.spesifikasjonAvUtgift}
+                        onChange={(value) => oppdaterFakta('begrunnelse', value || undefined)}
                     />
                 </FeilmeldingMaksBredde>
             </HStack>
