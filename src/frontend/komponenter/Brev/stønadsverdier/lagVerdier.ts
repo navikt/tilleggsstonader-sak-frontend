@@ -62,6 +62,20 @@ function behandleInnvilgelse(
             );
         }
 
+        case Stønadstype.REISE_TIL_SAMLING_TSO: {
+            const innvilgelseReiseTilSamling = vedtak as InnvilgelseReiseTilSamling;
+            return mapVedtaksDatoerForPreutfyllingIBrevfanen(
+                innvilgelseReiseTilSamling.gjelderFraOgMed,
+                innvilgelseReiseTilSamling.gjelderTilOgMed
+            );
+        }
+        case Stønadstype.REISE_TIL_SAMLING_TSR: {
+            const innvilgelseReiseTilSamling = vedtak as InnvilgelseReiseTilSamling;
+            return mapVedtaksDatoerForPreutfyllingIBrevfanen(
+                innvilgelseReiseTilSamling.gjelderFraOgMed,
+                innvilgelseReiseTilSamling.gjelderTilOgMed
+            );
+        }
         default:
             return TOMME_VERDIER;
     }
