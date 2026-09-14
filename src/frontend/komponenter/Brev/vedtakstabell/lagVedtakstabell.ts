@@ -52,6 +52,10 @@ export const lagVedtakstabell = (
             return lagVedtakstabellReiseTilSamling(
                 vedtak.beregningsresultat as BeregningResultatReiseTilSamling
             );
+        case Stønadstype.REISE_TIL_SAMLING_TSR:
+            return lagVedtakstabellReiseTilSamling(
+                vedtak.beregningsresultat as BeregningResultatReiseTilSamling
+            );
         default:
             return '';
     }
