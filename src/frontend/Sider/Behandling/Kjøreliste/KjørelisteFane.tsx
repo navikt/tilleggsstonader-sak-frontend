@@ -12,6 +12,7 @@ import { KjørelisteProvider } from '../../../context/KjørelisteContext';
 import { useReisevurderingPrivatBil } from '../../../hooks/useReisevurderingPrivatBil';
 import { useVedtak } from '../../../hooks/useVedtak';
 import DataViewer from '../../../komponenter/DataViewer';
+import { LokalFeil } from '../../../komponenter/Feil/LokalFeil';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
 import { Steg } from '../../../typer/behandling/steg';
 import { ReisevurderingPrivatBil } from '../../../typer/kjøreliste';
@@ -25,7 +26,9 @@ export const KjørelisteFane: FC = () => {
         <DataViewer response={{ vedtak, reisevurderingerResponse }} type={'reisedata'}>
             {({ vedtak, reisevurderingerResponse }) => (
                 <KjørelisteProvider vedtak={vedtak}>
-                    <FaneInnhold reisevurderingerResponse={reisevurderingerResponse} />
+                    <LokalFeil>
+                        <FaneInnhold reisevurderingerResponse={reisevurderingerResponse} />
+                    </LokalFeil>
                 </KjørelisteProvider>
             )}
         </DataViewer>
