@@ -81,6 +81,7 @@ const BehandlingTabsInnhold = () => {
                 fane={aktivFane}
                 behandling={behandling}
                 behandlingErRedigerbar={behandlingErRedigerbar}
+                behandlingFaner={behandlingFaner}
             >
                 <Tabs value={aktivFane} onChange={(e) => håndterFaneBytte(e as FanePath)}>
                     <Sticky className={styles.stickyTablistContainer}>
