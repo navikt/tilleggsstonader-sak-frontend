@@ -124,7 +124,6 @@ const SettPåVentForm: React.FC<{
                     fromDate={new Date()}
                     feil={formErrors?.frist}
                     size="small"
-                    strategy="fixed"
                 />
             </HStack>
             <Textarea
