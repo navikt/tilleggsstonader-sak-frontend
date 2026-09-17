@@ -38,6 +38,11 @@ const HenleggModal: React.FC = () => {
             return;
         }
 
+        if (henlagtårsak === HenlagtÅrsak.ANNET && !henlagtBegrunnelse?.trim()) {
+            settFeilmelding(lagFeilmelding('Begrunnelse må fylles ut når årsak er «Annet».'));
+            return;
+        }
+
         settLaster(true);
 
         request<null, { årsak: string; begrunnelse?: string }>(
@@ -95,11 +100,22 @@ const HenleggModal: React.FC = () => {
                         <Radio value={HenlagtÅrsak.SKAL_BEHANDLES_AV_ANNET_FAGOMRÅDE}>
                             {henlagtÅrsakTilTekst[HenlagtÅrsak.SKAL_BEHANDLES_AV_ANNET_FAGOMRÅDE]}
                         </Radio>
+                        <Radio value={HenlagtÅrsak.ALLEREDE_BEHANDLET}>
+                            {henlagtÅrsakTilTekst[HenlagtÅrsak.ALLEREDE_BEHANDLET]}
+                        </Radio>
+                        <Radio value={HenlagtÅrsak.ANNET}>
+                            {henlagtÅrsakTilTekst[HenlagtÅrsak.ANNET]}
+                        </Radio>
                     </RadioGroup>
                     <Textarea
                         label={'Begrunnelse for henleggelse'}
                         value={henlagtBegrunnelse}
                         onChange={(e) => settHenlagtBegrunnelse(e.target.value)}
+                        description={
+                            henlagtårsak === HenlagtÅrsak.ANNET
+                                ? 'Begrunnelse er påkrevd når årsak er «Annet»'
+                                : undefined
+                        }
                     />
                     <Feilmelding feil={feilmelding} />
                 </VStack>
