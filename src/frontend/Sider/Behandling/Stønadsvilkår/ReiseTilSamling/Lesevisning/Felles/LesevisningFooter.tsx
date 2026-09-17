@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, useRef } from 'react';
 
-import { FilesIcon, PencilIcon } from '@navikt/aksel-icons';
+import { PencilIcon } from '@navikt/aksel-icons';
 import { ErrorMessage, HStack, Popover } from '@navikt/ds-react';
 
 import styles from './LesevisningFooter.module.css';
@@ -8,7 +8,6 @@ import SmallButton from '../../../../../../komponenter/Knapper/SmallButton';
 
 export interface RedigerVilkårProps {
     startRedigering?: () => void;
-    startKopiering?: () => void;
     feilmeldingRedigering?: string;
     nullstillFeilmeldingRedigering?: () => void;
     skalViseRedigeringsknapp: boolean;
@@ -21,7 +20,6 @@ interface Props extends RedigerVilkårProps {
 export const LesevisningFooter: FC<Props> = ({
     startRedigering,
     skalViseRedigeringsknapp,
-    startKopiering,
     feilmeldingRedigering,
     nullstillFeilmeldingRedigering,
     typeTag,
@@ -39,12 +37,6 @@ export const LesevisningFooter: FC<Props> = ({
                             variant="tertiary"
                             onClick={startRedigering}
                             icon={<PencilIcon />}
-                        />
-                        <SmallButton
-                            className={styles.redigeringsknapp}
-                            variant="tertiary"
-                            onClick={startKopiering}
-                            icon={<FilesIcon />}
                         />
                     </HStack>
                     <Popover
