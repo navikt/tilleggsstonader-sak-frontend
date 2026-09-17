@@ -98,6 +98,8 @@ export const vilkårTypeTilUtgiftTekst: Record<StønadsvilkårType, string> = {
     LØPENDE_UTGIFTER_EN_BOLIG: 'Merutgifter per måned',
     LØPENDE_UTGIFTER_TO_BOLIGER: 'Merutgifter per måned',
     DAGLIG_REISE: '',
+    REISE_TIL_SAMLING: '',
+    REISE_OPPSTART_AVSLUTNING_HJEMREISE: '',
 };
 
 export const vilkårTypeTilUtgiftHjelpeTekst: Record<StønadsvilkårType, string | undefined> = {
@@ -108,6 +110,8 @@ export const vilkårTypeTilUtgiftHjelpeTekst: Record<StønadsvilkårType, string
     LØPENDE_UTGIFTER_TO_BOLIGER:
         'Merutgiften tilsvarer utgiften til boligen på aktivitetsstedet, som kommer i tillegg til utgifter til bolig på hjemstedet. Eventuelle inntekter for utleie av bolig skal ikke være med i beregningen.',
     DAGLIG_REISE: undefined,
+    REISE_TIL_SAMLING: undefined,
+    REISE_OPPSTART_AVSLUTNING_HJEMREISE: undefined,
 };
 
 export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {
@@ -116,4 +120,6 @@ export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {
     LØPENDE_UTGIFTER_EN_BOLIG: 'Løpende utgifter til en bolig',
     LØPENDE_UTGIFTER_TO_BOLIGER: 'Løpende utgifter til to boliger',
     DAGLIG_REISE: 'Daglige reiser',
+    REISE_TIL_SAMLING: 'Samlinger',
+    REISE_OPPSTART_AVSLUTNING_HJEMREISE: 'Oppstart, avslutning og hjemreiser',
 };

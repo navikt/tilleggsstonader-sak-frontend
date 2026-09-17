@@ -2,10 +2,17 @@ import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilk
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { VilkårPeriodeResultat } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
-import { TypeVilkårFakta } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
+import { TypeVilkårFakta as TypeVilkårFaktaDagligReise } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
+import { TypeVilkårFakta as TypeVilkårFaktaReiseOppstartAvslutningHjemreise } from '../../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/regelstrukturReiseOppstartAvslutningHjemreise';
+import { TypeVilkårFakta as TypeVilkårFaktaReiseTilSamling } from '../../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/typer/regelstrukturReiseTilSamling';
 import { StønadsvilkårType, Vilkårsresultat } from '../../Sider/Behandling/vilkår';
 import { TypeVedtak, ÅrsakAvslag, ÅrsakOpphør } from '../vedtak/vedtak';
 import { Vedtaksperiode } from '../vedtak/vedtakperiode';
+
+export type TypeVilkårFakta =
+    | TypeVilkårFaktaDagligReise
+    | TypeVilkårFaktaReiseTilSamling
+    | TypeVilkårFaktaReiseOppstartAvslutningHjemreise;
 
 export interface BehandlingOppsummering {
     aktiviteter: OppsummertVilkårperiode<AktivitetType>[];
