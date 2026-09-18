@@ -30,7 +30,7 @@ export const LesevisningVilkårOffentligTransport: FC<{
                 </Tag>
             }
         >
-            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 234px) 1px auto">
+            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 283px) 1px auto">
                 <LesevisningFaktaOffentligTransport fakta={fakta} />
                 <VertikalSkillelinje />
                 <LesevisningDelvilkår delvilkårsett={vilkår.delvilkårsett} />

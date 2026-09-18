@@ -31,7 +31,7 @@ export const LesevisningVilkårPrivatBil: FC<{
                 </Tag>
             }
         >
-            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 234px) 1px auto">
+            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 283px) 1px auto">
                 <LesevisningFaktaPrivatBil fakta={faktaPrivatBil} />
                 <VertikalSkillelinje />
                 <LesevisningDelvilkår delvilkårsett={vilkår.delvilkårsett} />
