@@ -29,6 +29,11 @@ export interface BeregningsresultatOffentligTransport {
     tom: string;
     beløp: number;
     aktivitetId?: string;
+    /**
+     * Markerer at denne reisen er kopiert uendret fra forrige iverksatte vedtak ved
+     * revurdering, og derfor ikke er reberegnet i denne behandlingen.
+     */
+    fraTidligereVedtak: boolean;
 }
 export interface BeregningsresultatPrivatBil {
     reiseId: string;
@@ -42,6 +47,11 @@ export interface BeregningsresultatPrivatBil {
     parkering?: number;
     piggdekkavgift?: number;
     beløp: number;
+    /**
+     * Markerer at denne reisen er kopiert uendret fra forrige iverksatte vedtak ved
+     * revurdering, og derfor ikke er reberegnet i denne behandlingen.
+     */
+    fraTidligereVedtak: boolean;
 }
 export type InnvilgeReiseTilSamlingRequest = {
     type: TypeVedtak.INNVILGELSE;

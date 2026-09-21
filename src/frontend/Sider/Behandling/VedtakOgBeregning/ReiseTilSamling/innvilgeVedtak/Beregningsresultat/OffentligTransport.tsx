@@ -11,9 +11,21 @@ import { formaterIsoDato } from '../../../../../../utils/dato';
 
 interface Props {
     beregningsresultat: BeregningsresultatOffentligTransport[];
+    visTidligerePerioder?: boolean;
 }
 
-export const BeregningOffentligTransport: FC<Props> = ({ beregningsresultat }) => {
+export const BeregningOffentligTransport: FC<Props> = ({
+    beregningsresultat,
+    visTidligerePerioder = false,
+}) => {
+    const relevanteSamlinger = beregningsresultat.filter(
+        (samling) => visTidligerePerioder || !samling.fraTidligereVedtak
+    );
+
+    if (relevanteSamlinger.length === 0) {
+        return null;
+    }
+
     return (
         <div>
             <HStack justify="space-between">
@@ -33,7 +45,7 @@ export const BeregningOffentligTransport: FC<Props> = ({ beregningsresultat }) =
                 </Table.Header>
 
                 <Table.Body>
-                    {beregningsresultat.map((samling) => (
+                    {relevanteSamlinger.map((samling) => (
                         <Table.Row key={`${samling.reiseId}-${samling.fom}`}>
                             <TableDataCellSmall>{samling.adresse ?? '-'}</TableDataCellSmall>
                             <TableDataCellSmall>{formaterIsoDato(samling.fom)}</TableDataCellSmall>
