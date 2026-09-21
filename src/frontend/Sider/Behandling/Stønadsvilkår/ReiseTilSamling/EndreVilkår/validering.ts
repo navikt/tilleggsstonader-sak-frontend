@@ -15,6 +15,11 @@ import {
 } from '../typer/regelstrukturReiseTilSamling';
 import { SvarOgBegrunnelse, SvarVilkårReiseTilSamling } from '../typer/vilkårReiseTilSamling';
 
+const MAKS_BOMPENGER = 500;
+const MAKS_FERGEKOSTNAD = 900;
+const MAKS_PARKERING = 1000;
+const MAKS_PIGGDEKKAVGIFT = 1400;
+
 export type FeilmeldingerFaktaOffentligTransport = {
     utgifterOffentligTransport?: string;
     aktivitet?: string;
@@ -117,6 +122,7 @@ const validerFaktaOffentligTransport = (
     if (!harVerdi(fakta.begrunnelse)) {
         feil.spesifikasjonAvUtgift = 'Mangler spesifikasjon av utgift';
     }
+
     if (gjelderTsr && !fakta.aktivitet?.aktivitetId) {
         feil.aktivitet = 'Du må velge en aktivitet';
     }
@@ -136,17 +142,29 @@ const validerFaktaPrivatBil = (
     if (fakta.bompenger !== undefined && fakta.bompenger < 0) {
         feil.bompenger = 'Bompenger kan ikke være negativt';
     }
+    if (fakta.bompenger !== undefined && fakta.bompenger > MAKS_BOMPENGER) {
+        feil.bompenger = `Skal du innvilge med bompenger høyere enn ${MAKS_BOMPENGER}kr må du ta kontakt med Tilleggsstønader-temet`;
+    }
     if (fakta.fergekostnad !== undefined && fakta.fergekostnad < 0) {
         feil.fergekostnad = 'Fergekostnad kan ikke være negativ';
     }
+    if (fakta.fergekostnad !== undefined && fakta.fergekostnad > MAKS_FERGEKOSTNAD) {
+        feil.fergekostnad = `Skal du innvilge med fergekostnad høyere enn ${MAKS_FERGEKOSTNAD}kr må du ta kontakt med Tilleggsstønader-temet`;
+    }
     if (fakta.parkering !== undefined && fakta.parkering < 0) {
         feil.parkering = 'Parkering kan ikke være negativ';
+    }
+    if (fakta.parkering !== undefined && fakta.parkering > MAKS_PARKERING) {
+        feil.parkering = `Skal du innvilge med parkering høyere enn ${MAKS_PARKERING}kr må du ta kontakt med Tilleggsstønader-temet`;
     }
     if (!harVerdi(fakta.begrunnelse)) {
         feil.spesifikasjonAvUtgift = 'Mangler spesifikasjon av utgift';
     }
     if (fakta.piggdekkavgift !== undefined && fakta.piggdekkavgift < 0) {
         feil.piggdekkavgift = 'Piggdekkavgift kan ikke være negativ';
+    }
+    if (fakta.piggdekkavgift !== undefined && fakta.piggdekkavgift > MAKS_PIGGDEKKAVGIFT) {
+        feil.piggdekkavgift = `Skal du innvilge med piggdekkavgift høyere enn ${MAKS_PIGGDEKKAVGIFT}kr må du ta kontakt med Tilleggsstønader-temet`;
     }
     if (gjelderTsr && !fakta.aktivitet?.aktivitetId) {
         feil.aktivitet = 'Du må velge en aktivitet';
