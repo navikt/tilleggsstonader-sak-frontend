@@ -42,11 +42,20 @@ export const EndreFaktaPrivatBil: React.FC<{
 
     const oppdaterAktivitet = (aktivitetGlobalId: string) => {
         const valgtAktivitet = oppfylteAktiviteter.find((a) => a.globalId === aktivitetGlobalId);
+        if (!valgtAktivitet) {
+            return;
+        }
+
         settFakta((prevState) => ({
             ...(prevState.type === 'PRIVAT_BIL' ? prevState : tomtPrivatBil),
-            aktivitetId: aktivitetGlobalId || undefined,
-            aktivitetType: valgtAktivitet?.type,
+            aktivitet: {
+                aktivitetId: valgtAktivitet.globalId,
+                aktivitetType: valgtAktivitet.type,
+                fom: valgtAktivitet.fom,
+                tom: valgtAktivitet.tom,
+            },
         }));
+
         nullstillFeilOgUlagretkomponent();
     };
 
@@ -132,7 +141,7 @@ export const EndreFaktaPrivatBil: React.FC<{
                             label={'Aktivitet'}
                             size="small"
                             error={feilmeldinger?.aktivitet}
-                            value={fakta.aktivitetId || ''}
+                            value={fakta.aktivitet?.aktivitetId || ''}
                             onChange={(e) => {
                                 oppdaterAktivitet(e.target.value);
                             }}

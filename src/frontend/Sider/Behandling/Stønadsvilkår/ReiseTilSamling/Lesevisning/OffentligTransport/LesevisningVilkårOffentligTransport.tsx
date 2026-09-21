@@ -1,11 +1,15 @@
 import React, { FC } from 'react';
 
 import { BusIcon } from '@navikt/aksel-icons';
-import { HGrid, Tag } from '@navikt/ds-react';
+import { BodyShort, HGrid, Label, Tag } from '@navikt/ds-react';
 
 import { LesevisningFaktaOffentligTransport } from './LesevisningFaktaOffentligTransport';
 import { VertikalSkillelinje } from '../../../../../../komponenter/VertikalSkillelinje';
-import { erFaktaOffentligTransport } from '../../typer/faktaReiseTilSamling';
+import { formatAktivitetInfo } from '../../felles/aktivitetInfo';
+import {
+    erFaktaOffentligTransport,
+    FaktaOffentligTransport,
+} from '../../typer/faktaReiseTilSamling';
 import { VilkårReiseTilSamling } from '../../typer/vilkårReiseTilSamling';
 import { LesevisningDelvilkår } from '../Felles/LesevisningDelvilkår';
 import { RedigerVilkårProps } from '../Felles/LesevisningFooter';
@@ -24,6 +28,7 @@ export const LesevisningVilkårOffentligTransport: FC<{
         <LesevisningVilkårKort
             vilkår={vilkår}
             redigerVilkårProps={redigerVilkårProps}
+            ekstraHeader={<EkstraHeader fakta={fakta} />}
             typeTag={
                 <Tag size="small" icon={<BusIcon />}>
                     Offentlig transport
@@ -36,5 +41,18 @@ export const LesevisningVilkårOffentligTransport: FC<{
                 <LesevisningDelvilkår delvilkårsett={vilkår.delvilkårsett} />
             </HGrid>
         </LesevisningVilkårKort>
+    );
+};
+
+const EkstraHeader: FC<{ fakta: FaktaOffentligTransport }> = ({ fakta }) => {
+    const aktivitet = fakta.aktivitet;
+
+    if (!aktivitet) return null;
+
+    return (
+        <div>
+            <BodyShort size="small">Aktivitet:</BodyShort>
+            <Label size="small">{formatAktivitetInfo(aktivitet)}</Label>
+        </div>
     );
 };
