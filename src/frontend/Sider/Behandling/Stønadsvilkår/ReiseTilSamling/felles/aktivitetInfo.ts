@@ -7,7 +7,7 @@ import {
 export interface AktivitetInfo {
     aktivitetId: string;
     aktivitetType: AktivitetType;
-    tiltaksvariant?: string;
+    tiltaksvariantBeskrivelse?: string;
     fom: string;
     tom: string;
 }
@@ -15,6 +15,6 @@ export interface AktivitetInfo {
 export const formatAktivitetInfo = (aktivitet: AktivitetInfo): string => {
     const aktivitetTypeTekst =
         AktivitetTypeTilTekst[aktivitet.aktivitetType] || aktivitet.aktivitetType;
-    const label = aktivitet.tiltaksvariant || aktivitetTypeTekst;
+    const label = aktivitet.tiltaksvariantBeskrivelse || aktivitetTypeTekst;
     return `${label} (${formaterIsoPeriode(aktivitet.fom, aktivitet.tom)})`;
 };
