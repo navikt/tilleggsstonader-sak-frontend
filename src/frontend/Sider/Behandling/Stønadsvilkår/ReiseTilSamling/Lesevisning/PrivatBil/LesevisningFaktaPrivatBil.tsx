@@ -73,15 +73,6 @@ export const LesevisningFaktaPrivatBil: FC<{
                     {fakta.begrunnelse || '-'}
                 </BodyShort>
             </VStack>
-
-            {fakta.aktivitetId && (
-                <HStack justify={'space-between'}>
-                    <BodyShort size="small" weight="semibold">
-                        {'Aktivitet'}
-                    </BodyShort>
-                    <BodyShort size="small">{fakta.aktivitetId}</BodyShort>
-                </HStack>
-            )}
         </VStack>
     );
 };

@@ -117,7 +117,7 @@ const validerFaktaOffentligTransport = (
     if (!harVerdi(fakta.begrunnelse)) {
         feil.spesifikasjonAvUtgift = 'Mangler spesifikasjon av utgift';
     }
-    if (gjelderTsr && !fakta.aktivitetId) {
+    if (gjelderTsr && !fakta.aktivitet?.aktivitetId) {
         feil.aktivitet = 'Du må velge en aktivitet';
     }
 
@@ -148,7 +148,7 @@ const validerFaktaPrivatBil = (
     if (fakta.piggdekkavgift !== undefined && fakta.piggdekkavgift < 0) {
         feil.piggdekkavgift = 'Piggdekkavgift kan ikke være negativ';
     }
-    if (gjelderTsr && !fakta.aktivitetId) {
+    if (gjelderTsr && !fakta.aktivitet?.aktivitetId) {
         feil.aktivitet = 'Du må velge en aktivitet';
     }
 
