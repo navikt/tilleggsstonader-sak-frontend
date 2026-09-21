@@ -6,7 +6,7 @@ import { formaterTallMedTusenSkilleEllerStrek } from '../../../../../../utils/fo
 import { FaktaOffentligTransport } from '../../typer/faktaReiseTilSamling';
 
 export const LesevisningFaktaOffentligTransport: FC<{
-    fakta: FaktaOffentligTransport | undefined;
+    fakta: FaktaOffentligTransport;
 }> = ({ fakta }) => {
     return (
         <VStack gap="space-12" paddingBlock="space-16 space-0">
@@ -15,7 +15,7 @@ export const LesevisningFaktaOffentligTransport: FC<{
                     {'Utgifter offentlig transport'}
                 </BodyShort>
                 <BodyShort size="small">
-                    {fakta?.utgifterOffentligTransport
+                    {fakta.utgifterOffentligTransport
                         ? `${formaterTallMedTusenSkilleEllerStrek(fakta.utgifterOffentligTransport)} kr`
                         : '-'}
                 </BodyShort>
@@ -25,11 +25,11 @@ export const LesevisningFaktaOffentligTransport: FC<{
                     {'Spesifikasjon av utgift'}
                 </BodyShort>
                 <BodyShort size="small" style={{ whiteSpace: 'pre-wrap' }}>
-                    {fakta?.begrunnelse || '-'}
+                    {fakta.begrunnelse || '-'}
                 </BodyShort>
             </VStack>
 
-            {fakta?.aktivitetId && (
+            {fakta.aktivitetId && (
                 <HStack justify={'space-between'}>
                     <BodyShort size="small" weight="semibold">
                         {'Aktivitet'}
