@@ -95,14 +95,14 @@ export const EndreFaktaOffentligTransport: React.FC<{
                         }}
                     />
                 </FeilmeldingMaksBredde>
-                <FeilmeldingMaksBredde $maxWidth={300}>
-                    <SpesifikasjonAvUtgift
-                        value={fakta.begrunnelse || ''}
-                        error={feilmeldinger?.spesifikasjonAvUtgift}
-                        onChange={(value) => oppdaterFakta('begrunnelse', value || undefined)}
-                    />
-                </FeilmeldingMaksBredde>
             </HStack>
+            <FeilmeldingMaksBredde $maxWidth={300}>
+                <SpesifikasjonAvUtgift
+                    value={fakta.begrunnelse || ''}
+                    error={feilmeldinger?.spesifikasjonAvUtgift}
+                    onChange={(value) => oppdaterFakta('begrunnelse', value || undefined)}
+                />
+            </FeilmeldingMaksBredde>
         </VStack>
     );
 };

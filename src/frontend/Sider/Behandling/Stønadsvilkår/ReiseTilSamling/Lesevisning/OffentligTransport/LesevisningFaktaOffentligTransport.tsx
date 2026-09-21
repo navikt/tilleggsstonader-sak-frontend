@@ -6,26 +6,34 @@ import { formaterTallMedTusenSkilleEllerStrek } from '../../../../../../utils/fo
 import { FaktaOffentligTransport } from '../../typer/faktaReiseTilSamling';
 
 export const LesevisningFaktaOffentligTransport: FC<{
-    fakta: FaktaOffentligTransport | undefined;
+    fakta: FaktaOffentligTransport;
 }> = ({ fakta }) => {
     return (
-        <VStack gap="space-4" paddingBlock="space-16 space-0">
+        <VStack gap="space-12" paddingBlock="space-16 space-0">
             <HStack justify={'space-between'}>
-                <BodyShort size="small">{'Utgifter offentlig transport'}</BodyShort>
+                <BodyShort size="small" weight="semibold">
+                    {'Utgifter offentlig transport'}
+                </BodyShort>
                 <BodyShort size="small">
-                    {fakta?.utgifterOffentligTransport
+                    {fakta.utgifterOffentligTransport
                         ? `${formaterTallMedTusenSkilleEllerStrek(fakta.utgifterOffentligTransport)} kr`
                         : '-'}
                 </BodyShort>
             </HStack>
-            <HStack justify={'space-between'}>
-                <BodyShort size="small">{'Spesifikasjon av utgift'}</BodyShort>
-                <BodyShort size="small">{fakta?.begrunnelse || '-'}</BodyShort>
-            </HStack>
+            <VStack gap="space-2">
+                <BodyShort size="small" weight="semibold">
+                    {'Spesifikasjon av utgift'}
+                </BodyShort>
+                <BodyShort size="small" style={{ whiteSpace: 'pre-wrap' }}>
+                    {fakta.begrunnelse || '-'}
+                </BodyShort>
+            </VStack>
 
-            {fakta?.aktivitetId && (
+            {fakta.aktivitetId && (
                 <HStack justify={'space-between'}>
-                    <BodyShort size="small">{'Aktivitet'}</BodyShort>
+                    <BodyShort size="small" weight="semibold">
+                        {'Aktivitet'}
+                    </BodyShort>
                     <BodyShort size="small">{fakta.aktivitetId}</BodyShort>
                 </HStack>
             )}

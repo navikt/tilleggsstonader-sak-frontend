@@ -2,6 +2,7 @@ import React, { FC, Fragment } from 'react';
 
 import { BodyShort, HGrid, HStack, Label, VStack } from '@navikt/ds-react';
 
+import { Skillelinje } from '../../../../../../komponenter/Skillelinje';
 import { Delvilkår } from '../../../../vilkår';
 import {
     regelIdTilSpørsmålKortversjon,
@@ -34,6 +35,11 @@ export const LesevisningDelvilkår: FC<{
                                 )}
                             </VStack>
                             <BodyShort size="small">{vurdering.begrunnelse}</BodyShort>
+                            {i < delvilkår.vurderinger.length - 1 && (
+                                <div style={{ gridColumn: '1 / -1' }}>
+                                    <Skillelinje utenMargin />
+                                </div>
+                            )}
                         </Fragment>
                     ))}
                 </HGrid>

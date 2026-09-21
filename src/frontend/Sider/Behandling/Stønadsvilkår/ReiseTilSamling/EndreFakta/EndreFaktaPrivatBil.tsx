@@ -117,6 +117,8 @@ export const EndreFaktaPrivatBil: React.FC<{
                         }}
                     />
                 </FeilmeldingMaksBredde>
+            </HStack>
+            <VStack gap="space-16">
                 <FeilmeldingMaksBredde $maxWidth={300}>
                     <SpesifikasjonAvUtgift
                         value={fakta.begrunnelse || ''}
@@ -125,7 +127,7 @@ export const EndreFaktaPrivatBil: React.FC<{
                     />
                 </FeilmeldingMaksBredde>
                 {gjelderTsr && (
-                    <FeilmeldingMaksBredde $maxWidth={300}>
+                    <FeilmeldingMaksBredde $maxWidth={300} style={{ maxWidth: 'fit-content' }}>
                         <Select
                             label={'Aktivitet'}
                             size="small"
@@ -145,7 +147,7 @@ export const EndreFaktaPrivatBil: React.FC<{
                         </Select>
                     </FeilmeldingMaksBredde>
                 )}
-            </HStack>
+            </VStack>
         </VStack>
     );
 };
