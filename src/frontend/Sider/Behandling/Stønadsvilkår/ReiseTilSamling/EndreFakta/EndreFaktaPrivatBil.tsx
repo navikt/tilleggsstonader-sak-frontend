@@ -133,6 +133,7 @@ export const EndreFaktaPrivatBil: React.FC<{
                         value={fakta.begrunnelse || ''}
                         error={feilmeldinger?.spesifikasjonAvUtgift}
                         onChange={(value) => oppdaterFakta('begrunnelse', value || undefined)}
+                        pakrevd={false}
                     />
                 </FeilmeldingMaksBredde>
                 {gjelderTsr && (
