@@ -44,7 +44,7 @@ export const BeregningPrivatBil: FC<Props> = ({ beregningsresultat }) => {
                             <TableDataCellSmall>{formaterIsoDato(samling.fom)}</TableDataCellSmall>
                             <TableDataCellSmall>{formaterIsoDato(samling.tom)}</TableDataCellSmall>
                             <TableDataCellSmall>{samling.sats}</TableDataCellSmall>
-                            <TableDataCellSmall>{samling.totaltReiseavstand} km</TableDataCellSmall>
+                            <TableDataCellSmall>{samling.reiseavstand} km</TableDataCellSmall>
                             <TableDataCellSmall>
                                 {kronerMedTusenSkilleEllerStrek(samling.bompenger)}
                             </TableDataCellSmall>
