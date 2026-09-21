@@ -21,7 +21,7 @@ export const LesevisningFaktaPrivatBil: FC<{
                 </BodyShort>
             </HStack>
 
-            {!!fakta?.bompenger && (
+            {fakta?.bompenger && (
                 <HStack justify={'space-between'}>
                     <BodyShort size="small" weight="semibold">
                         {'Bompenger'}
@@ -32,7 +32,7 @@ export const LesevisningFaktaPrivatBil: FC<{
                 </HStack>
             )}
 
-            {!!fakta?.fergekostnad && (
+            {fakta?.fergekostnad && (
                 <HStack justify={'space-between'}>
                     <BodyShort size="small" weight="semibold">
                         {'Fergekostnad'}
@@ -43,7 +43,7 @@ export const LesevisningFaktaPrivatBil: FC<{
                 </HStack>
             )}
 
-            {!!fakta?.parkering && (
+            {fakta?.parkering && (
                 <HStack justify={'space-between'}>
                     <BodyShort size="small" weight="semibold">
                         {'Parkering'}
@@ -54,7 +54,7 @@ export const LesevisningFaktaPrivatBil: FC<{
                 </HStack>
             )}
 
-            {!!fakta?.piggdekkavgift && (
+            {fakta?.piggdekkavgift && (
                 <HStack justify={'space-between'}>
                     <BodyShort size="small" weight="semibold">
                         {'Piggdekkavgift'}
