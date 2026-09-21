@@ -143,25 +143,25 @@ const validerFaktaPrivatBil = (
         feil.bompenger = 'Bompenger kan ikke være negativt';
     }
     if (fakta.bompenger !== undefined && fakta.bompenger > MAKS_BOMPENGER) {
-        feil.bompenger = `Skal du innvilge med bompenger høyere enn ${MAKS_BOMPENGER}kr må du ta kontakt med Tilleggsstønader-temet`;
+        feil.bompenger = `Skal du innvilge med bompenger høyere enn ${MAKS_BOMPENGER}kr må du ta kontakt med Tilleggsstønader-teamet`;
     }
     if (fakta.fergekostnad !== undefined && fakta.fergekostnad < 0) {
         feil.fergekostnad = 'Fergekostnad kan ikke være negativ';
     }
     if (fakta.fergekostnad !== undefined && fakta.fergekostnad > MAKS_FERGEKOSTNAD) {
-        feil.fergekostnad = `Skal du innvilge med fergekostnad høyere enn ${MAKS_FERGEKOSTNAD}kr må du ta kontakt med Tilleggsstønader-temet`;
+        feil.fergekostnad = `Skal du innvilge med fergekostnad høyere enn ${MAKS_FERGEKOSTNAD}kr må du ta kontakt med Tilleggsstønader-teamet`;
     }
     if (fakta.parkering !== undefined && fakta.parkering < 0) {
         feil.parkering = 'Parkering kan ikke være negativ';
     }
     if (fakta.parkering !== undefined && fakta.parkering > MAKS_PARKERING) {
-        feil.parkering = `Skal du innvilge med parkering høyere enn ${MAKS_PARKERING}kr må du ta kontakt med Tilleggsstønader-temet`;
+        feil.parkering = `Skal du innvilge med parkering høyere enn ${MAKS_PARKERING}kr må du ta kontakt med Tilleggsstønader-teamet`;
     }
     if (fakta.piggdekkavgift !== undefined && fakta.piggdekkavgift < 0) {
         feil.piggdekkavgift = 'Piggdekkavgift kan ikke være negativ';
     }
     if (fakta.piggdekkavgift !== undefined && fakta.piggdekkavgift > MAKS_PIGGDEKKAVGIFT) {
-        feil.piggdekkavgift = `Skal du innvilge med piggdekkavgift høyere enn ${MAKS_PIGGDEKKAVGIFT}kr må du ta kontakt med Tilleggsstønader-temet`;
+        feil.piggdekkavgift = `Skal du innvilge med piggdekkavgift høyere enn ${MAKS_PIGGDEKKAVGIFT}kr må du ta kontakt med Tilleggsstønader-teamet`;
     }
     if (gjelderTsr && !fakta.aktivitet?.aktivitetId) {
         feil.aktivitet = 'Du må velge en aktivitet';
