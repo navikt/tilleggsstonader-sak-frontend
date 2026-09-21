@@ -25,7 +25,7 @@ export const lagInnvilgetPerioderPunktliste = (
         case Stønadstype.REISE_TIL_SAMLING_TSO:
         case Stønadstype.REISE_TIL_SAMLING_TSR:
             return lagPunktlisteInnvilgedePerioderForReiseTilSamling(
-                vedtak.beregningsresultat as BeregningResultatReiseTilSamling
+                vedtak.beregningsresultat as BeregningResultatReiseTilSamling | undefined
             );
         default:
             return '';
@@ -57,11 +57,11 @@ const lagPunktlisteInnvilgedePerioderForBoutgifter = (
  * fjerner samlinger med identisk fom/tom og sorterer synkende på fom (nyeste først).
  */
 const lagPunktlisteInnvilgedePerioderForReiseTilSamling = (
-    beregningsresultat: BeregningResultatReiseTilSamling
+    beregningsresultat: BeregningResultatReiseTilSamling | undefined
 ): string => {
     const perioder = [
-        ...(beregningsresultat.offentligTransport ?? []),
-        ...(beregningsresultat.privatBil ?? []),
+        ...(beregningsresultat?.offentligTransport ?? []),
+        ...(beregningsresultat?.privatBil ?? []),
     ];
 
     const unikePerioder = fjernDuplikatePerioder(perioder);
