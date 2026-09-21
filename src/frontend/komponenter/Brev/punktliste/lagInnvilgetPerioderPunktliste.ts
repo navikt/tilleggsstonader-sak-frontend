@@ -4,6 +4,7 @@ import { VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { BeregningsresultatBoutgifter } from '../../../typer/vedtak/vedtakBoutgifter';
 import { BeregningResultatReiseTilSamling } from '../../../typer/vedtak/vedtakReiseTilSamling';
 import { formaterTilTekstligDato } from '../../../utils/dato';
+import { Periode } from '../../../utils/periode';
 
 export const lagInnvilgetPerioderPunktliste = (
     behandling: Behandling | undefined,
@@ -31,12 +32,7 @@ export const lagInnvilgetPerioderPunktliste = (
     }
 };
 
-type PeriodeMedFomTom = {
-    fom: string;
-    tom: string;
-};
-
-const lagPunktlisteHtml = (perioder: PeriodeMedFomTom[]): string => {
+const lagPunktlisteHtml = (perioder: Periode[]): string => {
     return `<ul style="margin: 0; padding-top: 0">
     ${perioder
         .map(
@@ -74,7 +70,7 @@ const lagPunktlisteInnvilgedePerioderForReiseTilSamling = (
     return lagPunktlisteHtml(sortertePerioder);
 };
 
-const fjernDuplikatePerioder = <T extends PeriodeMedFomTom>(perioder: T[]): T[] => {
+const fjernDuplikatePerioder = <T extends Periode>(perioder: T[]): T[] => {
     const unikePerioder = new Map<string, T>();
     perioder.forEach((periode) => {
         unikePerioder.set(`${periode.fom}_${periode.tom}`, periode);
