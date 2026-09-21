@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { AktivitetReiseTilSamling } from './AktivitetReiseTilSamling';
-import { Samlinger } from './Samlinger';
+import { Samlinger } from './SamlingsDetaljer/Samlinger';
 import { useOppsummeringFilter } from './useOppsummeringFilter';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
 import { SøknadInfoSeksjonFilter, Søknadsdato } from './Visningskomponenter';

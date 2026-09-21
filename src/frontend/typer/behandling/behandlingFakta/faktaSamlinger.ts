@@ -8,7 +8,8 @@ export interface FaktaSamling {
     periode: Periode;
     harMerEnn30KmReisevei: JaNei;
     lengdeReisevei: number;
-    // leveringOgHentingIBarnehage?: LeveringOgHentingIBarnehage;
+    harBehovForTransportUavhengigAvReisensLengde?: JaNei;
+    leveringOgHentingIBarnehage?: LeveringOgHentingIBarnehage;
     kanReiseMedOffentligTransport: JaNei;
     offentligTransport?: OffentligTransport;
     privatTransport?: PrivatTransport;
@@ -30,6 +31,19 @@ export interface PrivatTransport {
     utgifterBil?: UtgifterBil;
 }
 
+export enum Drivstofftype {
+    ELBIL = 'ELBIL',
+    HYDROGEN = 'HYDROGEN',
+    BENSIN = 'BENSIN',
+    HYBRID = 'HYBRID',
+    DIESEL = 'DIESEL',
+}
+
+export interface LeveringOgHentingIBarnehage {
+    gateadresse: string;
+    postnummer: string;
+}
+
 export enum ÅrsakIkkeOffentligTransport {
     HELSEMESSIGE_ÅRSAKER = 'HELSEMESSIGE_ÅRSAKER',
     DÅRLIG_TRANSPORTTILBUD = 'DÅRLIG_TRANSPORTTILBUD',
@@ -42,6 +56,7 @@ export interface UtgifterBil {
     bompenger?: number;
     fergekostnad?: number;
     piggdekkavgift?: number;
+    drivstofftype: Drivstofftype;
 }
 
 export const ÅrsakIkkeOffentligTransportTilTekst: Record<ÅrsakIkkeOffentligTransport, string> = {
@@ -54,3 +69,11 @@ export const ÅrsakIkkeOffentligTransportTilTekst: Record<ÅrsakIkkeOffentligTra
 export function reiseAdresseTilTekst(adresse: ReiseAdresse): string {
     return `${adresse.gateadresse}, ${adresse.postnummer} ${adresse.poststed}`;
 }
+
+export const drivstofftypeTilTekst: Record<Drivstofftype, string> = {
+    [Drivstofftype.BENSIN]: 'Bensin',
+    [Drivstofftype.ELBIL]: 'Elbil',
+    [Drivstofftype.HYDROGEN]: 'Hydrogen',
+    [Drivstofftype.HYBRID]: 'Hybrid',
+    [Drivstofftype.DIESEL]: 'Diesel',
+};

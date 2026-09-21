@@ -22,11 +22,11 @@ export const AktivitetReiseTilSamling: React.FC<{
     }
 
     return (
-        <SøknadInfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
+        <SøknadInfoSeksjon label="Arbeidsrettet aktivitet HELLLOOO" ikon={<BriefcaseIcon />}>
             <AktivitetFelt aktivitet={aktiviterer.aktivitet} />
             {dekkesUtgiftenAvAndre?.typeUtdanning && (
                 <SøknadInfoFelt
-                    label="Hva slags type arbeidsrettet aktivitet går du på?"
+                    label="Hva slags type arbeidsrettet aktivitet HELLLOOOO går du på?"
                     value={tekstMedFallback(
                         TypeUtdanningTilTekst,
                         dekkesUtgiftenAvAndre?.typeUtdanning as ReiseTilSamlingTypeUtdanning

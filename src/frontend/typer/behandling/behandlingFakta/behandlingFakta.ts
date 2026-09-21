@@ -1,4 +1,8 @@
-import { FaktaAktivitet, FaktaAktivitetDagligReise } from './faktaAktivitet';
+import {
+    FaktaAktivitet,
+    FaktaAktivitetDagligReise,
+    FaktaAktivitetReiseTilSamling,
+} from './faktaAktivitet';
 import { FaktaArena } from './faktaArena';
 import { FaktaBarn } from './faktaBarn';
 import { FaktaDokumentasjon } from './faktaDokumentasjon';
@@ -44,7 +48,7 @@ export interface BehandlingFaktaDagligReise extends BehandlingFaktaInterface {
 
 export interface BehandlingFaktaReiseTilSamling extends BehandlingFaktaInterface {
     '@type': Stønadstype.REISE_TIL_SAMLING_TSO; //| Stønadstype.REISE_TIL_SAMLING_TSR;
-    aktiviteter: FaktaAktivitet;
+    aktiviteter: FaktaAktivitetReiseTilSamling;
     personopplysninger: FaktaPersonopplysninger;
     samlinger: FaktaSamling[];
     // TODO: Legg til alt de andre fra søknaden
