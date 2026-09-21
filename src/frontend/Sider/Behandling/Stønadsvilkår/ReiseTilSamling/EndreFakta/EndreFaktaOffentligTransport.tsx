@@ -110,6 +110,7 @@ export const EndreFaktaOffentligTransport: React.FC<{
                     value={fakta.begrunnelse || ''}
                     error={feilmeldinger?.spesifikasjonAvUtgift}
                     onChange={(value) => oppdaterFakta('begrunnelse', value || undefined)}
+                    pakrevd={true}
                 />
             </FeilmeldingMaksBredde>
         </VStack>

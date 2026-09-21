@@ -6,10 +6,11 @@ export const SpesifikasjonAvUtgift: React.FC<{
     value: string;
     error?: string;
     onChange: (value: string) => void;
-}> = ({ value, error, onChange }) => (
+    pakrevd: boolean;
+}> = ({ value, error, onChange, pakrevd }) => (
     <VStack gap="space-4">
         <Textarea
-            label={'Spesifikasjon av utgift (obligatorisk)'}
+            label={`Spesifikasjon av utgift (${pakrevd ? 'obligatorisk' : 'valgfritt'})`}
             size="small"
             error={error}
             value={value}

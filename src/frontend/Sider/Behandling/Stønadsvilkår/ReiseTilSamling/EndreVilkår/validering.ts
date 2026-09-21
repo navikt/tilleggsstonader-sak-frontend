@@ -157,9 +157,6 @@ const validerFaktaPrivatBil = (
     if (fakta.parkering !== undefined && fakta.parkering > MAKS_PARKERING) {
         feil.parkering = `Skal du innvilge med parkering høyere enn ${MAKS_PARKERING}kr må du ta kontakt med Tilleggsstønader-temet`;
     }
-    if (!harVerdi(fakta.begrunnelse)) {
-        feil.spesifikasjonAvUtgift = 'Mangler spesifikasjon av utgift';
-    }
     if (fakta.piggdekkavgift !== undefined && fakta.piggdekkavgift < 0) {
         feil.piggdekkavgift = 'Piggdekkavgift kan ikke være negativ';
     }
