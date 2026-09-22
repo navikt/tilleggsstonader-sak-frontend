@@ -17,7 +17,7 @@ import { SvarOgBegrunnelse, SvarVilkårReiseTilSamling } from '../typer/vilkårR
 
 const MAKS_BOMPENGER = 500;
 const MAKS_FERGEKOSTNAD = 900;
-const MAKS_PARKERING = 1000;
+const MAKS_PARKERING = 2000;
 const MAKS_PIGGDEKKAVGIFT = 1400;
 
 export type FeilmeldingerFaktaOffentligTransport = {
