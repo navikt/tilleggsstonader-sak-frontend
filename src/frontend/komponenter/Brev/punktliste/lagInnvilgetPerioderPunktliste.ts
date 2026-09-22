@@ -5,6 +5,7 @@ import { BeregningsresultatBoutgifter } from '../../../typer/vedtak/vedtakBoutgi
 import { BeregningResultatReiseTilSamling } from '../../../typer/vedtak/vedtakReiseTilSamling';
 import { formaterTilTekstligDato } from '../../../utils/dato';
 import { Periode } from '../../../utils/periode';
+import { fjernDuplikater } from '../../../utils/utils';
 
 export const lagInnvilgetPerioderPunktliste = (
     behandling: Behandling | undefined,
@@ -65,15 +66,10 @@ const lagPunktlisteInnvilgedePerioderForReiseTilSamling = (
         ...(beregningsresultat?.privatBil ?? []),
     ];
 
-    const unikePerioder = fjernDuplikatePerioder(perioder);
+    const unikePerioder = fjernDuplikater(perioder, erPerioderLike);
 
     return lagPunktlisteHtml(unikePerioder);
 };
 
-const fjernDuplikatePerioder = <T extends Periode>(perioder: T[]): T[] => {
-    const unikePerioder = new Map<string, T>();
-    perioder.forEach((periode) => {
-        unikePerioder.set(`${periode.fom}_${periode.tom}`, periode);
-    });
-    return Array.from(unikePerioder.values());
-};
+const erPerioderLike = (periodeA: Periode, periodeB: Periode) =>
+    periodeA.fom === periodeB.fom && periodeA.tom === periodeB.tom;
