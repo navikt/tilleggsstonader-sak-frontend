@@ -196,23 +196,30 @@ const UtgifterNyBolig = ({
                 {utgifterNyBolig.harHoyereUtgifterPaNyttBosted === JaNei.JA && (
                     <>
                         {harTallverdi(utgifterNyBolig.andelUtgifterBoligHjemsted) && (
-                            <SøknadInfoFeltKompakt
-                                label="Utgift hjemsted"
-                                value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBoligHjemsted)} kr`}
-                            />
+                            <VStack gap="space-2">
+                                <SøknadInfoFeltKompakt
+                                    label="Utgift hjemsted"
+                                    value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBoligHjemsted)} kr`}
+                                />
+                                {utgifterNyBolig.delerBoutgifterNy?.includes(
+                                    DelerUtgifterFlereStederType.HJEMSTED
+                                ) && <UtgiftenDelesMedAndre />}
+                            </VStack>
                         )}
+
                         {harTallverdi(utgifterNyBolig.andelUtgifterBoligAktivitetssted) && (
-                            <SøknadInfoFeltKompakt
-                                label="Utgift aktivitetssted"
-                                value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBoligAktivitetssted)} kr`}
-                            />
+                            <VStack gap="space-2">
+                                <SøknadInfoFeltKompakt
+                                    label="Utgift aktivitetssted"
+                                    value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBoligAktivitetssted)} kr`}
+                                />
+                                {utgifterNyBolig.delerBoutgifterNy?.includes(
+                                    DelerUtgifterFlereStederType.AKTIVITETSSTED
+                                ) && <UtgiftenDelesMedAndre />}
+                            </VStack>
                         )}
                     </>
                 )}
-
-                {utgifterNyBolig.delerBoutgifterNy?.includes(
-                    DelerUtgifterFlereStederType.HJEMSTED
-                ) && <UtgiftenDelesMedAndre />}
 
                 {utgifterNyBolig.mottarBostotte === JaNei.JA && (
                     <SøknadInfoFeltKompakt label="Mottar bostøtte" value="Ja" />
@@ -225,7 +232,7 @@ const UtgifterNyBolig = ({
 function UtgiftenDelesMedAndre() {
     return (
         <BodyShort size="small">
-            <i>utgiften deles med andre</i>
+            <i>Utgiften deles med andre</i>
         </BodyShort>
     );
 }
@@ -239,7 +246,7 @@ const UtgifterFlereSteder = ({
     return (
         <OppsummeringDelseksjon label="Løpende utgift til to boliger">
             <VStack gap="space-8">
-                <div>
+                <VStack gap="space-2">
                     <SøknadInfoFeltKompakt
                         label="Utgift hjemsted"
                         value={`${tilTallverdi(utgifterFlereSteder.andelUtgifterBoligHjemsted)} kr`}
@@ -247,8 +254,8 @@ const UtgifterFlereSteder = ({
                     {utgifterFlereSteder.delerBoutgifter.includes(
                         DelerUtgifterFlereStederType.HJEMSTED
                     ) && <UtgiftenDelesMedAndre />}
-                </div>
-                <div>
+                </VStack>
+                <VStack gap="space-2">
                     <SøknadInfoFeltKompakt
                         label="Utgift aktivitetssted"
                         value={`${tilTallverdi(utgifterFlereSteder.andelUtgifterBoligAktivitetssted)} kr`}
@@ -256,7 +263,7 @@ const UtgifterFlereSteder = ({
                     {utgifterFlereSteder.delerBoutgifter.includes(
                         DelerUtgifterFlereStederType.AKTIVITETSSTED
                     ) && <UtgiftenDelesMedAndre />}
-                </div>
+                </VStack>
             </VStack>
         </OppsummeringDelseksjon>
     );
