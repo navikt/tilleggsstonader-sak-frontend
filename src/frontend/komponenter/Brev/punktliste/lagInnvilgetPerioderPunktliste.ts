@@ -33,8 +33,9 @@ export const lagInnvilgetPerioderPunktliste = (
 };
 
 const lagPunktlisteHtml = (perioder: Periode[]): string => {
+    const sortertePerioder = perioder.sort((a, b) => b.fom.localeCompare(a.fom));
     return `<ul style="margin: 0; padding-top: 0">
-    ${perioder
+    ${sortertePerioder
         .map(
             (periode) =>
                 `<li style="margin: 0;">fra og med ${formaterTilTekstligDato(periode.fom)} til og med ${formaterTilTekstligDato(periode.tom)}</li>`
@@ -54,7 +55,7 @@ const lagPunktlisteInnvilgedePerioderForBoutgifter = (
 
 /**
  * Slår sammen offentlig transport og privat bil til én liste med samlinger,
- * fjerner samlinger med identisk fom/tom og sorterer synkende på fom (nyeste først).
+ * og fjerner samlinger med identisk fom/tom. lagPunktlisteHtml sorterer perioder.
  */
 const lagPunktlisteInnvilgedePerioderForReiseTilSamling = (
     beregningsresultat: BeregningResultatReiseTilSamling | undefined
@@ -65,9 +66,8 @@ const lagPunktlisteInnvilgedePerioderForReiseTilSamling = (
     ];
 
     const unikePerioder = fjernDuplikatePerioder(perioder);
-    const sortertePerioder = unikePerioder.sort((a, b) => b.fom.localeCompare(a.fom));
 
-    return lagPunktlisteHtml(sortertePerioder);
+    return lagPunktlisteHtml(unikePerioder);
 };
 
 const fjernDuplikatePerioder = <T extends Periode>(perioder: T[]): T[] => {
