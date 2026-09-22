@@ -35,7 +35,7 @@ export interface InnvilgelseDagligReise {
 }
 
 export type BeregnDagligReiseRequest = {
-    vedtaksperioder: Vedtaksperiode[];
+    vedtaksperioder: Vedtaksperiode[] | VedtaksperiodeTsrDto[];
 };
 
 export type AvslagDagligReise = AvslagRequest;

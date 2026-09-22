@@ -111,10 +111,7 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
                 : `/api/sak/vedtak/daglig-reise/${behandling.id}/tso/beregn`;
 
             request<BeregningDagligReise, BeregnDagligReiseRequest>(url, 'POST', {
-                vedtaksperioder: tilVedtaksperioderDto(
-                    vedtaksperioder,
-                    behandling.stønadstype
-                ) as Vedtaksperiode[],
+                vedtaksperioder: tilVedtaksperioderDto(vedtaksperioder, behandling.stønadstype),
             }).then((result) => {
                 settBeregningsresultat(result);
                 if (result.status === 'SUKSESS') {

@@ -25,7 +25,7 @@ export type OpphørReiseTilSamling = OpphørRequest & {
 };
 
 export type BeregnReiseTilSamlingRequest = {
-    vedtaksperioder: Vedtaksperiode[];
+    vedtaksperioder: Vedtaksperiode[] | VedtaksperiodeTsrDto[];
 };
 export interface BeregningResultatReiseTilSamling {
     offentligTransport?: BeregningsresultatOffentligTransport[];
