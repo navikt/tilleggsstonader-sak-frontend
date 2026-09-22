@@ -193,20 +193,27 @@ const UtgifterNyBolig = ({
                         utgifterNyBolig.harHoyereUtgifterPaNyttBosted
                     )}
                 />
-                {utgifterNyBolig.harHoyereUtgifterPaNyttBosted === JaNei.JA &&
-                    harTallverdi(utgifterNyBolig.andelUtgifterBoligHjemsted) && (
-                        <SøknadInfoFeltKompakt
-                            label="Utgift hjemsted"
-                            value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBoligHjemsted)} kr`}
-                        />
-                    )}
-                {utgifterNyBolig.harHoyereUtgifterPaNyttBosted === JaNei.JA &&
-                    harTallverdi(utgifterNyBolig.andelUtgifterBoligAktivitetssted) && (
-                        <SøknadInfoFeltKompakt
-                            label="Utgift aktivitetssted"
-                            value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBoligAktivitetssted)} kr`}
-                        />
-                    )}
+                {utgifterNyBolig.harHoyereUtgifterPaNyttBosted === JaNei.JA && (
+                    <>
+                        {harTallverdi(utgifterNyBolig.andelUtgifterBoligHjemsted) && (
+                            <SøknadInfoFeltKompakt
+                                label="Utgift hjemsted"
+                                value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBoligHjemsted)} kr`}
+                            />
+                        )}
+                        {harTallverdi(utgifterNyBolig.andelUtgifterBoligAktivitetssted) && (
+                            <SøknadInfoFeltKompakt
+                                label="Utgift aktivitetssted"
+                                value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBoligAktivitetssted)} kr`}
+                            />
+                        )}
+                    </>
+                )}
+
+                {utgifterNyBolig.delerBoutgifterNy?.includes(
+                    DelerUtgifterFlereStederType.HJEMSTED
+                ) && <UtgiftenDelesMedAndre />}
+
                 {utgifterNyBolig.mottarBostotte === JaNei.JA && (
                     <SøknadInfoFeltKompakt label="Mottar bostøtte" value="Ja" />
                 )}
