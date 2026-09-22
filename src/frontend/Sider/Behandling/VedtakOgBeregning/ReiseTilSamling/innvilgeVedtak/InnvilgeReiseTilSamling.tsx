@@ -65,7 +65,7 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
 
     const lagreVedtak = () => {
         if (beregningsresultat.status === RessursStatus.SUKSESS && erVedtaksperioderBeregnet) {
-            const url = `/api/sak/vedtak/reise-til-samling/${behandling.id}/tso/innvilgelse`;
+            const url = `/api/sak/vedtak/reise-til-samling/${behandling.id}/innvilgelse`;
 
             return request<null, InnvilgeReiseTilSamlingRequest>(url, 'POST', {
                 type: TypeVedtak.INNVILGELSE,
@@ -92,7 +92,7 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
 
         if (kanSendeInn) {
             settBeregningsresultat(byggHenterRessurs());
-            const url = `/api/sak/vedtak/reise-til-samling/${behandling.id}/tso/beregn`;
+            const url = `/api/sak/vedtak/reise-til-samling/${behandling.id}/beregn`;
             request<BeregningResultatReiseTilSamling, BeregnReiseTilSamlingRequest>(url, 'POST', {
                 vedtaksperioder,
             }).then((result) => {
