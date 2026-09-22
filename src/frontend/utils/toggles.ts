@@ -9,6 +9,11 @@ export enum Toggle {
     KAN_SAKSBEHANDLE_DAGLIG_REISE_TSR = 'sak.frontend.kan-saksbehandle.daglig-reise-tsr',
     KAN_SAKSBEHANDLE_REISE_TIL_SAMLING_TSO = 'sak.frontend.kan-saksbehandle.reise-til-samling-tso',
     KAN_SAKSBEHANDLE_REISE_TIL_SAMLING_TSR = 'sak.frontend.kan-saksbehandle.reise-til-samling-tsr',
+    /**
+     * Kan opprette revurdering
+     */
+    KAN_REVURDERE_REISE_TIL_SAMLING_TSO = 'sak.frontend.kan-revurdere.reise-til-samling-tso',
+    KAN_REVURDERE_REISE_TIL_SAMLING_TSR = 'sak.frontend.kan-revurdere.reise-til-samling-tsr',
     KAN_SAKSBEHANDLE_FLYTTING_TSO = 'sak.frontend.kan-saksbehandle.flytting-tso',
     KAN_SAKSBEHANDLE_FLYTTING_TSR = 'sak.frontend.kan-saksbehandle.flytting-tsr',
     KAN_SAKSBEHANDLE_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO = 'sak.frontend.kan-saksbehandle.reise-oppstart-avslutning-hjemreise-tso',
