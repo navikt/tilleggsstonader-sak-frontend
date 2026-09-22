@@ -22,10 +22,13 @@ export interface FaktaUtgifterFlereSteder {
 }
 
 export interface FaktaUtgifterNyBolig {
-    delerBoutgifter: JaNei;
+    delerBoutgifter?: JaNei;
+    delerBoutgifterNy?: DelerUtgifterFlereStederType[];
     andelUtgifterBolig?: number;
     harHoyereUtgifterPaNyttBosted: JaNei;
-    mottarBostotte: JaNei;
+    mottarBostotte?: JaNei;
+    andelUtgifterBoligHjemsted?: number;
+    andelUtgifterBoligAktivitetssted?: number;
 }
 
 export interface FaktaUtgifterIForbindelseMedSamling {

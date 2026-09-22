@@ -173,11 +173,14 @@ const UtgifterNyBolig = ({
     utgifterNyBolig: FaktaUtgifterNyBolig | undefined;
 }) => {
     if (!utgifterNyBolig) return null;
+    const harNyFordeling =
+        harTallverdi(utgifterNyBolig.andelUtgifterBoligHjemsted) ||
+        harTallverdi(utgifterNyBolig.andelUtgifterBoligAktivitetssted);
 
     return (
         <OppsummeringDelseksjon label="Løpende utgift til én bolig">
             <VStack gap="space-12">
-                {harTallverdi(utgifterNyBolig.andelUtgifterBolig) && (
+                {!harNyFordeling && harTallverdi(utgifterNyBolig.andelUtgifterBolig) && (
                     <SøknadInfoFeltKompakt
                         label="Andel av utgift"
                         value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBolig)} kr`}
@@ -190,6 +193,20 @@ const UtgifterNyBolig = ({
                         utgifterNyBolig.harHoyereUtgifterPaNyttBosted
                     )}
                 />
+                {utgifterNyBolig.harHoyereUtgifterPaNyttBosted === JaNei.JA &&
+                    harTallverdi(utgifterNyBolig.andelUtgifterBoligHjemsted) && (
+                        <SøknadInfoFeltKompakt
+                            label="Utgift hjemsted"
+                            value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBoligHjemsted)} kr`}
+                        />
+                    )}
+                {utgifterNyBolig.harHoyereUtgifterPaNyttBosted === JaNei.JA &&
+                    harTallverdi(utgifterNyBolig.andelUtgifterBoligAktivitetssted) && (
+                        <SøknadInfoFeltKompakt
+                            label="Utgift aktivitetssted"
+                            value={`${tilTallverdi(utgifterNyBolig.andelUtgifterBoligAktivitetssted)} kr`}
+                        />
+                    )}
                 {utgifterNyBolig.mottarBostotte === JaNei.JA && (
                     <SøknadInfoFeltKompakt label="Mottar bostøtte" value="Ja" />
                 )}
