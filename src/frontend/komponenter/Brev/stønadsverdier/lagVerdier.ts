@@ -8,6 +8,7 @@ import { InnvilgelseBoutgifter } from '../../../typer/vedtak/vedtakBoutgifter';
 import { InnvilgelseDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
 import { InnvilgelseLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
 import { InnvilgelsePassAvBarn } from '../../../typer/vedtak/vedtakPassAvBarn';
+import { InnvilgelseReiseOppstartAvslutningHjemreise } from '../../../typer/vedtak/vedtakReiseOppstartAvslutningHjemreise';
 import { InnvilgelseReiseTilSamling } from '../../../typer/vedtak/vedtakReiseTilSamling';
 
 const TOMME_VERDIER: Brevverdier = { variabelStore: {} };
@@ -20,6 +21,7 @@ function behandleInnvilgelse(
         | InnvilgelseBoutgifter
         | InnvilgelseDagligReise
         | InnvilgelseReiseTilSamling
+        | InnvilgelseReiseOppstartAvslutningHjemreise
 ) {
     switch (behandling.stønadstype) {
         case Stønadstype.LÆREMIDLER: {

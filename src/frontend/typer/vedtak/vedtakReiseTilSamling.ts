@@ -29,6 +29,7 @@ export interface BeregningsresultatOffentligTransport {
     tom: string;
     beløp: number;
     aktivitetId?: string;
+    fraTidligereVedtak: boolean;
 }
 export interface BeregningsresultatPrivatBil {
     reiseId: string;
@@ -42,6 +43,7 @@ export interface BeregningsresultatPrivatBil {
     parkering?: number;
     piggdekkavgift?: number;
     beløp: number;
+    fraTidligereVedtak: boolean;
 }
 export type InnvilgeReiseTilSamlingRequest = {
     type: TypeVedtak.INNVILGELSE;

@@ -24,7 +24,11 @@ export function lagVedtakstabellReiseTilSamlingOffentligTransport(
 ): string {
     if (!beregningsresultat?.offentligTransport) return '';
 
-    const htmlPerSamling = beregningsresultat.offentligTransport.map((samling) => {
+    const nyeSamlinger = beregningsresultat.offentligTransport.filter(
+        (samling) => !samling.fraTidligereVedtak
+    );
+
+    const htmlPerSamling = nyeSamlinger.map((samling) => {
         const kolonneOverskrift = `
         <th style="width: 160px; ${borderStylingCompact}">Periode</th>
         <th style="width: 130px; ${borderStylingCompact}">Stønadsbeløp</th>
@@ -59,6 +63,7 @@ function lagVedtakstabellReiseTilSamlingPrivatBil(
     if (!beregningsresultat?.privatBil) return '';
 
     return beregningsresultat.privatBil
+        .filter((samling) => !samling.fraTidligereVedtak)
         .map((samling) => lagVedtakstabellReiseTilSamlingPrivatBilPerSamling(samling))
         .join('');
 }

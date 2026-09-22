@@ -12,9 +12,21 @@ import { kronerMedTusenSkilleEllerStrek } from '../../../../../../utils/tekstfor
 
 interface Props {
     beregningsresultat: BeregningsresultatPrivatBil[];
+    visTidligerePerioder?: boolean;
 }
 
-export const BeregningPrivatBil: FC<Props> = ({ beregningsresultat }) => {
+export const BeregningPrivatBil: FC<Props> = ({
+    beregningsresultat,
+    visTidligerePerioder = false,
+}) => {
+    const relevanteSamlinger = beregningsresultat.filter(
+        (samling) => visTidligerePerioder || !samling.fraTidligereVedtak
+    );
+
+    if (relevanteSamlinger.length === 0) {
+        return null;
+    }
+
     return (
         <div>
             <Heading spacing size="xsmall" level="4">
@@ -38,7 +50,7 @@ export const BeregningPrivatBil: FC<Props> = ({ beregningsresultat }) => {
                 </Table.Header>
 
                 <Table.Body>
-                    {beregningsresultat.map((samling) => (
+                    {relevanteSamlinger.map((samling) => (
                         <Table.Row key={`${samling.reiseId}-${samling.fom}`}>
                             <TableDataCellSmall>{samling.adresse ?? '-'}</TableDataCellSmall>
                             <TableDataCellSmall>{formaterIsoDato(samling.fom)}</TableDataCellSmall>
