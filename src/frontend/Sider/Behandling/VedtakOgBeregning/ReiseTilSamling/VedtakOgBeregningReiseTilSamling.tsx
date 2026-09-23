@@ -11,9 +11,11 @@ import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
 import {
     vedtakErAvslag,
     vedtakErInnvilgelse,
+    vedtakErOpphør,
     VedtakReiseTilSamling,
 } from '../../../../typer/vedtak/vedtakReiseTilSamling';
 import { AvslåVedtak } from '../Felles/AvslåVedtak';
+import { OpphørVedtak } from '../Felles/Opphørsvedtak';
 import { VelgVedtakResultat } from '../Felles/VelgVedtakResultat';
 import { InnvilgelseReiseTilSamlingEllerVedtaksperioderFraForrigeBehandling } from './innvilgeVedtak/InnvilgelseReiseTilSamlingEllerVedtaksperioderFraForrigeBehandling';
 
@@ -39,6 +41,11 @@ export const VedtakOgBeregningReiseTilSamling: React.FC = () => {
                                 {typeVedtak === TypeVedtak.AVSLAG && (
                                     <AvslåVedtak
                                         vedtak={vedtakErAvslag(vedtak) ? vedtak : undefined}
+                                    />
+                                )}
+                                {typeVedtak === TypeVedtak.OPPHØR && (
+                                    <OpphørVedtak
+                                        vedtak={vedtakErOpphør(vedtak) ? vedtak : undefined}
                                     />
                                 )}
                             </HGrid>

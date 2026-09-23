@@ -2,8 +2,10 @@ import { Beregningsplan } from './beregningsplan';
 import { TypeVedtak } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 import { AvslagRequest } from '../../hooks/useLagreAvslag';
+import { OpphørRequest } from '../../hooks/useLagreOpphør';
 
-export type VedtakReiseTilSamling = InnvilgelseReiseTilSamling | AvslagReiseTilSamling;
+export type VedtakReiseTilSamling =
+    InnvilgelseReiseTilSamling | AvslagReiseTilSamling | OpphørReiseTilSamling;
 
 export const vedtakErInnvilgelse = (
     vedtak: VedtakReiseTilSamling
@@ -12,7 +14,14 @@ export const vedtakErInnvilgelse = (
 export const vedtakErAvslag = (vedtak: VedtakReiseTilSamling): vedtak is AvslagReiseTilSamling =>
     vedtak.type === TypeVedtak.AVSLAG;
 
+export const vedtakErOpphør = (vedtak: VedtakReiseTilSamling): vedtak is OpphørReiseTilSamling =>
+    vedtak.type === TypeVedtak.OPPHØR;
+
 export type AvslagReiseTilSamling = AvslagRequest;
+
+export type OpphørReiseTilSamling = OpphørRequest & {
+    vedtaksperioder: Vedtaksperiode[];
+};
 
 export type BeregnReiseTilSamlingRequest = {
     vedtaksperioder: Vedtaksperiode[];
