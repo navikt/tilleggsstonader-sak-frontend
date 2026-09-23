@@ -34,7 +34,7 @@ export const lagInnvilgetPerioderPunktliste = (
 };
 
 const lagPunktlisteHtml = (perioder: Periode[]): string => {
-    const sortertePerioder = perioder.sort((a, b) => b.fom.localeCompare(a.fom));
+    const sortertePerioder = perioder.sort((a, b) => a.fom.localeCompare(b.fom));
     return `<ul style="margin: 0; padding-top: 0">
     ${sortertePerioder
         .map(
