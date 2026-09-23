@@ -47,7 +47,7 @@ const EkstraHeader: FC<{ fakta: FaktaPrivatBil }> = ({ fakta }) => {
     return (
         <>
             <div>
-                <BodyShort size="small">Totalt reiseavstand:</BodyShort>
+                <BodyShort size="small">Total reiseavstand:</BodyShort>
                 <Label size="small">{fakta.reiseavstand} km</Label>
             </div>
             {aktivitet && (

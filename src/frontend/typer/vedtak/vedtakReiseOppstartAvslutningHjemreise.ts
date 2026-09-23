@@ -33,7 +33,7 @@ export interface BeregningsresultatPrivatBil {
     fom: string;
     tom: string;
     sats: number;
-    totaltReiseavstand: number;
+    totalReiseavstand: number;
     beløp: number;
     aktivitetId: string;
     bompenger?: number;
