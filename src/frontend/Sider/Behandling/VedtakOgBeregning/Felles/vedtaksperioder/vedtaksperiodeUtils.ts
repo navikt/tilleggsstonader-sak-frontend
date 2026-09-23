@@ -59,3 +59,26 @@ export const finnFaktiskeMålgruppeValgForStønad = (stønadstype: Stønadstype)
         label: FaktiskMålgruppeTilTekst[faktiskMålgruppe],
     }));
 };
+
+/**
+ * TSR-varianter (daglig reise og reise til samling) bestemmer typeandel ut fra
+ * tiltaksvariant i stedet for målgruppe/aktivitet. Saksbehandler trenger derfor
+ * ikke oppgi målgruppe/aktivitet for TSR.
+ */
+export type VedtaksperiodeTsrDto = Omit<Vedtaksperiode, 'målgruppeType' | 'aktivitetType'>;
+
+const stønadstyperMedForenkletTsrPeriode = [
+    Stønadstype.DAGLIG_REISE_TSR,
+    Stønadstype.REISE_TIL_SAMLING_TSR,
+];
+
+export const tilVedtaksperioderDto = (
+    perioder: Vedtaksperiode[],
+    stønadstype: Stønadstype
+): Vedtaksperiode[] | VedtaksperiodeTsrDto[] => {
+    if (stønadstyperMedForenkletTsrPeriode.includes(stønadstype)) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        return perioder.map(({ målgruppeType, aktivitetType, ...rest }) => rest);
+    }
+    return perioder;
+};

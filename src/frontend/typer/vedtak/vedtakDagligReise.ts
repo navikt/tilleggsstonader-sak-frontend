@@ -3,7 +3,7 @@ import { TypeVedtak } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 import { AvslagRequest } from '../../hooks/useLagreAvslag';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
-import { VedtaksperiodeTsrDto } from '../../Sider/Behandling/VedtakOgBeregning/DagligReise/innvilgeVedtak/innvilgeDagligReiseUtils';
+import { VedtaksperiodeTsrDto } from '../../Sider/Behandling/VedtakOgBeregning/Felles/vedtaksperioder/vedtaksperiodeUtils';
 import { Periode } from '../../utils/periode';
 import { BillettType } from '../behandling/behandlingFakta/faktaReise';
 
@@ -35,7 +35,7 @@ export interface InnvilgelseDagligReise {
 }
 
 export type BeregnDagligReiseRequest = {
-    vedtaksperioder: Vedtaksperiode[];
+    vedtaksperioder: Vedtaksperiode[] | VedtaksperiodeTsrDto[];
 };
 
 export type AvslagDagligReise = AvslagRequest;

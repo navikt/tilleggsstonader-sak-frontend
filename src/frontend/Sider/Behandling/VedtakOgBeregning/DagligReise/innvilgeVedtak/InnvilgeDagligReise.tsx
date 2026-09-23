@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { Beregningsresultat } from './Beregningsresultat/Beregningsresultat';
-import { tilVedtaksperioderDto } from './innvilgeDagligReiseUtils';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
@@ -27,7 +26,10 @@ import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
 import { StegKnappInnvilgelseMedVarsel } from '../../Felles/StegKnappInnvilgelseMedVarsel';
 import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
 import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
-import { initialiserVedtaksperioder } from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
+import {
+    initialiserVedtaksperioder,
+    tilVedtaksperioderDto,
+} from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
 
 interface Props {
     lagretVedtak?: InnvilgelseDagligReise;
@@ -109,10 +111,7 @@ export const InnvilgeDagligReise: React.FC<Props> = ({
                 : `/api/sak/vedtak/daglig-reise/${behandling.id}/tso/beregn`;
 
             request<BeregningDagligReise, BeregnDagligReiseRequest>(url, 'POST', {
-                vedtaksperioder: tilVedtaksperioderDto(
-                    vedtaksperioder,
-                    behandling.stønadstype
-                ) as Vedtaksperiode[],
+                vedtaksperioder: tilVedtaksperioderDto(vedtaksperioder, behandling.stønadstype),
             }).then((result) => {
                 settBeregningsresultat(result);
                 if (result.status === 'SUKSESS') {
