@@ -1026,7 +1026,7 @@
   resolved "https://registry.yarnpkg.com/@types/html-minifier-terser/-/html-minifier-terser-6.1.0.tgz#4fc33a00c1d0c16987b1a20cf92d20614c55ac35"
   integrity sha512-oh/6byDPnL1zeNXFrDXFLyZjkr1MsBG667IM792caf1L2UPOOMf65NFzjUH/ltyfwjAGfs1rsX1eftK0jC/KIg==
 
-"@types/json-schema@^7.0.15", "@types/json-schema@^7.0.8", "@types/json-schema@^7.0.9":
+"@types/json-schema@^7.0.15", "@types/json-schema@^7.0.8":
   version "7.0.15"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.15.tgz#596a1747233694d50f6ad8a7869fcb6f56cf5841"
   integrity sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==
@@ -1337,10 +1337,10 @@ acorn@^8.15.0, acorn@^8.16.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.16.0.tgz#4ce79c89be40afe7afe8f3adb902a1f1ce9ac08a"
   integrity sha512-UVJyE9MttOsBQIDKw1skb9nAwQuR5wuGD3+82K6JgJlm/Y+KI92oNsMNGZCYdDsVtRHSak0pcV5Dno5+4jh9sw==
 
-ajv-formats@^2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/ajv-formats/-/ajv-formats-2.1.1.tgz#6e669400659eb74973bbf2e33327180a0996b520"
-  integrity sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==
+ajv-formats@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/ajv-formats/-/ajv-formats-3.0.1.tgz#3d5dc762bca17679c3c2ea7e90ad6b7532309578"
+  integrity sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==
   dependencies:
     ajv "^8.0.0"
 
@@ -1366,10 +1366,20 @@ ajv@^6.12.4, ajv@^6.12.5, ajv@^6.14.0:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-ajv@^8.0.0, ajv@^8.0.1, ajv@^8.9.0:
+ajv@^8.0.0, ajv@^8.0.1:
   version "8.17.1"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.17.1.tgz#37d9a5c776af6bc92d7f4f9510eba4c0a60d11a6"
   integrity sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g==
+  dependencies:
+    fast-deep-equal "^3.1.3"
+    fast-uri "^3.0.1"
+    json-schema-traverse "^1.0.0"
+    require-from-string "^2.0.2"
+
+ajv@^8.20.0:
+  version "8.20.0"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-8.20.0.tgz#304b3636add88ba7d936760dd50ece006dea95f9"
+  integrity sha512-Thbli+OlOj+iMPYFBVBfJ3OmCAnaSyNn4M1vz9T6Gka5Jt9ba/HIR56joy65tY6kx/FCF5VXNB819Y7/GUrBGA==
   dependencies:
     fast-deep-equal "^3.1.3"
     fast-uri "^3.0.1"
@@ -2165,10 +2175,10 @@ emojis-list@^3.0.0:
   resolved "https://registry.yarnpkg.com/emojis-list/-/emojis-list-3.0.0.tgz#5570662046ad29e2e916e71aae260abdff4f6a78"
   integrity sha512-/kyM18EfinwXZbno9FyUGeFh87KC8HRQBQGildHZbEuRyWFOmv1U10o9BBp8XVZDVNNuQKyIGIu5ZYAAXJ0V2Q==
 
-enhanced-resolve@^5.17.1, enhanced-resolve@^5.24.4:
-  version "5.24.5"
-  resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-5.24.5.tgz#b4dad3255b7545f07ba5535189868e9f85f47573"
-  integrity sha512-L1l8TNvomm6UVW5B253AGxQagSQr+vGwhMlrrfRS2qmhx46AMpMVJKQYLvWYbysTMY8VoicOvzHzoHMbyzB+4A==
+enhanced-resolve@^5.17.1, enhanced-resolve@^5.25.0:
+  version "5.25.1"
+  resolved "https://registry.yarnpkg.com/enhanced-resolve/-/enhanced-resolve-5.25.1.tgz#9d919bfa898b116e58f20e95127c047693158771"
+  integrity sha512-nGXts5znJzmWPu+mIE9izCOzdg63oJca2mDzGWWTth7sr4aCToKcoyFVBQwN75Ij5Pf6p510EwkTqViTRzDV+w==
   dependencies:
     graceful-fs "^4.2.4"
     tapable "^2.3.3"
@@ -2715,10 +2725,10 @@ eslint-visitor-keys@^5.0.0, eslint-visitor-keys@^5.0.1:
   resolved "https://registry.yarnpkg.com/eslint-visitor-keys/-/eslint-visitor-keys-5.0.1.tgz#9e3c9489697824d2d4ce3a8ad12628f91e9f59be"
   integrity sha512-tD40eHxA35h0PEIZNeIjkHoDR4YjjJp34biM0mDvplBe//mB+IHCqHDGV7pxF+7MklTvighcCPPZC7ynWyjdTA==
 
-eslint@^10.10.0:
-  version "10.10.0"
-  resolved "https://registry.yarnpkg.com/eslint/-/eslint-10.10.0.tgz#14b1d1849eedb2ee6805f3759050479ce2b23d71"
-  integrity sha512-NPXn6r5zl4uET1DAVPaOwzX3rut4c0wcmw3dWJAfOsTM5+TogXo0DDjz8pwm/hL8cyVNpHqeK4JpN0NjnyFFNw==
+eslint@^10.11.0:
+  version "10.11.0"
+  resolved "https://registry.yarnpkg.com/eslint/-/eslint-10.11.0.tgz#304d1591b7c6a327e3f64b4f550f99fda160ae20"
+  integrity sha512-P7a6UEEqb9G95MYAtqkmsTbVXIYyzIfl6NGOIJk162PaahFxFyeGcrlXYFSiagECg4sEm8IseJdZBKR3rx6MsQ==
   dependencies:
     "@eslint-community/eslint-utils" "^4.8.0"
     "@eslint-community/regexpp" "^4.12.2"
@@ -3258,10 +3268,10 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.11,
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.11.tgz#4183e4e8bf08bb6e05bbb2f7d2e0c8f712ca40e3"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
 
-groq@^6.13.2:
-  version "6.13.2"
-  resolved "https://registry.yarnpkg.com/groq/-/groq-6.13.2.tgz#a7db9dc9833cda8d573ea80b60d297e01d283081"
-  integrity sha512-Lf30nxKFCt6bfpQYLQQxn3OJVWRbKTuyIElskHiw/c9G44oX0rimGjh4EbDuodVplXwWDy2aPSmZCvRs6aZvlQ==
+groq@^6.15.0:
+  version "6.15.0"
+  resolved "https://registry.yarnpkg.com/groq/-/groq-6.15.0.tgz#28ba2d48563deb27063df953d1663362384fdcdc"
+  integrity sha512-FbOBx6NneLJfeO0wu9knv2s4SK0R0OaUdQ0r2/Rap3pEP6tm49jrJ/T7vlzOcGvMq2qx0KWjTuxvI3hueWOuxQ==
 
 hard-rejection@^2.1.0:
   version "2.1.0"
@@ -4306,7 +4316,7 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==
 
-neo-async@^2.5.0, neo-async@^2.6.2:
+neo-async@^2.5.0:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
@@ -5090,14 +5100,14 @@ schema-utils@^3.1.1:
     ajv "^6.12.5"
     ajv-keywords "^3.5.2"
 
-schema-utils@^4.3.3:
-  version "4.3.3"
-  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-4.3.3.tgz#5b1850912fa31df90716963d45d9121fdfc09f46"
-  integrity sha512-eflK8wEtyOE6+hsaRVPxvUKYCpRgzLqDTb8krvAsRIwOGlHoSgYLgBXoubGgLd2fT41/OUYdb48v4k4WWHQurA==
+schema-utils@^4.3.3, schema-utils@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-4.5.0.tgz#aaf8d588bd2b19511175175a5222baef648c009c"
+  integrity sha512-zJlMCZ0cAR5p/Y4oVpRoqioDMJcGxaXRrQ/4rP4WyR84vc5z/DolXdbvXeDpTwbtocDFr2rhPqHPErDCUtz2kA==
   dependencies:
-    "@types/json-schema" "^7.0.9"
-    ajv "^8.9.0"
-    ajv-formats "^2.1.1"
+    "@types/json-schema" "^7.0.15"
+    ajv "^8.20.0"
+    ajv-formats "^3.0.1"
     ajv-keywords "^5.1.0"
 
 "semver@2 || 3 || 4 || 5", semver@^5.6.0:
@@ -5957,27 +5967,25 @@ webpack-sources@^3.3.4, webpack-sources@^3.5.1:
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-3.5.1.tgz#76c2418486dcc02b2aa0694c104176c2858fe84a"
   integrity sha512-jyuiGJdtvY434z5bUZrjz67v76/ePNvFZTp9Mdz29IlH4+GPsgyGjiv0fKI+M7BdkU6ADjulUcKAd3tUK3WlEw==
 
-webpack@^5, webpack@^5.110.1:
-  version "5.110.1"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.110.1.tgz#d662d8ff1866fcb58a6b8af09c86bc6f1b9c5c1d"
-  integrity sha512-gInQB+jxXxgnZyvPwuzT5NGQmECDqeu85oxcrjinrYHqPoBex0hCAN2SFTJVyPVrK0Pq9E44VFP+e89fAc10/w==
+webpack@^5, webpack@^5.111.1:
+  version "5.111.1"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.111.1.tgz#7c12cd014fbb9bfd8509a6cfc6f1c79f4e06cade"
+  integrity sha512-cNypaz0RP+S4cvQVi1M/3bRUkvNP0xZpL0TjFx+c6jg64VbxD+2weWDgY9UnjRI6dhZgtaj8DU76GGFcJ79xPQ==
   dependencies:
     "@types/estree" "^1.0.8"
     "@types/json-schema" "^7.0.15"
     "@webassemblyjs/ast" "^1.14.1"
     "@webassemblyjs/wasm-edit" "^1.14.1"
     "@webassemblyjs/wasm-parser" "^1.14.1"
-    acorn "^8.16.0"
     browserslist "^4.28.1"
     chrome-trace-event "^1.0.2"
-    enhanced-resolve "^5.24.4"
+    enhanced-resolve "^5.25.0"
     es-module-lexer "^2.1.0"
     events "^3.2.0"
     graceful-fs "^4.2.11"
     mime-db "^1.54.0"
     minimizer-webpack-plugin "^5.7.0"
-    neo-async "^2.6.2"
-    schema-utils "^4.3.3"
+    schema-utils "^4.5.0"
     tapable "^2.3.0"
     watchpack "^2.5.2"
     webpack-sources "^3.5.1"
