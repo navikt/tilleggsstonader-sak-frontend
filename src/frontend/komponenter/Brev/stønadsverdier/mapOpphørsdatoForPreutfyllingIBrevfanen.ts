@@ -1,5 +1,6 @@
 import { Brevverdier } from './verdier';
 import { formaterNullableTilTekstligDato } from '../../../utils/dato';
+import { storForbokstavHvertOrd } from '../../../utils/tekstformatering';
 
 export const mapOpphørsdatoForPreutfyllingIBrevfanen = (
     opphørsdato: string | undefined,
@@ -12,7 +13,7 @@ export const mapOpphørsdatoForPreutfyllingIBrevfanen = (
     return {
         variabelStore: {
             [opphorsDato]: formaterNullableTilTekstligDato(opphørsdato) ?? '',
-            [navnBrukerVariabel]: navnBruker,
+            [navnBrukerVariabel]: storForbokstavHvertOrd(navnBruker),
         },
     };
 };
