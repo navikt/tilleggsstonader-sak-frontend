@@ -3,6 +3,7 @@ import { mapVedtaksDatoerForPreutfyllingIBrevfanen } from './mapVedtaksDatoerFor
 import { Brevverdier } from './verdier';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
+import { Personopplysninger } from '../../../typer/personopplysninger';
 import { TypeVedtak, VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { InnvilgelseBoutgifter } from '../../../typer/vedtak/vedtakBoutgifter';
 import { InnvilgelseDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
@@ -85,7 +86,8 @@ function behandleInnvilgelse(
 
 export const lagVerdier = (
     behandling: Behandling | undefined,
-    vedtak: VedtakResponse | undefined
+    vedtak: VedtakResponse | undefined,
+    personopplysninger: Personopplysninger
 ): Brevverdier => {
     if (!behandling || !vedtak) {
         return TOMME_VERDIER;
@@ -93,7 +95,10 @@ export const lagVerdier = (
 
     switch (vedtak.type) {
         case TypeVedtak.OPPHØR: {
-            return mapOpphørsdatoForPreutfyllingIBrevfanen(vedtak.opphørsdato);
+            return mapOpphørsdatoForPreutfyllingIBrevfanen(
+                vedtak.opphørsdato,
+                personopplysninger.navn.visningsnavn
+            );
         }
         case TypeVedtak.INNVILGELSE: {
             return behandleInnvilgelse(behandling, vedtak);

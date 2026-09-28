@@ -99,7 +99,7 @@ export const Brevmeny: React.FC<Props> = ({
     >(mellomlagredeValgfelt || {});
     const [generererBrevPdf, settGenerererBrevPdf] = useState(false);
 
-    const { variabelStore } = lagVerdier(behandling, vedtak);
+    const { variabelStore } = lagVerdier(behandling, vedtak, personopplysninger);
     const [variabler, settVariabler] = useState<Partial<Record<string, string>>>(() => {
         return { ...mellomlagredeVariabler, ...variabelStore };
     });
