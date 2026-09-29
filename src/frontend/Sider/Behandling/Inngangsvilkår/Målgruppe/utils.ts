@@ -152,15 +152,17 @@ const resetPeriode = (
 const resetVurderinger = (
     type: MålgruppeType,
     eksisterendeVurderinger: SvarMålgruppe
-): SvarMålgruppe => ({
-    ...eksisterendeVurderinger,
-    svarMedlemskap: målgrupperHvorMedlemskapMåVurderes.includes(type)
-        ? eksisterendeVurderinger.svarMedlemskap
-        : undefined,
-    svarUtgifterDekketAvAnnetRegelverk: skalVurdereDekkesAvAnnetRegelverk(type)
-        ? dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler(eksisterendeVurderinger)
-        : undefined,
-});
+): SvarMålgruppe => {
+    return {
+        ...eksisterendeVurderinger,
+        svarMedlemskap: målgrupperHvorMedlemskapMåVurderes.includes(type)
+            ? eksisterendeVurderinger.svarMedlemskap
+            : undefined,
+        svarUtgifterDekketAvAnnetRegelverk: skalVurdereDekkesAvAnnetRegelverk(type)
+            ? dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler(eksisterendeVurderinger)
+            : undefined,
+    };
+};
 
 const dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler = (eksisterendeVurderinger: SvarMålgruppe) =>
     eksisterendeVurderinger.svarUtgifterDekketAvAnnetRegelverk || SvarJaNei.NEI;

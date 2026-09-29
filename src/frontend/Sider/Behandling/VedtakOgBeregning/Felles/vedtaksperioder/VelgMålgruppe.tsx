@@ -1,12 +1,15 @@
 import React from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
+
 import { finnFaktiskeMålgruppeValgForStønad } from './vedtaksperiodeUtils';
 import { FormErrors } from '../../../../../hooks/felles/useFormState';
 import SelectMedOptions from '../../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
-import { faktiskMålgruppeTilTekst } from '../../../Felles/faktiskMålgruppe';
+import { Toggle } from '../../../../../utils/toggles';
+import { FaktiskMålgruppe, faktiskMålgruppeTilTekst } from '../../../Felles/faktiskMålgruppe';
 
 interface Props {
     stønadstype: Stønadstype;
@@ -23,7 +26,10 @@ export const VelgMålgruppe: React.FC<Props> = ({
     vedtaksperiodeFeil,
     oppdaterPeriode,
 }) => {
-    const valgForFaktiskMålgruppe = finnFaktiskeMålgruppeValgForStønad(stønadstype);
+    const kanBrukeAktivitetspenger = useFlag(Toggle.KAN_BRUKE_MÅLGRUPPE_AKTIVITETSPENGER);
+    const valgForFaktiskMålgruppe = finnFaktiskeMålgruppeValgForStønad(stønadstype).filter(
+        ({ value }) => value !== FaktiskMålgruppe.AKTIVITETSPENGER || kanBrukeAktivitetspenger
+    );
 
     return (
         <FeilmeldingMaksBredde>
