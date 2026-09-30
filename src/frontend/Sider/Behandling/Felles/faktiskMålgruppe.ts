@@ -5,6 +5,7 @@ export enum FaktiskMålgruppe {
     ENSLIG_FORSØRGER = 'ENSLIG_FORSØRGER',
     GJENLEVENDE = 'GJENLEVENDE',
     ARBEIDSSØKER = 'ARBEIDSSØKER',
+    AKTIVITETSPENGER = 'AKTIVITETSPENGER',
 }
 
 const faktiskeMålgrupper: Record<Stønadstype, Record<FaktiskMålgruppe, boolean>> = {
@@ -13,24 +14,28 @@ const faktiskeMålgrupper: Record<Stønadstype, Record<FaktiskMålgruppe, boolea
         ENSLIG_FORSØRGER: true,
         GJENLEVENDE: true,
         ARBEIDSSØKER: false,
+        AKTIVITETSPENGER: true,
     },
     [Stønadstype.LÆREMIDLER]: {
         NEDSATT_ARBEIDSEVNE: true,
         ENSLIG_FORSØRGER: true,
         GJENLEVENDE: true,
         ARBEIDSSØKER: false,
+        AKTIVITETSPENGER: true,
     },
     [Stønadstype.BOUTGIFTER]: {
         NEDSATT_ARBEIDSEVNE: true,
         ENSLIG_FORSØRGER: true,
         GJENLEVENDE: true,
         ARBEIDSSØKER: false,
+        AKTIVITETSPENGER: true,
     },
     [Stønadstype.DAGLIG_REISE_TSO]: {
         NEDSATT_ARBEIDSEVNE: true,
         ENSLIG_FORSØRGER: true,
         GJENLEVENDE: true,
         ARBEIDSSØKER: false,
+        AKTIVITETSPENGER: true,
     },
 
     [Stønadstype.DAGLIG_REISE_TSR]: {
@@ -38,24 +43,28 @@ const faktiskeMålgrupper: Record<Stønadstype, Record<FaktiskMålgruppe, boolea
         ENSLIG_FORSØRGER: false,
         GJENLEVENDE: false,
         ARBEIDSSØKER: true,
+        AKTIVITETSPENGER: false,
     },
     [Stønadstype.REISE_TIL_SAMLING_TSO]: {
         NEDSATT_ARBEIDSEVNE: true,
         ENSLIG_FORSØRGER: true,
         GJENLEVENDE: true,
         ARBEIDSSØKER: false,
+        AKTIVITETSPENGER: true,
     },
     [Stønadstype.REISE_TIL_SAMLING_TSR]: {
         NEDSATT_ARBEIDSEVNE: false,
         ENSLIG_FORSØRGER: false,
         GJENLEVENDE: false,
         ARBEIDSSØKER: true,
+        AKTIVITETSPENGER: false,
     },
     [Stønadstype.FLYTTING_TSO]: {
         NEDSATT_ARBEIDSEVNE: true,
         ENSLIG_FORSØRGER: true,
         GJENLEVENDE: true,
         ARBEIDSSØKER: false,
+        AKTIVITETSPENGER: true,
     },
 
     [Stønadstype.FLYTTING_TSR]: {
@@ -63,6 +72,7 @@ const faktiskeMålgrupper: Record<Stønadstype, Record<FaktiskMålgruppe, boolea
         ENSLIG_FORSØRGER: false,
         GJENLEVENDE: false,
         ARBEIDSSØKER: true,
+        AKTIVITETSPENGER: false,
     },
     // TODO: avklar faktiske målgrupper for REISE_OPPSTART_AVSLUTNING_HJEMREISE
     [Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO]: {
@@ -70,12 +80,14 @@ const faktiskeMålgrupper: Record<Stønadstype, Record<FaktiskMålgruppe, boolea
         ENSLIG_FORSØRGER: true,
         GJENLEVENDE: true,
         ARBEIDSSØKER: false,
+        AKTIVITETSPENGER: true,
     },
     [Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR]: {
         NEDSATT_ARBEIDSEVNE: false,
         ENSLIG_FORSØRGER: false,
         GJENLEVENDE: false,
         ARBEIDSSØKER: true,
+        AKTIVITETSPENGER: false,
     },
 };
 
@@ -96,6 +108,7 @@ export const FaktiskMålgruppeTilTekst: Record<FaktiskMålgruppe, string> = {
     ENSLIG_FORSØRGER: 'Enslig forsørger',
     GJENLEVENDE: 'Gjenlevende',
     ARBEIDSSØKER: 'Arbeidssøker',
+    AKTIVITETSPENGER: 'Aktivitetspenger',
 };
 
 export const faktiskMålgruppeTilTekst = (type: FaktiskMålgruppe | '') => {

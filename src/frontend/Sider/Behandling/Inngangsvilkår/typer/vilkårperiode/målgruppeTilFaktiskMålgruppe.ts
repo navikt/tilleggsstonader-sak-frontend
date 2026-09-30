@@ -23,8 +23,10 @@ export const målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe: Record<
     GJENLEVENDE_GAMMELT_REGELVERK: FaktiskMålgruppe.GJENLEVENDE,
     DAGPENGER: FaktiskMålgruppe.ARBEIDSSØKER,
     TILTAKSPENGER: FaktiskMålgruppe.ARBEIDSSØKER,
+    UNGDOMSPROGRAMMET: FaktiskMålgruppe.ARBEIDSSØKER,
     KVALIFISERINGSSTØNAD: FaktiskMålgruppe.ARBEIDSSØKER,
     INNSATT_I_FENGSEL: FaktiskMålgruppe.ARBEIDSSØKER,
+    AKTIVITETSPENGER: FaktiskMålgruppe.AKTIVITETSPENGER,
 };
 
 export const informasjonForFaktisktMålgruppe: Record<FaktiskMålgruppeEllerIngenMålgruppe, string> =

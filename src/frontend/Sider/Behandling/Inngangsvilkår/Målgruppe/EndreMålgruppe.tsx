@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
+
 import { Button, HStack } from '@navikt/ds-react';
 
 import styles from './EndreMålgruppe.module.css';
@@ -24,6 +26,7 @@ import { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { Periode } from '../../../../utils/periode';
+import { Toggle } from '../../../../utils/toggles';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import {
@@ -64,6 +67,8 @@ const EndreMålgruppe: React.FC<{
         målgrupper: lagredeMålgrupper,
     } = useInngangsvilkår();
     const { lagreVilkårperiode } = useLagreVilkårperiode();
+    const kanBrukeUngdomsprogrammet = useFlag(Toggle.KAN_BRUKE_MÅLGRUPPE_UNGDOMSPROGRAMMET);
+    const kanBrukeAktivitetspenger = useFlag(Toggle.KAN_BRUKE_MÅLGRUPPE_AKTIVITETSPENGER);
 
     const [form, settForm] = useState<EndreMålgruppeForm>(
         initaliserForm(målgruppe, registerYtelsePeriode)
@@ -161,7 +166,15 @@ const EndreMålgruppe: React.FC<{
             Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO,
             Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR,
         ].includes(stønadstype)
-            ? målgruppeTypeOptionsForStønad(stønadstype)
+            ? målgruppeTypeOptionsForStønad(stønadstype).filter(({ value }) => {
+                  if (value === MålgruppeType.UNGDOMSPROGRAMMET) {
+                      return kanBrukeUngdomsprogrammet;
+                  }
+                  if (value === MålgruppeType.AKTIVITETSPENGER) {
+                      return kanBrukeAktivitetspenger;
+                  }
+                  return true;
+              })
             : [];
 
     const erMålgruppeSomStøttes = form.type !== MålgruppeType.GJENLEVENDE_GAMMELT_REGELVERK;
