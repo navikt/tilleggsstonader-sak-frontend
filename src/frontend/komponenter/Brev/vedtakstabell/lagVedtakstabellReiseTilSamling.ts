@@ -75,14 +75,11 @@ function lagVedtakstabellReiseTilSamlingPrivatBilPerSamling(
 ): string {
     const periode = { fom: samling.fom, tom: samling.tom };
 
-    const ekstraKostnader =
-        (samling.bompenger ?? 0) + (samling.fergekostnad ?? 0) + (samling.piggdekkavgift ?? 0);
-
     const rader = `
           <tr>
             <td style="${borderStylingCompact}">${samling.totalReiseavstand} km</td>
             <td style="${borderStylingCompact}">${samling.sats} kr/km</td>
-            <td style="${borderStylingCompact}">${kronerMedTusenSkilleEllerStrek(ekstraKostnader)}</td>
+            <td style="${borderStylingCompact}">${kronerMedTusenSkilleEllerStrek(samling.ekstrakostnader)}</td>
             <td style="${borderStylingCompact}">${kronerMedTusenSkilleEllerStrek(samling.parkering)}</td>
             <td style="${borderStylingCompact}">${kronerMedTusenSkilleEllerStrek(samling.beløp)}</td>
           </tr>`;

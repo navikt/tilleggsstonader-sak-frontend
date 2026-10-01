@@ -53,6 +53,7 @@ export interface BeregningsresultatPrivatBil {
     fergekostnad?: number;
     parkering?: number;
     piggdekkavgift?: number;
+    ekstrakostnader: number;
     beløp: number;
     fraTidligereVedtak: boolean;
 }
