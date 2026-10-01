@@ -11,6 +11,17 @@ import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
 import { Toggle } from '../../../../../utils/toggles';
 import { FaktiskMålgruppe, faktiskMålgruppeTilTekst } from '../../../Felles/faktiskMålgruppe';
 
+export const useMålgruppeValg = (stønadstype: Stønadstype) => {
+    const kanBrukeAktivitetspenger = useFlag(Toggle.KAN_BRUKE_MÅLGRUPPE_AKTIVITETSPENGER);
+    const kanBrukeUngdomsprogrammet = useFlag(Toggle.KAN_BRUKE_MÅLGRUPPE_UNGDOMSPROGRAMMET);
+
+    return finnFaktiskeMålgruppeValgForStønad(stønadstype).filter(({ value }) => {
+        if (value === FaktiskMålgruppe.AKTIVITETSPENGER) return kanBrukeAktivitetspenger;
+        if (value === FaktiskMålgruppe.UNGDOMSPROGRAMMET) return kanBrukeUngdomsprogrammet;
+        return true;
+    });
+};
+
 interface Props {
     stønadstype: Stønadstype;
     vedtaksperiode: Vedtaksperiode;
@@ -26,10 +37,7 @@ export const VelgMålgruppe: React.FC<Props> = ({
     vedtaksperiodeFeil,
     oppdaterPeriode,
 }) => {
-    const kanBrukeAktivitetspenger = useFlag(Toggle.KAN_BRUKE_MÅLGRUPPE_AKTIVITETSPENGER);
-    const valgForFaktiskMålgruppe = finnFaktiskeMålgruppeValgForStønad(stønadstype).filter(
-        ({ value }) => value !== FaktiskMålgruppe.AKTIVITETSPENGER || kanBrukeAktivitetspenger
-    );
+    const valgForFaktiskMålgruppe = useMålgruppeValg(stønadstype);
 
     return (
         <FeilmeldingMaksBredde>

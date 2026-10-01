@@ -15,14 +15,12 @@ export const validerVedtaksperioder = (
             aktivitetType: undefined,
         };
 
-        if (!gjelderTsr) {
-            if (!vedtaksperiode.aktivitetType) {
-                return { ...feil, aktivitetType: 'Mangler aktivitet for periode' };
-            }
+        if (!gjelderTsr && !vedtaksperiode.aktivitetType) {
+            return { ...feil, aktivitetType: 'Mangler aktivitet for periode' };
+        }
 
-            if (!vedtaksperiode.målgruppeType) {
-                return { ...feil, målgruppeType: 'Mangler målgruppe for periode' };
-            }
+        if (!vedtaksperiode.målgruppeType) {
+            return { ...feil, målgruppeType: 'Mangler målgruppe for periode' };
         }
 
         const periodeValidering = validerPeriode(vedtaksperiode);

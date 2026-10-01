@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { v4 as uuidv4 } from 'uuid';
 
@@ -9,6 +9,7 @@ import styles from './Vedtaksperioder.module.css';
 import { VedtaksperiodeRad } from './VedtaksperiodeRad';
 import { VedtaksperiodeReadMore } from './VedtaksperioderReadMore';
 import { tomVedtaksperiode } from './vedtaksperiodeUtils';
+import { useMålgruppeValg } from './VelgMålgruppe';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
 import { useSteg } from '../../../../../context/StegContext';
@@ -21,6 +22,7 @@ import {
 } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import { RessursStatus } from '../../../../../typer/ressurs';
 import { Vedtaksperiode } from '../../../../../typer/vedtak/vedtakperiode';
+import { FaktiskMålgruppe } from '../../../Felles/faktiskMålgruppe';
 
 interface Props {
     vedtaksperioder: Vedtaksperiode[];
@@ -56,6 +58,30 @@ export const Vedtaksperioder: React.FC<Props> = ({
      */
     const [vedtaksperioderId, settVedtaksperioderId] = useState<string>(uuidv4());
 
+    // Viser ikke målgruppe-dropdown om det kun finnes én målgruppe å velge mellom
+    const målgruppeValg = useMålgruppeValg(behandling.stønadstype);
+    const eneMålgruppe =
+        målgruppeValg.length === 1 ? (målgruppeValg[0].value as FaktiskMålgruppe) : undefined;
+    const visMålgruppe =
+        !eneMålgruppe ||
+        vedtaksperioder.some(
+            (periode) => periode.målgruppeType && periode.målgruppeType !== eneMålgruppe
+        );
+    const antallKolonner = 4 + (gjelderTsr ? 0 : 1) + (visMålgruppe ? 1 : 0);
+    const gridKlasse =
+        antallKolonner === 4 ? styles.grid4 : antallKolonner === 5 ? styles.grid5 : styles.grid6;
+
+    useEffect(() => {
+        if (!eneMålgruppe || !erStegRedigerbart) return;
+        settVedtaksperioder((prevState) =>
+            prevState.some((periode) => !periode.målgruppeType)
+                ? prevState.map((periode) =>
+                      periode.målgruppeType ? periode : { ...periode, målgruppeType: eneMålgruppe }
+                  )
+                : prevState
+        );
+    }, [eneMålgruppe, erStegRedigerbart, vedtaksperioder.length, settVedtaksperioder]);
+
     const oppdaterPeriodeFelt = (
         indeks: number,
         property: 'fom' | 'tom' | 'målgruppeType' | 'aktivitetType',
@@ -75,7 +101,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
     };
 
     const leggTilPeriode = () => {
-        const nyVedtaksperiode = tomVedtaksperiode();
+        const nyVedtaksperiode = tomVedtaksperiode(eneMålgruppe);
         settVedtaksperioder([...vedtaksperioder, nyVedtaksperiode]);
         settUlagretKomponent(UlagretKomponent.BEREGNING_INNVILGE);
     };
@@ -113,15 +139,11 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 <VedtaksperiodeReadMore stønadstype={behandling.stønadstype} />
             </div>
             {vedtaksperioder && vedtaksperioder.length > 0 && (
-                <div className={gjelderTsr ? styles.grid4 : styles.grid6} key={vedtaksperioderId}>
+                <div className={gridKlasse} key={vedtaksperioderId}>
                     <Label size="small">Fra og med</Label>
                     <Label size="small">Til og med</Label>
-                    {!gjelderTsr && (
-                        <>
-                            <Label size="small">Aktivitet</Label>
-                            <Label size="small">Målgruppe</Label>
-                        </>
-                    )}
+                    {!gjelderTsr && <Label size="small">Aktivitet</Label>}
+                    {visMålgruppe && <Label size="small">Målgruppe</Label>}
                     {vedtaksperioder.map((vedtaksperiode, indeks) => (
                         <VedtaksperiodeRad
                             key={vedtaksperiode.id}
@@ -135,6 +157,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                             vedtaksperiodeFeil={vedtaksperioderFeil && vedtaksperioderFeil[indeks]}
                             vedtakErLagret={vedtakErLagret}
                             gjelderTsr={gjelderTsr}
+                            visMålgruppe={visMålgruppe}
                         />
                     ))}
                 </div>
