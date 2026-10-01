@@ -7,7 +7,8 @@ export const SpesifikasjonAvUtgift: React.FC<{
     error?: string;
     onChange: (value: string) => void;
     pakrevd: boolean;
-}> = ({ value, error, onChange, pakrevd }) => (
+    beskrivelse?: string;
+}> = ({ value, error, onChange, pakrevd, beskrivelse }) => (
     <VStack gap="space-4">
         <Textarea
             label={`Spesifikasjon av utgift (${pakrevd ? 'obligatorisk' : 'valgfritt'})`}
@@ -15,6 +16,7 @@ export const SpesifikasjonAvUtgift: React.FC<{
             error={error}
             value={value}
             onChange={(e) => onChange(e.target.value)}
+            description={beskrivelse}
         />
         <ReadMore header="Hvordan spesifisere utgift" size="small">
             <BodyShort size="small">

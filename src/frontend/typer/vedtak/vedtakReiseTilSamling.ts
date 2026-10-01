@@ -38,6 +38,7 @@ export interface BeregningsresultatOffentligTransport {
     fom: string;
     tom: string;
     beløp: number;
+    begrunnelse: string;
     aktivitetId?: string;
     fraTidligereVedtak: boolean;
 }
