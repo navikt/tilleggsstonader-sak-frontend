@@ -1,3 +1,4 @@
+import { escapeHtml } from './utils';
 import {
     BeregningResultatReiseTilSamling,
     BeregningsresultatOffentligTransport,
@@ -54,7 +55,7 @@ function lagRaderForReiseTilSamlingOffentligTransport(
     return `
     <tr>
         <td style="${borderStyling}">${kronerMedTusenSkilleEllerStrek(samling.beløp)}</td>
-        <td style="${borderStylingWithNewline}">${samling.begrunnelse}</td>
+        <td style="${borderStylingWithNewline}">${escapeHtml(samling.begrunnelse)}</td>
     </tr>`;
 }
 
@@ -81,9 +82,9 @@ function lagVedtakstabellReiseTilSamlingPrivatBilPerSamling(
           <tr>
             <td style="${borderStylingCompact}">${samling.totalReiseavstand} km</td>
             <td style="${borderStylingCompact}">${samling.sats} kr/km</td>
-            <td style="${borderStylingCompact}">${ekstraKostnader} kr</td>
-            <td style="${borderStylingCompact}">${samling.parkering} kr</td>
-            <td style="${borderStylingCompact}">${samling.beløp} kr</td>
+            <td style="${borderStylingCompact}">${kronerMedTusenSkilleEllerStrek(ekstraKostnader)}</td>
+            <td style="${borderStylingCompact}">${kronerMedTusenSkilleEllerStrek(samling.parkering)}</td>
+            <td style="${borderStylingCompact}">${kronerMedTusenSkilleEllerStrek(samling.beløp)}</td>
           </tr>`;
 
     return `
