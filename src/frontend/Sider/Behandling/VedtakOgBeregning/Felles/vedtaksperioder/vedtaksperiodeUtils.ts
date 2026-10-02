@@ -15,10 +15,12 @@ export const initialiserVedtaksperioder = (
     return vedtaksperioder?.length ? vedtaksperioder : [];
 };
 
-export const tomVedtaksperiode = (): Vedtaksperiode => ({
+export const tomVedtaksperiode = (
+    målgruppeType: Vedtaksperiode['målgruppeType'] = ''
+): Vedtaksperiode => ({
     fom: '',
     tom: '',
-    målgruppeType: '',
+    målgruppeType,
     aktivitetType: '',
     id: uuidv4(),
 });
@@ -61,11 +63,10 @@ export const finnFaktiskeMålgruppeValgForStønad = (stønadstype: Stønadstype)
 };
 
 /**
- * TSR-varianter (daglig reise og reise til samling) bestemmer typeandel ut fra
- * tiltaksvariant i stedet for målgruppe/aktivitet. Saksbehandler trenger derfor
- * ikke oppgi målgruppe/aktivitet for TSR.
+ * TSR-varianter bestemmer typeandel ut fra tiltaksvariant. Saksbehandler velger
+ * målgruppe, mens aktivitet settes automatisk.
  */
-export type VedtaksperiodeTsrDto = Omit<Vedtaksperiode, 'målgruppeType' | 'aktivitetType'>;
+export type VedtaksperiodeTsrDto = Omit<Vedtaksperiode, 'aktivitetType'>;
 
 const stønadstyperMedForenkletTsrPeriode = [
     Stønadstype.DAGLIG_REISE_TSR,
@@ -78,7 +79,7 @@ export const tilVedtaksperioderDto = (
 ): Vedtaksperiode[] | VedtaksperiodeTsrDto[] => {
     if (stønadstyperMedForenkletTsrPeriode.includes(stønadstype)) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        return perioder.map(({ målgruppeType, aktivitetType, ...rest }) => rest);
+        return perioder.map(({ aktivitetType, ...rest }) => rest);
     }
     return perioder;
 };

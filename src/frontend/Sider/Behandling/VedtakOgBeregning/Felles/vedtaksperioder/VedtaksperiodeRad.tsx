@@ -28,6 +28,7 @@ interface Props {
     slettPeriode: () => void;
     vedtakErLagret: boolean;
     gjelderTsr: boolean;
+    visMålgruppe: boolean;
 }
 
 export const VedtaksperiodeRad: React.FC<Props> = ({
@@ -39,6 +40,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     slettPeriode,
     vedtakErLagret,
     gjelderTsr,
+    visMålgruppe,
 }) => {
     const { behandling } = useBehandling();
 
@@ -82,22 +84,22 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                 />
             </FeilmeldingMaksBredde>
             {!gjelderTsr && (
-                <>
-                    <VelgAktivitet
-                        stønadstype={behandling.stønadstype}
-                        vedtaksperiode={vedtaksperiode}
-                        erLesevisning={erLesevisning}
-                        vedtaksperiodeFeil={vedtaksperiodeFeil}
-                        oppdaterPeriode={oppdaterPeriode}
-                    />
-                    <VelgMålgruppe
-                        stønadstype={behandling.stønadstype}
-                        vedtaksperiode={vedtaksperiode}
-                        erLesevisning={erLesevisning}
-                        vedtaksperiodeFeil={vedtaksperiodeFeil}
-                        oppdaterPeriode={oppdaterPeriode}
-                    />
-                </>
+                <VelgAktivitet
+                    stønadstype={behandling.stønadstype}
+                    vedtaksperiode={vedtaksperiode}
+                    erLesevisning={erLesevisning}
+                    vedtaksperiodeFeil={vedtaksperiodeFeil}
+                    oppdaterPeriode={oppdaterPeriode}
+                />
+            )}
+            {visMålgruppe && (
+                <VelgMålgruppe
+                    stønadstype={behandling.stønadstype}
+                    vedtaksperiode={vedtaksperiode}
+                    erLesevisning={erLesevisning}
+                    vedtaksperiodeFeil={vedtaksperiodeFeil}
+                    oppdaterPeriode={oppdaterPeriode}
+                />
             )}
             <div>
                 {!erLesevisning && (
