@@ -38,6 +38,7 @@ export interface BeregningsresultatOffentligTransport {
     fom: string;
     tom: string;
     beløp: number;
+    begrunnelse: string;
     aktivitetId?: string;
     fraTidligereVedtak: boolean;
 }
@@ -52,6 +53,7 @@ export interface BeregningsresultatPrivatBil {
     fergekostnad?: number;
     parkering?: number;
     piggdekkavgift?: number;
+    ekstrakostnader: number;
     beløp: number;
     fraTidligereVedtak: boolean;
 }
