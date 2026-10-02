@@ -41,7 +41,7 @@ const DateInput: React.FC<DateInputProps> = ({
 
     return (
         <div className={className}>
-            <DatePicker {...datepickerProps}>
+            <DatePicker {...datepickerProps} fixedWeeks>
                 <DatePicker.Input
                     {...inputProps}
                     label={label}

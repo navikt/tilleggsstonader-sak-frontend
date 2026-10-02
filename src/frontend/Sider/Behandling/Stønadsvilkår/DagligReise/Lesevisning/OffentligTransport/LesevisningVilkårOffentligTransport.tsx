@@ -33,7 +33,10 @@ export const LesevisningVilkårOffentligTransport: FC<{
             <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 234px) 1px auto">
                 <LesevisningFaktaOffentligTransport fakta={fakta} />
                 <VertikalSkillelinje />
-                <LesevisningDelvilkår delvilkårsett={vilkår.delvilkårsett} />
+                <LesevisningDelvilkår
+                    delvilkårsett={vilkår.delvilkårsett}
+                    slettetKommentar={vilkår.slettetKommentar}
+                />
             </HGrid>
         </LesevisningVilkårKort>
     );

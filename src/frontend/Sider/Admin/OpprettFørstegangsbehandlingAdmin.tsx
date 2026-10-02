@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -41,6 +42,7 @@ import {
     Ressurs,
     RessursStatus,
 } from '../../typer/ressurs';
+import { Toggle } from '../../utils/toggles';
 import { erGyldigFnr, harVerdi } from '../../utils/utils';
 
 interface Personinfo {
@@ -70,13 +72,19 @@ const skalVelgeBarn = (stønadstype: Stønadstype | undefined): boolean =>
 
 function OpprettFørstegangsbehandlingAdmin() {
     const { saksbehandler, appEnv } = useApp();
+    const kanSaksbehandleReiseTilSamlingTso = useFlag(
+        Toggle.KAN_SAKSBEHANDLE_REISE_TIL_SAMLING_TSO
+    );
+    const kanSaksbehandleReiseTilSamlingTsr = useFlag(
+        Toggle.KAN_SAKSBEHANDLE_REISE_TIL_SAMLING_TSR
+    );
     const stønadstyperSaksbehandlerKanBehandle = hentStønadstyperSaksbehandlerKanBehandle(
         saksbehandler,
         appEnv
     ).filter(
         (type) =>
-            type !== Stønadstype.REISE_TIL_SAMLING_TSO &&
-            type !== Stønadstype.REISE_TIL_SAMLING_TSR &&
+            (type !== Stønadstype.REISE_TIL_SAMLING_TSO || kanSaksbehandleReiseTilSamlingTso) &&
+            (type !== Stønadstype.REISE_TIL_SAMLING_TSR || kanSaksbehandleReiseTilSamlingTsr) &&
             type !== Stønadstype.FLYTTING_TSO &&
             type !== Stønadstype.FLYTTING_TSR &&
             type !== Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO &&

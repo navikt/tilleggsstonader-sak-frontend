@@ -81,14 +81,16 @@ export const EndreAktivitetDagligReiseTsr: React.FC<{
             ny: form,
         });
 
+    const nyRadLeggesTil = aktivitet === undefined;
+    const kreverAktivitetsdager =
+        nyRadLeggesTil || harTallverdi(aktivitet?.faktaOgVurderinger.aktivitetsdager);
+
     const validerForm = (): boolean => {
-        const vilkårsperiodeFeil = validerAktivitet(form);
+        const vilkårsperiodeFeil = validerAktivitet(form, kreverAktivitetsdager);
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);
     };
-
-    const nyRadLeggesTil = aktivitet === undefined;
 
     const lagre = () => {
         if (laster) return;

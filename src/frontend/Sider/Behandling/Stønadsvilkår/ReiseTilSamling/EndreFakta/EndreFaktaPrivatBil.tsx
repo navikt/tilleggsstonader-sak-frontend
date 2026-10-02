@@ -42,11 +42,20 @@ export const EndreFaktaPrivatBil: React.FC<{
 
     const oppdaterAktivitet = (aktivitetGlobalId: string) => {
         const valgtAktivitet = oppfylteAktiviteter.find((a) => a.globalId === aktivitetGlobalId);
+        if (!valgtAktivitet) {
+            return;
+        }
+
         settFakta((prevState) => ({
             ...(prevState.type === 'PRIVAT_BIL' ? prevState : tomtPrivatBil),
-            aktivitetId: aktivitetGlobalId || undefined,
-            aktivitetType: valgtAktivitet?.type,
+            aktivitet: {
+                aktivitetId: valgtAktivitet.globalId,
+                aktivitetType: valgtAktivitet.type,
+                fom: valgtAktivitet.fom,
+                tom: valgtAktivitet.tom,
+            },
         }));
+
         nullstillFeilOgUlagretkomponent();
     };
 
@@ -55,7 +64,7 @@ export const EndreFaktaPrivatBil: React.FC<{
             <HStack gap="space-16" align="start">
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
-                        label={'Totalt reiseavstand i km'}
+                        label={'Total reiseavstand i km'}
                         size="small"
                         error={feilmeldinger?.reiseavstand}
                         value={harTallverdi(fakta.reiseavstand) ? fakta.reiseavstand : ''}
@@ -117,20 +126,23 @@ export const EndreFaktaPrivatBil: React.FC<{
                         }}
                     />
                 </FeilmeldingMaksBredde>
+            </HStack>
+            <VStack gap="space-16">
                 <FeilmeldingMaksBredde $maxWidth={300}>
                     <SpesifikasjonAvUtgift
                         value={fakta.begrunnelse || ''}
                         error={feilmeldinger?.spesifikasjonAvUtgift}
                         onChange={(value) => oppdaterFakta('begrunnelse', value || undefined)}
+                        pakrevd={false}
                     />
                 </FeilmeldingMaksBredde>
                 {gjelderTsr && (
-                    <FeilmeldingMaksBredde $maxWidth={300}>
+                    <FeilmeldingMaksBredde $maxWidth={300} style={{ maxWidth: 'fit-content' }}>
                         <Select
                             label={'Aktivitet'}
                             size="small"
                             error={feilmeldinger?.aktivitet}
-                            value={fakta.aktivitetId || ''}
+                            value={fakta.aktivitet?.aktivitetId || ''}
                             onChange={(e) => {
                                 oppdaterAktivitet(e.target.value);
                             }}
@@ -145,7 +157,7 @@ export const EndreFaktaPrivatBil: React.FC<{
                         </Select>
                     </FeilmeldingMaksBredde>
                 )}
-            </HStack>
+            </VStack>
         </VStack>
     );
 };

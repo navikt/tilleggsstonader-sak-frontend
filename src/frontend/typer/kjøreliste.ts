@@ -14,7 +14,7 @@ export interface UkeVurdering {
     tilDato: string;
     erUkeSlettet: boolean;
     status: UkeStatus;
-    avvik?: AvvikUke;
+    avvik: TypeAvvikUke[];
     behandletDato?: string;
     kjørelisteInnsendtDato?: string; // null hvis kjøreliste ikke er mottatt
     erKjørelisteManueltRegistrert: boolean;
@@ -22,10 +22,6 @@ export interface UkeVurdering {
     avklartUkeId?: string; // null hvis uke ikke er avklart
     dager: Dag[];
     avklartKjørtUkeStatus: AvklartKjørtUkeStatus | null;
-}
-
-export interface AvvikUke {
-    typeAvvik: TypeAvvikUke;
 }
 
 export interface Dag {
@@ -94,6 +90,7 @@ export enum TypeAvvikDag {
 
 export enum TypeAvvikUke {
     FLERE_REISEDAGER_ENN_I_RAMMEVEDTAK = 'FLERE_REISEDAGER_ENN_I_RAMMEVEDTAK',
+    INNSENDTE_DAGER_OVERLAPPER_MED_DAGER_DEKT_AV_ANNEN_REISE = 'INNSENDTE_DAGER_OVERLAPPER_MED_DAGER_DEKT_AV_ANNEN_REISE',
 }
 
 export interface RedigerbarAvklartDag {

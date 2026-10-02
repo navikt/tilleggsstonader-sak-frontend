@@ -27,7 +27,7 @@ export const BeregningPrivatBil: FC<Props> = ({ beregningsresultat }) => {
                         <TableHeaderCellSmall>F.o.m.</TableHeaderCellSmall>
                         <TableHeaderCellSmall>T.o.m.</TableHeaderCellSmall>
                         <TableHeaderCellSmall>Sats</TableHeaderCellSmall>
-                        <TableHeaderCellSmall>Totalt reiseavstand</TableHeaderCellSmall>
+                        <TableHeaderCellSmall>Total reiseavstand</TableHeaderCellSmall>
                         <TableHeaderCellSmall align="right">Bompenger</TableHeaderCellSmall>
                         <TableHeaderCellSmall align="right">Fergekostnad</TableHeaderCellSmall>
                         <TableHeaderCellSmall align="right">Stønadsbeløp</TableHeaderCellSmall>
@@ -41,7 +41,7 @@ export const BeregningPrivatBil: FC<Props> = ({ beregningsresultat }) => {
                             <TableDataCellSmall>{formaterIsoDato(reise.fom)}</TableDataCellSmall>
                             <TableDataCellSmall>{formaterIsoDato(reise.tom)}</TableDataCellSmall>
                             <TableDataCellSmall>{reise.sats}</TableDataCellSmall>
-                            <TableDataCellSmall>{reise.totaltReiseavstand} km</TableDataCellSmall>
+                            <TableDataCellSmall>{reise.totalReiseavstand} km</TableDataCellSmall>
                             <TableDataCellSmall align="right">
                                 {reise.bompenger ?? '-'}
                             </TableDataCellSmall>

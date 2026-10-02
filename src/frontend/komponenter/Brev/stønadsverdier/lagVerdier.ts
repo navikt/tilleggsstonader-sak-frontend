@@ -3,11 +3,13 @@ import { mapVedtaksDatoerForPreutfyllingIBrevfanen } from './mapVedtaksDatoerFor
 import { Brevverdier } from './verdier';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
+import { Personopplysninger } from '../../../typer/personopplysninger';
 import { TypeVedtak, VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { InnvilgelseBoutgifter } from '../../../typer/vedtak/vedtakBoutgifter';
 import { InnvilgelseDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
 import { InnvilgelseLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
 import { InnvilgelsePassAvBarn } from '../../../typer/vedtak/vedtakPassAvBarn';
+import { InnvilgelseReiseOppstartAvslutningHjemreise } from '../../../typer/vedtak/vedtakReiseOppstartAvslutningHjemreise';
 import { InnvilgelseReiseTilSamling } from '../../../typer/vedtak/vedtakReiseTilSamling';
 
 const TOMME_VERDIER: Brevverdier = { variabelStore: {} };
@@ -20,6 +22,7 @@ function behandleInnvilgelse(
         | InnvilgelseBoutgifter
         | InnvilgelseDagligReise
         | InnvilgelseReiseTilSamling
+        | InnvilgelseReiseOppstartAvslutningHjemreise
 ) {
     switch (behandling.stønadstype) {
         case Stønadstype.LÆREMIDLER: {
@@ -62,6 +65,20 @@ function behandleInnvilgelse(
             );
         }
 
+        case Stønadstype.REISE_TIL_SAMLING_TSO: {
+            const innvilgelseReiseTilSamling = vedtak as InnvilgelseReiseTilSamling;
+            return mapVedtaksDatoerForPreutfyllingIBrevfanen(
+                innvilgelseReiseTilSamling.gjelderFraOgMed,
+                innvilgelseReiseTilSamling.gjelderTilOgMed
+            );
+        }
+        case Stønadstype.REISE_TIL_SAMLING_TSR: {
+            const innvilgelseReiseTilSamling = vedtak as InnvilgelseReiseTilSamling;
+            return mapVedtaksDatoerForPreutfyllingIBrevfanen(
+                innvilgelseReiseTilSamling.gjelderFraOgMed,
+                innvilgelseReiseTilSamling.gjelderTilOgMed
+            );
+        }
         default:
             return TOMME_VERDIER;
     }
@@ -69,7 +86,8 @@ function behandleInnvilgelse(
 
 export const lagVerdier = (
     behandling: Behandling | undefined,
-    vedtak: VedtakResponse | undefined
+    vedtak: VedtakResponse | undefined,
+    personopplysninger: Personopplysninger
 ): Brevverdier => {
     if (!behandling || !vedtak) {
         return TOMME_VERDIER;
@@ -77,7 +95,10 @@ export const lagVerdier = (
 
     switch (vedtak.type) {
         case TypeVedtak.OPPHØR: {
-            return mapOpphørsdatoForPreutfyllingIBrevfanen(vedtak.opphørsdato);
+            return mapOpphørsdatoForPreutfyllingIBrevfanen(
+                vedtak.opphørsdato,
+                personopplysninger.navn.visningsnavn
+            );
         }
         case TypeVedtak.INNVILGELSE: {
             return behandleInnvilgelse(behandling, vedtak);

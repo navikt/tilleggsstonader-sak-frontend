@@ -49,3 +49,11 @@ export const groupBy = <T, K extends keyof any>(list: T[], getKey: (item: T) => 
         },
         {} as Record<K, T[]>
     );
+
+type Predicate<T> = (a: T, b: T) => boolean;
+
+export function fjernDuplikater<T>(liste: T[], predicate: Predicate<T>): T[] {
+    return liste.filter(
+        (item, index, self) => self.findIndex((otherItem) => predicate(item, otherItem)) === index
+    );
+}

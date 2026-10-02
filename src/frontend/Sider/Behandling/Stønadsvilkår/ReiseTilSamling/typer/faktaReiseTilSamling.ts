@@ -1,24 +1,22 @@
 import { TypeVilkårFakta } from './regelstrukturReiseTilSamling';
 import { TypeReiseTilSamling } from './vilkårReiseTilSamling';
+import { AktivitetInfo } from '../felles/aktivitetInfo';
 
 export interface FaktaReiseTilSamling {
     type: TypeReiseTilSamling;
+    aktivitet?: AktivitetInfo;
 }
 
 export interface FaktaOffentligTransport extends FaktaReiseTilSamling {
     type: 'OFFENTLIG_TRANSPORT';
     utgifterOffentligTransport: number | undefined;
     begrunnelse: string | undefined;
-    aktivitetId?: string;
-    aktivitetType?: string;
 }
 
 export interface FaktaPrivatBil extends FaktaReiseTilSamling {
     type: 'PRIVAT_BIL';
     reiseavstand: number | undefined;
     begrunnelse: string | undefined;
-    aktivitetId: string | undefined;
-    aktivitetType: string | undefined;
     bompenger: number | undefined;
     fergekostnad: number | undefined;
     parkering: number | undefined;

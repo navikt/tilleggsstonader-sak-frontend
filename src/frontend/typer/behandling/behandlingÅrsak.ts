@@ -14,6 +14,8 @@ export enum HenlagtÅrsak {
     FEILREGISTRERT = 'FEILREGISTRERT',
     SKAL_BEHANDLES_I_ARENA = 'SKAL_BEHANDLES_I_ARENA',
     SKAL_BEHANDLES_AV_ANNET_FAGOMRÅDE = 'SKAL_BEHANDLES_AV_ANNET_FAGOMRÅDE',
+    ALLEREDE_BEHANDLET = 'ALLEREDE_BEHANDLET',
+    ANNET = 'ANNET',
 }
 
 export const henlagtÅrsakTilTekst: Record<HenlagtÅrsak, string> = {
@@ -21,4 +23,6 @@ export const henlagtÅrsakTilTekst: Record<HenlagtÅrsak, string> = {
     FEILREGISTRERT: 'Feilregistrert',
     SKAL_BEHANDLES_I_ARENA: 'Skal behandles i arena',
     SKAL_BEHANDLES_AV_ANNET_FAGOMRÅDE: 'Skal behandles av annet fagområde',
+    ALLEREDE_BEHANDLET: 'Allerede behandlet',
+    ANNET: 'Annet',
 };

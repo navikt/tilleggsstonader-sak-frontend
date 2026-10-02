@@ -99,6 +99,19 @@ const useKanSaksbehandle = (stønadstype: Stønadstype) => {
     }
 };
 
+const useKanRevurdere = (stønadstype: Stønadstype) => {
+    const kanRevurdereReiseTilSamlingTso = useFlag(Toggle.KAN_REVURDERE_REISE_TIL_SAMLING_TSO);
+    const kanRevurdereReiseTilSamlingTsr = useFlag(Toggle.KAN_REVURDERE_REISE_TIL_SAMLING_TSR);
+    switch (stønadstype) {
+        case Stønadstype.REISE_TIL_SAMLING_TSO:
+            return kanRevurdereReiseTilSamlingTso;
+        case Stønadstype.REISE_TIL_SAMLING_TSR:
+            return kanRevurdereReiseTilSamlingTsr;
+        default:
+            return true;
+    }
+};
+
 export const [BehandlingProvider, useBehandling] = constate(
     ({
         behandling,
@@ -118,9 +131,14 @@ export const [BehandlingProvider, useBehandling] = constate(
 
         const { rammevedtakRessurs, hentRammevedtak } = useHarRammevedtak(behandling.id);
 
-        const toggleKanSaksbehandle = useKanSaksbehandle(behandling.stønadstype);
+        const kanSaksbehandle = useKanSaksbehandle(behandling.stønadstype);
+        const kanRevurdere = useKanRevurdere(behandling.stønadstype);
 
         const behandlingErRedigerbar = erBehandlingRedigerbar(behandling.status) && erSaksbehandler;
+
+        const toggleKanSaksbehandleEllerRevurdere = behandling.forrigeIverksatteBehandlingId
+            ? kanSaksbehandle && kanRevurdere
+            : kanSaksbehandle;
 
         const tilordnetSaksbehandler = behandling.tilordnetSaksbehandler;
         const saksbehandlerErTilordnetOppgave =
@@ -129,12 +147,14 @@ export const [BehandlingProvider, useBehandling] = constate(
         return {
             behandling,
             behandlingErRedigerbar:
-                behandlingErRedigerbar && toggleKanSaksbehandle && saksbehandlerErTilordnetOppgave,
+                behandlingErRedigerbar &&
+                toggleKanSaksbehandleEllerRevurdere &&
+                saksbehandlerErTilordnetOppgave,
             hentBehandling,
             behandlingshistorikk,
             hentBehandlingshistorikk,
             behandlingFakta,
-            toggleKanSaksbehandle: toggleKanSaksbehandle,
+            toggleKanSaksbehandle: toggleKanSaksbehandleEllerRevurdere,
             kanSetteBehandlingPåVent: behandlingErRedigerbar,
             rammevedtakRessurs,
             hentRammevedtak,

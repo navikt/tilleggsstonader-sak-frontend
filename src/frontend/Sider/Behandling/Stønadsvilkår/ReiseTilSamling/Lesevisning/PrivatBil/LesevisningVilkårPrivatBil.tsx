@@ -5,6 +5,7 @@ import { BodyShort, HGrid, Label, Tag } from '@navikt/ds-react';
 
 import { LesevisningFaktaPrivatBil } from './LesevisningFaktaPrivatBil';
 import { VertikalSkillelinje } from '../../../../../../komponenter/VertikalSkillelinje';
+import { formatAktivitetInfo } from '../../felles/aktivitetInfo';
 import { erFaktaPrivatBil, FaktaPrivatBil } from '../../typer/faktaReiseTilSamling';
 import { VilkårReiseTilSamling } from '../../typer/vilkårReiseTilSamling';
 import { LesevisningDelvilkår } from '../Felles/LesevisningDelvilkår';
@@ -31,7 +32,7 @@ export const LesevisningVilkårPrivatBil: FC<{
                 </Tag>
             }
         >
-            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 234px) 1px auto">
+            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 283px) 1px auto">
                 <LesevisningFaktaPrivatBil fakta={faktaPrivatBil} />
                 <VertikalSkillelinje />
                 <LesevisningDelvilkår delvilkårsett={vilkår.delvilkårsett} />
@@ -41,12 +42,20 @@ export const LesevisningVilkårPrivatBil: FC<{
 };
 
 const EkstraHeader: FC<{ fakta: FaktaPrivatBil }> = ({ fakta }) => {
+    const aktivitet = fakta.aktivitet;
+
     return (
         <>
             <div>
-                <BodyShort size="small">Totalt reiseavstand:</BodyShort>
+                <BodyShort size="small">Total reiseavstand:</BodyShort>
                 <Label size="small">{fakta.reiseavstand} km</Label>
             </div>
+            {aktivitet && (
+                <div>
+                    <BodyShort size="small">Aktivitet:</BodyShort>
+                    <Label size="small">{formatAktivitetInfo(aktivitet)}</Label>
+                </div>
+            )}
         </>
     );
 };

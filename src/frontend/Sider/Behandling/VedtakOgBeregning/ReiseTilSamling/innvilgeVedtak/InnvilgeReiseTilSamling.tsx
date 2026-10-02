@@ -12,6 +12,7 @@ import DataViewer from '../../../../../komponenter/DataViewer';
 import { Feil } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
+import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import { byggHenterRessurs, byggTomRessurs, RessursStatus } from '../../../../../typer/ressurs';
 import { BeregningsplanOmfang } from '../../../../../typer/vedtak/beregningsplan';
 import { TypeVedtak } from '../../../../../typer/vedtak/vedtak';
@@ -26,7 +27,10 @@ import { Begrunnelsesfelt } from '../../Felles/Begrunnelsesfelt';
 import { StegKnappInnvilgelseMedVarsel } from '../../Felles/StegKnappInnvilgelseMedVarsel';
 import { validerVedtaksperioder } from '../../Felles/vedtaksperioder/valideringVedtaksperioder';
 import { Vedtaksperioder } from '../../Felles/vedtaksperioder/Vedtaksperioder';
-import { initialiserVedtaksperioder } from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
+import {
+    initialiserVedtaksperioder,
+    tilVedtaksperioderDto,
+} from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
 
 interface Props {
     lagretVedtak?: InnvilgelseReiseTilSamling;
@@ -59,17 +63,21 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
 
     const [begrunnelse, settBegrunnelse] = useState<string | undefined>(lagretVedtak?.begrunnelse);
 
+    const gjelderTsr = behandling.stønadstype === Stønadstype.REISE_TIL_SAMLING_TSR;
+
     useEffect(() => {
         settErVedtaksperioderBeregnet(false);
     }, [vedtaksperioder]);
 
     const lagreVedtak = () => {
         if (beregningsresultat.status === RessursStatus.SUKSESS && erVedtaksperioderBeregnet) {
-            const url = `/api/sak/vedtak/reise-til-samling/${behandling.id}/tso/innvilgelse`;
+            const url = gjelderTsr
+                ? `/api/sak/vedtak/reise-til-samling/${behandling.id}/tsr/innvilgelse`
+                : `/api/sak/vedtak/reise-til-samling/${behandling.id}/tso/innvilgelse`;
 
             return request<null, InnvilgeReiseTilSamlingRequest>(url, 'POST', {
                 type: TypeVedtak.INNVILGELSE,
-                vedtaksperioder: vedtaksperioder,
+                vedtaksperioder: tilVedtaksperioderDto(vedtaksperioder, behandling.stønadstype),
                 begrunnelse: begrunnelse,
             });
         } else {
@@ -79,7 +87,7 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
     };
 
     const validerForm = (): boolean => {
-        const vedtaksperiodeFeil = validerVedtaksperioder(vedtaksperioder);
+        const vedtaksperiodeFeil = validerVedtaksperioder(vedtaksperioder, gjelderTsr);
         settVedtaksperiodeFeil(vedtaksperiodeFeil);
 
         return isValid(vedtaksperiodeFeil);
@@ -92,9 +100,11 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
 
         if (kanSendeInn) {
             settBeregningsresultat(byggHenterRessurs());
-            const url = `/api/sak/vedtak/reise-til-samling/${behandling.id}/tso/beregn`;
+            const url = gjelderTsr
+                ? `/api/sak/vedtak/reise-til-samling/${behandling.id}/tsr/beregn`
+                : `/api/sak/vedtak/reise-til-samling/${behandling.id}/tso/beregn`;
             request<BeregningResultatReiseTilSamling, BeregnReiseTilSamlingRequest>(url, 'POST', {
-                vedtaksperioder,
+                vedtaksperioder: tilVedtaksperioderDto(vedtaksperioder, behandling.stønadstype),
             }).then((result) => {
                 settBeregningsresultat(result);
                 if (result.status === 'SUKSESS') {
@@ -118,6 +128,7 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
                         foreslåPeriodeFeil={foreslåPeriodeFeil}
                         settForeslåPeriodeFeil={settForeslåPeriodeFeil}
                         vedtakErLagret={lagretVedtak !== undefined}
+                        gjelderTsr={gjelderTsr}
                     />
                     <Begrunnelsesfelt
                         begrunnelse={begrunnelse}

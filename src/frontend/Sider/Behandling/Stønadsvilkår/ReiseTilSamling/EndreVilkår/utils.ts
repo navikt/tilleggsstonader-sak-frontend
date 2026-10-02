@@ -124,16 +124,14 @@ export const tomtOffentligTransport: FaktaOffentligTransport = {
     type: 'OFFENTLIG_TRANSPORT',
     utgifterOffentligTransport: undefined,
     begrunnelse: undefined,
-    aktivitetId: undefined,
-    aktivitetType: undefined,
+    aktivitet: undefined,
 };
 
 export const tomtPrivatBil: FaktaPrivatBil = {
     type: 'PRIVAT_BIL',
     reiseavstand: undefined,
     begrunnelse: undefined,
-    aktivitetId: undefined,
-    aktivitetType: undefined,
+    aktivitet: undefined,
     bompenger: undefined,
     fergekostnad: undefined,
     parkering: undefined,

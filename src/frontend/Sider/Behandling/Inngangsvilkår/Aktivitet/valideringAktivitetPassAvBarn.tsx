@@ -1,8 +1,8 @@
 import { EndreAktivitetFormPassAvBarn } from './EndreAktivitetPassAvBarn';
 import { finnBegrunnelseGrunnerAktivitet } from './utilsPassAvBarn';
+import { aktivitetsdagerErGyldigTall } from './valideringAktivitetsdager';
 import { FormErrors } from '../../../../hooks/felles/useFormState';
 import { Periode, validerPeriode } from '../../../../utils/periode';
-import { harTallverdi } from '../../../../utils/tall';
 import { harIkkeVerdi } from '../../../../utils/utils';
 import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
 
@@ -53,6 +53,3 @@ export const validerAktivitet = (
 
     return feil;
 };
-
-const aktivitetsdagerErGyldigTall = (aktivitetsdager: number | undefined): boolean =>
-    harTallverdi(aktivitetsdager) && aktivitetsdager >= 1 && aktivitetsdager <= 5;

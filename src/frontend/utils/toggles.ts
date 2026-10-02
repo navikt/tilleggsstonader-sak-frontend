@@ -13,6 +13,9 @@ export enum Toggle {
     KAN_SAKSBEHANDLE_FLYTTING_TSR = 'sak.frontend.kan-saksbehandle.flytting-tsr',
     KAN_SAKSBEHANDLE_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO = 'sak.frontend.kan-saksbehandle.reise-oppstart-avslutning-hjemreise-tso',
     KAN_SAKSBEHANDLE_REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR = 'sak.frontend.kan-saksbehandle.reise-oppstart-avslutning-hjemreise-tsr',
+
+    KAN_REVURDERE_REISE_TIL_SAMLING_TSO = 'sak.frontend.kan-revurdere.reise-til-samling-tso',
+    KAN_REVURDERE_REISE_TIL_SAMLING_TSR = 'sak.frontend.kan-revurdere.reise-til-samling-tsr',
     /**
      * Permission-toggles
      */
@@ -33,4 +36,6 @@ export enum Toggle {
     KAN_BEHANDLE_REISE_TIL_SAMLING = 'sak.reise-til-samling',
     KAN_BEHANDLE_FLYTTING = 'sak.flytting',
     VIS_BELØP_FRA_ANDRE_STØNADSTYPER_I_SIMULERING = 'sak.frontend.vis-belop-fra-andre-stonadstyper-i-simulering',
+    KAN_BRUKE_MÅLGRUPPE_UNGDOMSPROGRAMMET = 'sak.frontend.kan-bruke-malgruppe-ungdomsprogrammet',
+    KAN_BRUKE_MÅLGRUPPE_AKTIVITETSPENGER = 'sak.frontend.kan-bruke-malgruppe-aktivitetspenger',
 }

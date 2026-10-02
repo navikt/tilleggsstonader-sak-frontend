@@ -71,6 +71,8 @@ export const hentRammevedtakForVurdering = (
 export const typeAvvikTilTekst: Record<TypeAvvikUke, string> = {
     [TypeAvvikUke.FLERE_REISEDAGER_ENN_I_RAMMEVEDTAK]:
         'Flere innsendte reisedager enn i rammevedtak',
+    [TypeAvvikUke.INNSENDTE_DAGER_OVERLAPPER_MED_DAGER_DEKT_AV_ANNEN_REISE]:
+        'Denne kjørelisten har overlappende periode med en annen kjøreliste. Sjekk hvor mange dager bruker er i tiltak og om dagene som dekkes i denne og andre kjørelister ikke overstiger dette.',
 };
 
 export const godkjentGjennomførtKjøringTilTekst: Record<GodkjentGjennomførtKjøring, string> = {

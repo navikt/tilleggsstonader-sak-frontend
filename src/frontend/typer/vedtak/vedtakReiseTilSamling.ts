@@ -2,8 +2,11 @@ import { Beregningsplan } from './beregningsplan';
 import { TypeVedtak } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 import { AvslagRequest } from '../../hooks/useLagreAvslag';
+import { OpphørRequest } from '../../hooks/useLagreOpphør';
+import { VedtaksperiodeTsrDto } from '../../Sider/Behandling/VedtakOgBeregning/Felles/vedtaksperioder/vedtaksperiodeUtils';
 
-export type VedtakReiseTilSamling = InnvilgelseReiseTilSamling | AvslagReiseTilSamling;
+export type VedtakReiseTilSamling =
+    InnvilgelseReiseTilSamling | AvslagReiseTilSamling | OpphørReiseTilSamling;
 
 export const vedtakErInnvilgelse = (
     vedtak: VedtakReiseTilSamling
@@ -12,10 +15,17 @@ export const vedtakErInnvilgelse = (
 export const vedtakErAvslag = (vedtak: VedtakReiseTilSamling): vedtak is AvslagReiseTilSamling =>
     vedtak.type === TypeVedtak.AVSLAG;
 
+export const vedtakErOpphør = (vedtak: VedtakReiseTilSamling): vedtak is OpphørReiseTilSamling =>
+    vedtak.type === TypeVedtak.OPPHØR;
+
 export type AvslagReiseTilSamling = AvslagRequest;
 
-export type BeregnReiseTilSamlingRequest = {
+export type OpphørReiseTilSamling = OpphørRequest & {
     vedtaksperioder: Vedtaksperiode[];
+};
+
+export type BeregnReiseTilSamlingRequest = {
+    vedtaksperioder: Vedtaksperiode[] | VedtaksperiodeTsrDto[];
 };
 export interface BeregningResultatReiseTilSamling {
     offentligTransport?: BeregningsresultatOffentligTransport[];
@@ -28,7 +38,9 @@ export interface BeregningsresultatOffentligTransport {
     fom: string;
     tom: string;
     beløp: number;
+    begrunnelse: string;
     aktivitetId?: string;
+    fraTidligereVedtak: boolean;
 }
 export interface BeregningsresultatPrivatBil {
     reiseId: string;
@@ -36,16 +48,18 @@ export interface BeregningsresultatPrivatBil {
     fom: string;
     tom: string;
     sats: number;
-    totaltReiseavstand: number;
+    totalReiseavstand: number;
     bompenger?: number;
     fergekostnad?: number;
     parkering?: number;
     piggdekkavgift?: number;
+    ekstrakostnader: number;
     beløp: number;
+    fraTidligereVedtak: boolean;
 }
 export type InnvilgeReiseTilSamlingRequest = {
     type: TypeVedtak.INNVILGELSE;
-    vedtaksperioder: Vedtaksperiode[];
+    vedtaksperioder: Vedtaksperiode[] | VedtaksperiodeTsrDto[];
     begrunnelse?: string;
 };
 export interface InnvilgelseReiseTilSamling {
