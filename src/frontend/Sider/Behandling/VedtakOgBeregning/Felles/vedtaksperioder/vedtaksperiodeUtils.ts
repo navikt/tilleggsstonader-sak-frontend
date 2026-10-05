@@ -15,12 +15,10 @@ export const initialiserVedtaksperioder = (
     return vedtaksperioder?.length ? vedtaksperioder : [];
 };
 
-export const tomVedtaksperiode = (
-    målgruppeType: Vedtaksperiode['målgruppeType'] = ''
-): Vedtaksperiode => ({
+export const tomVedtaksperiode = (): Vedtaksperiode => ({
     fom: '',
     tom: '',
-    målgruppeType,
+    målgruppeType: '',
     aktivitetType: '',
     id: uuidv4(),
 });
