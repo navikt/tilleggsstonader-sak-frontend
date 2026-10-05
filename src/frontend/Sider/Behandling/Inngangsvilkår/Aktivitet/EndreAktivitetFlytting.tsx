@@ -1,15 +1,38 @@
 import React from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
-
+import { EndreAktivitetFlyttingTso } from './EndreAktivitetFlyttingTso';
+import { EndreAktivitetFlyttingTsr } from './EndreAktivitetFlyttingTsr';
+import { useBehandling } from '../../../../context/BehandlingContext';
+import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
-import { Aktivitet } from '../typer/vilkårperiode/aktivitet';
+import { erAktivitetFlyttingTso, erAktivitetFlyttingTsr } from '../typer/vilkårperiode/aktivitet';
+import {
+    AktivitetFlyttingTso,
+    AktivitetFlyttingTsr,
+} from '../typer/vilkårperiode/aktivitetFlytting';
 
-// TODO: Implementer aktivitetsredigering for Flytting
 export const EndreAktivitetFlytting: React.FC<{
-    aktivitet?: Aktivitet;
+    aktivitet?: AktivitetFlyttingTso | AktivitetFlyttingTsr;
     aktivitetFraRegister?: Registeraktivitet;
     avbrytRedigering: () => void;
-}> = () => {
-    return <BodyShort>TODO: Implementer EndreAktivitet for Flytting</BodyShort>;
+}> = ({ aktivitet, aktivitetFraRegister, avbrytRedigering }) => {
+    const { behandling } = useBehandling();
+
+    if (behandling.stønadstype === Stønadstype.FLYTTING_TSO) {
+        return (
+            <EndreAktivitetFlyttingTso
+                aktivitet={erAktivitetFlyttingTso(aktivitet) ? aktivitet : undefined}
+                aktivitetFraRegister={aktivitetFraRegister}
+                avbrytRedigering={avbrytRedigering}
+            />
+        );
+    }
+
+    return (
+        <EndreAktivitetFlyttingTsr
+            aktivitet={erAktivitetFlyttingTsr(aktivitet) ? aktivitet : undefined}
+            aktivitetFraRegister={aktivitetFraRegister}
+            avbrytRedigering={avbrytRedigering}
+        />
+    );
 };

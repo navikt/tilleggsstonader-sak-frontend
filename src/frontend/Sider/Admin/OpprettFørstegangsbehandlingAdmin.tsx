@@ -85,6 +85,7 @@ function OpprettFørstegangsbehandlingAdmin() {
         (type) =>
             (type !== Stønadstype.REISE_TIL_SAMLING_TSO || kanSaksbehandleReiseTilSamlingTso) &&
             (type !== Stønadstype.REISE_TIL_SAMLING_TSR || kanSaksbehandleReiseTilSamlingTsr) &&
+            // TODO: Aktiver flytting når oppretting av førstegangsbehandling er implementert for FLYTTING_TSO/FLYTTING_TSR
             type !== Stønadstype.FLYTTING_TSO &&
             type !== Stønadstype.FLYTTING_TSR &&
             type !== Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO &&
