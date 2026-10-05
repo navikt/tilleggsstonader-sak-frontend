@@ -45,7 +45,7 @@ export const OppsummeringReiseTilSamling: React.FC<{
             />
             {visFellesopplysninger && (
                 <>
-                    <AktivitetReiseTilSamling aktiviterer={behandlingFakta.aktiviteter} />
+                    <AktivitetReiseTilSamling aktiviteter={behandlingFakta.aktiviteter} />
                     <YtelseSituasjon
                         faktaHovedytelse={behandlingFakta.hovedytelse}
                         arbeidOgOpphold={
