@@ -67,6 +67,7 @@ export const EndreFaktaPrivatBil: React.FC<{
                         label={'Total reiseavstand i km'}
                         size="small"
                         error={feilmeldinger?.reiseavstand}
+                        description="Oppgi samlet reiseavstand tur/ retur"
                         value={harTallverdi(fakta.reiseavstand) ? fakta.reiseavstand : ''}
                         onChange={(e) => {
                             oppdaterFakta(

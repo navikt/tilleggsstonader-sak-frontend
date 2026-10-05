@@ -20,6 +20,8 @@ import {
     erAktivitetBoutgifter,
     erAktivitetDagligReiseTso,
     erAktivitetDagligReiseTsr,
+    erAktivitetFlyttingTso,
+    erAktivitetFlyttingTsr,
     erAktivitetLæremidler,
     erAktivitetPassAvBarn,
     erAktivitetReiseTilSamlingTso,
@@ -106,10 +108,17 @@ export const EndreAktivitet: React.FC<{
                 </DataViewer>
             );
         case Stønadstype.FLYTTING_TSO:
+            return (
+                <EndreAktivitetFlytting
+                    aktivitet={erAktivitetFlyttingTso(aktivitet) ? aktivitet : undefined}
+                    aktivitetFraRegister={aktivitetFraRegister}
+                    avbrytRedigering={avbrytRedigering}
+                />
+            );
         case Stønadstype.FLYTTING_TSR:
             return (
                 <EndreAktivitetFlytting
-                    aktivitet={aktivitet}
+                    aktivitet={erAktivitetFlyttingTsr(aktivitet) ? aktivitet : undefined}
                     aktivitetFraRegister={aktivitetFraRegister}
                     avbrytRedigering={avbrytRedigering}
                 />
