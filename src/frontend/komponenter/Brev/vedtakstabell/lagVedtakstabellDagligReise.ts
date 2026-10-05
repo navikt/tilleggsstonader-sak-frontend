@@ -55,7 +55,7 @@ export function lagVedtakstabellDagligReise(
         return `
         <p style="margin-bottom: 1px" >Reise med offentlig transport til <strong>${reise.adresse ?? '-'}</strong>, ${reisedagerIUken()} ${dagerTekst} i uken:</p>
         <table style="margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
-            <thead><tr>${kolonneOverskrift}</tr></thead>
+            <thead><tr class="vedtakstabell-rad">${kolonneOverskrift}</tr></thead>
             <tbody>${rader}</tbody>
         </table>
     `;
@@ -87,7 +87,7 @@ function lagRaderForReise(
             const datoperiode: Periode = { fom, tom };
             const datoperiodeString = formaterIsoPeriodeMedTankestrek(datoperiode);
 
-            return `<tr style="text-align: right;">
+            return `<tr class="vedtakstabell-rad" style="text-align: right;">
                     <td style="text-align: left; ${borderStylingCompact}">${datoperiodeString}</td>
                     ${kolonner?.har30Dager ? `<td style="${borderStyling}">${visBillettInfo(antall30dagersbilletter, pris30dagersbillett) ?? ''}</td>` : ''}
                     ${kolonner?.har7Dager ? `<td style="${borderStyling}">${visBillettInfo(antallSyvdagersbilletter, prisSyvdagersbillett) ?? ''}</td>` : ''}

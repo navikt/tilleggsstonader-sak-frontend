@@ -15,10 +15,6 @@ export const VariabelSerializer = (variabler: Partial<Record<string, string>>): 
         if (value.erHtml) {
             return (
                 <div
-                    style={{
-                        pageBreakInside: 'avoid',
-                        breakInside: 'avoid',
-                    }}
                     dangerouslySetInnerHTML={{
                         __html: variabler[value._id] || `Mangler ${value.visningsnavn}`,
                     }}
