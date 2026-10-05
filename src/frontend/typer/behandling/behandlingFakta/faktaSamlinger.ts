@@ -1,79 +1,104 @@
-import { Periode } from '../../../utils/periode';
+import { Drivstofftype, drivstofftypeTilTekst, ReiseAdresse } from './faktaReise';
 import { JaNei } from '../../common';
 
+export { Drivstofftype, drivstofftypeTilTekst };
+export type { ReiseAdresse };
+
 export interface FaktaSamling {
-    skalReiseFraFolkeregistrertAdresse?: JaNei;
-    adresseDetSkalReisesFra: ReiseAdresse;
-    reiseAdresse: ReiseAdresse;
-    periode: Periode;
-    harMerEnn30KmReisevei: JaNei;
-    lengdeReisevei: number;
-    harBehovForTransportUavhengigAvReisensLengde?: JaNei;
-    leveringOgHentingIBarnehage?: LeveringOgHentingIBarnehage;
-    kanReiseMedOffentligTransport: JaNei;
-    offentligTransport?: OffentligTransport;
-    privatTransport?: PrivatTransport;
+    fom: string;
+    tom: string;
+    erObligatorisk: JaNei;
+    adresse: ReiseAdresse;
+    antallKilometerEnVei: string;
+    reisemåte?: FaktaReisemåte;
 }
 
-export interface ReiseAdresse {
-    gateadresse: string;
-    postnummer: string;
-    poststed: string;
+export interface FaktaReisemåte {
+    hvilkeTransportmidlerBleBenyttet?: Transportmiddel[];
+    unntakFraOffentligTransport?: FaktaUnntakFraOffentligTransport;
+    unntakFraPrivatBil?: ÅrsakKanIkkeBenytteEgenBil[];
+    offentligTransport?: FaktaOffentligTransportInfo;
+    privatBil?: FaktaPrivatBilInfo;
+    drosje?: FaktaDrosjeInfo;
 }
 
-export interface OffentligTransport {
-    utgifterOffentligTransport: number;
+export interface FaktaOffentligTransportInfo {
+    totalUtgifterOffentligTransport?: string;
 }
 
-export interface PrivatTransport {
-    årsakIkkeOffentligTransport: ÅrsakIkkeOffentligTransport[];
-    kanKjøreMedEgenBil?: JaNei;
-    utgifterBil?: UtgifterBil;
+export interface FaktaPrivatBilInfo {
+    benyttetEgenBil?: JaNei;
+    betalteForReisen?: JaNei;
+    infoBilKunDelerAvStrekning?: FaktaInfoBilKunDelerAvStrekning;
+    utgifterPrivatBil?: FaktaUtgifterPrivatBil;
 }
 
-export enum Drivstofftype {
-    ELBIL = 'ELBIL',
-    HYDROGEN = 'HYDROGEN',
-    BENSIN = 'BENSIN',
-    HYBRID = 'HYBRID',
-    DIESEL = 'DIESEL',
+export interface FaktaInfoBilKunDelerAvStrekning {
+    strekningHvorBilBleBenyttet?: string;
+    antallKilometerKjørt?: string;
 }
 
-export interface LeveringOgHentingIBarnehage {
-    gateadresse: string;
-    postnummer: string;
+export interface FaktaUtgifterPrivatBil {
+    bompenger?: string;
+    ferge?: string;
+    piggdekkavgift?: string;
+    parkering?: string;
+    drivstoffType?: Drivstofftype;
 }
 
-export enum ÅrsakIkkeOffentligTransport {
-    HELSEMESSIGE_ÅRSAKER = 'HELSEMESSIGE_ÅRSAKER',
+export interface FaktaDrosjeInfo {
+    harTTKort?: JaNei;
+}
+
+export interface FaktaUnntakFraOffentligTransport {
+    årsaker?: ÅrsakKanIkkeBenytteOffentligTransport[];
+    leveringOgHentingIBarnehage?: FaktaLeveringOgHentingIBarnehage;
+}
+
+export interface FaktaLeveringOgHentingIBarnehage {
+    gateadresse?: string;
+    postnummer?: string;
+}
+
+export enum Transportmiddel {
+    OFFENTLIG_TRANSPORT = 'OFFENTLIG_TRANSPORT',
+    PRIVAT_BIL = 'PRIVAT_BIL',
+    DROSJE = 'DROSJE',
+}
+
+export const transportmiddelTilTekst: Record<Transportmiddel, string> = {
+    OFFENTLIG_TRANSPORT: 'Offentlig transport',
+    PRIVAT_BIL: 'Privat bil',
+    DROSJE: 'Drosje',
+};
+
+export enum ÅrsakKanIkkeBenytteOffentligTransport {
     DÅRLIG_TRANSPORTTILBUD = 'DÅRLIG_TRANSPORTTILBUD',
-    LEVERING_HENTING_BARNEHAGE_SKOLE = 'LEVERING_HENTING_BARNEHAGE_SKOLE',
+    HELSEMESSIGE_ÅRSAKER = 'HELSEMESSIGE_ÅRSAKER',
+    LEVERING_HENTING_I_BARNEHAGE = 'LEVERING_HENTING_I_BARNEHAGE',
+    FRAKT_AV_NØDVENDIG_UTSTYR = 'FRAKT_AV_NØDVENDIG_UTSTYR',
+}
+
+export const årsakKanIkkeBenytteOffentligTransportTilTekst: Record<
+    ÅrsakKanIkkeBenytteOffentligTransport,
+    string
+> = {
+    DÅRLIG_TRANSPORTTILBUD: 'Dårlig transporttilbud',
+    HELSEMESSIGE_ÅRSAKER: 'Helsemessige årsaker',
+    LEVERING_HENTING_I_BARNEHAGE: 'Levering/henting i barnehage',
+    FRAKT_AV_NØDVENDIG_UTSTYR: 'Frakt av nødvendig utstyr',
+};
+
+export enum ÅrsakKanIkkeBenytteEgenBil {
+    HAR_IKKE_BIL_ELLER_FØRERKORT = 'HAR_IKKE_BIL_ELLER_FØRERKORT',
+    HELSEMESSIGE_ÅRSAKER = 'HELSEMESSIGE_ÅRSAKER',
+    FRAKT_AV_NØDVENDIG_UTSTYR = 'FRAKT_AV_NØDVENDIG_UTSTYR',
     ANNET = 'ANNET',
 }
 
-export interface UtgifterBil {
-    parkering: JaNei;
-    bompenger?: number;
-    fergekostnad?: number;
-    piggdekkavgift?: number;
-    drivstofftype: Drivstofftype;
-}
-
-export const ÅrsakIkkeOffentligTransportTilTekst: Record<ÅrsakIkkeOffentligTransport, string> = {
+export const årsakKanIkkeBenytteEgenBilTilTekst: Record<ÅrsakKanIkkeBenytteEgenBil, string> = {
+    HAR_IKKE_BIL_ELLER_FØRERKORT: 'Har ikke bil eller førerkort',
     HELSEMESSIGE_ÅRSAKER: 'Helsemessige årsaker',
-    DÅRLIG_TRANSPORTTILBUD: 'Dårlig transporttilbud',
-    LEVERING_HENTING_BARNEHAGE_SKOLE: 'Levering/henting i barnehage eller skole',
+    FRAKT_AV_NØDVENDIG_UTSTYR: 'Frakt av nødvendig utstyr',
     ANNET: 'Annet',
-};
-
-export function reiseAdresseTilTekst(adresse: ReiseAdresse): string {
-    return `${adresse.gateadresse}, ${adresse.postnummer} ${adresse.poststed}`;
-}
-
-export const drivstofftypeTilTekst: Record<Drivstofftype, string> = {
-    [Drivstofftype.BENSIN]: 'Bensin',
-    [Drivstofftype.ELBIL]: 'Elbil',
-    [Drivstofftype.HYDROGEN]: 'Hydrogen',
-    [Drivstofftype.HYBRID]: 'Hybrid',
-    [Drivstofftype.DIESEL]: 'Diesel',
 };

@@ -22,21 +22,21 @@ export const AktivitetFelt: React.FC<{
         <>
             {aktiviteter && aktiviteter.length > 0 && (
                 <SøknadInfoFelt
-                    label="Hvilken aktivitet søker du 11111111111 om støtte ifm?"
+                    label="Hvilken aktivitet søker du om støtte ifm?"
                     value={aktiviteter}
                 />
             )}
 
             {annenAktivitet && (
                 <SøknadInfoFelt
-                    label="Hvilken arbeidsrettet 222222222222222 aktivitet har du?"
+                    label="Hvilken arbeidsrettet aktivitet har du?"
                     value={`Annet: ${tekstMedFallback(typeAnnenAktivitetTilTekst, annenAktivitet)}`}
                 />
             )}
 
             {visLønnetAktivitet && erLønnetAktivitet && (
                 <SøknadInfoFelt
-                    label="Mottar du lønn 3333333333 gjennom et tiltak?"
+                    label="Mottar du lønn gjennom et tiltak?"
                     value={tekstMedFallback(jaNeiTilTekst, erLønnetAktivitet)}
                 />
             )}

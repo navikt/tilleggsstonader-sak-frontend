@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { AktivitetReiseTilSamling } from './AktivitetReiseTilSamling';
+import { Avreiseadresse } from './Avreiseadresse';
 import { Samlinger } from './SamlingsDetaljer/Samlinger';
 import { useOppsummeringFilter } from './useOppsummeringFilter';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
@@ -51,6 +52,7 @@ export const OppsummeringReiseTilSamling: React.FC<{
                             behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold
                         }
                     />
+                    <Avreiseadresse avreiseadresse={behandlingFakta.avreiseadresse} />
                 </>
             )}
             {visSeksjon('samlinger') && behandlingFakta.samlinger?.length > 0 && (
