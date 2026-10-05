@@ -3,13 +3,37 @@ import { useCallback, useEffect, useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { useBehandling } from '../context/BehandlingContext';
 import { VilkårDagligReise } from '../Sider/Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
+import { VilkårFlytting } from '../Sider/Behandling/Stønadsvilkår/Flytting/typer/vilkårFlytting';
 import {
     AktivitetMedReiser,
     VilkårReiseOppstartAvslutningHjemreise,
 } from '../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/vilkårReiseOppstartAvslutningHjemreise';
 import { VilkårReiseTilSamling } from '../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/typer/vilkårReiseTilSamling';
 import { Vilkårsvurdering } from '../Sider/Behandling/vilkår';
-import { byggRessursSuksess, byggTomRessurs, Ressurs, RessursStatus } from '../typer/ressurs';
+import {
+    byggHenterRessurs,
+    byggRessursSuksess,
+    byggTomRessurs,
+    Ressurs,
+    RessursStatus,
+} from '../typer/ressurs';
+
+export const useHentVilkårFlytting = (): {
+    eksisterendeVilkår: Ressurs<VilkårFlytting[]>;
+} => {
+    const { request } = useApp();
+    const { behandling } = useBehandling();
+    const [eksisterendeVilkår, settEksisterendeVilkår] =
+        useState<Ressurs<VilkårFlytting[]>>(byggHenterRessurs());
+
+    useEffect(() => {
+        request<VilkårFlytting[], null>(`/api/sak/vilkar/flytting/${behandling.id}`, 'GET').then(
+            settEksisterendeVilkår
+        );
+    }, [request, behandling.id]);
+
+    return { eksisterendeVilkår };
+};
 
 export const useHentVilkårsvurdering = (): {
     hentVilkårsvurdering: (behandlingsId: string) => void;

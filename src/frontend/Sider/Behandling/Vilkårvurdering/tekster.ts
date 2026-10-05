@@ -49,6 +49,8 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING:
         'Har bruker nødvendige utgifter til reise til samling?',
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
+    SKAL_BRUKE_FLYTTEBYRÅ: 'Skal bruker bruke flyttebyrå?',
+    SKAL_KJØRE_SELV: 'Skal bruker kjøre selv?',
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
@@ -75,6 +77,8 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     KAN_REISE_MED_EGEN_BIL: 'Kan benytte privat bil?',
     HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING: 'Har nødvendige utgifter?',
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
+    SKAL_BRUKE_FLYTTEBYRÅ: 'Bruke flyttebyrå?',
+    SKAL_KJØRE_SELV: 'Kjøre selv?',
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {
@@ -100,6 +104,7 @@ export const vilkårTypeTilUtgiftTekst: Record<StønadsvilkårType, string> = {
     DAGLIG_REISE: '',
     REISE_TIL_SAMLING: '',
     REISE_OPPSTART_AVSLUTNING_HJEMREISE: '',
+    FLYTTING: '',
 };
 
 export const vilkårTypeTilUtgiftHjelpeTekst: Record<StønadsvilkårType, string | undefined> = {
@@ -112,6 +117,7 @@ export const vilkårTypeTilUtgiftHjelpeTekst: Record<StønadsvilkårType, string
     DAGLIG_REISE: undefined,
     REISE_TIL_SAMLING: undefined,
     REISE_OPPSTART_AVSLUTNING_HJEMREISE: undefined,
+    FLYTTING: undefined,
 };
 
 export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {
@@ -122,4 +128,5 @@ export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {
     DAGLIG_REISE: 'Daglige reiser',
     REISE_TIL_SAMLING: 'Samlinger',
     REISE_OPPSTART_AVSLUTNING_HJEMREISE: 'Oppstart, avslutning og hjemreiser',
+    FLYTTING: 'Flytting',
 };

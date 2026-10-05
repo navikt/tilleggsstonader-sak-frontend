@@ -1,8 +1,16 @@
 import React from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { Alert, BodyShort, VStack } from '@navikt/ds-react';
 
-// TODO: Implementer vedtak og beregning for Flytting
 export const VedtakOgBeregningFlytting: React.FC = () => {
-    return <BodyShort>TODO: Implementer VedtakOgBeregning for Flytting</BodyShort>;
+    return (
+        <VStack gap="space-16">
+            <Alert variant="info">
+                <BodyShort>
+                    Beregning og vedtaksfatting for flytting er ikke tilgjengelig ennå. Behandlingen
+                    kan ikke gå videre fra dette steget.
+                </BodyShort>
+            </Alert>
+        </VStack>
+    );
 };
