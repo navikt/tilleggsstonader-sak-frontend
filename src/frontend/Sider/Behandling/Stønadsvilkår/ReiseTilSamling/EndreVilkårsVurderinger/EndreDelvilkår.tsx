@@ -26,6 +26,7 @@ interface Props {
     label: string;
     hjelpetekstHeader?: React.ReactNode;
     hjelpetekst?: React.ReactNode;
+    hjelpetekstKort?: string;
     feilmeldinger: FeilmeldingerReiseTilSamling;
     begrunnelseHjelpetekst?: string;
 }
@@ -39,6 +40,7 @@ export const EndreDelvilkår: FC<Props> = ({
     label,
     hjelpetekstHeader,
     hjelpetekst,
+    hjelpetekstKort,
     feilmeldinger,
     erUndervilkår = false,
     begrunnelseHjelpetekst,
@@ -72,7 +74,13 @@ export const EndreDelvilkår: FC<Props> = ({
         <div
             className={`${styles.container} ${erUndervilkår ? styles.containerUndervilkar : ''}`.trim()}
         >
-            <RadioGroup legend={label} value={vurdering?.svar} size="small" onChange={oppdaterSvar}>
+            <RadioGroup
+                legend={label}
+                description={hjelpetekstKort}
+                value={vurdering?.svar}
+                size="small"
+                onChange={oppdaterSvar}
+            >
                 {hjelpetekst && (
                     <ReadMore
                         className={styles.containerHjelpetekst}

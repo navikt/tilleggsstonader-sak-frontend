@@ -119,7 +119,8 @@ export const EndreVurderinger: React.FC<Props> = ({
             )}
             {aktiveVurderinger.get(RegelIdReiseTilSamling.AVSTAND_OVER_TRETTI_KM) && (
                 <EndreDelvilkår
-                    label="Er reiseavstanden 30 km eller mer?"
+                    label="Er reiseavstanden 30 km eller mer hver vei?"
+                    hjelpetekstKort="Vurder reiseavstand én vei"
                     regelId={RegelIdReiseTilSamling.AVSTAND_OVER_TRETTI_KM}
                     vurdering={vurderinger.AVSTAND_OVER_TRETTI_KM}
                     oppdaterVurdering={oppdaterVurdering}
@@ -128,7 +129,7 @@ export const EndreVurderinger: React.FC<Props> = ({
                         RegelIdReiseTilSamling.AVSTAND_OVER_TRETTI_KM
                     )}
                     feilmeldinger={feilmeldinger}
-                    begrunnelseHjelpetekst="Du må fylle ut antall kilometer som er lagt til grunn for vurderingen"
+                    begrunnelseHjelpetekst="Oppgi antall kilometer én vei som er lagt til grunn for vurderingen"
                 />
             )}
             {aktiveVurderinger.get(RegelIdReiseTilSamling.ER_SAMLING_OBLIGATORISK) && (
