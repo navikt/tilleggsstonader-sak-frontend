@@ -13,17 +13,17 @@ import { jaNeiTilTekst } from '../../../../typer/common';
 import { tekstMedFallback } from '../../../../utils/tekstformatering';
 
 export const AktivitetReiseTilSamling: React.FC<{
-    aktiviterer: FaktaAktivitetReiseTilSamling;
-}> = ({ aktiviterer }) => {
-    const dekkesUtgiftenAvAndre = aktiviterer.aktivitet.søknadsgrunnlag?.dekkesUtgiftenAvAndre;
+    aktiviteter: FaktaAktivitetReiseTilSamling;
+}> = ({ aktiviteter }) => {
+    const dekkesUtgiftenAvAndre = aktiviteter.aktivitet.søknadsgrunnlag?.dekkesUtgiftenAvAndre;
 
-    if (!aktiviterer.aktivitet.søknadsgrunnlag) {
+    if (!aktiviteter.aktivitet.søknadsgrunnlag) {
         return null;
     }
 
     return (
         <SøknadInfoSeksjon label="Arbeidsrettet aktivitet" ikon={<BriefcaseIcon />}>
-            <AktivitetFelt aktivitet={aktiviterer.aktivitet} />
+            <AktivitetFelt aktivitet={aktiviteter.aktivitet} />
             {dekkesUtgiftenAvAndre?.typeUtdanning && (
                 <SøknadInfoFelt
                     label="Hva slags type arbeidsrettet aktivitet går du på?"

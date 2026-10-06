@@ -35,19 +35,21 @@ export const PrivatBilDetaljer: React.FC<{
 
             {privatBil.infoBilKunDelerAvStrekning?.strekningHvorBilBleBenyttet && (
                 <SøknadInfoFelt
-                    label="Hvilken strekning ble bilen benyttet på?"
+                    label="Hvilken del av reisen ble kjørt med privat bil?"
                     value={privatBil.infoBilKunDelerAvStrekning.strekningHvorBilBleBenyttet}
                 />
             )}
 
             {privatBil.infoBilKunDelerAvStrekning?.antallKilometerKjørt && (
                 <SøknadInfoFelt
-                    label="Antall kilometer kjørt med bil"
+                    label="Hvor mange kilometer kjørte du totalt med privat bil?"
                     value={`${privatBil.infoBilKunDelerAvStrekning.antallKilometerKjørt} km`}
                 />
             )}
 
-            {utgifter?.parkering && <SøknadInfoFelt label="Parkering" value={utgifter.parkering} />}
+            {utgifter?.parkering && (
+                <SøknadInfoFelt label="Parkering" value={formatKr(utgifter.parkering)} />
+            )}
 
             {utgifter?.bompenger && (
                 <SøknadInfoFelt label="Bompenger" value={formatKr(utgifter.bompenger)} />

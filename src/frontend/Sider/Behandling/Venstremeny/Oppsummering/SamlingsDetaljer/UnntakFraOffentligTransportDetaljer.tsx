@@ -16,7 +16,7 @@ export const UnntakFraOffentligTransportDetaljer: React.FC<{
     <>
         {unntakFraOffentligTransport.årsaker && unntakFraOffentligTransport.årsaker.length > 0 && (
             <SøknadInfoFelt
-                label="Hvorfor kan du ikke bruke offentlig transport?"
+                label="Hvorfor kunne du ikke benytte offentlig transport hele eller deler av reisen?"
                 value={
                     <VStack gap="space-4">
                         {unntakFraOffentligTransport.årsaker.map(
