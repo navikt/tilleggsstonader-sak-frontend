@@ -52,7 +52,7 @@ function lagVedtakstabellDagligReisePrivatBilPerReise(
     const rader = perioder
         .map(
             (periode) => `
-          <tr>
+          <tr class="vedtakstabell-rad">
             <td style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.95em;text-align:left;">${periode.ukenummer}</td>
             <td style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.95em;text-align:left;">${formaterIsoPeriodeMedTankestrek(periode)}</td>
             <td style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.95em;text-align:left;">${periode.antallGodkjenteReisedager}</td>
@@ -68,7 +68,7 @@ function lagVedtakstabellDagligReisePrivatBilPerReise(
         <p style="margin-bottom:2px;font-weight:500;">Reise med privat bil til <strong>${oppsummertReise.aktivitetsadresse ?? '-'}</strong>:</p>
         <table style="border-collapse:collapse;border:1px solid #b0b0b0;width:100%;margin:0;">
             <thead>
-                <tr>
+                <tr class="vedtakstabell-rad">
                     <th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:left;">Uke</th>
                     <th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:left;">Periode</th>
                     <th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:left;">Antall dager</th>

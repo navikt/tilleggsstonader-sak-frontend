@@ -38,7 +38,7 @@ function lagDelperiodeTabell(delperioder: RammeForReiseMedPrivatBilDelperiode[])
     return `
             <table style="border-collapse:collapse;border:1px solid #b0b0b0;width:100%;background:#fafbfc;margin:0;">
               <thead>
-                <tr>
+                <tr class="vedtakstabell-rad">
                   <th style="width:120px;border:1px solid #b0b0b0;padding:2px 4px;font-size:0.90em;background:#f0f4f8;font-weight:500;text-align:left;vertical-align:middle;white-space:nowrap;">Delperiode</th>
                   <th style="width:60px;border:1px solid #b0b0b0;padding:2px 4px;font-size:0.90em;background:#f0f4f8;font-weight:500;text-align:left;vertical-align:middle;white-space:nowrap;">Reisedager pr uke</th>
                   <th style="width:60px;border:1px solid #b0b0b0;padding:2px 4px;font-size:0.90em;background:#f0f4f8;font-weight:500;text-align:right;vertical-align:middle;white-space:nowrap;">Kilometersats</th>
@@ -51,7 +51,7 @@ function lagDelperiodeTabell(delperioder: RammeForReiseMedPrivatBilDelperiode[])
                 ${rader
                     .map(
                         (r) => `
-                  <tr>
+                  <tr class="vedtakstabell-rad">
                     <td style="width:${periodeWidth};border:1px solid #b0b0b0;padding:2px 4px;font-size:0.90em;background:#fafbfc;vertical-align:middle;text-align:left;white-space:normal;">${r.periode}</td>
                     <td style="width:60px;border:1px solid #b0b0b0;padding:2px 4px;font-size:0.90em;background:#fafbfc;vertical-align:middle;text-align:left;white-space:nowrap;">
                       ${r.reisedagerPerUke} ${r.reisedagerPerUke === 1 ? 'dag' : 'dager'}

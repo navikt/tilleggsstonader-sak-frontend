@@ -41,7 +41,7 @@ export function lagVedtakstabellReiseTilSamlingOffentligTransport(
         return `
         <p style="margin-bottom:2px;font-weight:500;">Reise til samling med offentlig transport til <strong>${samling.adresse ?? '-'}</strong> (${formaterIsoPeriodeMedTankestrek(datoperiode)}):</p>
         <table style="margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
-            <thead><tr>${kolonneOverskrift}</tr></thead>
+            <thead><tr class="vedtakstabell-rad">${kolonneOverskrift}</tr></thead>
             <tbody>${rader}</tbody>
         </table>
     `;
@@ -53,7 +53,7 @@ function lagRaderForReiseTilSamlingOffentligTransport(
     samling: BeregningsresultatOffentligTransport
 ): string {
     return `
-    <tr>
+    <tr class="vedtakstabell-rad">  
         <td style="${borderStyling}">${kronerMedTusenSkilleEllerStrek(samling.beløp)}</td>
         <td style="${borderStylingWithNewline}">${escapeHtml(samling.begrunnelse)}</td>
     </tr>`;
@@ -76,7 +76,7 @@ function lagVedtakstabellReiseTilSamlingPrivatBilPerSamling(
     const periode = { fom: samling.fom, tom: samling.tom };
 
     const rader = `
-          <tr>
+          <tr class="vedtakstabell-rad">
             <td style="${borderStylingCompact}">${samling.totalReiseavstand} km</td>
             <td style="${borderStylingCompact}">${samling.sats} kr/km</td>
             <td style="${borderStylingCompact}">${kronerMedTusenSkilleEllerStrek(samling.ekstrakostnader)}</td>
@@ -88,7 +88,7 @@ function lagVedtakstabellReiseTilSamlingPrivatBilPerSamling(
         <p style="margin-bottom:2px;font-weight:500;">Reise til samling med privat bil til <strong>${samling.adresse ?? '-'}</strong> (${formaterIsoPeriodeMedTankestrek(periode)}):</p>
             <table style="border-collapse: collapse; margin: 0; ${borderStylingCompact}">
     <thead>
-        <tr>
+        <tr class="vedtakstabell-rad">
             <th style="width: 150px; ${borderStylingCompact}">Total reiseavstand</th>
             <th style="width: 130px; ${borderStylingCompact}">Kilometersats</th>
             <th style="width: 120px; ${borderStylingCompact}">Ekstrakostnader</th>

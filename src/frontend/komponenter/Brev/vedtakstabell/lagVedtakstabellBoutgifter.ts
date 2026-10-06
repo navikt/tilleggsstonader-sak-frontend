@@ -14,7 +14,7 @@ export const lagVedtakstabellBoutgifter = (
 ): string => {
     return `<table style="margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
                 <thead>
-                    <tr>
+                    <tr class="vedtakstabell-rad">
                         <th style="width: 270px; word-wrap: break-word; ${borderStylingCompact}">Periode</th>
                         <th style="width: 120px; word-wrap: break-word; ${borderStylingCompact}">Merutgift</th>
                         <th style="width: 180px; word-wrap: break-word; ${borderStylingCompact}">Beløp du har rett til</th>
@@ -78,7 +78,7 @@ const lagRadForVedtak = (
     const stønadsbeløpString = formaterTallMedTusenSkille(stønadsbeløp);
     const asteriksForBegrensetAvMakssats =
         !skalFåDekketFaktiskeUtgifter && begrensetAvMakssats ? '*' : '';
-    return `<tr style="text-align: right;">
+    return `<tr class="vedtakstabell-rad">
                         <td style="text-align: left; ${borderStylingCompact}">${datoperiodeString}</td>
                         <td style="${borderStyling}">${merutgiftString} kr</td>
                         <td style="${borderStyling}">${stønadsbeløpString} kr ${asteriksForBegrensetAvMakssats}</td>
