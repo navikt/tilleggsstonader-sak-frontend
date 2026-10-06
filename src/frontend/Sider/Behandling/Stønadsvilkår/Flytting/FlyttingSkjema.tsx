@@ -452,24 +452,25 @@ const EndreFaktaFlytteSelv: React.FC<{
     fakta: FaktaSkjema;
 }> = ({ settFakta, fakta }) => {
     return (
-        <VStack gap="space-12">
-            <TextField
-                label="Avstand én vei i kilometer"
-                value={fakta.avstandEnVei}
-                inputMode="numeric"
-                onChange={(event) => {
-                    settFakta((forrige) => ({
-                        ...forrige,
-                        avstandEnVei: event.target.value,
-                    }));
-                }}
-                size="small"
-            />
+        <HStack gap="space-16">
+            <FeilmeldingMaksBredde $maxWidth={180}>
+                <TextField
+                    label="Avstand én vei i kilometer"
+                    value={fakta.avstandEnVei}
+                    inputMode="numeric"
+                    onChange={(event) => {
+                        settFakta((forrige) => ({
+                            ...forrige,
+                            avstandEnVei: event.target.value,
+                        }));
+                    }}
+                    size="small"
+                />
+            </FeilmeldingMaksBredde>
             {(['henger', 'bompenger', 'ferge', 'parkering'] as const).map((felt) => (
                 <FeilmeldingMaksBredde $maxWidth={180} key={felt}>
                     <TextField
-                        label={`${flyttingFaktaFeltTilTekst[felt]} i kroner`}
-                        description="Oppgi samlet kostnad. La feltet stå tomt hvis det ikke finnes en kostnad."
+                        label={`${flyttingFaktaFeltTilTekst[felt]}`}
                         value={fakta[felt]}
                         inputMode="numeric"
                         onChange={(event) => {
@@ -479,6 +480,6 @@ const EndreFaktaFlytteSelv: React.FC<{
                     />
                 </FeilmeldingMaksBredde>
             ))}
-        </VStack>
+        </HStack>
     );
 };
