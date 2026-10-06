@@ -20,23 +20,16 @@ export const cellStyleMedNewline: React.CSSProperties = {
     overflowWrap: 'anywhere',
 };
 
+export const stønadsbeløpKolonneBredde = '130px';
+
 export const bredder = {
     kolonner: {
-        offentligTransport: ['calc(100% - 130px)', '130px'] as const,
-        privatBil: ['25%', '21.67%', '20%', '15%', '130px'] as const,
+        offentligTransport: ['calc(100% - 130px)', stønadsbeløpKolonneBredde] as const,
+        privatBil: ['25%', '21.67%', '20%', '15%', stønadsbeløpKolonneBredde] as const,
     },
     header: {
         privatBil: [150, 130, 120, 90] as const,
     },
-} as const;
-
-export const stønadsbeløpKolonneBredde = bredder.kolonner.privatBil[4];
-
-export const stønadsbeløpHeaderStyle: React.CSSProperties = {
-    ...cellStyle,
-    width: stønadsbeløpKolonneBredde,
-    minWidth: stønadsbeløpKolonneBredde,
-    maxWidth: stønadsbeløpKolonneBredde,
 };
 
 export const stønadsbeløpCelleStyle: React.CSSProperties = {
@@ -98,7 +91,7 @@ export function fjernPerioderFraTidligereVedtakOgGrupperPåPeriodeOgAdresse(
         .forEach((samling) => {
             const adresse = samling.adresse ?? '-';
             const nøkkel = lagNøkkel(samling.fom, samling.tom, adresse);
-            const gruppe = grupper.get(nøkkel) ?? tomGruppe(nøkkel);
+            const gruppe = grupper.get(nøkkel) ?? nyGruppe(nøkkel);
             gruppe.offentligTransport.push(samling);
             grupper.set(nøkkel, gruppe);
         });
@@ -108,7 +101,7 @@ export function fjernPerioderFraTidligereVedtakOgGrupperPåPeriodeOgAdresse(
         .forEach((samling) => {
             const adresse = samling.adresse ?? '-';
             const nøkkel = lagNøkkel(samling.fom, samling.tom, adresse);
-            const gruppe = grupper.get(nøkkel) ?? tomGruppe(nøkkel);
+            const gruppe = grupper.get(nøkkel) ?? nyGruppe(nøkkel);
             gruppe.privatBil.push(samling);
             grupper.set(nøkkel, gruppe);
         });
@@ -122,7 +115,7 @@ function fomForGruppe(gruppe: Samlingsgruppe): string {
     return gruppe.offentligTransport[0]?.fom ?? gruppe.privatBil[0]?.fom ?? '';
 }
 
-const tomGruppe = (nøkkel: string): Samlingsgruppe => ({
+const nyGruppe = (nøkkel: string): Samlingsgruppe => ({
     nøkkel,
     offentligTransport: [],
     privatBil: [],

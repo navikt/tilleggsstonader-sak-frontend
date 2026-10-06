@@ -9,7 +9,6 @@ import {
     cellStyleMedNewline,
     gråOverskrift,
     stønadsbeløpCelleStyle,
-    stønadsbeløpHeaderStyle,
     stønadsbeløpKolonneBredde,
 } from './util';
 import { BeregningsresultatOffentligTransport } from '../../../../typer/vedtak/vedtakReiseTilSamling';
@@ -60,7 +59,7 @@ export const VedtakstabellReiseTilSamlingOffentligTransport: React.FC<{
                 </tr>
                 <tr>
                     <th style={cellStyle}>Utgifter</th>
-                    <th style={stønadsbeløpHeaderStyle}>Stønadsbeløp</th>
+                    <th style={stønadsbeløpCelleStyle}>Stønadsbeløp</th>
                 </tr>
             </thead>
             <tbody>

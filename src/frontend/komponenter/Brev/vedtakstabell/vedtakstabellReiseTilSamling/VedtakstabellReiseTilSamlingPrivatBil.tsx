@@ -8,7 +8,6 @@ import {
     gråOverskrift,
     lagEkstrakostnaderTekst,
     stønadsbeløpCelleStyle,
-    stønadsbeløpHeaderStyle,
     stønadsbeløpKolonneBredde,
 } from './util';
 import { BeregningsresultatPrivatBil } from '../../../../typer/vedtak/vedtakReiseTilSamling';
@@ -62,7 +61,7 @@ export const VedtakstabellReiseTilSamlingPrivatBil: React.FC<{
                     </th>
                     <th style={{ ...cellStyle, width: bredder.header.privatBil[2] }}>Utgifter</th>
                     <th style={{ ...cellStyle, width: bredder.header.privatBil[3] }}>Parkering</th>
-                    <th style={stønadsbeløpHeaderStyle}>Stønadsbeløp</th>
+                    <th style={stønadsbeløpCelleStyle}>Stønadsbeløp</th>
                 </tr>
             </thead>
             <tbody>
