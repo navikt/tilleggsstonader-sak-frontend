@@ -27,7 +27,7 @@ interface Props {
 }
 
 const FlyttingTag: React.FC<{ vilkår: VilkårFlytting }> = ({ vilkår }) => {
-    if (vilkår.fakta.type === 'FLYTTING_KJØRE_SELV') {
+    if (vilkår.fakta.type === 'FLYTTING_FLYTTE_SELV') {
         return (
             <Tag size="small" icon={<CarIcon />}>
                 Flytte selv
@@ -105,7 +105,9 @@ const LesevisningFaktaFlytting: React.FC<{ vilkår: VilkårFlytting }> = ({ vilk
             {fakta.type === 'FLYTTING_FLYTTEBYRÅ' && (
                 <LesevisningFlyttingFlyttebyrå fakta={fakta} />
             )}
-            {fakta.type === 'FLYTTING_KJØRE_SELV' && <LesevisningFlyttingPrivatBil fakta={fakta} />}
+            {fakta.type === 'FLYTTING_FLYTTE_SELV' && (
+                <LesevisningFlyttingPrivatBil fakta={fakta} />
+            )}
         </VStack>
     );
 };

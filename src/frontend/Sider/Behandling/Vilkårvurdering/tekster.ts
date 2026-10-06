@@ -54,8 +54,6 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
         'Har bruker nødvendige utgifter til reise til samling?',
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
     HVORDAN_SKAL_BRUKER_FLYTTE: 'Hvordan skal bruker flytte?',
-    SKAL_BRUKE_FLYTTEBYRÅ: 'Skal bruker bruke flyttebyrå?',
-    SKAL_KJØRE_SELV: 'Skal bruker kjøre selv?',
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
@@ -83,8 +81,6 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING: 'Har nødvendige utgifter?',
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
     HVORDAN_SKAL_BRUKER_FLYTTE: 'Hvordan skal bruker flytte?',
-    SKAL_BRUKE_FLYTTEBYRÅ: 'Bruke flyttebyrå?',
-    SKAL_KJØRE_SELV: 'Kjøre selv?',
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {

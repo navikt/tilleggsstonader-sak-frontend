@@ -70,7 +70,7 @@ function tilFaktaSkjema(fakta?: FaktaFlytting): FaktaSkjema {
             tilbud2: { navn: fakta.tilbud2.navn ?? '', pris: fakta.tilbud2.pris?.toString() ?? '' },
         };
     }
-    if (fakta?.type === 'FLYTTING_KJØRE_SELV') {
+    if (fakta?.type === 'FLYTTING_FLYTTE_SELV') {
         return {
             ...skjema,
             avstandEnVei: fakta.avstandEnVei?.toString() ?? '',
@@ -104,7 +104,7 @@ function initierSvar(
         (vurdering) => vurdering.regelId === 'SKAL_BRUKE_FLYTTEBYRÅ'
     )?.svar;
     const tidligereEgenKjøring = vurderinger.find(
-        (vurdering) => vurdering.regelId === 'SKAL_KJØRE_SELV'
+        (vurdering) => vurdering.regelId === 'SKAL_FLYTTE_SELV'
     )?.svar;
     const svar =
         tidligereFlyttebyrå === 'JA'
@@ -121,7 +121,7 @@ function initierSvar(
             begrunnelse:
                 tidligereFlyttebyrå === 'JA'
                     ? vurderinger.find((v) => v.regelId === 'SKAL_BRUKE_FLYTTEBYRÅ')?.begrunnelse
-                    : vurderinger.find((v) => v.regelId === 'SKAL_KJØRE_SELV')?.begrunnelse,
+                    : vurderinger.find((v) => v.regelId === 'SKAL_FLYTTE_SELV')?.begrunnelse,
         },
     };
 }
@@ -167,7 +167,7 @@ function tilFaktaPayload(fakta: FaktaSkjema): FaktaFlytting {
             },
         };
     }
-    if (fakta.type === 'FLYTTING_KJØRE_SELV') {
+    if (fakta.type === 'FLYTTING_FLYTTE_SELV') {
         return {
             type: fakta.type,
             adresse,
@@ -395,7 +395,7 @@ const Faktafelter: React.FC<{
         return <EndreFaktaFlyttebyrå settFakta={settFakta} fakta={fakta} />;
     }
 
-    if (fakta.type === 'FLYTTING_KJØRE_SELV') {
+    if (fakta.type === 'FLYTTING_FLYTTE_SELV') {
         return <EndreFaktaFlytteSelv settFakta={settFakta} fakta={fakta} />;
     }
 };

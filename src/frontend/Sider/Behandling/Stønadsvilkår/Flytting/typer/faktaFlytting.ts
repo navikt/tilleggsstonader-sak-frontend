@@ -1,5 +1,5 @@
 export type TypeVilkårFaktaFlytting =
-    'FLYTTING_FLYTTEBYRÅ' | 'FLYTTING_KJØRE_SELV' | 'FLYTTING_UBESTEMT';
+    'FLYTTING_FLYTTEBYRÅ' | 'FLYTTING_FLYTTE_SELV' | 'FLYTTING_UBESTEMT';
 
 export interface FaktaFlyttingFlyttebyrå {
     type: 'FLYTTING_FLYTTEBYRÅ';
@@ -14,7 +14,7 @@ export interface FaktaFlyttingTilbud {
 }
 
 export interface FaktaFlyttingKjøreSelv {
-    type: 'FLYTTING_KJØRE_SELV';
+    type: 'FLYTTING_FLYTTE_SELV';
     adresse: string | null;
     avstandEnVei: number | null;
     henger: number | null;
