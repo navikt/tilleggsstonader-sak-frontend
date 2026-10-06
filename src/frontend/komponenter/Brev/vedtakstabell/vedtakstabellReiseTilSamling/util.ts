@@ -20,24 +20,6 @@ export const cellStyleMedNewline: React.CSSProperties = {
     overflowWrap: 'anywhere',
 };
 
-// export const thCellStyle: React.CSSProperties = {
-//     border: borderStylingCompact,
-//     padding: '5px',
-//     boxSizing: 'border-box',
-// };
-
-// export const tdCellStyle: React.CSSProperties = {
-//     border: borderStylingCompact,
-//     padding: '5px',
-//     boxSizing: 'border-box',
-// };
-
-// export const tdCellStyleWithNewline: React.CSSProperties = {
-//     ...tdCellStyle,
-//     whiteSpace: 'pre-line',
-//     overflowWrap: 'anywhere',
-// };
-
 export const bredder = {
     kolonner: {
         offentligTransport: ['calc(100% - 130px)', '130px'] as const,
