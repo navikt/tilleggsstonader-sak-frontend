@@ -2,7 +2,7 @@ import { lagVedtakstabellBoutgifter } from './lagVedtakstabellBoutgifter';
 import { lagVedtakstabellDagligReise } from './lagVedtakstabellDagligReise';
 import { lagVedtakstabellLæremidler } from './lagVedtakstabellLæremidler';
 import { lagVedtakstabellPassAvBarn } from './lagVedtakstabellPassAvBarn';
-import { lagVedtakstabellReiseTilSamling } from './lagVedtakstabellReiseTilSamling';
+import { lagVedtakstabellReiseTilSamling } from './vedtakstabellReiseTilSamling/VedtakstabellReiseTilSamling';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { VedtakResponse } from '../../../typer/vedtak/vedtak';
