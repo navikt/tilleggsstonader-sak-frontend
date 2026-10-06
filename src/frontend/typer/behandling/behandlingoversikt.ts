@@ -15,6 +15,10 @@ export interface Behandlingsoversikt {
     dagligReiseTsr?: FagsakMedBehandlinger;
     reiseTilSamlingTso?: FagsakMedBehandlinger;
     reiseTilSamlingTsr?: FagsakMedBehandlinger;
+    reiseOppstartAvslutningHjemreiseTso?: FagsakMedBehandlinger;
+    reiseOppstartAvslutningHjemreiseTsr?: FagsakMedBehandlinger;
+    flyttingTso?: FagsakMedBehandlinger;
+    flyttingTsr?: FagsakMedBehandlinger;
 }
 
 export interface FagsakMedBehandlinger {

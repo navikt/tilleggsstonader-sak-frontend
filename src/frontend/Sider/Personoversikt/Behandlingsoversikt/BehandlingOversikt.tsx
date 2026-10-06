@@ -94,6 +94,52 @@ export const Behandlingsoversikt: React.FC<{ fagsakPersonId: string }> = ({ fags
                                 gjelderTema="TSR"
                             />
                         )}
+                        {behandlingsoversikt.reiseOppstartAvslutningHjemreiseTso && (
+                            <FagsakOversikt
+                                fagsakMedBehandlinger={
+                                    behandlingsoversikt.reiseOppstartAvslutningHjemreiseTso
+                                }
+                                klagebehandlinger={
+                                    utpakkedeKlagebehandlinger?.reiseOppstartAvslutningHjemreiseTso ??
+                                    []
+                                }
+                                hentBehandlinger={rekjørHentBehandlinger}
+                                hentKlagebehandlinger={rekjørHentKlagebehandlinger}
+                                gjelderTema="TSO"
+                            />
+                        )}
+                        {behandlingsoversikt.reiseOppstartAvslutningHjemreiseTsr && (
+                            <FagsakOversikt
+                                fagsakMedBehandlinger={
+                                    behandlingsoversikt.reiseOppstartAvslutningHjemreiseTsr
+                                }
+                                klagebehandlinger={
+                                    utpakkedeKlagebehandlinger?.reiseOppstartAvslutningHjemreiseTsr ??
+                                    []
+                                }
+                                hentBehandlinger={rekjørHentBehandlinger}
+                                hentKlagebehandlinger={rekjørHentKlagebehandlinger}
+                                gjelderTema="TSR"
+                            />
+                        )}
+                        {behandlingsoversikt.flyttingTso && (
+                            <FagsakOversikt
+                                fagsakMedBehandlinger={behandlingsoversikt.flyttingTso}
+                                klagebehandlinger={utpakkedeKlagebehandlinger?.flyttingTso ?? []}
+                                hentBehandlinger={rekjørHentBehandlinger}
+                                hentKlagebehandlinger={rekjørHentKlagebehandlinger}
+                                gjelderTema="TSO"
+                            />
+                        )}
+                        {behandlingsoversikt.flyttingTsr && (
+                            <FagsakOversikt
+                                fagsakMedBehandlinger={behandlingsoversikt.flyttingTsr}
+                                klagebehandlinger={utpakkedeKlagebehandlinger?.flyttingTsr ?? []}
+                                hentBehandlinger={rekjørHentBehandlinger}
+                                hentKlagebehandlinger={rekjørHentKlagebehandlinger}
+                                gjelderTema="TSR"
+                            />
+                        )}
                     </>
                 )}
             </DataViewer>

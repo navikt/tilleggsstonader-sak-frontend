@@ -9,6 +9,10 @@ export interface Klagebehandlinger {
     dagligReiseTsr: KlageBehandling[];
     reiseTilSamlingTso: KlageBehandling[];
     reiseTilSamlingTsr: KlageBehandling[];
+    reiseOppstartAvslutningHjemreiseTso?: KlageBehandling[];
+    reiseOppstartAvslutningHjemreiseTsr?: KlageBehandling[];
+    flyttingTso?: KlageBehandling[];
+    flyttingTsr?: KlageBehandling[];
 }
 
 export interface KlageBehandling {
