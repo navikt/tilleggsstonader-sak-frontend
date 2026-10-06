@@ -2,10 +2,27 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
 import { Regelstruktur } from '../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
+import { RegelstrukturFlytting } from '../Sider/Behandling/Stønadsvilkår/Flytting/typer/regelstrukturFlytting';
 import { RegelstrukturReiseOppstartAvslutningHjemreise } from '../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/regelstrukturReiseOppstartAvslutningHjemreise';
 import { RegelstrukturReiseTilSamling } from '../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/typer/regelstrukturReiseTilSamling';
 import { ReglerResponse } from '../typer/regel';
 import { Ressurs, byggTomRessurs } from '../typer/ressurs';
+
+export const useRegelstrukturFlytting = (): {
+    regelStruktur: Ressurs<RegelstrukturFlytting>;
+} => {
+    const { request } = useApp();
+    const [regelStruktur, settRegelstruktur] =
+        useState<Ressurs<RegelstrukturFlytting>>(byggTomRessurs());
+
+    useEffect(() => {
+        request<RegelstrukturFlytting, null>('/api/sak/vilkar/flytting/regler', 'GET').then(
+            settRegelstruktur
+        );
+    }, [request]);
+
+    return { regelStruktur };
+};
 
 interface Response {
     hentRegler: () => void;

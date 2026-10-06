@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 
 import { Tag } from '@navikt/ds-react';
 
+import { LesevisningDelvilkår } from '../../Felles/Lesevisning/LesevisningDelvilkår';
 import { VilkårReiseTilSamling } from '../typer/vilkårReiseTilSamling';
-import { LesevisningDelvilkår } from './Felles/LesevisningDelvilkår';
 import { RedigerVilkårProps } from './Felles/LesevisningFooter';
 import { LesevisningVilkårKort } from './Felles/LesevisningVilkårKort';
 import { LesevisningVilkårOffentligTransport } from './OffentligTransport/LesevisningVilkårOffentligTransport';

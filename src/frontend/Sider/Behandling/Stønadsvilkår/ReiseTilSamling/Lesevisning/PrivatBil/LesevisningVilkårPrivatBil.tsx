@@ -5,10 +5,10 @@ import { BodyShort, HGrid, Label, Tag } from '@navikt/ds-react';
 
 import { LesevisningFaktaPrivatBil } from './LesevisningFaktaPrivatBil';
 import { VertikalSkillelinje } from '../../../../../../komponenter/VertikalSkillelinje';
+import { LesevisningDelvilkår } from '../../../Felles/Lesevisning/LesevisningDelvilkår';
 import { formatAktivitetInfo } from '../../felles/aktivitetInfo';
 import { erFaktaPrivatBil, FaktaPrivatBil } from '../../typer/faktaReiseTilSamling';
 import { VilkårReiseTilSamling } from '../../typer/vilkårReiseTilSamling';
-import { LesevisningDelvilkår } from '../Felles/LesevisningDelvilkår';
 import { RedigerVilkårProps } from '../Felles/LesevisningFooter';
 import { LesevisningVilkårKort } from '../Felles/LesevisningVilkårKort';
 

@@ -4,6 +4,8 @@ import { StønadsvilkårType } from '../vilkår';
 export const svarIdTilTekst: Record<SvarId, string> = {
     JA: 'Ja',
     NEI: 'Nei',
+    FLYTTEBYRÅ: 'Flyttebyrå',
+    FLYTTER_SELV: 'Flytter selv',
 
     // PASS_BARN
     TRENGER_MER_TILSYN_ENN_JEVNALDRENDE:
@@ -15,6 +17,8 @@ export const svarIdTilTekst: Record<SvarId, string> = {
 export const svarIdTilTekstKorversjon: Record<string, string> = {
     JA: 'Ja',
     NEI: 'Nei',
+    FLYTTEBYRÅ: 'Flyttebyrå',
+    FLYTTER_SELV: 'Flytter selv',
 
     // PASS_BARN
     TRENGER_MER_TILSYN_ENN_JEVNALDRENDE:
@@ -49,6 +53,7 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING:
         'Har bruker nødvendige utgifter til reise til samling?',
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
+    HVORDAN_SKAL_BRUKER_FLYTTE: 'Hvordan skal bruker flytte?',
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
@@ -75,6 +80,7 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     KAN_REISE_MED_EGEN_BIL: 'Kan benytte privat bil?',
     HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING: 'Har nødvendige utgifter?',
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
+    HVORDAN_SKAL_BRUKER_FLYTTE: 'Hvordan skal bruker flytte?',
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {
@@ -100,6 +106,7 @@ export const vilkårTypeTilUtgiftTekst: Record<StønadsvilkårType, string> = {
     DAGLIG_REISE: '',
     REISE_TIL_SAMLING: '',
     REISE_OPPSTART_AVSLUTNING_HJEMREISE: '',
+    FLYTTING: '',
 };
 
 export const vilkårTypeTilUtgiftHjelpeTekst: Record<StønadsvilkårType, string | undefined> = {
@@ -112,6 +119,7 @@ export const vilkårTypeTilUtgiftHjelpeTekst: Record<StønadsvilkårType, string
     DAGLIG_REISE: undefined,
     REISE_TIL_SAMLING: undefined,
     REISE_OPPSTART_AVSLUTNING_HJEMREISE: undefined,
+    FLYTTING: undefined,
 };
 
 export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {
@@ -122,4 +130,5 @@ export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {
     DAGLIG_REISE: 'Daglige reiser',
     REISE_TIL_SAMLING: 'Samlinger',
     REISE_OPPSTART_AVSLUTNING_HJEMREISE: 'Oppstart, avslutning og hjemreiser',
+    FLYTTING: 'Flytting',
 };

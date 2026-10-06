@@ -18,6 +18,7 @@ import { KjørelisteFane } from './Kjøreliste/KjørelisteFane';
 import { RegistrerKjørelisteFane } from './Kjøreliste/RegistrerKjørelisteManuelt/RegistrerKjørelisteFane';
 import { Simulering } from './Simulering/Simulering';
 import { StønadsvilkårDagligReise } from './Stønadsvilkår/DagligReise/StønadsvilkårDagligReise';
+import { StønadsvilkårFlytting } from './Stønadsvilkår/Flytting/StønadsvilkårFlytting';
 import { StønadsvilkårReiseOppstartAvslutningHjemreise } from './Stønadsvilkår/ReiseOppstartAvslutningHjemreise/StønadsvilkårReiseOppstartAvslutningHjemreise';
 import { StønadsvilkårReiseTilSamling } from './Stønadsvilkår/ReiseTilSamling/StønadsvilkårReiseTilSamling';
 import Stønadsvilkår from './Stønadsvilkår/Stønadsvilkår';
@@ -318,7 +319,14 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
             ];
         case Stønadstype.FLYTTING_TSO:
         case Stønadstype.FLYTTING_TSR:
-            return [];
+            return [
+                {
+                    navn: faneNavnStønadsvilkår[behandling.stønadstype],
+                    path: FanePath.STØNADSVILKÅR,
+                    komponent: () => <StønadsvilkårFlytting />,
+                    ikon: <BriefcaseIcon />,
+                },
+            ];
         case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
         case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
             return [
