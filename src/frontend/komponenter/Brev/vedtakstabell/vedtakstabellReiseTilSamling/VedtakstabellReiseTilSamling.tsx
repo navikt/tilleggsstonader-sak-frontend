@@ -21,7 +21,6 @@ const VedtakstabellReiseTilSamling: React.FC<{
     beregningsresultat: BeregningResultatReiseTilSamling;
 }> = ({ beregningsresultat }) => {
     const grupper = fjernPerioderFraTidligereVedtakOgGrupperPåPeriodeOgAdresse(beregningsresultat);
-    const harPrivatBil = grupper.some((gruppe) => gruppe.privatBil.length > 0);
 
     const skalViseTotalsumForGruppe = (gruppe: Samlingsgruppe) =>
         gruppe.offentligTransport.length + gruppe.privatBil.length > 1;
@@ -31,7 +30,7 @@ const VedtakstabellReiseTilSamling: React.FC<{
             key={gruppe.nøkkel}
             style={{
                 marginTop: index === 0 ? 0 : 24,
-                width: harPrivatBil ? '100%' : 'auto',
+                width: '100%',
                 maxWidth: '100%',
                 pageBreakInside: 'avoid',
                 breakInside: 'avoid',
@@ -41,7 +40,6 @@ const VedtakstabellReiseTilSamling: React.FC<{
                 <VedtakstabellReiseTilSamlingOffentligTransport
                     key={samling.reiseId}
                     samling={samling}
-                    brukAutoBredde={!harPrivatBil}
                 />
             ))}
             {gruppe.privatBil.map((samling) => (

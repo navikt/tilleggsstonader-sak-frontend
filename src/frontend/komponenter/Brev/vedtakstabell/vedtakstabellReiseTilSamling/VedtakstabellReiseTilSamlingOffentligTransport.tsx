@@ -20,17 +20,16 @@ import { escapeHtml } from '../utils';
 
 export const VedtakstabellReiseTilSamlingOffentligTransport: React.FC<{
     samling: BeregningsresultatOffentligTransport;
-    brukAutoBredde?: boolean;
-}> = ({ samling, brukAutoBredde }) => {
+}> = ({ samling }) => {
     const datoperiode: Periode = { fom: samling.fom, tom: samling.tom };
 
     return (
         <table
             style={{
                 margin: 0,
-                width: brukAutoBredde ? 'auto' : '100%',
+                width: '100%',
                 maxWidth: '100%',
-                tableLayout: brukAutoBredde ? 'auto' : 'fixed',
+                tableLayout: 'fixed',
                 borderCollapse: 'collapse',
                 border: borderStyle,
             }}
@@ -38,7 +37,7 @@ export const VedtakstabellReiseTilSamlingOffentligTransport: React.FC<{
             <colgroup>
                 <col
                     style={{
-                        width: brukAutoBredde ? undefined : bredder.kolonner.offentligTransport[0],
+                        width: bredder.kolonner.offentligTransport[0],
                     }}
                 />
                 <col style={{ width: stønadsbeløpKolonneBredde }} />
@@ -81,6 +80,6 @@ export const VedtakstabellReiseTilSamlingOffentligTransport: React.FC<{
 
 export const vedtakstabellTekst = (samling: BeregningsresultatOffentligTransport): string => {
     return renderToStaticMarkup(
-        <VedtakstabellReiseTilSamlingOffentligTransport samling={samling} brukAutoBredde />
+        <VedtakstabellReiseTilSamlingOffentligTransport samling={samling} />
     );
 };
