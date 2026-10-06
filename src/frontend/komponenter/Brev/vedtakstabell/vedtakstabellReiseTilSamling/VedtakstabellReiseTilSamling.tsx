@@ -26,37 +26,30 @@ const VedtakstabellReiseTilSamling: React.FC<{
     const skalViseTotalsumForGruppe = (gruppe: Samlingsgruppe) =>
         gruppe.offentligTransport.length + gruppe.privatBil.length > 1;
 
-    return (
-        <>
-            {grupper.map((gruppe, index) => (
-                <div
-                    key={gruppe.nøkkel}
-                    style={{
-                        marginTop: index === 0 ? 0 : 24,
-                        width: harPrivatBil ? '100%' : 'auto',
-                        maxWidth: '100%',
-                        pageBreakInside: 'avoid',
-                        breakInside: 'avoid',
-                    }}
-                >
-                    {gruppe.offentligTransport.map((samling) => (
-                        <VedtakstabellReiseTilSamlingOffentligTransport
-                            key={samling.reiseId}
-                            samling={samling}
-                            brukAutoBredde={!harPrivatBil}
-                        />
-                    ))}
-                    {gruppe.privatBil.map((samling) => (
-                        <VedtakstabellReiseTilSamlingPrivatBil
-                            key={samling.reiseId}
-                            samling={samling}
-                        />
-                    ))}
-                    {skalViseTotalsumForGruppe(gruppe) && (
-                        <VedtakstabellReiseTilSamlingTotalsum gruppe={gruppe} />
-                    )}
-                </div>
+    return grupper.map((gruppe, index) => (
+        <div
+            key={gruppe.nøkkel}
+            style={{
+                marginTop: index === 0 ? 0 : 24,
+                width: harPrivatBil ? '100%' : 'auto',
+                maxWidth: '100%',
+                pageBreakInside: 'avoid',
+                breakInside: 'avoid',
+            }}
+        >
+            {gruppe.offentligTransport.map((samling) => (
+                <VedtakstabellReiseTilSamlingOffentligTransport
+                    key={samling.reiseId}
+                    samling={samling}
+                    brukAutoBredde={!harPrivatBil}
+                />
             ))}
-        </>
-    );
+            {gruppe.privatBil.map((samling) => (
+                <VedtakstabellReiseTilSamlingPrivatBil key={samling.reiseId} samling={samling} />
+            ))}
+            {skalViseTotalsumForGruppe(gruppe) && (
+                <VedtakstabellReiseTilSamlingTotalsum gruppe={gruppe} />
+            )}
+        </div>
+    ));
 };
