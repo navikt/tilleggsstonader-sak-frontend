@@ -80,25 +80,19 @@ export const Samlinger: React.FC<{ samlinger: FaktaSamling[] }> = ({ samlinger }
                                 />
                             )}
 
-                        {reisemåte?.årsakIkkeOffentligTransport && (
+                        {reisemåte?.unntakFraOffentligTransport && (
                             <UnntakFraOffentligTransportDetaljer
-                                unntakFraOffentligTransport={reisemåte.årsakIkkeOffentligTransport}
+                                unntakFraOffentligTransport={reisemåte.unntakFraOffentligTransport}
                             />
                         )}
 
-                        {reisemåte?.offentligTransport && (
-                            <OffentligTransportDetaljer
-                                offentligTransport={reisemåte.offentligTransport}
-                            />
-                        )}
-
-                        {reisemåte?.årsakIkkePrivatBil &&
-                            reisemåte.årsakIkkePrivatBil.length > 0 && (
+                        {reisemåte?.unntakFraPrivatBil &&
+                            reisemåte.unntakFraPrivatBil.length > 0 && (
                                 <SøknadInfoFelt
                                     label="Hvorfor kan du ikke kjøre egen bil hele veien?"
                                     value={
                                         <VStack gap="space-4">
-                                            {reisemåte.årsakIkkePrivatBil.map(
+                                            {reisemåte.unntakFraPrivatBil.map(
                                                 (årsak: ÅrsakKanIkkeBenyttePrivatBil) => (
                                                     <BodyShort key={årsak} size="small">
                                                         {tekstMedFallback(
@@ -112,6 +106,12 @@ export const Samlinger: React.FC<{ samlinger: FaktaSamling[] }> = ({ samlinger }
                                     }
                                 />
                             )}
+
+                        {reisemåte?.offentligTransport && (
+                            <OffentligTransportDetaljer
+                                offentligTransport={reisemåte.offentligTransport}
+                            />
+                        )}
 
                         {reisemåte?.privatBil && (
                             <PrivatBilDetaljer privatBil={reisemåte.privatBil} />

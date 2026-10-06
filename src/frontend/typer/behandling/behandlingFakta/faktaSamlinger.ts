@@ -15,8 +15,8 @@ export interface FaktaSamling {
 
 export interface FaktaReisemåte {
     hvilkeTransportmidlerBleBenyttet?: Transportmiddel[];
-    årsakIkkeOffentligTransport?: FaktaUnntakFraOffentligTransport;
-    årsakIkkePrivatBil?: ÅrsakKanIkkeBenyttePrivatBil[];
+    unntakFraOffentligTransport?: FaktaUnntakFraOffentligTransport;
+    unntakFraPrivatBil?: ÅrsakKanIkkeBenyttePrivatBil[];
     offentligTransport?: FaktaOffentligTransportInfo;
     privatBil?: FaktaPrivatBilInfo;
     drosje?: FaktaDrosjeInfo;
