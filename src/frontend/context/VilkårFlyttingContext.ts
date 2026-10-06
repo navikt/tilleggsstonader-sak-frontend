@@ -4,6 +4,7 @@ import constate from 'constate';
 
 import { useApp } from './AppContext';
 import { useBehandling } from './BehandlingContext';
+import { RegelstrukturFlytting } from '../Sider/Behandling/Stønadsvilkår/Flytting/typer/regelstrukturFlytting';
 import {
     LagreVilkårFlytting,
     SlettVilkårFlyttingRespons,
@@ -13,10 +14,11 @@ import { RessursStatus } from '../typer/ressurs';
 
 interface Props {
     eksisterendeVilkår: VilkårFlytting[];
+    regelstruktur: RegelstrukturFlytting;
 }
 
 export const [VilkårFlyttingProvider, useVilkårFlytting] = constate(
-    ({ eksisterendeVilkår }: Props) => {
+    ({ eksisterendeVilkår, regelstruktur }: Props) => {
         const { request } = useApp();
         const { behandling } = useBehandling();
         const [vilkårsett, settVilkårsett] = useState(eksisterendeVilkår);
@@ -75,6 +77,7 @@ export const [VilkårFlyttingProvider, useVilkårFlytting] = constate(
 
         return {
             vilkårsett,
+            regelstruktur,
             lagreNyttVilkår,
             oppdaterVilkår,
             slettVilkår,

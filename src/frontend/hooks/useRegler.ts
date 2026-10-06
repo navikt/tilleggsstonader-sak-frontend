@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
 import { Regelstruktur } from '../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
-import { RegelstrukturFlytting } from '../Sider/Behandling/Stønadsvilkår/Flytting/typer/vilkårFlytting';
+import { RegelstrukturFlytting } from '../Sider/Behandling/Stønadsvilkår/Flytting/typer/regelstrukturFlytting';
 import { RegelstrukturReiseOppstartAvslutningHjemreise } from '../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/regelstrukturReiseOppstartAvslutningHjemreise';
 import { RegelstrukturReiseTilSamling } from '../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/typer/regelstrukturReiseTilSamling';
 import { ReglerResponse } from '../typer/regel';

@@ -4,6 +4,8 @@ import { StønadsvilkårType } from '../vilkår';
 export const svarIdTilTekst: Record<SvarId, string> = {
     JA: 'Ja',
     NEI: 'Nei',
+    FLYTTEBYRÅ: 'Flyttebyrå',
+    FLYTTER_SELV: 'Flytter selv',
 
     // PASS_BARN
     TRENGER_MER_TILSYN_ENN_JEVNALDRENDE:
@@ -15,6 +17,8 @@ export const svarIdTilTekst: Record<SvarId, string> = {
 export const svarIdTilTekstKorversjon: Record<string, string> = {
     JA: 'Ja',
     NEI: 'Nei',
+    FLYTTEBYRÅ: 'Flyttebyrå',
+    FLYTTER_SELV: 'Flytter selv',
 
     // PASS_BARN
     TRENGER_MER_TILSYN_ENN_JEVNALDRENDE:
@@ -49,6 +53,7 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING:
         'Har bruker nødvendige utgifter til reise til samling?',
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
+    HVORDAN_SKAL_BRUKER_FLYTTE: 'Hvordan skal bruker flytte?',
     SKAL_BRUKE_FLYTTEBYRÅ: 'Skal bruker bruke flyttebyrå?',
     SKAL_KJØRE_SELV: 'Skal bruker kjøre selv?',
 };
@@ -77,6 +82,7 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     KAN_REISE_MED_EGEN_BIL: 'Kan benytte privat bil?',
     HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING: 'Har nødvendige utgifter?',
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
+    HVORDAN_SKAL_BRUKER_FLYTTE: 'Hvordan skal bruker flytte?',
     SKAL_BRUKE_FLYTTEBYRÅ: 'Bruke flyttebyrå?',
     SKAL_KJØRE_SELV: 'Kjøre selv?',
 };
