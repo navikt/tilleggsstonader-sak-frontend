@@ -131,7 +131,13 @@ export function fjernPerioderFraTidligereVedtakOgGrupperPåPeriodeOgAdresse(
             grupper.set(nøkkel, gruppe);
         });
 
-    return Array.from(grupper.values());
+    return Array.from(grupper.values()).sort((a, b) =>
+        fomForGruppe(a).localeCompare(fomForGruppe(b))
+    );
+}
+
+function fomForGruppe(gruppe: Samlingsgruppe): string {
+    return gruppe.offentligTransport[0]?.fom ?? gruppe.privatBil[0]?.fom ?? '';
 }
 
 const tomGruppe = (nøkkel: string): Samlingsgruppe => ({
