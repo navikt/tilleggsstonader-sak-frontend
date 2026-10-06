@@ -6,16 +6,10 @@ import {
     BeregningsresultatPrivatBil,
 } from '../../../../typer/vedtak/vedtakReiseTilSamling';
 
-export const borderStyle = '1px solid black';
-
 export const cellStyle: React.CSSProperties = {
     border: '1px solid black',
     padding: '5px',
     boxSizing: 'border-box',
-};
-
-export const cellStyleMedNewline: React.CSSProperties = {
-    ...cellStyle,
     whiteSpace: 'pre-line',
     overflowWrap: 'anywhere',
 };
@@ -24,19 +18,12 @@ export const stønadsbeløpKolonneBredde = '130px';
 
 export const bredder = {
     kolonner: {
-        offentligTransport: ['calc(100% - 130px)', stønadsbeløpKolonneBredde] as const,
-        privatBil: ['25%', '21.67%', '20%', '15%', stønadsbeløpKolonneBredde] as const,
+        offentligTransport: [
+            `calc(100% - ${stønadsbeløpKolonneBredde})`,
+            stønadsbeløpKolonneBredde,
+        ],
+        privatBil: ['25%', '21.67%', '20%', '15%', stønadsbeløpKolonneBredde],
     },
-    header: {
-        privatBil: [150, 130, 120, 90] as const,
-    },
-};
-
-export const stønadsbeløpCelleStyle: React.CSSProperties = {
-    ...cellStyle,
-    width: stønadsbeløpKolonneBredde,
-    minWidth: stønadsbeløpKolonneBredde,
-    maxWidth: stønadsbeløpKolonneBredde,
 };
 
 export const gråOverskrift = '#ECEDEF';

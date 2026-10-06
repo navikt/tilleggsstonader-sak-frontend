@@ -1,14 +1,6 @@
 import React from 'react';
 
-import {
-    borderStyle,
-    bredder,
-    cellStyle,
-    Samlingsgruppe,
-    stønadsbeløpCelleStyle,
-    stønadsbeløpKolonneBredde,
-    summerBeløpForGruppe,
-} from './util';
+import { bredder, cellStyle, Samlingsgruppe, summerBeløpForGruppe } from './util';
 import { kronerMedTusenSkilleEllerStrek } from '../../../../utils/tekstformatering';
 
 export const VedtakstabellReiseTilSamlingTotalsum: React.FC<{
@@ -21,7 +13,6 @@ export const VedtakstabellReiseTilSamlingTotalsum: React.FC<{
                 width: '100%',
                 tableLayout: 'fixed',
                 borderCollapse: 'collapse',
-                border: borderStyle,
             }}
         >
             <colgroup>
@@ -29,14 +20,14 @@ export const VedtakstabellReiseTilSamlingTotalsum: React.FC<{
                 <col style={{ width: bredder.kolonner.privatBil[1] }} />
                 <col style={{ width: bredder.kolonner.privatBil[2] }} />
                 <col style={{ width: bredder.kolonner.privatBil[3] }} />
-                <col style={{ width: stønadsbeløpKolonneBredde }} />
+                <col style={{ width: bredder.kolonner.privatBil[4] }} />
             </colgroup>
             <tbody>
                 <tr>
-                    <td colSpan={4} style={{ ...cellStyle, fontWeight: 600 }}>
+                    <td colSpan={4} style={{ ...cellStyle, fontWeight: 500 }}>
                         Totalsum
                     </td>
-                    <td style={{ ...stønadsbeløpCelleStyle, fontWeight: 600 }}>
+                    <td style={{ ...cellStyle, fontWeight: 500 }}>
                         {kronerMedTusenSkilleEllerStrek(summerBeløpForGruppe(gruppe))}
                     </td>
                 </tr>

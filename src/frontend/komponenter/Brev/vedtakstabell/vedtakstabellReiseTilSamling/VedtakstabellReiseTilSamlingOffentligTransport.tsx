@@ -2,15 +2,7 @@ import React from 'react';
 
 import { renderToStaticMarkup } from 'react-dom/server';
 
-import {
-    borderStyle,
-    bredder,
-    cellStyle,
-    cellStyleMedNewline,
-    gråOverskrift,
-    stønadsbeløpCelleStyle,
-    stønadsbeløpKolonneBredde,
-} from './util';
+import { bredder, cellStyle, gråOverskrift, stønadsbeløpKolonneBredde } from './util';
 import { BeregningsresultatOffentligTransport } from '../../../../typer/vedtak/vedtakReiseTilSamling';
 import { formaterIsoPeriodeMedTankestrek } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
@@ -30,7 +22,6 @@ export const VedtakstabellReiseTilSamlingOffentligTransport: React.FC<{
                 maxWidth: '100%',
                 tableLayout: 'fixed',
                 borderCollapse: 'collapse',
-                border: borderStyle,
             }}
         >
             <colgroup>
@@ -59,18 +50,16 @@ export const VedtakstabellReiseTilSamlingOffentligTransport: React.FC<{
                 </tr>
                 <tr>
                     <th style={cellStyle}>Utgifter</th>
-                    <th style={stønadsbeløpCelleStyle}>Stønadsbeløp</th>
+                    <th style={cellStyle}>Stønadsbeløp</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td
-                        style={cellStyleMedNewline}
+                        style={cellStyle}
                         dangerouslySetInnerHTML={{ __html: escapeHtml(samling.begrunnelse) }}
                     />
-                    <td style={stønadsbeløpCelleStyle}>
-                        {kronerMedTusenSkilleEllerStrek(samling.beløp)}
-                    </td>
+                    <td style={cellStyle}>{kronerMedTusenSkilleEllerStrek(samling.beløp)}</td>
                 </tr>
             </tbody>
         </table>

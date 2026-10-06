@@ -1,15 +1,6 @@
 import React from 'react';
 
-import {
-    borderStyle,
-    bredder,
-    cellStyle,
-    cellStyleMedNewline,
-    gråOverskrift,
-    lagEkstrakostnaderTekst,
-    stønadsbeløpCelleStyle,
-    stønadsbeløpKolonneBredde,
-} from './util';
+import { bredder, cellStyle, gråOverskrift, lagEkstrakostnaderTekst } from './util';
 import { BeregningsresultatPrivatBil } from '../../../../typer/vedtak/vedtakReiseTilSamling';
 import { formaterIsoPeriodeMedTankestrek } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
@@ -27,7 +18,6 @@ export const VedtakstabellReiseTilSamlingPrivatBil: React.FC<{
                 width: '100%',
                 tableLayout: 'fixed',
                 borderCollapse: 'collapse',
-                border: borderStyle,
             }}
         >
             <colgroup>
@@ -35,7 +25,7 @@ export const VedtakstabellReiseTilSamlingPrivatBil: React.FC<{
                 <col style={{ width: bredder.kolonner.privatBil[1] }} />
                 <col style={{ width: bredder.kolonner.privatBil[2] }} />
                 <col style={{ width: bredder.kolonner.privatBil[3] }} />
-                <col style={{ width: stønadsbeløpKolonneBredde }} />
+                <col style={{ width: bredder.kolonner.privatBil[4] }} />
             </colgroup>
             <thead>
                 <tr>
@@ -53,15 +43,11 @@ export const VedtakstabellReiseTilSamlingPrivatBil: React.FC<{
                     </th>
                 </tr>
                 <tr>
-                    <th style={{ ...cellStyle, width: bredder.header.privatBil[0] }}>
-                        Total reiseavstand
-                    </th>
-                    <th style={{ ...cellStyle, width: bredder.header.privatBil[1] }}>
-                        Kilometersats
-                    </th>
-                    <th style={{ ...cellStyle, width: bredder.header.privatBil[2] }}>Utgifter</th>
-                    <th style={{ ...cellStyle, width: bredder.header.privatBil[3] }}>Parkering</th>
-                    <th style={stønadsbeløpCelleStyle}>Stønadsbeløp</th>
+                    <th style={cellStyle}>Total reiseavstand</th>
+                    <th style={cellStyle}>Kilometersats</th>
+                    <th style={cellStyle}>Utgifter</th>
+                    <th style={cellStyle}>Parkering</th>
+                    <th style={cellStyle}>Stønadsbeløp</th>
                 </tr>
             </thead>
             <tbody>
@@ -69,13 +55,11 @@ export const VedtakstabellReiseTilSamlingPrivatBil: React.FC<{
                     <td style={cellStyle}>{samling.totalReiseavstand} km</td>
                     <td style={cellStyle}>{samling.sats} kr/km</td>
                     <td
-                        style={cellStyleMedNewline}
+                        style={cellStyle}
                         dangerouslySetInnerHTML={{ __html: lagEkstrakostnaderTekst(samling) }}
                     />
                     <td style={cellStyle}>{kronerMedTusenSkilleEllerStrek(samling.parkering)}</td>
-                    <td style={stønadsbeløpCelleStyle}>
-                        {kronerMedTusenSkilleEllerStrek(samling.beløp)}
-                    </td>
+                    <td style={cellStyle}>{kronerMedTusenSkilleEllerStrek(samling.beløp)}</td>
                 </tr>
             </tbody>
         </table>
