@@ -82,23 +82,21 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                 />
             </FeilmeldingMaksBredde>
             {!gjelderTsr && (
-                <>
-                    <VelgAktivitet
-                        stønadstype={behandling.stønadstype}
-                        vedtaksperiode={vedtaksperiode}
-                        erLesevisning={erLesevisning}
-                        vedtaksperiodeFeil={vedtaksperiodeFeil}
-                        oppdaterPeriode={oppdaterPeriode}
-                    />
-                    <VelgMålgruppe
-                        stønadstype={behandling.stønadstype}
-                        vedtaksperiode={vedtaksperiode}
-                        erLesevisning={erLesevisning}
-                        vedtaksperiodeFeil={vedtaksperiodeFeil}
-                        oppdaterPeriode={oppdaterPeriode}
-                    />
-                </>
+                <VelgAktivitet
+                    stønadstype={behandling.stønadstype}
+                    vedtaksperiode={vedtaksperiode}
+                    erLesevisning={erLesevisning}
+                    vedtaksperiodeFeil={vedtaksperiodeFeil}
+                    oppdaterPeriode={oppdaterPeriode}
+                />
             )}
+            <VelgMålgruppe
+                stønadstype={behandling.stønadstype}
+                vedtaksperiode={vedtaksperiode}
+                erLesevisning={erLesevisning}
+                vedtaksperiodeFeil={vedtaksperiodeFeil}
+                oppdaterPeriode={oppdaterPeriode}
+            />
             <div>
                 {!erLesevisning && (
                     <Button

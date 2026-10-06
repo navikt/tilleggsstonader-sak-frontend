@@ -136,8 +136,8 @@ const validerFaktaPrivatBil = (
 ): FeilmeldingerFaktaPrivatBil => {
     const feil: FeilmeldingerFaktaPrivatBil = {};
 
-    if (!fakta.reiseavstand || fakta.reiseavstand < 30) {
-        feil.reiseavstand = 'Reiseavstand må være 30 km eller mer';
+    if (!fakta.reiseavstand) {
+        feil.reiseavstand = 'Reiseavstand må fylles ut';
     }
     if (fakta.bompenger !== undefined && fakta.bompenger < 0) {
         feil.bompenger = 'Bompenger kan ikke være negativt';
