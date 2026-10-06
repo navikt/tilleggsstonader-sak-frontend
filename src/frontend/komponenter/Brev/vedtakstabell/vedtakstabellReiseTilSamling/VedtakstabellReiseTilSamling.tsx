@@ -35,6 +35,8 @@ const VedtakstabellReiseTilSamling: React.FC<{
                         marginTop: index === 0 ? 0 : 24,
                         width: harPrivatBil ? '100%' : 'auto',
                         maxWidth: '100%',
+                        pageBreakInside: 'avoid',
+                        breakInside: 'avoid',
                     }}
                 >
                     {gruppe.offentligTransport.map((samling) => (

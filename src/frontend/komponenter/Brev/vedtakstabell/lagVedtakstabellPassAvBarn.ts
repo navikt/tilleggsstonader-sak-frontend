@@ -11,7 +11,7 @@ export const lagVedtakstabellPassAvBarn = (
 ): string => {
     return `<table style="margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
                 <thead>
-                    <tr>
+                    <tr class="vedtakstabell-rad">
                         <th style="width: 110px; ${borderStylingCompact}">Måned</th>
                         <th style="width: 110px; word-wrap: break-word; ${borderStylingCompact}">Antall barn</th>
                         <th style="width: 110px; word-wrap: break-word; ${borderStylingCompact}">Utgift</th>
@@ -34,7 +34,7 @@ const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatPassAvBarn): s
             const månedligUtgifter = formaterTallMedTusenSkille(periode.grunnlag.utgifterTotal);
             const beløp = formaterTallMedTusenSkille(periode.månedsbeløp);
 
-            return `<tr style="text-align: right;">
+            return `<tr  class="vedtakstabell-rad">
                         <td style="text-align: left; ${borderStylingCompact}">${datoperiode}</td>
                         <td style="${borderStyling}">${periode.grunnlag.antallBarn}</td>
                         <td style="${borderStyling}">${månedligUtgifter} kr</td>

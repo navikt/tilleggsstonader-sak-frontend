@@ -10,7 +10,7 @@ export const lagVedtakstabellLæremidler = (
 ): string => {
     return `<table style="margin-left: 2px; margin-right: 2px; border-collapse: collapse; ${borderStylingCompact}">
                 <thead>
-                    <tr>
+                    <tr class="vedtakstabell-rad">
                         <th style="width: 270px; word-wrap: break-word; ${borderStylingCompact}">Periode</th>
                         <th style="width: 120px; ${borderStylingCompact}">Antall måneder</th>
                         <th style="width: 70px; word-wrap: break-word; ${borderStylingCompact}">Sats</th>
@@ -34,7 +34,7 @@ const lagRaderForVedtak = (beregningsresultat?: BeregningsresultatLæremidler): 
             const stønadsbeløp = formaterTallMedTusenSkille(periode.stønadsbeløpForPeriode);
             const stjernmerktRad = periode.delAvTidligereUtbetaling ? '*' : '';
 
-            return `<tr style="text-align: right;">
+            return `<tr class="vedtakstabell-rad">
                         <td style="text-align: left; ${borderStylingCompact}">${datoperiode}</td>
                         <td style="${borderStyling}">${periode.antallMåneder}</td>
                         <td style="${borderStyling}">${satsPerMåned} kr</td>
