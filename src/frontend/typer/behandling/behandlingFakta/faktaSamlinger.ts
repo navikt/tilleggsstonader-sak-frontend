@@ -15,8 +15,8 @@ export interface FaktaSamling {
 
 export interface FaktaReisemåte {
     hvilkeTransportmidlerBleBenyttet?: Transportmiddel[];
-    unntakFraOffentligTransport?: FaktaUnntakFraOffentligTransport;
-    unntakFraPrivatBil?: ÅrsakKanIkkeBenytteEgenBil[];
+    årsakIkkeOffentligTransport?: FaktaUnntakFraOffentligTransport;
+    årsakIkkePrivatBil?: ÅrsakKanIkkeBenyttePrivatBil[];
     offentligTransport?: FaktaOffentligTransportInfo;
     privatBil?: FaktaPrivatBilInfo;
     drosje?: FaktaDrosjeInfo;
@@ -89,14 +89,14 @@ export const årsakKanIkkeBenytteOffentligTransportTilTekst: Record<
     FRAKT_AV_NØDVENDIG_UTSTYR: 'Frakt av nødvendig utstyr',
 };
 
-export enum ÅrsakKanIkkeBenytteEgenBil {
+export enum ÅrsakKanIkkeBenyttePrivatBil {
     HAR_IKKE_BIL_ELLER_FØRERKORT = 'HAR_IKKE_BIL_ELLER_FØRERKORT',
     HELSEMESSIGE_ÅRSAKER = 'HELSEMESSIGE_ÅRSAKER',
     FRAKT_AV_NØDVENDIG_UTSTYR = 'FRAKT_AV_NØDVENDIG_UTSTYR',
     ANNET = 'ANNET',
 }
 
-export const årsakKanIkkeBenytteEgenBilTilTekst: Record<ÅrsakKanIkkeBenytteEgenBil, string> = {
+export const årsakKanIkkeBenytteEgenBilTilTekst: Record<ÅrsakKanIkkeBenyttePrivatBil, string> = {
     HAR_IKKE_BIL_ELLER_FØRERKORT: 'Har ikke bil eller førerkort',
     HELSEMESSIGE_ÅRSAKER: 'Helsemessige årsaker',
     FRAKT_AV_NØDVENDIG_UTSTYR: 'Frakt av nødvendig utstyr',

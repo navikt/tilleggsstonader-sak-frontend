@@ -7,16 +7,18 @@ import { DrosjeDetaljer } from './DrosjeDetaljer';
 import { OffentligTransportDetaljer } from './OffentligTransportDetaljer';
 import { PrivatBilDetaljer } from './PrivatBilDetaljer';
 import styles from './SamlingsDetaljer.module.css';
-import { UnntakFraOffentligTransportDetaljer } from './UnntakFraOffentligTransportDetaljer';
 import { reiseAdresseTilTekst } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import {
     FaktaSamling,
     transportmiddelTilTekst,
+    årsakKanIkkeBenytteEgenBilTilTekst,
+    ÅrsakKanIkkeBenyttePrivatBil,
 } from '../../../../../typer/behandling/behandlingFakta/faktaSamlinger';
 import { jaNeiTilTekst } from '../../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
 import { tekstMedFallback } from '../../../../../utils/tekstformatering';
 import { SøknadInfoEkspanderbar, SøknadInfoFelt } from '../Visningskomponenter';
+import { UnntakFraOffentligTransportDetaljer } from './UnntakFraOffentligTransportDetaljer';
 
 export const Samlinger: React.FC<{ samlinger: FaktaSamling[] }> = ({ samlinger }) => {
     return (
@@ -78,26 +80,44 @@ export const Samlinger: React.FC<{ samlinger: FaktaSamling[] }> = ({ samlinger }
                                 />
                             )}
 
+                        {reisemåte?.årsakIkkeOffentligTransport && (
+                            <UnntakFraOffentligTransportDetaljer
+                                unntakFraOffentligTransport={reisemåte.årsakIkkeOffentligTransport}
+                            />
+                        )}
+
                         {reisemåte?.offentligTransport && (
                             <OffentligTransportDetaljer
                                 offentligTransport={reisemåte.offentligTransport}
                             />
                         )}
 
+                        {reisemåte?.årsakIkkePrivatBil &&
+                            reisemåte.årsakIkkePrivatBil.length > 0 && (
+                                <SøknadInfoFelt
+                                    label="Hvorfor kan du ikke kjøre egen bil hele veien?"
+                                    value={
+                                        <VStack gap="space-4">
+                                            {reisemåte.årsakIkkePrivatBil.map(
+                                                (årsak: ÅrsakKanIkkeBenyttePrivatBil) => (
+                                                    <BodyShort key={årsak} size="small">
+                                                        {tekstMedFallback(
+                                                            årsakKanIkkeBenytteEgenBilTilTekst,
+                                                            årsak
+                                                        )}
+                                                    </BodyShort>
+                                                )
+                                            )}
+                                        </VStack>
+                                    }
+                                />
+                            )}
+
                         {reisemåte?.privatBil && (
-                            <PrivatBilDetaljer
-                                privatBil={reisemåte.privatBil}
-                                unntakFraPrivatBil={reisemåte.unntakFraPrivatBil}
-                            />
+                            <PrivatBilDetaljer privatBil={reisemåte.privatBil} />
                         )}
 
                         {reisemåte?.drosje && <DrosjeDetaljer drosje={reisemåte.drosje} />}
-
-                        {reisemåte?.unntakFraOffentligTransport && (
-                            <UnntakFraOffentligTransportDetaljer
-                                unntakFraOffentligTransport={reisemåte.unntakFraOffentligTransport}
-                            />
-                        )}
                     </SøknadInfoEkspanderbar>
                 );
             })}

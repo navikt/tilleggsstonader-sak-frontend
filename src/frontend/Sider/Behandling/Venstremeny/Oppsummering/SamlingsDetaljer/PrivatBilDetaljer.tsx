@@ -1,12 +1,8 @@
 import React from 'react';
 
-import { BodyShort, VStack } from '@navikt/ds-react';
-
 import {
     drivstofftypeTilTekst,
     FaktaPrivatBilInfo,
-    ÅrsakKanIkkeBenytteEgenBil,
-    årsakKanIkkeBenytteEgenBilTilTekst,
 } from '../../../../../typer/behandling/behandlingFakta/faktaSamlinger';
 import { jaNeiTilTekst } from '../../../../../typer/common';
 import { tekstMedFallback } from '../../../../../utils/tekstformatering';
@@ -18,8 +14,7 @@ function formatKr(value?: string) {
 
 export const PrivatBilDetaljer: React.FC<{
     privatBil: FaktaPrivatBilInfo;
-    unntakFraPrivatBil?: ÅrsakKanIkkeBenytteEgenBil[];
-}> = ({ privatBil, unntakFraPrivatBil }) => {
+}> = ({ privatBil }) => {
     const utgifter = privatBil.utgifterPrivatBil;
 
     return (
@@ -68,21 +63,6 @@ export const PrivatBilDetaljer: React.FC<{
                 <SøknadInfoFelt
                     label="Drivstofftype"
                     value={drivstofftypeTilTekst[utgifter.drivstoffType]}
-                />
-            )}
-
-            {unntakFraPrivatBil && unntakFraPrivatBil.length > 0 && (
-                <SøknadInfoFelt
-                    label="Hvorfor kan du ikke kjøre egen bil hele veien?"
-                    value={
-                        <VStack gap="space-4">
-                            {unntakFraPrivatBil.map((årsak: ÅrsakKanIkkeBenytteEgenBil) => (
-                                <BodyShort key={årsak} size="small">
-                                    {tekstMedFallback(årsakKanIkkeBenytteEgenBilTilTekst, årsak)}
-                                </BodyShort>
-                            ))}
-                        </VStack>
-                    }
                 />
             )}
         </>
