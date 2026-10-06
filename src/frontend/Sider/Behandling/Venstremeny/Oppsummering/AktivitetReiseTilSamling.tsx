@@ -5,15 +5,15 @@ import { BriefcaseIcon } from '@navikt/aksel-icons';
 import { AktivitetFelt } from './Aktivitet';
 import { SøknadInfoFelt, SøknadInfoSeksjon } from './Visningskomponenter';
 import {
-    DagligReiseTypeUtdanning,
-    dagligReiseTypeUtdanningTilTekst,
-    FaktaAktivitetDagligReise,
+    FaktaAktivitetReiseTilSamling,
+    ReiseTilSamlingTypeUtdanning,
+    TypeUtdanningTilTekst,
 } from '../../../../typer/behandling/behandlingFakta/faktaAktivitet';
 import { jaNeiTilTekst } from '../../../../typer/common';
 import { tekstMedFallback } from '../../../../utils/tekstformatering';
 
-export const AktivitetDagligReise: React.FC<{
-    aktiviteter: FaktaAktivitetDagligReise;
+export const AktivitetReiseTilSamling: React.FC<{
+    aktiviteter: FaktaAktivitetReiseTilSamling;
 }> = ({ aktiviteter }) => {
     const dekkesUtgiftenAvAndre = aktiviteter.aktivitet.søknadsgrunnlag?.dekkesUtgiftenAvAndre;
 
@@ -28,8 +28,8 @@ export const AktivitetDagligReise: React.FC<{
                 <SøknadInfoFelt
                     label="Hva slags type arbeidsrettet aktivitet går du på?"
                     value={tekstMedFallback(
-                        dagligReiseTypeUtdanningTilTekst,
-                        dekkesUtgiftenAvAndre.typeUtdanning as DagligReiseTypeUtdanning
+                        TypeUtdanningTilTekst,
+                        dekkesUtgiftenAvAndre?.typeUtdanning as ReiseTilSamlingTypeUtdanning
                     )}
                 />
             )}

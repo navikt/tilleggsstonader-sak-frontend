@@ -40,7 +40,8 @@ export const OppsummeringSøknad: React.FC = () => {
                 behandlingFakta['@type'] === Stønadstype.DAGLIG_REISE_TSR) && (
                 <OppsummeringDagligReise behandlingFakta={behandlingFakta} key={behandling.id} />
             )}
-            {behandlingFakta['@type'] === Stønadstype.REISE_TIL_SAMLING_TSO && (
+            {(behandlingFakta['@type'] === Stønadstype.REISE_TIL_SAMLING_TSO ||
+                behandlingFakta['@type'] === Stønadstype.REISE_TIL_SAMLING_TSR) && (
                 <OppsummeringReiseTilSamling
                     behandlingFakta={behandlingFakta}
                     key={behandling.id}

@@ -12,7 +12,7 @@ interface SøknadsgrunnlagAktivitet {
 }
 
 export interface DekkesUtgiftenAvAndre {
-    typeUtdanning: DagligReiseTypeUtdanning;
+    typeUtdanning: DagligReiseTypeUtdanning | ReiseTilSamlingTypeUtdanning;
     lærling?: JaNei;
     arbeidsgiverDekkerUtgift?: JaNei;
     erUnder25år?: JaNei;
@@ -21,6 +21,10 @@ export interface DekkesUtgiftenAvAndre {
 }
 
 export interface FaktaAktivitetDagligReise {
+    aktivitet: FaktaAktivitet;
+}
+
+export interface FaktaAktivitetReiseTilSamling {
     aktivitet: FaktaAktivitet;
 }
 export enum TypeAnnenAktivitet {
@@ -44,6 +48,18 @@ export enum DagligReiseTypeUtdanning {
 }
 
 export const dagligReiseTypeUtdanningTilTekst: Record<DagligReiseTypeUtdanning, string> = {
+    VIDEREGÅENDE: 'Videregående skole',
+    OPPLÆRING_FOR_VOKSNE: 'Forberedende opplæring for voksne',
+    ANNET_TILTAK: 'Annet tiltak',
+};
+
+export enum ReiseTilSamlingTypeUtdanning {
+    VIDEREGÅENDE = 'VIDEREGÅENDE',
+    OPPLÆRING_FOR_VOKSNE = 'OPPLÆRING_FOR_VOKSNE',
+    ANNET_TILTAK = 'ANNET_TILTAK',
+}
+
+export const TypeUtdanningTilTekst: Record<ReiseTilSamlingTypeUtdanning, string> = {
     VIDEREGÅENDE: 'Videregående skole',
     OPPLÆRING_FOR_VOKSNE: 'Forberedende opplæring for voksne',
     ANNET_TILTAK: 'Annet tiltak',
