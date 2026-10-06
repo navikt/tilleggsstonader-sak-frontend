@@ -7,12 +7,12 @@ import { Stønadstype } from '../typer/behandling/behandlingTema';
 import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 import { VedtakResponse } from '../typer/vedtak/vedtak';
 
-interface Response<T extends VedtakResponse> {
+interface Response<T> {
     hentVedtak: () => void;
     vedtak: Ressurs<T>;
 }
 
-export const useVedtak = <T extends VedtakResponse>(): Response<T> => {
+export const useVedtak = <T = VedtakResponse>(): Response<T> => {
     const { request } = useApp();
     const { behandling } = useBehandling();
 
