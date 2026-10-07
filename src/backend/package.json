@@ -42,5 +42,8 @@
     "webpack": "^5.111.1",
     "webpack-dev-middleware": "^8.3.0",
     "webpack-hot-middleware": "^2.26.1"
+  },
+  "resolutions": {
+    "proxy-addr": "^2.0.8"
   }
 }
