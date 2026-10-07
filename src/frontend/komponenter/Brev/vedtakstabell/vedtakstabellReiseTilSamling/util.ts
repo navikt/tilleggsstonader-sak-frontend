@@ -22,7 +22,7 @@ export const bredder = {
             `calc(100% - ${stønadsbeløpKolonneBredde})`,
             stønadsbeløpKolonneBredde,
         ],
-        privatBil: ['25%', '21.67%', '35%', stønadsbeløpKolonneBredde],
+        privatBil: ['20%', '18%', '20%', '23.67%', stønadsbeløpKolonneBredde],
     },
 };
 

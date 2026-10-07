@@ -25,11 +25,12 @@ export const VedtakstabellReiseTilSamlingPrivatBil: React.FC<{
                 <col style={{ width: bredder.kolonner.privatBil[1] }} />
                 <col style={{ width: bredder.kolonner.privatBil[2] }} />
                 <col style={{ width: bredder.kolonner.privatBil[3] }} />
+                <col style={{ width: bredder.kolonner.privatBil[4] }} />
             </colgroup>
             <thead>
                 <tr>
                     <th
-                        colSpan={4}
+                        colSpan={5}
                         style={{
                             ...cellStyle,
                             textAlign: 'left',
@@ -44,6 +45,7 @@ export const VedtakstabellReiseTilSamlingPrivatBil: React.FC<{
                 <tr>
                     <th style={cellStyle}>Total reiseavstand</th>
                     <th style={cellStyle}>Kilometersats</th>
+                    <th style={cellStyle}>Kjøreutgift</th>
                     <th style={cellStyle}>Ekstrautgifter</th>
                     <th style={cellStyle}>Stønadsbeløp</th>
                 </tr>
@@ -52,6 +54,9 @@ export const VedtakstabellReiseTilSamlingPrivatBil: React.FC<{
                 <tr>
                     <td style={cellStyle}>{samling.totalReiseavstand} km</td>
                     <td style={cellStyle}>{samling.sats} kr/km</td>
+                    <td style={cellStyle}>
+                        {kronerMedTusenSkilleEllerStrek(samling.beløpUtenAndreKostnader)}
+                    </td>
                     <td
                         style={cellStyle}
                         dangerouslySetInnerHTML={{ __html: lagEkstrakostnaderTekst(samling) }}

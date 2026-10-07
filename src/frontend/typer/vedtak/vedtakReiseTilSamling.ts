@@ -49,6 +49,7 @@ export interface BeregningsresultatPrivatBil {
     tom: string;
     sats: number;
     totalReiseavstand: number;
+    beløpUtenAndreKostnader: number;
     bompenger?: number;
     fergekostnad?: number;
     parkering?: number;
