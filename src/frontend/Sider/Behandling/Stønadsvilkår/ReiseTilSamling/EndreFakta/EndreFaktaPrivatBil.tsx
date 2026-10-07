@@ -64,10 +64,9 @@ export const EndreFaktaPrivatBil: React.FC<{
             <HStack gap="space-16" align="start">
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
-                        label={'Total reiseavstand i km'}
+                        label={'Samlet kjøreavstand tur/retur i km'}
                         size="small"
                         error={feilmeldinger?.reiseavstand}
-                        description="Oppgi samlet reiseavstand tur/ retur"
                         value={harTallverdi(fakta.reiseavstand) ? fakta.reiseavstand : ''}
                         onChange={(e) => {
                             oppdaterFakta(
