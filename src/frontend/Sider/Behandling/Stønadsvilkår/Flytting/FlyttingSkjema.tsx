@@ -301,19 +301,21 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
                     </LocalAlert>
                 )}
                 <Skillelinje />
-                <HStack gap="space-8">
-                    <SmallButton type="submit" loading={laster}>
-                        Lagre
-                    </SmallButton>
-                    <SmallButton
-                        type="button"
-                        variant="secondary"
-                        onClick={() => {
-                            avbryt();
-                        }}
-                    >
-                        Avbryt
-                    </SmallButton>
+                <HStack gap="space-8" justify={'space-between'}>
+                    <HStack gap="space-8">
+                        <SmallButton type="submit" loading={laster}>
+                            Lagre
+                        </SmallButton>
+                        <SmallButton
+                            type="button"
+                            variant="secondary"
+                            onClick={() => {
+                                avbryt();
+                            }}
+                        >
+                            Avbryt
+                        </SmallButton>
+                    </HStack>
                     {vilkår && (
                         <SlettVilkårModal
                             vilkår={{
@@ -354,6 +356,7 @@ const EndreFaktaFlyttebyrå: React.FC<{
 }> = ({ settFakta, fakta }) => {
     return (
         <VStack gap="space-12">
+            <Skillelinje />
             {[1, 2].map((nummer) => {
                 const nøkkel = nummer === 1 ? 'tilbud1' : 'tilbud2';
                 const tilbud = fakta[nøkkel];

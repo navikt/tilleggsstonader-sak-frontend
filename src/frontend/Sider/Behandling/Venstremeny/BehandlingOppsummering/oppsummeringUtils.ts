@@ -44,7 +44,7 @@ export const finnTekstForTypeVilkårFakta = (typeFakta?: TypeVilkårFakta): stri
         return 'Flyttebyrå';
     }
     if (typeFakta.endsWith('FLYTTE_SELV')) {
-        return 'Flytting selv';
+        return 'Flytter selv';
     }
     return '';
 };

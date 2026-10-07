@@ -9,11 +9,11 @@ import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
 import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
-import { InnvilgelseFlytting } from '../../../../typer/vedtak/vedtakFlytting';
+import { InnvilgelseFlytting, VedtakFlytting } from '../../../../typer/vedtak/vedtakFlytting';
 
 export const VedtakOgBeregningFlytting: React.FC = () => {
     const { behandling } = useBehandling();
-    const { vedtak } = useVedtak<InnvilgelseFlytting | null>();
+    const { vedtak } = useVedtak<VedtakFlytting>();
 
     return (
         <DataViewer type="vedtak" response={{ vedtak }}>

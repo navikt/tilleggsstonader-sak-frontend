@@ -1,10 +1,16 @@
+import { TypeVedtak } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 import { VedtaksperiodeTsrDto } from '../../Sider/Behandling/VedtakOgBeregning/Felles/vedtaksperioder/vedtaksperiodeUtils';
 
+export type VedtakFlytting = InnvilgelseFlytting;
+
 export interface InnvilgelseFlytting {
+    type: TypeVedtak.INNVILGELSE;
     vedtaksperioder: Vedtaksperiode[];
     beregningsresultat: BeregningsresultatFlytting;
-    begrunnelse: string | null;
+    begrunnelse?: string;
+    gjelderFraOgMed: string;
+    gjelderTilOgMed: string;
 }
 
 export interface InnvilgelseFlyttingRequest {
@@ -17,30 +23,30 @@ export interface BeregningsresultatFlytting {
 }
 
 export type BeregningsresultatFlyttevilkår = {
-    vilkårId: string;
     fom: string;
     tom: string;
     beløp: number;
-} & (
-    | {
-          flyttemåte: 'FLYTTEBYRÅ';
-          grunnlag: {
-              type: 'FLYTTEBYRÅ';
-              tilbud1Pris: number;
-              tilbud2Pris: number;
-          };
-      }
-    | {
-          flyttemåte: 'EGEN_KJØRING';
-          grunnlag: {
-              type: 'EGEN_KJØRING';
-              avstandEnVei: number;
-              sats: number;
-              satsBekreftet: boolean;
-              henger: number;
-              bompenger: number;
-              ferge: number;
-              parkering: number;
-          };
-      }
-);
+    grunnlag: BeregningsGrunnlagFlyttebyrå | BeregningsGrunnlagFlytteSelv;
+};
+
+export enum BeregningsGunnlagType {
+    FLYTTEBYRÅ = 'FLYTTEBYRÅ',
+    FLYTTE_SELV = 'FLYTTE_SELV',
+}
+
+export type BeregningsGrunnlagFlyttebyrå = {
+    type: BeregningsGunnlagType.FLYTTEBYRÅ;
+    tilbud1Pris: number;
+    tilbud2Pris: number;
+};
+
+export type BeregningsGrunnlagFlytteSelv = {
+    type: BeregningsGunnlagType.FLYTTE_SELV;
+    avstandEnVei: number;
+    sats: number;
+    satsBekreftet: boolean;
+    henger: number;
+    bompenger: number;
+    ferge: number;
+    parkering: number;
+};
