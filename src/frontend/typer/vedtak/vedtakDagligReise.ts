@@ -66,7 +66,7 @@ export type Billettdetaljer = {
     [BillettType.TRETTIDAGERSBILLETT]?: number;
 };
 
-export interface BeregningsresultatForReise {
+interface BeregningsresultatForReise {
     reiseId: string;
     adresse?: string;
     perioder: BeregningsresultatForPeriode[];
