@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { HGrid, HStack, LocalAlert, Radio, RadioGroup, TextField, VStack } from '@navikt/ds-react';
+import { HGrid, HStack, LocalAlert, TextField, VStack } from '@navikt/ds-react';
 
 import {
     FaktaFlytting,
@@ -21,11 +21,13 @@ import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKo
 import { Skillelinje } from '../../../../komponenter/Skillelinje';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
-import { BegrunnelseRegel, SvarId } from '../../../../typer/regel';
+import { SvarId } from '../../../../typer/regel';
 import { feilmeldingVedFeil, Ressurs, RessursStatus } from '../../../../typer/ressurs';
 import { PeriodeStatus } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import SlettVilkårModal from '../../Vilkårvurdering/EndreVilkår/SlettVilkårModal';
-import { regelIdTilSpørsmål, svarIdTilTekst } from '../../Vilkårvurdering/tekster';
+import { FellesDelvilkår } from '../../Vilkårvurdering/FellesDelvilkår';
+import { initierAktiveDelvilkår } from '../../Vilkårvurdering/regeltre';
+import { regelIdTilSpørsmål } from '../../Vilkårvurdering/tekster';
 
 interface FaktaSkjema {
     type: TypeVilkårFaktaFlytting;
@@ -124,30 +126,6 @@ function initierSvar(
                     : vurderinger.find((v) => v.regelId === 'SKAL_FLYTTE_SELV')?.begrunnelse,
         },
     };
-}
-
-function aktiveRegler(
-    svar: Partial<Record<RegelIdFlytting, SvarOgBegrunnelseFlytting>>,
-    regelstruktur: ReturnType<typeof useVilkårFlytting>['regelstruktur']
-): RegelIdFlytting[] {
-    const aktive = Object.entries(regelstruktur)
-        .filter(([, regel]) => regel.erHovedregel)
-        .map(([regelId]) => regelId as RegelIdFlytting);
-    const sett = new Set<RegelIdFlytting>();
-
-    while (aktive.length > 0) {
-        const regelId = aktive.shift();
-        if (!regelId || sett.has(regelId)) continue;
-        sett.add(regelId);
-
-        const valgtSvar = svar[regelId]?.svar;
-        const svaralternativ = regelstruktur[regelId].svaralternativer.find(
-            (alternativ) => alternativ.svarId === valgtSvar
-        );
-        if (svaralternativ?.nesteRegelId) aktive.push(svaralternativ.nesteRegelId);
-    }
-
-    return [...sett];
 }
 
 function tilFaktaPayload(fakta: FaktaSkjema): FaktaFlytting {
@@ -249,7 +227,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
         settLaster(false);
     };
 
-    const aktive = aktiveRegler(svar, regelstruktur);
+    const aktive = initierAktiveDelvilkår(svar, regelstruktur);
 
     return (
         <form onSubmit={lagreSkjema}>
@@ -297,49 +275,19 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
                 {aktive.map((regelId) => {
                     const regel = regelstruktur[regelId];
                     const vurdering = svar[regelId];
-                    const valgtAlternativ = regel.svaralternativer.find(
-                        (alternativ) => alternativ.svarId === vurdering?.svar
-                    );
                     return (
                         <React.Fragment key={regelId}>
-                            <RadioGroup
-                                legend={regelIdTilSpørsmål[regelId] || regelId}
-                                value={vurdering?.svar ?? ''}
-                                onChange={(value) => oppdaterSvar(regelId, value)}
-                                size="small"
-                            >
-                                {regel.svaralternativer.map((alternativ) => (
-                                    <Radio key={alternativ.svarId} value={alternativ.svarId}>
-                                        {svarIdTilTekst[alternativ.svarId] ?? alternativ.svarId}
-                                    </Radio>
-                                ))}
-                            </RadioGroup>
-                            {valgtAlternativ &&
-                                valgtAlternativ.begrunnelseType !== BegrunnelseRegel.UTEN && (
-                                    <TextField
-                                        label="Begrunnelse"
-                                        value={vurdering?.begrunnelse ?? ''}
-                                        onChange={(event) =>
-                                            oppdaterBegrunnelse(regelId, event.target.value)
-                                        }
-                                        size="small"
-                                    />
-                                    // TODO Funker ikke textare av enn eller annen grunn??
-                                    // <Textarea
-                                    //     label={lagBegrunnelsestekst(
-                                    //         valgtAlternativ.begrunnelseType
-                                    //     )}
-                                    //     resize
-                                    //     size="small"
-                                    //     // error={feilmeldinger.begrunnelse?.[regelId]}
-                                    //     minRows={3}
-                                    //     value={vurdering?.begrunnelse || ''}
-                                    //     onChange={(event) =>
-                                    //         oppdaterBegrunnelse(regelId, event.target.value)
-                                    //     }
-                                    //     description={begrunnelseHjelpetekst}
-                                    // />
-                                )}
+                            <FellesDelvilkår
+                                regelId={regelId}
+                                label={regelIdTilSpørsmål[regelId] || regelId}
+                                svaralternativer={regel.svaralternativer}
+                                svar={vurdering?.svar}
+                                begrunnelse={vurdering?.begrunnelse}
+                                oppdaterSvar={(nyttSvar) => oppdaterSvar(regelId, nyttSvar)}
+                                oppdaterBegrunnelse={(begrunnelse) =>
+                                    oppdaterBegrunnelse(regelId, begrunnelse)
+                                }
+                            />
                         </React.Fragment>
                     );
                 })}
@@ -353,19 +301,21 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
                     </LocalAlert>
                 )}
                 <Skillelinje />
-                <HStack gap="space-8">
-                    <SmallButton type="submit" loading={laster}>
-                        Lagre
-                    </SmallButton>
-                    <SmallButton
-                        type="button"
-                        variant="secondary"
-                        onClick={() => {
-                            avbryt();
-                        }}
-                    >
-                        Avbryt
-                    </SmallButton>
+                <HStack gap="space-8" justify={'space-between'}>
+                    <HStack gap="space-8">
+                        <SmallButton type="submit" loading={laster}>
+                            Lagre
+                        </SmallButton>
+                        <SmallButton
+                            type="button"
+                            variant="secondary"
+                            onClick={() => {
+                                avbryt();
+                            }}
+                        >
+                            Avbryt
+                        </SmallButton>
+                    </HStack>
                     {vilkår && (
                         <SlettVilkårModal
                             vilkår={{
@@ -406,6 +356,7 @@ const EndreFaktaFlyttebyrå: React.FC<{
 }> = ({ settFakta, fakta }) => {
     return (
         <VStack gap="space-12">
+            <Skillelinje />
             {[1, 2].map((nummer) => {
                 const nøkkel = nummer === 1 ? 'tilbud1' : 'tilbud2';
                 const tilbud = fakta[nøkkel];
@@ -452,24 +403,25 @@ const EndreFaktaFlytteSelv: React.FC<{
     fakta: FaktaSkjema;
 }> = ({ settFakta, fakta }) => {
     return (
-        <VStack gap="space-12">
-            <TextField
-                label="Avstand én vei i kilometer"
-                value={fakta.avstandEnVei}
-                inputMode="numeric"
-                onChange={(event) => {
-                    settFakta((forrige) => ({
-                        ...forrige,
-                        avstandEnVei: event.target.value,
-                    }));
-                }}
-                size="small"
-            />
+        <HStack gap="space-16">
+            <FeilmeldingMaksBredde $maxWidth={180}>
+                <TextField
+                    label="Avstand én vei i kilometer"
+                    value={fakta.avstandEnVei}
+                    inputMode="numeric"
+                    onChange={(event) => {
+                        settFakta((forrige) => ({
+                            ...forrige,
+                            avstandEnVei: event.target.value,
+                        }));
+                    }}
+                    size="small"
+                />
+            </FeilmeldingMaksBredde>
             {(['henger', 'bompenger', 'ferge', 'parkering'] as const).map((felt) => (
                 <FeilmeldingMaksBredde $maxWidth={180} key={felt}>
                     <TextField
-                        label={`${flyttingFaktaFeltTilTekst[felt]} i kroner`}
-                        description="Oppgi samlet kostnad. La feltet stå tomt hvis det ikke finnes en kostnad."
+                        label={`${flyttingFaktaFeltTilTekst[felt]}`}
                         value={fakta[felt]}
                         inputMode="numeric"
                         onChange={(event) => {
@@ -479,6 +431,6 @@ const EndreFaktaFlytteSelv: React.FC<{
                     />
                 </FeilmeldingMaksBredde>
             ))}
-        </VStack>
+        </HStack>
     );
 };

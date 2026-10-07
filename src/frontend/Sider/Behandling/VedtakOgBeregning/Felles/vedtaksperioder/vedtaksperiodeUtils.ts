@@ -69,6 +69,7 @@ export type VedtaksperiodeTsrDto = Omit<Vedtaksperiode, 'aktivitetType'>;
 const stønadstyperMedForenkletTsrPeriode = [
     Stønadstype.DAGLIG_REISE_TSR,
     Stønadstype.REISE_TIL_SAMLING_TSR,
+    Stønadstype.FLYTTING_TSR,
 ];
 
 export const tilVedtaksperioderDto = (

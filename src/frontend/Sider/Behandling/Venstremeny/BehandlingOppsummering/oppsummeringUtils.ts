@@ -40,6 +40,12 @@ export const finnTekstForTypeVilkårFakta = (typeFakta?: TypeVilkårFakta): stri
     if (typeFakta.endsWith('TAXI')) {
         return 'Taxi';
     }
+    if (typeFakta.endsWith('FLYTTEBYRÅ')) {
+        return 'Flyttebyrå';
+    }
+    if (typeFakta.endsWith('FLYTTE_SELV')) {
+        return 'Flytter selv';
+    }
     return '';
 };
 
@@ -58,11 +64,11 @@ export const finnGjelderForOppsummertVilkår = (
         case Stønadstype.REISE_TIL_SAMLING_TSR:
         case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
         case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR:
+        case Stønadstype.FLYTTING_TSO:
+        case Stønadstype.FLYTTING_TSR:
             return finnTekstForTypeVilkårFakta(vilkår.typeFakta);
 
         case Stønadstype.LÆREMIDLER:
-        case Stønadstype.FLYTTING_TSO:
-        case Stønadstype.FLYTTING_TSR:
             return '';
     }
 };

@@ -3,6 +3,7 @@ import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkå
 import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { VilkårPeriodeResultat } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import { TypeVilkårFakta as TypeVilkårFaktaDagligReise } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
+import { TypeVilkårFaktaFlytting } from '../../Sider/Behandling/Stønadsvilkår/Flytting/typer/faktaFlytting';
 import { TypeVilkårFakta as TypeVilkårFaktaReiseOppstartAvslutningHjemreise } from '../../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/regelstrukturReiseOppstartAvslutningHjemreise';
 import { TypeVilkårFakta as TypeVilkårFaktaReiseTilSamling } from '../../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/typer/regelstrukturReiseTilSamling';
 import { StønadsvilkårType, Vilkårsresultat } from '../../Sider/Behandling/vilkår';
@@ -12,6 +13,7 @@ import { Vedtaksperiode } from '../vedtak/vedtakperiode';
 export type TypeVilkårFakta =
     | TypeVilkårFaktaDagligReise
     | TypeVilkårFaktaReiseTilSamling
+    | TypeVilkårFaktaFlytting
     | TypeVilkårFaktaReiseOppstartAvslutningHjemreise;
 
 export interface BehandlingOppsummering {

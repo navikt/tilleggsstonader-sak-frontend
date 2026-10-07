@@ -12,11 +12,10 @@ export interface SvaralternativFlytting {
     tilhørendeFaktaType?: TypeVilkårFaktaFlytting | null;
 }
 
-export type RegelstrukturFlytting = Record<
-    RegelIdFlytting,
-    {
-        erHovedregel: boolean;
-        reglerSomMåNullstilles: RegelIdFlytting[];
-        svaralternativer: SvaralternativFlytting[];
-    }
->;
+interface RegelInfo {
+    erHovedregel: boolean;
+    reglerSomMåNullstilles: RegelIdFlytting[];
+    svaralternativer: SvaralternativFlytting[];
+}
+
+export type RegelstrukturFlytting = Record<RegelIdFlytting, RegelInfo>;

@@ -7,6 +7,7 @@ import { Personopplysninger } from '../../../typer/personopplysninger';
 import { TypeVedtak, VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { InnvilgelseBoutgifter } from '../../../typer/vedtak/vedtakBoutgifter';
 import { InnvilgelseDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
+import { InnvilgelseFlytting } from '../../../typer/vedtak/vedtakFlytting';
 import { InnvilgelseLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
 import { InnvilgelsePassAvBarn } from '../../../typer/vedtak/vedtakPassAvBarn';
 import { InnvilgelseReiseOppstartAvslutningHjemreise } from '../../../typer/vedtak/vedtakReiseOppstartAvslutningHjemreise';
@@ -23,6 +24,7 @@ function behandleInnvilgelse(
         | InnvilgelseDagligReise
         | InnvilgelseReiseTilSamling
         | InnvilgelseReiseOppstartAvslutningHjemreise
+        | InnvilgelseFlytting
 ) {
     switch (behandling.stønadstype) {
         case Stønadstype.LÆREMIDLER: {
@@ -77,6 +79,20 @@ function behandleInnvilgelse(
             return mapVedtaksDatoerForPreutfyllingIBrevfanen(
                 innvilgelseReiseTilSamling.gjelderFraOgMed,
                 innvilgelseReiseTilSamling.gjelderTilOgMed
+            );
+        }
+        case Stønadstype.FLYTTING_TSO: {
+            const innvilgelseFlytting = vedtak as InnvilgelseFlytting;
+            return mapVedtaksDatoerForPreutfyllingIBrevfanen(
+                innvilgelseFlytting.gjelderFraOgMed,
+                innvilgelseFlytting.gjelderTilOgMed
+            );
+        }
+        case Stønadstype.FLYTTING_TSR: {
+            const innvilgelseFlytting = vedtak as InnvilgelseFlytting;
+            return mapVedtaksDatoerForPreutfyllingIBrevfanen(
+                innvilgelseFlytting.gjelderFraOgMed,
+                innvilgelseFlytting.gjelderTilOgMed
             );
         }
         default:
