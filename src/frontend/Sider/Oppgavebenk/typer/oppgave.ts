@@ -109,6 +109,10 @@ export enum Behandlingstema {
     DAGLIG_REISE_TSO = 'ab0288',
     REISE_TIL_SAMLING_TSO = 'ab0294',
     REISE_TIL_SAMLING_TSR = 'ab0293',
+    REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO = 'ab0296',
+    REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR = 'ab0295',
+    FLYTTING_TSO = 'ab0290',
+    FLYTTING_TSR = 'ab0289',
 }
 
 export const behandlingstemaTilTekst: Record<Behandlingstema, string> = {
@@ -119,6 +123,10 @@ export const behandlingstemaTilTekst: Record<Behandlingstema, string> = {
     ab0287: 'Daglige reiser - Tiltaksenheten',
     ab0294: 'Reise til samling - Nay',
     ab0293: 'Reise til samling - Tiltaksenheten',
+    ab0296: 'Reise oppstart avslutning hjemreise - Nay',
+    ab0295: 'Reise oppstart avslutning hjemreise - Tiltaksenheten',
+    ab0290: 'Flytting - Nay',
+    ab0289: 'Flytting - Tiltaksenheten',
 };
 
 export enum OppgaveBehandlingstype {
