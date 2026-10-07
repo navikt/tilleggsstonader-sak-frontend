@@ -20,11 +20,10 @@ export const VedtakstabellReiseTilSamlingTotalsum: React.FC<{
                 <col style={{ width: bredder.kolonner.privatBil[1] }} />
                 <col style={{ width: bredder.kolonner.privatBil[2] }} />
                 <col style={{ width: bredder.kolonner.privatBil[3] }} />
-                <col style={{ width: bredder.kolonner.privatBil[4] }} />
             </colgroup>
             <tbody>
                 <tr>
-                    <td colSpan={4} style={{ ...cellStyle, fontWeight: 500 }}>
+                    <td colSpan={3} style={{ ...cellStyle, fontWeight: 500 }}>
                         Totalsum
                     </td>
                     <td style={{ ...cellStyle, fontWeight: 500 }}>

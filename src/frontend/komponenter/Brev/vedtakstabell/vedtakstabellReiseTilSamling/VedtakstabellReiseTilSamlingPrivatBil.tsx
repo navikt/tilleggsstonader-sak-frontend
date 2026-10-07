@@ -25,12 +25,11 @@ export const VedtakstabellReiseTilSamlingPrivatBil: React.FC<{
                 <col style={{ width: bredder.kolonner.privatBil[1] }} />
                 <col style={{ width: bredder.kolonner.privatBil[2] }} />
                 <col style={{ width: bredder.kolonner.privatBil[3] }} />
-                <col style={{ width: bredder.kolonner.privatBil[4] }} />
             </colgroup>
             <thead>
                 <tr>
                     <th
-                        colSpan={5}
+                        colSpan={4}
                         style={{
                             ...cellStyle,
                             textAlign: 'left',
@@ -38,15 +37,14 @@ export const VedtakstabellReiseTilSamlingPrivatBil: React.FC<{
                             backgroundColor: gråOverskrift,
                         }}
                     >
-                        Privat bil - <strong>{samling.adresse ?? '-'}</strong> -{' '}
-                        {formaterIsoPeriodeMedTankestrek(datoperiode)}
+                        {formaterIsoPeriodeMedTankestrek(datoperiode)} - Privat bil -{' '}
+                        <strong>{samling.adresse ?? '-'}</strong>
                     </th>
                 </tr>
                 <tr>
                     <th style={cellStyle}>Total reiseavstand</th>
                     <th style={cellStyle}>Kilometersats</th>
-                    <th style={cellStyle}>Utgifter</th>
-                    <th style={cellStyle}>Parkering</th>
+                    <th style={cellStyle}>Ekstrautgifter</th>
                     <th style={cellStyle}>Stønadsbeløp</th>
                 </tr>
             </thead>
@@ -58,7 +56,6 @@ export const VedtakstabellReiseTilSamlingPrivatBil: React.FC<{
                         style={cellStyle}
                         dangerouslySetInnerHTML={{ __html: lagEkstrakostnaderTekst(samling) }}
                     />
-                    <td style={cellStyle}>{kronerMedTusenSkilleEllerStrek(samling.parkering)}</td>
                     <td style={cellStyle}>{kronerMedTusenSkilleEllerStrek(samling.beløp)}</td>
                 </tr>
             </tbody>

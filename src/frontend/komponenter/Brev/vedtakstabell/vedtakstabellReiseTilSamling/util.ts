@@ -22,7 +22,7 @@ export const bredder = {
             `calc(100% - ${stønadsbeløpKolonneBredde})`,
             stønadsbeløpKolonneBredde,
         ],
-        privatBil: ['25%', '21.67%', '20%', '15%', stønadsbeløpKolonneBredde],
+        privatBil: ['25%', '21.67%', '35%', stønadsbeløpKolonneBredde],
     },
 };
 
@@ -43,6 +43,7 @@ export function lagEkstrakostnaderTekst(samling: BeregningsresultatPrivatBil): s
         harBeløp(samling.bompenger) ? `Bom: ${samling.bompenger}kr` : null,
         harBeløp(samling.fergekostnad) ? `Ferge: ${samling.fergekostnad}kr` : null,
         harBeløp(samling.piggdekkavgift) ? `Piggdekk: ${samling.piggdekkavgift}kr` : null,
+        harBeløp(samling.parkering) ? `Parkering: ${samling.parkering}kr` : null,
     ].filter((linje): linje is string => linje !== null);
 
     return linjer.join('<br/>');

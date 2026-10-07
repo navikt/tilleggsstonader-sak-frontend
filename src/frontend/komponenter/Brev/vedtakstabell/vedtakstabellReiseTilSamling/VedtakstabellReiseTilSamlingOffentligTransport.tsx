@@ -44,8 +44,8 @@ export const VedtakstabellReiseTilSamlingOffentligTransport: React.FC<{
                             overflowWrap: 'anywhere',
                         }}
                     >
-                        Offentlig transport - <strong>{samling.adresse ?? '-'}</strong> -{' '}
-                        {formaterIsoPeriodeMedTankestrek(datoperiode)}
+                        {formaterIsoPeriodeMedTankestrek(datoperiode)} - Offentlig transport -{' '}
+                        <strong>{samling.adresse ?? '-'}</strong>
                     </th>
                 </tr>
                 <tr>
