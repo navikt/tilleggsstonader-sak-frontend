@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Alert, Box, Heading, Table, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, Box, Heading, Table, VStack } from '@navikt/ds-react';
 
 import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../../komponenter/TabellSmall';
 import {
@@ -30,6 +30,11 @@ const BeregningsResultatFlyttebyrå: React.FC<{
             <Heading spacing size="xsmall" level="4">
                 Beregningsresultat for flyttebyrå
             </Heading>
+            {flyttebyråResultater.some(
+                (resultat) =>
+                    resultat.grunnlag.type === 'FLYTTEBYRÅ' &&
+                    resultat.grunnlag.erBetalingDokumentert
+            ) && <BodyShort>Betaling for flyttebyrå er dokumentert</BodyShort>}
             <Box overflow="auto">
                 <Table>
                     <Table.Header>
