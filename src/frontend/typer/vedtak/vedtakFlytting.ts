@@ -1,8 +1,17 @@
 import { TypeVedtak } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
+import { AvslagRequest } from '../../hooks/useLagreAvslag';
 import { VedtaksperiodeTsrDto } from '../../Sider/Behandling/VedtakOgBeregning/Felles/vedtaksperioder/vedtaksperiodeUtils';
 
-export type VedtakFlytting = InnvilgelseFlytting;
+export type VedtakFlytting = InnvilgelseFlytting | AvslagFlytting;
+
+export type AvslagFlytting = AvslagRequest;
+
+export const vedtakErInnvilgelse = (vedtak: VedtakFlytting): vedtak is InnvilgelseFlytting =>
+    vedtak.type === TypeVedtak.INNVILGELSE;
+
+export const vedtakErAvslag = (vedtak: VedtakFlytting): vedtak is AvslagFlytting =>
+    vedtak.type === TypeVedtak.AVSLAG;
 
 export interface InnvilgelseFlytting {
     type: TypeVedtak.INNVILGELSE;
