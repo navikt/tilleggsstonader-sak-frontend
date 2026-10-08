@@ -3,7 +3,7 @@ import { BegrunnelseRegel, SvarId } from '../../../../../typer/regel';
 export type RegelstrukturReiseTilSamling = Record<RegelIdReiseTilSamling, RegelInfo>;
 
 export enum RegelIdReiseTilSamling {
-    HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING = 'HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING',
+    HAR_UTGIFTER_TIL_REISEN = 'HAR_UTGIFTER_TIL_REISEN',
     AVSTAND_OVER_TRETTI_KM = 'AVSTAND_OVER_TRETTI_KM',
     ER_SAMLING_OBLIGATORISK = 'ER_SAMLING_OBLIGATORISK',
     KAN_REISE_MED_OFFENTLIG_TRANSPORT = 'KAN_REISE_MED_OFFENTLIG_TRANSPORT',
