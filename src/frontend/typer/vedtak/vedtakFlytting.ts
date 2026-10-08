@@ -38,6 +38,7 @@ export type BeregningsGrunnlagFlyttebyrå = {
     type: BeregningsGunnlagType.FLYTTEBYRÅ;
     tilbud1Pris: number;
     tilbud2Pris: number;
+    erBetalingDokumentert: boolean;
 };
 
 export type BeregningsGrunnlagFlytteSelv = {

@@ -6,6 +6,7 @@ export interface FaktaFlyttingFlyttebyrå {
     adresse: string | null;
     tilbud1: FaktaFlyttingTilbud;
     tilbud2: FaktaFlyttingTilbud;
+    erBetalingDokumentert: boolean;
 }
 
 export interface FaktaFlyttingTilbud {

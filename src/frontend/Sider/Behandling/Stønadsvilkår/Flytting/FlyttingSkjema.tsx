@@ -23,9 +23,10 @@ import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMe
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { SvarId } from '../../../../typer/regel';
 import { feilmeldingVedFeil, Ressurs, RessursStatus } from '../../../../typer/ressurs';
-import { PeriodeStatus } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
+import { PeriodeStatus, SvarJaNei } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import SlettVilkårModal from '../../Vilkårvurdering/EndreVilkår/SlettVilkårModal';
 import { FellesDelvilkår } from '../../Vilkårvurdering/FellesDelvilkår';
+import { JaNeiVurdering } from '../../Vilkårvurdering/JaNeiVurdering';
 import { initierAktiveDelvilkår } from '../../Vilkårvurdering/regeltre';
 import { regelIdTilSpørsmål } from '../../Vilkårvurdering/tekster';
 
@@ -34,6 +35,7 @@ interface FaktaSkjema {
     adresse: string;
     tilbud1: { navn: string; pris: string };
     tilbud2: { navn: string; pris: string };
+    erBetalingDokumentert: boolean | undefined;
     avstandEnVei: string;
     henger: string;
     bompenger: string;
@@ -52,6 +54,7 @@ const tommeFakta: FaktaSkjema = {
     adresse: '',
     tilbud1: { navn: '', pris: '' },
     tilbud2: { navn: '', pris: '' },
+    erBetalingDokumentert: undefined,
     avstandEnVei: '',
     henger: '',
     bompenger: '',
@@ -70,6 +73,7 @@ function tilFaktaSkjema(fakta?: FaktaFlytting): FaktaSkjema {
             ...skjema,
             tilbud1: { navn: fakta.tilbud1.navn ?? '', pris: fakta.tilbud1.pris?.toString() ?? '' },
             tilbud2: { navn: fakta.tilbud2.navn ?? '', pris: fakta.tilbud2.pris?.toString() ?? '' },
+            erBetalingDokumentert: fakta.erBetalingDokumentert,
         };
     }
     if (fakta?.type === 'FLYTTING_FLYTTE_SELV') {
@@ -128,37 +132,6 @@ function initierSvar(
     };
 }
 
-function tilFaktaPayload(fakta: FaktaSkjema): FaktaFlytting {
-    const adresse = fakta.adresse.trim() || null;
-    const tallEllerNull = (verdi: string) => (verdi.trim() ? Number(verdi) : null);
-    if (fakta.type === 'FLYTTING_FLYTTEBYRÅ') {
-        return {
-            type: fakta.type,
-            adresse,
-            tilbud1: {
-                navn: fakta.tilbud1.navn.trim() || null,
-                pris: tallEllerNull(fakta.tilbud1.pris),
-            },
-            tilbud2: {
-                navn: fakta.tilbud2.navn.trim() || null,
-                pris: tallEllerNull(fakta.tilbud2.pris),
-            },
-        };
-    }
-    if (fakta.type === 'FLYTTING_FLYTTE_SELV') {
-        return {
-            type: fakta.type,
-            adresse,
-            avstandEnVei: tallEllerNull(fakta.avstandEnVei),
-            henger: tallEllerNull(fakta.henger),
-            bompenger: tallEllerNull(fakta.bompenger),
-            ferge: tallEllerNull(fakta.ferge),
-            parkering: tallEllerNull(fakta.parkering),
-        };
-    }
-    return { type: fakta.type, adresse };
-}
-
 export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
     const { behandling } = useBehandling();
     const { slettVilkår, regelstruktur } = useVilkårFlytting();
@@ -205,6 +178,42 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
         }));
     };
 
+    function skjemaTilFaktaPayload(skjema: FaktaSkjema): FaktaFlytting | undefined {
+        const adresse = skjema.adresse.trim() || null;
+        const tallEllerNull = (verdi: string) => (verdi.trim() ? Number(verdi) : null);
+        if (skjema.type === 'FLYTTING_FLYTTEBYRÅ') {
+            if (skjema.erBetalingDokumentert === undefined) {
+                settFeil('Du må si om betaling er dokumentert eller ikke');
+                return;
+            }
+            return {
+                type: skjema.type,
+                adresse,
+                tilbud1: {
+                    navn: skjema.tilbud1.navn.trim() || null,
+                    pris: tallEllerNull(skjema.tilbud1.pris),
+                },
+                tilbud2: {
+                    navn: skjema.tilbud2.navn.trim() || null,
+                    pris: tallEllerNull(skjema.tilbud2.pris),
+                },
+                erBetalingDokumentert: skjema.erBetalingDokumentert,
+            };
+        }
+        if (skjema.type === 'FLYTTING_FLYTTE_SELV') {
+            return {
+                type: skjema.type,
+                adresse,
+                avstandEnVei: tallEllerNull(skjema.avstandEnVei),
+                henger: tallEllerNull(skjema.henger),
+                bompenger: tallEllerNull(skjema.bompenger),
+                ferge: tallEllerNull(skjema.ferge),
+                parkering: tallEllerNull(skjema.parkering),
+            };
+        }
+        return { type: skjema.type, adresse };
+    }
+
     const lagreSkjema = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         settFeil(undefined);
@@ -217,8 +226,13 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
             return;
         }
 
+        const faktaPayload = skjemaTilFaktaPayload(fakta);
+        if (!faktaPayload) {
+            return;
+        }
+
         settLaster(true);
-        const respons = await lagre({ fom, tom, svar, fakta: tilFaktaPayload(fakta) });
+        const respons = await lagre({ fom, tom, svar, fakta: faktaPayload });
         if (respons.status === RessursStatus.SUKSESS) {
             avbryt();
         } else {
@@ -354,6 +368,15 @@ const EndreFaktaFlyttebyrå: React.FC<{
     settFakta: React.Dispatch<React.SetStateAction<FaktaSkjema>>;
     fakta: FaktaSkjema;
 }> = ({ settFakta, fakta }) => {
+    const svarErBetalingDokumentert = () => {
+        if (fakta.erBetalingDokumentert === true) {
+            return SvarJaNei.JA;
+        }
+        if (fakta.erBetalingDokumentert === false) {
+            return SvarJaNei.NEI;
+        }
+        return undefined;
+    };
     return (
         <VStack gap="space-12">
             <Skillelinje />
@@ -394,6 +417,16 @@ const EndreFaktaFlyttebyrå: React.FC<{
                     </HGrid>
                 );
             })}
+            <JaNeiVurdering
+                label="Er betalingen for flyttebyrå dokumentert?"
+                svar={svarErBetalingDokumentert()}
+                oppdaterSvar={(svar) => {
+                    settFakta((forrige) => ({
+                        ...forrige,
+                        erBetalingDokumentert: svar === SvarJaNei.JA,
+                    }));
+                }}
+            />
         </VStack>
     );
 };
