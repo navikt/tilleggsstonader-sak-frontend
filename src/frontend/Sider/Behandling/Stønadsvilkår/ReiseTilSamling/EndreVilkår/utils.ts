@@ -112,7 +112,7 @@ export const finnBegrunnelsestypeForSvar = (
 };
 
 export const tomtSvar: SvarVilkårReiseTilSamling = {
-    HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING: undefined,
+    HAR_UTGIFTER_TIL_REISEN: undefined,
     AVSTAND_OVER_TRETTI_KM: undefined,
     ER_SAMLING_OBLIGATORISK: undefined,
     KAN_REISE_MED_OFFENTLIG_TRANSPORT: undefined,

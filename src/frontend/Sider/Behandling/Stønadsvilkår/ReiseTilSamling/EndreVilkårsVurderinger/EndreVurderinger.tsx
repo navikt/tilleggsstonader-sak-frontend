@@ -102,17 +102,16 @@ export const EndreVurderinger: React.FC<Props> = ({
 
     return (
         <VStack gap="space-16">
-            {aktiveVurderinger.get(
-                RegelIdReiseTilSamling.HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING
-            ) && (
+            {aktiveVurderinger.get(RegelIdReiseTilSamling.HAR_UTGIFTER_TIL_REISEN) && (
                 <EndreDelvilkår
-                    label="Har bruker nødvendige utgifter til reise til samling?"
-                    regelId={RegelIdReiseTilSamling.HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING}
-                    vurdering={vurderinger.HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING}
+                    label="Har bruker utgifter til reisen?"
+                    hjelpetekstKort="Vurder om bruker faktisk har utgifter til reisen. Dersom reisen er gratis eller utgiftene dekkes fullt ut på annen måte, har ikke bruker utgifter som kan dekkes."
+                    regelId={RegelIdReiseTilSamling.HAR_UTGIFTER_TIL_REISEN}
+                    vurdering={vurderinger.HAR_UTGIFTER_TIL_REISEN}
                     oppdaterVurdering={oppdaterVurdering}
                     oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
                     svaralternativer={finnSvarMappingForRegel(
-                        RegelIdReiseTilSamling.HAR_NØDVENDIGE_UTGIFTER_TIL_REISE_TIL_SAMLING
+                        RegelIdReiseTilSamling.HAR_UTGIFTER_TIL_REISEN
                     )}
                     feilmeldinger={feilmeldinger}
                 />
