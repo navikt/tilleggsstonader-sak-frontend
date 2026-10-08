@@ -185,7 +185,7 @@ const årsaker: Record<Stønadstype, Record<ÅrsakAvslag, boolean>> = {
         RETT_TIL_BOSTØTTE: false,
         REISEAVSTAND_UNDER_6_KM: false,
         REISEAVSTAND_UNDER_30_KM: false,
-        LØNN_I_TILTAK: false,
+        LØNN_I_TILTAK: true,
         ANNET: true,
     },
     [Stønadstype.FLYTTING_TSR]: {
