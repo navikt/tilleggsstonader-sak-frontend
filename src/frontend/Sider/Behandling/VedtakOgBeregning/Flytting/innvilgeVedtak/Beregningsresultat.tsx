@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Alert, BodyShort, Box, Heading, Table, VStack } from '@navikt/ds-react';
+import { Alert, Box, Heading, Table, VStack } from '@navikt/ds-react';
 
 import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../../komponenter/TabellSmall';
 import {
@@ -30,11 +30,7 @@ const BeregningsResultatFlyttebyrå: React.FC<{
             <Heading spacing size="xsmall" level="4">
                 Beregningsresultat for flyttebyrå
             </Heading>
-            {flyttebyråResultater.some(
-                (resultat) =>
-                    resultat.grunnlag.type === 'FLYTTEBYRÅ' &&
-                    resultat.grunnlag.erBetalingDokumentert
-            ) && <BodyShort>Betaling for flyttebyrå er dokumentert</BodyShort>}
+
             <Box overflow="auto">
                 <Table>
                     <Table.Header>
@@ -43,6 +39,7 @@ const BeregningsResultatFlyttebyrå: React.FC<{
                             <TableHeaderCellSmall>T.o.m.</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Tilbud 1</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Tilbud 2</TableHeaderCellSmall>
+                            <TableHeaderCellSmall>Dokumentert og utbetales?</TableHeaderCellSmall>
                             <TableHeaderCellSmall align="right">Stønadsbeløp</TableHeaderCellSmall>
                         </Table.Row>
                     </Table.Header>
@@ -62,6 +59,9 @@ const BeregningsResultatFlyttebyrå: React.FC<{
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
                                         {kronerMedTusenSkilleEllerStrek(grunnlag.tilbud2Pris)}
+                                    </TableDataCellSmall>
+                                    <TableDataCellSmall>
+                                        {formatBoolean(grunnlag.erBetalingDokumentert)}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall align="right">
                                         {kronerMedTusenSkilleEllerStrek(resultat.beløp)}
