@@ -55,7 +55,9 @@ export const VedtakstabellReiseTilSamlingPrivatBil: React.FC<{
                     <td style={cellStyle}>{samling.totalReiseavstand} km</td>
                     <td style={cellStyle}>{samling.sats} kr/km</td>
                     <td style={cellStyle}>
-                        {kronerMedTusenSkilleEllerStrek(samling.beløpUtenAndreKostnader)}
+                        {kronerMedTusenSkilleEllerStrek(
+                            parseFloat(samling.beløpUtenAndreKostnader.toFixed(2))
+                        )}
                     </td>
                     <td
                         style={cellStyle}
