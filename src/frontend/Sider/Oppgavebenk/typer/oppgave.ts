@@ -162,13 +162,17 @@ export const erGyldigBehandlingstemaForEnhet = (
         case IkkeFortroligEnhet.NAY_EGNE_ANSATTE:
             return (
                 behandlingstema !== Behandlingstema.DAGLIG_REISE_TSR &&
-                behandlingstema !== Behandlingstema.REISE_TIL_SAMLING_TSR
+                behandlingstema !== Behandlingstema.REISE_TIL_SAMLING_TSR &&
+                behandlingstema !== Behandlingstema.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR &&
+                behandlingstema !== Behandlingstema.FLYTTING_TSR
             );
         case IkkeFortroligEnhet.TILTAK_OSLO:
         case IkkeFortroligEnhet.NAV_EGNE_ANSATTE_OSLO:
             return (
                 behandlingstema === Behandlingstema.DAGLIG_REISE_TSR ||
-                behandlingstema === Behandlingstema.REISE_TIL_SAMLING_TSR
+                behandlingstema === Behandlingstema.REISE_TIL_SAMLING_TSR ||
+                behandlingstema === Behandlingstema.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR ||
+                behandlingstema === Behandlingstema.FLYTTING_TSR
             );
         case IkkeFortroligEnhet.NAY_ROMERIKE:
         case FortroligEnhet.VIKAFOSSEN:
