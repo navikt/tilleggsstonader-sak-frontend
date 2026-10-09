@@ -93,17 +93,17 @@ function initierSvar(
     vilkår?: VilkårFlytting
 ): Partial<Record<RegelIdFlytting, SvarOgBegrunnelseFlytting>> {
     const vurderinger = vilkår?.delvilkårsett.flatMap((del) => del.vurderinger) ?? [];
-    const lagretNyttSvar = vurderinger.find(
-        (vurdering) => vurdering.regelId === RegelIdFlytting.HVORDAN_SKAL_BRUKER_FLYTTE
-    );
 
-    if (lagretNyttSvar?.svar) {
-        return {
-            [RegelIdFlytting.HVORDAN_SKAL_BRUKER_FLYTTE]: {
-                svar: lagretNyttSvar.svar,
-                begrunnelse: lagretNyttSvar.begrunnelse,
-            },
-        };
+    const lagredeSvar: Partial<Record<RegelIdFlytting, SvarOgBegrunnelseFlytting>> = {};
+    Object.values(RegelIdFlytting).forEach((regelId) => {
+        const vurdering = vurderinger.find((v) => v.regelId === regelId);
+        if (vurdering?.svar) {
+            lagredeSvar[regelId] = { svar: vurdering.svar, begrunnelse: vurdering.begrunnelse };
+        }
+    });
+
+    if (Object.keys(lagredeSvar).length > 0) {
+        return lagredeSvar;
     }
 
     const tidligereFlyttebyrå = vurderinger.find(
@@ -122,6 +122,7 @@ function initierSvar(
     if (!svar) return {};
 
     return {
+        [RegelIdFlytting.OPPFYLLER_VILKÅR_FOR_FLYTTING]: { svar: 'JA' },
         [RegelIdFlytting.HVORDAN_SKAL_BRUKER_FLYTTE]: {
             svar,
             begrunnelse:

@@ -2,6 +2,7 @@ import { TypeVilkårFaktaFlytting } from './faktaFlytting';
 import { BegrunnelseRegel, SvarId } from '../../../../../typer/regel';
 
 export enum RegelIdFlytting {
+    OPPFYLLER_VILKÅR_FOR_FLYTTING = 'OPPFYLLER_VILKÅR_FOR_FLYTTING',
     HVORDAN_SKAL_BRUKER_FLYTTE = 'HVORDAN_SKAL_BRUKER_FLYTTE',
 }
 
