@@ -52,7 +52,8 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     KAN_REISE_MED_EGEN_BIL: 'Kan bruker benytte seg av privat bil?',
     HAR_UTGIFTER_TIL_REISEN: 'Har bruker utgifter til reisen?',
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
-    OPPFYLLER_VILKÅR_FOR_FLYTTING: 'Oppfyller bruker vilkårene for å få støtte til flytting?',
+    OPPFYLLER_VILKÅR_FOR_FLYTTING:
+        'Flytter bruker ifbm. aktivitetsgjennomføring eller ny stilling?',
     HVORDAN_SKAL_BRUKER_FLYTTE: 'Hvordan skal bruker flytte?',
 };
 
@@ -80,7 +81,8 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     KAN_REISE_MED_EGEN_BIL: 'Kan benytte privat bil?',
     HAR_UTGIFTER_TIL_REISEN: 'Har utgifter til reisen?',
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
-    OPPFYLLER_VILKÅR_FOR_FLYTTING: 'Oppfyller bruker vilkårene for flytting?',
+    OPPFYLLER_VILKÅR_FOR_FLYTTING:
+        'Flytter bruker ifbm. aktivitetsgjennomføring eller ny stilling?',
     HVORDAN_SKAL_BRUKER_FLYTTE: 'Hvordan skal bruker flytte?',
 };
 
