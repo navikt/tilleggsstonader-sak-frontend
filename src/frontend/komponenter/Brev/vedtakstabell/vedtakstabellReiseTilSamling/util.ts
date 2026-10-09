@@ -5,6 +5,7 @@ import {
     BeregningsresultatOffentligTransport,
     BeregningsresultatPrivatBil,
 } from '../../../../typer/vedtak/vedtakReiseTilSamling';
+import { kronerMedTusenSkilleEllerStrek } from '../../../../utils/tekstformatering';
 
 export const cellStyle: React.CSSProperties = {
     border: '1px solid black',
@@ -40,10 +41,18 @@ export function harBeløp(verdi: number | undefined): verdi is number {
 
 export function lagEkstrakostnaderTekst(samling: BeregningsresultatPrivatBil): string {
     const linjer = [
-        harBeløp(samling.bompenger) ? `Bom: ${samling.bompenger}kr` : null,
-        harBeløp(samling.fergekostnad) ? `Ferge: ${samling.fergekostnad}kr` : null,
-        harBeløp(samling.piggdekkavgift) ? `Piggdekk: ${samling.piggdekkavgift}kr` : null,
-        harBeløp(samling.parkering) ? `Parkering: ${samling.parkering}kr` : null,
+        harBeløp(samling.bompenger)
+            ? `Bom: ${kronerMedTusenSkilleEllerStrek(samling.bompenger)}`
+            : null,
+        harBeløp(samling.fergekostnad)
+            ? `Ferge: ${kronerMedTusenSkilleEllerStrek(samling.fergekostnad)}`
+            : null,
+        harBeløp(samling.piggdekkavgift)
+            ? `Piggdekk: ${kronerMedTusenSkilleEllerStrek(samling.piggdekkavgift)}`
+            : null,
+        harBeløp(samling.parkering)
+            ? `Parkering: ${kronerMedTusenSkilleEllerStrek(samling.parkering)}`
+            : null,
     ].filter((linje): linje is string => linje !== null);
 
     return linjer.join('<br/>');
