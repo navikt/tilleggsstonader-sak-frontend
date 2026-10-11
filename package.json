@@ -23,9 +23,9 @@
   },
   "dependencies": {
     "@mapbox/polyline": "^1.2.1",
-    "@navikt/aksel-icons": "^8.17.2",
-    "@navikt/ds-css": "^8.17.2",
-    "@navikt/ds-react": "^8.17.2",
+    "@navikt/aksel-icons": "^8.18.0",
+    "@navikt/ds-css": "^8.18.0",
+    "@navikt/ds-react": "^8.18.0",
     "@navikt/ds-tokens": "^8.2.0",
     "@portabletext/react": "^8.0.0",
     "@sanity/client": "^8.7.0",
