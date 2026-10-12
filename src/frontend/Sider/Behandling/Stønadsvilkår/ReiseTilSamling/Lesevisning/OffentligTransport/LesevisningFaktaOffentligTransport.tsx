@@ -4,12 +4,15 @@ import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../../../../utils/fomatering';
 import { FaktaOffentligTransport } from '../../typer/faktaReiseTilSamling';
+import { LesevisningNødvendigUtgift } from '../Felles/LesevisningNødvendigUtgift';
 
 export const LesevisningFaktaOffentligTransport: FC<{
     fakta: FaktaOffentligTransport;
 }> = ({ fakta }) => {
     return (
         <VStack gap="space-12" paddingBlock="space-16 space-0">
+            <LesevisningNødvendigUtgift nødvendigUtgift={fakta.nødvendigUtgift} />
+
             <HStack justify={'space-between'}>
                 <BodyShort size="small" weight="semibold">
                     {'Utgifter offentlig transport'}
