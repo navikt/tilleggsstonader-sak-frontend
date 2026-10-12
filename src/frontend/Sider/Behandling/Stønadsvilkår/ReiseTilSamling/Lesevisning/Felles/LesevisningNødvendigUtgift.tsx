@@ -13,7 +13,7 @@ export const LesevisningNødvendigUtgift: FC<{
     }
 
     return (
-        <VStack gap="space-12" paddingBlock="space-16 space-0">
+        <VStack gap="space-8" paddingBlock="space-16 space-0">
             <HStack justify={'space-between'}>
                 <BodyShort size="small" weight="semibold">
                     Nødvendig utgift
@@ -23,16 +23,9 @@ export const LesevisningNødvendigUtgift: FC<{
                 </BodyShort>
             </HStack>
             {nødvendigUtgift.erUtgiftenNødvendig === 'NEI' && (
-                <>
-                    <VStack gap="space-2">
-                        <BodyShort size="small" weight="semibold">
-                            {'Intern begrunnelse nødvendig utgift'}
-                        </BodyShort>
-                        <BodyShort size="small" style={{ whiteSpace: 'pre-wrap' }}>
-                            {nødvendigUtgift.begrunnelse || '-'}
-                        </BodyShort>
-                    </VStack>
-                </>
+                <BodyShort size="small" style={{ whiteSpace: 'pre-wrap' }}>
+                    {nødvendigUtgift.begrunnelse || '-'}
+                </BodyShort>
             )}
         </VStack>
     );
