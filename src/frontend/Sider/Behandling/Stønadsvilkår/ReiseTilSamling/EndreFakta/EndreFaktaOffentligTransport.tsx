@@ -2,7 +2,9 @@ import React from 'react';
 
 import { Select, VStack, HStack } from '@navikt/ds-react';
 
+import { NødvendigUtgiftFelt } from './NødvendigUtgiftFelt';
 import { SpesifikasjonAvUtgift } from './SpesifikasjonAvUtgift';
+import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import TextField from '../../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
@@ -14,7 +16,12 @@ import {
 } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { tomtOffentligTransport } from '../EndreVilkår/utils';
 import { FeilmeldingerFaktaOffentligTransport } from '../EndreVilkår/validering';
-import { FaktaOffentligTransport, FaktaReiseTilSamling } from '../typer/faktaReiseTilSamling';
+import {
+    erFaktaOffentligTransport,
+    FaktaOffentligTransport,
+    FaktaReiseTilSamling,
+    NødvendigUtgift,
+} from '../typer/faktaReiseTilSamling';
 
 export const EndreFaktaOffentligTransport: React.FC<{
     fakta: FaktaOffentligTransport;
@@ -33,10 +40,10 @@ export const EndreFaktaOffentligTransport: React.FC<{
 }) => {
     const oppdaterFakta = (
         key: keyof FaktaOffentligTransport,
-        verdi: number | string | undefined
+        verdi: number | string | NødvendigUtgift | undefined
     ) => {
         settFakta((prevState) => ({
-            ...(prevState.type === 'OFFENTLIG_TRANSPORT' ? prevState : tomtOffentligTransport),
+            ...(erFaktaOffentligTransport(prevState) ? prevState : tomtOffentligTransport),
             [key]: verdi,
         }));
 
@@ -50,7 +57,7 @@ export const EndreFaktaOffentligTransport: React.FC<{
         }
 
         settFakta((prevState) => ({
-            ...(prevState.type === 'OFFENTLIG_TRANSPORT' ? prevState : tomtOffentligTransport),
+            ...(erFaktaOffentligTransport(prevState) ? prevState : tomtOffentligTransport),
             aktivitet: {
                 aktivitetId: valgtAktivitet.globalId,
                 aktivitetType: valgtAktivitet.type,
@@ -64,6 +71,15 @@ export const EndreFaktaOffentligTransport: React.FC<{
 
     return (
         <VStack gap="space-16">
+            <NødvendigUtgiftFelt
+                nødvendigUtgift={fakta.nødvendigUtgift}
+                feilNødvendigUtgift={feilmeldinger?.nødvendigUtgift}
+                feilBegrunnelse={feilmeldinger?.begrunnelseNødvendigUtgift}
+                oppdaterFakta={(nødvendigUtgift) =>
+                    oppdaterFakta('nødvendigUtgift', nødvendigUtgift)
+                }
+            />
+            <Skillelinje />
             <HStack gap="space-16" align="start">
                 {gjelderTsr && (
                     <FeilmeldingMaksBredde $maxWidth={300}>

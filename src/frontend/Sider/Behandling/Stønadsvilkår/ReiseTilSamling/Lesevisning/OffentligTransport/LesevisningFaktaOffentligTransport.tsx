@@ -12,6 +12,28 @@ export const LesevisningFaktaOffentligTransport: FC<{
         <VStack gap="space-12" paddingBlock="space-16 space-0">
             <HStack justify={'space-between'}>
                 <BodyShort size="small" weight="semibold">
+                    {'Nødvendig utgift'}
+                </BodyShort>
+                <BodyShort size="small">
+                    {fakta.nødvendigUtgift?.erUtgiftenNødvendig === 'JA'
+                        ? 'Ja'
+                        : fakta.nødvendigUtgift?.erUtgiftenNødvendig === 'NEI'
+                          ? 'Nei'
+                          : '-'}
+                </BodyShort>
+            </HStack>
+            {fakta.nødvendigUtgift?.erUtgiftenNødvendig === 'NEI' && (
+                <VStack gap="space-2">
+                    <BodyShort size="small" weight="semibold">
+                        {'Intern begrunnelse nødvendig utgift'}
+                    </BodyShort>
+                    <BodyShort size="small" style={{ whiteSpace: 'pre-wrap' }}>
+                        {fakta.nødvendigUtgift?.begrunnelse || '-'}
+                    </BodyShort>
+                </VStack>
+            )}
+            <HStack justify={'space-between'}>
+                <BodyShort size="small" weight="semibold">
                     {'Utgifter offentlig transport'}
                 </BodyShort>
                 <BodyShort size="small">

@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 
 import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
+import { Skillelinje } from '../../../../../../komponenter/Skillelinje';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../../../../utils/fomatering';
 import { FaktaPrivatBil } from '../../typer/faktaReiseTilSamling';
 
@@ -10,6 +11,24 @@ export const LesevisningFaktaPrivatBil: FC<{
 }> = ({ fakta }) => {
     return (
         <VStack gap="space-12" paddingBlock="space-16 space-0">
+            <HStack justify={'space-between'}>
+                <BodyShort size="small" weight="semibold">
+                    {'Nødvendig utgift'}
+                </BodyShort>
+                <BodyShort size="small">
+                    {fakta.nødvendigUtgift?.erUtgiftenNødvendig === 'JA'
+                        ? 'Ja'
+                        : fakta.nødvendigUtgift?.erUtgiftenNødvendig === 'NEI'
+                          ? 'Nei'
+                          : '-'}
+                </BodyShort>
+            </HStack>
+            {fakta.nødvendigUtgift?.erUtgiftenNødvendig === 'NEI' && (
+                <BodyShort size="small" style={{ whiteSpace: 'pre-wrap' }}>
+                    {fakta.nødvendigUtgift?.begrunnelse || '-'}
+                </BodyShort>
+            )}
+            <Skillelinje />
             <HStack justify={'space-between'}>
                 <BodyShort size="small" weight="semibold">
                     {'Reiseavstand i km'}

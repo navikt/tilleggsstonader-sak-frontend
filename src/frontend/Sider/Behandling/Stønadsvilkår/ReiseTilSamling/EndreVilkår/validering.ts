@@ -5,6 +5,7 @@ import { harVerdi } from '../../../../../utils/utils';
 import {
     erFaktaOffentligTransport,
     erFaktaPrivatBil,
+    erSvarJaNei,
     FaktaOffentligTransport,
     FaktaPrivatBil,
     FaktaReiseTilSamling,
@@ -24,6 +25,8 @@ export type FeilmeldingerFaktaOffentligTransport = {
     utgifterOffentligTransport?: string;
     aktivitet?: string;
     spesifikasjonAvUtgift?: string;
+    nødvendigUtgift?: string;
+    begrunnelseNødvendigUtgift?: string;
 };
 
 export type FeilmeldingerFaktaPrivatBil = {
@@ -34,7 +37,14 @@ export type FeilmeldingerFaktaPrivatBil = {
     parkering?: string;
     spesifikasjonAvUtgift?: string;
     piggdekkavgift?: string;
+    nødvendigUtgift?: string;
+    begrunnelseNødvendigUtgift?: string;
 };
+
+type FeilmeldingerNødvendigUtgift = Pick<
+    FeilmeldingerFaktaOffentligTransport,
+    'nødvendigUtgift' | 'begrunnelseNødvendigUtgift'
+>;
 
 export type FeilmeldingerReiseTilSamling = {
     fom?: string;
@@ -107,6 +117,23 @@ const validerSvar = (
     return finnesFeil ? { begrunnelse: begrunnelseFeil } : undefined;
 };
 
+const validerNødvendigUtgift = (
+    nødvendigUtgift: FaktaOffentligTransport['nødvendigUtgift'] | FaktaPrivatBil['nødvendigUtgift']
+): FeilmeldingerNødvendigUtgift => {
+    const feil: FeilmeldingerNødvendigUtgift = {};
+    const nødvendigUtgiftSvar = nødvendigUtgift?.erUtgiftenNødvendig;
+
+    if (!nødvendigUtgiftSvar || !erSvarJaNei(nødvendigUtgiftSvar)) {
+        feil.nødvendigUtgift = 'Du må velge om utgiften er nødvendig';
+    }
+    if (nødvendigUtgiftSvar === 'NEI' && !harVerdi(nødvendigUtgift?.begrunnelse)) {
+        feil.begrunnelseNødvendigUtgift =
+            'Du må begrunne hvorfor utgiften ikke vurderes som nødvendig';
+    }
+
+    return feil;
+};
+
 const validerFaktaOffentligTransport = (
     fakta: FaktaOffentligTransport,
     gjelderTsr: boolean
@@ -122,6 +149,8 @@ const validerFaktaOffentligTransport = (
     if (!harVerdi(fakta.begrunnelse)) {
         feil.spesifikasjonAvUtgift = 'Mangler spesifikasjon av utgift';
     }
+
+    Object.assign(feil, validerNødvendigUtgift(fakta.nødvendigUtgift));
 
     if (gjelderTsr && !fakta.aktivitet?.aktivitetId) {
         feil.aktivitet = 'Du må velge en aktivitet';
@@ -163,6 +192,7 @@ const validerFaktaPrivatBil = (
     if (fakta.piggdekkavgift !== undefined && fakta.piggdekkavgift > MAKS_PIGGDEKKAVGIFT) {
         feil.piggdekkavgift = `Skal du innvilge med piggdekkavgift høyere enn ${MAKS_PIGGDEKKAVGIFT}kr må du ta kontakt med Tilleggsstønader-teamet`;
     }
+    Object.assign(feil, validerNødvendigUtgift(fakta.nødvendigUtgift));
     if (gjelderTsr && !fakta.aktivitet?.aktivitetId) {
         feil.aktivitet = 'Du må velge en aktivitet';
     }

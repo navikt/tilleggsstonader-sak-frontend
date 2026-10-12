@@ -2,7 +2,9 @@ import React from 'react';
 
 import { Select, VStack, HStack } from '@navikt/ds-react';
 
+import { NødvendigUtgiftFelt } from './NødvendigUtgiftFelt';
 import { SpesifikasjonAvUtgift } from './SpesifikasjonAvUtgift';
+import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import TextField from '../../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
@@ -14,7 +16,12 @@ import {
 } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { tomtPrivatBil } from '../EndreVilkår/utils';
 import { FeilmeldingerFaktaPrivatBil } from '../EndreVilkår/validering';
-import { FaktaPrivatBil, FaktaReiseTilSamling } from '../typer/faktaReiseTilSamling';
+import {
+    erFaktaPrivatBil,
+    FaktaPrivatBil,
+    FaktaReiseTilSamling,
+    NødvendigUtgift,
+} from '../typer/faktaReiseTilSamling';
 
 export const EndreFaktaPrivatBil: React.FC<{
     fakta: FaktaPrivatBil;
@@ -31,9 +38,12 @@ export const EndreFaktaPrivatBil: React.FC<{
     oppfylteAktiviteter,
     gjelderTsr,
 }) => {
-    const oppdaterFakta = (key: keyof FaktaPrivatBil, verdi: number | string | undefined) => {
+    const oppdaterFakta = (
+        key: keyof FaktaPrivatBil,
+        verdi: number | string | NødvendigUtgift | undefined
+    ) => {
         settFakta((prevState) => ({
-            ...(prevState.type === 'PRIVAT_BIL' ? prevState : tomtPrivatBil),
+            ...(erFaktaPrivatBil(prevState) ? prevState : tomtPrivatBil),
             [key]: verdi,
         }));
 
@@ -47,7 +57,7 @@ export const EndreFaktaPrivatBil: React.FC<{
         }
 
         settFakta((prevState) => ({
-            ...(prevState.type === 'PRIVAT_BIL' ? prevState : tomtPrivatBil),
+            ...(erFaktaPrivatBil(prevState) ? prevState : tomtPrivatBil),
             aktivitet: {
                 aktivitetId: valgtAktivitet.globalId,
                 aktivitetType: valgtAktivitet.type,
@@ -61,6 +71,15 @@ export const EndreFaktaPrivatBil: React.FC<{
 
     return (
         <VStack gap="space-16">
+            <NødvendigUtgiftFelt
+                nødvendigUtgift={fakta.nødvendigUtgift}
+                feilNødvendigUtgift={feilmeldinger?.nødvendigUtgift}
+                feilBegrunnelse={feilmeldinger?.begrunnelseNødvendigUtgift}
+                oppdaterFakta={(nødvendigUtgift) =>
+                    oppdaterFakta('nødvendigUtgift', nødvendigUtgift)
+                }
+            />
+            <Skillelinje />
             <HStack gap="space-16" align="start">
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
