@@ -18,24 +18,29 @@ export const NødvendigUtgiftFelt: React.FC<Props> = ({
     oppdaterFakta,
 }) => {
     const oppdaterErNødvendig = (svar: string) => {
-        const nyttSvar = erSvarJaNei(svar) ? svar : undefined;
+        if (!erSvarJaNei(svar)) {
+            return;
+        }
         oppdaterFakta({
-            erUtgiftenNødvendig: nyttSvar,
+            erUtgiftenNødvendig: svar,
             begrunnelse: undefined,
         });
     };
 
     const oppdaterBegrunnelse = (begrunnelse: string) => {
+        if (!nødvendigUtgift) {
+            return;
+        }
         oppdaterFakta({
-            erUtgiftenNødvendig: nødvendigUtgift?.erUtgiftenNødvendig,
-            begrunnelse: begrunnelse,
+            erUtgiftenNødvendig: nødvendigUtgift.erUtgiftenNødvendig,
+            begrunnelse,
         });
     };
 
     return (
         <VStack gap="space-16">
             <RadioGroup
-                legend="Er kostnaden nødvendig?"
+                legend="Er utgiften nødvendig?"
                 description="Vurder om den oppgitte kostanden er på et rimelig nivå for å få gjennomført reisen."
                 value={nødvendigUtgift?.erUtgiftenNødvendig || ''}
                 size="small"
@@ -52,7 +57,7 @@ export const NødvendigUtgiftFelt: React.FC<Props> = ({
                     size="small"
                     error={feilBegrunnelse}
                     description="Begrunn vurderingen, og hvilket beløp som kan dekkes. Fyll inn beløpet som dekkes i feltene over, og begrunn dette overfor brukeren i fritekst i brevet."
-                    value={nødvendigUtgift?.begrunnelse || ''}
+                    value={nødvendigUtgift.begrunnelse || ''}
                     onChange={(e) => oppdaterBegrunnelse(e.target.value)}
                 />
             )}

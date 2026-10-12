@@ -120,13 +120,11 @@ export const tomtSvar: SvarVilkårReiseTilSamling = {
     KAN_REISE_MED_EGEN_BIL: undefined,
 };
 
-const tomtNødvendigUtgift = { erNødvendig: undefined, begrunnelse: undefined };
-
 export const tomtOffentligTransport: FaktaOffentligTransport = {
     type: 'OFFENTLIG_TRANSPORT',
     utgifterOffentligTransport: undefined,
     begrunnelse: undefined,
-    nødvendigUtgift: tomtNødvendigUtgift,
+    nødvendigUtgift: undefined,
     aktivitet: undefined,
 };
 
@@ -134,7 +132,7 @@ export const tomtPrivatBil: FaktaPrivatBil = {
     type: 'PRIVAT_BIL',
     reiseavstand: undefined,
     begrunnelse: undefined,
-    nødvendigUtgift: tomtNødvendigUtgift,
+    nødvendigUtgift: undefined,
     aktivitet: undefined,
     bompenger: undefined,
     fergekostnad: undefined,

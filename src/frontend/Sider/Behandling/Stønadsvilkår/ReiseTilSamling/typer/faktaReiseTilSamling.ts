@@ -6,7 +6,7 @@ import { AktivitetInfo } from '../felles/aktivitetInfo';
 export type SvarJaNei = Extract<SvarId, 'JA' | 'NEI'>;
 
 export interface NødvendigUtgift {
-    erUtgiftenNødvendig: SvarJaNei | undefined;
+    erUtgiftenNødvendig: SvarJaNei;
     begrunnelse: string | undefined;
 }
 
@@ -19,14 +19,14 @@ export interface FaktaOffentligTransport extends FaktaReiseTilSamling {
     type: 'OFFENTLIG_TRANSPORT';
     utgifterOffentligTransport: number | undefined;
     begrunnelse: string | undefined;
-    nødvendigUtgift?: NødvendigUtgift;
+    nødvendigUtgift: NødvendigUtgift | undefined;
 }
 
 export interface FaktaPrivatBil extends FaktaReiseTilSamling {
     type: 'PRIVAT_BIL';
     reiseavstand: number | undefined;
     begrunnelse: string | undefined;
-    nødvendigUtgift?: NødvendigUtgift;
+    nødvendigUtgift: NødvendigUtgift | undefined;
     bompenger: number | undefined;
     fergekostnad: number | undefined;
     parkering: number | undefined;

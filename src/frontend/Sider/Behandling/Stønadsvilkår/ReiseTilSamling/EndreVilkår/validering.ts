@@ -121,12 +121,12 @@ const validerNødvendigUtgift = (
     nødvendigUtgift: FaktaOffentligTransport['nødvendigUtgift'] | FaktaPrivatBil['nødvendigUtgift']
 ): FeilmeldingerNødvendigUtgift => {
     const feil: FeilmeldingerNødvendigUtgift = {};
-    const nødvendigUtgiftSvar = nødvendigUtgift?.erUtgiftenNødvendig;
-
-    if (!nødvendigUtgiftSvar || !erSvarJaNei(nødvendigUtgiftSvar)) {
+    if (!nødvendigUtgift || !erSvarJaNei(nødvendigUtgift.erUtgiftenNødvendig)) {
         feil.nødvendigUtgift = 'Du må velge om utgiften er nødvendig';
+        return feil;
     }
-    if (nødvendigUtgiftSvar === 'NEI' && !harVerdi(nødvendigUtgift?.begrunnelse)) {
+
+    if (nødvendigUtgift.erUtgiftenNødvendig === 'NEI' && !harVerdi(nødvendigUtgift.begrunnelse)) {
         feil.begrunnelseNødvendigUtgift =
             'Du må begrunne hvorfor utgiften ikke vurderes som nødvendig';
     }
