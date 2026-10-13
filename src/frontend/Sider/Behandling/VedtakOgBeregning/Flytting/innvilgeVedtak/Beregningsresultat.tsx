@@ -4,8 +4,8 @@ import { Alert, Box, Heading, Table, VStack } from '@navikt/ds-react';
 
 import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../../komponenter/TabellSmall';
 import {
-    BeregningsGrunnlagFlyttebyrå,
-    BeregningsGrunnlagFlytteSelv,
+    BeregningsgrunnlagFlyttebyrå,
+    BeregningsgrunnlagFlytteSelv,
     BeregningsresultatFlytting,
 } from '../../../../../typer/vedtak/vedtakFlytting';
 import { formaterIsoDato } from '../../../../../utils/dato';
@@ -45,7 +45,7 @@ const BeregningsResultatFlyttebyrå: React.FC<{
                     </Table.Header>
                     <Table.Body>
                         {flyttebyråResultater.map((resultat) => {
-                            const grunnlag = resultat.grunnlag as BeregningsGrunnlagFlyttebyrå;
+                            const grunnlag = resultat.grunnlag as BeregningsgrunnlagFlyttebyrå;
                             return (
                                 <Table.Row key={`resultat-${resultat.fom}-${resultat.tom}`}>
                                     <TableDataCellSmall>
@@ -110,7 +110,7 @@ const BeregningsResultatFlytteSelv: React.FC<{
                     </Table.Header>
                     <Table.Body>
                         {flytteSelvResultater.map((resultat) => {
-                            const grunnlag = resultat.grunnlag as BeregningsGrunnlagFlytteSelv;
+                            const grunnlag = resultat.grunnlag as BeregningsgrunnlagFlytteSelv;
                             return (
                                 <Table.Row key={`resultat-${resultat.fom}-${resultat.tom}`}>
                                     <TableDataCellSmall>

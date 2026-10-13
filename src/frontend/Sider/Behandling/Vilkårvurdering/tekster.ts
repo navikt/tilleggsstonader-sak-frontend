@@ -4,6 +4,10 @@ import { StønadsvilkårType } from '../vilkår';
 export const svarIdTilTekst: Record<SvarId, string> = {
     JA: 'Ja',
     NEI: 'Nei',
+    FLYTTING_VED_START_AV_AKTIVITET: 'Flytting ved start av aktivitet',
+    FLYTTING_VED_AVSLUTTET_AKTIVITET: 'Flytting ved avsluttet aktivitet',
+    ARBEID_ETTER_GJENNOMFØRT_AKTIVITET: 'Arbeid etter gjennomført tiltak/utdanning',
+    FLYTTING_ARBEIDSSØKER: 'PLACEHOLDER: Arbeidssøker',
     FLYTTEBYRÅ: 'Flyttebyrå',
     FLYTTER_SELV: 'Flytter selv',
 
@@ -17,6 +21,10 @@ export const svarIdTilTekst: Record<SvarId, string> = {
 export const svarIdTilTekstKorversjon: Record<string, string> = {
     JA: 'Ja',
     NEI: 'Nei',
+    FLYTTING_VED_START_AV_AKTIVITET: 'Flytting ved start av aktivitet',
+    FLYTTING_VED_AVSLUTTET_AKTIVITET: 'Flytting ved avsluttet aktivitet',
+    ARBEID_ETTER_GJENNOMFØRT_AKTIVITET: 'Arbeid etter gjennomført tiltak/utdanning',
+    FLYTTING_ARBEIDSSØKER: 'PLACEHOLDER: Arbeidssøker',
     FLYTTEBYRÅ: 'Flyttebyrå',
     FLYTTER_SELV: 'Flytter selv',
 
@@ -54,7 +62,13 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
     OPPFYLLER_VILKÅR_FOR_FLYTTING:
         'Flytter bruker ifbm. aktivitetsgjennomføring eller ny stilling?',
-    HVORDAN_SKAL_BRUKER_FLYTTE: 'Hvordan skal bruker flytte?',
+    HVILKEN_FORBINDELSE_FLYTTER_BRUKER: 'I hvilken forbindelse flytter bruker?',
+    MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET:
+        'Må bruker flytte fra hjemstedet for å gjennomføre aktiviteten?',
+    SAMMENHENG_FLYTTING_OG_ARBEID: 'PLACEHOLDER: Er det sammenheng mellom flyttingen og arbeidet?',
+    FLYTTER_PGA_OPPSTART_ARBEID: 'PLACEHOLDER: Flytter bruker på grunn av oppstart i arbeid?',
+    ER_KOSTNADER_TIL_FLYTTING_NØDVENDIGE: 'Er kostnader for flytting nødvendig?',
+    HVORDAN_SKAL_BRUKER_FLYTTE: 'Skal bruker benytte seg av flyttebyrå, eller flytter bruker selv?',
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
@@ -83,7 +97,13 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
     OPPFYLLER_VILKÅR_FOR_FLYTTING:
         'Flytter bruker ifbm. aktivitetsgjennomføring eller ny stilling?',
-    HVORDAN_SKAL_BRUKER_FLYTTE: 'Hvordan skal bruker flytte?',
+    HVILKEN_FORBINDELSE_FLYTTER_BRUKER: 'I hvilken forbindelse flytter bruker?',
+    MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET:
+        'Må bruker flytte fra hjemstedet for å gjennomføre aktiviteten?',
+    SAMMENHENG_FLYTTING_OG_ARBEID: 'PLACEHOLDER: Er det sammenheng mellom flyttingen og arbeidet?',
+    FLYTTER_PGA_OPPSTART_ARBEID: 'PLACEHOLDER: Flytter bruker på grunn av oppstart i arbeid?',
+    ER_KOSTNADER_TIL_FLYTTING_NØDVENDIGE: 'Er kostnader for flytting nødvendig?',
+    HVORDAN_SKAL_BRUKER_FLYTTE: 'Skal bruker benytte seg av flyttebyrå, eller flytter bruker selv?',
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {

@@ -35,23 +35,23 @@ export type BeregningsresultatFlyttevilkår = {
     fom: string;
     tom: string;
     beløp: number;
-    grunnlag: BeregningsGrunnlagFlyttebyrå | BeregningsGrunnlagFlytteSelv;
+    grunnlag: BeregningsgrunnlagFlyttebyrå | BeregningsgrunnlagFlytteSelv;
 };
 
-export enum BeregningsGunnlagType {
+export enum BeregningsgrunnlagType {
     FLYTTEBYRÅ = 'FLYTTEBYRÅ',
     FLYTTE_SELV = 'FLYTTE_SELV',
 }
 
-export type BeregningsGrunnlagFlyttebyrå = {
-    type: BeregningsGunnlagType.FLYTTEBYRÅ;
+export type BeregningsgrunnlagFlyttebyrå = {
+    type: BeregningsgrunnlagType.FLYTTEBYRÅ;
     tilbud1Pris: number;
     tilbud2Pris: number;
     erBetalingDokumentert: boolean;
 };
 
-export type BeregningsGrunnlagFlytteSelv = {
-    type: BeregningsGunnlagType.FLYTTE_SELV;
+export type BeregningsgrunnlagFlytteSelv = {
+    type: BeregningsgrunnlagType.FLYTTE_SELV;
     avstandEnVei: number;
     sats: number;
     satsBekreftet: boolean;

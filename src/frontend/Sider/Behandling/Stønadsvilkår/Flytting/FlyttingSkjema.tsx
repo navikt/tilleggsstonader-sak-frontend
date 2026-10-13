@@ -102,43 +102,14 @@ function initierSvar(
         }
     });
 
-    if (Object.keys(lagredeSvar).length > 0) {
-        return lagredeSvar;
-    }
-
-    const tidligereFlyttebyrå = vurderinger.find(
-        (vurdering) => vurdering.regelId === 'SKAL_BRUKE_FLYTTEBYRÅ'
-    )?.svar;
-    const tidligereEgenKjøring = vurderinger.find(
-        (vurdering) => vurdering.regelId === 'SKAL_FLYTTE_SELV'
-    )?.svar;
-    const svar =
-        tidligereFlyttebyrå === 'JA'
-            ? 'FLYTTEBYRÅ'
-            : tidligereFlyttebyrå === 'NEI' && tidligereEgenKjøring === 'JA'
-              ? 'FLYTTER_SELV'
-              : undefined;
-
-    if (!svar) return {};
-
-    return {
-        [RegelIdFlytting.OPPFYLLER_VILKÅR_FOR_FLYTTING]: { svar: 'JA' },
-        [RegelIdFlytting.HVORDAN_SKAL_BRUKER_FLYTTE]: {
-            svar,
-            begrunnelse:
-                tidligereFlyttebyrå === 'JA'
-                    ? vurderinger.find((v) => v.regelId === 'SKAL_BRUKE_FLYTTEBYRÅ')?.begrunnelse
-                    : vurderinger.find((v) => v.regelId === 'SKAL_FLYTTE_SELV')?.begrunnelse,
-        },
-    };
+    return lagredeSvar;
 }
 
 export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
     const { behandling } = useBehandling();
     const { slettVilkår, regelstruktur } = useVilkårFlytting();
 
-    const [fom, settFom] = useState(vilkår?.fom ?? '');
-    const [tom, settTom] = useState(vilkår?.tom ?? '');
+    const [flytteDato, settFlytteDato] = useState(vilkår?.flytteDato ?? '');
     const [svar, settSvar] = useState(() => initierSvar(vilkår));
     const [fakta, settFakta] = useState(() => tilFaktaSkjema(vilkår?.fakta));
     const [feil, settFeil] = useState<string>();
@@ -160,13 +131,11 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
             });
             return neste;
         });
-        if (
-            svaralternativ?.tilhørendeFaktaType &&
-            svaralternativ.tilhørendeFaktaType !== fakta.type
-        ) {
+        const nesteFaktaType = svaralternativ?.tilhørendeFaktaType ?? 'FLYTTING_UBESTEMT';
+        if (nesteFaktaType !== fakta.type) {
             settFakta({
                 ...tommeFakta,
-                type: svaralternativ.tilhørendeFaktaType,
+                type: nesteFaktaType,
                 adresse: fakta.adresse,
             });
         }
@@ -218,12 +187,8 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
     const lagreSkjema = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         settFeil(undefined);
-        if (!fom || !tom) {
-            settFeil('Fyll ut fra- og til-dato før du lagrer.');
-            return;
-        }
-        if (fom > tom) {
-            settFeil('Fra-dato må være før eller lik til-dato.');
+        if (!flytteDato) {
+            settFeil('Fyll ut en gyldig flyttedato før du lagrer.');
             return;
         }
 
@@ -233,7 +198,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
         }
 
         settLaster(true);
-        const respons = await lagre({ fom, tom, svar, fakta: faktaPayload });
+        const respons = await lagre({ flytteDato, svar, fakta: faktaPayload });
         if (respons.status === RessursStatus.SUKSESS) {
             avbryt();
         } else {
@@ -253,20 +218,10 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
                 <HStack gap="space-16" align="start">
                     <FeilmeldingMaksBredde $maxWidth={152}>
                         <DateInputMedLeservisning
-                            label="Fra"
-                            value={fom}
+                            label="Flyttedato"
+                            value={flytteDato}
                             onChange={(dato) => {
-                                settFom(dato ?? '');
-                            }}
-                            size="small"
-                        />
-                    </FeilmeldingMaksBredde>
-                    <FeilmeldingMaksBredde $maxWidth={152}>
-                        <DateInputMedLeservisning
-                            label="Til"
-                            value={tom}
-                            onChange={(dato) => {
-                                settTom(dato ?? '');
+                                settFlytteDato(dato ?? '');
                             }}
                             size="small"
                         />
@@ -291,19 +246,18 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
                     const regel = regelstruktur[regelId];
                     const vurdering = svar[regelId];
                     return (
-                        <React.Fragment key={regelId}>
-                            <FellesDelvilkår
-                                regelId={regelId}
-                                label={regelIdTilSpørsmål[regelId] || regelId}
-                                svaralternativer={regel.svaralternativer}
-                                svar={vurdering?.svar}
-                                begrunnelse={vurdering?.begrunnelse}
-                                oppdaterSvar={(nyttSvar) => oppdaterSvar(regelId, nyttSvar)}
-                                oppdaterBegrunnelse={(begrunnelse) =>
-                                    oppdaterBegrunnelse(regelId, begrunnelse)
-                                }
-                            />
-                        </React.Fragment>
+                        <FellesDelvilkår
+                            key={regelId}
+                            regelId={regelId}
+                            label={regelIdTilSpørsmål[regelId] || regelId}
+                            svaralternativer={regel.svaralternativer}
+                            svar={vurdering?.svar}
+                            begrunnelse={vurdering?.begrunnelse}
+                            oppdaterSvar={(nyttSvar) => oppdaterSvar(regelId, nyttSvar)}
+                            oppdaterBegrunnelse={(begrunnelse) =>
+                                oppdaterBegrunnelse(regelId, begrunnelse)
+                            }
+                        />
                     );
                 })}
                 <Faktafelter fakta={fakta} settFakta={settFakta} />
