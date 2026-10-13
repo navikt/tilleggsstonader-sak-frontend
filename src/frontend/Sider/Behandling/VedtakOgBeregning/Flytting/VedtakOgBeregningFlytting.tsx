@@ -2,13 +2,11 @@ import React, { FC, useEffect, useState } from 'react';
 
 import { Alert, HGrid } from '@navikt/ds-react';
 
-import { InnvilgeFlytting } from './innvilgeVedtak/InnvilgeFlytting';
+import { InnvilgelseFlyttingEllerVedtaksperioderFraForrigeBehandling } from './innvilgeVedtak/InnvilgelseFlyttingEllerVedtaksperioderFraForrigeBehandling';
 import styles from './VedtakOgBeregningFlytting.module.css';
-import { useBehandling } from '../../../../context/BehandlingContext';
 import { useVedtak } from '../../../../hooks/useVedtak';
 import DataViewer from '../../../../komponenter/DataViewer';
 import Panel from '../../../../komponenter/Panel/Panel';
-import { BehandlingType } from '../../../../typer/behandling/behandlingType';
 import { RessursStatus } from '../../../../typer/ressurs';
 import { TypeVedtak } from '../../../../typer/vedtak/vedtak';
 import {
@@ -20,7 +18,6 @@ import { AvslåVedtak } from '../Felles/AvslåVedtak';
 import { VelgVedtakResultat } from '../Felles/VelgVedtakResultat';
 
 export const VedtakOgBeregningFlytting: FC = () => {
-    const { behandling } = useBehandling();
     const { vedtak } = useVedtak<VedtakFlytting>();
     const [typeVedtak, settTypeVedtak] = useState<TypeVedtak | undefined>();
 
@@ -29,8 +26,6 @@ export const VedtakOgBeregningFlytting: FC = () => {
             settTypeVedtak(vedtak.data.type);
         }
     }, [vedtak]);
-
-    const erRevurdering = behandling.type === BehandlingType.REVURDERING;
 
     return (
         <DataViewer type={'vedtak'} response={{ vedtak }}>
@@ -53,16 +48,11 @@ export const VedtakOgBeregningFlytting: FC = () => {
                         </HGrid>
                     </Panel>
 
-                    {typeVedtak === TypeVedtak.INNVILGELSE &&
-                        (erRevurdering ? (
-                            <Alert variant="info">
-                                Revurdering av flyttevedtak er ikke tilgjengelig ennå.
-                            </Alert>
-                        ) : (
-                            <InnvilgeFlytting
-                                lagretVedtak={vedtakErInnvilgelse(vedtak) ? vedtak : undefined}
-                            />
-                        ))}
+                    {typeVedtak === TypeVedtak.INNVILGELSE && (
+                        <InnvilgelseFlyttingEllerVedtaksperioderFraForrigeBehandling
+                            lagretVedtak={vedtakErInnvilgelse(vedtak) ? vedtak : undefined}
+                        />
+                    )}
                 </div>
             )}
         </DataViewer>
