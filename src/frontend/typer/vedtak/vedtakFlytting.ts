@@ -32,6 +32,7 @@ export interface BeregningsresultatFlytting {
 }
 
 export type BeregningsresultatFlyttevilkår = {
+    fraTidligereVedtak: boolean;
     fom: string;
     tom: string;
     beløp: number;
