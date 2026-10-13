@@ -12,7 +12,8 @@ import {
 export const LesevisningDelvilkår: FC<{
     delvilkårsett: Delvilkår[];
     slettetKommentar?: string;
-}> = ({ delvilkårsett, slettetKommentar }) => {
+    skalViseSkillelinje: boolean;
+}> = ({ delvilkårsett, slettetKommentar, skalViseSkillelinje }) => {
     return (
         <VStack gap="space-4" paddingBlock="space-16 space-0">
             {delvilkårsett.map((delvilkår, index) => (
@@ -38,7 +39,7 @@ export const LesevisningDelvilkår: FC<{
                                     )}
                                 </VStack>
                                 <BodyShort size="small">{vurdering.begrunnelse}</BodyShort>
-                                {i < delvilkår.vurderinger.length - 1 && (
+                                {skalViseSkillelinje && i < delvilkår.vurderinger.length - 1 && (
                                     <div style={{ gridColumn: '1 / -1' }}>
                                         <Skillelinje utenMargin />
                                     </div>

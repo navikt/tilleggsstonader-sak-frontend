@@ -2,11 +2,11 @@ import React, { FC } from 'react';
 
 import { Tag } from '@navikt/ds-react';
 
-import { LesevisningDelvilkår } from './Felles/LesevisningDelvilkår';
 import { RedigerVilkårProps } from './Felles/LesevisningFooter';
 import { LesevisningVilkårKort } from './Felles/LesevisningVilkårKort';
 import { LesevisningVilkårOffentligTransport } from './OffentligTransport/LesevisningVilkårOffentligTransport';
 import { LesevisningVilkårPrivatBil } from './PrivatBil/LesevisningVilkårPrivatBil';
+import { LesevisningDelvilkår } from '../../Felles/Lesevisning/LesevisningDelvilkår';
 import { VilkårDagligReise } from '../typer/vilkårDagligReise';
 
 interface VilkårProps {
@@ -62,6 +62,7 @@ export const LesevisningVilkårDagligReise: FC<VilkårProps> = ({
             <LesevisningDelvilkår
                 delvilkårsett={vilkår.delvilkårsett}
                 slettetKommentar={vilkår.slettetKommentar}
+                skalViseSkillelinje={false}
             />
         </LesevisningVilkårKort>
     );

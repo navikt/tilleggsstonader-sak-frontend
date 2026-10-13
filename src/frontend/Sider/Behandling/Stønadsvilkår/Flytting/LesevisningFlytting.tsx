@@ -95,7 +95,10 @@ export const FlyttingLesevisning: React.FC<Props> = ({
                 >
                     <LesevisningFaktaFlytting vilkår={vilkår} />
                     <VertikalSkillelinje />
-                    <LesevisningDelvilkår delvilkårsett={tilDelvilkår(vilkår)} />
+                    <LesevisningDelvilkår
+                    delvilkårsett={tilDelvilkår(vilkår)}
+                    skalViseSkillelinje={true}
+                />
                 </HGrid>
             ) : (
                 <LesevisningDelvilkår delvilkårsett={tilDelvilkår(vilkår)} />

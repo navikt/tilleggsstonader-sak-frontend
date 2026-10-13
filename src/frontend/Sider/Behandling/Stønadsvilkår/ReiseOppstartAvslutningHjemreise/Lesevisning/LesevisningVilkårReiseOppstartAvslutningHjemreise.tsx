@@ -4,10 +4,10 @@ import { Tag } from '@navikt/ds-react';
 
 import { RedigerVilkårProps } from '../../DagligReise/Lesevisning/Felles/LesevisningFooter';
 import { VilkårReiseOppstartAvslutningHjemreise } from '../typer/vilkårReiseOppstartAvslutningHjemreise';
-import { LesevisningDelvilkår } from './Felles/LesevisningDelvilkår';
 import { LesevisningVilkårKort } from './Felles/LesevisningVilkårKort';
 import { LesevisningVilkårOffentligTransport } from './OffentligTransport/LesevisningVilkårOffentligTransport';
 import { LesevisningVilkårPrivatBil } from './PrivatBil/LesevisningVilkårPrivatBil';
+import { LesevisningDelvilkår } from '../../Felles/Lesevisning/LesevisningDelvilkår';
 
 interface VilkårProps {
     vilkår: VilkårReiseOppstartAvslutningHjemreise;
@@ -56,7 +56,10 @@ export const LesevisningVilkårReiseOppstartAvslutningHjemreise: FC<VilkårProps
                 </Tag>
             }
         >
-            <LesevisningDelvilkår delvilkårsett={vilkår.delvilkårsett} />
+            <LesevisningDelvilkår
+                delvilkårsett={vilkår.delvilkårsett}
+                skalViseSkillelinje={false}
+            />
         </LesevisningVilkårKort>
     );
 };
