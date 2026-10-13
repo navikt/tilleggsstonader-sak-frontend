@@ -14,7 +14,7 @@ import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Skillelinje } from '../../../../komponenter/Skillelinje';
 import { VertikalSkillelinje } from '../../../../komponenter/VertikalSkillelinje';
-import { formaterNullablePeriode } from '../../../../utils/dato';
+import { formaterDato } from '../../../../utils/dato';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../../utils/fomatering';
 import { Vilkårsresultat } from '../../vilkår';
 import { LesevisningDelvilkår } from '../Felles/Lesevisning/LesevisningDelvilkår';
@@ -76,8 +76,8 @@ export const FlyttingLesevisning: React.FC<Props> = ({
         <VStack gap="space-12">
             <HStack gap="space-32">
                 <div>
-                    <BodyShort size="small">Periode</BodyShort>
-                    <Label size="small">{formaterNullablePeriode(vilkår.fom, vilkår.tom)}</Label>
+                    <BodyShort size="small">Flyttedato</BodyShort>
+                    <Label size="small">{formaterDato(vilkår.flytteDato)}</Label>
                 </div>
                 {vilkår.fakta.adresse && (
                     <div>
@@ -88,11 +88,18 @@ export const FlyttingLesevisning: React.FC<Props> = ({
             </HStack>
             <Skillelinje utenMargin />
 
-            <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 280px) 1px auto">
-                <LesevisningFaktaFlytting vilkår={vilkår} />
-                <VertikalSkillelinje />
+            {vilkår.fakta.type !== 'FLYTTING_UBESTEMT' ? (
+                <HGrid
+                    gap={{ md: 'space-16', lg: 'space-32' }}
+                    columns="minmax(auto, 280px) 1px auto"
+                >
+                    <LesevisningFaktaFlytting vilkår={vilkår} />
+                    <VertikalSkillelinje />
+                    <LesevisningDelvilkår delvilkårsett={tilDelvilkår(vilkår)} />
+                </HGrid>
+            ) : (
                 <LesevisningDelvilkår delvilkårsett={tilDelvilkår(vilkår)} />
-            </HGrid>
+            )}
         </VStack>
     </ResultatOgStatusKort>
 );

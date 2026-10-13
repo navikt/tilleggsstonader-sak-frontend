@@ -18,7 +18,7 @@ import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Steg } from '../../../../typer/behandling/steg';
-import { formaterNullablePeriode } from '../../../../utils/dato';
+import { formaterDato } from '../../../../utils/dato';
 
 export const StønadsvilkårFlytting: React.FC = () => {
     const { eksisterendeVilkår } = useHentVilkårFlytting();
@@ -53,7 +53,7 @@ const Innhold: React.FC = () => {
                 {vilkårsett.map((vilkår) => (
                     <section
                         key={vilkår.id}
-                        aria-label={`Flyttevilkår ${formaterNullablePeriode(vilkår.fom, vilkår.tom)}`}
+                        aria-label={`Flyttevilkår ${formaterDato(vilkår.flytteDato)}`}
                     >
                         {redigererId === vilkår.id ? (
                             <FlyttingSkjema
