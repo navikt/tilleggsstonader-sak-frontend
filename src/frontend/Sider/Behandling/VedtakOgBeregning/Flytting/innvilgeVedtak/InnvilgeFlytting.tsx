@@ -35,16 +35,21 @@ import {
     tilVedtaksperioderDto,
 } from '../../Felles/vedtaksperioder/vedtaksperiodeUtils';
 
-export const InnvilgeFlytting: React.FC<{ lagretVedtak?: InnvilgelseFlytting }> = ({
-    lagretVedtak,
-}) => {
+export const InnvilgeFlytting: React.FC<{
+    lagretVedtak?: InnvilgelseFlytting;
+    vedtaksperioderForrigeBehandling?: Vedtaksperiode[];
+}> = ({ lagretVedtak, vedtaksperioderForrigeBehandling }) => {
     const { request } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const [vedtaksperioder, settVedtaksperioder] = useState(
-        initialiserVedtaksperioder(lagretVedtak?.vedtaksperioder)
+        initialiserVedtaksperioder(
+            lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling
+        )
     );
-    const lagredeVedtaksperioder = useMapById(lagretVedtak?.vedtaksperioder ?? []);
+    const lagredeVedtaksperioder = useMapById(
+        lagretVedtak?.vedtaksperioder || vedtaksperioderForrigeBehandling || []
+    );
     const [vedtaksperiodeFeil, settVedtaksperiodeFeil] = useState<FormErrors<Vedtaksperiode>[]>();
     const [foreslåPeriodeFeil, settForeslåPeriodeFeil] = useState<Feil>();
     const [begrunnelse, settBegrunnelse] = useState(lagretVedtak?.begrunnelse ?? undefined);

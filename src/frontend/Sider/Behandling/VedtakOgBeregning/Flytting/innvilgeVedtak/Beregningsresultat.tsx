@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import { Alert, Box, Heading, Table, VStack } from '@navikt/ds-react';
+import { Alert, Box, Heading, HStack, Switch, Table, VStack } from '@navikt/ds-react';
 
 import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../../komponenter/TabellSmall';
 import {
@@ -154,14 +154,47 @@ const BeregningsResultatFlytteSelv: React.FC<{
 export const Beregningsresultat: React.FC<{
     beregningsresultat: BeregningsresultatFlytting;
 }> = ({ beregningsresultat }) => {
+    const [visTidligerePerioder, settVisTidligerePerioder] = useState(false);
+
     if (beregningsresultat.resultater.length === 0) {
         return <Alert variant="info">Ingen beregningsresultater for flytting.</Alert>;
     }
 
+    const harPerioderFraTidligereVedtak = beregningsresultat.resultater.some(
+        (resultat) => resultat.fraTidligereVedtak
+    );
+    const resultaterSomSkalVises = beregningsresultat.resultater.filter(
+        (resultat) => visTidligerePerioder || !resultat.fraTidligereVedtak
+    );
+
     return (
         <VStack gap="space-16">
-            <BeregningsResultatFlyttebyrå beregningsresultat={beregningsresultat} />
-            <BeregningsResultatFlytteSelv beregningsresultat={beregningsresultat} />
+            {harPerioderFraTidligereVedtak && (
+                <HStack justify="end">
+                    <Switch
+                        position="left"
+                        size="small"
+                        checked={visTidligerePerioder}
+                        onChange={() => settVisTidligerePerioder((prev) => !prev)}
+                    >
+                        Vis upåvirkede perioder
+                    </Switch>
+                </HStack>
+            )}
+            {resultaterSomSkalVises.length === 0 ? (
+                <Alert variant="info">
+                    Ingen ny beregning. Vis upåvirkede perioder for å se tidligere resultater.
+                </Alert>
+            ) : (
+                <>
+                    <BeregningsResultatFlyttebyrå
+                        beregningsresultat={{ resultater: resultaterSomSkalVises }}
+                    />
+                    <BeregningsResultatFlytteSelv
+                        beregningsresultat={{ resultater: resultaterSomSkalVises }}
+                    />
+                </>
+            )}
         </VStack>
     );
 };
