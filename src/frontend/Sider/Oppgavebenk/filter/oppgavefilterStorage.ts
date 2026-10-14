@@ -4,6 +4,7 @@ import { Saksbehandler } from '../../../utils/saksbehandler';
 import {
     defaultOppgaveRequest,
     defaultSortering,
+    defaultVentebenkSortering,
     oppgaveRequestMedDefaultEnhet,
 } from '../oppgaverequestUtil';
 import { hentEnheterSaksbehandlerHarTilgangTil } from '../typer/enhet';
@@ -51,13 +52,17 @@ export const hentLagretOppgaveRequest = (
         defaultOppgaveRequest
     );
 
+    const oppgaverPåVent = fraLocalStorage.oppgaverPåVent ?? defaultOppgaveRequest.oppgaverPåVent;
+
+    const sortering = oppgaverPåVent ? defaultVentebenkSortering : defaultSortering;
+
     const fraLocalStorageMedDefaultVerdier: OppgaveRequest = {
         ...fraLocalStorage,
+        oppgaverPåVent,
+        order: sortering.order,
+        orderBy: sortering.orderBy,
         limit: fraLocalStorage.limit ?? defaultSortering.limit,
         offset: fraLocalStorage.offset ?? defaultSortering.offset,
-        oppgaverPåVent: fraLocalStorage.oppgaverPåVent ?? defaultOppgaveRequest.oppgaverPåVent,
-        order: defaultSortering.order,
-        orderBy: defaultSortering.orderBy,
     };
 
     const gyldigeEnheterForSaksbehandler = hentEnheterSaksbehandlerHarTilgangTil(

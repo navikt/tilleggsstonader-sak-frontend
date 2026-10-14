@@ -28,7 +28,7 @@ export const nullstillSortering = (oppgaveRequest: OppgaveRequest): OppgaveReque
 });
 
 export const defaultOppgaveRequest: OppgaveRequest = {
-    ...defaultVentebenkSortering,
+    ...defaultSortering,
     oppgaverPåVent: false,
 };
 
