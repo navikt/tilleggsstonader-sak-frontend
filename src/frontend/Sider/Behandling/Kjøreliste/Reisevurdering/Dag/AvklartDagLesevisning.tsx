@@ -39,12 +39,7 @@ export const AvklartDagLesevisning: FC<{
             </BodyShort>
             <BodyShort
                 size="small"
-                className={[
-                    begrunnelseStyles.bevarLinjeskift,
-                    klasseHvisSlettet(avklartDag?.begrunnelse),
-                ]
-                    .filter(Boolean)
-                    .join(' ')}
+                className={`${begrunnelseStyles.bevarLinjeskift} ${klasseHvisSlettet(avklartDag?.begrunnelse) ?? ''}`}
             >
                 {avklartDag?.begrunnelse || '-'}
             </BodyShort>
