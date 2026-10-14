@@ -14,14 +14,6 @@ import {
     AktivitetDagligReiseTsrFaktaOgVurderinger,
 } from './aktivitetDagligReiseTsr';
 import {
-    AktivitetFlyttingTso,
-    AktivitetFlyttingTsoFaktaOgSvar,
-    AktivitetFlyttingTsoFaktaOgVurderinger,
-    AktivitetFlyttingTsr,
-    AktivitetFlyttingTsrFaktaOgSvar,
-    AktivitetFlyttingTsrFaktaOgVurderinger,
-} from './aktivitetFlytting';
-import {
     AktivitetLæremidler,
     AktivitetLæremidlerFaktaOgSvar,
     AktivitetLæremidlerFaktaOgVurderinger,
@@ -58,8 +50,6 @@ export type Aktivitet =
     | AktivitetDagligReiseTsr
     | AktivitetReiseTilSamlingTso
     | AktivitetReiseTilSamlingTsr
-    | AktivitetFlyttingTso
-    | AktivitetFlyttingTsr
     | AktivitetReiseOppstartAvslutningHjemreiseTso
     | AktivitetReiseOppstartAvslutningHjemreiseTsr;
 
@@ -85,8 +75,6 @@ export type AktivitetFaktaOgVurderinger =
     | AktivitetDagligReiseTsrFaktaOgVurderinger
     | AktivitetReiseTilSamlingTsoFaktaOgVurderinger
     | AktivitetReiseTilSamlingTsrFaktaOgVurderinger
-    | AktivitetFlyttingTsoFaktaOgVurderinger
-    | AktivitetFlyttingTsrFaktaOgVurderinger
     | AktivitetReiseOppstartAvslutningHjemreiseTsoFaktaOgVurderinger
     | AktivitetReiseOppstartAvslutningHjemreiseTsrFaktaOgVurderinger;
 
@@ -98,8 +86,6 @@ export type AktivitetFaktaOgSvar =
     | AktivitetDagligReiseTsrFaktaOgSvar
     | AktivitetReiseTilSamlingTsoFaktaOgSvar
     | AktivitetReiseTilSamlingTsrFaktaOgSvar
-    | AktivitetFlyttingTsoFaktaOgSvar
-    | AktivitetFlyttingTsrFaktaOgSvar
     | AktivitetReiseOppstartAvslutningHjemreiseTsoFaktaOgSvar
     | AktivitetReiseOppstartAvslutningHjemreiseTsrFaktaOgSvar;
 
@@ -137,16 +123,6 @@ export const erAktivitetReiseTilSamlingTsr = (
     aktivitet: Aktivitet | undefined
 ): aktivitet is AktivitetReiseTilSamlingTsr =>
     aktivitet?.faktaOgVurderinger['@type'] === 'AKTIVITET_REISE_TIL_SAMLING_TSR';
-
-export const erAktivitetFlyttingTso = (
-    aktivitet: Aktivitet | undefined
-): aktivitet is AktivitetFlyttingTso =>
-    aktivitet?.faktaOgVurderinger['@type'] === 'AKTIVITET_FLYTTING_TSO';
-
-export const erAktivitetFlyttingTsr = (
-    aktivitet: Aktivitet | undefined
-): aktivitet is AktivitetFlyttingTsr =>
-    aktivitet?.faktaOgVurderinger['@type'] === 'AKTIVITET_FLYTTING_TSR';
 
 export const erAktivitetReiseOppstartAvslutningHjemreiseTso = (
     aktivitet: Aktivitet | undefined

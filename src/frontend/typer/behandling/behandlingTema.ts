@@ -95,3 +95,9 @@ export const stønadstypeErDagligReise = (stønadstype: Stønadstype) =>
 
 export const stønadstypeErFlytting = (stønadstype: Stønadstype) =>
     stønadstype === Stønadstype.FLYTTING_TSO || stønadstype === Stønadstype.FLYTTING_TSR;
+
+/**
+ * Flytting har ikke aktivitet. Vedtaksperioder utledes kun fra målgruppe og vilkår.
+ */
+export const stønadstypeHarAktivitet = (stønadstype: Stønadstype) =>
+    !stønadstypeErFlytting(stønadstype);

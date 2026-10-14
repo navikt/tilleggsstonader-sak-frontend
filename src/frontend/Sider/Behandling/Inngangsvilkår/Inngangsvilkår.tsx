@@ -9,6 +9,7 @@ import { InngangsvilkårProvider } from '../../../context/InngangsvilkårContext
 import { useVilkårperioder } from '../../../hooks/useVilkårperioder';
 import DataViewer from '../../../komponenter/DataViewer';
 import { StegKnapp } from '../../../komponenter/Stegflyt/StegKnapp';
+import { stønadstypeHarAktivitet } from '../../../typer/behandling/behandlingTema';
 import { Steg } from '../../../typer/behandling/steg';
 
 const Inngangsvilkår = () => {
@@ -34,7 +35,9 @@ const Inngangsvilkår = () => {
                                 hentVilkårperioder={hentVilkårperioder}
                             />
 
-                            <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
+                            {stønadstypeHarAktivitet(behandling.stønadstype) && (
+                                <Aktivitet grunnlag={vilkårperioderResponse.grunnlag} />
+                            )}
                             <Målgruppe grunnlag={vilkårperioderResponse.grunnlag} />
                         </InngangsvilkårProvider>
                         <StegKnapp steg={Steg.INNGANGSVILKÅR}>

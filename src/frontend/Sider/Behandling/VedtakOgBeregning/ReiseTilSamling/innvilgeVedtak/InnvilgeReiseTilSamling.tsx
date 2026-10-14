@@ -128,7 +128,7 @@ export const InnvilgeReiseTilSamling: React.FC<Props> = ({
                         foreslåPeriodeFeil={foreslåPeriodeFeil}
                         settForeslåPeriodeFeil={settForeslåPeriodeFeil}
                         vedtakErLagret={lagretVedtak !== undefined}
-                        gjelderTsr={gjelderTsr}
+                        skjulAktivitet={gjelderTsr}
                     />
                     <Begrunnelsesfelt
                         begrunnelse={begrunnelse}

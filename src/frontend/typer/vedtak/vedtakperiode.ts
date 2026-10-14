@@ -6,11 +6,12 @@ import { PeriodeStatus } from '../behandling/periodeStatus';
 /**
  * Tillater at målgruppe og aktivitet kan være tomme strenger, slik at
  * de kan brukes i formen hvor man legger inn perioder og typene ikke er satt enda.
+ * Aktivitet mangler (null/udefinert) for stønadstyper uten aktivitet (flytting).
  **/
 export interface Vedtaksperiode extends Periode {
     id: string;
     målgruppeType: FaktiskMålgruppe | '';
-    aktivitetType: AktivitetType | '';
+    aktivitetType?: AktivitetType | '';
     status?: PeriodeStatus;
     vedtaksperiodeFraForrigeVedtak?: VedtaksperiodeFraForrigeVedtak;
 }
@@ -18,5 +19,5 @@ export interface Vedtaksperiode extends Periode {
 export interface VedtaksperiodeFraForrigeVedtak extends Periode {
     id: string;
     målgruppeType: FaktiskMålgruppe | '';
-    aktivitetType: AktivitetType | '';
+    aktivitetType?: AktivitetType | '';
 }

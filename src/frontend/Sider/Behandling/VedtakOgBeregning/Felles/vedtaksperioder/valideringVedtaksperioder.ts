@@ -4,7 +4,7 @@ import { validerPeriode } from '../../../../../utils/periode';
 
 export const validerVedtaksperioder = (
     vedtaksperioder: Vedtaksperiode[],
-    gjelderTsr: boolean = false
+    skjulAktivitet: boolean = false
 ): FormErrors<Vedtaksperiode[]> =>
     vedtaksperioder.map((vedtaksperiode) => {
         const feil: FormErrors<Vedtaksperiode> = {
@@ -15,7 +15,7 @@ export const validerVedtaksperioder = (
             aktivitetType: undefined,
         };
 
-        if (!gjelderTsr && !vedtaksperiode.aktivitetType) {
+        if (!skjulAktivitet && !vedtaksperiode.aktivitetType) {
             return { ...feil, aktivitetType: 'Mangler aktivitet for periode' };
         }
 

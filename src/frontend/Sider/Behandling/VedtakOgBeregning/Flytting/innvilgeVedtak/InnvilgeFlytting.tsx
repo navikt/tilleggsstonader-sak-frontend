@@ -68,7 +68,7 @@ export const InnvilgeFlytting: React.FC<{
     const beregnFlytting = () => {
         const id = ++beregningId.current;
         settForeslåPeriodeFeil(undefined);
-        const feil = validerVedtaksperioder(vedtaksperioder, gjelderTsr);
+        const feil = validerVedtaksperioder(vedtaksperioder, true);
         settVedtaksperiodeFeil(feil);
 
         if (vedtaksperioder.length === 0 || !isValid(feil)) {
@@ -118,7 +118,7 @@ export const InnvilgeFlytting: React.FC<{
                         foreslåPeriodeFeil={foreslåPeriodeFeil}
                         settForeslåPeriodeFeil={settForeslåPeriodeFeil}
                         vedtakErLagret={lagretVedtak !== undefined}
-                        gjelderTsr={gjelderTsr}
+                        skjulAktivitet
                     />
                     <Begrunnelsesfelt
                         begrunnelse={begrunnelse}

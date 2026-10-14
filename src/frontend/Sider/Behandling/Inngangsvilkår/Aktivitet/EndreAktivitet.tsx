@@ -3,7 +3,6 @@ import React from 'react';
 import { EndreAktivitetBoutgfiter } from './EndreAktivitetBoutgifter';
 import { EndreAktivitetDagligReiseTso } from './EndreAktivitetDagligReiseTso';
 import { EndreAktivitetDagligReiseTsr } from './EndreAktivitetDagligReiseTsr';
-import { EndreAktivitetFlytting } from './EndreAktivitetFlytting';
 import { EndreAktivitetLæremidler } from './EndreAktivitetLæremidler';
 import { EndreAktivitetPassAvBarn } from './EndreAktivitetPassAvBarn';
 import { EndreAktivitetReiseOppstartAvslutningHjemreiseTso } from './EndreAktivitetReiseOppstartAvslutningHjemreiseTso';
@@ -20,8 +19,6 @@ import {
     erAktivitetBoutgifter,
     erAktivitetDagligReiseTso,
     erAktivitetDagligReiseTsr,
-    erAktivitetFlyttingTso,
-    erAktivitetFlyttingTsr,
     erAktivitetLæremidler,
     erAktivitetPassAvBarn,
     erAktivitetReiseTilSamlingTso,
@@ -108,21 +105,8 @@ export const EndreAktivitet: React.FC<{
                 </DataViewer>
             );
         case Stønadstype.FLYTTING_TSO:
-            return (
-                <EndreAktivitetFlytting
-                    aktivitet={erAktivitetFlyttingTso(aktivitet) ? aktivitet : undefined}
-                    aktivitetFraRegister={aktivitetFraRegister}
-                    avbrytRedigering={avbrytRedigering}
-                />
-            );
         case Stønadstype.FLYTTING_TSR:
-            return (
-                <EndreAktivitetFlytting
-                    aktivitet={erAktivitetFlyttingTsr(aktivitet) ? aktivitet : undefined}
-                    aktivitetFraRegister={aktivitetFraRegister}
-                    avbrytRedigering={avbrytRedigering}
-                />
-            );
+            return null;
         case Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO:
             return (
                 <EndreAktivitetReiseOppstartAvslutningHjemreiseTso

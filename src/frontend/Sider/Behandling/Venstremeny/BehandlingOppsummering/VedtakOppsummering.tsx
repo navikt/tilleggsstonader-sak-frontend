@@ -43,11 +43,13 @@ const OppsummeringInnvilgelse: React.FC<{
                         key={vedtaksperiode.id}
                         fom={vedtaksperiode.fom}
                         tom={vedtaksperiode.tom}
-                        gjelder={
-                            aktivitetTypeTilTekst(vedtaksperiode.aktivitetType) +
-                            ', ' +
-                            faktiskMålgruppeTilTekst(vedtaksperiode.målgruppeType)
-                        }
+                        gjelder={[
+                            vedtaksperiode.aktivitetType &&
+                                aktivitetTypeTilTekst(vedtaksperiode.aktivitetType),
+                            faktiskMålgruppeTilTekst(vedtaksperiode.målgruppeType),
+                        ]
+                            .filter(Boolean)
+                            .join(', ')}
                     />
                 ))
             ) : (

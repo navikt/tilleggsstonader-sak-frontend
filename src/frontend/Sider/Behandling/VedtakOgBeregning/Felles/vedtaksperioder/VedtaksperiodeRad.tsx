@@ -27,7 +27,7 @@ interface Props {
     ) => void;
     slettPeriode: () => void;
     vedtakErLagret: boolean;
-    gjelderTsr: boolean;
+    skjulAktivitet: boolean;
 }
 
 export const VedtaksperiodeRad: React.FC<Props> = ({
@@ -38,7 +38,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
     oppdaterPeriode,
     slettPeriode,
     vedtakErLagret,
-    gjelderTsr,
+    skjulAktivitet,
 }) => {
     const { behandling } = useBehandling();
 
@@ -81,7 +81,7 @@ export const VedtaksperiodeRad: React.FC<Props> = ({
                     size="small"
                 />
             </FeilmeldingMaksBredde>
-            {!gjelderTsr && (
+            {!skjulAktivitet && (
                 <VelgAktivitet
                     stønadstype={behandling.stønadstype}
                     vedtaksperiode={vedtaksperiode}
