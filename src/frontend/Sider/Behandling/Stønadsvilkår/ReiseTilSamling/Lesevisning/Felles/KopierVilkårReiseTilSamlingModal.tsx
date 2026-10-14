@@ -12,7 +12,6 @@ interface Props {
     eksisterendeFom: string;
     eksisterendeTom: string;
     eksisterendeAdresse: string;
-    laster?: boolean;
 }
 
 export const KopierVilkårReiseTilSamlingModal: React.FC<Props> = ({
@@ -22,7 +21,6 @@ export const KopierVilkårReiseTilSamlingModal: React.FC<Props> = ({
     eksisterendeFom,
     eksisterendeTom,
     eksisterendeAdresse,
-    laster = false,
 }) => {
     return (
         <ModalWrapper
@@ -34,13 +32,10 @@ export const KopierVilkårReiseTilSamlingModal: React.FC<Props> = ({
                 hovedKnapp: {
                     onClick: onBekreft,
                     tekst: 'Kopier',
-                    spinner: laster,
-                    disabled: laster,
                 },
                 lukkKnapp: {
                     onClick: onClose,
                     tekst: 'Avbryt',
-                    disabled: laster,
                 },
             }}
         >

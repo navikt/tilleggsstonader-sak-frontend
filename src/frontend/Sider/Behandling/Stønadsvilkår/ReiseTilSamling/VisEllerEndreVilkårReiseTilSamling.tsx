@@ -31,7 +31,6 @@ export const VisEllerEndreVilkårReiseTilSamling: FC<Props> = ({
     const { oppdaterVilkår } = useVilkårReiseTilSamling();
 
     const [visKopierModal, settVisKopierModal] = useState<boolean>(false);
-    const [lasterOppdatering, settLasterOppdatering] = useState<boolean>(false);
 
     const [feilmeldingRedigering, settFeilmeldingRedigering] = useState<string | undefined>(
         undefined
@@ -57,7 +56,6 @@ export const VisEllerEndreVilkårReiseTilSamling: FC<Props> = ({
     };
 
     const handleBekreftKopiering = () => {
-        settLasterOppdatering(true);
         settVisKopierModal(false);
         sjekkOgSettFeilmelding(startKopiering());
     };
@@ -98,7 +96,6 @@ export const VisEllerEndreVilkårReiseTilSamling: FC<Props> = ({
                 eksisterendeFom={vilkår.fom!} // Vilkår har alltid fom/tom-dato for reise til samling
                 eksisterendeTom={vilkår.tom!}
                 eksisterendeAdresse={vilkår.adresse}
-                laster={lasterOppdatering}
             />
             {erStegRedigerbart && redigerer ? (
                 <EndreVilkårReiseTilSamling
