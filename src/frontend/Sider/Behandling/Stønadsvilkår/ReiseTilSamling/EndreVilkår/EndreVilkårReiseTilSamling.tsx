@@ -45,12 +45,16 @@ interface Props {
         fakta: FaktaReiseTilSamling
     ) => Promise<RessursSuksess<VilkårReiseTilSamling> | RessursFeilet>;
     avsluttRedigering: () => void;
+    periodeFraVilkårSomKopieres?: Periode;
+    adresseFraVilkårSomKopieres?: string;
 }
 
 export const EndreVilkårReiseTilSamling: React.FC<Props> = ({
     vilkår,
     lagre,
     avsluttRedigering,
+    periodeFraVilkårSomKopieres,
+    adresseFraVilkårSomKopieres,
 }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
@@ -61,8 +65,8 @@ export const EndreVilkårReiseTilSamling: React.FC<Props> = ({
     const [svar, settSvar] = useState<SvarVilkårReiseTilSamling>(initierSvar(vilkår));
 
     const [periode, settPeriode] = useState<Periode>({
-        fom: vilkår?.fom || '',
-        tom: vilkår?.tom || '',
+        fom: vilkår ? vilkår.fom || '' : periodeFraVilkårSomKopieres?.fom || '',
+        tom: vilkår ? vilkår.tom || '' : periodeFraVilkårSomKopieres?.tom || '',
     });
 
     const oppfylteAktiviteter = aktiviteter
@@ -71,7 +75,9 @@ export const EndreVilkårReiseTilSamling: React.FC<Props> = ({
             (aktivitet) => !periode.fom || !periode.tom || perioderOverlapper(aktivitet, periode)
         );
 
-    const [adresse, settAdresse] = useState<string | undefined>(vilkår?.adresse);
+    const [adresse, settAdresse] = useState<string | undefined>(
+        vilkår ? vilkår.adresse : adresseFraVilkårSomKopieres
+    );
     const [reiseId] = useState<string>(vilkår?.reiseId || v7());
 
     const [gjeldendeFaktaType, settGjeldendeFaktaType] = useState<TypeVilkårFakta>(

@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 
 import { EndreVilkårReiseTilSamling } from './EndreVilkår/EndreVilkårReiseTilSamling';
+import { KopierVilkårReiseTilSamlingModal } from './Lesevisning/Felles/KopierVilkårReiseTilSamlingModal';
 import { LesevisningVilkårReiseTilSamling } from './Lesevisning/LesevisningVilkårReiseTilSamling';
 import { FaktaReiseTilSamling } from './typer/faktaReiseTilSamling';
 import { SvarVilkårReiseTilSamling, VilkårReiseTilSamling } from './typer/vilkårReiseTilSamling';
@@ -14,17 +15,23 @@ interface Props {
     redigerer: boolean;
     redigererAnnetVilkår: boolean;
     startRedigering: () => boolean;
+    startKopiering: () => boolean;
     avsluttRedigering: () => void;
 }
 
 export const VisEllerEndreVilkårReiseTilSamling: FC<Props> = ({
     vilkår,
     redigerer,
+    redigererAnnetVilkår,
     startRedigering,
+    startKopiering,
     avsluttRedigering,
 }) => {
     const { erStegRedigerbart } = useSteg();
     const { oppdaterVilkår } = useVilkårReiseTilSamling();
+
+    const [visKopierModal, settVisKopierModal] = useState<boolean>(false);
+    const [lasterOppdatering, settLasterOppdatering] = useState<boolean>(false);
 
     const [feilmeldingRedigering, settFeilmeldingRedigering] = useState<string | undefined>(
         undefined
@@ -41,6 +48,22 @@ export const VisEllerEndreVilkårReiseTilSamling: FC<Props> = ({
 
     const handleStartRedigering = () => {
         sjekkOgSettFeilmelding(startRedigering());
+    };
+
+    const handleStartKopiering = () => {
+        if (sjekkOgSettFeilmelding(!redigererAnnetVilkår)) {
+            settVisKopierModal(true);
+        }
+    };
+
+    const handleBekreftKopiering = () => {
+        settLasterOppdatering(true);
+        settVisKopierModal(false);
+        sjekkOgSettFeilmelding(startKopiering());
+    };
+
+    const handleLukkModal = () => {
+        settVisKopierModal(false);
     };
 
     const nullstillFeilmeldingRedigering = () => {
@@ -68,6 +91,15 @@ export const VisEllerEndreVilkårReiseTilSamling: FC<Props> = ({
 
     return (
         <>
+            <KopierVilkårReiseTilSamlingModal
+                visModal={visKopierModal}
+                onClose={handleLukkModal}
+                onBekreft={handleBekreftKopiering}
+                eksisterendeFom={vilkår.fom!} // Vilkår har alltid fom/tom-dato for reise til samling
+                eksisterendeTom={vilkår.tom!}
+                eksisterendeAdresse={vilkår.adresse}
+                laster={lasterOppdatering}
+            />
             {erStegRedigerbart && redigerer ? (
                 <EndreVilkårReiseTilSamling
                     vilkår={vilkår}
@@ -79,6 +111,7 @@ export const VisEllerEndreVilkårReiseTilSamling: FC<Props> = ({
                     vilkår={vilkår}
                     skalViseRedigeringsknapp={skalViseRedigeringsknapp}
                     startRedigering={handleStartRedigering}
+                    startKopiering={handleStartKopiering}
                     feilmeldingRedigering={feilmeldingRedigering}
                     nullstillFeilmeldingRedigering={nullstillFeilmeldingRedigering}
                 />
