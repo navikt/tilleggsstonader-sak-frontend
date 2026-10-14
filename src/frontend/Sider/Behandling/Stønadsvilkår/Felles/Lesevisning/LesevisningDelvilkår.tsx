@@ -1,6 +1,6 @@
 import React, { FC, Fragment } from 'react';
 
-import { BodyShort, HGrid, HStack, Label, VStack } from '@navikt/ds-react';
+import { BodyShort, HGrid, Label, VStack } from '@navikt/ds-react';
 
 import begrunnelseStyles from '../../../../../komponenter/Begrunnelse.module.css';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
@@ -16,7 +16,7 @@ export const LesevisningDelvilkår: FC<{
     skalViseSkillelinje: boolean;
 }> = ({ delvilkårsett, slettetKommentar, skalViseSkillelinje }) => {
     return (
-        <VStack gap="space-4" paddingBlock="space-16 space-0">
+        <VStack gap="space-16" paddingBlock="space-16 space-0">
             {delvilkårsett.map((delvilkår, index) => (
                 <HGrid
                     key={index}
@@ -56,12 +56,12 @@ export const LesevisningDelvilkår: FC<{
                 </HGrid>
             ))}
             {slettetKommentar && (
-                <HStack gap="space-16">
+                <VStack gap="space-4">
                     <Label size="small">Begrunnelse for sletting:</Label>
                     <BodyShort size="small" className={begrunnelseStyles.bevarLinjeskift}>
                         {slettetKommentar}
                     </BodyShort>
-                </HStack>
+                </VStack>
             )}
         </VStack>
     );
