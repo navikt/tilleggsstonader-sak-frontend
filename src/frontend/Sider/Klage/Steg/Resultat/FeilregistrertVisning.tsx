@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Alert, BodyShort, Heading, Label } from '@navikt/ds-react';
 
 import styles from './FeilregistrertVisning.module.css';
+import begrunnelseStyles from '../../../../komponenter/Begrunnelse.module.css';
 import { KlageinstansEventType } from '../../../../typer/klage';
 import { formaterIsoDatoTid } from '../../../../utils/dato';
 import { Klagebehandling } from '../../typer/klagebehandling/klagebehandling';
@@ -22,7 +23,9 @@ export const FeilregistrertVisning: React.FC<{ behandling: Klagebehandling }> = 
             <Label size={'small'}>
                 {formaterIsoDatoTid(feilregistrertResultat.mottattEllerAvsluttetTidspunkt)}
             </Label>
-            <BodyShort>{feilregistrertResultat.årsakFeilregistrert}</BodyShort>
+            <BodyShort className={begrunnelseStyles.bevarLinjeskift}>
+                {feilregistrertResultat.årsakFeilregistrert}
+            </BodyShort>
         </Alert>
     ) : null;
 };

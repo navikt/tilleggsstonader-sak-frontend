@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 
 import { BodyShort, HStack, Tag } from '@navikt/ds-react';
 
+import begrunnelseStyles from '../../../../../komponenter/Begrunnelse.module.css';
 import {
     AvklartDag,
     AvklartKjørtDagStatus,
@@ -20,19 +21,31 @@ export const AvklartDagLesevisning: FC<{
 
     return (
         <div className={styles.høyreGrid}>
-            <HStack gap="space-6" align="center" className={klasseHvisSlettet(avklartDag)}>
-                <BodyShort size="small">
-                    {avklartDag &&
-                        godkjentGjennomførtKjøringTilTekst[avklartDag.godkjentGjennomførtKjøring]}
-                </BodyShort>
-                {avklartDag?.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.JA && (
-                    <span className={styles.grønnSirkel} />
-                )}
+            <HStack align={'start'}>
+                <HStack gap="space-6" align="center" className={klasseHvisSlettet(avklartDag)}>
+                    <BodyShort size="small">
+                        {avklartDag &&
+                            godkjentGjennomførtKjøringTilTekst[
+                                avklartDag.godkjentGjennomførtKjøring
+                            ]}
+                    </BodyShort>
+                    {avklartDag?.godkjentGjennomførtKjøring === GodkjentGjennomførtKjøring.JA && (
+                        <span className={styles.grønnSirkel} />
+                    )}
+                </HStack>
             </HStack>
             <BodyShort size="small" className={klasseHvisSlettet(avklartDag?.parkeringsutgift)}>
                 {kronerEllerStrek(avklartDag?.parkeringsutgift)}
             </BodyShort>
-            <BodyShort size="small" className={klasseHvisSlettet(avklartDag?.begrunnelse)}>
+            <BodyShort
+                size="small"
+                className={[
+                    begrunnelseStyles.bevarLinjeskift,
+                    klasseHvisSlettet(avklartDag?.begrunnelse),
+                ]
+                    .filter(Boolean)
+                    .join(' ')}
+            >
                 {avklartDag?.begrunnelse || '-'}
             </BodyShort>
             {avklartDag?.avklartKjørtDagStatus === AvklartKjørtDagStatus.SLETTET && (

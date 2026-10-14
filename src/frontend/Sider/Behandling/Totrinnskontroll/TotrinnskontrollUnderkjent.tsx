@@ -13,6 +13,7 @@ import {
 } from '@navikt/ds-react';
 
 import { TotrinnskontrollUnderkjentResponse, årsakUnderkjentTilTekst } from './typer';
+import begrunnelseStyles from '../../../komponenter/Begrunnelse.module.css';
 import { formaterIsoDatoTid } from '../../../utils/dato';
 
 const TotrinnskontrollUnderkjent: React.FC<{
@@ -48,7 +49,9 @@ const TotrinnskontrollUnderkjent: React.FC<{
             )}
             <div>
                 <Label>Begrunnelse</Label>
-                <BodyLong size={'small'}>{totrinnskontroll.begrunnelse}</BodyLong>
+                <BodyLong size={'small'} className={begrunnelseStyles.bevarLinjeskift}>
+                    {totrinnskontroll.begrunnelse}
+                </BodyLong>
             </div>
         </VStack>
     );

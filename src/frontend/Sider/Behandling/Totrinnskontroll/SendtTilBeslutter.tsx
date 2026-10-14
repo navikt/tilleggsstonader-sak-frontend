@@ -7,6 +7,7 @@ import styles from './SendtTilBeslutter.module.css';
 import { TotrinnskontrollOpprettet, TotrinnskontrollResponse } from './typer';
 import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
+import begrunnelseStyles from '../../../komponenter/Begrunnelse.module.css';
 import { Ressurs, RessursFeilet, RessursStatus, RessursSuksess } from '../../../typer/ressurs';
 import { formaterIsoDatoTid } from '../../../utils/dato';
 
@@ -58,7 +59,7 @@ const SendtTilBeslutter: React.FC<{
                 </BodyShort>
             </div>
             {totrinnskontroll.begrunnelse && (
-                <BodyShort size="small">
+                <BodyShort size="small" className={begrunnelseStyles.bevarLinjeskift}>
                     <b>Kommentar til beslutter:</b> <br />
                     {totrinnskontroll.begrunnelse}
                 </BodyShort>

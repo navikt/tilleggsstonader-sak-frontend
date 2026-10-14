@@ -24,6 +24,7 @@ import { useApp } from '../../../context/AppContext';
 import { useBehandling } from '../../../context/BehandlingContext';
 import { useNavigateUtenSjekkForUlagredeKomponenter } from '../../../hooks/useNavigateUtenSjekkForUlagredeKomponenter';
 import { UlagretKomponent } from '../../../hooks/useUlagredeKomponenter';
+import begrunnelseStyles from '../../../komponenter/Begrunnelse.module.css';
 import { Feilmelding } from '../../../komponenter/Feil/Feilmelding';
 import { Feil, feiletRessursTilFeilmelding } from '../../../komponenter/Feil/feilmeldingUtils';
 import { Ressurs, RessursStatus } from '../../../typer/ressurs';
@@ -138,7 +139,7 @@ const FatteVedtak: React.FC<{
                     Totrinnskontroll
                 </Heading>
                 {totrinnskontroll.begrunnelse && (
-                    <BodyShort size={'small'}>
+                    <BodyShort size={'small'} className={begrunnelseStyles.bevarLinjeskift}>
                         <b>Kommentar fra saksbehandler: </b> <br />
                         {totrinnskontroll.begrunnelse}
                     </BodyShort>

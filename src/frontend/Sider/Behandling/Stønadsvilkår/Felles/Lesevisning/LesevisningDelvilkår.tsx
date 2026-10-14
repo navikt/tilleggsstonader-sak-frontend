@@ -2,6 +2,7 @@ import React, { FC, Fragment } from 'react';
 
 import { BodyShort, HGrid, HStack, Label, VStack } from '@navikt/ds-react';
 
+import begrunnelseStyles from '../../../../../komponenter/Begrunnelse.module.css';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import { Delvilkår } from '../../../vilkår';
 import {
@@ -38,7 +39,12 @@ export const LesevisningDelvilkår: FC<{
                                         </BodyShort>
                                     )}
                                 </VStack>
-                                <BodyShort size="small">{vurdering.begrunnelse}</BodyShort>
+                                <BodyShort
+                                    size="small"
+                                    className={begrunnelseStyles.bevarLinjeskift}
+                                >
+                                    {vurdering.begrunnelse}
+                                </BodyShort>
                                 {skalViseSkillelinje && i < delvilkår.vurderinger.length - 1 && (
                                     <div style={{ gridColumn: '1 / -1' }}>
                                         <Skillelinje utenMargin />
@@ -52,7 +58,9 @@ export const LesevisningDelvilkår: FC<{
             {slettetKommentar && (
                 <HStack gap="space-16">
                     <Label size="small">Begrunnelse for sletting:</Label>
-                    <BodyShort size="small">{slettetKommentar}</BodyShort>
+                    <BodyShort size="small" className={begrunnelseStyles.bevarLinjeskift}>
+                        {slettetKommentar}
+                    </BodyShort>
                 </HStack>
             )}
         </VStack>

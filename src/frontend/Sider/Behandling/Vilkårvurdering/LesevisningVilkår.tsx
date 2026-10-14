@@ -7,6 +7,7 @@ import LesevisningFremtidigUtgift from './LesevisningFremtidigUtgift';
 import styles from './LesevisningVilkår.module.css';
 import { skalFåDekketFaktiskeUtgifter } from './utils';
 import { Vurderingsrad } from './Vurderingsrad';
+import begrunnelseStyles from '../../../komponenter/Begrunnelse.module.css';
 import SmallButton from '../../../komponenter/Knapper/SmallButton';
 import { ResultatOgStatusKort } from '../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Skillelinje } from '../../../komponenter/Skillelinje';
@@ -78,7 +79,12 @@ const LesevisningVilkår: FC<{
                                 <Skillelinje />
                                 <HStack gap="space-16">
                                     <Label size="small">Begrunnelse for sletting:</Label>
-                                    <BodyShort size="small">{vilkår.slettetKommentar}</BodyShort>
+                                    <BodyShort
+                                        size="small"
+                                        className={begrunnelseStyles.bevarLinjeskift}
+                                    >
+                                        {vilkår.slettetKommentar}
+                                    </BodyShort>
                                 </HStack>
                             </>
                         )}
