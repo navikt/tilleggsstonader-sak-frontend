@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 
-import { Alert, HGrid } from '@navikt/ds-react';
+import { HGrid } from '@navikt/ds-react';
 
 import { InnvilgelseFlyttingEllerVedtaksperioderFraForrigeBehandling } from './innvilgeVedtak/InnvilgelseFlyttingEllerVedtaksperioderFraForrigeBehandling';
 import styles from './VedtakOgBeregningFlytting.module.css';
@@ -13,8 +13,10 @@ import {
     VedtakFlytting,
     vedtakErAvslag,
     vedtakErInnvilgelse,
+    vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakFlytting';
 import { AvslåVedtak } from '../Felles/AvslåVedtak';
+import { OpphørVedtak } from '../Felles/Opphørsvedtak';
 import { VelgVedtakResultat } from '../Felles/VelgVedtakResultat';
 
 export const VedtakOgBeregningFlytting: FC = () => {
@@ -41,9 +43,9 @@ export const VedtakOgBeregningFlytting: FC = () => {
                                 <AvslåVedtak vedtak={vedtakErAvslag(vedtak) ? vedtak : undefined} />
                             )}
                             {typeVedtak === TypeVedtak.OPPHØR && (
-                                <Alert variant="info">
-                                    Opphør for flytting er ikke tilgjengelig ennå.
-                                </Alert>
+                                <OpphørVedtak
+                                    vedtak={vedtakErOpphør(vedtak) ? vedtak : undefined}
+                                />
                             )}
                         </HGrid>
                     </Panel>
