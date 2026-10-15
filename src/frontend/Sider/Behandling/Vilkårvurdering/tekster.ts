@@ -7,7 +7,8 @@ export const svarIdTilTekst: Record<SvarId, string> = {
     FLYTTING_VED_START_AV_AKTIVITET: 'Flytting ved start av aktivitet',
     FLYTTING_VED_AVSLUTTET_AKTIVITET: 'Flytting ved avsluttet aktivitet',
     ARBEID_ETTER_GJENNOMFØRT_AKTIVITET: 'Arbeid etter gjennomført tiltak/utdanning',
-    FLYTTING_ARBEIDSSØKER: 'PLACEHOLDER: Arbeidssøker',
+    ENSLIG_FORSØRGER_ELLER_GJENLEVENDE_STARTER_I_ARBEID:
+        'Enlig forsørger eller gjenlevende som flytter fra hjemstedet for å starte i arbeid',
     FLYTTEBYRÅ: 'Flyttebyrå',
     FLYTTER_SELV: 'Flytter selv',
 
@@ -24,7 +25,8 @@ export const svarIdTilTekstKorversjon: Record<string, string> = {
     FLYTTING_VED_START_AV_AKTIVITET: 'Flytting ved start av aktivitet',
     FLYTTING_VED_AVSLUTTET_AKTIVITET: 'Flytting ved avsluttet aktivitet',
     ARBEID_ETTER_GJENNOMFØRT_AKTIVITET: 'Arbeid etter gjennomført tiltak/utdanning',
-    FLYTTING_ARBEIDSSØKER: 'PLACEHOLDER: Arbeidssøker',
+    ENSLIG_FORSØRGER_ELLER_GJENLEVENDE_STARTER_I_ARBEID:
+        'Enlig forsørger eller gjenlevende som flytter fra hjemstedet for å starte i arbeid',
     FLYTTEBYRÅ: 'Flyttebyrå',
     FLYTTER_SELV: 'Flytter selv',
 
@@ -65,8 +67,10 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     HVILKEN_FORBINDELSE_FLYTTER_BRUKER: 'I hvilken forbindelse flytter bruker?',
     MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET:
         'Må bruker flytte fra hjemstedet for å gjennomføre aktiviteten?',
-    SAMMENHENG_FLYTTING_OG_ARBEID: 'PLACEHOLDER: Er det sammenheng mellom flyttingen og arbeidet?',
-    FLYTTER_PGA_OPPSTART_ARBEID: 'PLACEHOLDER: Flytter bruker på grunn av oppstart i arbeid?',
+    FLYTTER_IFBM_ARBEID_ETTER_AKTIVITET:
+        'Flytter bruker i forbindelse med arbeid etter at aktiviteten er gjennomført?',
+    MÅ_FLYTTE_FOR_Å_STARTE_I_ARBEID:
+        'Må bruker flytte fra hjemstedet for å starte i arbeid på et annet sted?',
     ER_KOSTNADER_TIL_FLYTTING_NØDVENDIGE: 'Er kostnader for flytting nødvendig?',
     HVORDAN_SKAL_BRUKER_FLYTTE: 'Skal bruker benytte seg av flyttebyrå, eller flytter bruker selv?',
 };
@@ -100,8 +104,10 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     HVILKEN_FORBINDELSE_FLYTTER_BRUKER: 'I hvilken forbindelse flytter bruker?',
     MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET:
         'Må bruker flytte fra hjemstedet for å gjennomføre aktiviteten?',
-    SAMMENHENG_FLYTTING_OG_ARBEID: 'PLACEHOLDER: Er det sammenheng mellom flyttingen og arbeidet?',
-    FLYTTER_PGA_OPPSTART_ARBEID: 'PLACEHOLDER: Flytter bruker på grunn av oppstart i arbeid?',
+    FLYTTER_IFBM_ARBEID_ETTER_AKTIVITET:
+        'Flytter bruker i forbindelse med arbeid etter at aktiviteten er gjennomført?',
+    MÅ_FLYTTE_FOR_Å_STARTE_I_ARBEID:
+        'Må bruker flytte fra hjemstedet for å starte i arbeid på et annet sted?',
     ER_KOSTNADER_TIL_FLYTTING_NØDVENDIGE: 'Er kostnader for flytting nødvendig?',
     HVORDAN_SKAL_BRUKER_FLYTTE: 'Skal bruker benytte seg av flyttebyrå, eller flytter bruker selv?',
 };
