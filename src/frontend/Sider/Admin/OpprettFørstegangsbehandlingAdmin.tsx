@@ -78,6 +78,8 @@ function OpprettFørstegangsbehandlingAdmin() {
     const kanSaksbehandleReiseTilSamlingTsr = useFlag(
         Toggle.KAN_SAKSBEHANDLE_REISE_TIL_SAMLING_TSR
     );
+    const kanSaksbehandleFlyttingTso = useFlag(Toggle.KAN_SAKSBEHANDLE_FLYTTING_TSO);
+    const kanSaksbehandleFlyttingTsr = useFlag(Toggle.KAN_SAKSBEHANDLE_FLYTTING_TSR);
     const stønadstyperSaksbehandlerKanBehandle = hentStønadstyperSaksbehandlerKanBehandle(
         saksbehandler,
         appEnv
@@ -85,9 +87,8 @@ function OpprettFørstegangsbehandlingAdmin() {
         (type) =>
             (type !== Stønadstype.REISE_TIL_SAMLING_TSO || kanSaksbehandleReiseTilSamlingTso) &&
             (type !== Stønadstype.REISE_TIL_SAMLING_TSR || kanSaksbehandleReiseTilSamlingTsr) &&
-            // TODO: Aktiver flytting når oppretting av førstegangsbehandling er implementert for FLYTTING_TSO/FLYTTING_TSR
-            type !== Stønadstype.FLYTTING_TSO &&
-            type !== Stønadstype.FLYTTING_TSR &&
+            (type !== Stønadstype.FLYTTING_TSO || kanSaksbehandleFlyttingTso) &&
+            (type !== Stønadstype.FLYTTING_TSR || kanSaksbehandleFlyttingTsr) &&
             type !== Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO &&
             type !== Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR
     );
