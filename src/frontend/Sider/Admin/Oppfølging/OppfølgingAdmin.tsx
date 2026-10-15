@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { Heading, VStack } from '@navikt/ds-react';
 
-import { OppdaterOppfølgingsliste } from './OppdaterOppfølgingsliste';
 import styles from './OppfølgingAdmin.module.css';
 import { OppfølgingTabell } from './OppfølgingTabell';
 import { Oppfølging } from './oppfølgingTyper';
+import { VelgTemaOppfølging } from './VelgTemaOppfølging';
 import { useApp } from '../../../context/AppContext';
 import DataViewer from '../../../komponenter/DataViewer';
 import { Arkivtema, finnArkivTemaSaksbehandlerHarTilgangTil } from '../../../typer/arkivtema';
@@ -35,9 +35,7 @@ export const OppølgingAdmin = () => {
     return (
         <VStack gap={'space-32'} className={styles.container}>
             <Heading size={'medium'}>[Admin] Oppfølging</Heading>
-            <OppdaterOppfølgingsliste
-                settOppfølginger={settOppfølginger}
-                hentOppfølginger={hentOppfølginger}
+            <VelgTemaOppfølging
                 tema={tema}
                 settTema={settTema}
                 arkivtemaSaksbehandlerHarTilgangTil={arkivtemaSaksbehandlerHarTilgangTil}
