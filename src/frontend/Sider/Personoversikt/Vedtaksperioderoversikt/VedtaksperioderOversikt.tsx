@@ -4,6 +4,7 @@ import { Detail, Heading, VStack } from '@navikt/ds-react';
 
 import { ArenaSakOgVedtak } from './Arena/vedtakArena';
 import { VedtaksperioderOversiktBoutgifter } from './Boutgifter/VedtaksperioderOversiktBoutgifter';
+import { VedtaksperioderOversiktFlytting } from './Flytting/VedtaksperioderOversiktFlytting';
 import { IngenVedtaksperioderInfo } from './IngenVedtaksperioderInfo';
 import { OversiktKort } from './OversiktKort';
 import { VedtaksperioderOversiktArena } from './VedtaksperioderOversiktArena';
@@ -113,6 +114,26 @@ export function VedtaksperioderOversikt({ fagsakPersonId }: Props) {
                                     </Detail>
                                 </OversiktKort>
                             )}
+                            {vedtaksperioderOversikt.flyttingTso.length > 0 && (
+                                <OversiktKort tittel={'Flytting Nay'}>
+                                    <VedtaksperioderOversiktFlytting
+                                        vedtaksperioder={vedtaksperioderOversikt.flyttingTso}
+                                    />
+                                    <Detail>
+                                        Oppdatert: {formaterDatoMedTidspunkt(hentetTidspunkt)}
+                                    </Detail>
+                                </OversiktKort>
+                            )}
+                            {vedtaksperioderOversikt.flyttingTsr.length > 0 && (
+                                <OversiktKort tittel={'Flytting Tiltaksenheten'}>
+                                    <VedtaksperioderOversiktFlytting
+                                        vedtaksperioder={vedtaksperioderOversikt.flyttingTsr}
+                                    />
+                                    <Detail>
+                                        Oppdatert: {formaterDatoMedTidspunkt(hentetTidspunkt)}
+                                    </Detail>
+                                </OversiktKort>
+                            )}
                             {arenaSakOgVedtak.vedtak.length > 0 && (
                                 <OversiktKort
                                     tittel={'TS vedtak i Arena'}
@@ -150,6 +171,8 @@ const finnesIngenVedtaksperioder = (
         vedtaksperioderOversikt.dagligReiseTsr.length === 0 &&
         vedtaksperioderOversikt.reiseTilSamlingTso.length === 0 &&
         vedtaksperioderOversikt.reiseTilSamlingTsr.length === 0 &&
+        vedtaksperioderOversikt.flyttingTso.length === 0 &&
+        vedtaksperioderOversikt.flyttingTsr.length === 0 &&
         arenaSakOgVedtak.vedtak.length === 0
     );
 };

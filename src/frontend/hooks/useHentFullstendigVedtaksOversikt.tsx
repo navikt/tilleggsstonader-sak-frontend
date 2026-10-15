@@ -6,6 +6,7 @@ import { byggHenterRessurs, byggTomRessurs, Ressurs } from '../typer/ressurs';
 import {
     DetaljertVedtaksperiodeBoutgifter,
     DetaljertVedtaksperiodeDagligReise,
+    DetaljertVedtaksperiodeFlytting,
     DetaljertVedtaksperiodeLæremidler,
     DetaljertVedtaksperiodeReiseTilSamling,
     DetaljertVedtaksperiodePassAvBarn,
@@ -63,7 +64,8 @@ export type DetaljerteVedtaksperioder =
     | DetaljertVedtaksperiodeLæremidler[]
     | DetaljertVedtaksperiodeBoutgifter[]
     | DetaljertVedtaksperiodeDagligReise[]
-    | DetaljertVedtaksperiodeReiseTilSamling[];
+    | DetaljertVedtaksperiodeReiseTilSamling[]
+    | DetaljertVedtaksperiodeFlytting[];
 
 export const useHentFullstendigVedtaksOversiktForStønad = (
     behandlingId?: string

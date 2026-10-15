@@ -1,4 +1,5 @@
 import { RammeForReiseMedPrivatBil } from './vedtakDagligReise';
+import { BeregningsgrunnlagType } from './vedtakFlytting';
 import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
@@ -14,6 +15,8 @@ export interface VedtakperioderOversiktResponse {
     dagligReiseTsr: DetaljertVedtaksperiodeDagligReise[];
     reiseTilSamlingTso: DetaljertVedtaksperiodeReiseTilSamling[];
     reiseTilSamlingTsr: DetaljertVedtaksperiodeReiseTilSamling[];
+    flyttingTso: DetaljertVedtaksperiodeFlytting[];
+    flyttingTsr: DetaljertVedtaksperiodeFlytting[];
 }
 
 export type DetaljertVedtaksperiodePassAvBarn = {
@@ -80,4 +83,14 @@ export type DetaljertVedtaksperiodeReiseTilSamling = {
     fom: string;
     tom: string;
     beløp: number;
+};
+
+export type DetaljertVedtaksperiodeFlytting = {
+    stønadstype: Stønadstype.FLYTTING_TSO | Stønadstype.FLYTTING_TSR;
+    fom: string;
+    tom: string;
+    målgruppe: FaktiskMålgruppe;
+    beløp: number;
+    flyttemåte: BeregningsgrunnlagType;
+    skalUtbetales: boolean;
 };

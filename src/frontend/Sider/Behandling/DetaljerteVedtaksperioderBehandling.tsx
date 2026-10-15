@@ -6,6 +6,7 @@ import { Stønadstype } from '../../typer/behandling/behandlingTema';
 import {
     DetaljertVedtaksperiodeBoutgifter,
     DetaljertVedtaksperiodeDagligReise,
+    DetaljertVedtaksperiodeFlytting,
     DetaljertVedtaksperiodeLæremidler,
     DetaljertVedtaksperiodeReiseTilSamling,
     DetaljertVedtaksperiodePassAvBarn,
@@ -73,10 +74,16 @@ export function DetaljerteVedtaksperioderBehandling({
             />
         ),
         [Stønadstype.FLYTTING_TSO]: (vedtaksperioder) => (
-            <VedtaksperioderOversiktFlytting border={true} vedtaksperioder={vedtaksperioder} />
+            <VedtaksperioderOversiktFlytting
+                border={true}
+                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeFlytting[]}
+            />
         ),
         [Stønadstype.FLYTTING_TSR]: (vedtaksperioder) => (
-            <VedtaksperioderOversiktFlytting border={true} vedtaksperioder={vedtaksperioder} />
+            <VedtaksperioderOversiktFlytting
+                border={true}
+                vedtaksperioder={vedtaksperioder as DetaljertVedtaksperiodeFlytting[]}
+            />
         ),
         // TODO: Implementer VedtaksperioderOversiktReiseOppstartAvslutningHjemreise
         [Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO]: () => (
