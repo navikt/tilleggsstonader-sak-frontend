@@ -3,9 +3,8 @@ import { AppEnv } from '../../../utils/env';
 import { Saksbehandler } from '../../../utils/saksbehandler';
 import {
     defaultOppgaveRequest,
-    defaultSortering,
-    defaultVentebenkSortering,
     oppgaveRequestMedDefaultEnhet,
+    sorteringForBenk,
 } from '../oppgaverequestUtil';
 import { hentEnheterSaksbehandlerHarTilgangTil } from '../typer/enhet';
 import { OppgaveRequest } from '../typer/oppgave';
@@ -54,15 +53,15 @@ export const hentLagretOppgaveRequest = (
 
     const oppgaverPåVent = fraLocalStorage.oppgaverPåVent ?? defaultOppgaveRequest.oppgaverPåVent;
 
-    const sortering = oppgaverPåVent ? defaultVentebenkSortering : defaultSortering;
+    const sortering = sorteringForBenk(oppgaverPåVent);
 
     const fraLocalStorageMedDefaultVerdier: OppgaveRequest = {
         ...fraLocalStorage,
         oppgaverPåVent,
         order: sortering.order,
         orderBy: sortering.orderBy,
-        limit: fraLocalStorage.limit ?? defaultSortering.limit,
-        offset: fraLocalStorage.offset ?? defaultSortering.offset,
+        limit: fraLocalStorage.limit ?? sortering.limit,
+        offset: fraLocalStorage.offset ?? sortering.offset,
     };
 
     const gyldigeEnheterForSaksbehandler = hentEnheterSaksbehandlerHarTilgangTil(

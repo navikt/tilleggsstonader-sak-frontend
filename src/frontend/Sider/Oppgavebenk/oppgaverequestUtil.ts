@@ -19,12 +19,12 @@ export const defaultVentebenkSortering: Pick<
     order: 'ASC',
 };
 
+export const sorteringForBenk = (påVent: boolean) =>
+    påVent ? defaultVentebenkSortering : defaultSortering;
+
 export const nullstillSortering = (oppgaveRequest: OppgaveRequest): OppgaveRequest => ({
     ...oppgaveRequest,
-    ...defaultSortering,
-    ...(oppgaveRequest.oppgaverPåVent && {
-        ...defaultVentebenkSortering,
-    }),
+    ...sorteringForBenk(oppgaveRequest.oppgaverPåVent),
 });
 
 export const defaultOppgaveRequest: OppgaveRequest = {
