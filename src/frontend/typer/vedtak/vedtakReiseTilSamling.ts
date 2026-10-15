@@ -3,7 +3,7 @@ import { TypeVedtak } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 import { AvslagRequest } from '../../hooks/useLagreAvslag';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
-import { VedtaksperiodeTsrDto } from '../../Sider/Behandling/VedtakOgBeregning/Felles/vedtaksperioder/vedtaksperiodeUtils';
+import { VedtaksperiodeUtenAktivitetDto } from '../../Sider/Behandling/VedtakOgBeregning/Felles/vedtaksperioder/vedtaksperiodeUtils';
 
 export type VedtakReiseTilSamling =
     InnvilgelseReiseTilSamling | AvslagReiseTilSamling | OpphørReiseTilSamling;
@@ -25,7 +25,7 @@ export type OpphørReiseTilSamling = OpphørRequest & {
 };
 
 export type BeregnReiseTilSamlingRequest = {
-    vedtaksperioder: Vedtaksperiode[] | VedtaksperiodeTsrDto[];
+    vedtaksperioder: Vedtaksperiode[] | VedtaksperiodeUtenAktivitetDto[];
 };
 export interface BeregningResultatReiseTilSamling {
     offentligTransport?: BeregningsresultatOffentligTransport[];
@@ -60,7 +60,7 @@ export interface BeregningsresultatPrivatBil {
 }
 export type InnvilgeReiseTilSamlingRequest = {
     type: TypeVedtak.INNVILGELSE;
-    vedtaksperioder: Vedtaksperiode[] | VedtaksperiodeTsrDto[];
+    vedtaksperioder: Vedtaksperiode[] | VedtaksperiodeUtenAktivitetDto[];
     begrunnelse?: string;
 };
 export interface InnvilgelseReiseTilSamling {
