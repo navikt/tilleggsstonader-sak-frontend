@@ -72,7 +72,7 @@ export const VisEllerEndreVilkårReiseTilSamling: FC<Props> = ({
 
     const lagre = async (
         periode: Periode,
-        adresse: string | undefined,
+        adresse: string,
         reiseId: string,
         svar: SvarVilkårReiseTilSamling,
         fakta: FaktaReiseTilSamling
@@ -80,7 +80,7 @@ export const VisEllerEndreVilkårReiseTilSamling: FC<Props> = ({
         return await oppdaterVilkår(vilkår.id, {
             fom: periode.fom,
             tom: periode.tom,
-            adresse: adresse || '',
+            adresse: adresse,
             reiseId: reiseId,
             svar: svar,
             fakta: fakta,
@@ -93,8 +93,8 @@ export const VisEllerEndreVilkårReiseTilSamling: FC<Props> = ({
                 visModal={visKopierModal}
                 onClose={handleLukkModal}
                 onBekreft={handleBekreftKopiering}
-                eksisterendeFom={vilkår.fom!} // Vilkår har alltid fom/tom-dato for reise til samling
-                eksisterendeTom={vilkår.tom!}
+                eksisterendeFom={vilkår.fom || ''}
+                eksisterendeTom={vilkår.tom || ''}
                 eksisterendeAdresse={vilkår.adresse}
             />
             {erStegRedigerbart && redigerer ? (

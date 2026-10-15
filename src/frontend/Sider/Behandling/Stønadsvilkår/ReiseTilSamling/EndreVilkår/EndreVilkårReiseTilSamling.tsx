@@ -6,7 +6,13 @@ import { HStack, TextField } from '@navikt/ds-react';
 
 import styles from './EndreVilkårReiseTilSamling.module.css';
 import { SlettVilkårReiseTilSamling } from './SlettVilkårReiseTilSamling';
-import { initierGjeldendeFaktaType, initierSvar, tomFaktaForType } from './utils';
+import {
+    initierAdresse,
+    initierGjeldendeFaktaType,
+    initierPeriode,
+    initierSvar,
+    tomFaktaForType,
+} from './utils';
 import { FeilmeldingerReiseTilSamling, harValideringsFeil, validerVilkår } from './validering';
 import { useApp } from '../../../../../context/AppContext';
 import { useBehandling } from '../../../../../context/BehandlingContext';
@@ -39,7 +45,7 @@ interface Props {
     vilkår?: VilkårReiseTilSamling;
     lagre: (
         periode: Periode,
-        adresse: string | undefined,
+        adresse: string,
         reiseId: string,
         svar: SvarVilkårReiseTilSamling,
         fakta: FaktaReiseTilSamling
@@ -64,10 +70,9 @@ export const EndreVilkårReiseTilSamling: React.FC<Props> = ({
 
     const [svar, settSvar] = useState<SvarVilkårReiseTilSamling>(initierSvar(vilkår));
 
-    const [periode, settPeriode] = useState<Periode>({
-        fom: vilkår ? vilkår.fom || '' : periodeFraVilkårSomKopieres?.fom || '',
-        tom: vilkår ? vilkår.tom || '' : periodeFraVilkårSomKopieres?.tom || '',
-    });
+    const [periode, settPeriode] = useState<Periode>(
+        initierPeriode(vilkår, periodeFraVilkårSomKopieres)
+    );
 
     const oppfylteAktiviteter = aktiviteter
         .filter((aktivitet) => aktivitet.resultat === VilkårPeriodeResultat.OPPFYLT)
@@ -75,8 +80,8 @@ export const EndreVilkårReiseTilSamling: React.FC<Props> = ({
             (aktivitet) => !periode.fom || !periode.tom || perioderOverlapper(aktivitet, periode)
         );
 
-    const [adresse, settAdresse] = useState<string | undefined>(
-        vilkår ? vilkår.adresse : adresseFraVilkårSomKopieres
+    const [adresse, settAdresse] = useState<string>(
+        initierAdresse(vilkår, adresseFraVilkårSomKopieres)
     );
     const [reiseId] = useState<string>(vilkår?.reiseId || v7());
 
@@ -152,7 +157,7 @@ export const EndreVilkårReiseTilSamling: React.FC<Props> = ({
         nullstillFeilmeldingFor(['fakta']);
     };
 
-    const oppdaterAdresse = (nyAdresse: string | undefined) => {
+    const oppdaterAdresse = (nyAdresse: string) => {
         settAdresse(nyAdresse);
         settUlagretKomponent(komponentId);
         nullstillFeilmeldingFor(['adresse']);
@@ -217,9 +222,9 @@ export const EndreVilkårReiseTilSamling: React.FC<Props> = ({
                             label={'Adresse aktivitet'}
                             size="small"
                             error={feilmeldinger?.adresse}
-                            value={adresse || ''}
+                            value={adresse}
                             onChange={(e) => {
-                                oppdaterAdresse(e.target.value || undefined);
+                                oppdaterAdresse(e.target.value);
                                 nullstillFeilmeldingFor(['adresse']);
                             }}
                             className={styles.adressefelt}

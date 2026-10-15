@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { EndreVilkårReiseTilSamling } from './EndreVilkårReiseTilSamling';
+import { vilkårTilPeriode } from './utils';
 import { useVilkårReiseTilSamling } from '../../../../../context/VilkårReiseTilSamlingContext/VilkårReiseTilSamlingContext';
 import { Periode } from '../../../../../utils/periode';
 import { FaktaReiseTilSamling } from '../typer/faktaReiseTilSamling';
@@ -16,7 +17,7 @@ export const KopierVilkårReiseTilSamling: React.FC<Props> = ({ kildeVilkår, av
 
     const opprettVilkår = async (
         periode: Periode,
-        adresse: string | undefined,
+        adresse: string,
         reiseId: string,
         svar: SvarVilkårReiseTilSamling,
         fakta: FaktaReiseTilSamling
@@ -24,7 +25,7 @@ export const KopierVilkårReiseTilSamling: React.FC<Props> = ({ kildeVilkår, av
         return await lagreNyttVilkår({
             fom: periode.fom,
             tom: periode.tom,
-            adresse: adresse || '',
+            adresse: adresse,
             reiseId: reiseId,
             svar: svar,
             fakta: fakta,
@@ -39,7 +40,7 @@ export const KopierVilkårReiseTilSamling: React.FC<Props> = ({ kildeVilkår, av
         <EndreVilkårReiseTilSamling
             lagre={opprettVilkår}
             avsluttRedigering={handleAvsluttRedigering}
-            periodeFraVilkårSomKopieres={{ fom: kildeVilkår.fom || '', tom: kildeVilkår.tom || '' }}
+            periodeFraVilkårSomKopieres={vilkårTilPeriode(kildeVilkår)}
             adresseFraVilkårSomKopieres={kildeVilkår.adresse}
         />
     );
