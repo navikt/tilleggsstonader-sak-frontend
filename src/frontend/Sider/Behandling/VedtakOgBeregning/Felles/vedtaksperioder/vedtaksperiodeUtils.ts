@@ -41,7 +41,8 @@ export const utledStatus = (
     if (
         vedtaksperiode.fom === vedtaksperiodeFraForrigeVedtak.fom &&
         vedtaksperiode.tom === vedtaksperiodeFraForrigeVedtak.tom &&
-        vedtaksperiode.aktivitetType === vedtaksperiodeFraForrigeVedtak.aktivitetType &&
+        (vedtaksperiode.aktivitetType || '') ===
+            (vedtaksperiodeFraForrigeVedtak.aktivitetType || '') &&
         vedtaksperiode.målgruppeType === vedtaksperiodeFraForrigeVedtak.målgruppeType
     ) {
         return PeriodeStatus.UENDRET;
@@ -61,22 +62,24 @@ export const finnFaktiskeMålgruppeValgForStønad = (stønadstype: Stønadstype)
 };
 
 /**
- * TSR-varianter bestemmer typeandel ut fra tiltaksvariant. Saksbehandler velger
- * målgruppe, mens aktivitet settes automatisk.
+ * Vedtaksperiode der aktivitet ikke sendes til backend:
+ * - TSR-varianter: backend setter aktivitet automatisk, siden typeandel bestemmes ut fra tiltaksvariant.
+ * - Flytting: vedtaksperioden har ikke aktivitet.
  */
-export type VedtaksperiodeTsrDto = Omit<Vedtaksperiode, 'aktivitetType'>;
+export type VedtaksperiodeUtenAktivitetDto = Omit<Vedtaksperiode, 'aktivitetType'>;
 
-const stønadstyperMedForenkletTsrPeriode = [
+const stønadstyperUtenAktivitetIVedtaksperiode = [
     Stønadstype.DAGLIG_REISE_TSR,
     Stønadstype.REISE_TIL_SAMLING_TSR,
+    Stønadstype.FLYTTING_TSO,
     Stønadstype.FLYTTING_TSR,
 ];
 
 export const tilVedtaksperioderDto = (
     perioder: Vedtaksperiode[],
     stønadstype: Stønadstype
-): Vedtaksperiode[] | VedtaksperiodeTsrDto[] => {
-    if (stønadstyperMedForenkletTsrPeriode.includes(stønadstype)) {
+): Vedtaksperiode[] | VedtaksperiodeUtenAktivitetDto[] => {
+    if (stønadstyperUtenAktivitetIVedtaksperiode.includes(stønadstype)) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         return perioder.map(({ aktivitetType, ...rest }) => rest);
     }

@@ -14,7 +14,7 @@ import { AktivitetType, AktivitetTypeTilTekst } from '../typer/vilkårperiode/ak
 
 const RegisterAktiviteterTabell: React.FC<{
     registerAktivitet: Registeraktivitet[];
-    leggTilAktivitetFraRegister: (aktivitet: Registeraktivitet) => void;
+    leggTilAktivitetFraRegister?: (aktivitet: Registeraktivitet) => void;
 }> = ({ registerAktivitet, leggTilAktivitetFraRegister }) => {
     const { aktiviteter } = useInngangsvilkår();
 
@@ -36,7 +36,7 @@ const RegisterAktiviteterTabell: React.FC<{
                     <TableHeaderCellSmall scope="col">Aktivitetsdager</TableHeaderCellSmall>
                     <TableHeaderCellSmall scope="col">Prosent</TableHeaderCellSmall>
                     <TableHeaderCellSmall scope="col">Id</TableHeaderCellSmall>
-                    <TableHeaderCellSmall scope="col" />
+                    {leggTilAktivitetFraRegister && <TableHeaderCellSmall scope="col" />}
                 </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -66,13 +66,15 @@ const RegisterAktiviteterTabell: React.FC<{
                                 {aktivitet.prosentDeltakelse ?? '-'}
                             </TableDataCellSmall>
                             <TableDataCellSmall>{aktivitet.id}</TableDataCellSmall>
-                            <TableDataCellSmall>
-                                <BrukAktivitetKnapp
-                                    registerAktivitet={aktivitet}
-                                    leggTilAktivitetFraRegister={leggTilAktivitetFraRegister}
-                                    harBruktAktivitet={erAktivitetBrukt}
-                                />
-                            </TableDataCellSmall>
+                            {leggTilAktivitetFraRegister && (
+                                <TableDataCellSmall>
+                                    <BrukAktivitetKnapp
+                                        registerAktivitet={aktivitet}
+                                        leggTilAktivitetFraRegister={leggTilAktivitetFraRegister}
+                                        harBruktAktivitet={erAktivitetBrukt}
+                                    />
+                                </TableDataCellSmall>
+                            )}
                         </Table.Row>
                     );
                 })}

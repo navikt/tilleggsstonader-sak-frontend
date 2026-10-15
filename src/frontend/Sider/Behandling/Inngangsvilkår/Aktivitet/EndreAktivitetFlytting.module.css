@@ -1,8 +1,0 @@
-.feltContainer {
-    flex-grow: 1;
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-    align-self: start;
-    align-items: start;
-}

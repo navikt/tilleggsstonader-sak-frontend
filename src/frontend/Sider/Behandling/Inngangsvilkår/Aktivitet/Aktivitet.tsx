@@ -8,12 +8,14 @@ import { AktivitetKort } from './AktivitetKortLesevisning/AktivitetKort';
 import { EndreAktivitet } from './EndreAktivitet';
 import RegisterAktiviteter from './RegisterAktivteter';
 import { useApp } from '../../../../context/AppContext';
+import { useBehandling } from '../../../../context/BehandlingContext';
 import { useInngangsvilkår } from '../../../../context/InngangsvilkårContext';
 import { useSteg } from '../../../../context/StegContext';
 import { UlagretKomponent } from '../../../../hooks/useUlagredeKomponenter';
 import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { FlexColumn } from '../../../../komponenter/Visningskomponenter/FlexColumn';
+import { stønadstypeHarAktivitet } from '../../../../typer/behandling/behandlingTema';
 import { Registeraktivitet } from '../../../../typer/registeraktivitet';
 import {
     lenkerForskriftAktivitet,
@@ -26,6 +28,9 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
     const { aktiviteter } = useInngangsvilkår();
     const { erStegRedigerbart } = useSteg();
+    const { behandling } = useBehandling();
+    // Flytting har ikke aktivitet. Registeraktiviteter vises kun som informasjon og kan ikke brukes.
+    const kanBrukeAktivitet = stønadstypeHarAktivitet(behandling.stønadstype);
 
     const nyPeriodeRef = useRef<HTMLDivElement>(null);
     const feilmeldingRef = useRef<HTMLDivElement>(null);
@@ -85,64 +90,71 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
             <FlexColumn gap={2}>
                 <RegisterAktiviteter
                     grunnlag={grunnlag}
-                    leggTilAktivitetFraRegister={(valgtAktivitet: Registeraktivitet) =>
-                        settNyRadIRedigeringsmodus(undefined, valgtAktivitet)
+                    leggTilAktivitetFraRegister={
+                        kanBrukeAktivitet
+                            ? (valgtAktivitet: Registeraktivitet) =>
+                                  settNyRadIRedigeringsmodus(undefined, valgtAktivitet)
+                            : undefined
                     }
                 />
 
-                <FlexColumn>
-                    <div>
-                        <Heading size="xsmall">Aktiviteter knyttet til denne behandlingen</Heading>
-                        <AktivitetHjelpetekst />
-                    </div>
-                    {aktiviteter.map((aktivitet) => {
-                        const registeraktivitet = grunnlag?.aktivitet?.aktiviteter?.find(
-                            (registeraktivitet) => registeraktivitet.id === aktivitet.kildeId
-                        );
-
-                        return (
-                            <React.Fragment key={aktivitet.id}>
-                                {aktivitet.id === radIRedigeringsmodus && erStegRedigerbart ? (
-                                    <EndreAktivitet
-                                        aktivitet={aktivitet}
-                                        aktivitetFraRegister={registeraktivitet}
-                                        avbrytRedigering={fjernRadIRedigeringsmodus}
-                                    />
-                                ) : (
-                                    <AktivitetKort
-                                        aktivitet={aktivitet}
-                                        aktivitetFraRegister={registeraktivitet}
-                                        startRedigering={() =>
-                                            settNyRadIRedigeringsmodus(aktivitet.id)
-                                        }
-                                    />
-                                )}
-                            </React.Fragment>
-                        );
-                    })}
-                    {radIRedigeringsmodus === 'nyPeriode' && erStegRedigerbart && (
-                        <div ref={nyPeriodeRef}>
-                            <EndreAktivitet
-                                avbrytRedigering={fjernRadIRedigeringsmodus}
-                                aktivitetFraRegister={aktivitetFraRegister}
-                            />
+                {kanBrukeAktivitet && (
+                    <FlexColumn>
+                        <div>
+                            <Heading size="xsmall">
+                                Aktiviteter knyttet til denne behandlingen
+                            </Heading>
+                            <AktivitetHjelpetekst />
                         </div>
-                    )}
+                        {aktiviteter.map((aktivitet) => {
+                            const registeraktivitet = grunnlag?.aktivitet?.aktiviteter?.find(
+                                (registeraktivitet) => registeraktivitet.id === aktivitet.kildeId
+                            );
 
-                    <Feilmelding ref={feilmeldingRef} feil={feilmelding} />
+                            return (
+                                <React.Fragment key={aktivitet.id}>
+                                    {aktivitet.id === radIRedigeringsmodus && erStegRedigerbart ? (
+                                        <EndreAktivitet
+                                            aktivitet={aktivitet}
+                                            aktivitetFraRegister={registeraktivitet}
+                                            avbrytRedigering={fjernRadIRedigeringsmodus}
+                                        />
+                                    ) : (
+                                        <AktivitetKort
+                                            aktivitet={aktivitet}
+                                            aktivitetFraRegister={registeraktivitet}
+                                            startRedigering={() =>
+                                                settNyRadIRedigeringsmodus(aktivitet.id)
+                                            }
+                                        />
+                                    )}
+                                </React.Fragment>
+                            );
+                        })}
+                        {radIRedigeringsmodus === 'nyPeriode' && erStegRedigerbart && (
+                            <div ref={nyPeriodeRef}>
+                                <EndreAktivitet
+                                    avbrytRedigering={fjernRadIRedigeringsmodus}
+                                    aktivitetFraRegister={aktivitetFraRegister}
+                                />
+                            </div>
+                        )}
 
-                    {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
-                        <Button
-                            onClick={() => settNyRadIRedigeringsmodus()}
-                            size="xsmall"
-                            style={{ maxWidth: 'fit-content' }}
-                            variant="secondary"
-                            icon={<PlusCircleIcon />}
-                        >
-                            Legg til aktivitet manuelt
-                        </Button>
-                    )}
-                </FlexColumn>
+                        <Feilmelding ref={feilmeldingRef} feil={feilmelding} />
+
+                        {kanSetteNyRadIRedigeringsmodus && erStegRedigerbart && (
+                            <Button
+                                onClick={() => settNyRadIRedigeringsmodus()}
+                                size="xsmall"
+                                style={{ maxWidth: 'fit-content' }}
+                                variant="secondary"
+                                icon={<PlusCircleIcon />}
+                            >
+                                Legg til aktivitet manuelt
+                            </Button>
+                        )}
+                    </FlexColumn>
+                )}
             </FlexColumn>
         </VilkårPanel>
     );

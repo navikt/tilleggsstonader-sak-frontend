@@ -9,6 +9,7 @@ import { OppsummeringAktiviteter, OppsummeringMålgrupper } from './VilkårOppsu
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useBehandlingOppsummering } from '../../../../hooks/useBehandlingOppsummering';
 import DataViewer from '../../../../komponenter/DataViewer';
+import { stønadstypeHarAktivitet } from '../../../../typer/behandling/behandlingTema';
 import { RessursStatus } from '../../../../typer/ressurs';
 
 export const BehandlingOppsummering = () => {
@@ -35,9 +36,11 @@ export const BehandlingOppsummering = () => {
                     </ExpansionCard.Header>
                     <ExpansionCard.Content>
                         <VStack gap="space-24">
-                            <OppsummeringAktiviteter
-                                aktiviteter={behandlingOppsummering.aktiviteter}
-                            />
+                            {stønadstypeHarAktivitet(behandling.stønadstype) && (
+                                <OppsummeringAktiviteter
+                                    aktiviteter={behandlingOppsummering.aktiviteter}
+                                />
+                            )}
                             <OppsummeringMålgrupper
                                 målgrupper={behandlingOppsummering.målgrupper}
                             />

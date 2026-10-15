@@ -33,7 +33,7 @@ interface Props {
     foreslåPeriodeFeil?: Feil;
     settForeslåPeriodeFeil: React.Dispatch<Feil | undefined>;
     vedtakErLagret: boolean;
-    gjelderTsr?: boolean;
+    skjulAktivitet?: boolean;
 }
 
 export const Vedtaksperioder: React.FC<Props> = ({
@@ -45,7 +45,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
     foreslåPeriodeFeil,
     settForeslåPeriodeFeil,
     vedtakErLagret,
-    gjelderTsr = false,
+    skjulAktivitet = false,
 }) => {
     const { erStegRedigerbart } = useSteg();
     const { request, settUlagretKomponent } = useApp();
@@ -56,7 +56,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
      */
     const [vedtaksperioderId, settVedtaksperioderId] = useState<string>(uuidv4());
 
-    const gridKlasse = gjelderTsr ? styles.grid5 : styles.grid6;
+    const gridKlasse = skjulAktivitet ? styles.grid5 : styles.grid6;
 
     const oppdaterPeriodeFelt = (
         indeks: number,
@@ -118,7 +118,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                 <div className={gridKlasse} key={vedtaksperioderId}>
                     <Label size="small">Fra og med</Label>
                     <Label size="small">Til og med</Label>
-                    {!gjelderTsr && <Label size="small">Aktivitet</Label>}
+                    {!skjulAktivitet && <Label size="small">Aktivitet</Label>}
                     <Label size="small">Målgruppe</Label>
                     {vedtaksperioder.map((vedtaksperiode, indeks) => (
                         <VedtaksperiodeRad
@@ -132,7 +132,7 @@ export const Vedtaksperioder: React.FC<Props> = ({
                             slettPeriode={() => slettPeriode(indeks)}
                             vedtaksperiodeFeil={vedtaksperioderFeil && vedtaksperioderFeil[indeks]}
                             vedtakErLagret={vedtakErLagret}
-                            gjelderTsr={gjelderTsr}
+                            skjulAktivitet={skjulAktivitet}
                         />
                     ))}
                 </div>

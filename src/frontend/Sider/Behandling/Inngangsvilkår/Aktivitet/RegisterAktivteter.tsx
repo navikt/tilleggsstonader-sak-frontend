@@ -23,7 +23,7 @@ import { VilkårperioderGrunnlag } from '../typer/vilkårperiode/vilkårperiode'
 
 export const RegisterAktiviteter: React.FC<{
     grunnlag: VilkårperioderGrunnlag | undefined;
-    leggTilAktivitetFraRegister: (aktivitet: Registeraktivitet) => void;
+    leggTilAktivitetFraRegister?: (aktivitet: Registeraktivitet) => void;
 }> = ({ grunnlag, leggTilAktivitetFraRegister }) => {
     const { behandling } = useBehandling();
 
