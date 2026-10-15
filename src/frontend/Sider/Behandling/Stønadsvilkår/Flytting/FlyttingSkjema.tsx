@@ -7,7 +7,11 @@ import {
     flyttingFaktaFeltTilTekst,
     TypeVilkårFaktaFlytting,
 } from './typer/faktaFlytting';
-import { RegelIdFlytting } from './typer/regelstrukturFlytting';
+import {
+    begrunnelseHjelpeteksterForFlytteforbindelse,
+    delvilkårHjelpetekster,
+    RegelIdFlytting,
+} from './typer/regelstrukturFlytting';
 import {
     LagreVilkårFlytting,
     SvarOgBegrunnelseFlytting,
@@ -61,6 +65,17 @@ const tommeFakta: FaktaSkjema = {
     ferge: '',
     parkering: '',
 };
+
+function hentBegrunnelseHjelpetekst(
+    regelId: RegelIdFlytting,
+    svar: SvarId | undefined
+): string | undefined {
+    if (regelId == RegelIdFlytting.HVILKEN_FORBINDELSE_FLYTTER_BRUKER && svar) {
+        return begrunnelseHjelpeteksterForFlytteforbindelse[svar];
+    }
+
+    return undefined;
+}
 
 function tilFaktaSkjema(fakta?: FaktaFlytting): FaktaSkjema {
     const skjema = {
@@ -121,6 +136,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
         const svaralternativ = regel.svaralternativer.find(
             (alternativ) => alternativ.svarId === valgtSvar
         );
+        const tilhørendeFaktaType = svaralternativ?.tilhørendeFaktaType;
         settSvar((forrige) => {
             const neste: Partial<Record<RegelIdFlytting, SvarOgBegrunnelseFlytting>> = {
                 ...forrige,
@@ -131,13 +147,18 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
             });
             return neste;
         });
-        const nesteFaktaType = svaralternativ?.tilhørendeFaktaType ?? 'FLYTTING_UBESTEMT';
-        if (nesteFaktaType !== fakta.type) {
+        const skalNullstilleFlyttefakta =
+            tilhørendeFaktaType === 'FLYTTING_UBESTEMT' ||
+            (regelId !== RegelIdFlytting.HVORDAN_SKAL_BRUKER_FLYTTE &&
+                regel.reglerSomMåNullstilles.length > 0);
+        if (tilhørendeFaktaType && tilhørendeFaktaType !== fakta.type) {
             settFakta({
                 ...tommeFakta,
-                type: nesteFaktaType,
+                type: tilhørendeFaktaType,
                 adresse: fakta.adresse,
             });
+        } else if (skalNullstilleFlyttefakta && fakta.type !== 'FLYTTING_UBESTEMT') {
+            settFakta({ ...tommeFakta, adresse: fakta.adresse });
         }
     };
 
@@ -253,6 +274,11 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
                             svaralternativer={regel.svaralternativer}
                             svar={vurdering?.svar}
                             begrunnelse={vurdering?.begrunnelse}
+                            begrunnelseHjelpetekst={hentBegrunnelseHjelpetekst(
+                                regelId,
+                                vurdering?.svar
+                            )}
+                            hjelpetekstKort={delvilkårHjelpetekster[regelId]}
                             oppdaterSvar={(nyttSvar) => oppdaterSvar(regelId, nyttSvar)}
                             oppdaterBegrunnelse={(begrunnelse) =>
                                 oppdaterBegrunnelse(regelId, begrunnelse)
