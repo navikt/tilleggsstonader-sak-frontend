@@ -40,8 +40,8 @@ export const NødvendigUtgiftFelt: React.FC<Props> = ({
     return (
         <VStack gap="space-16">
             <RadioGroup
-                legend="Er utgiften nødvendig?"
-                description="Vurder om den oppgitte kostanden er på et rimelig nivå for å få gjennomført reisen."
+                legend="Er hele utgiften nødvendig?"
+                description="Vurder om den oppgitte utgiften er på et rimelig nivå for å få gjennomført reisen."
                 value={nødvendigUtgift?.erUtgiftenNødvendig || ''}
                 size="small"
                 error={feilNødvendigUtgift}
@@ -53,7 +53,7 @@ export const NødvendigUtgiftFelt: React.FC<Props> = ({
 
             {nødvendigUtgift?.erUtgiftenNødvendig === 'NEI' && (
                 <Textarea
-                    label="Hvorfor vurderes ikke utgiften som nødvendig?"
+                    label="Hvorfor vurderes ikke hele eller deler av utgiften som nødvendig?"
                     size="small"
                     error={feilBegrunnelse}
                     description="Begrunn vurderingen, og hvilket beløp som kan dekkes. Fyll inn beløpet som dekkes i feltene over, og begrunn dette overfor brukeren i fritekst i brevet."
