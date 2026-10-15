@@ -142,7 +142,7 @@ export const EndreVurderinger: React.FC<Props> = ({
                         RegelIdReiseTilSamling.ER_SAMLING_OBLIGATORISK
                     )}
                     feilmeldinger={feilmeldinger}
-                    begrunnelseHjelpetekst="Skriv dato for mottatt dokumentasjon"
+                    begrunnelseHjelpetekst="Skriv dato for mottatt dokumentasjon i begrunnelses feltet"
                 />
             )}
             {aktiveVurderinger.get(RegelIdReiseTilSamling.KAN_REISE_MED_OFFENTLIG_TRANSPORT) && (
