@@ -2,6 +2,7 @@ import React from 'react';
 
 import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
+import begrunnelseStyles from '../../../../komponenter/Begrunnelse.module.css';
 import {
     årsakMetadataEndringTilTekst,
     årsakMetadataKildeTilTekst,
@@ -38,7 +39,9 @@ export const NyeOpplysningerMetadataVisning: React.FC<{
                     <BodyShort size={'small'} weight={'semibold'}>
                         Beskrivelse:
                     </BodyShort>
-                    <BodyShort size={'small'}>{årsakMetadata.beskrivelse}</BodyShort>
+                    <BodyShort size={'small'} className={begrunnelseStyles.bevarLinjeskift}>
+                        {årsakMetadata.beskrivelse}
+                    </BodyShort>
                 </HStack>
             )}
         </VStack>

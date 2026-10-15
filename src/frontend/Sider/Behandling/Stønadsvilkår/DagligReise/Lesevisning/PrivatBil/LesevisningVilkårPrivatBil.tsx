@@ -9,9 +9,9 @@ import {
     AktivitetType,
     AktivitetTypeTilTekst,
 } from '../../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import { LesevisningDelvilkår } from '../../../Felles/Lesevisning/LesevisningDelvilkår';
 import { FaktaPrivatBil, erFaktaPrivatBil } from '../../typer/faktaDagligReise';
 import { VilkårDagligReise } from '../../typer/vilkårDagligReise';
-import { LesevisningDelvilkår } from '../Felles/LesevisningDelvilkår';
 import { RedigerVilkårProps } from '../Felles/LesevisningFooter';
 import { LesevisningVilkårKort } from '../Felles/LesevisningVilkårKort';
 
@@ -41,6 +41,7 @@ export const LesevisningVilkårPrivatBil: FC<{
                 <LesevisningDelvilkår
                     delvilkårsett={vilkår.delvilkårsett}
                     slettetKommentar={vilkår.slettetKommentar}
+                    skalViseSkillelinje={false}
                 />
             </HGrid>
         </LesevisningVilkårKort>

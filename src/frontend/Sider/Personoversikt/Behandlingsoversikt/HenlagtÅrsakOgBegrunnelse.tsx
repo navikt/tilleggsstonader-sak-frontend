@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react';
 import { ChatElipsisIcon } from '@navikt/aksel-icons';
 import { Button, Popover } from '@navikt/ds-react';
 
+import begrunnelseStyles from '../../../komponenter/Begrunnelse.module.css';
 import { henlagtÅrsakTilTekst } from '../../../typer/behandling/behandlingÅrsak';
 import { TabellBehandling } from '../../../utils/behandlingutil';
 
@@ -25,7 +26,7 @@ const HenlagtÅrsakOgBegrunnelse: React.FC<{ behandling: TabellBehandling }> = (
                 open={erPopoverÅpen}
                 onClose={() => settErPopoverÅpen(false)}
             >
-                <Popover.Content>
+                <Popover.Content className={begrunnelseStyles.bevarLinjeskift}>
                     {`Årsak: ${behandling.henlagtÅrsak !== undefined && henlagtÅrsakTilTekst[behandling.henlagtÅrsak]}`}
                     <br />
                     {`Begrunnelse: ${behandling.henlagtBegrunnelse ?? ''}`}

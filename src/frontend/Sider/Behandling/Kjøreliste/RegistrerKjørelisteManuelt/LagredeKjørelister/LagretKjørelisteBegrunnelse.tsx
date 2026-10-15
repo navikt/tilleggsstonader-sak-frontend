@@ -2,6 +2,8 @@ import React, { FC } from 'react';
 
 import { BodyShort, Label, Textarea } from '@navikt/ds-react';
 
+import begrunnelseStyles from '../../../../../komponenter/Begrunnelse.module.css';
+
 interface Props {
     redigerer: boolean;
     begrunnelseInput: string;
@@ -32,7 +34,9 @@ export const LagretKjørelisteBegrunnelse: FC<Props> = ({
     return (
         <div>
             <Label size="small">Begrunnelse for manuell registrering: </Label>
-            <BodyShort size="small">{begrunnelse || 'Ingen begrunnelse lagt ved'}</BodyShort>
+            <BodyShort size="small" className={begrunnelseStyles.bevarLinjeskift}>
+                {begrunnelse || 'Ingen begrunnelse lagt ved'}
+            </BodyShort>
         </div>
     );
 };

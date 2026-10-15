@@ -6,6 +6,7 @@ import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 import styles from './AktivitetKort.module.css';
 import { AktivitetUlikRegisterVarsel } from './AktivitetUlikRegisterVarsel';
 import { useSteg } from '../../../../../context/StegContext';
+import begrunnelseStyles from '../../../../../komponenter/Begrunnelse.module.css';
 import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Celle } from '../../../../../komponenter/Visningskomponenter/Celle';
 import { Registeraktivitet } from '../../../../../typer/registeraktivitet';
@@ -75,12 +76,16 @@ export const AktivitetKort: React.FC<{
                 <Celle $width={350}>
                     <VStack gap="space-8">
                         <Label size="small">Begrunnelse:</Label>
-                        <BodyShort size="small">{aktivitet.begrunnelse || '-'}</BodyShort>
+                        <BodyShort size="small" className={begrunnelseStyles.bevarLinjeskift}>
+                            {aktivitet.begrunnelse || '-'}
+                        </BodyShort>
                     </VStack>
                     {aktivitet.slettetKommentar && (
                         <VStack gap="space-8">
                             <Label size="small">Begrunnelse for sletting:</Label>
-                            <BodyShort size="small">{aktivitet.slettetKommentar || '-'}</BodyShort>
+                            <BodyShort size="small" className={begrunnelseStyles.bevarLinjeskift}>
+                                {aktivitet.slettetKommentar || '-'}
+                            </BodyShort>
                         </VStack>
                     )}
                 </Celle>

@@ -6,6 +6,7 @@ import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 import FaktaOgDelvilkårVisning from './Delvilkår/FaktaOgDelvilkårVisning';
 import styles from './MålgruppeKort.module.css';
 import { useSteg } from '../../../../context/StegContext';
+import begrunnelseStyles from '../../../../komponenter/Begrunnelse.module.css';
 import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Celle } from '../../../../komponenter/Visningskomponenter/Celle';
 import { formaterIsoPeriode } from '../../../../utils/dato';
@@ -58,12 +59,16 @@ export const MålgruppeKort: React.FC<{
                 <Celle $width={350}>
                     <VStack>
                         <Label size="small">Begrunnelse:</Label>
-                        <BodyShort size="small">{målgruppe.begrunnelse || '-'}</BodyShort>
+                        <BodyShort size="small" className={begrunnelseStyles.bevarLinjeskift}>
+                            {målgruppe.begrunnelse || '-'}
+                        </BodyShort>
                     </VStack>
                     {målgruppe.slettetKommentar && (
                         <VStack gap="space-8">
                             <Label size="small">Begrunnelse for sletting:</Label>
-                            <BodyShort size="small">{målgruppe.slettetKommentar || '-'}</BodyShort>
+                            <BodyShort size="small" className={begrunnelseStyles.bevarLinjeskift}>
+                                {målgruppe.slettetKommentar || '-'}
+                            </BodyShort>
                         </VStack>
                     )}
                 </Celle>

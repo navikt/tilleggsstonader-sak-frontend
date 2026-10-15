@@ -4,6 +4,7 @@ import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import { Delvilkår } from '../vilkår';
 import { regelIdTilSpørsmålKortversjon, svarIdTilTekstKorversjon } from './tekster';
+import begrunnelseStyles from '../../../komponenter/Begrunnelse.module.css';
 
 export function Vurderingsrad(props: { delvilkår: Delvilkår }) {
     // Kun siste vurdering i et delvikår har begrunnelse
@@ -26,7 +27,9 @@ export function Vurderingsrad(props: { delvilkår: Delvilkår }) {
                     </HStack>
                 ))}
             </VStack>
-            <BodyShort size="small">{begrunnelse}</BodyShort>
+            <BodyShort size="small" className={begrunnelseStyles.bevarLinjeskift}>
+                {begrunnelse}
+            </BodyShort>
         </>
     );
 }

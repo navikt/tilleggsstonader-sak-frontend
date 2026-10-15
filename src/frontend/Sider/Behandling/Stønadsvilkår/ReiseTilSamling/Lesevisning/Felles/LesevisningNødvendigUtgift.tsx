@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 
 import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
+import begrunnelseStyles from '../../../../../../komponenter/Begrunnelse.module.css';
 import { jaNeiTilTekst } from '../../../../../../typer/common';
 import { NødvendigUtgift } from '../../typer/faktaReiseTilSamling';
 
@@ -23,7 +24,7 @@ export const LesevisningNødvendigUtgift: FC<{
                 </BodyShort>
             </HStack>
             {nødvendigUtgift.erUtgiftenNødvendig === 'NEI' && (
-                <BodyShort size="small" style={{ whiteSpace: 'pre-wrap' }}>
+                <BodyShort size="small" className={begrunnelseStyles.bevarLinjeskift}>
                     {nødvendigUtgift.begrunnelse || '-'}
                 </BodyShort>
             )}

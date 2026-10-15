@@ -53,7 +53,7 @@ export const LesevisningVilkårReiseTilSamling: FC<VilkårProps> = ({
             redigerVilkårProps={redigerVilkårProps}
             typeTag={<TypeTagForResultat resultat={vilkår.resultat} />}
         >
-            <LesevisningDelvilkår delvilkårsett={vilkår.delvilkårsett} />
+            <LesevisningDelvilkår delvilkårsett={vilkår.delvilkårsett} skalViseSkillelinje={true} />
         </LesevisningVilkårKort>
     );
 };

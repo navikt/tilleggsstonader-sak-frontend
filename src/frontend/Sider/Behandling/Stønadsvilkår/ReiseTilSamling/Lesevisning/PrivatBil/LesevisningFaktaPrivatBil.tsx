@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 
 import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
+import begrunnelseStyles from '../../../../../../komponenter/Begrunnelse.module.css';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../../../../utils/fomatering';
 import { FaktaPrivatBil } from '../../typer/faktaReiseTilSamling';
 import { LesevisningNødvendigUtgift } from '../Felles/LesevisningNødvendigUtgift';
@@ -74,7 +75,7 @@ export const LesevisningFaktaPrivatBil: FC<{
                 <BodyShort size="small" weight="semibold">
                     {'Spesifikasjon av utgift'}
                 </BodyShort>
-                <BodyShort size="small" style={{ whiteSpace: 'pre-wrap' }}>
+                <BodyShort size="small" className={begrunnelseStyles.bevarLinjeskift}>
                     {fakta.begrunnelse || '-'}
                 </BodyShort>
             </VStack>

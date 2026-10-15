@@ -5,9 +5,9 @@ import { HGrid, Tag } from '@navikt/ds-react';
 
 import { LesevisningFaktaOffentligTransport } from './LesevisningFaktaOffentligTransport';
 import { VertikalSkillelinje } from '../../../../../../komponenter/VertikalSkillelinje';
+import { LesevisningDelvilkår } from '../../../Felles/Lesevisning/LesevisningDelvilkår';
 import { erFaktaOffentligTransport } from '../../typer/faktaDagligReise';
 import { VilkårDagligReise } from '../../typer/vilkårDagligReise';
-import { LesevisningDelvilkår } from '../Felles/LesevisningDelvilkår';
 import { RedigerVilkårProps } from '../Felles/LesevisningFooter';
 import { LesevisningVilkårKort } from '../Felles/LesevisningVilkårKort';
 
@@ -36,6 +36,7 @@ export const LesevisningVilkårOffentligTransport: FC<{
                 <LesevisningDelvilkår
                     delvilkårsett={vilkår.delvilkårsett}
                     slettetKommentar={vilkår.slettetKommentar}
+                    skalViseSkillelinje={false}
                 />
             </HGrid>
         </LesevisningVilkårKort>

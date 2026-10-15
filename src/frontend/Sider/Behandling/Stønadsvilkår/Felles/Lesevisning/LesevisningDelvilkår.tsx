@@ -1,7 +1,8 @@
 import React, { FC, Fragment } from 'react';
 
-import { BodyShort, HGrid, HStack, Label, VStack } from '@navikt/ds-react';
+import { BodyShort, HGrid, Label, VStack } from '@navikt/ds-react';
 
+import begrunnelseStyles from '../../../../../komponenter/Begrunnelse.module.css';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import { Delvilkår } from '../../../vilkår';
 import {
@@ -12,9 +13,10 @@ import {
 export const LesevisningDelvilkår: FC<{
     delvilkårsett: Delvilkår[];
     slettetKommentar?: string;
-}> = ({ delvilkårsett, slettetKommentar }) => {
+    skalViseSkillelinje: boolean;
+}> = ({ delvilkårsett, slettetKommentar, skalViseSkillelinje }) => {
     return (
-        <VStack gap="space-4" paddingBlock="space-16 space-0">
+        <VStack gap="space-16" paddingBlock="space-16 space-0">
             {delvilkårsett.map((delvilkår, index) => (
                 <HGrid
                     key={index}
@@ -37,8 +39,13 @@ export const LesevisningDelvilkår: FC<{
                                         </BodyShort>
                                     )}
                                 </VStack>
-                                <BodyShort size="small">{vurdering.begrunnelse}</BodyShort>
-                                {i < delvilkår.vurderinger.length - 1 && (
+                                <BodyShort
+                                    size="small"
+                                    className={begrunnelseStyles.bevarLinjeskift}
+                                >
+                                    {vurdering.begrunnelse}
+                                </BodyShort>
+                                {skalViseSkillelinje && i < delvilkår.vurderinger.length - 1 && (
                                     <div style={{ gridColumn: '1 / -1' }}>
                                         <Skillelinje utenMargin />
                                     </div>
@@ -49,10 +56,12 @@ export const LesevisningDelvilkår: FC<{
                 </HGrid>
             ))}
             {slettetKommentar && (
-                <HStack gap="space-16">
+                <VStack gap="space-4">
                     <Label size="small">Begrunnelse for sletting:</Label>
-                    <BodyShort size="small">{slettetKommentar}</BodyShort>
-                </HStack>
+                    <BodyShort size="small" className={begrunnelseStyles.bevarLinjeskift}>
+                        {slettetKommentar}
+                    </BodyShort>
+                </VStack>
             )}
         </VStack>
     );

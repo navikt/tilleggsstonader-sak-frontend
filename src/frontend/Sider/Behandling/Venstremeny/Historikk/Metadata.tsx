@@ -9,6 +9,7 @@ import {
     erTattAvVentMetadata,
     erVedtakUnderkjentMetadata,
 } from './utils';
+import begrunnelseStyles from '../../../../komponenter/Begrunnelse.module.css';
 import { årsakTilTekst } from '../../../../komponenter/SettPåVent/typer';
 import { årsakUnderkjentTilTekst } from '../../Totrinnskontroll/typer';
 
@@ -19,12 +20,20 @@ const Metadata: React.FC<{ metadata: HendelseMetadata }> = ({ metadata }) => {
         return (
             <>
                 <Detail>{venterPå}</Detail>
-                {metadata.kommentarSettPåVent && <Detail>{metadata.kommentarSettPåVent}</Detail>}
+                {metadata.kommentarSettPåVent && (
+                    <Detail className={begrunnelseStyles.bevarLinjeskift}>
+                        {metadata.kommentarSettPåVent}
+                    </Detail>
+                )}
             </>
         );
     }
     if (erTattAvVentMetadata(metadata)) {
-        return metadata.kommentar && <Detail>{metadata.kommentar}</Detail>;
+        return (
+            metadata.kommentar && (
+                <Detail className={begrunnelseStyles.bevarLinjeskift}>{metadata.kommentar}</Detail>
+            )
+        );
     }
 
     if (erVedtakUnderkjentMetadata(metadata)) {
@@ -35,13 +44,19 @@ const Metadata: React.FC<{ metadata: HendelseMetadata }> = ({ metadata }) => {
         return (
             <VStack gap="space-4">
                 <Detail>{årsaker}</Detail>
-                <Detail>Kommentar: {metadata.begrunnelse}</Detail>
+                <Detail className={begrunnelseStyles.bevarLinjeskift}>
+                    Kommentar: {metadata.begrunnelse}
+                </Detail>
             </VStack>
         );
     }
 
     if (erSendtTilBeslutterMetadata(metadata) && metadata.kommentarTilBeslutter) {
-        return <Detail>Kommentar: {metadata.kommentarTilBeslutter}</Detail>;
+        return (
+            <Detail className={begrunnelseStyles.bevarLinjeskift}>
+                Kommentar: {metadata.kommentarTilBeslutter}
+            </Detail>
+        );
     }
 
     return null;
