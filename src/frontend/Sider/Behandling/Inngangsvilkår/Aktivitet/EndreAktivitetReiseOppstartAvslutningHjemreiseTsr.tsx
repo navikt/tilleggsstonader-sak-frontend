@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 
 import { Button, HStack, VStack } from '@navikt/ds-react';
 
-import { AktivitetDelvilkårReiseOppstartAvslutningHjemreiseTsr } from './Delvilkår/AktivitetDelvilkårReiseOppstartAvslutningHjemreiseTsr';
 import { DetaljerRegisterAktivitet } from './DetaljerRegisterAktivitet';
 import styles from './EndreAktivitetReiseOppstartAvslutningHjemreiseTsr.module.css';
 import { valgbareAktivitetTyper } from './utilsAktivitet';
 import {
+    faktaOgSvarRequest,
     finnBegrunnelseGrunnerAktivitet,
     mapEksisterendeAktivitet,
-    mapFaktaOgSvarTilRequest,
     nyAktivitet,
     resettAktivitet,
 } from './utilsReiseOppstartAvslutningHjemreiseTsr';
@@ -32,16 +31,12 @@ import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../
 import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { Aktivitet, AktivitetType } from '../typer/vilkårperiode/aktivitet';
 import { AktivitetReiseOppstartAvslutningHjemreiseTsr } from '../typer/vilkårperiode/aktivitetReiseOppstartAvslutningHjemreise';
-import { SvarJaNei } from '../typer/vilkårperiode/vilkårperiode';
 import Begrunnelse from '../Vilkårperioder/Begrunnelse/Begrunnelse';
 import { EndreTypeOgDatoer } from '../Vilkårperioder/EndreTypeOgDatoer';
 import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
 
 export interface EndreAktivitetFormReiseOppstartAvslutningHjemreiseTsr extends Periode {
     type: AktivitetType | '';
-    svarLønnet: SvarJaNei | undefined;
-    svarHarUtgifter: SvarJaNei | undefined;
-    svarErAktivitetenObligatorisk: SvarJaNei | undefined;
     begrunnelse?: string;
     kildeId?: string;
 }
@@ -106,7 +101,7 @@ export const EndreAktivitetReiseOppstartAvslutningHjemreiseTsr: React.FC<{
         const response = lagreVilkårperiode<Aktivitet>(
             behandling.id,
             form,
-            mapFaktaOgSvarTilRequest(form),
+            faktaOgSvarRequest,
             aktivitet?.id
         );
 
@@ -140,12 +135,7 @@ export const EndreAktivitetReiseOppstartAvslutningHjemreiseTsr: React.FC<{
         );
     };
 
-    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
-        form.type,
-        form.svarLønnet,
-        form.svarHarUtgifter,
-        form.svarErAktivitetenObligatorisk
-    );
+    const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(form.type);
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
 
@@ -166,18 +156,6 @@ export const EndreAktivitetReiseOppstartAvslutningHjemreiseTsr: React.FC<{
                 </div>
                 <DetaljerRegisterAktivitet aktivitetFraRegister={aktivitetFraRegister} />
             </VStack>
-            <AktivitetDelvilkårReiseOppstartAvslutningHjemreiseTsr
-                aktivitetForm={form}
-                oppdaterLønnet={(svar) =>
-                    settForm((prevState) => ({ ...prevState, svarLønnet: svar }))
-                }
-                oppdaterHarUtgifter={(svar) =>
-                    settForm((prevState) => ({ ...prevState, svarHarUtgifter: svar }))
-                }
-                oppdaterErObligatorisk={(svar) =>
-                    settForm((prevState) => ({ ...prevState, svarErAktivitetenObligatorisk: svar }))
-                }
-            />
             <Begrunnelse
                 begrunnelse={form?.begrunnelse || ''}
                 oppdaterBegrunnelse={(nyBegrunnelse) => oppdaterForm('begrunnelse', nyBegrunnelse)}
