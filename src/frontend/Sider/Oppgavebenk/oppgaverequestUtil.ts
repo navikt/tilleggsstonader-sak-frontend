@@ -9,10 +9,22 @@ export const defaultSortering: Pick<OppgaveRequest, 'offset' | 'limit' | 'order'
     orderBy: 'OPPRETTET_TIDSPUNKT',
     order: 'ASC',
 };
+export const defaultVentebenkSortering: Pick<
+    OppgaveRequest,
+    'offset' | 'limit' | 'order' | 'orderBy'
+> = {
+    offset: 0,
+    limit: OPPGAVE_SIDE_STØRRELSE,
+    orderBy: 'FRIST',
+    order: 'ASC',
+};
+
+export const sorteringForBenk = (påVent: boolean) =>
+    påVent ? defaultVentebenkSortering : defaultSortering;
 
 export const nullstillSortering = (oppgaveRequest: OppgaveRequest): OppgaveRequest => ({
     ...oppgaveRequest,
-    ...defaultSortering,
+    ...sorteringForBenk(oppgaveRequest.oppgaverPåVent),
 });
 
 export const defaultOppgaveRequest: OppgaveRequest = {

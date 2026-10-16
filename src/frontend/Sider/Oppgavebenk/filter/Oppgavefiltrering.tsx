@@ -64,12 +64,11 @@ export const Oppgavefiltrering = () => {
             oppdaterOppgave('behandlingstema')(undefined);
         }
     };
-
-    const nullstillFiltrering = () => {
-        const tomOppgaveRequest = oppgaveRequestMedDefaultEnhet(
-            defaultOppgaveRequest,
-            gyldigeEnheterForSaksbehandler
-        );
+    const nullstillFiltrering = (påVent = oppgaveRequest.oppgaverPåVent) => {
+        const tomOppgaveRequest = nullstillSortering({
+            ...oppgaveRequestMedDefaultEnhet(defaultOppgaveRequest, gyldigeEnheterForSaksbehandler),
+            oppgaverPåVent: påVent,
+        });
         lagreTilLocalStorage(oppgaveRequestKey(saksbehandler.navIdent), tomOppgaveRequest);
         settOppgaveRequest(tomOppgaveRequest);
     };
@@ -91,10 +90,7 @@ export const Oppgavefiltrering = () => {
                 <Select
                     value={oppgaveRequest.oppgaverPåVent ? 'På vent' : 'Klar'}
                     label="Benk"
-                    onChange={(event) => {
-                        nullstillFiltrering();
-                        oppdaterOppgave('oppgaverPåVent')(event.target.value === 'På vent');
-                    }}
+                    onChange={(event) => nullstillFiltrering(event.target.value === 'På vent')}
                     size="small"
                 >
                     <option value="Klar">Klar</option>
@@ -164,7 +160,7 @@ export const Oppgavefiltrering = () => {
                 </Button>
                 <Button
                     variant={'secondary'}
-                    onClick={nullstillFiltrering}
+                    onClick={() => nullstillFiltrering()}
                     type={'button'}
                     size="small"
                 >
