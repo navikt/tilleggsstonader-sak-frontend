@@ -34,7 +34,7 @@ export const NyttVilkårReiseTilSamling: React.FC<Props> = ({
 
     const opprettVilkår = async (
         periode: Periode,
-        adresse: string | undefined,
+        adresse: string,
         reiseId: string,
         svar: SvarVilkårReiseTilSamling,
         fakta: FaktaReiseTilSamling
@@ -42,7 +42,7 @@ export const NyttVilkårReiseTilSamling: React.FC<Props> = ({
         return await lagreNyttVilkår({
             fom: periode.fom,
             tom: periode.tom,
-            adresse: adresse || '',
+            adresse: adresse,
             reiseId: reiseId,
             svar: svar,
             fakta: fakta,

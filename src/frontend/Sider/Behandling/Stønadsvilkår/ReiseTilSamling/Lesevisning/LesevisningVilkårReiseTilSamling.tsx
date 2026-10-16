@@ -13,6 +13,7 @@ import { Vilkårsresultat } from '../../../vilkår';
 interface VilkårProps {
     vilkår: VilkårReiseTilSamling;
     startRedigering?: () => void;
+    startKopiering?: () => void;
     skalViseRedigeringsknapp: boolean;
     feilmeldingRedigering?: string;
     nullstillFeilmeldingRedigering?: () => void;
@@ -21,12 +22,14 @@ interface VilkårProps {
 export const LesevisningVilkårReiseTilSamling: FC<VilkårProps> = ({
     vilkår,
     startRedigering,
+    startKopiering,
     skalViseRedigeringsknapp,
     feilmeldingRedigering,
     nullstillFeilmeldingRedigering,
 }) => {
     const redigerVilkårProps: RedigerVilkårProps = {
         startRedigering,
+        startKopiering,
         skalViseRedigeringsknapp,
         feilmeldingRedigering,
         nullstillFeilmeldingRedigering,
