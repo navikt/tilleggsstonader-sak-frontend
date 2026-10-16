@@ -33,12 +33,7 @@ export const validerAktivitet = (
         };
     }
 
-    const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerAktivitet(
-        endretAktivitet.type,
-        endretAktivitet.svarLønnet,
-        endretAktivitet.svarHarUtgifter,
-        endretAktivitet.svarErAktivitetenObligatorisk
-    );
+    const obligatoriskeBegrunnelser = finnBegrunnelseGrunnerAktivitet(endretAktivitet.type);
 
     if (obligatoriskeBegrunnelser.length > 0 && harIkkeVerdi(endretAktivitet.begrunnelse))
         return { ...feil, begrunnelse: 'Begrunnelse er obligatorisk' };

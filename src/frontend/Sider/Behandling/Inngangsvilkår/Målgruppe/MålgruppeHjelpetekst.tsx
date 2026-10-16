@@ -75,12 +75,16 @@ const DagligReiseTsrHjelpetekst = () => (
 export const MålgruppeHjelpetekst = () => {
     const { behandling } = useBehandling();
     if (behandling.stønadstype === Stønadstype.LÆREMIDLER) return <LæremidlerHjelpetekst />;
-    if (behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSR)
+    if (
+        behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSR ||
+        behandling.stønadstype === Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR
+    )
         return <DagligReiseTsrHjelpetekst />;
     if (
         behandling.stønadstype === Stønadstype.BARNETILSYN ||
         behandling.stønadstype === Stønadstype.BOUTGIFTER ||
-        behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSO
+        behandling.stønadstype === Stønadstype.DAGLIG_REISE_TSO ||
+        behandling.stønadstype === Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO
     )
         return <MålgruppeNayHjelpetekst />;
 };
