@@ -880,23 +880,23 @@
   resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/8.18.0/fcb261e25fc2aea91307c75b7429a27a0f5eaef9#fcb261e25fc2aea91307c75b7429a27a0f5eaef9"
   integrity sha512-pN15b6dQxDiPdJbXcL7W9xJ0sPUHo5GKM5ltAQ8kLb3Mf5is6Mf6gfON1nwft+aB8WlehDrTTseXVwu1BEfmQA==
 
-"@navikt/aksel-stylelint@^8.18.0":
-  version "8.18.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/aksel-stylelint/8.18.0/2795f1faa238028ff69b3166a7ece8d6fa212a9b#2795f1faa238028ff69b3166a7ece8d6fa212a9b"
-  integrity sha512-ptDZep1SCKQA6lmo+hvL+ncn2x9tI/nEZ878EjDpb4W7oPjo+6+9RQfSXbB6ZB6qQ4ZOo3bktsyntdgm8JWLmQ==
+"@navikt/aksel-stylelint@^8.19.1":
+  version "8.19.1"
+  resolved "https://npm.pkg.github.com/download/@navikt/aksel-stylelint/8.19.1/b733b2f4408ecc54f3ea2dbe02ef84e4da47579e#b733b2f4408ecc54f3ea2dbe02ef84e4da47579e"
+  integrity sha512-/fUTpVTX/2QNxJeNS4RRc+vmvW5SCKv+i6ElOxy9AbadtwHyjR2mcy6SHGGq5z6eHN2TgqfeCTQrH39xJiQWdw==
 
-"@navikt/aksel@^8.18.0":
-  version "8.18.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/aksel/8.18.0/2a78bc32e806b0f5fd7d82a35ba6dbb18ee355fa#2a78bc32e806b0f5fd7d82a35ba6dbb18ee355fa"
-  integrity sha512-3MezOiq6SnQaljBNNKt66pCAoIFPPLBSlB1h+8aWqYzOgTIyjsriZvtHtf5sNC/IDruG/fINNsHFgOT4E8kY1Q==
+"@navikt/aksel@^8.19.1":
+  version "8.19.1"
+  resolved "https://npm.pkg.github.com/download/@navikt/aksel/8.19.1/bc5adebbaa325b3e5c2790a9f4132e22500aa2a9#bc5adebbaa325b3e5c2790a9f4132e22500aa2a9"
+  integrity sha512-CbKChefiQne1cp0EpHaXXm2OF4MyAs3AHEPuaL+exsYIZXfZi8DErVqUj5tdk2AIQ2tgL80w71PWwsUJAy1mVQ==
   dependencies:
     chalk "5.6.2"
     cli-progress "3.12.0"
-    clipboardy "5.3.1"
+    clipboardy "5.3.2"
     commander "15.0.0"
     enquirer "2.4.1"
     fast-glob "3.3.3"
-    figlet "1.11.0"
+    figlet "1.11.3"
     is-git-clean "1.1.0"
     jscodeshift "17.4.0"
     lodash "4.18.1"
@@ -1781,10 +1781,10 @@ clipboard-image@^0.1.0:
   dependencies:
     run-jxa "^3.0.0"
 
-clipboardy@5.3.1:
-  version "5.3.1"
-  resolved "https://registry.yarnpkg.com/clipboardy/-/clipboardy-5.3.1.tgz#604765d6020341555964c53c60527ee22024fde9"
-  integrity sha512-fPWgBqpp9ctiOQCkE5yjYGzv11ZU55g6ahEgr3COiio6dXdt1mbchCPXQrSR2Y9sZqfi8L7QD3+UosgXVIuPdg==
+clipboardy@5.3.2:
+  version "5.3.2"
+  resolved "https://registry.yarnpkg.com/clipboardy/-/clipboardy-5.3.2.tgz#40fcdc0c41a4bd37cfd109e438a46352813bf5bb"
+  integrity sha512-R35PENCHFCw6lsd5SjYPuAVV3Zawr74mKc7ogFNzoDPoQsmWDoJgUNNnWCk/czeqdZGZs8Y0M8zkOlVoySfHEQ==
   dependencies:
     clipboard-image "^0.1.0"
     execa "^9.6.1"
@@ -2924,10 +2924,10 @@ fdir@^6.5.0:
   resolved "https://registry.yarnpkg.com/fdir/-/fdir-6.5.0.tgz#ed2ab967a331ade62f18d077dae192684d50d350"
   integrity sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg==
 
-figlet@1.11.0:
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/figlet/-/figlet-1.11.0.tgz#17b8a438ac75bfdbfbae79ecbc422e6e98d383fa"
-  integrity sha512-EEx3OS/l2bFqcUNN2NM9FPJp8vAMrgbCxsbl2hbcJNNxOEwVe3mEzrhan7TbJQViZa8mMqhihlbCaqD+LyYKTQ==
+figlet@1.11.3:
+  version "1.11.3"
+  resolved "https://registry.yarnpkg.com/figlet/-/figlet-1.11.3.tgz#9feb8895c373646491e89e5ef99d4097859c465b"
+  integrity sha512-7+OS4S6VjQXI2XRvfZlOdHhItd25lI0NgrR1j5UHfuyZfmMh44v65tMQUlb2bSriYGPCHAtGhuY5u23vqelvmg==
   dependencies:
     commander "^14.0.0"
 
@@ -3269,10 +3269,10 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.11,
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.11.tgz#4183e4e8bf08bb6e05bbb2f7d2e0c8f712ca40e3"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
 
-groq@^6.17.0:
-  version "6.17.0"
-  resolved "https://registry.yarnpkg.com/groq/-/groq-6.17.0.tgz#356843a68b6c4016bbbc507e4afb2242eba6df71"
-  integrity sha512-5t2XuEuV8ngevJlAAOSfwAgjggzTs8XXizk1BrUFFEWinqp5CjKYUoo/s6cqL3YeafN0/w7EfvOSg7V87wjxTA==
+groq@^6.18.0:
+  version "6.18.0"
+  resolved "https://registry.yarnpkg.com/groq/-/groq-6.18.0.tgz#3b1cb7b871288b619ffaeae4060d9e5f805d989e"
+  integrity sha512-LyFlNPNxKjIv/56OFnRpuIWBUVoh8UMgXnFKfRWpOduPSSCmSc4mbXggQcvcVmU9hHNxdsaSMyVfumpY5s7uRQ==
 
 hard-rejection@^2.1.0:
   version "2.1.0"
