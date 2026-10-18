@@ -1,4 +1,4 @@
-import { FC, SetStateAction } from 'react';
+import React, { FC, SetStateAction } from 'react';
 
 import { Box, VStack, Select, BodyLong } from '@navikt/ds-react';
 
