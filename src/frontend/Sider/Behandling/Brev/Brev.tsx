@@ -112,7 +112,7 @@ export const Brev: React.FC = () => {
                                                 settFil={settFil}
                                                 vedtak={vedtak}
                                                 oppsummertBeregningPrivatBil={
-                                                    oppsummertBeregningResponse
+                                                    oppsummertBeregningResponse ?? undefined
                                                 }
                                                 brevknapp={{
                                                     tittel: 'Send til beslutter',
