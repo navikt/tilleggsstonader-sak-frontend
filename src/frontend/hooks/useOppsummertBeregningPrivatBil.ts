@@ -7,7 +7,7 @@ import { byggTomRessurs, Ressurs } from '../typer/ressurs';
 
 interface Response {
     hentOppsummertBeregning: () => void;
-    oppsummertBeregningResponse: Ressurs<PrivatBilOppsummertBeregning>;
+    oppsummertBeregningResponse: Ressurs<PrivatBilOppsummertBeregning | null>;
 }
 
 export const useOppsummertBeregningPrivatBil = (): Response => {
@@ -15,10 +15,10 @@ export const useOppsummertBeregningPrivatBil = (): Response => {
     const { behandling } = useBehandling();
 
     const [oppsummertBeregningResponse, settOppsummertBeregningResponse] =
-        useState<Ressurs<PrivatBilOppsummertBeregning>>(byggTomRessurs());
+        useState<Ressurs<PrivatBilOppsummertBeregning | null>>(byggTomRessurs());
 
     const hentOppsummertBeregning = useCallback(() => {
-        request<PrivatBilOppsummertBeregning, null>(
+        request<PrivatBilOppsummertBeregning | null, null>(
             `/api/sak/vedtak/daglig-reise/${behandling.id}/privat-bil/oppsummer-beregning`
         ).then(settOppsummertBeregningResponse);
     }, [behandling, request]);

@@ -17,9 +17,13 @@ export const BeregningFaneDagligReise: FC = () => {
     return (
         <VStack gap="space-24">
             <DataViewer type={'beregningsresultat'} response={{ oppsummertBeregningResponse }}>
-                {({ oppsummertBeregningResponse }) => (
-                    <Beregning oppsummertBeregning={oppsummertBeregningResponse} />
-                )}
+                {({ oppsummertBeregningResponse }) =>
+                    oppsummertBeregningResponse ? (
+                        <Beregning oppsummertBeregning={oppsummertBeregningResponse} />
+                    ) : (
+                        <BodyShort>Ingen beregning å vise</BodyShort>
+                    )
+                }
             </DataViewer>
             <StegKnapp steg={Steg.BEREGNING}>Ferdigstill steg</StegKnapp>
         </VStack>
