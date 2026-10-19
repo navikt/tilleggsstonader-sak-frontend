@@ -12,7 +12,6 @@ import DataViewer from '../../../../../komponenter/DataViewer';
 import { Feil } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import Panel from '../../../../../komponenter/Panel/Panel';
-import { Stønadstype } from '../../../../../typer/behandling/behandlingTema';
 import {
     byggHenterRessurs,
     byggRessursFeilet,
@@ -62,8 +61,7 @@ export const InnvilgeFlytting: React.FC<{
         beregning?.perioder === vedtaksperioder
             ? beregning.resultat
             : byggTomRessurs<BeregningsresultatFlytting>();
-    const gjelderTsr = behandling.stønadstype === Stønadstype.FLYTTING_TSR;
-    const vedtakUrl = `/api/sak/vedtak/flytting/${behandling.id}/${gjelderTsr ? 'tsr' : 'tso'}`;
+    const vedtakUrl = `/api/sak/vedtak/flytting/${behandling.id}`;
 
     const beregnFlytting = () => {
         const id = ++beregningId.current;
