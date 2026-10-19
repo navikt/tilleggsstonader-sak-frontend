@@ -9,6 +9,8 @@ import {
     erAktivitetDagligReiseTsr,
     erAktivitetLæremidler,
     erAktivitetPassAvBarn,
+    erAktivitetReiseOppstartAvslutningHjemreiseTso,
+    erAktivitetReiseOppstartAvslutningHjemreiseTsr,
     erAktivitetReiseTilSamlingTso,
     erAktivitetReiseTilSamlingTsr,
 } from '../../typer/vilkårperiode/aktivitet';
@@ -20,6 +22,7 @@ import {
     studienivåTilTekst,
 } from '../../typer/vilkårperiode/aktivitetLæremidler';
 import { AktivitetPassAvBarn } from '../../typer/vilkårperiode/aktivitetPassAvBarn';
+import { AktivitetReiseOppstartAvslutningHjemreiseTso } from '../../typer/vilkårperiode/aktivitetReiseOppstartAvslutningHjemreise';
 import { AktivitetReiseTilSamlingTso } from '../../typer/vilkårperiode/aktivitetReiseTilSamlingTso';
 import {
     harRettTilUtstyrsstipendSvarTilTekst,
@@ -49,6 +52,12 @@ export const FaktaOgDelvilkårVisning: React.FC<{
         return <FaktaOgDelvilkårReiseTilSamlingTso aktivitet={aktivitet} />;
     }
     if (erAktivitetReiseTilSamlingTsr(aktivitet)) {
+        return null;
+    }
+    if (erAktivitetReiseOppstartAvslutningHjemreiseTso(aktivitet)) {
+        return <FaktaOgDelvilkårReiseOppstartAvslutningHjemreiseTso aktivitet={aktivitet} />;
+    }
+    if (erAktivitetReiseOppstartAvslutningHjemreiseTsr(aktivitet)) {
         return null;
     }
     return null;
@@ -133,6 +142,14 @@ const FaktaOgDelvilkårDagligReiseTsr: React.FC<{
 
 const FaktaOgDelvilkårReiseTilSamlingTso: React.FC<{
     aktivitet: AktivitetReiseTilSamlingTso;
+}> = ({ aktivitet }) => {
+    const svarLønnet = aktivitet.faktaOgVurderinger.lønnet?.svar;
+
+    return <>{svarLønnet && <Detail>{lønnetSvarTilTekst[svarLønnet]}</Detail>}</>;
+};
+
+const FaktaOgDelvilkårReiseOppstartAvslutningHjemreiseTso: React.FC<{
+    aktivitet: AktivitetReiseOppstartAvslutningHjemreiseTso;
 }> = ({ aktivitet }) => {
     const svarLønnet = aktivitet.faktaOgVurderinger.lønnet?.svar;
 

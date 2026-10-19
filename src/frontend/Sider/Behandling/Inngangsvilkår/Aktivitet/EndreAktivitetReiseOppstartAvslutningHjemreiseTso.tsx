@@ -40,8 +40,6 @@ import SlettVilkårperiode from '../Vilkårperioder/SlettVilkårperiodeModal';
 export interface EndreAktivitetFormReiseOppstartAvslutningHjemreiseTso extends Periode {
     type: AktivitetType | '';
     svarLønnet: SvarJaNei | undefined;
-    svarHarUtgifter: SvarJaNei | undefined;
-    svarErAktivitetenObligatorisk: SvarJaNei | undefined;
     begrunnelse?: string;
     kildeId?: string;
 }
@@ -142,9 +140,7 @@ export const EndreAktivitetReiseOppstartAvslutningHjemreiseTso: React.FC<{
 
     const delvilkårSomKreverBegrunnelse = finnBegrunnelseGrunnerAktivitet(
         form.type,
-        form.svarLønnet,
-        form.svarHarUtgifter,
-        form.svarErAktivitetenObligatorisk
+        form.svarLønnet
     );
 
     const aktivitetErBruktFraSystem = form.kildeId !== undefined;
@@ -170,12 +166,6 @@ export const EndreAktivitetReiseOppstartAvslutningHjemreiseTso: React.FC<{
                 aktivitetForm={form}
                 oppdaterLønnet={(svar) =>
                     settForm((prevState) => ({ ...prevState, svarLønnet: svar }))
-                }
-                oppdaterHarUtgifter={(svar) =>
-                    settForm((prevState) => ({ ...prevState, svarHarUtgifter: svar }))
-                }
-                oppdaterErObligatorisk={(svar) =>
-                    settForm((prevState) => ({ ...prevState, svarErAktivitetenObligatorisk: svar }))
                 }
             />
             <Begrunnelse
