@@ -2,12 +2,14 @@ import { lagVedtakstabellBoutgifter } from './lagVedtakstabellBoutgifter';
 import { lagVedtakstabellDagligReise } from './lagVedtakstabellDagligReise';
 import { lagVedtakstabellLæremidler } from './lagVedtakstabellLæremidler';
 import { lagVedtakstabellPassAvBarn } from './lagVedtakstabellPassAvBarn';
+import { lagVedtakstabellFlytting } from './VedtakstabellFlytting';
 import { lagVedtakstabellReiseTilSamling } from './vedtakstabellReiseTilSamling/VedtakstabellReiseTilSamling';
 import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { BeregningsresultatBoutgifter } from '../../../typer/vedtak/vedtakBoutgifter';
 import { BeregningsresultatDagligReise } from '../../../typer/vedtak/vedtakDagligReise';
+import { BeregningsresultatFlytting } from '../../../typer/vedtak/vedtakFlytting';
 import { BeregningsresultatLæremidler } from '../../../typer/vedtak/vedtakLæremidler';
 import { BeregningsresultatPassAvBarn } from '../../../typer/vedtak/vedtakPassAvBarn';
 import { BeregningResultatReiseTilSamling } from '../../../typer/vedtak/vedtakReiseTilSamling';
@@ -55,6 +57,11 @@ export const lagVedtakstabell = (
         case Stønadstype.REISE_TIL_SAMLING_TSR:
             return lagVedtakstabellReiseTilSamling(
                 vedtak.beregningsresultat as BeregningResultatReiseTilSamling
+            );
+        case Stønadstype.FLYTTING_TSO:
+        case Stønadstype.FLYTTING_TSR:
+            return lagVedtakstabellFlytting(
+                vedtak.beregningsresultat as BeregningsresultatFlytting
             );
         default:
             return '';
