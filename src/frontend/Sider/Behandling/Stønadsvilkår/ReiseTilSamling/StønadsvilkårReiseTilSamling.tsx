@@ -3,7 +3,9 @@ import React, { useEffect, useId } from 'react';
 import { BriefcaseIcon } from '@navikt/aksel-icons';
 import { VStack } from '@navikt/ds-react';
 
+import { KopierVilkårReiseTilSamling } from './EndreVilkår/KopierVilkårReiseTilSamling';
 import { NyttVilkårReiseTilSamling } from './EndreVilkår/NyttVilkårReiseTilSamling';
+import { VilkårReiseTilSamling } from './typer/vilkårReiseTilSamling';
 import { VisEllerEndreVilkårReiseTilSamling } from './VisEllerEndreVilkårReiseTilSamling';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -50,6 +52,9 @@ const StønadsvilkårInnhold = () => {
     const { vilkårsett } = useVilkårReiseTilSamling();
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
 
+    const [vilkårSomKopieres, settVilkårSomKopieres] = React.useState<
+        VilkårReiseTilSamling | undefined
+    >(undefined);
     const [redigererVilkårId, settRedigererVilkårId] = React.useState<string | 'nytt' | undefined>(
         undefined
     );
@@ -77,6 +82,19 @@ const StønadsvilkårInnhold = () => {
         settRedigererVilkårId(undefined);
     };
 
+    const startKopiering = (vilkår: VilkårReiseTilSamling) => {
+        if (startRedigering(`kopi-${vilkår.id}`)) {
+            settVilkårSomKopieres(vilkår);
+            return true;
+        }
+        return false;
+    };
+
+    const avsluttKopiering = () => {
+        settVilkårSomKopieres(undefined);
+        avsluttRedigering();
+    };
+
     return (
         <VilkårPanel tittel={'Reise til samling'} ikon={<BriefcaseIcon />}>
             {vilkårsett.map((vilkår) => (
@@ -88,8 +106,15 @@ const StønadsvilkårInnhold = () => {
                             redigererVilkårId !== undefined && redigererVilkårId !== vilkår.id
                         }
                         startRedigering={() => startRedigering(vilkår.id)}
+                        startKopiering={() => startKopiering(vilkår)}
                         avsluttRedigering={avsluttRedigering}
                     />
+                    {vilkårSomKopieres && vilkårSomKopieres.id === vilkår.id && (
+                        <KopierVilkårReiseTilSamling
+                            kildeVilkår={vilkårSomKopieres}
+                            avsluttKopiering={avsluttKopiering}
+                        />
+                    )}
                 </React.Fragment>
             ))}
             <NyttVilkårReiseTilSamling

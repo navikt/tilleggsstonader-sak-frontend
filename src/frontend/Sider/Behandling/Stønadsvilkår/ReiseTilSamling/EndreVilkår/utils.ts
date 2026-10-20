@@ -1,4 +1,5 @@
 import { BegrunnelseRegel, SvarId } from '../../../../../typer/regel';
+import { Periode } from '../../../../../utils/periode';
 import {
     FaktaReiseTilSamling,
     FaktaOffentligTransport,
@@ -12,6 +13,33 @@ import {
     TypeVilkårFakta,
 } from '../typer/regelstrukturReiseTilSamling';
 import { SvarVilkårReiseTilSamling, VilkårReiseTilSamling } from '../typer/vilkårReiseTilSamling';
+
+export function vilkårTilPeriode(vilkår: VilkårReiseTilSamling): Periode {
+    return {
+        fom: vilkår.fom || '',
+        tom: vilkår.tom || '',
+    };
+}
+
+export function initierPeriode(
+    vilkår?: VilkårReiseTilSamling,
+    periodeFraVilkårSomKopieres?: Periode
+): Periode {
+    if (vilkår) {
+        return vilkårTilPeriode(vilkår);
+    }
+    return periodeFraVilkårSomKopieres ?? { fom: '', tom: '' };
+}
+
+export function initierAdresse(
+    vilkår?: VilkårReiseTilSamling,
+    adresseFraVilkårSomKopieres?: string
+): string {
+    if (vilkår) {
+        return vilkår.adresse;
+    }
+    return adresseFraVilkårSomKopieres ?? '';
+}
 
 export const initierSvar = (
     eksisterendeVilkår: VilkårReiseTilSamling | undefined

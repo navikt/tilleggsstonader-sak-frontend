@@ -70,7 +70,7 @@ export function harValideringsFeil(valideringsfeil: FeilmeldingerReiseTilSamling
 
 export const validerVilkår = (
     periode: Periode,
-    adresse: string | undefined,
+    adresse: string,
     svar: SvarVilkårReiseTilSamling,
     fakta: FaktaReiseTilSamling,
     regelstruktur: RegelstrukturReiseTilSamling,
@@ -89,7 +89,7 @@ export const validerVilkår = (
     };
 };
 
-const validerAdresse = (adresse: string | undefined): Partial<FeilmeldingerReiseTilSamling> => {
+const validerAdresse = (adresse: string): Partial<FeilmeldingerReiseTilSamling> => {
     if (!adresse) {
         return { adresse: 'Adresse er påkrevd' };
     }
