@@ -8,7 +8,7 @@ export const svarIdTilTekst: Record<SvarId, string> = {
     FLYTTING_VED_AVSLUTTET_AKTIVITET: 'Flytting ved avsluttet aktivitet',
     ARBEID_ETTER_GJENNOMFØRT_AKTIVITET: 'Arbeid etter gjennomført tiltak/utdanning',
     ENSLIG_FORSØRGER_ELLER_GJENLEVENDE_STARTER_I_ARBEID:
-        'Enlig forsørger eller gjenlevende som flytter fra hjemstedet for å starte i arbeid',
+        'Enslig forsørger eller gjenlevende som flytter fra hjemstedet for å starte i arbeid',
     FLYTTEBYRÅ: 'Flyttebyrå',
     FLYTTER_SELV: 'Flytter selv',
 
@@ -26,7 +26,7 @@ export const svarIdTilTekstKorversjon: Record<string, string> = {
     FLYTTING_VED_AVSLUTTET_AKTIVITET: 'Flytting ved avsluttet aktivitet',
     ARBEID_ETTER_GJENNOMFØRT_AKTIVITET: 'Arbeid etter gjennomført tiltak/utdanning',
     ENSLIG_FORSØRGER_ELLER_GJENLEVENDE_STARTER_I_ARBEID:
-        'Enlig forsørger eller gjenlevende som flytter fra hjemstedet for å starte i arbeid',
+        'Enslig forsørger eller gjenlevende som flytter fra hjemstedet for å starte i arbeid',
     FLYTTEBYRÅ: 'Flyttebyrå',
     FLYTTER_SELV: 'Flytter selv',
 
@@ -62,8 +62,6 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     KAN_REISE_MED_EGEN_BIL: 'Kan bruker benytte seg av privat bil?',
     HAR_UTGIFTER_TIL_REISEN: 'Har bruker utgifter til reisen?',
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
-    OPPFYLLER_VILKÅR_FOR_FLYTTING:
-        'Flytter bruker ifbm. aktivitetsgjennomføring eller ny stilling?',
     HVILKEN_FORBINDELSE_FLYTTER_BRUKER: 'I hvilken forbindelse flytter bruker?',
     MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET:
         'Må bruker flytte fra hjemstedet for å gjennomføre aktiviteten?',
@@ -99,8 +97,6 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     KAN_REISE_MED_EGEN_BIL: 'Kan benytte privat bil?',
     HAR_UTGIFTER_TIL_REISEN: 'Har utgifter til reisen?',
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
-    OPPFYLLER_VILKÅR_FOR_FLYTTING:
-        'Flytter bruker ifbm. aktivitetsgjennomføring eller ny stilling?',
     HVILKEN_FORBINDELSE_FLYTTER_BRUKER: 'I hvilken forbindelse flytter bruker?',
     MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET:
         'Må bruker flytte fra hjemstedet for å gjennomføre aktiviteten?',
