@@ -37,8 +37,7 @@ import { regelIdTilSpørsmål } from '../../Vilkårvurdering/tekster';
 interface FaktaSkjema {
     type: TypeVilkårFaktaFlytting;
     adresse: string;
-    tilbud1: { navn: string; pris: string };
-    tilbud2: { navn: string; pris: string };
+    tilbud: { navn: string; pris: string }[];
     erBetalingDokumentert: boolean | undefined;
     avstandEnVei: string;
     henger: string;
@@ -56,8 +55,10 @@ interface Props {
 const tommeFakta: FaktaSkjema = {
     type: 'FLYTTING_UBESTEMT',
     adresse: '',
-    tilbud1: { navn: '', pris: '' },
-    tilbud2: { navn: '', pris: '' },
+    tilbud: [
+        { navn: '', pris: '' },
+        { navn: '', pris: '' },
+    ],
     erBetalingDokumentert: undefined,
     avstandEnVei: '',
     henger: '',
@@ -86,8 +87,10 @@ function tilFaktaSkjema(fakta?: FaktaFlytting): FaktaSkjema {
     if (fakta?.type === 'FLYTTING_FLYTTEBYRÅ') {
         return {
             ...skjema,
-            tilbud1: { navn: fakta.tilbud1.navn ?? '', pris: fakta.tilbud1.pris?.toString() ?? '' },
-            tilbud2: { navn: fakta.tilbud2.navn ?? '', pris: fakta.tilbud2.pris?.toString() ?? '' },
+            tilbud: fakta.tilbud.map((tilbud) => ({
+                navn: tilbud.navn ?? '',
+                pris: tilbud.pris?.toString() ?? '',
+            })),
             erBetalingDokumentert: fakta.erBetalingDokumentert,
         };
     }
@@ -180,14 +183,10 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
             return {
                 type: skjema.type,
                 adresse,
-                tilbud1: {
-                    navn: skjema.tilbud1.navn.trim() || null,
-                    pris: tallEllerNull(skjema.tilbud1.pris),
-                },
-                tilbud2: {
-                    navn: skjema.tilbud2.navn.trim() || null,
-                    pris: tallEllerNull(skjema.tilbud2.pris),
-                },
+                tilbud: skjema.tilbud.map((tilbud) => ({
+                    navn: tilbud.navn.trim() || null,
+                    pris: tallEllerNull(tilbud.pris),
+                })),
                 erBetalingDokumentert: skjema.erBetalingDokumentert,
             };
         }
@@ -358,40 +357,34 @@ const EndreFaktaFlyttebyrå: React.FC<{
         }
         return undefined;
     };
+    const oppdaterTilbud = (indeks: number, felt: 'navn' | 'pris', verdi: string) => {
+        settFakta((forrige) => ({
+            ...forrige,
+            tilbud: forrige.tilbud.map((tilbud, tilbudsindeks) =>
+                tilbudsindeks === indeks ? { ...tilbud, [felt]: verdi } : tilbud
+            ),
+        }));
+    };
     return (
         <VStack gap="space-12">
             <Skillelinje />
-            {[1, 2].map((nummer) => {
-                const nøkkel = nummer === 1 ? 'tilbud1' : 'tilbud2';
-                const tilbud = fakta[nøkkel];
+            {fakta.tilbud.map((tilbud, indeks) => {
                 return (
-                    <HGrid key={nøkkel} gap="space-16" columns={{ xs: 1, sm: 2 }}>
+                    <HGrid key={`tilbud-${indeks}`} gap="space-16" columns={{ xs: 1, sm: 2 }}>
                         <TextField
-                            label={`Navn på flyttebyrå ${nummer}`}
+                            label={`Navn på flyttebyrå ${indeks + 1}`}
                             value={tilbud.navn}
                             onChange={(event) => {
-                                settFakta((forrige) => ({
-                                    ...forrige,
-                                    [nøkkel]: {
-                                        ...forrige[nøkkel],
-                                        navn: event.target.value,
-                                    },
-                                }));
+                                oppdaterTilbud(indeks, 'navn', event.target.value);
                             }}
                             size="small"
                         />
                         <TextField
-                            label={`Pris på tilbud ${nummer} i kroner`}
+                            label={`Pris på tilbud ${indeks + 1} i kroner`}
                             value={tilbud.pris}
                             inputMode="numeric"
                             onChange={(event) => {
-                                settFakta((forrige) => ({
-                                    ...forrige,
-                                    [nøkkel]: {
-                                        ...forrige[nøkkel],
-                                        pris: event.target.value,
-                                    },
-                                }));
+                                oppdaterTilbud(indeks, 'pris', event.target.value);
                             }}
                             size="small"
                         />

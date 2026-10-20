@@ -42,7 +42,12 @@ const VedtakstabellFlytting: FC<{ resultat: BeregningsresultatFlyttevilkår }> =
     const kolonner: Kolonne[] = [
         { navn: 'Flyttedato', verdi: formaterIsoDato(resultat.fom) },
         ...(grunnlag.type === BeregningsgrunnlagType.FLYTTEBYRÅ
-            ? []
+            ? [
+                  {
+                      navn: 'Flyttebyrå',
+                      verdi: grunnlag.valgtTilbud.navn,
+                  },
+              ]
             : lagKolonnerForEgenKjøring(grunnlag)),
         {
             navn: 'Stønadsbeløp',
@@ -94,6 +99,7 @@ const VedtakstabellFlytting: FC<{ resultat: BeregningsresultatFlyttevilkår }> =
                                 ...cellStyle,
                                 fontSize: '0.95em',
                                 textAlign: erBeløp ? 'right' : 'left',
+                                overflowWrap: 'anywhere',
                             }}
                         >
                             {verdi}

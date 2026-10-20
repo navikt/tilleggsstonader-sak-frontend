@@ -37,8 +37,8 @@ const BeregningsResultatFlyttebyrå: React.FC<{
                         <Table.Row>
                             <TableHeaderCellSmall>F.o.m.</TableHeaderCellSmall>
                             <TableHeaderCellSmall>T.o.m.</TableHeaderCellSmall>
-                            <TableHeaderCellSmall>Tilbud 1</TableHeaderCellSmall>
-                            <TableHeaderCellSmall>Tilbud 2</TableHeaderCellSmall>
+                            <TableHeaderCellSmall>Tilbud</TableHeaderCellSmall>
+                            <TableHeaderCellSmall>Valgt flyttebyrå</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Dokumentert og utbetales?</TableHeaderCellSmall>
                             <TableHeaderCellSmall align="right">Stønadsbeløp</TableHeaderCellSmall>
                         </Table.Row>
@@ -54,11 +54,15 @@ const BeregningsResultatFlyttebyrå: React.FC<{
                                     <TableDataCellSmall>
                                         {formaterIsoDato(resultat.tom)}
                                     </TableDataCellSmall>
-                                    <TableDataCellSmall>
-                                        {kronerMedTusenSkilleEllerStrek(grunnlag.tilbud1Pris)}
+                                    <TableDataCellSmall style={{ overflowWrap: 'anywhere' }}>
+                                        {grunnlag.tilbud.map((tilbud, index) => (
+                                            <div key={`${index}-${tilbud.navn}`}>
+                                                {`${tilbud.navn}: ${kronerMedTusenSkilleEllerStrek(tilbud.pris)}`}
+                                            </div>
+                                        ))}
                                     </TableDataCellSmall>
-                                    <TableDataCellSmall>
-                                        {kronerMedTusenSkilleEllerStrek(grunnlag.tilbud2Pris)}
+                                    <TableDataCellSmall style={{ overflowWrap: 'anywhere' }}>
+                                        {grunnlag.valgtTilbud.navn}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
                                         {formatBoolean(grunnlag.erBetalingDokumentert)}

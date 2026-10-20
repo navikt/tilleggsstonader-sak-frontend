@@ -4,8 +4,7 @@ export type TypeVilkårFaktaFlytting =
 export interface FaktaFlyttingFlyttebyrå {
     type: 'FLYTTING_FLYTTEBYRÅ';
     adresse: string | null;
-    tilbud1: FaktaFlyttingTilbud;
-    tilbud2: FaktaFlyttingTilbud;
+    tilbud: FaktaFlyttingTilbud[];
     erBetalingDokumentert: boolean;
 }
 

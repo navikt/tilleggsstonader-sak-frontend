@@ -54,10 +54,15 @@ export enum BeregningsgrunnlagType {
 
 export type BeregningsgrunnlagFlyttebyrå = {
     type: BeregningsgrunnlagType.FLYTTEBYRÅ;
-    tilbud1Pris: number;
-    tilbud2Pris: number;
+    tilbud: BeregningsgrunnlagFlyttebyråTilbud[];
+    valgtTilbud: BeregningsgrunnlagFlyttebyråTilbud;
     erBetalingDokumentert: boolean;
 };
+
+export interface BeregningsgrunnlagFlyttebyråTilbud {
+    navn: string;
+    pris: number;
+}
 
 export type BeregningsgrunnlagFlytteSelv = {
     type: BeregningsgrunnlagType.FLYTTE_SELV;
