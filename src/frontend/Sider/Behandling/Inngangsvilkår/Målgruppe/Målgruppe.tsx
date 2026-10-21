@@ -22,6 +22,7 @@ import {
 } from '../../lenker';
 import { MålgruppeType } from '../typer/vilkårperiode/målgruppe';
 import {
+    PeriodeStatus,
     VilkårperioderGrunnlag,
     YtelseGrunnlagPeriode,
 } from '../typer/vilkårperiode/vilkårperiode';
@@ -81,8 +82,12 @@ const Målgruppe: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = 
     }, [feilmelding]);
 
     const skalViseAdvarselOmRegelendringer =
-        målgrupper.some((målgruppe) => målgruppe.type === MålgruppeType.OVERGANGSSTØNAD) &&
-        radSomRedigeres === undefined;
+        målgrupper.some(
+            (målgruppe) =>
+                målgruppe.status !== PeriodeStatus.SLETTET &&
+                (målgruppe.type === MålgruppeType.OVERGANGSSTØNAD ||
+                    målgruppe.type === MålgruppeType.OPPHØRT_OVERGANGSSTØNAD)
+        ) && radSomRedigeres === undefined;
 
     return (
         <VilkårPanel

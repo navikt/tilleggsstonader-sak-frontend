@@ -27,6 +27,7 @@ import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMe
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { SvarId } from '../../../../typer/regel';
 import { feilmeldingVedFeil, Ressurs, RessursStatus } from '../../../../typer/ressurs';
+import { Målgruppe, MålgruppeType } from '../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { PeriodeStatus, SvarJaNei } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import SlettVilkårModal from '../../Vilkårvurdering/EndreVilkår/SlettVilkårModal';
 import { FellesDelvilkår } from '../../Vilkårvurdering/FellesDelvilkår';
@@ -48,6 +49,7 @@ interface FaktaSkjema {
 
 interface Props {
     vilkår?: VilkårFlytting;
+    målgrupper: Målgruppe[];
     avbryt: () => void;
     lagre: (payload: LagreVilkårFlytting) => Promise<Ressurs<VilkårFlytting>>;
 }
@@ -123,7 +125,7 @@ function initierSvar(
     return lagredeSvar;
 }
 
-export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
+export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, lagre }) => {
     const { behandling } = useBehandling();
     const { slettVilkår, regelstruktur } = useVilkårFlytting();
 
@@ -228,6 +230,19 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
     };
 
     const aktive = initierAktiveDelvilkår(svar, regelstruktur);
+    const manglerMålgruppeForEnsligForsørgerEllerGjenlevende =
+        svar[RegelIdFlytting.HVILKEN_FORBINDELSE_FLYTTER_BRUKER]?.svar ===
+            'ENSLIG_FORSØRGER_ELLER_GJENLEVENDE_STARTER_I_ARBEID' &&
+        !målgrupper.some(
+            (målgruppe) =>
+                målgruppe.status !== PeriodeStatus.SLETTET &&
+                [
+                    MålgruppeType.OVERGANGSSTØNAD,
+                    MålgruppeType.OMSTILLINGSSTØNAD,
+                    MålgruppeType.OPPHØRT_OVERGANGSSTØNAD,
+                    MålgruppeType.OPPHØRT_OMSTILLINGSSTØNAD,
+                ].includes(målgruppe.type)
+        );
 
     return (
         <form onSubmit={lagreSkjema}>
@@ -262,6 +277,17 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, avbryt, lagre }) => {
                 </HStack>
 
                 <Skillelinje />
+                {manglerMålgruppeForEnsligForsørgerEllerGjenlevende && (
+                    <LocalAlert status="warning" size="small">
+                        <LocalAlert.Header>
+                            <LocalAlert.Title>Kontroller flytteforbindelsen</LocalAlert.Title>
+                        </LocalAlert.Header>
+                        <LocalAlert.Content>
+                            For å velge denne flytteforbindelsen må brukeren ha målgruppen
+                            overgangsstønad, omstillingsstønad eller en opphørt variant av disse.
+                        </LocalAlert.Content>
+                    </LocalAlert>
+                )}
                 {aktive.map((regelId) => {
                     const regel = regelstruktur[regelId];
                     const vurdering = svar[regelId];
