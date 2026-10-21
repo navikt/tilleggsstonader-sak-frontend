@@ -4,8 +4,8 @@ import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import begrunnelseStyles from '../../../../../../komponenter/Begrunnelse.module.css';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../../../../utils/fomatering';
+import { LesevisningNødvendigUtgift } from '../../../Felles/Lesevisning/LesevisningNødvendigUtgift';
 import { FaktaOffentligTransport } from '../../typer/faktaReiseTilSamling';
-import { LesevisningNødvendigUtgift } from '../Felles/LesevisningNødvendigUtgift';
 
 export const LesevisningFaktaOffentligTransport: FC<{
     fakta: FaktaOffentligTransport;
