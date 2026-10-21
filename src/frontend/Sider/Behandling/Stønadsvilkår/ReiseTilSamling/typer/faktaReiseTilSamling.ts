@@ -1,14 +1,7 @@
 import { TypeVilkårFakta } from './regelstrukturReiseTilSamling';
 import { TypeReiseTilSamling } from './vilkårReiseTilSamling';
-import { SvarId } from '../../../../../typer/regel';
+import type { NødvendigUtgift } from '../../../../../typer/nødvendigUtgift';
 import { AktivitetInfo } from '../felles/aktivitetInfo';
-
-export type SvarJaNei = Extract<SvarId, 'JA' | 'NEI'>;
-
-export interface NødvendigUtgift {
-    erUtgiftenNødvendig: SvarJaNei;
-    begrunnelse: string | undefined;
-}
 
 export interface FaktaReiseTilSamling {
     type: TypeReiseTilSamling;
@@ -32,9 +25,6 @@ export interface FaktaPrivatBil extends FaktaReiseTilSamling {
     parkering: number | undefined;
     piggdekkavgift: number | undefined;
 }
-
-export const erSvarJaNei = (svarId: string): svarId is SvarJaNei =>
-    svarId === 'JA' || svarId === 'NEI';
 
 export const erFaktaOffentligTransport = (
     fakta: FaktaReiseTilSamling

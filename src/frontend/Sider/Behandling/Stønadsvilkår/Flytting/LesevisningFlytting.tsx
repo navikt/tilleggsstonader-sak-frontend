@@ -18,6 +18,7 @@ import { formaterDato } from '../../../../utils/dato';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../../utils/fomatering';
 import { Vilkårsresultat } from '../../vilkår';
 import { LesevisningDelvilkår } from '../Felles/Lesevisning/LesevisningDelvilkår';
+import { LesevisningNødvendigUtgift } from '../Felles/Lesevisning/LesevisningNødvendigUtgift';
 
 interface Props {
     vilkår: VilkårFlytting;
@@ -120,6 +121,9 @@ const LesevisningFaktaFlytting: React.FC<{ vilkår: VilkårFlytting }> = ({ vilk
             )}
             {fakta.type === 'FLYTTING_FLYTTE_SELV' && (
                 <LesevisningFlyttingPrivatBil fakta={fakta} />
+            )}
+            {fakta.type !== 'FLYTTING_UBESTEMT' && (
+                <LesevisningNødvendigUtgift nødvendigUtgift={fakta.nødvendigUtgift} />
             )}
         </VStack>
     );

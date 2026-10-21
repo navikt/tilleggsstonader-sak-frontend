@@ -1,11 +1,11 @@
 import { finnBegrunnelsestypeForSvar } from './utils';
+import { erSvarJaNei } from '../../../../../typer/nødvendigUtgift';
 import { BegrunnelseRegel } from '../../../../../typer/regel';
 import { Periode, validerPeriode } from '../../../../../utils/periode';
 import { harVerdi } from '../../../../../utils/utils';
 import {
     erFaktaOffentligTransport,
     erFaktaPrivatBil,
-    erSvarJaNei,
     FaktaOffentligTransport,
     FaktaPrivatBil,
     FaktaReiseTilSamling,
