@@ -8,6 +8,7 @@ import {
     BeregningsgrunnlagType,
     BeregningsresultatFlytting,
     BeregningsresultatFlyttevilkår,
+    hentValgtFlyttebyråTilbud,
 } from '../../../typer/vedtak/vedtakFlytting';
 import { formaterIsoDato } from '../../../utils/dato';
 import { kronerMedTusenSkilleEllerStrek } from '../../../utils/tekstformatering';
@@ -42,7 +43,12 @@ const VedtakstabellFlytting: FC<{ resultat: BeregningsresultatFlyttevilkår }> =
     const kolonner: Kolonne[] = [
         { navn: 'Flyttedato', verdi: formaterIsoDato(resultat.fom) },
         ...(grunnlag.type === BeregningsgrunnlagType.FLYTTEBYRÅ
-            ? []
+            ? [
+                  {
+                      navn: 'Flyttebyrå',
+                      verdi: hentValgtFlyttebyråTilbud(grunnlag).navn,
+                  },
+              ]
             : lagKolonnerForEgenKjøring(grunnlag)),
         {
             navn: 'Stønadsbeløp',
@@ -94,6 +100,7 @@ const VedtakstabellFlytting: FC<{ resultat: BeregningsresultatFlyttevilkår }> =
                                 ...cellStyle,
                                 fontSize: '0.95em',
                                 textAlign: erBeløp ? 'right' : 'left',
+                                overflowWrap: 'anywhere',
                             }}
                         >
                             {verdi}

@@ -131,12 +131,14 @@ const LesevisningFlyttingFlyttebyrå: React.FC<{
     return (
         <VStack gap="space-12">
             <HStack gap="space-12" justify={'space-between'}>
-                {[fakta.tilbud1, fakta.tilbud2].map((tilbud, index) => (
+                {fakta.tilbud.map((tilbud, index) => (
                     <VStack key={index} gap="space-4">
                         <BodyShort weight="semibold" size="small">
                             Flyttebyrå {index + 1}
                         </BodyShort>
-                        <BodyShort size="small">{tilbud.navn ?? 'Navn ikke fylt ut'}</BodyShort>
+                        <BodyShort size="small" style={{ overflowWrap: 'anywhere' }}>
+                            {tilbud.navn ?? 'Navn ikke fylt ut'}
+                        </BodyShort>
                         <BodyShort size="small">
                             {tilbud.pris === null ? 'Pris ikke fylt ut' : `${tilbud.pris} kr`}
                         </BodyShort>
