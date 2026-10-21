@@ -16,7 +16,7 @@ import {
 } from '../typer/regelstrukturReiseTilSamling';
 import { SvarOgBegrunnelse, SvarVilkårReiseTilSamling } from '../typer/vilkårReiseTilSamling';
 
-const MAKS_BOMPENGER = 500;
+const MAKS_BOMPENGER = 900;
 const MAKS_FERGEKOSTNAD = 900;
 const MAKS_PARKERING = 2000;
 const MAKS_PIGGDEKKAVGIFT = 1400;
