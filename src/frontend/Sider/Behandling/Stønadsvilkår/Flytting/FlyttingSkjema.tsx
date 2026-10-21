@@ -27,10 +27,7 @@ import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMe
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { SvarId } from '../../../../typer/regel';
 import { feilmeldingVedFeil, Ressurs, RessursStatus } from '../../../../typer/ressurs';
-import {
-    erOpphørtStønadsMålgruppe,
-    Målgruppe,
-} from '../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
+import { Målgruppe, MålgruppeType } from '../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { PeriodeStatus, SvarJaNei } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import SlettVilkårModal from '../../Vilkårvurdering/EndreVilkår/SlettVilkårModal';
 import { FellesDelvilkår } from '../../Vilkårvurdering/FellesDelvilkår';
@@ -234,15 +231,19 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
     };
 
     const aktive = initierAktiveDelvilkår(svar, regelstruktur);
-    const harOpphørtStønadsMålgruppe = målgrupper.some(
-        (målgruppe) =>
-            målgruppe.status !== PeriodeStatus.SLETTET && erOpphørtStønadsMålgruppe(målgruppe.type)
-    );
-    const valgtFlytteforbindelse = svar[RegelIdFlytting.HVILKEN_FORBINDELSE_FLYTTER_BRUKER]?.svar;
-    const visAdvarselOmFlytteforbindelse =
-        harOpphørtStønadsMålgruppe &&
-        !!valgtFlytteforbindelse &&
-        valgtFlytteforbindelse !== 'ENSLIG_FORSØRGER_ELLER_GJENLEVENDE_STARTER_I_ARBEID';
+    const manglerMålgruppeForEnsligForsørgerEllerGjenlevende =
+        svar[RegelIdFlytting.HVILKEN_FORBINDELSE_FLYTTER_BRUKER]?.svar ===
+            'ENSLIG_FORSØRGER_ELLER_GJENLEVENDE_STARTER_I_ARBEID' &&
+        !målgrupper.some(
+            (målgruppe) =>
+                målgruppe.status !== PeriodeStatus.SLETTET &&
+                [
+                    MålgruppeType.OVERGANGSSTØNAD,
+                    MålgruppeType.OMSTILLINGSSTØNAD,
+                    MålgruppeType.OPPHØRT_OVERGANGSSTØNAD,
+                    MålgruppeType.OPPHØRT_OMSTILLINGSSTØNAD,
+                ].includes(målgruppe.type)
+        );
 
     return (
         <form onSubmit={lagreSkjema}>
@@ -277,15 +278,14 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                 </HStack>
 
                 <Skillelinje />
-                {visAdvarselOmFlytteforbindelse && (
+                {manglerMålgruppeForEnsligForsørgerEllerGjenlevende && (
                     <LocalAlert status="warning" size="small">
                         <LocalAlert.Header>
                             <LocalAlert.Title>Kontroller flytteforbindelsen</LocalAlert.Title>
                         </LocalAlert.Header>
                         <LocalAlert.Content>
-                            Når du har valgt målgruppen «Opphørt overgangsstønad» eller «Opphørt
-                            omstillingsstønad», må du velge «Enslig forsørger eller gjenlevende som
-                            flytter fra hjemstedet for å starte i arbeid».
+                            For å velge denne flytteforbindelsen må brukeren ha målgruppen
+                            overgangsstønad, omstillingsstønad eller en opphørt variant av disse.
                         </LocalAlert.Content>
                     </LocalAlert>
                 )}
