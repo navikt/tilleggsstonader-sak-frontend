@@ -7,6 +7,7 @@ import {
     BeregningsgrunnlagFlyttebyrå,
     BeregningsgrunnlagFlytteSelv,
     BeregningsresultatFlytting,
+    hentValgtFlyttebyråTilbud,
 } from '../../../../../typer/vedtak/vedtakFlytting';
 import { formaterIsoDato } from '../../../../../utils/dato';
 import {
@@ -62,7 +63,7 @@ const BeregningsResultatFlyttebyrå: React.FC<{
                                         ))}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall style={{ overflowWrap: 'anywhere' }}>
-                                        {grunnlag.valgtTilbud.navn}
+                                        {hentValgtFlyttebyråTilbud(grunnlag).navn}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
                                         {formatBoolean(grunnlag.erBetalingDokumentert)}

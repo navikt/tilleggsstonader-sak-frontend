@@ -55,13 +55,23 @@ export enum BeregningsgrunnlagType {
 export type BeregningsgrunnlagFlyttebyrå = {
     type: BeregningsgrunnlagType.FLYTTEBYRÅ;
     tilbud: BeregningsgrunnlagFlyttebyråTilbud[];
-    valgtTilbud: BeregningsgrunnlagFlyttebyråTilbud;
     erBetalingDokumentert: boolean;
 };
 
 export interface BeregningsgrunnlagFlyttebyråTilbud {
     navn: string;
     pris: number;
+    erValgt: boolean;
+}
+
+export function hentValgtFlyttebyråTilbud(
+    grunnlag: BeregningsgrunnlagFlyttebyrå
+): BeregningsgrunnlagFlyttebyråTilbud {
+    const valgteTilbud = grunnlag.tilbud.filter((tilbud) => tilbud.erValgt);
+    if (valgteTilbud.length !== 1) {
+        throw new Error('Forventer nøyaktig ett valgt flyttebyråtilbud');
+    }
+    return valgteTilbud[0];
 }
 
 export type BeregningsgrunnlagFlytteSelv = {

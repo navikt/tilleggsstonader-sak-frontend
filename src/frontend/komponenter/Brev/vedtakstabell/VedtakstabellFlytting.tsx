@@ -8,6 +8,7 @@ import {
     BeregningsgrunnlagType,
     BeregningsresultatFlytting,
     BeregningsresultatFlyttevilkår,
+    hentValgtFlyttebyråTilbud,
 } from '../../../typer/vedtak/vedtakFlytting';
 import { formaterIsoDato } from '../../../utils/dato';
 import { kronerMedTusenSkilleEllerStrek } from '../../../utils/tekstformatering';
@@ -45,7 +46,7 @@ const VedtakstabellFlytting: FC<{ resultat: BeregningsresultatFlyttevilkår }> =
             ? [
                   {
                       navn: 'Flyttebyrå',
-                      verdi: grunnlag.valgtTilbud.navn,
+                      verdi: hentValgtFlyttebyråTilbud(grunnlag).navn,
                   },
               ]
             : lagKolonnerForEgenKjøring(grunnlag)),
