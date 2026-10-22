@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useFlag } from '@unleash/proxy-client-react';
 
-import { Button, HStack } from '@navikt/ds-react';
+import { BodyShort, Button, HStack } from '@navikt/ds-react';
 
 import styles from './EndreMålgruppe.module.css';
 import MålgruppeDelvilkår from './MålgruppeDelvilkår';
@@ -32,6 +32,7 @@ import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndre
 import {
     Målgruppe,
     MålgruppeType,
+    erOpphørtStønadsMålgruppe,
     målgruppeTypeOptionsForStønad,
     SvarMålgruppe,
 } from '../typer/vilkårperiode/målgruppe';
@@ -179,7 +180,9 @@ const EndreMålgruppe: React.FC<{
 
     const erMålgruppeSomStøttes = form.type !== MålgruppeType.GJENLEVENDE_GAMMELT_REGELVERK;
 
-    const skalViseAdvarselOmRegelendringer = form.type === MålgruppeType.OVERGANGSSTØNAD;
+    const skalViseAdvarselOmRegelendringer =
+        form.type === MålgruppeType.OVERGANGSSTØNAD ||
+        form.type === MålgruppeType.OPPHØRT_OVERGANGSSTØNAD;
 
     return (
         <ResultatOgStatusKort periode={målgruppe} redigeres>
@@ -194,6 +197,11 @@ const EndreMålgruppe: React.FC<{
                     erStøttetType={erMålgruppeSomStøttes}
                 />
             </div>
+            {erOpphørtStønadsMålgruppe(form.type) && (
+                <BodyShort size="small">
+                    Gjelder kun for enslige forsørgere og gjenlevende.
+                </BodyShort>
+            )}
             <MålgruppeDelvilkår
                 målgruppeForm={form}
                 oppdaterVurderinger={(key: keyof SvarMålgruppe, nyttSvar: SvarJaNei) =>

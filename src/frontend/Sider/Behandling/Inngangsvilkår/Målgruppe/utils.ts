@@ -4,7 +4,7 @@ import {
     registerYtelseTilTekstStorForbokstav,
     typeRegisterYtelseTilMålgruppeType,
 } from '../../../../typer/registerytelser';
-import { dagensDato, førsteDagIMånederForut } from '../../../../utils/dato';
+import { dagensDato, førsteDagIMånederForut, leggTilMåneder } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { FaktiskMålgruppe } from '../../Felles/faktiskMålgruppe';
 import { maksMånederTilbakeFraSøknadsdato } from '../../Felles/grunnlagAntallMndBakITiden';
@@ -14,6 +14,7 @@ import {
     MålgruppeFaktaOgSvar,
     MålgruppeType,
     SvarMålgruppe,
+    erOpphørtStønadsMålgruppe,
 } from '../typer/vilkårperiode/målgruppe';
 import { målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe } from '../typer/vilkårperiode/målgruppeTilFaktiskMålgruppe';
 import {
@@ -127,7 +128,7 @@ export const resettMålgruppe = (
 
 const resetPeriode = (
     stønadstype: Stønadstype,
-    nyType: string,
+    nyType: MålgruppeType,
     eksisterendeForm: EndreMålgruppeForm,
     søknadMottattTidspunkt?: string
 ): Periode => {
@@ -144,6 +145,17 @@ const resetPeriode = (
     if (eksisterendeForm.type === MålgruppeType.INGEN_MÅLGRUPPE) {
         // Resetter datoer om de forrige var satt automatisk
         return { fom: '', tom: '' };
+    }
+
+    if (erOpphørtStønadsMålgruppe(nyType)) {
+        return {
+            fom: eksisterendeForm.fom,
+            tom: eksisterendeForm.fom ? leggTilMåneder(eksisterendeForm.fom, 6) : '',
+        };
+    }
+
+    if (erOpphørtStønadsMålgruppe(eksisterendeForm.type)) {
+        return { fom: eksisterendeForm.fom, tom: '' };
     }
 
     return { fom: eksisterendeForm.fom, tom: eksisterendeForm.tom };

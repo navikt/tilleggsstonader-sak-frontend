@@ -13,26 +13,33 @@ import {
 } from '../../../../context/VilkårFlyttingContext';
 import { useHentVilkårFlytting } from '../../../../hooks/useHentVilkårsvurdering';
 import { useRegelstrukturFlytting } from '../../../../hooks/useRegler';
+import { useVilkårperioder } from '../../../../hooks/useVilkårperioder';
 import DataViewer from '../../../../komponenter/DataViewer';
 import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { StegKnapp } from '../../../../komponenter/Stegflyt/StegKnapp';
 import { VilkårPanel } from '../../../../komponenter/VilkårPanel/VilkårPanel';
 import { Steg } from '../../../../typer/behandling/steg';
 import { formaterDato } from '../../../../utils/dato';
+import { Målgruppe } from '../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 
 export const StønadsvilkårFlytting: React.FC = () => {
+    const { behandling } = useBehandling();
     const { eksisterendeVilkår } = useHentVilkårFlytting();
     const { regelStruktur } = useRegelstrukturFlytting();
+    const { vilkårperioderResponse } = useVilkårperioder(behandling.id);
 
     return (
         <VStack gap="space-16">
-            <DataViewer type="vilkår" response={{ eksisterendeVilkår, regelStruktur }}>
-                {({ eksisterendeVilkår, regelStruktur }) => (
+            <DataViewer
+                type="vilkår"
+                response={{ eksisterendeVilkår, regelStruktur, vilkårperioderResponse }}
+            >
+                {({ eksisterendeVilkår, regelStruktur, vilkårperioderResponse }) => (
                     <VilkårFlyttingProvider
                         eksisterendeVilkår={eksisterendeVilkår}
                         regelstruktur={regelStruktur}
                     >
-                        <Innhold />
+                        <Innhold målgrupper={vilkårperioderResponse.vilkårperioder.målgrupper} />
                     </VilkårFlyttingProvider>
                 )}
             </DataViewer>
@@ -41,7 +48,7 @@ export const StønadsvilkårFlytting: React.FC = () => {
     );
 };
 
-const Innhold: React.FC = () => {
+const Innhold: React.FC<{ målgrupper: Målgruppe[] }> = ({ målgrupper }) => {
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { vilkårsett, lagreNyttVilkår, oppdaterVilkår } = useVilkårFlytting();
@@ -58,6 +65,7 @@ const Innhold: React.FC = () => {
                         {redigererId === vilkår.id ? (
                             <FlyttingSkjema
                                 vilkår={vilkår}
+                                målgrupper={målgrupper}
                                 avbryt={() => settRedigererId(undefined)}
                                 lagre={(payload) => oppdaterVilkår(vilkår.id, payload)}
                             />
@@ -73,6 +81,7 @@ const Innhold: React.FC = () => {
                 ))}
                 {redigererId === 'ny' && (
                     <FlyttingSkjema
+                        målgrupper={målgrupper}
                         avbryt={() => settRedigererId(undefined)}
                         lagre={lagreNyttVilkår}
                     />

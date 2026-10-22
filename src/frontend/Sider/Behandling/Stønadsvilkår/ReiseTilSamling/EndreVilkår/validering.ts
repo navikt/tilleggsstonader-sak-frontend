@@ -1,11 +1,11 @@
 import { finnBegrunnelsestypeForSvar } from './utils';
+import { erSvarJaNei } from '../../../../../typer/nødvendigUtgift';
 import { BegrunnelseRegel } from '../../../../../typer/regel';
 import { Periode, validerPeriode } from '../../../../../utils/periode';
 import { harVerdi } from '../../../../../utils/utils';
 import {
     erFaktaOffentligTransport,
     erFaktaPrivatBil,
-    erSvarJaNei,
     FaktaOffentligTransport,
     FaktaPrivatBil,
     FaktaReiseTilSamling,
@@ -16,7 +16,7 @@ import {
 } from '../typer/regelstrukturReiseTilSamling';
 import { SvarOgBegrunnelse, SvarVilkårReiseTilSamling } from '../typer/vilkårReiseTilSamling';
 
-const MAKS_BOMPENGER = 500;
+const MAKS_BOMPENGER = 900;
 const MAKS_FERGEKOSTNAD = 900;
 const MAKS_PARKERING = 2000;
 const MAKS_PIGGDEKKAVGIFT = 1400;

@@ -2,11 +2,11 @@ import React from 'react';
 
 import { Select, VStack, HStack } from '@navikt/ds-react';
 
-import { NødvendigUtgiftFelt } from './NødvendigUtgiftFelt';
 import { SpesifikasjonAvUtgift } from './SpesifikasjonAvUtgift';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import TextField from '../../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
+import { NødvendigUtgift } from '../../../../../typer/nødvendigUtgift';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
 import { harTallverdi, tilTallverdi } from '../../../../../utils/tall';
 import { fjernSpaces } from '../../../../../utils/utils';
@@ -14,13 +14,13 @@ import {
     Aktivitet,
     AktivitetTypeTilTekst,
 } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import { NødvendigUtgiftFelt } from '../../Felles/EndreFakta/NødvendigUtgiftFelt';
 import { tomtPrivatBil } from '../EndreVilkår/utils';
 import { FeilmeldingerFaktaPrivatBil } from '../EndreVilkår/validering';
 import {
     erFaktaPrivatBil,
     FaktaPrivatBil,
     FaktaReiseTilSamling,
-    NødvendigUtgift,
 } from '../typer/faktaReiseTilSamling';
 
 export const EndreFaktaPrivatBil: React.FC<{
@@ -75,6 +75,7 @@ export const EndreFaktaPrivatBil: React.FC<{
                 nødvendigUtgift={fakta.nødvendigUtgift}
                 feilNødvendigUtgift={feilmeldinger?.nødvendigUtgift}
                 feilBegrunnelse={feilmeldinger?.begrunnelseNødvendigUtgift}
+                beskrivelse="Vurder om den oppgitte utgiften er på et rimelig nivå for å få gjennomført reisen."
                 oppdaterFakta={(nødvendigUtgift) =>
                     oppdaterFakta('nødvendigUtgift', nødvendigUtgift)
                 }

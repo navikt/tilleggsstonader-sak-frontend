@@ -2,12 +2,14 @@ import React from 'react';
 
 import { Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
 
-import { erSvarJaNei, NødvendigUtgift } from '../typer/faktaReiseTilSamling';
+import { erSvarJaNei, NødvendigUtgift } from '../../../../../typer/nødvendigUtgift';
 
 interface Props {
     nødvendigUtgift: NødvendigUtgift | undefined;
     feilNødvendigUtgift: string | undefined;
     feilBegrunnelse: string | undefined;
+    beskrivelse: string;
+    begrunnelseBeskrivelse?: string;
     oppdaterFakta: (nødvendigUtgift: NødvendigUtgift) => void;
 }
 
@@ -15,6 +17,8 @@ export const NødvendigUtgiftFelt: React.FC<Props> = ({
     nødvendigUtgift,
     feilNødvendigUtgift,
     feilBegrunnelse,
+    beskrivelse,
+    begrunnelseBeskrivelse,
     oppdaterFakta,
 }) => {
     const oppdaterErNødvendig = (svar: string) => {
@@ -41,7 +45,7 @@ export const NødvendigUtgiftFelt: React.FC<Props> = ({
         <VStack gap="space-16">
             <RadioGroup
                 legend="Er hele utgiften nødvendig?"
-                description="Vurder om den oppgitte utgiften er på et rimelig nivå for å få gjennomført reisen."
+                description={beskrivelse}
                 value={nødvendigUtgift?.erUtgiftenNødvendig || ''}
                 size="small"
                 error={feilNødvendigUtgift}
@@ -56,7 +60,10 @@ export const NødvendigUtgiftFelt: React.FC<Props> = ({
                     label="Hvorfor vurderes ikke hele eller deler av utgiften som nødvendig?"
                     size="small"
                     error={feilBegrunnelse}
-                    description="Begrunn vurderingen, og hvilket beløp som kan dekkes. Fyll inn beløpet som dekkes i feltene over, og begrunn dette overfor brukeren i fritekst i brevet."
+                    description={
+                        begrunnelseBeskrivelse ??
+                        'Begrunn vurderingen, og hvilket beløp som kan dekkes. Fyll inn beløpet som dekkes i feltene over, og begrunn dette overfor brukeren i fritekst i brevet.'
+                    }
                     value={nødvendigUtgift.begrunnelse || ''}
                     onChange={(e) => oppdaterBegrunnelse(e.target.value)}
                 />

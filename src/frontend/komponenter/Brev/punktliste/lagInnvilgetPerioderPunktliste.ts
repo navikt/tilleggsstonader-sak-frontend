@@ -2,6 +2,7 @@ import { Behandling } from '../../../typer/behandling/behandling';
 import { Stønadstype } from '../../../typer/behandling/behandlingTema';
 import { VedtakResponse } from '../../../typer/vedtak/vedtak';
 import { BeregningsresultatBoutgifter } from '../../../typer/vedtak/vedtakBoutgifter';
+import { BeregningsresultatFlytting } from '../../../typer/vedtak/vedtakFlytting';
 import { BeregningResultatReiseTilSamling } from '../../../typer/vedtak/vedtakReiseTilSamling';
 import { formaterTilTekstligDato } from '../../../utils/dato';
 import { Periode } from '../../../utils/periode';
@@ -27,6 +28,11 @@ export const lagInnvilgetPerioderPunktliste = (
         case Stønadstype.REISE_TIL_SAMLING_TSR:
             return lagPunktlisteInnvilgedePerioderForReiseTilSamling(
                 vedtak.beregningsresultat as BeregningResultatReiseTilSamling | undefined
+            );
+        case Stønadstype.FLYTTING_TSO:
+        case Stønadstype.FLYTTING_TSR:
+            return lagPunktlisteInnvilgedeDatoerForFlytting(
+                vedtak.beregningsresultat as BeregningsresultatFlytting
             );
         default:
             return '';
@@ -75,3 +81,17 @@ const lagPunktlisteInnvilgedePerioderForReiseTilSamling = (
 
 const erPerioderLike = (periodeA: Periode, periodeB: Periode) =>
     periodeA.fom === periodeB.fom && periodeA.tom === periodeB.tom;
+
+function lagPunktlisteInnvilgedeDatoerForFlytting(
+    beregningsresultat: BeregningsresultatFlytting
+): string {
+    const resultater = beregningsresultat.resultater
+        .filter((resultat) => !resultat.fraTidligereVedtak)
+        .sort((a, b) => a.fom.localeCompare(b.fom));
+
+    return `<ul style="margin: 0; padding-top: 0">
+    ${resultater
+        .map((resultat) => `<li style="margin: 0;">${formaterTilTekstligDato(resultat.fom)}</li>`)
+        .join('')}
+    </ul>`;
+}

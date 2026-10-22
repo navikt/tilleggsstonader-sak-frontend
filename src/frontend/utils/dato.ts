@@ -36,6 +36,9 @@ export const formaterIsoDato = (dato: string): string => {
 export const leggTilDager = (dato: string, antallDager: number): string =>
     format(addDays(parseISO(dato), antallDager), 'yyyy-MM-dd');
 
+export const leggTilMåneder = (dato: string, antallMåneder: number): string =>
+    format(addMonths(parseISO(dato), antallMåneder), 'yyyy-MM-dd');
+
 // Eksempel: formaterIsoDatoTid('2023-09-18T10:30:00') -> '18.09.2023 kl.10:30'
 export const formaterIsoDatoTid = (dato: string): string => {
     return format(parseISO(dato), "dd.MM.yyyy 'kl'. HH:mm");

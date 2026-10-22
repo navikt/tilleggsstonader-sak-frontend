@@ -7,9 +7,10 @@ import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMe
 import SelectMedOptions, { SelectOption } from '../../../../komponenter/Skjema/SelectMedOptions';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { Kodeverk } from '../../../../typer/kodeverk';
+import { leggTilMåneder } from '../../../../utils/dato';
 import { Periode } from '../../../../utils/periode';
 import { AktivitetType } from '../typer/vilkårperiode/aktivitet';
-import { MålgruppeType } from '../typer/vilkårperiode/målgruppe';
+import { erOpphørtStønadsMålgruppe, MålgruppeType } from '../typer/vilkårperiode/målgruppe';
 
 type MålgruppeEllerAktivitet = MålgruppeType | AktivitetType;
 
@@ -87,28 +88,51 @@ export const EndreTypeOgDatoer = <T extends MålgruppeEllerAktivitet>({
                     />
                 </FeilmeldingMaksBredde>
             )}
-            <FeilmeldingMaksBredde>
-                <DateInputMedLeservisning
-                    key={fomKeyDato}
-                    readOnly={!erStøttetType}
-                    label={'Fra'}
-                    value={form?.fom}
-                    onChange={(dato) => oppdaterPeriode('fom', dato || '')}
-                    size="small"
-                    feil={formFeil?.fom}
-                />
-            </FeilmeldingMaksBredde>
-            <FeilmeldingMaksBredde>
-                <DateInputMedLeservisning
-                    key={tomKeyDato}
-                    readOnly={!erStøttetType}
-                    label={'Til'}
-                    value={form?.tom}
-                    onChange={(dato) => oppdaterPeriode('tom', dato || '')}
-                    size="small"
-                    feil={formFeil?.tom}
-                />
-            </FeilmeldingMaksBredde>
+            {erOpphørtStønadsMålgruppe(form.type) ? (
+                <FeilmeldingMaksBredde>
+                    <DateInputMedLeservisning
+                        key={fomKeyDato}
+                        readOnly={!erStøttetType}
+                        label="Opphørsdato for original målgruppe"
+                        value={form.fom}
+                        onChange={(dato) => {
+                            const opphørsdato = dato || '';
+                            oppdaterPeriode('fom', opphørsdato);
+                            oppdaterPeriode(
+                                'tom',
+                                opphørsdato ? leggTilMåneder(opphørsdato, 6) : ''
+                            );
+                        }}
+                        size="small"
+                        feil={formFeil?.fom}
+                    />
+                </FeilmeldingMaksBredde>
+            ) : (
+                <>
+                    <FeilmeldingMaksBredde>
+                        <DateInputMedLeservisning
+                            key={fomKeyDato}
+                            readOnly={!erStøttetType}
+                            label="Fra"
+                            value={form?.fom}
+                            onChange={(dato) => oppdaterPeriode('fom', dato || '')}
+                            size="small"
+                            feil={formFeil?.fom}
+                        />
+                    </FeilmeldingMaksBredde>
+                    <FeilmeldingMaksBredde>
+                        <DateInputMedLeservisning
+                            key={tomKeyDato}
+                            readOnly={!erStøttetType}
+                            label="Til"
+                            value={form?.tom}
+                            onChange={(dato) => oppdaterPeriode('tom', dato || '')}
+                            size="small"
+                            feil={formFeil?.tom}
+                        />
+                    </FeilmeldingMaksBredde>
+                </>
+            )}
         </>
     );
 };

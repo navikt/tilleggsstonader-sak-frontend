@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 
 import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
-import begrunnelseStyles from '../../../../../../komponenter/Begrunnelse.module.css';
-import { jaNeiTilTekst } from '../../../../../../typer/common';
-import { NødvendigUtgift } from '../../typer/faktaReiseTilSamling';
+import begrunnelseStyles from '../../../../../komponenter/Begrunnelse.module.css';
+import { jaNeiTilTekst } from '../../../../../typer/common';
+import { NødvendigUtgift } from '../../../../../typer/nødvendigUtgift';
 
 export const LesevisningNødvendigUtgift: FC<{
     nødvendigUtgift: NødvendigUtgift | undefined;
