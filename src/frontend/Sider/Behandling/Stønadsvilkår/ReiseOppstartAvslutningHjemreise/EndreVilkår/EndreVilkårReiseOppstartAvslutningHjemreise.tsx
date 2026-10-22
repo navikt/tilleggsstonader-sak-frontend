@@ -2,11 +2,10 @@ import React, { useId, useState } from 'react';
 
 import { v7 } from 'uuid';
 
-import { HStack, Select, TextField } from '@navikt/ds-react';
+import { HStack, Select } from '@navikt/ds-react';
 
-import styles from './EndreVilkårReiseOppstartAvslutningHjemreise.module.css';
 import { SlettVilkårReiseOppstartAvslutningHjemreise } from './SlettVilkårReiseOppstartAvslutningHjemreise';
-import { initierGjeldendeFaktaType, initierSvar } from './utils';
+import { initierGjeldendeFaktaType, initierSvar, tomtSvar } from './utils';
 import {
     FeilmeldingerReiseOppstartAvslutningHjemreise,
     harValideringsFeil,
@@ -35,6 +34,7 @@ import { EndreVurderinger } from '../EndreVilkårsVurderinger/EndreVurderinger';
 import { FaktaReiseOppstartAvslutningHjemreise } from '../typer/faktaReiseOppstartAvslutningHjemreise';
 import { TypeVilkårFakta } from '../typer/regelstrukturReiseOppstartAvslutningHjemreise';
 import {
+    LagreNyttVilkårReiseOppstartAvslutningHjemreise,
     SvarVilkårReiseOppstartAvslutningHjemreise,
     TypeReiseformål,
     typeReiseformålTilTekst,
@@ -45,12 +45,7 @@ interface Props {
     vilkår?: VilkårReiseOppstartAvslutningHjemreise;
     aktivitet: Aktivitet;
     lagre: (
-        periode: Periode,
-        adresse: string | undefined,
-        reiseId: string,
-        typeReiseformål: TypeReiseformål | undefined,
-        svar: SvarVilkårReiseOppstartAvslutningHjemreise,
-        fakta: FaktaReiseOppstartAvslutningHjemreise
+        vilkårTilLagring: LagreNyttVilkårReiseOppstartAvslutningHjemreise
     ) => Promise<RessursSuksess<VilkårReiseOppstartAvslutningHjemreise> | RessursFeilet>;
     avsluttRedigering: () => void;
 }
@@ -70,11 +65,10 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
     );
 
     const [periode, settPeriode] = useState<Periode>({
-        fom: vilkår?.fom || aktivitet.fom,
-        tom: vilkår?.tom || aktivitet.tom,
+        fom: vilkår?.fom || '',
+        tom: vilkår?.tom || '',
     });
 
-    const [adresse, settAdresse] = useState<string | undefined>(vilkår?.adresse);
     const [reiseId] = useState<string>(vilkår?.reiseId || v7());
     const [typeReiseformål, settTypeReiseformål] = useState<TypeReiseformål | undefined>(
         vilkår?.typeReiseformål
@@ -84,8 +78,14 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
         initierGjeldendeFaktaType(vilkår)
     );
 
+    const ubestemtFaktaMedAktivitet = {
+        type: 'UBESTEMT' as const,
+        aktivitetId: aktivitet.globalId,
+        aktivitetType: aktivitet.type,
+    };
+
     const [fakta, settFakta] = useState<FaktaReiseOppstartAvslutningHjemreise>(
-        vilkår?.fakta || { type: 'UBESTEMT' }
+        vilkår?.fakta || ubestemtFaktaMedAktivitet
     );
 
     const [laster, settLaster] = useState(false);
@@ -112,14 +112,7 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
 
         if (laster) return;
 
-        const valideringsfeil = validerVilkår(
-            periode,
-            adresse,
-            typeReiseformål,
-            svar,
-            fakta,
-            regelstruktur
-        );
+        const valideringsfeil = validerVilkår(typeReiseformål, svar, fakta, regelstruktur);
         settFeilmeldinger(valideringsfeil);
         if (harValideringsFeil(valideringsfeil)) {
             return;
@@ -136,7 +129,15 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
     const lagreVilkår = async () => {
         settLaster(true);
 
-        const response = await lagre(periode, adresse, reiseId, typeReiseformål, svar, fakta);
+        const response = await lagre({
+            fom: periode.fom,
+            tom: periode.tom,
+            aktivitetId: aktivitet.globalId,
+            reiseId: reiseId,
+            typeReiseformål: typeReiseformål as TypeReiseformål,
+            svar: svar,
+            fakta: fakta,
+        });
 
         if (response.status === RessursStatus.SUKSESS) {
             avsluttRedigering();
@@ -153,16 +154,13 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
         nullstillFeilmeldingFor(['fakta']);
     };
 
-    const oppdaterAdresse = (nyAdresse: string | undefined) => {
-        settAdresse(nyAdresse);
-        settUlagretKomponent(komponentId);
-        nullstillFeilmeldingFor(['adresse']);
-    };
-
     const oppdaterTypeReiseformål = (nyTypeReiseformål: TypeReiseformål | undefined) => {
         settTypeReiseformål(nyTypeReiseformål);
+        settSvar(tomtSvar);
+        settFakta(ubestemtFaktaMedAktivitet);
+        settGjeldendeFaktaType('REISE_OPPSTART_AVSLUTNING_HJEMREISE_UBESTEMT');
         settUlagretKomponent(komponentId);
-        nullstillFeilmeldingFor(['typeReiseformål']);
+        nullstillFeilmeldingFor(['typeReiseformål', 'begrunnelse', 'fakta']);
     };
 
     const oppdaterVurderinger = (nyeSvar: SvarVilkårReiseOppstartAvslutningHjemreise) => {
@@ -173,7 +171,7 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
 
     const oppdaterGjeldendeFaktaType = (nyGjeldendeFaktaType: TypeVilkårFakta) => {
         if (gjeldendeFaktaType !== nyGjeldendeFaktaType) {
-            settFakta({ type: 'UBESTEMT' });
+            settFakta(ubestemtFaktaMedAktivitet);
         }
         settGjeldendeFaktaType(nyGjeldendeFaktaType);
         nullstillFeilmeldingFor(['fakta']);
@@ -197,43 +195,6 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
         <form onSubmit={validerOgLagre}>
             <ResultatOgStatusKort periode={vilkår} redigeres>
                 <HStack gap="space-16" align="start">
-                    <FeilmeldingMaksBredde $maxWidth={152}>
-                        <DateInputMedLeservisning
-                            label={'Fra'}
-                            value={periode.fom}
-                            onChange={(dato) => {
-                                oppdaterPeriodeForVilkår('fom', dato);
-                                nullstillFeilmeldingFor(['fom']);
-                            }}
-                            size="small"
-                            feil={feilmeldinger.fom}
-                        />
-                    </FeilmeldingMaksBredde>
-                    <FeilmeldingMaksBredde $maxWidth={152}>
-                        <DateInputMedLeservisning
-                            label={'Til'}
-                            value={periode?.tom}
-                            onChange={(dato) => {
-                                oppdaterPeriodeForVilkår('tom', dato);
-                                nullstillFeilmeldingFor(['tom']);
-                            }}
-                            size="small"
-                            feil={feilmeldinger.tom}
-                        />
-                    </FeilmeldingMaksBredde>
-                    <FeilmeldingMaksBredde $maxWidth={380}>
-                        <TextField
-                            label={'Adresse aktivitet'}
-                            size="small"
-                            error={feilmeldinger?.adresse}
-                            value={adresse || ''}
-                            onChange={(e) => {
-                                oppdaterAdresse(e.target.value || undefined);
-                                nullstillFeilmeldingFor(['adresse']);
-                            }}
-                            className={styles.adressefelt}
-                        />
-                    </FeilmeldingMaksBredde>
                     <FeilmeldingMaksBredde $maxWidth={200}>
                         <Select
                             label={'Reiseformål'}
@@ -254,6 +215,34 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
                             ))}
                         </Select>
                     </FeilmeldingMaksBredde>
+                    {typeReiseformål !== undefined && (
+                        <FeilmeldingMaksBredde $maxWidth={152}>
+                            <DateInputMedLeservisning
+                                label={typeReiseformål === 'HJEMREISE' ? 'Fra' : 'Dato'}
+                                value={periode.fom}
+                                onChange={(dato) => {
+                                    oppdaterPeriodeForVilkår('fom', dato);
+                                    nullstillFeilmeldingFor(['fom']);
+                                }}
+                                size="small"
+                                feil={feilmeldinger.fom}
+                            />
+                        </FeilmeldingMaksBredde>
+                    )}
+                    {typeReiseformål === 'HJEMREISE' && (
+                        <FeilmeldingMaksBredde $maxWidth={152}>
+                            <DateInputMedLeservisning
+                                label={'Til'}
+                                value={periode?.tom}
+                                onChange={(dato) => {
+                                    oppdaterPeriodeForVilkår('tom', dato);
+                                    nullstillFeilmeldingFor(['tom']);
+                                }}
+                                size="small"
+                                feil={feilmeldinger.tom}
+                            />
+                        </FeilmeldingMaksBredde>
+                    )}
                 </HStack>
                 <Skillelinje />
                 <EndreVurderinger
@@ -270,7 +259,6 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
                     settFakta={settFakta}
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     feilmeldinger={feilmeldinger}
-                    aktivitet={aktivitet}
                 />
 
                 <HStack justify="space-between">

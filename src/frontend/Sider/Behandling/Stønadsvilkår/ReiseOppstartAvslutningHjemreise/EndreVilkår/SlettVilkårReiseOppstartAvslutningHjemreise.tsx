@@ -30,8 +30,8 @@ export const SlettVilkårReiseOppstartAvslutningHjemreise: FC<EndreVilkårProps>
                 avsluttRedigering={avsluttRedigering}
                 kanSlettesPermanent={lagretVilkår?.status === 'NY'}
                 slettVilkår={slett}
-                metadataLabel=""
-                metadata={lagretVilkår.adresse || '-'}
+                metadataLabel="Reiseformål"
+                metadata={lagretVilkår.typeReiseformål}
             />
         </div>
     );

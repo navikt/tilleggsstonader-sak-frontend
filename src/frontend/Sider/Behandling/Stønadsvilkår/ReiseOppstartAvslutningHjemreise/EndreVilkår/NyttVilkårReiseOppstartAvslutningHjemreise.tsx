@@ -6,14 +6,8 @@ import { EndreVilkårReiseOppstartAvslutningHjemreise } from './EndreVilkårReis
 import { LeggTilNyPeriodeKnapp } from './LeggTilNyPeriodeKnapp';
 import { useSteg } from '../../../../../context/StegContext';
 import { useVilkårReiseOppstartAvslutningHjemreise } from '../../../../../context/VilkårReiseOppstartAvslutningHjemreiseContext/VilkårReiseOppstartAvslutningHjemreiseContext';
-import { Periode } from '../../../../../utils/periode';
 import { Aktivitet } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
-import { FaktaReiseOppstartAvslutningHjemreise } from '../typer/faktaReiseOppstartAvslutningHjemreise';
-import {
-    SvarVilkårReiseOppstartAvslutningHjemreise,
-    TypeReiseformål,
-} from '../typer/vilkårReiseOppstartAvslutningHjemreise';
-
+import { LagreNyttVilkårReiseOppstartAvslutningHjemreise } from '../typer/vilkårReiseOppstartAvslutningHjemreise';
 interface Props {
     aktivitet: Aktivitet;
     leggerTilNyttVilkår: boolean;
@@ -39,22 +33,9 @@ export const NyttVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
     }
 
     const opprettVilkår = async (
-        periode: Periode,
-        adresse: string | undefined,
-        reiseId: string,
-        typeReiseformål: TypeReiseformål | undefined,
-        svar: SvarVilkårReiseOppstartAvslutningHjemreise,
-        fakta: FaktaReiseOppstartAvslutningHjemreise
+        oppdatertVilkår: LagreNyttVilkårReiseOppstartAvslutningHjemreise
     ) => {
-        return await lagreNyttVilkår({
-            fom: periode.fom,
-            tom: periode.tom,
-            adresse: adresse || '',
-            reiseId: reiseId,
-            typeReiseformål: typeReiseformål as TypeReiseformål,
-            svar: svar,
-            fakta: fakta,
-        });
+        return await lagreNyttVilkår(oppdatertVilkår);
     };
 
     const handleKlikkLeggTilNyPeriode = () => {

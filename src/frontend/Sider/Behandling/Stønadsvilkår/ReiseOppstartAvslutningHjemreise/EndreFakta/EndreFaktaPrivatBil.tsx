@@ -2,11 +2,14 @@ import React from 'react';
 
 import { VStack, HStack } from '@navikt/ds-react';
 
+import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import TextField from '../../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
+import { NødvendigUtgift } from '../../../../../typer/nødvendigUtgift';
 import { harTallverdi, tilTallverdi } from '../../../../../utils/tall';
 import { fjernSpaces } from '../../../../../utils/utils';
-import { Aktivitet } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import { NødvendigUtgiftFelt } from '../../Felles/EndreFakta/NødvendigUtgiftFelt';
+import { SpesifikasjonAvUtgift } from '../../ReiseTilSamling/EndreFakta/SpesifikasjonAvUtgift';
 import { tomtPrivatBil } from '../EndreVilkår/utils';
 import { FeilmeldingerFaktaPrivatBil } from '../EndreVilkår/validering';
 import {
@@ -23,11 +26,13 @@ export const EndreFaktaPrivatBil: React.FC<{
     settFakta: React.Dispatch<React.SetStateAction<FaktaReiseOppstartAvslutningHjemreise>>;
     nullstillFeilOgUlagretkomponent: () => void;
     feilmeldinger: FeilmeldingerFaktaPrivatBil | undefined;
-    aktivitet: Aktivitet;
-}> = ({ fakta, nullstillFeilOgUlagretkomponent, settFakta, feilmeldinger, aktivitet }) => {
-    const oppdaterFakta = (key: keyof FaktaPrivatBil, verdi: number | string | undefined) => {
+}> = ({ fakta, nullstillFeilOgUlagretkomponent, settFakta, feilmeldinger }) => {
+    const oppdaterFakta = (
+        key: keyof FaktaPrivatBil,
+        verdi: number | string | NødvendigUtgift | undefined
+    ) => {
         settFakta((prevState) => ({
-            ...(prevState.type === 'PRIVAT_BIL' ? prevState : tomtPrivatBil(aktivitet)),
+            ...(prevState.type === 'PRIVAT_BIL' ? prevState : tomtPrivatBil()),
             [key]: verdi,
         }));
 
@@ -36,10 +41,20 @@ export const EndreFaktaPrivatBil: React.FC<{
 
     return (
         <VStack gap="space-16">
+            <NødvendigUtgiftFelt
+                nødvendigUtgift={fakta.nødvendigUtgift}
+                feilNødvendigUtgift={feilmeldinger?.nødvendigUtgift}
+                feilBegrunnelse={feilmeldinger?.begrunnelseNødvendigUtgift}
+                beskrivelse="Vurder om den oppgitte utgiften er på et rimelig nivå for å få gjennomført reisen."
+                oppdaterFakta={(nødvendigUtgift) =>
+                    oppdaterFakta('nødvendigUtgift', nødvendigUtgift)
+                }
+            />
+            <Skillelinje />
             <HStack gap="space-16" align="start">
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
-                        label={'Total reiseavstand i km'}
+                        label="Samlet kjøreavstand tur/retur i km"
                         size="small"
                         error={feilmeldinger?.reiseavstand}
                         value={harTallverdi(fakta.reiseavstand) ? fakta.reiseavstand : ''}
@@ -76,7 +91,40 @@ export const EndreFaktaPrivatBil: React.FC<{
                         }}
                     />
                 </FeilmeldingMaksBredde>
+                <FeilmeldingMaksBredde $maxWidth={180}>
+                    <TextField
+                        label={'Parkering'}
+                        size="small"
+                        error={feilmeldinger?.parkering}
+                        value={harTallverdi(fakta.parkering) ? fakta.parkering : ''}
+                        onChange={(e) => {
+                            oppdaterFakta('parkering', tilTallverdi(fjernSpaces(e.target.value)));
+                        }}
+                    />
+                </FeilmeldingMaksBredde>
+                <FeilmeldingMaksBredde $maxWidth={180}>
+                    <TextField
+                        label={'Piggdekkavgift'}
+                        size="small"
+                        error={feilmeldinger?.piggdekkavgift}
+                        value={harTallverdi(fakta.piggdekkavgift) ? fakta.piggdekkavgift : ''}
+                        onChange={(e) => {
+                            oppdaterFakta(
+                                'piggdekkavgift',
+                                tilTallverdi(fjernSpaces(e.target.value))
+                            );
+                        }}
+                    />
+                </FeilmeldingMaksBredde>
             </HStack>
+            <FeilmeldingMaksBredde $maxWidth={300}>
+                <SpesifikasjonAvUtgift
+                    value={fakta.begrunnelse || ''}
+                    error={feilmeldinger?.spesifikasjonAvUtgift}
+                    onChange={(value) => oppdaterFakta('begrunnelse', value || undefined)}
+                    pakrevd={false}
+                />
+            </FeilmeldingMaksBredde>
         </VStack>
     );
 };
