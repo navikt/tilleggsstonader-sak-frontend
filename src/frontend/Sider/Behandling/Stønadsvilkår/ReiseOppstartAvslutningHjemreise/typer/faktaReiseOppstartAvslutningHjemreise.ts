@@ -1,5 +1,6 @@
 import { TypeVilkårFakta } from './regelstrukturReiseOppstartAvslutningHjemreise';
 import { TypeReiseOppstartAvslutningHjemreise } from './vilkårReiseOppstartAvslutningHjemreise';
+import type { NødvendigUtgift } from '../../../../../typer/nødvendigUtgift';
 
 export interface FaktaReiseOppstartAvslutningHjemreise {
     type: TypeReiseOppstartAvslutningHjemreise;
@@ -9,11 +10,13 @@ export interface FaktaOffentligTransport extends FaktaReiseOppstartAvslutningHje
     type: 'OFFENTLIG_TRANSPORT';
     utgifterOffentligTransport: number | undefined;
     begrunnelse?: string;
+    nødvendigUtgift: NødvendigUtgift | undefined;
 }
 
 export interface FaktaPrivatBil extends FaktaReiseOppstartAvslutningHjemreise {
     type: 'PRIVAT_BIL';
     begrunnelse?: string;
+    nødvendigUtgift: NødvendigUtgift | undefined;
 
     reiseavstand: number | undefined;
     bompenger?: number;

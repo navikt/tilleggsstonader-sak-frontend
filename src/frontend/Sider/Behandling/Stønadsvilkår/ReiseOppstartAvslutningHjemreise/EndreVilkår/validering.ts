@@ -1,4 +1,5 @@
 import { finnBegrunnelsestypeForSvar } from './utils';
+import { erSvarJaNei } from '../../../../../typer/nødvendigUtgift';
 import { BegrunnelseRegel } from '../../../../../typer/regel';
 import { harVerdi } from '../../../../../utils/utils';
 import {
@@ -19,6 +20,9 @@ import {
 export type FeilmeldingerFaktaOffentligTransport = {
     utgifterOffentligTransport?: string;
     aktivitet?: string;
+    spesifikasjonAvUtgift?: string;
+    nødvendigUtgift?: string;
+    begrunnelseNødvendigUtgift?: string;
 };
 
 export type FeilmeldingerFaktaPrivatBil = {
@@ -28,7 +32,15 @@ export type FeilmeldingerFaktaPrivatBil = {
     fergekostnad?: string;
     parkering?: string;
     piggdekkavgift?: string;
+    spesifikasjonAvUtgift?: string;
+    nødvendigUtgift?: string;
+    begrunnelseNødvendigUtgift?: string;
 };
+
+type FeilmeldingerNødvendigUtgift = Pick<
+    FeilmeldingerFaktaOffentligTransport,
+    'nødvendigUtgift' | 'begrunnelseNødvendigUtgift'
+>;
 
 export type FeilmeldingerReiseOppstartAvslutningHjemreise = {
     fom?: string;
@@ -112,35 +124,73 @@ const validerSvar = (
 const validerFaktaOffentligTransport = (
     fakta: FaktaOffentligTransport | undefined
 ): Partial<FeilmeldingerFaktaOffentligTransport> | undefined => {
+    if (!fakta) return undefined;
+
+    const feil: Partial<FeilmeldingerFaktaOffentligTransport> = {};
+
     if (!fakta?.utgifterOffentligTransport) {
-        return { utgifterOffentligTransport: 'Mangler utgifter for offentlig transport' };
+        feil.utgifterOffentligTransport = 'Mangler utgifter for offentlig transport';
     }
     if (fakta?.utgifterOffentligTransport && fakta?.utgifterOffentligTransport < 0) {
-        return {
-            utgifterOffentligTransport: 'Utgifter for offentlig transport må være større enn 0',
-        };
+        feil.utgifterOffentligTransport = 'Utgifter for offentlig transport må være større enn 0';
     }
+
+    if (!harVerdi(fakta.begrunnelse)) {
+        feil.spesifikasjonAvUtgift = 'Mangler spesifikasjon av utgift';
+    }
+
+    Object.assign(feil, validerNødvendigUtgift(fakta.nødvendigUtgift));
+
+    return Object.keys(feil).length > 0 ? feil : undefined;
+};
+
+const validerNødvendigUtgift = (
+    nødvendigUtgift: FaktaOffentligTransport['nødvendigUtgift'] | FaktaPrivatBil['nødvendigUtgift']
+): FeilmeldingerNødvendigUtgift => {
+    const feil: FeilmeldingerNødvendigUtgift = {};
+
+    if (!nødvendigUtgift || !erSvarJaNei(nødvendigUtgift.erUtgiftenNødvendig)) {
+        feil.nødvendigUtgift = 'Du må velge om utgiften er nødvendig';
+        return feil;
+    }
+
+    if (nødvendigUtgift.erUtgiftenNødvendig === 'NEI' && !harVerdi(nødvendigUtgift.begrunnelse)) {
+        feil.begrunnelseNødvendigUtgift =
+            'Du må begrunne hvorfor utgiften ikke vurderes som nødvendig';
+    }
+
+    return feil;
 };
 
 const validerFaktaPrivatBil = (
     fakta: FaktaPrivatBil | undefined
 ): Partial<FeilmeldingerFaktaPrivatBil> | undefined => {
     if (!fakta) return undefined;
+    const feil: Partial<FeilmeldingerFaktaPrivatBil> = {};
+
     if (!fakta.reiseavstand) {
-        return { reiseavstand: 'Reiseavstand må være større enn 0' };
+        feil.reiseavstand = 'Reiseavstand må være større enn 0';
     }
     if (fakta.bompenger !== undefined && fakta.bompenger < 0) {
-        return { bompenger: 'Bompenger må være større enn 0' };
+        feil.bompenger = 'Bompenger må være større enn 0';
     }
     if (fakta.fergekostnad !== undefined && fakta.fergekostnad < 0) {
-        return { fergekostnad: 'Fergekostnad må være større enn 0' };
+        feil.fergekostnad = 'Fergekostnad må være større enn 0';
     }
     if (fakta.parkering !== undefined && fakta.parkering < 0) {
-        return { parkering: 'Parkering må være større enn 0' };
+        feil.parkering = 'Parkering må være større enn 0';
     }
     if (fakta.piggdekkavgift !== undefined && fakta.piggdekkavgift < 0) {
-        return { piggdekkavgift: 'Piggdekkavgift må være større enn 0' };
+        feil.piggdekkavgift = 'Piggdekkavgift må være større enn 0';
     }
+
+    if (!harVerdi(fakta.begrunnelse)) {
+        feil.spesifikasjonAvUtgift = 'Mangler spesifikasjon av utgift';
+    }
+
+    Object.assign(feil, validerNødvendigUtgift(fakta.nødvendigUtgift));
+
+    return Object.keys(feil).length > 0 ? feil : undefined;
 };
 
 const validerFakta = (

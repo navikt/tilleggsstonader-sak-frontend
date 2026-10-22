@@ -115,11 +115,17 @@ export const tomtSvar: SvarVilkårReiseOppstartAvslutningHjemreise = {
 export const tomtOffentligTransport = (): FaktaOffentligTransport => ({
     type: 'OFFENTLIG_TRANSPORT',
     utgifterOffentligTransport: undefined,
+    begrunnelse: undefined,
+    nødvendigUtgift: undefined,
 });
 
 export const tomtPrivatBil = (): FaktaPrivatBil => ({
     type: 'PRIVAT_BIL',
+    begrunnelse: undefined,
+    nødvendigUtgift: undefined,
     reiseavstand: undefined,
     bompenger: undefined,
     fergekostnad: undefined,
+    parkering: undefined,
+    piggdekkavgift: undefined,
 });

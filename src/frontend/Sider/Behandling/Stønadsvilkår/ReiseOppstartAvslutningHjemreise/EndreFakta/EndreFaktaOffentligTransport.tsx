@@ -2,10 +2,14 @@ import React from 'react';
 
 import { VStack, HStack } from '@navikt/ds-react';
 
+import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import TextField from '../../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
+import { NødvendigUtgift } from '../../../../../typer/nødvendigUtgift';
 import { harTallverdi, tilHeltall } from '../../../../../utils/tall';
 import { fjernSpaces } from '../../../../../utils/utils';
+import { NødvendigUtgiftFelt } from '../../Felles/EndreFakta/NødvendigUtgiftFelt';
+import { SpesifikasjonAvUtgift } from '../../ReiseTilSamling/EndreFakta/SpesifikasjonAvUtgift';
 import { tomtOffentligTransport } from '../EndreVilkår/utils';
 import { FeilmeldingerFaktaOffentligTransport } from '../EndreVilkår/validering';
 import {
@@ -23,7 +27,10 @@ export const EndreFaktaOffentligTransport: React.FC<{
     nullstillFeilOgUlagretkomponent: () => void;
     feilmeldinger: FeilmeldingerFaktaOffentligTransport | undefined;
 }> = ({ fakta, nullstillFeilOgUlagretkomponent, settFakta, feilmeldinger }) => {
-    const oppdaterFakta = (key: keyof FaktaOffentligTransport, verdi: number | undefined) => {
+    const oppdaterFakta = (
+        key: keyof FaktaOffentligTransport,
+        verdi: number | string | NødvendigUtgift | undefined
+    ) => {
         settFakta((prevState) => ({
             ...(prevState.type === 'OFFENTLIG_TRANSPORT' ? prevState : tomtOffentligTransport()),
             [key]: verdi,
@@ -34,6 +41,16 @@ export const EndreFaktaOffentligTransport: React.FC<{
 
     return (
         <VStack gap="space-16">
+            <NødvendigUtgiftFelt
+                nødvendigUtgift={fakta.nødvendigUtgift}
+                feilNødvendigUtgift={feilmeldinger?.nødvendigUtgift}
+                feilBegrunnelse={feilmeldinger?.begrunnelseNødvendigUtgift}
+                beskrivelse="Vurder om den oppgitte utgiften er på et rimelig nivå for å få gjennomført reisen."
+                oppdaterFakta={(nødvendigUtgift) =>
+                    oppdaterFakta('nødvendigUtgift', nødvendigUtgift)
+                }
+            />
+            <Skillelinje />
             <HStack gap="space-16" align="start">
                 <FeilmeldingMaksBredde $maxWidth={220}>
                     <TextField
@@ -54,6 +71,15 @@ export const EndreFaktaOffentligTransport: React.FC<{
                     />
                 </FeilmeldingMaksBredde>
             </HStack>
+            <FeilmeldingMaksBredde $maxWidth={300}>
+                <SpesifikasjonAvUtgift
+                    value={fakta.begrunnelse || ''}
+                    error={feilmeldinger?.spesifikasjonAvUtgift}
+                    onChange={(value) => oppdaterFakta('begrunnelse', value || undefined)}
+                    pakrevd={true}
+                    beskrivelse="Spesifikasjonen vil komme med i vedtaksbrevet, fatt deg i korthet"
+                />
+            </FeilmeldingMaksBredde>
         </VStack>
     );
 };
