@@ -65,8 +65,8 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
     );
 
     const [periode, settPeriode] = useState<Periode>({
-        fom: vilkår?.fom || aktivitet.fom,
-        tom: vilkår?.tom || aktivitet.tom,
+        fom: vilkår?.fom || '',
+        tom: vilkår?.tom || '',
     });
 
     const [reiseId] = useState<string>(vilkår?.reiseId || v7());
@@ -218,7 +218,7 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
                     {typeReiseformål !== undefined && (
                         <FeilmeldingMaksBredde $maxWidth={152}>
                             <DateInputMedLeservisning
-                                label={'Fra'}
+                                label={typeReiseformål === 'HJEMREISE' ? 'Fra' : 'Dato'}
                                 value={periode.fom}
                                 onChange={(dato) => {
                                     oppdaterPeriodeForVilkår('fom', dato);
