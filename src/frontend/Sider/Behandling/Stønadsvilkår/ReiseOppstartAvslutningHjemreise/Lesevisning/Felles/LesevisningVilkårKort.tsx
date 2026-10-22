@@ -4,7 +4,7 @@ import { BodyShort, HStack, Label } from '@navikt/ds-react';
 
 import { ResultatOgStatusKort } from '../../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Skillelinje } from '../../../../../../komponenter/Skillelinje';
-import { formaterNullablePeriode } from '../../../../../../utils/dato';
+import { formaterNullableIsoDato, formaterNullablePeriode } from '../../../../../../utils/dato';
 import {
     LesevisningFooter,
     RedigerVilkårProps,
@@ -27,14 +27,19 @@ export const LesevisningVilkårKort: FC<{
     >
         <div>
             <HStack gap="space-32" paddingBlock="space-0 space-16">
-                <div>
-                    <BodyShort size="small">Periode</BodyShort>
-                    <Label size="small">{formaterNullablePeriode(vilkår.fom, vilkår.tom)}</Label>
-                </div>
-                <div>
-                    <BodyShort size="small">Adresse aktivitet</BodyShort>
-                    <Label size="small">{vilkår.adresse || '-'}</Label>
-                </div>
+                {vilkår.typeReiseformål === 'HJEMREISE' ? (
+                    <div>
+                        <BodyShort size="small">Periode</BodyShort>
+                        <Label size="small">
+                            {formaterNullablePeriode(vilkår.fom, vilkår.tom)}
+                        </Label>
+                    </div>
+                ) : (
+                    <div>
+                        <BodyShort size="small">Dato</BodyShort>
+                        <Label size="small">{formaterNullableIsoDato(vilkår.fom)}</Label>
+                    </div>
+                )}
                 <div>
                     <BodyShort size="small">Reiseformål</BodyShort>
                     <Label size="small">

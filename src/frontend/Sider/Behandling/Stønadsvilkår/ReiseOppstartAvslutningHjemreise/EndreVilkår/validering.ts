@@ -184,10 +184,6 @@ const validerFaktaPrivatBil = (
         feil.piggdekkavgift = 'Piggdekkavgift må være større enn 0';
     }
 
-    if (!harVerdi(fakta.begrunnelse)) {
-        feil.spesifikasjonAvUtgift = 'Mangler spesifikasjon av utgift';
-    }
-
     Object.assign(feil, validerNødvendigUtgift(fakta.nødvendigUtgift));
 
     return Object.keys(feil).length > 0 ? feil : undefined;

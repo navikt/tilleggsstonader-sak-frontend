@@ -132,7 +132,7 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
         const response = await lagre({
             fom: periode.fom,
             tom: periode.tom,
-            aktivitetId: aktivitet.id,
+            aktivitetId: aktivitet.globalId,
             reiseId: reiseId,
             typeReiseformål: typeReiseformål as TypeReiseformål,
             svar: svar,

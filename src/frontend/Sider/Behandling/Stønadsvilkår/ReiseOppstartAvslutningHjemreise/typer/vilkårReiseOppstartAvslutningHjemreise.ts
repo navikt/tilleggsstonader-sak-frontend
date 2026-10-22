@@ -4,7 +4,6 @@ import { SvarId } from '../../../../../typer/regel';
 import { VilkårBase } from '../../../vilkår';
 
 export interface VilkårReiseOppstartAvslutningHjemreise extends VilkårBase {
-    adresse: string;
     reiseId: string;
     aktivitetId: string;
     typeReiseformål: TypeReiseformål;
