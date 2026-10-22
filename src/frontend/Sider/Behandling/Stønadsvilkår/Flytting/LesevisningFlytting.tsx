@@ -18,6 +18,7 @@ import { formaterDato } from '../../../../utils/dato';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../../utils/fomatering';
 import { Vilkårsresultat } from '../../vilkår';
 import { LesevisningDelvilkår } from '../Felles/Lesevisning/LesevisningDelvilkår';
+import { LesevisningNødvendigUtgift } from '../Felles/Lesevisning/LesevisningNødvendigUtgift';
 
 interface Props {
     vilkår: VilkårFlytting;
@@ -121,6 +122,9 @@ const LesevisningFaktaFlytting: React.FC<{ vilkår: VilkårFlytting }> = ({ vilk
             {fakta.type === 'FLYTTING_FLYTTE_SELV' && (
                 <LesevisningFlyttingPrivatBil fakta={fakta} />
             )}
+            {fakta.type !== 'FLYTTING_UBESTEMT' && (
+                <LesevisningNødvendigUtgift nødvendigUtgift={fakta.nødvendigUtgift} />
+            )}
         </VStack>
     );
 };
@@ -131,12 +135,14 @@ const LesevisningFlyttingFlyttebyrå: React.FC<{
     return (
         <VStack gap="space-12">
             <HStack gap="space-12" justify={'space-between'}>
-                {[fakta.tilbud1, fakta.tilbud2].map((tilbud, index) => (
+                {fakta.tilbud.map((tilbud, index) => (
                     <VStack key={index} gap="space-4">
                         <BodyShort weight="semibold" size="small">
                             Flyttebyrå {index + 1}
                         </BodyShort>
-                        <BodyShort size="small">{tilbud.navn ?? 'Navn ikke fylt ut'}</BodyShort>
+                        <BodyShort size="small" style={{ overflowWrap: 'anywhere' }}>
+                            {tilbud.navn ?? 'Navn ikke fylt ut'}
+                        </BodyShort>
                         <BodyShort size="small">
                             {tilbud.pris === null ? 'Pris ikke fylt ut' : `${tilbud.pris} kr`}
                         </BodyShort>
