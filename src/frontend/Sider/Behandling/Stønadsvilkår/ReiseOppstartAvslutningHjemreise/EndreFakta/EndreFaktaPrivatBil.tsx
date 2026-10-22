@@ -37,7 +37,7 @@ export const EndreFaktaPrivatBil: React.FC<{
             <HStack gap="space-16" align="start">
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
-                        label={'Total reiseavstand i km'}
+                        label="Samlet kjøreavstand tur/retur i km"
                         size="small"
                         error={feilmeldinger?.reiseavstand}
                         value={harTallverdi(fakta.reiseavstand) ? fakta.reiseavstand : ''}
@@ -69,6 +69,31 @@ export const EndreFaktaPrivatBil: React.FC<{
                         onChange={(e) => {
                             oppdaterFakta(
                                 'fergekostnad',
+                                tilTallverdi(fjernSpaces(e.target.value))
+                            );
+                        }}
+                    />
+                </FeilmeldingMaksBredde>
+                <FeilmeldingMaksBredde $maxWidth={180}>
+                    <TextField
+                        label={'Parkering'}
+                        size="small"
+                        error={feilmeldinger?.parkering}
+                        value={harTallverdi(fakta.parkering) ? fakta.parkering : ''}
+                        onChange={(e) => {
+                            oppdaterFakta('parkering', tilTallverdi(fjernSpaces(e.target.value)));
+                        }}
+                    />
+                </FeilmeldingMaksBredde>
+                <FeilmeldingMaksBredde $maxWidth={180}>
+                    <TextField
+                        label={'Piggdekkavgift'}
+                        size="small"
+                        error={feilmeldinger?.piggdekkavgift}
+                        value={harTallverdi(fakta.piggdekkavgift) ? fakta.piggdekkavgift : ''}
+                        onChange={(e) => {
+                            oppdaterFakta(
+                                'piggdekkavgift',
                                 tilTallverdi(fjernSpaces(e.target.value))
                             );
                         }}

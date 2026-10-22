@@ -26,6 +26,8 @@ export type FeilmeldingerFaktaPrivatBil = {
     aktivitet?: string;
     bompenger?: string;
     fergekostnad?: string;
+    parkering?: string;
+    piggdekkavgift?: string;
 };
 
 export type FeilmeldingerReiseOppstartAvslutningHjemreise = {
@@ -132,6 +134,12 @@ const validerFaktaPrivatBil = (
     }
     if (fakta.fergekostnad !== undefined && fakta.fergekostnad < 0) {
         return { fergekostnad: 'Fergekostnad må være større enn 0' };
+    }
+    if (fakta.parkering !== undefined && fakta.parkering < 0) {
+        return { parkering: 'Parkering må være større enn 0' };
+    }
+    if (fakta.piggdekkavgift !== undefined && fakta.piggdekkavgift < 0) {
+        return { piggdekkavgift: 'Piggdekkavgift må være større enn 0' };
     }
 };
 
