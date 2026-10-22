@@ -6,6 +6,7 @@ import { VilkårBase } from '../../../vilkår';
 export interface VilkårReiseOppstartAvslutningHjemreise extends VilkårBase {
     adresse: string;
     reiseId: string;
+    aktivitetId: string;
     typeReiseformål: TypeReiseformål;
     fakta: FaktaReiseOppstartAvslutningHjemreise;
 }
@@ -47,8 +48,8 @@ export type SvarVilkårReiseOppstartAvslutningHjemreise = Record<
 export interface LagreNyttVilkårReiseOppstartAvslutningHjemreise {
     fom: string;
     tom: string;
-    adresse: string;
     reiseId: string;
+    aktivitetId: string;
     typeReiseformål: TypeReiseformål;
     svar: SvarVilkårReiseOppstartAvslutningHjemreise;
     fakta: FaktaReiseOppstartAvslutningHjemreise;

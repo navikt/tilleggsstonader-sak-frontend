@@ -6,7 +6,6 @@ import TextField from '../../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { harTallverdi, tilHeltall } from '../../../../../utils/tall';
 import { fjernSpaces } from '../../../../../utils/utils';
-import { Aktivitet } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { tomtOffentligTransport } from '../EndreVilkår/utils';
 import { FeilmeldingerFaktaOffentligTransport } from '../EndreVilkår/validering';
 import {
@@ -23,13 +22,10 @@ export const EndreFaktaOffentligTransport: React.FC<{
     settFakta: React.Dispatch<React.SetStateAction<FaktaReiseOppstartAvslutningHjemreise>>;
     nullstillFeilOgUlagretkomponent: () => void;
     feilmeldinger: FeilmeldingerFaktaOffentligTransport | undefined;
-    aktivitet: Aktivitet;
-}> = ({ fakta, nullstillFeilOgUlagretkomponent, settFakta, feilmeldinger, aktivitet }) => {
+}> = ({ fakta, nullstillFeilOgUlagretkomponent, settFakta, feilmeldinger }) => {
     const oppdaterFakta = (key: keyof FaktaOffentligTransport, verdi: number | undefined) => {
         settFakta((prevState) => ({
-            ...(prevState.type === 'OFFENTLIG_TRANSPORT'
-                ? prevState
-                : tomtOffentligTransport(aktivitet)),
+            ...(prevState.type === 'OFFENTLIG_TRANSPORT' ? prevState : tomtOffentligTransport()),
             [key]: verdi,
         }));
 

@@ -4,7 +4,6 @@ import { BriefcaseIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Heading, VStack } from '@navikt/ds-react';
 
 import { NyttVilkårReiseOppstartAvslutningHjemreise } from './EndreVilkår/NyttVilkårReiseOppstartAvslutningHjemreise';
-import { finnAktivitetIdForFakta } from './typer/faktaReiseOppstartAvslutningHjemreise';
 import { VisEllerEndreVilkårReiseOppstartAvslutningHjemreise } from './VisEllerEndreVilkårReiseOppstartAvslutningHjemreise';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
@@ -95,7 +94,7 @@ const StønadsvilkårInnhold = () => {
                 )}
                 {aktiviteterSortert.map((aktivitet: Aktivitet) => {
                     const reiserForAktivitet = vilkårsett.filter(
-                        (vilkår) => finnAktivitetIdForFakta(vilkår.fakta) === aktivitet.globalId
+                        (vilkår) => vilkår.aktivitetId === aktivitet.globalId
                     );
                     const nyttVilkårId = `nytt-${aktivitet.globalId}`;
 

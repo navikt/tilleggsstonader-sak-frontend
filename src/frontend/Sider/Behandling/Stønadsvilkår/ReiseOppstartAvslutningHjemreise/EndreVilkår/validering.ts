@@ -1,6 +1,5 @@
 import { finnBegrunnelsestypeForSvar } from './utils';
 import { BegrunnelseRegel } from '../../../../../typer/regel';
-import { Periode } from '../../../../../utils/periode';
 import { harVerdi } from '../../../../../utils/utils';
 import {
     FaktaOffentligTransport,
@@ -53,33 +52,20 @@ export function harValideringsFeil(valideringsfeil: FeilmeldingerReiseOppstartAv
 }
 
 export const validerVilkår = (
-    periode: Periode,
-    adresse: string | undefined,
     typeReiseformål: TypeReiseformål | undefined,
     svar: SvarVilkårReiseOppstartAvslutningHjemreise,
     fakta: FaktaReiseOppstartAvslutningHjemreise | undefined,
     regelstruktur: RegelstrukturReiseOppstartAvslutningHjemreise
 ): FeilmeldingerReiseOppstartAvslutningHjemreise => {
-    const adresseValidering = validerAdresse(adresse);
     const typeReiseformålValidering = validerTypeReiseformål(typeReiseformål);
     const faktaValidering = validerFakta(fakta, svar);
     const svarValidering = validerSvar(svar, regelstruktur);
 
     return {
-        ...adresseValidering,
         ...typeReiseformålValidering,
         ...svarValidering,
         ...(faktaValidering ? { fakta: faktaValidering } : {}),
     };
-};
-
-const validerAdresse = (
-    adresse: string | undefined
-): Partial<FeilmeldingerReiseOppstartAvslutningHjemreise> => {
-    if (!adresse) {
-        return { adresse: 'Adresse er påkrevd' };
-    }
-    return {};
 };
 
 const validerTypeReiseformål = (
@@ -132,9 +118,6 @@ const validerFaktaOffentligTransport = (
             utgifterOffentligTransport: 'Utgifter for offentlig transport må være større enn 0',
         };
     }
-    if (!fakta.aktivitetId) {
-        return { aktivitet: 'Mangler aktivitet' };
-    }
 };
 
 const validerFaktaPrivatBil = (
@@ -143,9 +126,6 @@ const validerFaktaPrivatBil = (
     if (!fakta) return undefined;
     if (!fakta.reiseavstand) {
         return { reiseavstand: 'Reiseavstand må være større enn 0' };
-    }
-    if (!fakta.aktivitetId) {
-        return { aktivitet: 'Mangler aktivitet' };
     }
     if (fakta.bompenger !== undefined && fakta.bompenger < 0) {
         return { bompenger: 'Bompenger må være større enn 0' };

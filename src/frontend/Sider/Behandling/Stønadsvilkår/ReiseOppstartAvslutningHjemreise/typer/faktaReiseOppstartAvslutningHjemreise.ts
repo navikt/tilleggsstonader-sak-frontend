@@ -8,17 +8,18 @@ export interface FaktaReiseOppstartAvslutningHjemreise {
 export interface FaktaOffentligTransport extends FaktaReiseOppstartAvslutningHjemreise {
     type: 'OFFENTLIG_TRANSPORT';
     utgifterOffentligTransport: number | undefined;
-    aktivitetId: string;
-    aktivitetType: string;
+    begrunnelse?: string;
 }
 
 export interface FaktaPrivatBil extends FaktaReiseOppstartAvslutningHjemreise {
     type: 'PRIVAT_BIL';
+    begrunnelse?: string;
+
     reiseavstand: number | undefined;
-    aktivitetId: string;
-    aktivitetType: string;
     bompenger?: number;
     fergekostnad?: number;
+    parkering?: number;
+    piggdekkavgift?: number;
 }
 
 export const erFaktaOffentligTransport = (
@@ -28,20 +29,6 @@ export const erFaktaOffentligTransport = (
 export const erFaktaPrivatBil = (
     fakta: FaktaReiseOppstartAvslutningHjemreise
 ): fakta is FaktaPrivatBil => fakta.type === 'PRIVAT_BIL';
-
-/**
- * Henter aktivitetId fra fakta dersom typen er bestemt (offentlig transport eller privat bil). Reiser med
- * fakta-type Ubestemt har ingen aktivitetId, og hentes derfor aldri fra backend i utgangspunktet (se
- * ReiseOppstartAvslutningHjemreiseVilkårService.hentVilkårGruppertPåAktivitet i backend).
- */
-export const finnAktivitetIdForFakta = (
-    fakta: FaktaReiseOppstartAvslutningHjemreise
-): string | undefined => {
-    if (erFaktaOffentligTransport(fakta) || erFaktaPrivatBil(fakta)) {
-        return fakta.aktivitetId;
-    }
-    return undefined;
-};
 
 export const typeReiseOppstartAvslutningHjemreiseTilTypeVilkårFakta: Record<
     TypeReiseOppstartAvslutningHjemreise,

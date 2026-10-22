@@ -6,7 +6,6 @@ import TextField from '../../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { harTallverdi, tilTallverdi } from '../../../../../utils/tall';
 import { fjernSpaces } from '../../../../../utils/utils';
-import { Aktivitet } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { tomtPrivatBil } from '../EndreVilkår/utils';
 import { FeilmeldingerFaktaPrivatBil } from '../EndreVilkår/validering';
 import {
@@ -23,11 +22,10 @@ export const EndreFaktaPrivatBil: React.FC<{
     settFakta: React.Dispatch<React.SetStateAction<FaktaReiseOppstartAvslutningHjemreise>>;
     nullstillFeilOgUlagretkomponent: () => void;
     feilmeldinger: FeilmeldingerFaktaPrivatBil | undefined;
-    aktivitet: Aktivitet;
-}> = ({ fakta, nullstillFeilOgUlagretkomponent, settFakta, feilmeldinger, aktivitet }) => {
+}> = ({ fakta, nullstillFeilOgUlagretkomponent, settFakta, feilmeldinger }) => {
     const oppdaterFakta = (key: keyof FaktaPrivatBil, verdi: number | string | undefined) => {
         settFakta((prevState) => ({
-            ...(prevState.type === 'PRIVAT_BIL' ? prevState : tomtPrivatBil(aktivitet)),
+            ...(prevState.type === 'PRIVAT_BIL' ? prevState : tomtPrivatBil()),
             [key]: verdi,
         }));
 

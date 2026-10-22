@@ -2,7 +2,6 @@ import React from 'react';
 
 import { EndreFaktaOffentligTransport } from './EndreFaktaOffentligTransport';
 import { EndreFaktaPrivatBil } from './EndreFaktaPrivatBil';
-import { Aktivitet } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import {
     FeilmeldingerFaktaOffentligTransport,
     FeilmeldingerFaktaPrivatBil,
@@ -21,15 +20,7 @@ export const EndreFaktaReiseOppstartAvslutningHjemreise: React.FC<{
     settFakta: React.Dispatch<React.SetStateAction<FaktaReiseOppstartAvslutningHjemreise>>;
     nullstillFeilOgUlagretkomponent: () => void;
     feilmeldinger: FeilmeldingerReiseOppstartAvslutningHjemreise;
-    aktivitet: Aktivitet;
-}> = ({
-    gjeldendeFaktaType,
-    fakta,
-    nullstillFeilOgUlagretkomponent,
-    settFakta,
-    feilmeldinger,
-    aktivitet,
-}) => {
+}> = ({ gjeldendeFaktaType, fakta, nullstillFeilOgUlagretkomponent, settFakta, feilmeldinger }) => {
     switch (gjeldendeFaktaType) {
         case 'REISE_OPPSTART_AVSLUTNING_HJEMREISE_OFFENTLIG_TRANSPORT':
             return (
@@ -38,7 +29,6 @@ export const EndreFaktaReiseOppstartAvslutningHjemreise: React.FC<{
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     settFakta={settFakta}
                     feilmeldinger={feilmeldinger.fakta as FeilmeldingerFaktaOffentligTransport}
-                    aktivitet={aktivitet}
                 />
             );
         case 'REISE_OPPSTART_AVSLUTNING_HJEMREISE_PRIVAT_BIL':
@@ -48,7 +38,6 @@ export const EndreFaktaReiseOppstartAvslutningHjemreise: React.FC<{
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     settFakta={settFakta as () => FaktaPrivatBil}
                     feilmeldinger={feilmeldinger.fakta as FeilmeldingerFaktaPrivatBil}
-                    aktivitet={aktivitet}
                 />
             );
     }

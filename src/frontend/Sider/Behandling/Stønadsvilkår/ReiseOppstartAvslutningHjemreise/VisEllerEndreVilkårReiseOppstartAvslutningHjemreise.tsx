@@ -2,15 +2,12 @@ import React, { FC, useState } from 'react';
 
 import { EndreVilkårReiseOppstartAvslutningHjemreise } from './EndreVilkår/EndreVilkårReiseOppstartAvslutningHjemreise';
 import { LesevisningVilkårReiseOppstartAvslutningHjemreise } from './Lesevisning/LesevisningVilkårReiseOppstartAvslutningHjemreise';
-import { FaktaReiseOppstartAvslutningHjemreise } from './typer/faktaReiseOppstartAvslutningHjemreise';
 import {
-    SvarVilkårReiseOppstartAvslutningHjemreise,
-    TypeReiseformål,
+    LagreNyttVilkårReiseOppstartAvslutningHjemreise,
     VilkårReiseOppstartAvslutningHjemreise,
 } from './typer/vilkårReiseOppstartAvslutningHjemreise';
 import { useSteg } from '../../../../context/StegContext';
 import { useVilkårReiseOppstartAvslutningHjemreise } from '../../../../context/VilkårReiseOppstartAvslutningHjemreiseContext/VilkårReiseOppstartAvslutningHjemreiseContext';
-import { Periode } from '../../../../utils/periode';
 import { Aktivitet } from '../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { PeriodeStatus } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 
@@ -56,23 +53,8 @@ export const VisEllerEndreVilkårReiseOppstartAvslutningHjemreise: FC<Props> = (
 
     const skalViseRedigeringsknapp = !!erStegRedigerbart && vilkår.status !== PeriodeStatus.SLETTET;
 
-    const lagre = async (
-        periode: Periode,
-        adresse: string | undefined,
-        reiseId: string,
-        typeReiseformål: TypeReiseformål | undefined,
-        svar: SvarVilkårReiseOppstartAvslutningHjemreise,
-        fakta: FaktaReiseOppstartAvslutningHjemreise
-    ) => {
-        return await oppdaterVilkår(vilkår.id, {
-            fom: periode.fom,
-            tom: periode.tom,
-            adresse: adresse || '',
-            reiseId: reiseId,
-            typeReiseformål: typeReiseformål as TypeReiseformål,
-            svar: svar,
-            fakta: fakta,
-        });
+    const lagre = async (vilkårTilLagring: LagreNyttVilkårReiseOppstartAvslutningHjemreise) => {
+        return await oppdaterVilkår(vilkår.id, vilkårTilLagring);
     };
 
     return (
