@@ -4,6 +4,7 @@ import {
     FaktaReiseTilSamling,
     FaktaOffentligTransport,
     FaktaPrivatBil,
+    FaktaDrosje,
     typeReiseTilSamlingTilTypeVilkårFakta,
 } from '../typer/faktaReiseTilSamling';
 import {
@@ -124,6 +125,9 @@ export const tomFaktaForType = (type: TypeVilkårFakta): FaktaReiseTilSamling =>
     if (type === 'REISE_TIL_SAMLING_PRIVAT_BIL') {
         return { ...tomtPrivatBil };
     }
+    if (type === 'REISE_TIL_SAMLING_DROSJE') {
+        return { ...tomtDrosje };
+    }
     return { type: 'UBESTEMT' as const };
 };
 export const finnBegrunnelsestypeForSvar = (
@@ -146,6 +150,8 @@ export const tomtSvar: SvarVilkårReiseTilSamling = {
     KAN_REISE_MED_OFFENTLIG_TRANSPORT: undefined,
     DOKUMENTERTE_UTGIFTER: undefined,
     KAN_REISE_MED_EGEN_BIL: undefined,
+    KAN_REISE_MED_DROSJE: undefined,
+    HAR_DOKUMENTERTE_UTGIFTER_TIL_DROSJE: undefined,
 };
 
 export const tomtOffentligTransport: FaktaOffentligTransport = {
@@ -166,4 +172,12 @@ export const tomtPrivatBil: FaktaPrivatBil = {
     fergekostnad: undefined,
     parkering: undefined,
     piggdekkavgift: undefined,
+};
+
+export const tomtDrosje: FaktaDrosje = {
+    type: 'DROSJE',
+    utgifterDrosje: undefined,
+    begrunnelse: undefined,
+    nødvendigUtgift: undefined,
+    aktivitet: undefined,
 };

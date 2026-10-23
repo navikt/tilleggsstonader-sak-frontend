@@ -30,6 +30,7 @@ export type BeregnReiseTilSamlingRequest = {
 export interface BeregningResultatReiseTilSamling {
     offentligTransport?: BeregningsresultatOffentligTransport[];
     privatBil?: BeregningsresultatPrivatBil[];
+    drosje?: BeregningsresultatDrosje[];
     beregningsplan: Beregningsplan;
 }
 export interface BeregningsresultatOffentligTransport {
@@ -56,6 +57,16 @@ export interface BeregningsresultatPrivatBil {
     piggdekkavgift?: number;
     ekstrakostnader: number;
     beløp: number;
+    fraTidligereVedtak: boolean;
+}
+export interface BeregningsresultatDrosje {
+    reiseId: string;
+    adresse?: string;
+    fom: string;
+    tom: string;
+    beløp: number;
+    begrunnelse: string;
+    aktivitetId?: string;
     fraTidligereVedtak: boolean;
 }
 export type InnvilgeReiseTilSamlingRequest = {

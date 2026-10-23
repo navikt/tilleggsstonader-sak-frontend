@@ -1,6 +1,6 @@
 import { TypeVilkårFakta } from './regelstrukturReiseTilSamling';
 import { TypeReiseTilSamling } from './vilkårReiseTilSamling';
-import type { NødvendigUtgift } from '../../../../../typer/nødvendigUtgift';
+import type { NødvendigUtgift, SvarJaNei } from '../../../../../typer/nødvendigUtgift';
 import { AktivitetInfo } from '../felles/aktivitetInfo';
 
 export interface FaktaReiseTilSamling {
@@ -26,6 +26,16 @@ export interface FaktaPrivatBil extends FaktaReiseTilSamling {
     piggdekkavgift: number | undefined;
 }
 
+export interface FaktaDrosje extends FaktaReiseTilSamling {
+    type: 'DROSJE';
+    utgifterDrosje: number | undefined;
+    begrunnelse: string | undefined;
+    nødvendigUtgift: NødvendigUtgift | undefined;
+}
+
+export const erSvarJaNei = (svarId: string): svarId is SvarJaNei =>
+    svarId === 'JA' || svarId === 'NEI';
+
 export const erFaktaOffentligTransport = (
     fakta: FaktaReiseTilSamling
 ): fakta is FaktaOffentligTransport => fakta.type === 'OFFENTLIG_TRANSPORT';
@@ -33,8 +43,12 @@ export const erFaktaOffentligTransport = (
 export const erFaktaPrivatBil = (fakta: FaktaReiseTilSamling): fakta is FaktaPrivatBil =>
     fakta.type === 'PRIVAT_BIL';
 
+export const erFaktaDrosje = (fakta: FaktaReiseTilSamling): fakta is FaktaDrosje =>
+    fakta.type === 'DROSJE';
+
 export const typeReiseTilSamlingTilTypeVilkårFakta: Record<TypeReiseTilSamling, TypeVilkårFakta> = {
     OFFENTLIG_TRANSPORT: 'REISE_TIL_SAMLING_OFFENTLIG_TRANSPORT',
     PRIVAT_BIL: 'REISE_TIL_SAMLING_PRIVAT_BIL',
+    DROSJE: 'REISE_TIL_SAMLING_DROSJE',
     UBESTEMT: 'REISE_TIL_SAMLING_UBESTEMT',
 };
