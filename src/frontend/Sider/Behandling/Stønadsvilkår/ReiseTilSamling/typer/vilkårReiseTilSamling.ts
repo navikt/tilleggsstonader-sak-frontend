@@ -9,11 +9,12 @@ export interface VilkårReiseTilSamling extends VilkårBase {
     fakta: FaktaReiseTilSamling;
 }
 
-export type TypeReiseTilSamling = 'OFFENTLIG_TRANSPORT' | 'PRIVAT_BIL' | 'UBESTEMT';
+export type TypeReiseTilSamling = 'OFFENTLIG_TRANSPORT' | 'PRIVAT_BIL' | 'DROSJE' | 'UBESTEMT';
 
 export const typeReiseTilSamlingTilTekst: Record<TypeReiseTilSamling, string> = {
     OFFENTLIG_TRANSPORT: 'Offentlig transport',
     PRIVAT_BIL: 'Privat bil',
+    DROSJE: 'Drosje',
     UBESTEMT: 'UBESTEMT',
 };
 

@@ -3,6 +3,7 @@ import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
 import { fjernPerioderFraTidligereVedtakOgGrupperPåPeriodeOgAdresse, Samlingsgruppe } from './util';
+import { VedtakstabellReiseTilSamlingDrosje } from './VedtakstabellReiseTilSamlingDrosje';
 import { VedtakstabellReiseTilSamlingOffentligTransport } from './VedtakstabellReiseTilSamlingOffentligTransport';
 import { VedtakstabellReiseTilSamlingPrivatBil } from './VedtakstabellReiseTilSamlingPrivatBil';
 import { VedtakstabellReiseTilSamlingTotalsum } from './VedtakstabellReiseTilSamlingTotalsum';
@@ -23,7 +24,7 @@ const VedtakstabellReiseTilSamling: React.FC<{
     const grupper = fjernPerioderFraTidligereVedtakOgGrupperPåPeriodeOgAdresse(beregningsresultat);
 
     const skalViseTotalsumForGruppe = (gruppe: Samlingsgruppe) =>
-        gruppe.offentligTransport.length + gruppe.privatBil.length > 1;
+        gruppe.offentligTransport.length + gruppe.privatBil.length + gruppe.drosje.length > 1;
 
     return grupper.map((gruppe, index) => (
         <div
@@ -44,6 +45,9 @@ const VedtakstabellReiseTilSamling: React.FC<{
             ))}
             {gruppe.privatBil.map((samling) => (
                 <VedtakstabellReiseTilSamlingPrivatBil key={samling.reiseId} samling={samling} />
+            ))}
+            {gruppe.drosje.map((samling) => (
+                <VedtakstabellReiseTilSamlingDrosje key={samling.reiseId} samling={samling} />
             ))}
             {skalViseTotalsumForGruppe(gruppe) && (
                 <VedtakstabellReiseTilSamlingTotalsum gruppe={gruppe} />

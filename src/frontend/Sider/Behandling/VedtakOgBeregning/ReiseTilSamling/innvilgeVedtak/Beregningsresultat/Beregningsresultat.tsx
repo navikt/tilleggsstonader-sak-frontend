@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 
 import { HStack, Switch, VStack } from '@navikt/ds-react';
 
+import { BeregningDrosje } from './Drosje';
 import { BeregningOffentligTransport } from './OffentligTransport';
 import { BeregningPrivatBil } from './PrivatBil';
 import { BeregningResultatReiseTilSamling } from '../../../../../../typer/vedtak/vedtakReiseTilSamling';
@@ -16,7 +17,9 @@ export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
     const harPerioderFraTidligereVedtak =
         (beregningsresultat?.offentligTransport ?? []).some(
             (samling) => samling.fraTidligereVedtak
-        ) || (beregningsresultat?.privatBil ?? []).some((samling) => samling.fraTidligereVedtak);
+        ) ||
+        (beregningsresultat?.privatBil ?? []).some((samling) => samling.fraTidligereVedtak) ||
+        (beregningsresultat?.drosje ?? []).some((samling) => samling.fraTidligereVedtak);
 
     return (
         <VStack gap="space-16">
@@ -48,6 +51,12 @@ export const Beregningsresultat: FC<Props> = ({ beregningsresultat }) => {
                             visTidligerePerioder={visTidligerePerioder}
                         />
                     </>
+                )}
+                {beregningsresultat?.drosje && (
+                    <BeregningDrosje
+                        beregningsresultat={beregningsresultat.drosje}
+                        visTidligerePerioder={visTidligerePerioder}
+                    />
                 )}
             </>
         </VStack>
