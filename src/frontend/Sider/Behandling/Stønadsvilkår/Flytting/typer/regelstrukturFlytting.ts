@@ -2,6 +2,7 @@ import { TypeVilkårFaktaFlytting } from './faktaFlytting';
 import { BegrunnelseRegel, SvarId } from '../../../../../typer/regel';
 
 export enum RegelIdFlytting {
+    HAR_UTGIFTER_TIL_FLYTTING = 'HAR_UTGIFTER_TIL_FLYTTING',
     HVILKEN_FORBINDELSE_FLYTTER_BRUKER = 'HVILKEN_FORBINDELSE_FLYTTER_BRUKER',
     MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET = 'MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET',
     FLYTTER_IFBM_ARBEID_ETTER_AKTIVITET = 'FLYTTER_IFBM_ARBEID_ETTER_AKTIVITET',
@@ -27,6 +28,8 @@ export const begrunnelseHjelpeteksterForMåFlytteForStarteArbeid: Partial<Record
 };
 
 export const delvilkårHjelpetekster: Partial<Record<RegelIdFlytting, string>> = {
+    [RegelIdFlytting.HAR_UTGIFTER_TIL_FLYTTING]:
+        'Vurder om bruker faktisk har utgifter til flyttingen. Dersom flyttingen er gratis eller utgiftene dekkes fullt ut på annen måte, har ikke bruker utgifter som kan dekkes.',
     [RegelIdFlytting.MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET]:
         'Dersom bruker flyttet til aktivitetssted for å gjennomføre, kan de ha rett på å flytte hjem også',
 };

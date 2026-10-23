@@ -68,6 +68,7 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     KAN_REISE_MED_EGEN_BIL: 'Kan bruker benytte seg av privat bil?',
     HAR_UTGIFTER_TIL_REISEN: 'Har bruker utgifter til reisen?',
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
+    HAR_UTGIFTER_TIL_FLYTTING: 'Har bruker utgifter til flyttingen?',
     HVILKEN_FORBINDELSE_FLYTTER_BRUKER: 'I hvilken forbindelse flytter bruker?',
     MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET: 'Må bruker flytte fra/til hjemsted?',
     FLYTTER_IFBM_ARBEID_ETTER_AKTIVITET:
