@@ -78,7 +78,7 @@ export const FlyttingLesevisning: React.FC<Props> = ({
             <HStack gap="space-32">
                 <div>
                     <BodyShort size="small">Flyttedato</BodyShort>
-                    <Label size="small">{formaterDato(vilkår.flytteDato)}</Label>
+                    <Label size="small">{formaterDato(vilkår.flyttedato)}</Label>
                 </div>
                 {vilkår.fakta.adresse && (
                     <div>

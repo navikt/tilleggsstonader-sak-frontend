@@ -135,7 +135,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
     const { behandling } = useBehandling();
     const { slettVilkår, regelstruktur } = useVilkårFlytting();
 
-    const [flytteDato, settFlytteDato] = useState(vilkår?.flytteDato ?? '');
+    const [flyttedato, settFlytteDato] = useState(vilkår?.flyttedato ?? '');
     const [svar, settSvar] = useState(() => initierSvar(vilkår));
     const [fakta, settFakta] = useState(() => tilFaktaSkjema(vilkår?.fakta));
     const [feil, settFeil] = useState<string>();
@@ -240,7 +240,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
     const lagreSkjema = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         settFeil(undefined);
-        if (!flytteDato) {
+        if (!flyttedato) {
             settFeil('Fyll ut en gyldig flyttedato før du lagrer.');
             return;
         }
@@ -251,7 +251,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
         }
 
         settLaster(true);
-        const respons = await lagre({ flytteDato, svar, fakta: faktaPayload });
+        const respons = await lagre({ flyttedato, svar, fakta: faktaPayload });
         if (respons.status === RessursStatus.SUKSESS) {
             avbryt();
         } else {
@@ -285,7 +285,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                     <FeilmeldingMaksBredde $maxWidth={152}>
                         <DateInputMedLeservisning
                             label="Flyttedato"
-                            value={flytteDato}
+                            value={flyttedato}
                             onChange={(dato) => {
                                 settFlytteDato(dato ?? '');
                             }}
