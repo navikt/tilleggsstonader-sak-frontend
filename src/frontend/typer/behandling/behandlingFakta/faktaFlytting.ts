@@ -3,7 +3,6 @@ import { JaNei } from '../../common';
 export interface FlyttingDetaljer {
     årsak?: EnumFelt<Flytteårsak> | null;
     flyttedato?: VerdiFelt<string> | null;
-    førsteArbeidsdag?: VerdiFelt<string> | null;
     adresse?: Adresse | null;
     flyttemåte?: EnumFelt<Flyttemåte> | null;
     utgifterDekketPåAnnenMåte?: EnumFelt<JaNei> | null;
@@ -37,25 +36,22 @@ interface SelectFelt<T> {
 }
 
 interface UtgifterEgenFlytting {
-    avstand?: VerdiFelt<string> | null;
-    hengerleie?: VerdiFelt<string> | null;
-    bom?: VerdiFelt<string> | null;
-    parkering?: VerdiFelt<string> | null;
-    ferje?: VerdiFelt<string> | null;
-    annet?: VerdiFelt<string> | null;
+    avstand?: VerdiFelt<number> | null;
+    hengerleie?: VerdiFelt<number> | null;
+    bom?: VerdiFelt<number> | null;
+    parkering?: VerdiFelt<number> | null;
+    ferje?: VerdiFelt<number> | null;
+    annet?: VerdiFelt<number> | null;
 }
 
 interface Flyttebyrå {
-    tilbud1?: FlyttebyråTilbud | null;
-    tilbud2?: FlyttebyråTilbud | null;
-    valgtTilbud?: EnumFelt<ValgtTilbud> | null;
+    tilbud: FlyttebyråTilbud[];
 }
 
 interface FlyttebyråTilbud {
     navn?: VerdiFelt<string> | null;
-    beløp?: VerdiFelt<string> | null;
+    beløp?: VerdiFelt<number> | null;
 }
 
 type Flytteårsak = 'NY_JOBB' | 'AKTIVITET';
 type Flyttemåte = 'FLYTTER_SELV' | 'FLYTTEBYRÅ';
-type ValgtTilbud = 'TILBUD_1' | 'TILBUD_2';

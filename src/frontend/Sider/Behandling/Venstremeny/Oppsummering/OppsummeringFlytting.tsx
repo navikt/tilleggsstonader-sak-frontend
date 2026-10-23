@@ -24,12 +24,12 @@ function adresseLinjer(flyttingDetaljer: FlyttingDetaljer) {
 function tilbudstekst(
     tilbud?: {
         navn?: { label: string; verdi: string } | null;
-        beløp?: { label: string; verdi: string } | null;
+        beløp?: { label: string; verdi: number } | null;
     } | null
 ) {
-    return [tilbud?.navn, tilbud?.beløp]
-        .filter((felt): felt is { label: string; verdi: string } => Boolean(felt?.verdi))
-        .map((felt) => `${felt.label}: ${felt.verdi}`);
+    return [tilbud?.navn, tilbud?.beløp].flatMap((felt) =>
+        felt && felt.verdi !== '' ? [`${felt.label}: ${felt.verdi}`] : []
+    );
 }
 
 export const OppsummeringFlytting: React.FC<{
@@ -52,10 +52,6 @@ export const OppsummeringFlytting: React.FC<{
                     <SøknadInfoFelt
                         label={detaljer.flyttedato?.label ?? 'Dato for flytting'}
                         value={visDato(detaljer.flyttedato)}
-                    />
-                    <SøknadInfoFelt
-                        label={detaljer.førsteArbeidsdag?.label ?? 'Første arbeidsdag'}
-                        value={visDato(detaljer.førsteArbeidsdag)}
                     />
                     <SøknadInfoFelt label="Ny adresse" value={adresse} />
                     <SøknadInfoFelt
@@ -93,12 +89,16 @@ export const OppsummeringFlytting: React.FC<{
                         label={utgifter?.annet?.label ?? 'Andre utgifter'}
                         value={utgifter?.annet?.verdi}
                     />
-                    <SøknadInfoFelt label="Tilbud 1" value={tilbudstekst(flyttebyrå?.tilbud1)} />
-                    <SøknadInfoFelt label="Tilbud 2" value={tilbudstekst(flyttebyrå?.tilbud2)} />
-                    <SøknadInfoFelt
-                        label={flyttebyrå?.valgtTilbud?.label ?? 'Valgt tilbud'}
-                        value={flyttebyrå?.valgtTilbud?.svarTekst}
-                    />
+                    {flyttebyrå?.tilbud.map((tilbud, index) => {
+                        const verdi = tilbudstekst(tilbud);
+                        return verdi.length > 0 ? (
+                            <SøknadInfoFelt
+                                key={index}
+                                label={`Tilbud ${index + 1}`}
+                                value={verdi}
+                            />
+                        ) : null;
+                    })}
                 </SøknadInfoSeksjon>
             )}
             {antallVedlegg(behandlingFakta.dokumentasjon) > 0 && (
