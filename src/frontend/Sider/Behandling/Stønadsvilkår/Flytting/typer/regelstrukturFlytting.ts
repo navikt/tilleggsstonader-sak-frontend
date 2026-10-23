@@ -2,6 +2,7 @@ import { TypeVilkårFaktaFlytting } from './faktaFlytting';
 import { BegrunnelseRegel, SvarId } from '../../../../../typer/regel';
 
 export enum RegelIdFlytting {
+    HAR_UTGIFTER_TIL_FLYTTING = 'HAR_UTGIFTER_TIL_FLYTTING',
     HVILKEN_FORBINDELSE_FLYTTER_BRUKER = 'HVILKEN_FORBINDELSE_FLYTTER_BRUKER',
     MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET = 'MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET',
     FLYTTER_IFBM_ARBEID_ETTER_AKTIVITET = 'FLYTTER_IFBM_ARBEID_ETTER_AKTIVITET',
@@ -11,20 +12,26 @@ export enum RegelIdFlytting {
 
 export const begrunnelseHjelpeteksterForFlytteforbindelse: Partial<Record<SvarId, string>> = {
     FLYTTING_VED_OPPSTART_ELLER_AVSLUTNING_AV_TILTAK_ELLER_UTDANNING:
-        'Beskriv hvilket arbeidsrettet tiltak eller hvilken godkjent utdanning brukeren skal delta i eller har deltatt i, og oppgi start- og sluttdato for tiltaket eller utdanningen.',
+        'Beskriv hvilket arbeidsrettet tiltak eller hvilken godkjent utdanning brukeren skal delta/har deltatt i, og oppgi start- og sluttdato for tiltaket eller utdanningen.',
     ARBEID_ETTER_GJENNOMFØRT_AKTIVITET:
         'Beskriv hvilket arbeidsrettet tiltak eller hvilken godkjent utdanning brukeren har gjennomført, og oppgi start- og sluttdato for tiltaket eller utdanningen.',
     ENSLIG_FORSØRGER_ELLER_GJENLEVENDE_STARTER_I_ARBEID:
-        'Dette alternativet gjelder bare for enslig forsørger eller gjenlevende. Det er ikke et krav at personen har gjennomført aktivitet. Forklar her hvorfor bruker flytter, ettersom det ikke er i forbindelse med en aktivitet.',
+        'Beskriv hvilken målgruppe brukeren tilhører og hvordan flyttingen er knyttet til oppstart i arbeid på et annet sted.\n\nMerk: Flyttestønad etter dette punktet kan kun innvilges til enslige forsørgere eller gjenlevende. Det stilles ikke krav om aktivitet, hverken før eller i forbindelse med flyttingen.',
+};
+
+export const begrunnelseHjelpeteksterForFlytterIfbmArbeid: Partial<Record<SvarId, string>> = {
+    JA: 'Vurder om det er nødvendig for bruker å flytte. Ta hensyn til naturlig pendleravstand, arbeidsforholdets varighet, arbeidskontrakt for det nye arbeidsforholdet, jobbsøk på hjemstedet og om stillingen er utlyst eller meldt til Nav.',
+};
+
+export const begrunnelseHjelpeteksterForMåFlytteForStarteArbeid: Partial<Record<SvarId, string>> = {
+    JA: 'Vurder naturlig pendleravstand, arbeidsforholdets varighet, arbeidskontrakt for det nye arbeidsforholdet, jobbsøk på hjemstedet og om stillingen er utlyst eller meldt til Nav.',
 };
 
 export const delvilkårHjelpetekster: Partial<Record<RegelIdFlytting, string>> = {
-    [RegelIdFlytting.FLYTTER_IFBM_ARBEID_ETTER_AKTIVITET]:
-        'Med aktivitet menes arbeidsrettet tiltak (hvis nedsatt arbeidsevne) eller godkjent utdanning (hvis gjenlevende eller enslig mor eller far)',
+    [RegelIdFlytting.HAR_UTGIFTER_TIL_FLYTTING]:
+        'Vurder om bruker faktisk har utgifter til flyttingen. Dersom flyttingen er gratis eller utgiftene dekkes fullt ut på annen måte, har ikke bruker utgifter som kan dekkes.',
     [RegelIdFlytting.MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET]:
         'Dersom bruker flyttet til aktivitetssted for å gjennomføre, kan de ha rett på å flytte hjem også',
-    [RegelIdFlytting.MÅ_FLYTTE_FOR_Å_STARTE_I_ARBEID]:
-        'Det må være nødvendig å flytte fra hjemstedet for å kunne starte i arbeidet på det nye stedet.',
 };
 
 export interface SvaralternativFlytting {

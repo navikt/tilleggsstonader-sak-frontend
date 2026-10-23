@@ -8,7 +8,8 @@ export const svarIdTilTekst: Record<SvarId, string> = {
         'Flytting ved oppstart eller avslutning av tiltak eller utdanning',
     FLYTTER_TIL_AKTIVITETSSTED: 'Ja, flytter til aktivitetssted',
     FLYTTER_TIL_HJEMSTED: 'Ja, flytter til hjemsted',
-    ARBEID_ETTER_GJENNOMFØRT_AKTIVITET: 'Arbeid etter gjennomført tiltak/utdanning',
+    ARBEID_ETTER_GJENNOMFØRT_AKTIVITET:
+        'Flytting i forbindelse med arbeid etter gjennomført tiltak eller utdanning',
     ENSLIG_FORSØRGER_ELLER_GJENLEVENDE_STARTER_I_ARBEID:
         'Enslig forsørger eller gjenlevende som flytter fra hjemstedet for å starte i arbeid',
     FLYTTEBYRÅ: 'Flyttebyrå',
@@ -28,7 +29,8 @@ export const svarIdTilTekstKorversjon: Record<string, string> = {
         'Flytting ved oppstart eller avslutning av tiltak eller utdanning',
     FLYTTER_TIL_AKTIVITETSSTED: 'Ja, flytter til aktivitetssted',
     FLYTTER_TIL_HJEMSTED: 'Ja, flytter til hjemsted',
-    ARBEID_ETTER_GJENNOMFØRT_AKTIVITET: 'Arbeid etter gjennomført tiltak/utdanning',
+    ARBEID_ETTER_GJENNOMFØRT_AKTIVITET:
+        'Flytting i forbindelse med arbeid etter gjennomført tiltak eller utdanning',
     ENSLIG_FORSØRGER_ELLER_GJENLEVENDE_STARTER_I_ARBEID:
         'Enslig forsørger eller gjenlevende som flytter fra hjemstedet for å starte i arbeid',
     FLYTTEBYRÅ: 'Flyttebyrå',
@@ -66,11 +68,11 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     KAN_REISE_MED_EGEN_BIL: 'Kan bruker benytte seg av privat bil?',
     HAR_UTGIFTER_TIL_REISEN: 'Har bruker utgifter til reisen?',
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
+    HAR_UTGIFTER_TIL_FLYTTING: 'Har bruker utgifter til flyttingen?',
     HVILKEN_FORBINDELSE_FLYTTER_BRUKER: 'I hvilken forbindelse flytter bruker?',
-    MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET:
-        'Må bruker flytte til/fra hjemsted for å gjennomføre aktiviteten?',
+    MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET: 'Må bruker flytte fra/til hjemsted?',
     FLYTTER_IFBM_ARBEID_ETTER_AKTIVITET:
-        'Flytter bruker i forbindelse med arbeid etter at aktiviteten er gjennomført?',
+        'Må bruker flytte i forbindelse med arbeid etter gjennomført tiltak eller utdanning?',
     MÅ_FLYTTE_FOR_Å_STARTE_I_ARBEID:
         'Må bruker flytte fra hjemstedet for å starte i arbeid på et annet sted?',
     HVORDAN_SKAL_BRUKER_FLYTTE: 'Skal bruker benytte seg av flyttebyrå, eller flytter bruker selv?',
@@ -101,10 +103,9 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     HAR_UTGIFTER_TIL_REISEN: 'Har utgifter til reisen?',
     ER_SAMLING_OBLIGATORISK: 'Er samlingen obligatorisk?',
     HVILKEN_FORBINDELSE_FLYTTER_BRUKER: 'I hvilken forbindelse flytter bruker?',
-    MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET:
-        'Må bruker flytte til/fra hjemsted for å gjennomføre aktiviteten?',
+    MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET: 'Må bruker flytte fra/til hjemsted?',
     FLYTTER_IFBM_ARBEID_ETTER_AKTIVITET:
-        'Flytter bruker i forbindelse med arbeid etter at aktiviteten er gjennomført?',
+        'Må bruker flytte i forbindelse med arbeid etter gjennomført tiltak eller utdanning?',
     MÅ_FLYTTE_FOR_Å_STARTE_I_ARBEID:
         'Må bruker flytte fra hjemstedet for å starte i arbeid på et annet sted?',
     HVORDAN_SKAL_BRUKER_FLYTTE: 'Skal bruker benytte seg av flyttebyrå, eller flytter bruker selv?',
