@@ -1,57 +1,46 @@
 import { JaNei } from '../../common';
 
-export interface FlyttingDetaljer {
-    årsak?: EnumFelt<Flytteårsak> | null;
-    flyttedato?: VerdiFelt<string> | null;
-    adresse?: Adresse | null;
-    flyttemåte?: EnumFelt<Flyttemåte> | null;
-    utgifterDekketPåAnnenMåte?: EnumFelt<JaNei> | null;
-    utgifterEgenFlytting?: UtgifterEgenFlytting | null;
-    flyttebyrå?: Flyttebyrå | null;
+export interface FaktaFlyttingDetaljer {
+    årsak?: Flytteårsak;
+    flyttedato?: string;
+    adresse?: FaktaFlytteadresse;
+    flyttemåte?: Flyttemåte;
+    utgifterDekketPåAnnenMåte?: JaNei;
+    utgifterEgenFlytting?: FaktaUtgifterEgenFlytting;
+    flyttetilbud?: FaktaFlyttetilbud[];
 }
 
-interface EnumFelt<T> {
-    label: string;
-    verdi: T;
-    svarTekst: string;
-    alternativer: string[];
+export interface FaktaFlytteadresse {
+    gateadresse?: string;
+    postnummer?: string;
+    poststed?: string;
+    landkode?: string;
 }
 
-interface VerdiFelt<T> {
-    verdi: T;
-    label: string;
+export interface FaktaUtgifterEgenFlytting {
+    avstand?: number;
+    hengerleie?: number;
+    bom?: number;
+    parkering?: number;
+    ferje?: number;
+    annet?: number;
 }
 
-interface Adresse {
-    land?: SelectFelt<string> | null;
-    gateadresse?: VerdiFelt<string> | null;
-    postnummer?: VerdiFelt<string> | null;
-    poststed?: VerdiFelt<string> | null;
+export interface FaktaFlyttetilbud {
+    navn?: string;
+    beløp?: number;
 }
 
-interface SelectFelt<T> {
-    label: string;
-    verdi: T;
-    svarTekst: string;
-}
+export type Flytteårsak = 'NY_JOBB' | 'AKTIVITET';
 
-interface UtgifterEgenFlytting {
-    avstand?: VerdiFelt<number> | null;
-    hengerleie?: VerdiFelt<number> | null;
-    bom?: VerdiFelt<number> | null;
-    parkering?: VerdiFelt<number> | null;
-    ferje?: VerdiFelt<number> | null;
-    annet?: VerdiFelt<number> | null;
-}
+export const flytteårsakTilTekst: Record<Flytteårsak, string> = {
+    NY_JOBB: 'Ny jobb',
+    AKTIVITET: 'Aktivitet',
+};
 
-interface Flyttebyrå {
-    tilbud: FlyttebyråTilbud[];
-}
+export type Flyttemåte = 'FLYTTER_SELV' | 'FLYTTEBYRÅ';
 
-interface FlyttebyråTilbud {
-    navn?: VerdiFelt<string> | null;
-    beløp?: VerdiFelt<number> | null;
-}
-
-type Flytteårsak = 'NY_JOBB' | 'AKTIVITET';
-type Flyttemåte = 'FLYTTER_SELV' | 'FLYTTEBYRÅ';
+export const flyttemåteTilTekst: Record<Flyttemåte, string> = {
+    FLYTTER_SELV: 'Flytter selv',
+    FLYTTEBYRÅ: 'Flyttebyrå',
+};

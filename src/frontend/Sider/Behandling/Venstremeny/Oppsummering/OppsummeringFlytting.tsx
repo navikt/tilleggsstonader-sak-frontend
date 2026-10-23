@@ -4,101 +4,97 @@ import { CardIcon } from '@navikt/aksel-icons';
 
 import { antallVedlegg, Vedlegg } from './Vedlegg';
 import { SøknadInfoFelt, SøknadInfoSeksjon, Søknadsdato } from './Visningskomponenter';
+import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaFlytting } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
-import { FlyttingDetaljer } from '../../../../typer/behandling/behandlingFakta/faktaFlytting';
+import {
+    FaktaFlytteadresse,
+    FaktaFlyttetilbud,
+    flytteårsakTilTekst,
+    flyttemåteTilTekst,
+} from '../../../../typer/behandling/behandlingFakta/faktaFlytting';
+import { jaNeiTilTekst } from '../../../../typer/common';
 import { formaterDato } from '../../../../utils/dato';
+import { formaterTallMedTusenSkille } from '../../../../utils/fomatering';
 
-function visDato(felt?: { verdi: string } | null) {
-    return felt?.verdi ? (formaterDato(felt.verdi) ?? felt.verdi) : undefined;
-}
-
-function adresseLinjer(flyttingDetaljer: FlyttingDetaljer) {
-    const adresse = flyttingDetaljer.adresse;
+function adresseLinjer(adresse?: FaktaFlytteadresse): string[] {
     return [
-        adresse?.land?.svarTekst,
-        adresse?.gateadresse?.verdi,
-        [adresse?.postnummer?.verdi, adresse?.poststed?.verdi].filter(Boolean).join(' '),
+        adresse?.landkode,
+        adresse?.gateadresse,
+        [adresse?.postnummer, adresse?.poststed].filter(Boolean).join(' '),
     ].filter((linje): linje is string => Boolean(linje));
 }
 
-function tilbudstekst(
-    tilbud?: {
-        navn?: { label: string; verdi: string } | null;
-        beløp?: { label: string; verdi: number } | null;
-    } | null
-) {
-    return [tilbud?.navn, tilbud?.beløp].flatMap((felt) =>
-        felt && felt.verdi !== '' ? [`${felt.label}: ${felt.verdi}`] : []
-    );
+function formaterKroner(beløp?: number) {
+    return beløp !== undefined && beløp !== null
+        ? `${formaterTallMedTusenSkille(beløp)} kr`
+        : undefined;
+}
+
+function tilbudTilTekst(tilbud: FaktaFlyttetilbud) {
+    return [tilbud.navn, formaterKroner(tilbud.beløp)].filter(Boolean).join(', ');
 }
 
 export const OppsummeringFlytting: React.FC<{
     behandlingFakta: BehandlingFaktaFlytting;
 }> = ({ behandlingFakta }) => {
     const detaljer = behandlingFakta.flyttingDetaljer;
-    const adresse = detaljer ? adresseLinjer(detaljer) : [];
     const utgifter = detaljer?.utgifterEgenFlytting;
-    const flyttebyrå = detaljer?.flyttebyrå;
 
     return (
         <>
             <Søknadsdato dato={behandlingFakta.søknadMottattTidspunkt} />
+            <YtelseSituasjon
+                faktaHovedytelse={behandlingFakta.hovedytelse}
+                arbeidOgOpphold={behandlingFakta.hovedytelse.søknadsgrunnlag?.arbeidOgOpphold}
+            />
             {detaljer && (
                 <SøknadInfoSeksjon label="Flytting" ikon={<CardIcon />}>
                     <SøknadInfoFelt
-                        label={detaljer.årsak?.label ?? 'Årsak til flytting'}
-                        value={detaljer.årsak?.svarTekst}
+                        label="Årsak til flytting"
+                        value={detaljer.årsak && flytteårsakTilTekst[detaljer.årsak]}
                     />
                     <SøknadInfoFelt
-                        label={detaljer.flyttedato?.label ?? 'Dato for flytting'}
-                        value={visDato(detaljer.flyttedato)}
+                        label="Dato for flytting"
+                        value={detaljer.flyttedato && formaterDato(detaljer.flyttedato)}
                     />
-                    <SøknadInfoFelt label="Ny adresse" value={adresse} />
+                    <SøknadInfoFelt label="Ny adresse" value={adresseLinjer(detaljer.adresse)} />
                     <SøknadInfoFelt
-                        label={detaljer.flyttemåte?.label ?? 'Hvordan skal du flytte?'}
-                        value={detaljer.flyttemåte?.svarTekst}
+                        label="Flyttemåte"
+                        value={detaljer.flyttemåte && flyttemåteTilTekst[detaljer.flyttemåte]}
                     />
                     <SøknadInfoFelt
-                        label={
-                            detaljer.utgifterDekketPåAnnenMåte?.label ??
-                            'Får du dekket utgiftene på annen måte?'
+                        label="Får dekket utgiftene på annen måte"
+                        value={
+                            detaljer.utgifterDekketPåAnnenMåte &&
+                            jaNeiTilTekst[detaljer.utgifterDekketPåAnnenMåte]
                         }
-                        value={detaljer.utgifterDekketPåAnnenMåte?.svarTekst}
                     />
                     <SøknadInfoFelt
-                        label={utgifter?.avstand?.label ?? 'Avstand'}
-                        value={utgifter?.avstand?.verdi}
+                        label="Avstand"
+                        value={
+                            utgifter?.avstand !== undefined && utgifter?.avstand !== null
+                                ? `${formaterTallMedTusenSkille(utgifter.avstand)} km`
+                                : undefined
+                        }
                     />
                     <SøknadInfoFelt
-                        label={utgifter?.hengerleie?.label ?? 'Leie av henger'}
-                        value={utgifter?.hengerleie?.verdi}
+                        label="Leie av henger"
+                        value={formaterKroner(utgifter?.hengerleie)}
                     />
+                    <SøknadInfoFelt label="Bom" value={formaterKroner(utgifter?.bom)} />
+                    <SøknadInfoFelt label="Parkering" value={formaterKroner(utgifter?.parkering)} />
+                    <SøknadInfoFelt label="Ferje" value={formaterKroner(utgifter?.ferje)} />
                     <SøknadInfoFelt
-                        label={utgifter?.bom?.label ?? 'Bom'}
-                        value={utgifter?.bom?.verdi}
+                        label="Andre utgifter"
+                        value={formaterKroner(utgifter?.annet)}
                     />
-                    <SøknadInfoFelt
-                        label={utgifter?.parkering?.label ?? 'Parkering'}
-                        value={utgifter?.parkering?.verdi}
-                    />
-                    <SøknadInfoFelt
-                        label={utgifter?.ferje?.label ?? 'Ferje'}
-                        value={utgifter?.ferje?.verdi}
-                    />
-                    <SøknadInfoFelt
-                        label={utgifter?.annet?.label ?? 'Andre utgifter'}
-                        value={utgifter?.annet?.verdi}
-                    />
-                    {flyttebyrå?.tilbud.map((tilbud, index) => {
-                        const verdi = tilbudstekst(tilbud);
-                        return verdi.length > 0 ? (
-                            <SøknadInfoFelt
-                                key={index}
-                                label={`Tilbud ${index + 1}`}
-                                value={verdi}
-                            />
-                        ) : null;
-                    })}
+                    {detaljer.flyttetilbud?.map((tilbud, index) => (
+                        <SøknadInfoFelt
+                            key={index}
+                            label={`Tilbud ${index + 1}`}
+                            value={tilbudTilTekst(tilbud)}
+                        />
+                    ))}
                 </SøknadInfoSeksjon>
             )}
             {antallVedlegg(behandlingFakta.dokumentasjon) > 0 && (

@@ -7,7 +7,7 @@ import { FaktaArena } from './faktaArena';
 import { FaktaBarn } from './faktaBarn';
 import { FaktaBoligEllerOvernatting } from './faktaBoligEllerOvernattig';
 import { FaktaDokumentasjon } from './faktaDokumentasjon';
-import { FlyttingDetaljer } from './faktaFlytting';
+import { FaktaFlyttingDetaljer } from './faktaFlytting';
 import { FaktaHovedytelse } from './faktaHovedytelse';
 import { FaktaPersonopplysninger } from './faktaPersonopplysninger';
 import { FaktaReise, ReiseAdresse } from './faktaReise';
@@ -62,7 +62,7 @@ export interface FaktaAvreiseadresse {
 
 export interface BehandlingFaktaFlytting extends BehandlingFaktaInterface {
     '@type': Stønadstype.FLYTTING_TSO | Stønadstype.FLYTTING_TSR;
-    flyttingDetaljer?: FlyttingDetaljer | null;
+    flyttingDetaljer?: FaktaFlyttingDetaljer;
 }
 
 export interface BehandlingFaktaReiseOppstartAvslutningHjemreise extends BehandlingFaktaInterface {
