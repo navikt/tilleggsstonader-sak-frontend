@@ -16,7 +16,7 @@ export const begrunnelseHjelpeteksterForFlytteforbindelse: Partial<Record<SvarId
     ARBEID_ETTER_GJENNOMFØRT_AKTIVITET:
         'Beskriv hvilket arbeidsrettet tiltak eller hvilken godkjent utdanning brukeren har gjennomført, og oppgi start- og sluttdato for tiltaket eller utdanningen.',
     ENSLIG_FORSØRGER_ELLER_GJENLEVENDE_STARTER_I_ARBEID:
-        'Dette alternativet gjelder bare for enslig forsørger eller gjenlevende. Det er ikke et krav at personen har gjennomført aktivitet. Forklar her hvorfor bruker flytter, ettersom det ikke er i forbindelse med en aktivitet.',
+        'Beskriv hvilken målgruppe brukeren tilhører og hvordan flyttingen er knyttet til oppstart i arbeid på et annet sted.\n\nMerk: Flyttestønad etter dette punktet kan kun innvilges til enslige forsørgere eller gjenlevende. Det stilles ikke krav om aktivitet, hverken før eller i forbindelse med flyttingen.',
 };
 
 export const begrunnelseHjelpeteksterForFlytterIfbmArbeid: Partial<Record<SvarId, string>> = {
