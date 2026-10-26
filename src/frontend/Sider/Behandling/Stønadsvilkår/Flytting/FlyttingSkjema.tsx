@@ -9,6 +9,8 @@ import {
 } from './typer/faktaFlytting';
 import {
     begrunnelseHjelpeteksterForFlytteforbindelse,
+    begrunnelseHjelpeteksterForFlytterIfbmArbeid,
+    begrunnelseHjelpeteksterForMåFlytteForStarteArbeid,
     delvilkårHjelpetekster,
     RegelIdFlytting,
 } from './typer/regelstrukturFlytting';
@@ -79,6 +81,12 @@ function hentBegrunnelseHjelpetekst(
 ): string | undefined {
     if (regelId == RegelIdFlytting.HVILKEN_FORBINDELSE_FLYTTER_BRUKER && svar) {
         return begrunnelseHjelpeteksterForFlytteforbindelse[svar];
+    }
+    if (regelId == RegelIdFlytting.FLYTTER_IFBM_ARBEID_ETTER_AKTIVITET && svar) {
+        return begrunnelseHjelpeteksterForFlytterIfbmArbeid[svar];
+    }
+    if (regelId == RegelIdFlytting.MÅ_FLYTTE_FOR_Å_STARTE_I_ARBEID && svar) {
+        return begrunnelseHjelpeteksterForMåFlytteForStarteArbeid[svar];
     }
 
     return undefined;
