@@ -511,7 +511,7 @@ const EndreFaktaFlyttebyrå: React.FC<{
                 );
             })}
             <JaNeiVurdering
-                label="Er betalingen for flyttebyrå dokumentert?"
+                label="Er det dokumentert kvittering eller faktura for betaling til flyttebyrå?"
                 svar={svarErUtgifterDokumentert()}
                 oppdaterSvar={(svar) => {
                     settFakta((forrige) => ({
