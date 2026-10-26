@@ -16,11 +16,11 @@ import { jaNeiTilTekst } from '../../../../typer/common';
 import { formaterDato } from '../../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../../utils/fomatering';
 
-function adresseLinjer(adresse?: FaktaFlytteadresse): string[] {
+function adresseLinjer(adresse: FaktaFlytteadresse): string[] {
     return [
-        adresse?.landkode,
-        adresse?.gateadresse,
-        [adresse?.postnummer, adresse?.poststed].filter(Boolean).join(' '),
+        adresse.landkode,
+        adresse.gateadresse,
+        [adresse.postnummer, adresse.poststed].filter(Boolean).join(' '),
     ].filter((linje): linje is string => Boolean(linje));
 }
 
@@ -51,28 +51,25 @@ export const OppsummeringFlytting: React.FC<{
                 <SøknadInfoSeksjon label="Flytting" ikon={<CardIcon />}>
                     <SøknadInfoFelt
                         label="Årsak til flytting"
-                        value={detaljer.årsak && flytteårsakTilTekst[detaljer.årsak]}
+                        value={flytteårsakTilTekst[detaljer.årsak]}
                     />
                     <SøknadInfoFelt
                         label="Dato for flytting"
-                        value={detaljer.flyttedato && formaterDato(detaljer.flyttedato)}
+                        value={formaterDato(detaljer.flyttedato)}
                     />
                     <SøknadInfoFelt label="Ny adresse" value={adresseLinjer(detaljer.adresse)} />
                     <SøknadInfoFelt
                         label="Flyttemåte"
-                        value={detaljer.flyttemåte && flyttemåteTilTekst[detaljer.flyttemåte]}
+                        value={flyttemåteTilTekst[detaljer.flyttemåte]}
                     />
                     <SøknadInfoFelt
                         label="Får dekket utgiftene på annen måte"
-                        value={
-                            detaljer.utgifterDekketPåAnnenMåte &&
-                            jaNeiTilTekst[detaljer.utgifterDekketPåAnnenMåte]
-                        }
+                        value={jaNeiTilTekst[detaljer.utgifterDekketPåAnnenMåte]}
                     />
                     <SøknadInfoFelt
                         label="Avstand"
                         value={
-                            utgifter?.avstand !== undefined && utgifter?.avstand !== null
+                            utgifter
                                 ? `${formaterTallMedTusenSkille(utgifter.avstand)} km`
                                 : undefined
                         }

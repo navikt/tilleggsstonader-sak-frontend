@@ -1,11 +1,11 @@
 import { JaNei } from '../../common';
 
 export interface FaktaFlyttingDetaljer {
-    årsak?: Flytteårsak;
-    flyttedato?: string;
-    adresse?: FaktaFlytteadresse;
-    flyttemåte?: Flyttemåte;
-    utgifterDekketPåAnnenMåte?: JaNei;
+    årsak: Flytteårsak;
+    flyttedato: string;
+    adresse: FaktaFlytteadresse;
+    flyttemåte: Flyttemåte;
+    utgifterDekketPåAnnenMåte: JaNei;
     utgifterEgenFlytting?: FaktaUtgifterEgenFlytting;
     flyttetilbud?: FaktaFlyttetilbud[];
 }
@@ -18,7 +18,7 @@ export interface FaktaFlytteadresse {
 }
 
 export interface FaktaUtgifterEgenFlytting {
-    avstand?: number;
+    avstand: number;
     hengerleie?: number;
     bom?: number;
     parkering?: number;
@@ -27,8 +27,8 @@ export interface FaktaUtgifterEgenFlytting {
 }
 
 export interface FaktaFlyttetilbud {
-    navn?: string;
-    beløp?: number;
+    navn: string;
+    beløp: number;
 }
 
 export type Flytteårsak = 'NY_JOBB' | 'AKTIVITET';
