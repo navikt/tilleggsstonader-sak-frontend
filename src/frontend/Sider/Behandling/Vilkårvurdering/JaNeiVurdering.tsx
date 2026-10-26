@@ -11,6 +11,7 @@ export const JaNeiVurdering: React.FC<{
     oppdaterSvar: (svar: SvarJaNei) => void;
     svarJa?: string;
     svarNei?: string;
+    feilmelding?: string;
     hjelpetekst?: React.ReactNode;
     hjelpetekstHeader?: React.ReactNode;
     readOnly?: boolean;
@@ -20,6 +21,7 @@ export const JaNeiVurdering: React.FC<{
     label,
     svarJa = svarJaNeiMapping[SvarJaNei.JA],
     svarNei = svarJaNeiMapping[SvarJaNei.NEI],
+    feilmelding,
     hjelpetekst,
     hjelpetekstHeader,
     readOnly = false,
@@ -35,6 +37,7 @@ export const JaNeiVurdering: React.FC<{
             readOnly={readOnly}
             onChange={oppdaterSvar}
             size="small"
+            error={feilmelding}
         >
             {hjelpetekst && (
                 <ReadMore
