@@ -149,7 +149,7 @@ const LesevisningFlyttingFlyttebyrå: React.FC<{
                     </VStack>
                 ))}
             </HStack>
-            {fakta.erBetalingDokumentert && (
+            {fakta.erUtgifterDokumentert && (
                 <BodyShort size="small">Betaling for flyttebyrå er dokumentert</BodyShort>
             )}
         </VStack>
@@ -184,6 +184,11 @@ const LesevisningFlyttingPrivatBil: React.FC<{
                     </BodyShort>
                 </HStack>
             ))}
+            <BodyShort size="small">
+                {fakta.erUtgifterDokumentert
+                    ? 'Utgiftene er dokumentert'
+                    : 'Utgiftene er ikke dokumentert'}
+            </BodyShort>
         </VStack>
     );
 };

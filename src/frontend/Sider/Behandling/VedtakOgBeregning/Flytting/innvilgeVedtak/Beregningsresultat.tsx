@@ -66,7 +66,7 @@ const BeregningsResultatFlyttebyrå: React.FC<{
                                         {hentValgtFlyttebyråTilbud(grunnlag).navn}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
-                                        {formatBoolean(grunnlag.erBetalingDokumentert)}
+                                        {formatBoolean(grunnlag.erUtgifterDokumentert)}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall align="right">
                                         {kronerMedTusenSkilleEllerStrek(resultat.beløp)}
@@ -105,6 +105,7 @@ const BeregningsResultatFlytteSelv: React.FC<{
                             <TableHeaderCellSmall>T.o.m.</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Avstand én vei</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Sats per km</TableHeaderCellSmall>
+                            <TableHeaderCellSmall>Utgifter dokumentert?</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Sats bekreftet</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Henger</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Bompenger</TableHeaderCellSmall>
@@ -127,6 +128,9 @@ const BeregningsResultatFlytteSelv: React.FC<{
                                     <TableDataCellSmall>{grunnlag.avstandEnVei}</TableDataCellSmall>
                                     <TableDataCellSmall>
                                         {kronerMedTusenSkilleEllerStrek(grunnlag.sats)}
+                                    </TableDataCellSmall>
+                                    <TableDataCellSmall>
+                                        {formatBoolean(grunnlag.erUtgifterDokumentert)}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
                                         {formatBoolean(grunnlag.satsBekreftet)}
