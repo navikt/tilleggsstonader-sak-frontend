@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 
 import { TrashIcon } from '@navikt/aksel-icons';
-import { Heading, HStack, Select, TextField, VStack } from '@navikt/ds-react';
+import { Heading, HStack, Select, Switch, Textarea, TextField, VStack } from '@navikt/ds-react';
 
 import SmallButton from '../../../../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../../../../komponenter/Skillelinje';
 import DateInputMedLeservisning from '../../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { FeilmeldingMaksBredde } from '../../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
+import { BegrunnelseRegel } from '../../../../../../typer/regel';
 import { formaterIsoPeriode } from '../../../../../../utils/dato';
 import { harTallverdi, tilHeltall, tilTallverdi } from '../../../../../../utils/tall';
 import { fjernSpaces } from '../../../../../../utils/utils';
@@ -23,6 +24,7 @@ import { LeggTilNyPeriodeKnapp } from '../LeggTilNyPeriodeKnapp';
 import { defaultPrivatBilPeriode, tomtPrivatBil } from '../utils';
 import { FeilmeldingerFaktaPrivatBil } from '../validering';
 import styles from './EndreFaktaPrivatBil.module.css';
+import { lagBegrunnelsestekst } from '../../../../Vilkårvurdering/utils';
 
 interface Props {
     fakta: FaktaPrivatBil;
@@ -70,7 +72,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
     const oppdaterPeriode = (
         index: number,
         key: keyof FaktaDelperiodePrivatBil,
-        verdi: number | string | undefined
+        verdi: number | string | undefined | boolean
     ) => {
         settFakta((prevState) => {
             const privatBilState = prevState as FaktaPrivatBil;
@@ -92,6 +94,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                 reisedagerPerUke: forrigeDelperiode?.reisedagerPerUke,
                 bompengerPerDag: forrigeDelperiode?.bompengerPerDag,
                 fergekostnadPerDag: forrigeDelperiode?.fergekostnadPerDag,
+                skalBehandlesManuelt: forrigeDelperiode?.skalBehandlesManuelt,
             };
             const nyePerioder = oppdaterFørsteFomOgSisteTom(
                 [...eksisterendePerioder, nyPeriode],
@@ -140,7 +143,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
         });
         nullstillFeilOgUlagretkomponent();
     };
-
+    const begrunnelseLabel = lagBegrunnelsestekst(BegrunnelseRegel.PÅKREVD);
     return (
         <VStack>
             <Heading size="xsmall" level="4" style={{ marginBottom: '1rem' }}>
@@ -242,6 +245,50 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                                     }}
                                 />
                             </FeilmeldingMaksBredde>
+                            <HStack align="start" gap="space-16" style={{ flex: 1 }}>
+                                <div
+                                    style={{
+                                        paddingTop: index === 0 ? '28px' : '16px',
+                                    }}
+                                >
+                                    <Switch
+                                        className={styles.switch}
+                                        size="small"
+                                        checked={periode.skalBehandlesManuelt ?? false}
+                                        onChange={(e) =>
+                                            oppdaterPeriode(
+                                                index,
+                                                'skalBehandlesManuelt',
+                                                e.target.checked
+                                            )
+                                        }
+                                    >
+                                        Behandle kjøreliste manuelt
+                                    </Switch>
+                                </div>
+
+                                {periode.skalBehandlesManuelt && (
+                                    <div style={{ flex: 1, minWidth: '250px' }}>
+                                        <Textarea
+                                            label={begrunnelseLabel}
+                                            resize
+                                            size="small"
+                                            minRows={3}
+                                            value={periode.begrunnelseManuellBehandling || ''}
+                                            onChange={(e) =>
+                                                oppdaterPeriode(
+                                                    index,
+                                                    'begrunnelseManuellBehandling',
+                                                    e.target.value
+                                                )
+                                            }
+                                            error={
+                                                feilmeldinger?.[index]?.begrunnelseManuellBehandling
+                                            }
+                                        />
+                                    </div>
+                                )}
+                            </HStack>
                             <HStack
                                 align={'start'}
                                 style={{
