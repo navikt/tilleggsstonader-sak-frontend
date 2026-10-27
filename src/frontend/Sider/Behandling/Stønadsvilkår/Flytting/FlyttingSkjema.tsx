@@ -590,6 +590,7 @@ const EndreFaktaFlytteSelv: React.FC<{
     };
     return (
         <VStack gap="space-16">
+            <Skillelinje />
             <FeilmeldingMaksBredde $maxWidth={500}>
                 <NødvendigUtgiftFelt
                     nødvendigUtgift={fakta.nødvendigUtgift}
