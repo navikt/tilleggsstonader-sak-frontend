@@ -4,8 +4,8 @@ export interface FaktaFlyttingDetaljer {
     årsak: Flytteårsak;
     flyttedato: string;
     adresse: FaktaFlytteadresse;
-    skalFlytteFraFolkeregistrertAdresse?: JaNei;
-    adresseDetSkalFlyttesFra?: FaktaFlytteadresse;
+    skalFlytteFraFolkeregistrertAdresse: JaNei;
+    adresseDetSkalFlyttesFra: FaktaFlytteadresse;
     flyttemåte: Flyttemåte;
     utgifterDekketPåAnnenMåte: JaNei;
     utgifterEgenFlytting?: FaktaUtgifterEgenFlytting;

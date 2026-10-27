@@ -59,19 +59,11 @@ export const OppsummeringFlytting: React.FC<{
                     />
                     <SøknadInfoFelt
                         label="Flytter fra folkeregistrert adresse"
-                        value={
-                            detaljer.skalFlytteFraFolkeregistrertAdresse
-                                ? jaNeiTilTekst[detaljer.skalFlytteFraFolkeregistrertAdresse]
-                                : undefined
-                        }
+                        value={jaNeiTilTekst[detaljer.skalFlytteFraFolkeregistrertAdresse]}
                     />
                     <SøknadInfoFelt
                         label="Gammel adresse"
-                        value={
-                            detaljer.adresseDetSkalFlyttesFra
-                                ? adresseLinjer(detaljer.adresseDetSkalFlyttesFra)
-                                : undefined
-                        }
+                        value={adresseLinjer(detaljer.adresseDetSkalFlyttesFra)}
                     />
                     <SøknadInfoFelt label="Ny adresse" value={adresseLinjer(detaljer.adresse)} />
                     <SøknadInfoFelt
