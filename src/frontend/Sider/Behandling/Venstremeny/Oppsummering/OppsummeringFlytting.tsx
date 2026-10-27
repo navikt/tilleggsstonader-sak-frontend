@@ -57,6 +57,14 @@ export const OppsummeringFlytting: React.FC<{
                         label="Dato for flytting"
                         value={formaterDato(detaljer.flyttedato)}
                     />
+                    <SøknadInfoFelt
+                        label="Flytter fra folkeregistrert adresse"
+                        value={jaNeiTilTekst[detaljer.skalFlytteFraFolkeregistrertAdresse]}
+                    />
+                    <SøknadInfoFelt
+                        label="Gammel adresse"
+                        value={adresseLinjer(detaljer.adresseDetSkalFlyttesFra)}
+                    />
                     <SøknadInfoFelt label="Ny adresse" value={adresseLinjer(detaljer.adresse)} />
                     <SøknadInfoFelt
                         label="Flyttemåte"
