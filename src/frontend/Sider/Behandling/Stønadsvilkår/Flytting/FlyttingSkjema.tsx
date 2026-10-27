@@ -555,6 +555,7 @@ const EndreFaktaFlyttebyrå: React.FC<{
             <FeilmeldingMaksBredde $maxWidth={500}>
                 <JaNeiVurdering
                     label="Er det dokumentert kvittering eller faktura for betaling til flyttebyrå?"
+                    beskrivelse="Vurder om utgiftene er dokumentert og skal utbetales nå."
                     svar={svarErUtgifterDokumentert()}
                     feilmelding={feilmeldinger.erUtgifterDokumentert}
                     oppdaterSvar={(svar) => {
@@ -635,6 +636,7 @@ const EndreFaktaFlytteSelv: React.FC<{
             </HStack>
             <JaNeiVurdering
                 label="Er utgiftene dokumentert?"
+                beskrivelse="Vurder om utgiftene er dokumentert og skal utbetales nå."
                 svar={svarErUtgifterDokumentert()}
                 feilmelding={feilmeldinger.erUtgifterDokumentert}
                 oppdaterSvar={(svar) => {

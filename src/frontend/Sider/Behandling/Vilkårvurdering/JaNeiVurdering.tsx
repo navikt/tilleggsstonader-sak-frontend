@@ -7,6 +7,7 @@ import { SvarJaNei, svarJaNeiMapping } from '../Inngangsvilkår/typer/vilkårper
 
 export const JaNeiVurdering: React.FC<{
     label: string;
+    beskrivelse?: string;
     svar: SvarJaNei | undefined | 'GAMMEL_MANGLER_DATA';
     oppdaterSvar: (svar: SvarJaNei) => void;
     svarJa?: string;
@@ -19,6 +20,7 @@ export const JaNeiVurdering: React.FC<{
     svar,
     oppdaterSvar,
     label,
+    beskrivelse,
     svarJa = svarJaNeiMapping[SvarJaNei.JA],
     svarNei = svarJaNeiMapping[SvarJaNei.NEI],
     feilmelding,
@@ -34,6 +36,7 @@ export const JaNeiVurdering: React.FC<{
         <RadioGroup
             value={svar || ''}
             legend={label}
+            description={beskrivelse}
             readOnly={readOnly}
             onChange={oppdaterSvar}
             size="small"
