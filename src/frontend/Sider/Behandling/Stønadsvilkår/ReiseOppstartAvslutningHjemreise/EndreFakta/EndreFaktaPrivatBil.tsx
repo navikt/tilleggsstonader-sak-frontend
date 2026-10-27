@@ -51,6 +51,14 @@ export const EndreFaktaPrivatBil: React.FC<{
                 }
             />
             <Skillelinje />
+            <FeilmeldingMaksBredde $maxWidth={300}>
+                <SpesifikasjonAvUtgift
+                    value={fakta.begrunnelse || ''}
+                    error={feilmeldinger?.spesifikasjonAvUtgift}
+                    onChange={(value) => oppdaterFakta('begrunnelse', value || undefined)}
+                    pakrevd={false}
+                />
+            </FeilmeldingMaksBredde>
             <HStack gap="space-16" align="start">
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
@@ -117,14 +125,6 @@ export const EndreFaktaPrivatBil: React.FC<{
                     />
                 </FeilmeldingMaksBredde>
             </HStack>
-            <FeilmeldingMaksBredde $maxWidth={300}>
-                <SpesifikasjonAvUtgift
-                    value={fakta.begrunnelse || ''}
-                    error={feilmeldinger?.spesifikasjonAvUtgift}
-                    onChange={(value) => oppdaterFakta('begrunnelse', value || undefined)}
-                    pakrevd={false}
-                />
-            </FeilmeldingMaksBredde>
         </VStack>
     );
 };

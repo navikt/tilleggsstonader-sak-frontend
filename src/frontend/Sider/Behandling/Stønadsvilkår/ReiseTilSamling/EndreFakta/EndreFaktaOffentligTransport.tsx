@@ -81,6 +81,15 @@ export const EndreFaktaOffentligTransport: React.FC<{
                 }
             />
             <Skillelinje />
+            <FeilmeldingMaksBredde $maxWidth={300}>
+                <SpesifikasjonAvUtgift
+                    value={fakta.begrunnelse || ''}
+                    error={feilmeldinger?.spesifikasjonAvUtgift}
+                    onChange={(value) => oppdaterFakta('begrunnelse', value || undefined)}
+                    pakrevd={true}
+                    beskrivelse="Spesifikasjonen vil komme med i vedtaksbrevet, fatt deg i korthet"
+                />
+            </FeilmeldingMaksBredde>
             <HStack gap="space-16" align="start">
                 {gjelderTsr && (
                     <FeilmeldingMaksBredde $maxWidth={300}>
@@ -122,15 +131,6 @@ export const EndreFaktaOffentligTransport: React.FC<{
                     />
                 </FeilmeldingMaksBredde>
             </HStack>
-            <FeilmeldingMaksBredde $maxWidth={300}>
-                <SpesifikasjonAvUtgift
-                    value={fakta.begrunnelse || ''}
-                    error={feilmeldinger?.spesifikasjonAvUtgift}
-                    onChange={(value) => oppdaterFakta('begrunnelse', value || undefined)}
-                    pakrevd={true}
-                    beskrivelse="Spesifikasjonen vil komme med i vedtaksbrevet, fatt deg i korthet"
-                />
-            </FeilmeldingMaksBredde>
         </VStack>
     );
 };

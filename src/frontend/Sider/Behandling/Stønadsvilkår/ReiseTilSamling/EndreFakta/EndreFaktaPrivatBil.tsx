@@ -81,6 +81,14 @@ export const EndreFaktaPrivatBil: React.FC<{
                 }
             />
             <Skillelinje />
+            <FeilmeldingMaksBredde $maxWidth={300}>
+                <SpesifikasjonAvUtgift
+                    value={fakta.begrunnelse || ''}
+                    error={feilmeldinger?.spesifikasjonAvUtgift}
+                    onChange={(value) => oppdaterFakta('begrunnelse', value || undefined)}
+                    pakrevd={false}
+                />
+            </FeilmeldingMaksBredde>
             <HStack gap="space-16" align="start">
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
@@ -147,37 +155,28 @@ export const EndreFaktaPrivatBil: React.FC<{
                     />
                 </FeilmeldingMaksBredde>
             </HStack>
-            <VStack gap="space-16">
-                <FeilmeldingMaksBredde $maxWidth={300}>
-                    <SpesifikasjonAvUtgift
-                        value={fakta.begrunnelse || ''}
-                        error={feilmeldinger?.spesifikasjonAvUtgift}
-                        onChange={(value) => oppdaterFakta('begrunnelse', value || undefined)}
-                        pakrevd={false}
-                    />
+
+            {gjelderTsr && (
+                <FeilmeldingMaksBredde $maxWidth={300} style={{ maxWidth: 'fit-content' }}>
+                    <Select
+                        label={'Aktivitet'}
+                        size="small"
+                        error={feilmeldinger?.aktivitet}
+                        value={fakta.aktivitet?.aktivitetId || ''}
+                        onChange={(e) => {
+                            oppdaterAktivitet(e.target.value);
+                        }}
+                    >
+                        <option value="">Velg aktivitet</option>
+                        {oppfylteAktiviteter.map((aktivitet) => (
+                            <option key={aktivitet.globalId} value={aktivitet.globalId}>
+                                {AktivitetTypeTilTekst[aktivitet.type]} (
+                                {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)})
+                            </option>
+                        ))}
+                    </Select>
                 </FeilmeldingMaksBredde>
-                {gjelderTsr && (
-                    <FeilmeldingMaksBredde $maxWidth={300} style={{ maxWidth: 'fit-content' }}>
-                        <Select
-                            label={'Aktivitet'}
-                            size="small"
-                            error={feilmeldinger?.aktivitet}
-                            value={fakta.aktivitet?.aktivitetId || ''}
-                            onChange={(e) => {
-                                oppdaterAktivitet(e.target.value);
-                            }}
-                        >
-                            <option value="">Velg aktivitet</option>
-                            {oppfylteAktiviteter.map((aktivitet) => (
-                                <option key={aktivitet.globalId} value={aktivitet.globalId}>
-                                    {AktivitetTypeTilTekst[aktivitet.type]} (
-                                    {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)})
-                                </option>
-                            ))}
-                        </Select>
-                    </FeilmeldingMaksBredde>
-                )}
-            </VStack>
+            )}
         </VStack>
     );
 };
