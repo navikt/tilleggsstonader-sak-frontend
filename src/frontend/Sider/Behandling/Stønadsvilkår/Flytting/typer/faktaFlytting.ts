@@ -7,7 +7,7 @@ export interface FaktaFlyttingFlyttebyrå {
     type: 'FLYTTING_FLYTTEBYRÅ';
     adresse: string | null;
     tilbud: FaktaFlyttingTilbud[];
-    erBetalingDokumentert: boolean;
+    erUtgifterDokumentert: boolean;
     nødvendigUtgift: NødvendigUtgift;
 }
 
@@ -24,6 +24,7 @@ export interface FaktaFlyttingKjøreSelv {
     bompenger: number | null;
     ferge: number | null;
     parkering: number | null;
+    erUtgifterDokumentert: boolean;
     nødvendigUtgift: NødvendigUtgift;
 }
 

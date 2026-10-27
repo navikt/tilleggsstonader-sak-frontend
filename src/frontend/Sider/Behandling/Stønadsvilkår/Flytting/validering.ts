@@ -12,14 +12,14 @@ export interface FeilmeldingerFlytting {
     tilbud?: Array<{ navn?: string; pris?: string } | undefined>;
     nødvendigUtgift?: string;
     begrunnelseNødvendigUtgift?: string;
-    erBetalingDokumentert?: string;
+    erUtgifterDokumentert?: string;
 }
 
 interface FaktaFlyttingSkjema {
     type: TypeVilkårFaktaFlytting;
     tilbud?: { navn: string; pris: string }[];
     nødvendigUtgift?: NødvendigUtgift;
-    erBetalingDokumentert?: boolean;
+    erUtgifterDokumentert?: boolean;
 }
 
 export function validerFlytting(
@@ -73,12 +73,11 @@ export function validerFlytting(
                 'Du må begrunne hvorfor utgiften ikke vurderes som nødvendig';
         }
 
-        if (fakta.type === 'FLYTTING_FLYTTEBYRÅ') {
-            if (fakta.erBetalingDokumentert === undefined) {
-                feilmeldinger.erBetalingDokumentert =
-                    'Du må si om betaling er dokumentert eller ikke';
-            }
+        if (fakta.erUtgifterDokumentert === undefined) {
+            feilmeldinger.erUtgifterDokumentert = 'Du må si om betaling er dokumentert eller ikke';
+        }
 
+        if (fakta.type === 'FLYTTING_FLYTTEBYRÅ') {
             const tilbudFeil = (fakta.tilbud ?? []).map((tilbud) => {
                 const feil: { navn?: string; pris?: string } = {};
                 if (!tilbud.navn.trim()) {
