@@ -186,7 +186,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                 begrunnelse: Object.keys(begrunnelseFeil).length ? begrunnelseFeil : undefined,
                 nødvendigUtgift: undefined,
                 begrunnelseNødvendigUtgift: undefined,
-                erBetalingDokumentert: undefined,
+                erUtgifterDokumentert: undefined,
             };
         });
         const skalNullstilleFlyttefakta =
@@ -244,10 +244,11 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
             return;
         }
 
+        if (skjema.erUtgifterDokumentert === undefined) {
+            return;
+        }
+
         if (skjema.type === 'FLYTTING_FLYTTEBYRÅ') {
-            if (skjema.erUtgifterDokumentert === undefined) {
-                return;
-            }
             return {
                 type: skjema.type,
                 adresse,
@@ -258,10 +259,6 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                 erUtgifterDokumentert: skjema.erUtgifterDokumentert,
                 nødvendigUtgift,
             };
-        }
-        if (skjema.erUtgifterDokumentert === undefined) {
-            settFeil('Du må si om utgiftene er dokumentert eller ikke');
-            return;
         }
         return {
             type: skjema.type,
@@ -559,7 +556,7 @@ const EndreFaktaFlyttebyrå: React.FC<{
                 <JaNeiVurdering
                     label="Er det dokumentert kvittering eller faktura for betaling til flyttebyrå?"
                     svar={svarErUtgifterDokumentert()}
-                    feilmelding={feilmeldinger.erBetalingDokumentert}
+                    feilmelding={feilmeldinger.erUtgifterDokumentert}
                     oppdaterSvar={(svar) => {
                         settFakta((forrige) => ({
                             ...forrige,
@@ -567,7 +564,7 @@ const EndreFaktaFlyttebyrå: React.FC<{
                         }));
                         settFeilmeldinger((forrige) => ({
                             ...forrige,
-                            erBetalingDokumentert: undefined,
+                            erUtgifterDokumentert: undefined,
                         }));
                     }}
                 />
@@ -638,6 +635,7 @@ const EndreFaktaFlytteSelv: React.FC<{
             <JaNeiVurdering
                 label="Er utgiftene dokumentert?"
                 svar={svarErUtgifterDokumentert()}
+                feilmelding={feilmeldinger.erUtgifterDokumentert}
                 oppdaterSvar={(svar) => {
                     settFakta((forrige) => ({
                         ...forrige,
