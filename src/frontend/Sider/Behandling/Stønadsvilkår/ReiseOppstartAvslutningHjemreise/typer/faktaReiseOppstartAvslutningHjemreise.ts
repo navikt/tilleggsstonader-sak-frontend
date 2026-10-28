@@ -6,6 +6,10 @@ export interface FaktaReiseOppstartAvslutningHjemreise {
     type: TypeReiseOppstartAvslutningHjemreise;
 }
 
+export interface FaktaReiseOppstartAvslutningHjemreiseUbestemt extends FaktaReiseOppstartAvslutningHjemreise {
+    type: 'UBESTEMT';
+}
+
 export interface FaktaOffentligTransport extends FaktaReiseOppstartAvslutningHjemreise {
     type: 'OFFENTLIG_TRANSPORT';
     utgifterOffentligTransport: number | undefined;

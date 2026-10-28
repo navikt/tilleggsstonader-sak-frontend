@@ -1,5 +1,5 @@
 import { FaktaReiseOppstartAvslutningHjemreise } from './faktaReiseOppstartAvslutningHjemreise';
-import { RegelIdReiseOppstartAvslutningHjemreise } from './regelstrukturReiseOppstartAvslutningHjemreise';
+import { RegelIdROAH } from './regelstrukturReiseOppstartAvslutningHjemreise';
 import { SvarId } from '../../../../../typer/regel';
 import { VilkårBase } from '../../../vilkår';
 
@@ -39,9 +39,8 @@ export interface SvarOgBegrunnelse {
     begrunnelse: string | undefined;
 }
 
-export type SvarVilkårReiseOppstartAvslutningHjemreise = Record<
-    RegelIdReiseOppstartAvslutningHjemreise,
-    SvarOgBegrunnelse | undefined
+export type SvarVilkårReiseOppstartAvslutningHjemreise = Partial<
+    Record<RegelIdROAH, SvarOgBegrunnelse | undefined>
 >;
 
 export interface LagreNyttVilkårReiseOppstartAvslutningHjemreise {

@@ -1,6 +1,6 @@
 import { TypeVilkårFakta } from './regelstrukturReiseTilSamling';
 import { TypeReiseTilSamling } from './vilkårReiseTilSamling';
-import type { NødvendigUtgift } from '../../../../../typer/nødvendigUtgift';
+import { NødvendigUtgift } from '../../../../../typer/nødvendigUtgift';
 import { AktivitetInfo } from '../felles/aktivitetInfo';
 
 export interface FaktaReiseTilSamling {
