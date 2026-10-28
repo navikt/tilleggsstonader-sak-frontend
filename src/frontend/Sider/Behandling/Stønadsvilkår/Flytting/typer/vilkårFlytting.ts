@@ -10,14 +10,14 @@ export interface SvarOgBegrunnelseFlytting {
 }
 
 export interface LagreVilkårFlytting {
-    flytteDato: string;
+    flyttedato: string;
     svar: Partial<Record<RegelIdFlytting, SvarOgBegrunnelseFlytting>>;
     fakta: FaktaFlytting;
 }
 
 export interface VilkårFlytting {
     id: string;
-    flytteDato: string;
+    flyttedato: string;
     resultat: Vilkårsresultat;
     status: PeriodeStatus | null;
     delvilkårsett: {

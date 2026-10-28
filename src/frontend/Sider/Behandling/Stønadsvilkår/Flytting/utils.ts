@@ -18,8 +18,8 @@ export function tilDelvilkår(vilkår: VilkårFlytting): VilkårBase['delvilkår
 export function tilVilkårBase(vilkår: VilkårFlytting, behandlingId: string): VilkårBase {
     return {
         ...vilkår,
-        fom: vilkår.flytteDato,
-        tom: vilkår.flytteDato,
+        fom: vilkår.flyttedato,
+        tom: vilkår.flyttedato,
         behandlingId,
         status: vilkår.status ?? PeriodeStatus.UENDRET,
         delvilkårsett: tilDelvilkår(vilkår),

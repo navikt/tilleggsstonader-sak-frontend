@@ -5,6 +5,7 @@ import { HStack, VStack } from '@navikt/ds-react';
 import { NyeOpplysningerMetadataVisning } from './NyeOpplysningerMetadata';
 import { OppsummeringBoutgifter } from './OppsummeringBoutgifter';
 import { OppsummeringDagligReise } from './OppsummeringDagligReise';
+import { OppsummeringFlytting } from './OppsummeringFlytting';
 import { OppsummeringLæremidler } from './OppsummeringLæremidler';
 import { OppsummeringPassAvBarn } from './OppsummeringPassAvBarn';
 import { OppsummeringReiseTilSamling } from './OppsummeringReiseTilSamling';
@@ -46,6 +47,10 @@ export const OppsummeringSøknad: React.FC = () => {
                     behandlingFakta={behandlingFakta}
                     key={behandling.id}
                 />
+            )}
+            {(behandlingFakta['@type'] === Stønadstype.FLYTTING_TSO ||
+                behandlingFakta['@type'] === Stønadstype.FLYTTING_TSR) && (
+                <OppsummeringFlytting behandlingFakta={behandlingFakta} key={behandling.id} />
             )}
         </VStack>
     );

@@ -1,6 +1,8 @@
 import React, { ChangeEvent } from 'react';
 
-import { Button, Select, VStack } from '@navikt/ds-react';
+import { useFlag } from '@unleash/proxy-client-react';
+
+import { Button, Select, Switch, VStack } from '@navikt/ds-react';
 
 import { oppdaterFilter } from './filterutils';
 import { lagreTilLocalStorage, oppgaveRequestKey } from './oppgavefilterStorage';
@@ -8,6 +10,7 @@ import styles from './Oppgavefiltrering.module.css';
 import SaksbehandlerVelger from './SaksbehandlerVelger';
 import { useApp } from '../../../context/AppContext';
 import { useOppgave } from '../../../context/OppgaveContext';
+import { Toggle } from '../../../utils/toggles';
 import {
     defaultOppgaveRequest,
     nullstillSortering,
@@ -17,7 +20,9 @@ import { Enheter, enhetTilTekst, hentEnheterSaksbehandlerHarTilgangTil } from '.
 import {
     Behandlingstema,
     behandlingstemaTilTekst,
+    erAktivitetspengerBehandlingstype,
     erGyldigBehandlingstemaForEnhet,
+    erKlageBehandlingstype,
     OppgaveBehandlingstype,
     OppgaveRequest,
 } from '../typer/oppgave';
@@ -30,6 +35,7 @@ import {
 export const Oppgavefiltrering = () => {
     const { saksbehandler, appEnv } = useApp();
     const { oppgaveRequest, settOppgaveRequest, hentOppgaver } = useOppgave();
+    const kanBehandleAktivitetspenger = useFlag(Toggle.KAN_BEHANDLE_AKTIVITETSPENGER);
 
     const gyldigeEnheterForSaksbehandler = hentEnheterSaksbehandlerHarTilgangTil(
         appEnv,
@@ -73,14 +79,38 @@ export const Oppgavefiltrering = () => {
         settOppgaveRequest(tomOppgaveRequest);
     };
 
+    const kunAktivitetspenger = erAktivitetspengerBehandlingstype(oppgaveRequest.behandlingstype);
+    const erKlageValgt = erKlageBehandlingstype(oppgaveRequest.behandlingstype);
+
     // Type brukes både for oppgavetype og behandlingstypen "klage"
     const håndterOppdaterType = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
         if (e.target.value === OppgaveBehandlingstype.Klage) {
             oppdaterOppgave('oppgavetype')(undefined);
-            oppdaterOppgaveTargetValue('behandlingstype')(e);
+            oppdaterOppgave('behandlingstype')(
+                kunAktivitetspenger
+                    ? OppgaveBehandlingstype.AktivitetspengerKlage
+                    : OppgaveBehandlingstype.Klage
+            );
         } else {
-            oppdaterOppgave('behandlingstype')(undefined);
+            oppdaterOppgave('behandlingstype')(
+                kunAktivitetspenger ? OppgaveBehandlingstype.Aktivitetspenger : undefined
+            );
             oppdaterOppgaveTargetValue('oppgavetype')(e);
+        }
+    };
+
+    // Oppgave-søket tar kun én behandlingstype, så aktivitetspenger kombineres med klage-valget
+    const håndterKunAktivitetspenger = (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.checked) {
+            oppdaterOppgave('behandlingstype')(
+                erKlageValgt
+                    ? OppgaveBehandlingstype.AktivitetspengerKlage
+                    : OppgaveBehandlingstype.Aktivitetspenger
+            );
+        } else {
+            oppdaterOppgave('behandlingstype')(
+                erKlageValgt ? OppgaveBehandlingstype.Klage : undefined
+            );
         }
     };
 
@@ -97,7 +127,10 @@ export const Oppgavefiltrering = () => {
                     <option value="På vent">På vent</option>
                 </Select>
                 <Select
-                    value={oppgaveRequest.oppgavetype || oppgaveRequest.behandlingstype || ''}
+                    value={
+                        oppgaveRequest.oppgavetype ||
+                        (erKlageValgt ? OppgaveBehandlingstype.Klage : '')
+                    }
                     label="Type"
                     onChange={håndterOppdaterType}
                     size="small"
@@ -154,6 +187,15 @@ export const Oppgavefiltrering = () => {
                     settOppgaveRequest={settOppgaveRequest}
                 />
             </div>
+            {kanBehandleAktivitetspenger && (
+                <Switch
+                    checked={kunAktivitetspenger}
+                    onChange={håndterKunAktivitetspenger}
+                    size="small"
+                >
+                    Vis kun aktivitetspenger
+                </Switch>
+            )}
             <div className={styles.knappWrapper}>
                 <Button onClick={sjekkFeilOgHentOppgaver} type={'submit'} size="small">
                     Hent oppgaver

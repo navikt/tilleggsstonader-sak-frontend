@@ -60,7 +60,7 @@ const Innhold: React.FC<{ målgrupper: Målgruppe[] }> = ({ målgrupper }) => {
                 {vilkårsett.map((vilkår) => (
                     <section
                         key={vilkår.id}
-                        aria-label={`Flyttevilkår ${formaterDato(vilkår.flytteDato)}`}
+                        aria-label={`Flyttevilkår ${formaterDato(vilkår.flyttedato)}`}
                     >
                         {redigererId === vilkår.id ? (
                             <FlyttingSkjema

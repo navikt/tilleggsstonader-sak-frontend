@@ -5,13 +5,14 @@ import {
 } from './faktaAktivitet';
 import { FaktaArena } from './faktaArena';
 import { FaktaBarn } from './faktaBarn';
-import { FaktaDokumentasjon } from './faktaDokumentasjon';
-import { FaktaHovedytelse } from './faktaHovedytelse';
-import { FaktaUtdanning } from './faktaUtdanning';
-import { Stønadstype } from '../behandlingTema';
 import { FaktaBoligEllerOvernatting } from './faktaBoligEllerOvernattig';
+import { FaktaDokumentasjon } from './faktaDokumentasjon';
+import { FaktaFlyttingDetaljer } from './faktaFlytting';
+import { FaktaHovedytelse } from './faktaHovedytelse';
 import { FaktaPersonopplysninger } from './faktaPersonopplysninger';
 import { FaktaReise, ReiseAdresse } from './faktaReise';
+import { FaktaUtdanning } from './faktaUtdanning';
+import { Stønadstype } from '../behandlingTema';
 import { FaktaSamling } from './faktaSamlinger';
 import { JaNei } from '../../common';
 
@@ -61,9 +62,7 @@ export interface FaktaAvreiseadresse {
 
 export interface BehandlingFaktaFlytting extends BehandlingFaktaInterface {
     '@type': Stønadstype.FLYTTING_TSO | Stønadstype.FLYTTING_TSR;
-    aktiviteter: FaktaAktivitet;
-    personopplysninger: FaktaPersonopplysninger;
-    // TODO - legg til fakta om flytting
+    flyttingDetaljer?: FaktaFlyttingDetaljer;
 }
 
 export interface BehandlingFaktaReiseOppstartAvslutningHjemreise extends BehandlingFaktaInterface {

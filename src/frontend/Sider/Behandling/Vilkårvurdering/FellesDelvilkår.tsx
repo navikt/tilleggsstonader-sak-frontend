@@ -92,7 +92,13 @@ export const FellesDelvilkår: FC<Props> = ({
                     minRows={3}
                     value={begrunnelse ?? ''}
                     onChange={(event) => oppdaterBegrunnelse(event.target.value)}
-                    description={begrunnelseHjelpetekst}
+                    description={
+                        begrunnelseHjelpetekst && (
+                            <span className={styles.begrunnelseHjelpetekst}>
+                                {begrunnelseHjelpetekst}
+                            </span>
+                        )
+                    }
                 />
             )}
             {children}

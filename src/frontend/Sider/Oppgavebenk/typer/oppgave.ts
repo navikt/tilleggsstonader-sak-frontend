@@ -135,12 +135,24 @@ export enum OppgaveBehandlingstype {
     Utland = 'ae0106',
     TidligereHjemsendtsak = 'ae0114',
     HjemsendtTilNyBehandling = 'ae0115',
+    AktivitetspengerKlage = 'ae0297',
+    Aktivitetspenger = 'ae0298',
 }
+
+export const erAktivitetspengerBehandlingstype = (behandlingstype?: OppgaveBehandlingstype) =>
+    behandlingstype === OppgaveBehandlingstype.Aktivitetspenger ||
+    behandlingstype === OppgaveBehandlingstype.AktivitetspengerKlage;
+
+export const erKlageBehandlingstype = (behandlingstype?: OppgaveBehandlingstype) =>
+    behandlingstype === OppgaveBehandlingstype.Klage ||
+    behandlingstype === OppgaveBehandlingstype.AktivitetspengerKlage;
 export const oppgaveBehandlingstypeTilTekst: Record<OppgaveBehandlingstype, string> = {
     [OppgaveBehandlingstype.Klage]: 'Klage',
     [OppgaveBehandlingstype.Anke]: 'Anke',
     [OppgaveBehandlingstype.Utland]: 'Utland',
     [OppgaveBehandlingstype.TidligereHjemsendtsak]: 'Tidligere hjemsendt sak',
+    [OppgaveBehandlingstype.Aktivitetspenger]: 'Aktivitetspenger',
+    [OppgaveBehandlingstype.AktivitetspengerKlage]: 'Aktivitetspenger klage',
     [OppgaveBehandlingstype.HjemsendtTilNyBehandling]: 'Hjemsendt til ny behandling',
 };
 

@@ -78,7 +78,7 @@ export const FlyttingLesevisning: React.FC<Props> = ({
             <HStack gap="space-32">
                 <div>
                     <BodyShort size="small">Flyttedato</BodyShort>
-                    <Label size="small">{formaterDato(vilkår.flytteDato)}</Label>
+                    <Label size="small">{formaterDato(vilkår.flyttedato)}</Label>
                 </div>
                 {vilkår.fakta.adresse && (
                     <div>
@@ -149,7 +149,7 @@ const LesevisningFlyttingFlyttebyrå: React.FC<{
                     </VStack>
                 ))}
             </HStack>
-            {fakta.erBetalingDokumentert && (
+            {fakta.erUtgifterDokumentert && (
                 <BodyShort size="small">Betaling for flyttebyrå er dokumentert</BodyShort>
             )}
         </VStack>
@@ -184,6 +184,11 @@ const LesevisningFlyttingPrivatBil: React.FC<{
                     </BodyShort>
                 </HStack>
             ))}
+            <BodyShort size="small">
+                {fakta.erUtgifterDokumentert
+                    ? 'Utgiftene er dokumentert'
+                    : 'Utgiftene er ikke dokumentert'}
+            </BodyShort>
         </VStack>
     );
 };
