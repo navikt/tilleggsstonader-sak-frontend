@@ -1,5 +1,5 @@
 import { RegelIdDagligReise } from '../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
-import { RegelIdReiseOppstartAvslutningHjemreise } from '../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/regelstrukturReiseOppstartAvslutningHjemreise';
+import { RegelIdROAH } from '../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/regelstrukturReiseOppstartAvslutningHjemreise';
 import { RegelIdReiseTilSamling } from '../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/typer/regelstrukturReiseTilSamling';
 import { Vilkårtype } from '../Sider/Behandling/vilkår';
 
@@ -16,7 +16,7 @@ export type RegelId =
     | ReglerBoutgifter
     | RegelIdDagligReise
     | RegelIdReiseTilSamling
-    | RegelIdReiseOppstartAvslutningHjemreise
+    | RegelIdROAH
     | string;
 
 export type ReglerPassBarn =

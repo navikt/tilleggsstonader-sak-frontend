@@ -1,16 +1,14 @@
-import { finnBegrunnelsestypeForSvar } from './utils';
+import { finnBegrunnelsestypeForSvar, initierAktiveDelvilkår } from './utils';
 import { erSvarJaNei } from '../../../../../typer/nødvendigUtgift';
 import { BegrunnelseRegel } from '../../../../../typer/regel';
-import { harVerdi } from '../../../../../utils/utils';
+import { Periode, validerPeriode } from '../../../../../utils/periode';
+import { harIkkeVerdi, harVerdi } from '../../../../../utils/utils';
 import {
     FaktaOffentligTransport,
     FaktaPrivatBil,
     FaktaReiseOppstartAvslutningHjemreise,
 } from '../typer/faktaReiseOppstartAvslutningHjemreise';
-import {
-    RegelIdReiseOppstartAvslutningHjemreise,
-    RegelstrukturReiseOppstartAvslutningHjemreise,
-} from '../typer/regelstrukturReiseOppstartAvslutningHjemreise';
+import { RegelIdROAH, Regelstruktur } from '../typer/regelstrukturReiseOppstartAvslutningHjemreise';
 import {
     SvarOgBegrunnelse,
     SvarVilkårReiseOppstartAvslutningHjemreise,
@@ -45,11 +43,10 @@ type FeilmeldingerNødvendigUtgift = Pick<
 export type FeilmeldingerReiseOppstartAvslutningHjemreise = {
     fom?: string;
     tom?: string;
-    adresse?: string;
     reiseId?: string;
     typeReiseformål?: string;
     fakta?: FeilmeldingerFaktaOffentligTransport | FeilmeldingerFaktaPrivatBil;
-    begrunnelse?: Partial<Record<RegelIdReiseOppstartAvslutningHjemreise, string>>;
+    begrunnelse?: Partial<Record<RegelIdROAH, string>>;
 };
 
 export function harValideringsFeil(valideringsfeil: FeilmeldingerReiseOppstartAvslutningHjemreise) {
@@ -67,19 +64,34 @@ export function harValideringsFeil(valideringsfeil: FeilmeldingerReiseOppstartAv
 
 export const validerVilkår = (
     typeReiseformål: TypeReiseformål | undefined,
+    periode: Periode,
     svar: SvarVilkårReiseOppstartAvslutningHjemreise,
     fakta: FaktaReiseOppstartAvslutningHjemreise | undefined,
-    regelstruktur: RegelstrukturReiseOppstartAvslutningHjemreise
+    regelstruktur: Regelstruktur | undefined
 ): FeilmeldingerReiseOppstartAvslutningHjemreise => {
     const typeReiseformålValidering = validerTypeReiseformål(typeReiseformål);
     const faktaValidering = validerFakta(fakta, svar);
     const svarValidering = validerSvar(svar, regelstruktur);
+    const datoerValidering = validerDatoer(periode, typeReiseformål);
 
     return {
         ...typeReiseformålValidering,
         ...svarValidering,
         ...(faktaValidering ? { fakta: faktaValidering } : {}),
+        ...datoerValidering,
     };
+};
+
+const validerDatoer = (
+    periode: Periode,
+    typeReiseformål?: TypeReiseformål
+): Partial<FeilmeldingerReiseOppstartAvslutningHjemreise> => {
+    if (typeReiseformål === 'HJEMREISE') {
+        return { ...validerPeriode(periode) };
+    } else if (harIkkeVerdi(periode.fom)) {
+        return { fom: 'Dato må fylles ut' };
+    }
+    return {};
 };
 
 const validerTypeReiseformål = (
@@ -95,24 +107,24 @@ const validerTypeReiseformål = (
 
 const validerSvar = (
     svarMap: SvarVilkårReiseOppstartAvslutningHjemreise | undefined,
-    regelstruktur: RegelstrukturReiseOppstartAvslutningHjemreise
+    regelstruktur: Regelstruktur | undefined
 ): Partial<FeilmeldingerReiseOppstartAvslutningHjemreise> | undefined => {
-    if (!svarMap) {
+    if (!svarMap || !regelstruktur) {
         return;
     }
 
-    const begrunnelseFeil: Partial<Record<RegelIdReiseOppstartAvslutningHjemreise, string>> = {};
+    const begrunnelseFeil: Partial<Record<RegelIdROAH, string>> = {};
+
+    const aktiveRegler = initierAktiveDelvilkår(svarMap, regelstruktur);
 
     for (const [regelId, svar] of Object.entries(svarMap)) {
-        if (
-            !validerBegrunnelseForRegel(
-                regelId as RegelIdReiseOppstartAvslutningHjemreise,
-                svar,
-                regelstruktur
-            )
-        ) {
-            begrunnelseFeil[regelId as RegelIdReiseOppstartAvslutningHjemreise] =
-                'Mangler begrunnelse';
+        const erAktiv = aktiveRegler.get(regelId as RegelIdROAH);
+        if (!erAktiv || !svar) {
+            continue;
+        }
+
+        if (!validerBegrunnelseForRegel(regelId as RegelIdROAH, svar, regelstruktur)) {
+            begrunnelseFeil[regelId as RegelIdROAH] = 'Mangler begrunnelse';
         }
     }
 
@@ -198,20 +210,20 @@ const validerFakta = (
     | undefined => {
     if (
         fakta?.type === 'OFFENTLIG_TRANSPORT' ||
-        svar.KAN_REISE_MED_OFFENTLIG_TRANSPORT?.svar === 'JA'
+        svar.ROAH_KAN_REISE_MED_OFFENTLIG_TRANSPORT?.svar === 'JA'
     ) {
         return validerFaktaOffentligTransport(fakta as FaktaOffentligTransport);
-    } else if (fakta?.type === 'PRIVAT_BIL' || svar.KAN_REISE_MED_EGEN_BIL?.svar === 'JA') {
+    } else if (fakta?.type === 'PRIVAT_BIL' || svar.ROAH_KAN_BENYTTE_PRIVAT_BIL?.svar === 'JA') {
         return validerFaktaPrivatBil(fakta as FaktaPrivatBil);
     }
 };
 
 function validerBegrunnelseForRegel(
-    regelId: RegelIdReiseOppstartAvslutningHjemreise,
+    regelId: RegelIdROAH,
     svar: SvarOgBegrunnelse | undefined,
-    regelstruktur: RegelstrukturReiseOppstartAvslutningHjemreise
+    regelstruktur: Regelstruktur
 ): boolean {
-    const svaralternativerForRegel = regelstruktur[regelId].svaralternativer;
+    const svaralternativerForRegel = regelstruktur[regelId]?.svaralternativer ?? [];
     const begrunnelsesType = finnBegrunnelsestypeForSvar(svaralternativerForRegel, svar?.svar);
 
     const begrunnelseErObligatoriskOgUtfylt =

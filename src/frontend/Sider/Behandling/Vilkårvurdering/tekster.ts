@@ -19,6 +19,10 @@ export const svarIdTilTekst: Record<SvarId, string> = {
         'Ja, legeerklæring viser at barnet har behov for vesentlig mer pleie/tilsyn',
     FORSØRGER_HAR_LANGVARIG_ELLER_UREGELMESSIG_ARBEIDSTID:
         'Ja, tiltak/utdanningssted har dokumentert at søker er borte fra hjemmet utover vanlig arbeidstid',
+    ROAH_HAR_BARN_IKKE_FERDIG_MED_FJERDE_SKOLEÅR:
+        'Ja, har barn hjemme som ikke er ferdig med 4. skoleår',
+    ROAH_HAR_DOKUMENTERTE_ANDRE_SÆRSKILTE_BEHOV:
+        'Ja, har dokumentert andre særlige behov for flere hjemreiser',
 };
 
 export const svarIdTilTekstKorversjon: Record<string, string> = {
@@ -39,6 +43,12 @@ export const svarIdTilTekstKorversjon: Record<string, string> = {
         'Legeerklæring viser at barnet har behov for vesentlig mer pleie/tilsyn',
     FORSØRGER_HAR_LANGVARIG_ELLER_UREGELMESSIG_ARBEIDSTID:
         'Tiltak/utdanningssted har dokumentert at søker er borte fra hjemmet utover vanlig arbeidstid',
+
+    // ROAH
+    ROAH_HAR_BARN_IKKE_FERDIG_MED_FJERDE_SKOLEÅR:
+        'Ja, har barn hjemme som ikke er ferdig med 4. skoleår',
+    ROAH_HAR_DOKUMENTERTE_ANDRE_SÆRSKILTE_BEHOV:
+        'Ja, har dokumentert andre særlige behov for flere hjemreiser',
 };
 
 export const regelIdTilSpørsmål: Record<RegelId, string> = {
@@ -108,6 +118,13 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     MÅ_FLYTTE_FOR_Å_STARTE_I_ARBEID:
         'Må bruker flytte fra hjemstedet for å starte i arbeid på et annet sted?',
     HVORDAN_SKAL_BRUKER_FLYTTE: 'Skal bruker benytte seg av flyttebyrå, eller flytter bruker selv?',
+    ROAH_HAR_UTGIFTER_TIL_REISEN: 'Har utgifter til reisen?',
+    ROAH_KAN_REISE_MED_OFFENTLIG_TRANSPORT: 'Kan benytte offentlig transport?',
+    ROAH_HAR_DOKUMENTERTE_UTGIFTER_TIL_REISEN: 'Dokumenterte utgifter til reisen?',
+    ROAH_KAN_BENYTTE_PRIVAT_BIL: 'Kan benytte privat bil?',
+    ROAH_BENYTTET_TAXI: 'Benyttet taxi?',
+    ROAH_HJEMREISE_INNENFOR_NORMALT_ANTALL: 'Er antall hjemreiser innenfor normalt antall?',
+    ROAH_HJEMREISE_BEHOV_FLERE_REISER: 'Unntak fra antall hjemreiser?',
 };
 
 export const hjelpetekster: Record<RegelId, string[]> = {

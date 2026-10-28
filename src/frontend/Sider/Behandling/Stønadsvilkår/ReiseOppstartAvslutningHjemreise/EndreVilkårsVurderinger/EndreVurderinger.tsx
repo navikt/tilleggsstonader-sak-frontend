@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
 import { EndreDelvilkår } from './EndreDelvilkår';
-import { useVilkårReiseOppstartAvslutningHjemreise } from '../../../../../context/VilkårReiseOppstartAvslutningHjemreiseContext/VilkårReiseOppstartAvslutningHjemreiseContext';
 import { SvarId } from '../../../../../typer/regel';
 import { initierAktiveDelvilkår } from '../EndreVilkår/utils';
 import { FeilmeldingerReiseOppstartAvslutningHjemreise } from '../EndreVilkår/validering';
 import {
-    RegelIdReiseOppstartAvslutningHjemreise,
+    RegelIdROAH,
+    regelIdTilSpørsmålROAH,
+    Regelstruktur,
     SvarAlternativ,
     TypeVilkårFakta,
 } from '../typer/regelstrukturReiseOppstartAvslutningHjemreise';
@@ -19,6 +20,7 @@ import {
 
 interface Props {
     vurderinger: SvarVilkårReiseOppstartAvslutningHjemreise;
+    regelstruktur: Regelstruktur;
     oppdaterVurderinger: (nyeSvar: SvarVilkårReiseOppstartAvslutningHjemreise) => void;
     oppdaterGjeldendeFaktaType: (gjeldendeFakta: TypeVilkårFakta) => void;
     feilmeldinger: FeilmeldingerReiseOppstartAvslutningHjemreise;
@@ -26,69 +28,35 @@ interface Props {
 
 export const EndreVurderinger: React.FC<Props> = ({
     vurderinger,
+    regelstruktur,
     oppdaterVurderinger,
     oppdaterGjeldendeFaktaType,
     feilmeldinger,
 }) => {
-    const { regelstruktur } = useVilkårReiseOppstartAvslutningHjemreise();
+    const aktiveVurderinger = initierAktiveDelvilkår(vurderinger, regelstruktur);
 
-    const [aktiveVurderinger, settAktiveVurdering] = useState<
-        Map<RegelIdReiseOppstartAvslutningHjemreise, boolean>
-    >(initierAktiveDelvilkår(vurderinger, regelstruktur));
-
-    const finnSvarMappingForRegel = (
-        regelId: RegelIdReiseOppstartAvslutningHjemreise
-    ): SvarAlternativ[] => {
-        return regelstruktur[regelId].svaralternativer;
+    const finnSvarMappingForRegel = (regelId: RegelIdROAH): SvarAlternativ[] => {
+        return regelstruktur[regelId]?.svaralternativer ?? [];
     };
 
-    const oppdaterVurdering = (
-        endretRegelId: RegelIdReiseOppstartAvslutningHjemreise,
-        nyVurdering: SvarOgBegrunnelse
-    ) => {
+    const oppdaterVurdering = (endretRegelId: RegelIdROAH, nyVurdering: SvarOgBegrunnelse) => {
         const oppdaterteVurderinger = {
             ...vurderinger,
             [endretRegelId]: nyVurdering,
         };
 
-        const reglerSomSkalNullstilles = regelstruktur[endretRegelId].reglerSomMåNullstilles;
+        const reglerSomSkalNullstilles = regelstruktur[endretRegelId]?.reglerSomMåNullstilles ?? [];
 
         reglerSomSkalNullstilles.forEach((regelId) => {
             oppdaterteVurderinger[regelId] = undefined;
         });
 
         oppdaterVurderinger(oppdaterteVurderinger);
-
-        oppdaterAktiveSpørsmålOgGjeldedeFaktaType(
-            reglerSomSkalNullstilles,
-            endretRegelId,
-            nyVurdering.svar
+        const valgtAlternativ = finnSvarMappingForRegel(endretRegelId).find(
+            (svaralternativ) => svaralternativ.svarId === nyVurdering.svar
         );
-    };
-
-    const oppdaterAktiveSpørsmålOgGjeldedeFaktaType = (
-        reglerSomErNullstilt: RegelIdReiseOppstartAvslutningHjemreise[],
-        endretRegelId: RegelIdReiseOppstartAvslutningHjemreise,
-        nyttSvar: SvarId
-    ) => {
-        const aktiveVurderingerKopi = new Map(aktiveVurderinger);
-
-        reglerSomErNullstilt.forEach((spørsmål) => {
-            aktiveVurderingerKopi.set(spørsmål, false);
-        });
-
-        const svar = finnSvarMappingForRegel(endretRegelId).find(
-            (svar) => svar.svarId === nyttSvar
-        );
-
-        if (svar?.nesteRegelId) {
-            aktiveVurderingerKopi.set(svar.nesteRegelId, true);
-        }
-
-        settAktiveVurdering(aktiveVurderingerKopi);
-
         oppdaterGjeldendeFaktaType(
-            svar?.tilhørendeFaktaType ?? 'REISE_OPPSTART_AVSLUTNING_HJEMREISE_UBESTEMT'
+            valgtAlternativ?.tilhørendeFaktaType ?? 'REISE_OPPSTART_AVSLUTNING_HJEMREISE_UBESTEMT'
         );
     };
 
@@ -96,51 +64,33 @@ export const EndreVurderinger: React.FC<Props> = ({
      * Begrunnelse har egen oppdateringsfunksjon fordi vi ikke ønsker å nullstille
      * andre delvilkår eller oppdatere aktive spørsmål når kun begrunnelsen endres.
      */
-    const oppdaterBegrunnelse = (
-        regelId: RegelIdReiseOppstartAvslutningHjemreise,
-        svar: SvarId,
-        nyBegrunnelse: string
-    ) => {
+    const oppdaterBegrunnelse = (regelId: RegelIdROAH, svar: SvarId, nyBegrunnelse: string) => {
         oppdaterVurderinger({
             ...vurderinger,
             [regelId]: { svar: svar, begrunnelse: nyBegrunnelse },
         });
     };
 
+    const finnLabelForRegel = (regelId: RegelIdROAH): string => {
+        return regelIdTilSpørsmålROAH[regelId] ?? regelId;
+    };
+
     return (
         <VStack gap="space-16">
-            {aktiveVurderinger.get(
-                RegelIdReiseOppstartAvslutningHjemreise.KAN_REISE_MED_OFFENTLIG_TRANSPORT
-            ) && (
-                <EndreDelvilkår
-                    label={'Har søker mulighet til å reise med offentlig transport?'}
-                    regelId={
-                        RegelIdReiseOppstartAvslutningHjemreise.KAN_REISE_MED_OFFENTLIG_TRANSPORT
-                    }
-                    vurdering={vurderinger.KAN_REISE_MED_OFFENTLIG_TRANSPORT}
-                    oppdaterVurdering={oppdaterVurdering}
-                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
-                    svaralternativer={finnSvarMappingForRegel(
-                        RegelIdReiseOppstartAvslutningHjemreise.KAN_REISE_MED_OFFENTLIG_TRANSPORT
-                    )}
-                    feilmeldinger={feilmeldinger}
-                />
-            )}
-            {aktiveVurderinger.get(
-                RegelIdReiseOppstartAvslutningHjemreise.KAN_REISE_MED_EGEN_BIL
-            ) && (
-                <EndreDelvilkår
-                    label={'Kan søker benytte seg av privat bil?'}
-                    regelId={RegelIdReiseOppstartAvslutningHjemreise.KAN_REISE_MED_EGEN_BIL}
-                    vurdering={vurderinger.KAN_REISE_MED_EGEN_BIL}
-                    oppdaterVurdering={oppdaterVurdering}
-                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
-                    svaralternativer={finnSvarMappingForRegel(
-                        RegelIdReiseOppstartAvslutningHjemreise.KAN_REISE_MED_EGEN_BIL
-                    )}
-                    feilmeldinger={feilmeldinger}
-                />
-            )}
+            {Array.from(aktiveVurderinger.entries())
+                .filter(([, erAktiv]) => erAktiv)
+                .map(([regelId]) => (
+                    <EndreDelvilkår
+                        key={regelId}
+                        label={finnLabelForRegel(regelId)}
+                        regelId={regelId}
+                        vurdering={vurderinger[regelId]}
+                        oppdaterVurdering={oppdaterVurdering}
+                        oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
+                        svaralternativer={finnSvarMappingForRegel(regelId)}
+                        feilmeldinger={feilmeldinger}
+                    />
+                ))}
         </VStack>
     );
 };

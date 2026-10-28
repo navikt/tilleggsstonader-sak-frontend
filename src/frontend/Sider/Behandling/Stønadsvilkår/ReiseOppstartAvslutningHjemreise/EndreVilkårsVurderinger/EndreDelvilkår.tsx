@@ -10,21 +10,18 @@ import { lagBegrunnelsestekst } from '../../../Vilkårvurdering/utils';
 import { finnBegrunnelsestypeForSvar } from '../EndreVilkår/utils';
 import { FeilmeldingerReiseOppstartAvslutningHjemreise } from '../EndreVilkår/validering';
 import {
-    RegelIdReiseOppstartAvslutningHjemreise,
+    RegelIdROAH,
     SvarAlternativ,
 } from '../typer/regelstrukturReiseOppstartAvslutningHjemreise';
 import { SvarOgBegrunnelse } from '../typer/vilkårReiseOppstartAvslutningHjemreise';
 
 interface Props {
-    regelId: RegelIdReiseOppstartAvslutningHjemreise;
+    regelId: RegelIdROAH;
     svaralternativer: SvarAlternativ[];
     vurdering: SvarOgBegrunnelse | undefined;
-    oppdaterVurdering: (
-        regelId: RegelIdReiseOppstartAvslutningHjemreise,
-        vurdering: SvarOgBegrunnelse
-    ) => void;
+    oppdaterVurdering: (regelId: RegelIdROAH, vurdering: SvarOgBegrunnelse) => void;
     oppdaterBegrunnelseIVurdering: (
-        regelId: RegelIdReiseOppstartAvslutningHjemreise,
+        regelId: RegelIdROAH,
         svarId: SvarId,
         nyBegrunnelse: string
     ) => void;
