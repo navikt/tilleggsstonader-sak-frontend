@@ -7,7 +7,6 @@ import {
 } from '../typer/faktaReiseOppstartAvslutningHjemreise';
 import {
     RegelIdROAH,
-    RegelInfo,
     Regelstruktur,
     RegelstrukturROAH,
     SvarAlternativ,
@@ -46,37 +45,44 @@ export const initierAktiveDelvilkår = (
     svar: SvarVilkårReiseOppstartAvslutningHjemreise,
     regelstruktur: Regelstruktur
 ): Map<RegelIdROAH, boolean> => {
-    const aktiveRegler = new Map<RegelIdROAH, boolean>();
-    const startRegelId = finnStartRegelId(regelstruktur);
-    if (!startRegelId) {
+    const harEksisterendeSvar = Object.values(svar).find((svar) => svar !== undefined);
+
+    if (harEksisterendeSvar) {
+        const aktiveRegler = new Map<RegelIdROAH, boolean>();
+
+        Object.entries(regelstruktur).forEach(([regelId, regelInfo]) => {
+            const regelIdROAH = regelId as RegelIdROAH;
+            const eksisterendeSvar = svar[regelIdROAH]?.svar;
+
+            const gjeldendeRegelErBesvart = eksisterendeSvar !== undefined;
+            const harHåndtertRegelTidligere = aktiveRegler.has(regelIdROAH);
+
+            if (harHåndtertRegelTidligere === false) {
+                aktiveRegler.set(regelIdROAH, gjeldendeRegelErBesvart);
+            }
+
+            // Sett etterfølgelde regelId-er til aktive dersom regel er besvart
+            if (gjeldendeRegelErBesvart) {
+                const valgtAlternativ = regelInfo.svaralternativer.find(
+                    (svaralternativ) => svaralternativ.svarId === eksisterendeSvar
+                );
+
+                if (valgtAlternativ?.nesteRegelId) {
+                    aktiveRegler.set(valgtAlternativ.nesteRegelId, true);
+                }
+            }
+        });
+
         return aktiveRegler;
     }
 
-    aktiveRegler.set(startRegelId, true);
-
-    let gjeldendeRegelId: RegelIdROAH | undefined = startRegelId;
-
-    while (gjeldendeRegelId) {
-        const valgtSvar: SvarId | undefined = svar[gjeldendeRegelId]?.svar;
-        if (!valgtSvar) {
-            break;
-        }
-
-        const gjeldendeRegel: RegelInfo | undefined = regelstruktur[gjeldendeRegelId];
-        const svaralternativer: SvarAlternativ[] = gjeldendeRegel?.svaralternativer ?? [];
-        const valgtAlternativ: SvarAlternativ | undefined = svaralternativer.find(
-            (svaralternativ: SvarAlternativ) => svaralternativ.svarId === valgtSvar
-        );
-
-        if (!valgtAlternativ?.nesteRegelId) {
-            break;
-        }
-
-        aktiveRegler.set(valgtAlternativ.nesteRegelId, true);
-        gjeldendeRegelId = valgtAlternativ.nesteRegelId;
-    }
-
-    return aktiveRegler;
+    // Hvis ingen eksisterende svar, sett kun hovedregeler som aktive
+    return new Map(
+        Object.entries(regelstruktur).map(([regelId, regelInfo]) => [
+            regelId as RegelIdROAH,
+            regelInfo.erHovedregel,
+        ])
+    );
 };
 
 export const initierGjeldendeFaktaType = (
@@ -118,8 +124,9 @@ export const finnRegelstrukturForReiseformål = (
     }
     if (typeReiseformål === 'HJEMREISE') {
         return regelstruktur.hjemreise;
-        return undefined;
     }
+
+    return undefined;
 };
 
 export const tomtSvar: SvarVilkårReiseOppstartAvslutningHjemreise = {
