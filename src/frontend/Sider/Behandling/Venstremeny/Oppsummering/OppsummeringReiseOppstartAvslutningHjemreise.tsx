@@ -17,8 +17,8 @@ import {
 } from './Visningskomponenter';
 import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaReiseOppstartAvslutningHjemreise } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
+import { adresselinjer } from '../../../../typer/behandling/behandlingFakta/faktaAdresse';
 import {
-    FaktaROAHAdresse,
     FaktaROAHAdresser,
     FaktaROAHBarnOgSærligeBehov,
     ROAHTypeReise,
@@ -37,25 +37,6 @@ const reisetypeTilTekst: Record<ROAHTypeReise, string> = {
     AVSLUTNING: 'Avslutning',
     HJEMREISE: 'Hjemreise',
 };
-
-function formaterAdresse(adresse?: FaktaROAHAdresse): string[] {
-    if (!adresse) {
-        return [];
-    }
-
-    const linjer = [adresse.landkode, adresse.gateadresse].filter(
-        (linje): linje is string => typeof linje === 'string'
-    );
-    const postadresse = [adresse.postnummer, adresse.poststed]
-        .filter((verdi): verdi is string => typeof verdi === 'string')
-        .join(' ');
-
-    if (postadresse) {
-        linjer.push(postadresse);
-    }
-
-    return linjer;
-}
 
 function formaterPeriode(fom?: string, tom?: string): string | undefined {
     const fomFormatert = fom ? formaterDato(fom) : undefined;
@@ -98,13 +79,13 @@ const Adresser: React.FC<{
                 />
                 <SøknadInfoFelt
                     label="Opprinnelig adresse"
-                    value={formaterAdresse(fakta.adresseOriginaltBosted.adresseOriginaltBosted)}
+                    value={adresselinjer(fakta.adresseOriginaltBosted.adresseOriginaltBosted)}
                 />
             </>
         )}
         <SøknadInfoFelt
             label="Midlertidig adresse"
-            value={formaterAdresse(fakta.adresseMidlertidigBosted)}
+            value={adresselinjer(fakta.adresseMidlertidigBosted)}
         />
     </SøknadInfoSeksjon>
 );

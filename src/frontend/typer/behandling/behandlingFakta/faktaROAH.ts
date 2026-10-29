@@ -1,3 +1,4 @@
+import { FaktaAdresse } from './faktaAdresse';
 import { FaktaReisemåte } from './faktaSamlinger';
 import { JaNei } from '../../common';
 
@@ -5,7 +6,7 @@ export interface FaktaROAHAdresser {
     måBoBorteHjemmefra?: JaNei;
     periodeMidlertidigBosted?: FaktaROAHPeriodeMidlertidigBosted;
     adresseOriginaltBosted?: FaktaROAHOriginaltBosted;
-    adresseMidlertidigBosted?: FaktaROAHAdresse;
+    adresseMidlertidigBosted?: FaktaAdresse;
 }
 
 export interface FaktaROAHPeriodeMidlertidigBosted {
@@ -15,14 +16,7 @@ export interface FaktaROAHPeriodeMidlertidigBosted {
 
 export interface FaktaROAHOriginaltBosted {
     skalReiseFraFolkeregistrertAdresse?: JaNei;
-    adresseOriginaltBosted?: FaktaROAHAdresse;
-}
-
-export interface FaktaROAHAdresse {
-    gateadresse?: string;
-    postnummer?: string;
-    poststed?: string;
-    landkode?: string;
+    adresseOriginaltBosted?: FaktaAdresse;
 }
 
 export interface FaktaROAHBarnOgSærligeBehov {
