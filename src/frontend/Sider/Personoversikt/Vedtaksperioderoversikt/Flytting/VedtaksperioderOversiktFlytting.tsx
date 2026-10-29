@@ -4,7 +4,7 @@ import { Table } from '@navikt/ds-react';
 
 import { BeregningsgrunnlagType } from '../../../../typer/vedtak/vedtakFlytting';
 import { DetaljertVedtaksperiodeFlytting } from '../../../../typer/vedtak/vedtaksperiodeOppsummering';
-import { formaterIsoPeriode } from '../../../../utils/dato';
+import { formaterIsoDato } from '../../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../../utils/fomatering';
 import { faktiskMålgruppeTilTekst } from '../../../Behandling/Felles/faktiskMålgruppe';
 import { BorderTable } from '../VedtaksperioderBorderTable';
@@ -24,7 +24,7 @@ export const VedtaksperioderOversiktFlytting: React.FC<Props> = ({ border, vedta
         <BorderTable size="small" $border={border}>
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell scope="col">Periode</Table.HeaderCell>
+                    <Table.HeaderCell scope="col">Flyttedato</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Flyttemåte</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Målgruppe</Table.HeaderCell>
                     <Table.HeaderCell scope="col">Utbetales</Table.HeaderCell>
@@ -35,11 +35,9 @@ export const VedtaksperioderOversiktFlytting: React.FC<Props> = ({ border, vedta
             </Table.Header>
             <Table.Body>
                 {vedtaksperioder.map((periode, index) => (
-                    <Table.Row
-                        key={`${periode.stønadstype}-${periode.fom}-${periode.tom}-${index}`}
-                    >
+                    <Table.Row key={`${periode.stønadstype}-${periode.flyttedato}-${index}`}>
                         <Table.HeaderCell scope="row">
-                            {formaterIsoPeriode(periode.fom, periode.tom)}
+                            {formaterIsoDato(periode.flyttedato)}
                         </Table.HeaderCell>
                         <Table.DataCell>{flyttemåteTilTekst[periode.flyttemåte]}</Table.DataCell>
                         <Table.DataCell>
