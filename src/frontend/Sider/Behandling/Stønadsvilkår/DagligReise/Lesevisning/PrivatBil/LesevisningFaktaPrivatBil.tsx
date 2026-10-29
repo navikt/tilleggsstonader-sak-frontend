@@ -24,12 +24,15 @@ export const LesevisningFaktaPrivatBil: FC<{
                     <Label size="small" className={styles.høyreJustert}>
                         Ferge
                     </Label>
+                    <Label size="small" className={styles.høyreJustert}>
+                        Skal behandles manuelt
+                    </Label>
                     {fakta.faktaDelperioder.map((periode, index) => (
                         <React.Fragment key={index}>
                             <BodyShort size="small">
                                 {formaterIsoPeriode(periode.fom, periode.tom)}
                             </BodyShort>
-                            <BodyShort size="small" className={styles.høyreJustert}>
+                            <BodyShort size="small" className={styles.centerJustert}>
                                 {periode?.reisedagerPerUke ? `${periode.reisedagerPerUke}` : '-'}
                             </BodyShort>
                             <BodyShort size="small" className={styles.høyreJustert}>
@@ -41,6 +44,9 @@ export const LesevisningFaktaPrivatBil: FC<{
                                 {periode?.fergekostnadPerDag
                                     ? `${formaterTallMedTusenSkilleEllerStrek(periode.fergekostnadPerDag)} kr`
                                     : '-'}
+                            </BodyShort>
+                            <BodyShort size="small" className={styles.centerJustert}>
+                                {periode?.skalBehandlesManuelt ? 'Ja' : 'Nei'}
                             </BodyShort>
                         </React.Fragment>
                     ))}
