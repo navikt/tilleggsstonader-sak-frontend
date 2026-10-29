@@ -106,6 +106,8 @@ export interface RammeForReiseMedPrivatBilDelperiode extends Periode {
     satser: RammeForReiseMedPrivatBilSatsForDelperiode[];
     bompengerPerDag?: number;
     fergekostnadPerDag?: number;
+    skalBehandlesManuelt: boolean;
+    begrunnelseManuellBehandling?: string;
 }
 
 export interface RammeForReiseMedPrivatBilSatsForDelperiode {

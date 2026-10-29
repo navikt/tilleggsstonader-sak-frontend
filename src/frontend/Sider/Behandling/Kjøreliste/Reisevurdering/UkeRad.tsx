@@ -51,7 +51,10 @@ export const UkeRad: FC<{
                 {formaterIsoPeriode(uke.fraDato, uke.tilDato)}
             </TableDataCellSmall>
             <TableHeaderCellSmall>
-                <AutomatiskManuellEllerAvvikTag status={uke.status} />
+                <HStack align="center" gap="space-8">
+                    <AutomatiskManuellEllerAvvikTag status={uke.status} />
+                    {uke.skalBehandlesManuelt && <SkalBehandleManueltTag />}
+                </HStack>
             </TableHeaderCellSmall>
             <TableHeaderCellSmall className={styles.statusKolonne} align="center">
                 <AvklartKjørtUkeStatusTag avklartKjørtUkeStatus={uke.avklartKjørtUkeStatus} />
@@ -94,6 +97,13 @@ const AutomatiskManuellEllerAvvikTag: FC<{ status: UkeStatus }> = ({ status }) =
         default:
             return null;
     }
+};
+const SkalBehandleManueltTag: FC = () => {
+    return (
+        <Tag size="small" data-color="warning">
+            Skal behandles manuelt
+        </Tag>
+    );
 };
 
 const AvklartKjørtUkeStatusTag: FC<{ avklartKjørtUkeStatus: AvklartKjørtUkeStatus | null }> = ({
