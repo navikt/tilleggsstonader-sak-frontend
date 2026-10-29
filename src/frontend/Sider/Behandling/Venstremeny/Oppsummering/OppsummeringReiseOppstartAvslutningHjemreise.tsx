@@ -33,8 +33,8 @@ import { formaterDato } from '../../../../utils/dato';
 import { tekstMedFallback } from '../../../../utils/tekstformatering';
 
 const reisetypeTilTekst: Record<ROAHTypeReise, string> = {
-    OPPSTART: 'Reise ved oppstart',
-    AVSLUTNING: 'Reise ved avslutning',
+    OPPSTART: 'Oppstart',
+    AVSLUTNING: 'Avslutning',
     HJEMREISE: 'Hjemreise',
 };
 
@@ -60,17 +60,11 @@ function formaterAdresse(adresse?: FaktaROAHAdresse): string[] {
 function formaterPeriode(fom?: string, tom?: string): string | undefined {
     const fomFormatert = fom ? formaterDato(fom) : undefined;
     const tomFormatert = tom ? formaterDato(tom) : undefined;
-
     if (fomFormatert && tomFormatert) {
-        return `${fomFormatert}–${tomFormatert}`;
+        return `${fomFormatert} – ${tomFormatert}`;
     }
-    if (fomFormatert) {
-        return `Fra ${fomFormatert}`;
-    }
-    if (tomFormatert) {
-        return `Til ${tomFormatert}`;
-    }
-    return undefined;
+
+    return fomFormatert;
 }
 
 function svarTilTekst(svar?: JaNei) {
@@ -125,7 +119,7 @@ const BarnOgSærligeBehov: React.FC<{
         />
         <SøknadInfoFelt
             label="Hvilke barn flytter med deg?"
-            value={fakta.hvilkeBarnFlytterMed ?? undefined}
+            value={fakta.hvilkeBarnFlytterMed ?? '-'}
         />
         <SøknadInfoFelt
             label="Har du barn hjemme under 4. klasse?"
@@ -207,13 +201,13 @@ export const OppsummeringReiseOppstartAvslutningHjemreise: React.FC<{
                             variant="subtle"
                         >
                             <SøknadInfoFelt
-                                label="Type reise"
+                                label="Hvilken type reise søker du om?"
                                 value={
                                     reise.typeReise ? reisetypeTilTekst[reise.typeReise] : undefined
                                 }
                             />
                             <SøknadInfoFelt
-                                label="Periode"
+                                label={reise.typeReise === 'HJEMREISE' ? 'Periode' : 'Dato'}
                                 value={formaterPeriode(reise.fom, reise.tom)}
                             />
                             <TransportDetaljer reisemåte={reise.reisemåte} />
