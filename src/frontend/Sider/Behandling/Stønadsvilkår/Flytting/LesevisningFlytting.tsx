@@ -172,18 +172,20 @@ const LesevisningFlyttingPrivatBil: React.FC<{
                 </BodyShort>
             </HStack>
 
-            {(['henger', 'bompenger', 'ferge', 'parkering'] as const).map((felt) => (
-                <HStack justify={'space-between'} key={felt}>
-                    <BodyShort size="small" weight="semibold">
-                        {flyttingFaktaFeltTilTekst[felt]}
-                    </BodyShort>
-                    <BodyShort size="small">
-                        {fakta[felt] !== null && fakta[felt] !== undefined
-                            ? `${formaterTallMedTusenSkilleEllerStrek(fakta[felt])} kr`
-                            : 'Ingen kostnad'}
-                    </BodyShort>
-                </HStack>
-            ))}
+            {(['henger', 'leiebil', 'bompenger', 'ferge', 'parkering', 'annet'] as const).map(
+                (felt) => (
+                    <HStack justify={'space-between'} key={felt}>
+                        <BodyShort size="small" weight="semibold">
+                            {flyttingFaktaFeltTilTekst[felt]}
+                        </BodyShort>
+                        <BodyShort size="small">
+                            {fakta[felt] !== null && fakta[felt] !== undefined
+                                ? `${formaterTallMedTusenSkilleEllerStrek(fakta[felt])} kr`
+                                : 'Ingen kostnad'}
+                        </BodyShort>
+                    </HStack>
+                )
+            )}
             <BodyShort size="small">
                 {fakta.erUtgifterDokumentert
                     ? 'Utgiftene er dokumentert'

@@ -54,9 +54,11 @@ interface FaktaSkjema {
     nødvendigUtgift: NødvendigUtgift | undefined;
     avstandEnVei: string;
     henger: string;
+    leiebil: string;
     bompenger: string;
     ferge: string;
     parkering: string;
+    annet: string;
 }
 
 interface Props {
@@ -77,9 +79,11 @@ const tommeFakta: FaktaSkjema = {
     nødvendigUtgift: undefined,
     avstandEnVei: '',
     henger: '',
+    leiebil: '',
     bompenger: '',
     ferge: '',
     parkering: '',
+    annet: '',
 };
 
 function hentBegrunnelseHjelpetekst(
@@ -121,9 +125,11 @@ function tilFaktaSkjema(fakta?: FaktaFlytting): FaktaSkjema {
             ...skjema,
             avstandEnVei: fakta.avstandEnVei?.toString() ?? '',
             henger: fakta.henger?.toString() ?? '',
+            leiebil: fakta.leiebil?.toString() ?? '',
             bompenger: fakta.bompenger?.toString() ?? '',
             ferge: fakta.ferge?.toString() ?? '',
             parkering: fakta.parkering?.toString() ?? '',
+            annet: fakta.annet?.toString() ?? '',
             erUtgifterDokumentert: fakta.erUtgifterDokumentert,
             nødvendigUtgift: fakta.nødvendigUtgift,
         };
@@ -265,9 +271,11 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
             adresse,
             avstandEnVei: tallEllerNull(skjema.avstandEnVei),
             henger: tallEllerNull(skjema.henger),
+            leiebil: tallEllerNull(skjema.leiebil),
             bompenger: tallEllerNull(skjema.bompenger),
             ferge: tallEllerNull(skjema.ferge),
             parkering: tallEllerNull(skjema.parkering),
+            annet: tallEllerNull(skjema.annet),
             erUtgifterDokumentert: skjema.erUtgifterDokumentert,
             nødvendigUtgift,
         };
@@ -617,22 +625,24 @@ const EndreFaktaFlytteSelv: React.FC<{
                         size="small"
                     />
                 </FeilmeldingMaksBredde>
-                {(['henger', 'bompenger', 'ferge', 'parkering'] as const).map((felt) => (
-                    <FeilmeldingMaksBredde $maxWidth={180} key={felt}>
-                        <TextField
-                            label={`${flyttingFaktaFeltTilTekst[felt]}`}
-                            value={fakta[felt]}
-                            inputMode="numeric"
-                            onChange={(event) => {
-                                settFakta((forrige) => ({
-                                    ...forrige,
-                                    [felt]: event.target.value,
-                                }));
-                            }}
-                            size="small"
-                        />
-                    </FeilmeldingMaksBredde>
-                ))}
+                {(['henger', 'leiebil', 'bompenger', 'ferge', 'parkering', 'annet'] as const).map(
+                    (felt) => (
+                        <FeilmeldingMaksBredde $maxWidth={180} key={felt}>
+                            <TextField
+                                label={`${flyttingFaktaFeltTilTekst[felt]}`}
+                                value={fakta[felt]}
+                                inputMode="numeric"
+                                onChange={(event) => {
+                                    settFakta((forrige) => ({
+                                        ...forrige,
+                                        [felt]: event.target.value,
+                                    }));
+                                }}
+                                size="small"
+                            />
+                        </FeilmeldingMaksBredde>
+                    )
+                )}
             </HStack>
             <JaNeiVurdering
                 label="Er utgiftene dokumentert?"

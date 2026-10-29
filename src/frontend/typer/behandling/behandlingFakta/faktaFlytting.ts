@@ -16,6 +16,7 @@ export interface FaktaFlyttingDetaljer {
 export interface FaktaUtgifterEgenFlytting {
     avstand: number;
     hengerleie?: number;
+    leiebil?: number;
     bom?: number;
     parkering?: number;
     ferje?: number;

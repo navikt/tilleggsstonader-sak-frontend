@@ -122,9 +122,11 @@ function lagKolonnerForEgenKjøring(grunnlag: BeregningsgrunnlagFlytteSelv): Kol
         },
         ...[
             { navn: 'Henger', beløp: grunnlag.henger },
+            { navn: 'Leiebil', beløp: grunnlag.leiebil },
             { navn: 'Bompenger', beløp: grunnlag.bompenger },
             { navn: 'Ferge', beløp: grunnlag.ferge },
             { navn: 'Parkering', beløp: grunnlag.parkering },
+            { navn: 'Annet', beløp: grunnlag.annet },
         ]
             .filter(({ beløp }) => beløp > 0)
             .map(({ navn, beløp }) => ({
