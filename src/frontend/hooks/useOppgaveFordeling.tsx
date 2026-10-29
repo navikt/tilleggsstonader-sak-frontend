@@ -7,6 +7,10 @@ import { RessursFeilet, RessursStatus, RessursSuksess } from '../typer/ressurs';
 interface HentBehandlingerResponse {
     tilbakestillFordeling: (oppgave: Oppgave) => Promise<Oppgave>;
     settOppgaveTilSaksbehandler: (oppgave: Oppgave) => Promise<Oppgave>;
+    endreAktivitetspengerMarkering: (
+        oppgave: Oppgave,
+        gjelderAktivitetspenger: boolean
+    ) => Promise<Oppgave>;
 }
 export const useOppgaveFordeling = (
     settLaster: React.Dispatch<React.SetStateAction<boolean>>
@@ -56,8 +60,36 @@ export const useOppgaveFordeling = (
         [fordelOppgave]
     );
 
+    const endreAktivitetspengerMarkering = useCallback(
+        (oppgave: Oppgave, gjelderAktivitetspenger: boolean) => {
+            settLaster(true);
+            return request<Oppgave, { gjelderAktivitetspenger: boolean }>(
+                `/api/sak/oppgave/${oppgave.id}/aktivitetspenger`,
+                'PUT',
+                { gjelderAktivitetspenger }
+            )
+                .then((res: RessursSuksess<Oppgave> | RessursFeilet) => {
+                    if (res.status === RessursStatus.SUKSESS) {
+                        return Promise.resolve(res.data);
+                    } else if (res.httpStatus === 409) {
+                        return Promise.reject(
+                            new Error(
+                                'Oppgaven har endret seg siden du sist hentet oppgaver. Hent oppgaver på nytt og prøv igjen.'
+                            )
+                        );
+                    } else {
+                        return Promise.reject(new Error(res.frontendFeilmelding));
+                    }
+                })
+                .finally(() => settLaster(false));
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [request]
+    );
+
     return {
         tilbakestillFordeling,
         settOppgaveTilSaksbehandler,
+        endreAktivitetspengerMarkering,
     };
 };
