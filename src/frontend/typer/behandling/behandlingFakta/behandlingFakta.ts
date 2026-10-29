@@ -11,6 +11,7 @@ import { FaktaFlyttingDetaljer } from './faktaFlytting';
 import { FaktaHovedytelse } from './faktaHovedytelse';
 import { FaktaPersonopplysninger } from './faktaPersonopplysninger';
 import { FaktaReise, ReiseAdresse } from './faktaReise';
+import { FaktaROAHAdresser, FaktaROAHBarnOgSærligeBehov, FaktaROAHReise } from './faktaROAH';
 import { FaktaUtdanning } from './faktaUtdanning';
 import { Stønadstype } from '../behandlingTema';
 import { FaktaSamling } from './faktaSamlinger';
@@ -69,9 +70,10 @@ export interface BehandlingFaktaReiseOppstartAvslutningHjemreise extends Behandl
     '@type':
         | Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO
         | Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR;
-    aktiviteter: FaktaAktivitet;
-    personopplysninger: FaktaPersonopplysninger;
-    // TODO - legg til fakta om støtte til reise oppstart/avslutning/hjemreise
+    aktivitet?: FaktaAktivitet;
+    adresser?: FaktaROAHAdresser;
+    barnOgSærligeBehov?: FaktaROAHBarnOgSærligeBehov;
+    reiser: FaktaROAHReise[];
 }
 
 export type BehandlingFakta =
