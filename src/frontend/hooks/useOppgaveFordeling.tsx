@@ -65,7 +65,7 @@ export const useOppgaveFordeling = (
             settLaster(true);
             return request<Oppgave, { gjelderAktivitetspenger: boolean }>(
                 `/api/sak/oppgave/${oppgave.id}/aktivitetspenger`,
-                'POST',
+                'PUT',
                 { gjelderAktivitetspenger }
             )
                 .then((res: RessursSuksess<Oppgave> | RessursFeilet) => {
