@@ -8,6 +8,7 @@ import { OppsummeringDagligReise } from './OppsummeringDagligReise';
 import { OppsummeringFlytting } from './OppsummeringFlytting';
 import { OppsummeringLæremidler } from './OppsummeringLæremidler';
 import { OppsummeringPassAvBarn } from './OppsummeringPassAvBarn';
+import { OppsummeringReiseOppstartAvslutningHjemreise } from './OppsummeringReiseOppstartAvslutningHjemreise';
 import { OppsummeringReiseTilSamling } from './OppsummeringReiseTilSamling';
 import { RevurderingTag } from './RevurderingTag';
 import { StønadstypeTag } from './StønadstypeTag';
@@ -44,6 +45,14 @@ export const OppsummeringSøknad: React.FC = () => {
             {(behandlingFakta['@type'] === Stønadstype.REISE_TIL_SAMLING_TSO ||
                 behandlingFakta['@type'] === Stønadstype.REISE_TIL_SAMLING_TSR) && (
                 <OppsummeringReiseTilSamling
+                    behandlingFakta={behandlingFakta}
+                    key={behandling.id}
+                />
+            )}
+            {(behandlingFakta['@type'] === Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO ||
+                behandlingFakta['@type'] ===
+                    Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR) && (
+                <OppsummeringReiseOppstartAvslutningHjemreise
                     behandlingFakta={behandlingFakta}
                     key={behandling.id}
                 />
