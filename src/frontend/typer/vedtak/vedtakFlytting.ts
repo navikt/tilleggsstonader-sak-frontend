@@ -80,8 +80,10 @@ export type BeregningsgrunnlagFlytteSelv = {
     sats: number;
     satsBekreftet: boolean;
     henger: number;
+    leiebil: number;
     bompenger: number;
     ferge: number;
     parkering: number;
+    annet: number;
     erUtgifterDokumentert: boolean;
 };

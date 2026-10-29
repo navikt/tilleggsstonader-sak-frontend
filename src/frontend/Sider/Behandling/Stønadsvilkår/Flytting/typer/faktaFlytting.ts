@@ -21,9 +21,11 @@ export interface FaktaFlyttingKjøreSelv {
     adresse: string | null;
     avstandEnVei: number | null;
     henger: number | null;
+    leiebil: number | null;
     bompenger: number | null;
     ferge: number | null;
     parkering: number | null;
+    annet: number | null;
     erUtgifterDokumentert: boolean;
     nødvendigUtgift: NødvendigUtgift;
 }
@@ -38,7 +40,9 @@ export type FaktaFlytting =
 
 export const flyttingFaktaFeltTilTekst = {
     henger: 'Hengerleie',
+    leiebil: 'Leiebil',
     bompenger: 'Bompenger',
     ferge: 'Ferge',
     parkering: 'Parkering',
+    annet: 'Annet',
 } as const;

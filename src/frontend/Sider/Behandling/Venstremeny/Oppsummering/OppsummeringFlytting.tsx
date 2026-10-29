@@ -86,6 +86,7 @@ export const OppsummeringFlytting: React.FC<{
                         label="Leie av henger"
                         value={formaterKroner(utgifter?.hengerleie)}
                     />
+                    <SøknadInfoFelt label="Leie av bil" value={formaterKroner(utgifter?.leiebil)} />
                     <SøknadInfoFelt label="Bom" value={formaterKroner(utgifter?.bom)} />
                     <SøknadInfoFelt label="Parkering" value={formaterKroner(utgifter?.parkering)} />
                     <SøknadInfoFelt label="Ferje" value={formaterKroner(utgifter?.ferje)} />

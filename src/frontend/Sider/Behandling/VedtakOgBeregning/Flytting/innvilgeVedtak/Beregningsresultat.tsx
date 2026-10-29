@@ -108,9 +108,11 @@ const BeregningsResultatFlytteSelv: React.FC<{
                             <TableHeaderCellSmall>Utgifter dokumentert?</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Sats bekreftet</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Henger</TableHeaderCellSmall>
+                            <TableHeaderCellSmall>Leiebil</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Bompenger</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Ferge</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Parkering</TableHeaderCellSmall>
+                            <TableHeaderCellSmall>Annet</TableHeaderCellSmall>
                             <TableHeaderCellSmall align="right">Stønadsbeløp</TableHeaderCellSmall>
                         </Table.Row>
                     </Table.Header>
@@ -139,6 +141,9 @@ const BeregningsResultatFlytteSelv: React.FC<{
                                         {kronerMedTusenSkilleEllerStrek(grunnlag.henger)}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
+                                        {kronerMedTusenSkilleEllerStrek(grunnlag.leiebil)}
+                                    </TableDataCellSmall>
+                                    <TableDataCellSmall>
                                         {kronerMedTusenSkilleEllerStrek(grunnlag.bompenger)}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
@@ -146,6 +151,9 @@ const BeregningsResultatFlytteSelv: React.FC<{
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
                                         {kronerMedTusenSkilleEllerStrek(grunnlag.parkering)}
+                                    </TableDataCellSmall>
+                                    <TableDataCellSmall>
+                                        {kronerMedTusenSkilleEllerStrek(grunnlag.annet)}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall align="right">
                                         {kronerMedTusenSkilleEllerStrek(resultat.beløp)}
