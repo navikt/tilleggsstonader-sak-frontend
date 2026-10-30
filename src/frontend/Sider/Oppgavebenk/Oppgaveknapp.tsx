@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useFlag } from '@unleash/proxy-client-react';
 import { useNavigate } from 'react-router-dom';
 
 import { MenuElipsisHorizontalCircleIcon } from '@navikt/aksel-icons';
@@ -15,9 +16,14 @@ import {
     oppgaveGjelderGodkjenneVedtak,
     saksbehandlerHarSendtTilGodkjenneVedtak,
 } from './oppgaveutils';
-import { Oppgave } from './typer/oppgave';
+import {
+    erAktivitetspengerBehandlingstype,
+    Oppgave,
+    OppgaveBehandlingstype,
+} from './typer/oppgave';
 import { useApp } from '../../context/AppContext';
 import { useOppgaveFordeling } from '../../hooks/useOppgaveFordeling';
+import { Toggle } from '../../utils/toggles';
 
 interface Props {
     oppgave: Oppgave;
@@ -42,7 +48,12 @@ const Oppgaveknapp: React.FC<Props> = ({
     const { saksbehandler, erBeslutter } = useApp();
     const navigate = useNavigate();
 
-    const { settOppgaveTilSaksbehandler, tilbakestillFordeling } = useOppgaveFordeling(settLaster);
+    const { settOppgaveTilSaksbehandler, tilbakestillFordeling, endreAktivitetspengerMarkering } =
+        useOppgaveFordeling(settLaster);
+    const kanBehandleAktivitetspenger = useFlag(Toggle.KAN_BEHANDLE_AKTIVITETSPENGER);
+    const skalMarkereAktivitetspengerOppgaverToggle = useFlag(
+        Toggle.SKAL_MARKERE_AKTIVITETSPENGER_OPPGAVER
+    );
     const oppgaveTilordnetInnloggetSaksbehandler =
         oppgave.tilordnetRessurs === saksbehandler.navIdent;
 
@@ -82,6 +93,39 @@ const Oppgaveknapp: React.FC<Props> = ({
                 );
         };
 
+    // Andre behandlingstyper enn klage og aktivitetspenger (f.eks. tilbakekreving) kan ikke markeres
+    const lagAktivitetspengerValg = (): OppgaveValg[] => {
+        const erMarkert = erAktivitetspengerBehandlingstype(oppgave.behandlingstype);
+        const kanMarkeres =
+            !oppgave.behandlingstype || oppgave.behandlingstype === OppgaveBehandlingstype.Klage;
+
+        if (!skalMarkereAktivitetspengerOppgaverToggle || !(erMarkert || kanMarkeres)) {
+            return [];
+        }
+        if (erMarkert) {
+            return kanBehandleAktivitetspenger
+                ? [
+                      {
+                          label: 'Gjelder ikke aktivitetspenger',
+                          onClick: utførHandlingOgHentOppgavePåNytt(
+                              'Fjerne markering for aktivitetspenger',
+                              () => endreAktivitetspengerMarkering(oppgave, false)
+                          ),
+                      },
+                  ]
+                : [];
+        }
+        return [
+            {
+                label: 'Gjelder aktivitetspenger',
+                onClick: utførHandlingOgHentOppgavePåNytt('Markere for aktivitetspenger', () =>
+                    endreAktivitetspengerMarkering(oppgave, true)
+                ),
+            },
+        ];
+    };
+    const aktivitetspengerValg = lagAktivitetspengerValg();
+
     const tildelOgGåTilOppgaveutførelse = () =>
         settOppgaveTilSaksbehandler(oppgave)
             .then(gåTilOppgaveUtførelse)
@@ -117,6 +161,7 @@ const Oppgaveknapp: React.FC<Props> = ({
                                 tilbakestillFordeling(oppgave)
                             ),
                         },
+                        ...aktivitetspengerValg,
                     ]}
                 />
             </HStack>
@@ -132,24 +177,28 @@ const Oppgaveknapp: React.FC<Props> = ({
                                 settOppgaveTilSaksbehandler(oppgave)
                             ),
                         },
+                        ...aktivitetspengerValg,
                     ]}
                 />
             </HStack>
         );
     } else
         return (
-            <Button
-                className={styles.tabellKnapp}
-                type={'button'}
-                variant={'secondary'}
-                size={'small'}
-                onClick={tildelOgGåTilOppgaveutførelse}
-                disabled={laster}
-            >
-                {oppgaveErSaksbehandling(oppgave) || oppgaveErSaksbehandlingKlage(oppgave)
-                    ? 'Behandle'
-                    : 'Tildel meg'}
-            </Button>
+            <HStack justify={'space-between'} wrap={false}>
+                <Button
+                    className={styles.tabellKnapp}
+                    type={'button'}
+                    variant={'secondary'}
+                    size={'small'}
+                    onClick={tildelOgGåTilOppgaveutførelse}
+                    disabled={laster}
+                >
+                    {oppgaveErSaksbehandling(oppgave) || oppgaveErSaksbehandlingKlage(oppgave)
+                        ? 'Behandle'
+                        : 'Tildel meg'}
+                </Button>
+                {aktivitetspengerValg.length > 0 && <OppgaveValgMeny valg={aktivitetspengerValg} />}
+            </HStack>
         );
 };
 

@@ -5,7 +5,13 @@ import { v7 } from 'uuid';
 import { HStack, Select } from '@navikt/ds-react';
 
 import { SlettVilkårReiseOppstartAvslutningHjemreise } from './SlettVilkårReiseOppstartAvslutningHjemreise';
-import { initierGjeldendeFaktaType, initierSvar, tomtSvar } from './utils';
+import {
+    finnRegelstrukturForReiseformål,
+    initierGjeldendeFaktaType,
+    initierSvar,
+    tomtSvar,
+    tomtUbestemtFakta,
+} from './utils';
 import {
     FeilmeldingerReiseOppstartAvslutningHjemreise,
     harValideringsFeil,
@@ -32,7 +38,10 @@ import { ingenFeil } from '../../../Vilkårvurdering/validering';
 import { EndreFaktaReiseOppstartAvslutningHjemreise } from '../EndreFakta/EndreFaktaReiseOppstartAvslutningHjemreise';
 import { EndreVurderinger } from '../EndreVilkårsVurderinger/EndreVurderinger';
 import { FaktaReiseOppstartAvslutningHjemreise } from '../typer/faktaReiseOppstartAvslutningHjemreise';
-import { TypeVilkårFakta } from '../typer/regelstrukturReiseOppstartAvslutningHjemreise';
+import {
+    Regelstruktur,
+    TypeVilkårFakta,
+} from '../typer/regelstrukturReiseOppstartAvslutningHjemreise';
 import {
     LagreNyttVilkårReiseOppstartAvslutningHjemreise,
     SvarVilkårReiseOppstartAvslutningHjemreise,
@@ -73,19 +82,16 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
     const [typeReiseformål, settTypeReiseformål] = useState<TypeReiseformål | undefined>(
         vilkår?.typeReiseformål
     );
+    const [valgtRegelstruktur, settValgtRegelstruktur] = useState<Regelstruktur | undefined>(
+        finnRegelstrukturForReiseformål(regelstruktur, typeReiseformål)
+    );
 
     const [gjeldendeFaktaType, settGjeldendeFaktaType] = useState<TypeVilkårFakta>(
         initierGjeldendeFaktaType(vilkår)
     );
 
-    const ubestemtFaktaMedAktivitet = {
-        type: 'UBESTEMT' as const,
-        aktivitetId: aktivitet.globalId,
-        aktivitetType: aktivitet.type,
-    };
-
     const [fakta, settFakta] = useState<FaktaReiseOppstartAvslutningHjemreise>(
-        vilkår?.fakta || ubestemtFaktaMedAktivitet
+        vilkår?.fakta || tomtUbestemtFakta
     );
 
     const [laster, settLaster] = useState(false);
@@ -112,7 +118,14 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
 
         if (laster) return;
 
-        const valideringsfeil = validerVilkår(typeReiseformål, svar, fakta, regelstruktur);
+        const valideringsfeil = validerVilkår(
+            typeReiseformål,
+            periode,
+            svar,
+            fakta,
+            valgtRegelstruktur
+        );
+
         settFeilmeldinger(valideringsfeil);
         if (harValideringsFeil(valideringsfeil)) {
             return;
@@ -156,8 +169,9 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
 
     const oppdaterTypeReiseformål = (nyTypeReiseformål: TypeReiseformål | undefined) => {
         settTypeReiseformål(nyTypeReiseformål);
+        settValgtRegelstruktur(finnRegelstrukturForReiseformål(regelstruktur, nyTypeReiseformål));
         settSvar(tomtSvar);
-        settFakta(ubestemtFaktaMedAktivitet);
+        settFakta(tomtUbestemtFakta);
         settGjeldendeFaktaType('REISE_OPPSTART_AVSLUTNING_HJEMREISE_UBESTEMT');
         settUlagretKomponent(komponentId);
         nullstillFeilmeldingFor(['typeReiseformål', 'begrunnelse', 'fakta']);
@@ -171,7 +185,7 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
 
     const oppdaterGjeldendeFaktaType = (nyGjeldendeFaktaType: TypeVilkårFakta) => {
         if (gjeldendeFaktaType !== nyGjeldendeFaktaType) {
-            settFakta(ubestemtFaktaMedAktivitet);
+            settFakta(tomtUbestemtFakta);
         }
         settGjeldendeFaktaType(nyGjeldendeFaktaType);
         nullstillFeilmeldingFor(['fakta']);
@@ -245,12 +259,15 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
                     )}
                 </HStack>
                 <Skillelinje />
-                <EndreVurderinger
-                    vurderinger={svar}
-                    oppdaterVurderinger={oppdaterVurderinger}
-                    oppdaterGjeldendeFaktaType={oppdaterGjeldendeFaktaType}
-                    feilmeldinger={feilmeldinger}
-                />
+                {valgtRegelstruktur && (
+                    <EndreVurderinger
+                        regelstruktur={valgtRegelstruktur}
+                        vurderinger={svar}
+                        oppdaterVurderinger={oppdaterVurderinger}
+                        oppdaterGjeldendeFaktaType={oppdaterGjeldendeFaktaType}
+                        feilmeldinger={feilmeldinger}
+                    />
+                )}
                 <Skillelinje />
 
                 <EndreFaktaReiseOppstartAvslutningHjemreise

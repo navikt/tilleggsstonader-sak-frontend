@@ -6,8 +6,8 @@ import { antallVedlegg, Vedlegg } from './Vedlegg';
 import { SøknadInfoFelt, SøknadInfoSeksjon, Søknadsdato } from './Visningskomponenter';
 import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaFlytting } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
+import { adresselinjer } from '../../../../typer/behandling/behandlingFakta/faktaAdresse';
 import {
-    FaktaFlytteadresse,
     FaktaFlyttetilbud,
     flytteårsakTilTekst,
     flyttemåteTilTekst,
@@ -15,14 +15,6 @@ import {
 import { jaNeiTilTekst } from '../../../../typer/common';
 import { formaterDato } from '../../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../../utils/fomatering';
-
-function adresseLinjer(adresse: FaktaFlytteadresse): string[] {
-    return [
-        adresse.landkode,
-        adresse.gateadresse,
-        [adresse.postnummer, adresse.poststed].filter(Boolean).join(' '),
-    ].filter((linje): linje is string => Boolean(linje));
-}
 
 function formaterKroner(beløp?: number) {
     return beløp !== undefined && beløp !== null
@@ -57,7 +49,15 @@ export const OppsummeringFlytting: React.FC<{
                         label="Dato for flytting"
                         value={formaterDato(detaljer.flyttedato)}
                     />
-                    <SøknadInfoFelt label="Ny adresse" value={adresseLinjer(detaljer.adresse)} />
+                    <SøknadInfoFelt
+                        label="Flytter fra folkeregistrert adresse"
+                        value={jaNeiTilTekst[detaljer.skalFlytteFraFolkeregistrertAdresse]}
+                    />
+                    <SøknadInfoFelt
+                        label="Gammel adresse"
+                        value={adresselinjer(detaljer.adresseDetSkalFlyttesFra)}
+                    />
+                    <SøknadInfoFelt label="Ny adresse" value={adresselinjer(detaljer.adresse)} />
                     <SøknadInfoFelt
                         label="Flyttemåte"
                         value={flyttemåteTilTekst[detaljer.flyttemåte]}
@@ -78,6 +78,7 @@ export const OppsummeringFlytting: React.FC<{
                         label="Leie av henger"
                         value={formaterKroner(utgifter?.hengerleie)}
                     />
+                    <SøknadInfoFelt label="Leie av bil" value={formaterKroner(utgifter?.leiebil)} />
                     <SøknadInfoFelt label="Bom" value={formaterKroner(utgifter?.bom)} />
                     <SøknadInfoFelt label="Parkering" value={formaterKroner(utgifter?.parkering)} />
                     <SøknadInfoFelt label="Ferje" value={formaterKroner(utgifter?.ferje)} />

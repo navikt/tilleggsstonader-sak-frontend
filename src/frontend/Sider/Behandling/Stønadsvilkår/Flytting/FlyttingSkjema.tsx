@@ -20,8 +20,15 @@ import {
     VilkårFlytting,
 } from './typer/vilkårFlytting';
 import { tilVilkårBase } from './utils';
+import { FeilmeldingerFlytting, validerFlytting } from './validering';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useVilkårFlytting } from '../../../../context/VilkårFlyttingContext';
+import { Feilmelding } from '../../../../komponenter/Feil/Feilmelding';
+import {
+    Feil,
+    feiletRessursTilFeilmelding,
+    lagFeilmelding,
+} from '../../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Skillelinje } from '../../../../komponenter/Skillelinje';
@@ -29,7 +36,7 @@ import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMe
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { NødvendigUtgift } from '../../../../typer/nødvendigUtgift';
 import { SvarId } from '../../../../typer/regel';
-import { feilmeldingVedFeil, Ressurs, RessursStatus } from '../../../../typer/ressurs';
+import { erFeilressurs, Ressurs, RessursStatus } from '../../../../typer/ressurs';
 import { Målgruppe, MålgruppeType } from '../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { PeriodeStatus, SvarJaNei } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import SlettVilkårModal from '../../Vilkårvurdering/EndreVilkår/SlettVilkårModal';
@@ -43,13 +50,15 @@ interface FaktaSkjema {
     type: TypeVilkårFaktaFlytting;
     adresse: string;
     tilbud: { navn: string; pris: string }[];
-    erBetalingDokumentert: boolean | undefined;
+    erUtgifterDokumentert: boolean | undefined;
     nødvendigUtgift: NødvendigUtgift | undefined;
     avstandEnVei: string;
     henger: string;
+    leiebil: string;
     bompenger: string;
     ferge: string;
     parkering: string;
+    annet: string;
 }
 
 interface Props {
@@ -66,13 +75,15 @@ const tommeFakta: FaktaSkjema = {
         { navn: '', pris: '' },
         { navn: '', pris: '' },
     ],
-    erBetalingDokumentert: undefined,
+    erUtgifterDokumentert: undefined,
     nødvendigUtgift: undefined,
     avstandEnVei: '',
     henger: '',
+    leiebil: '',
     bompenger: '',
     ferge: '',
     parkering: '',
+    annet: '',
 };
 
 function hentBegrunnelseHjelpetekst(
@@ -105,7 +116,7 @@ function tilFaktaSkjema(fakta?: FaktaFlytting): FaktaSkjema {
                 navn: tilbud.navn ?? '',
                 pris: tilbud.pris?.toString() ?? '',
             })),
-            erBetalingDokumentert: fakta.erBetalingDokumentert,
+            erUtgifterDokumentert: fakta.erUtgifterDokumentert,
             nødvendigUtgift: fakta.nødvendigUtgift,
         };
     }
@@ -114,9 +125,12 @@ function tilFaktaSkjema(fakta?: FaktaFlytting): FaktaSkjema {
             ...skjema,
             avstandEnVei: fakta.avstandEnVei?.toString() ?? '',
             henger: fakta.henger?.toString() ?? '',
+            leiebil: fakta.leiebil?.toString() ?? '',
             bompenger: fakta.bompenger?.toString() ?? '',
             ferge: fakta.ferge?.toString() ?? '',
             parkering: fakta.parkering?.toString() ?? '',
+            annet: fakta.annet?.toString() ?? '',
+            erUtgifterDokumentert: fakta.erUtgifterDokumentert,
             nødvendigUtgift: fakta.nødvendigUtgift,
         };
     }
@@ -146,14 +160,11 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
     const [flyttedato, settFlytteDato] = useState(vilkår?.flyttedato ?? '');
     const [svar, settSvar] = useState(() => initierSvar(vilkår));
     const [fakta, settFakta] = useState(() => tilFaktaSkjema(vilkår?.fakta));
-    const [feil, settFeil] = useState<string>();
-    const [feilNødvendigUtgift, settFeilNødvendigUtgift] = useState<string>();
-    const [feilBegrunnelseNødvendigUtgift, settFeilBegrunnelseNødvendigUtgift] = useState<string>();
+    const [feilmeldinger, settFeilmeldinger] = useState<FeilmeldingerFlytting>({});
+    const [feilmeldingVedLagring, settFeilmeldingVedLagring] = useState<Feil>();
     const [laster, settLaster] = useState(false);
 
     const oppdaterSvar = (regelId: RegelIdFlytting, verdi: string) => {
-        settFeilNødvendigUtgift(undefined);
-        settFeilBegrunnelseNødvendigUtgift(undefined);
         const valgtSvar: SvarId = verdi;
         const regel = regelstruktur[regelId];
         const svaralternativ = regel.svaralternativer.find(
@@ -169,6 +180,20 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                 neste[regelSomNullstilles] = undefined;
             });
             return neste;
+        });
+        settFeilmeldinger((forrige) => {
+            const begrunnelseFeil = { ...forrige.begrunnelse };
+            delete begrunnelseFeil[regelId];
+            regel.reglerSomMåNullstilles.forEach((regelSomNullstilles) => {
+                delete begrunnelseFeil[regelSomNullstilles];
+            });
+            return {
+                ...forrige,
+                begrunnelse: Object.keys(begrunnelseFeil).length ? begrunnelseFeil : undefined,
+                nødvendigUtgift: undefined,
+                begrunnelseNødvendigUtgift: undefined,
+                erUtgifterDokumentert: undefined,
+            };
         });
         const skalNullstilleFlyttefakta =
             tilhørendeFaktaType === 'FLYTTING_UBESTEMT' ||
@@ -190,12 +215,27 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
             ...forrige,
             [regelId]: { svar: forrige[regelId]?.svar ?? '', begrunnelse },
         }));
+        nullstillRegelfeilmelding(regelId);
     };
 
     const oppdaterNødvendigUtgift = (nødvendigUtgift: NødvendigUtgift) => {
         settFakta((forrige) => ({ ...forrige, nødvendigUtgift }));
-        settFeilNødvendigUtgift(undefined);
-        settFeilBegrunnelseNødvendigUtgift(undefined);
+        settFeilmeldinger((forrige) => ({
+            ...forrige,
+            nødvendigUtgift: undefined,
+            begrunnelseNødvendigUtgift: undefined,
+        }));
+    };
+
+    const nullstillRegelfeilmelding = (regelId: RegelIdFlytting) => {
+        settFeilmeldinger((forrige) => {
+            const feilForRegler = { ...forrige.begrunnelse };
+            delete feilForRegler[regelId];
+            return {
+                ...forrige,
+                begrunnelse: Object.keys(feilForRegler).length ? feilForRegler : undefined,
+            };
+        });
     };
 
     function skjemaTilFaktaPayload(skjema: FaktaSkjema): FaktaFlytting | undefined {
@@ -207,21 +247,14 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
         }
 
         if (!nødvendigUtgift) {
-            settFeilNødvendigUtgift('Du må velge om hele utgiften er nødvendig');
             return;
         }
-        if (nødvendigUtgift.erUtgiftenNødvendig === 'NEI' && !nødvendigUtgift.begrunnelse?.trim()) {
-            settFeilBegrunnelseNødvendigUtgift(
-                'Du må begrunne hvorfor utgiften ikke vurderes som nødvendig'
-            );
+
+        if (skjema.erUtgifterDokumentert === undefined) {
             return;
         }
 
         if (skjema.type === 'FLYTTING_FLYTTEBYRÅ') {
-            if (skjema.erBetalingDokumentert === undefined) {
-                settFeil('Du må si om betaling er dokumentert eller ikke');
-                return;
-            }
             return {
                 type: skjema.type,
                 adresse,
@@ -229,7 +262,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                     navn: tilbud.navn.trim() || null,
                     pris: tallEllerNull(tilbud.pris),
                 })),
-                erBetalingDokumentert: skjema.erBetalingDokumentert,
+                erUtgifterDokumentert: skjema.erUtgifterDokumentert,
                 nødvendigUtgift,
             };
         }
@@ -238,20 +271,30 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
             adresse,
             avstandEnVei: tallEllerNull(skjema.avstandEnVei),
             henger: tallEllerNull(skjema.henger),
+            leiebil: tallEllerNull(skjema.leiebil),
             bompenger: tallEllerNull(skjema.bompenger),
             ferge: tallEllerNull(skjema.ferge),
             parkering: tallEllerNull(skjema.parkering),
+            annet: tallEllerNull(skjema.annet),
+            erUtgifterDokumentert: skjema.erUtgifterDokumentert,
             nødvendigUtgift,
         };
     }
 
     const lagreSkjema = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        settFeil(undefined);
-        if (!flyttedato) {
-            settFeil('Fyll ut en gyldig flyttedato før du lagrer.');
-            return;
-        }
+        settFeilmeldingVedLagring(undefined);
+        const aktiveRegler = initierAktiveDelvilkår(svar, regelstruktur);
+        const valideringsfeil = validerFlytting(
+            fakta.adresse,
+            flyttedato,
+            svar,
+            aktiveRegler,
+            regelstruktur,
+            fakta
+        );
+        settFeilmeldinger(valideringsfeil);
+        if (Object.keys(valideringsfeil).length > 0) return;
 
         const faktaPayload = skjemaTilFaktaPayload(fakta);
         if (!faktaPayload) {
@@ -262,8 +305,12 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
         const respons = await lagre({ flyttedato, svar, fakta: faktaPayload });
         if (respons.status === RessursStatus.SUKSESS) {
             avbryt();
+        } else if (erFeilressurs(respons)) {
+            settFeilmeldingVedLagring(feiletRessursTilFeilmelding(respons));
         } else {
-            settFeil(feilmeldingVedFeil(respons) ?? 'Kunne ikke lagre flyttevilkåret. Prøv igjen.');
+            settFeilmeldingVedLagring(
+                lagFeilmelding('Kunne ikke lagre flyttevilkåret. Prøv igjen.')
+            );
         }
         settLaster(false);
     };
@@ -296,8 +343,13 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                             value={flyttedato}
                             onChange={(dato) => {
                                 settFlytteDato(dato ?? '');
+                                settFeilmeldinger((forrige) => ({
+                                    ...forrige,
+                                    flyttedato: undefined,
+                                }));
                             }}
                             size="small"
+                            feil={feilmeldinger.flyttedato}
                         />
                     </FeilmeldingMaksBredde>
                     <FeilmeldingMaksBredde $maxWidth={380}>
@@ -309,8 +361,13 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                                     ...forrige,
                                     adresse: event.target.value,
                                 }));
+                                settFeilmeldinger((forrige) => ({
+                                    ...forrige,
+                                    adresse: undefined,
+                                }));
                             }}
                             size="small"
+                            error={feilmeldinger.adresse}
                         />
                     </FeilmeldingMaksBredde>
                 </HStack>
@@ -338,6 +395,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                             svaralternativer={regel.svaralternativer}
                             svar={vurdering?.svar}
                             begrunnelse={vurdering?.begrunnelse}
+                            feilmeldingBegrunnelse={feilmeldinger.begrunnelse?.[regelId]}
                             begrunnelseHjelpetekst={hentBegrunnelseHjelpetekst(
                                 regelId,
                                 vurdering?.svar
@@ -353,18 +411,10 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                 <Faktafelter
                     fakta={fakta}
                     settFakta={settFakta}
-                    feilNødvendigUtgift={feilNødvendigUtgift}
-                    feilBegrunnelseNødvendigUtgift={feilBegrunnelseNødvendigUtgift}
+                    feilmeldinger={feilmeldinger}
+                    settFeilmeldinger={settFeilmeldinger}
                     oppdaterNødvendigUtgift={oppdaterNødvendigUtgift}
                 />
-                {feil && (
-                    <LocalAlert status="error">
-                        <LocalAlert.Header>
-                            <LocalAlert.Title>Kontroller opplysningene</LocalAlert.Title>
-                        </LocalAlert.Header>
-                        <LocalAlert.Content>{feil}</LocalAlert.Content>
-                    </LocalAlert>
-                )}
                 <Skillelinje />
                 <HStack gap="space-8" justify={'space-between'}>
                     <HStack gap="space-8">
@@ -397,6 +447,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                         />
                     )}
                 </HStack>
+                <Feilmelding feil={feilmeldingVedLagring} />
             </ResultatOgStatusKort>
         </form>
     );
@@ -405,23 +456,17 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
 const Faktafelter: React.FC<{
     fakta: FaktaSkjema;
     settFakta: React.Dispatch<React.SetStateAction<FaktaSkjema>>;
-    feilNødvendigUtgift: string | undefined;
-    feilBegrunnelseNødvendigUtgift: string | undefined;
+    feilmeldinger: FeilmeldingerFlytting;
+    settFeilmeldinger: React.Dispatch<React.SetStateAction<FeilmeldingerFlytting>>;
     oppdaterNødvendigUtgift: (nødvendigUtgift: NødvendigUtgift) => void;
-}> = ({
-    fakta,
-    settFakta,
-    feilNødvendigUtgift,
-    feilBegrunnelseNødvendigUtgift,
-    oppdaterNødvendigUtgift,
-}) => {
+}> = ({ fakta, settFakta, feilmeldinger, settFeilmeldinger, oppdaterNødvendigUtgift }) => {
     if (fakta.type === 'FLYTTING_FLYTTEBYRÅ') {
         return (
             <EndreFaktaFlyttebyrå
                 settFakta={settFakta}
                 fakta={fakta}
-                feilNødvendigUtgift={feilNødvendigUtgift}
-                feilBegrunnelseNødvendigUtgift={feilBegrunnelseNødvendigUtgift}
+                feilmeldinger={feilmeldinger}
+                settFeilmeldinger={settFeilmeldinger}
                 oppdaterNødvendigUtgift={oppdaterNødvendigUtgift}
             />
         );
@@ -432,8 +477,7 @@ const Faktafelter: React.FC<{
             <EndreFaktaFlytteSelv
                 settFakta={settFakta}
                 fakta={fakta}
-                feilNødvendigUtgift={feilNødvendigUtgift}
-                feilBegrunnelseNødvendigUtgift={feilBegrunnelseNødvendigUtgift}
+                feilmeldinger={feilmeldinger}
                 oppdaterNødvendigUtgift={oppdaterNødvendigUtgift}
             />
         );
@@ -443,21 +487,15 @@ const Faktafelter: React.FC<{
 const EndreFaktaFlyttebyrå: React.FC<{
     settFakta: React.Dispatch<React.SetStateAction<FaktaSkjema>>;
     fakta: FaktaSkjema;
-    feilNødvendigUtgift: string | undefined;
-    feilBegrunnelseNødvendigUtgift: string | undefined;
+    feilmeldinger: FeilmeldingerFlytting;
+    settFeilmeldinger: React.Dispatch<React.SetStateAction<FeilmeldingerFlytting>>;
     oppdaterNødvendigUtgift: (nødvendigUtgift: NødvendigUtgift) => void;
-}> = ({
-    settFakta,
-    fakta,
-    feilNødvendigUtgift,
-    feilBegrunnelseNødvendigUtgift,
-    oppdaterNødvendigUtgift,
-}) => {
-    const svarErBetalingDokumentert = () => {
-        if (fakta.erBetalingDokumentert === true) {
+}> = ({ settFakta, fakta, feilmeldinger, settFeilmeldinger, oppdaterNødvendigUtgift }) => {
+    const svarErUtgifterDokumentert = () => {
+        if (fakta.erUtgifterDokumentert === true) {
             return SvarJaNei.JA;
         }
-        if (fakta.erBetalingDokumentert === false) {
+        if (fakta.erUtgifterDokumentert === false) {
             return SvarJaNei.NEI;
         }
         return undefined;
@@ -469,51 +507,77 @@ const EndreFaktaFlyttebyrå: React.FC<{
                 tilbudsindeks === indeks ? { ...tilbud, [felt]: verdi } : tilbud
             ),
         }));
+        settFeilmeldinger((forrige) => {
+            const tilbudFeil = [...(forrige.tilbud ?? [])];
+            const feilForTilbud = { ...tilbudFeil[indeks] };
+            delete feilForTilbud[felt];
+            tilbudFeil[indeks] = Object.keys(feilForTilbud).length > 0 ? feilForTilbud : undefined;
+            return {
+                ...forrige,
+                tilbud: tilbudFeil.some(Boolean) ? tilbudFeil : undefined,
+            };
+        });
     };
     return (
         <VStack gap="space-12">
             <Skillelinje />
-            <NødvendigUtgiftFelt
-                nødvendigUtgift={fakta.nødvendigUtgift}
-                feilNødvendigUtgift={feilNødvendigUtgift}
-                feilBegrunnelse={feilBegrunnelseNødvendigUtgift}
-                beskrivelse="Vurder om den oppgitte flytteutgiften er på et rimelig nivå."
-                begrunnelseBeskrivelse="Begrunn hvorfor flytteutgiften ikke vurderes som nødvendig."
-                oppdaterFakta={oppdaterNødvendigUtgift}
-            />
+            <FeilmeldingMaksBredde $maxWidth={500}>
+                <NødvendigUtgiftFelt
+                    nødvendigUtgift={fakta.nødvendigUtgift}
+                    feilNødvendigUtgift={feilmeldinger.nødvendigUtgift}
+                    feilBegrunnelse={feilmeldinger.begrunnelseNødvendigUtgift}
+                    beskrivelse="Vurder om den oppgitte flytteutgiften er på et rimelig nivå."
+                    begrunnelseBeskrivelse="Begrunn hvorfor flytteutgiften ikke vurderes som nødvendig."
+                    oppdaterFakta={oppdaterNødvendigUtgift}
+                />
+            </FeilmeldingMaksBredde>
             {fakta.tilbud.map((tilbud, indeks) => {
                 return (
                     <HGrid key={`tilbud-${indeks}`} gap="space-16" columns={{ xs: 1, sm: 2 }}>
-                        <TextField
-                            label={`Navn på flyttebyrå ${indeks + 1}`}
-                            value={tilbud.navn}
-                            onChange={(event) => {
-                                oppdaterTilbud(indeks, 'navn', event.target.value);
-                            }}
-                            size="small"
-                        />
-                        <TextField
-                            label={`Pris på tilbud ${indeks + 1} i kroner`}
-                            value={tilbud.pris}
-                            inputMode="numeric"
-                            onChange={(event) => {
-                                oppdaterTilbud(indeks, 'pris', event.target.value);
-                            }}
-                            size="small"
-                        />
+                        <FeilmeldingMaksBredde $maxWidth={300}>
+                            <TextField
+                                label={`Navn på flyttebyrå ${indeks + 1}`}
+                                value={tilbud.navn}
+                                error={feilmeldinger.tilbud?.[indeks]?.navn}
+                                onChange={(event) => {
+                                    oppdaterTilbud(indeks, 'navn', event.target.value);
+                                }}
+                                size="small"
+                            />
+                        </FeilmeldingMaksBredde>
+                        <FeilmeldingMaksBredde $maxWidth={300}>
+                            <TextField
+                                label={`Pris på tilbud ${indeks + 1} i kroner`}
+                                value={tilbud.pris}
+                                error={feilmeldinger.tilbud?.[indeks]?.pris}
+                                inputMode="numeric"
+                                onChange={(event) => {
+                                    oppdaterTilbud(indeks, 'pris', event.target.value);
+                                }}
+                                size="small"
+                            />
+                        </FeilmeldingMaksBredde>
                     </HGrid>
                 );
             })}
-            <JaNeiVurdering
-                label="Er betalingen for flyttebyrå dokumentert?"
-                svar={svarErBetalingDokumentert()}
-                oppdaterSvar={(svar) => {
-                    settFakta((forrige) => ({
-                        ...forrige,
-                        erBetalingDokumentert: svar === SvarJaNei.JA,
-                    }));
-                }}
-            />
+            <FeilmeldingMaksBredde $maxWidth={500}>
+                <JaNeiVurdering
+                    label="Er det dokumentert kvittering eller faktura for betaling til flyttebyrå?"
+                    beskrivelse="Vurder om utgiftene er dokumentert og skal utbetales nå."
+                    svar={svarErUtgifterDokumentert()}
+                    feilmelding={feilmeldinger.erUtgifterDokumentert}
+                    oppdaterSvar={(svar) => {
+                        settFakta((forrige) => ({
+                            ...forrige,
+                            erUtgifterDokumentert: svar === SvarJaNei.JA,
+                        }));
+                        settFeilmeldinger((forrige) => ({
+                            ...forrige,
+                            erUtgifterDokumentert: undefined,
+                        }));
+                    }}
+                />
+            </FeilmeldingMaksBredde>
         </VStack>
     );
 };
@@ -521,26 +585,31 @@ const EndreFaktaFlyttebyrå: React.FC<{
 const EndreFaktaFlytteSelv: React.FC<{
     settFakta: React.Dispatch<React.SetStateAction<FaktaSkjema>>;
     fakta: FaktaSkjema;
-    feilNødvendigUtgift: string | undefined;
-    feilBegrunnelseNødvendigUtgift: string | undefined;
+    feilmeldinger: FeilmeldingerFlytting;
     oppdaterNødvendigUtgift: (nødvendigUtgift: NødvendigUtgift) => void;
-}> = ({
-    settFakta,
-    fakta,
-    feilNødvendigUtgift,
-    feilBegrunnelseNødvendigUtgift,
-    oppdaterNødvendigUtgift,
-}) => {
+}> = ({ settFakta, fakta, feilmeldinger, oppdaterNødvendigUtgift }) => {
+    const svarErUtgifterDokumentert = () => {
+        if (fakta.erUtgifterDokumentert === true) {
+            return SvarJaNei.JA;
+        }
+        if (fakta.erUtgifterDokumentert === false) {
+            return SvarJaNei.NEI;
+        }
+        return undefined;
+    };
     return (
         <VStack gap="space-16">
-            <NødvendigUtgiftFelt
-                nødvendigUtgift={fakta.nødvendigUtgift}
-                feilNødvendigUtgift={feilNødvendigUtgift}
-                feilBegrunnelse={feilBegrunnelseNødvendigUtgift}
-                beskrivelse="Vurder om den oppgitte flytteutgiften er på et rimelig nivå."
-                begrunnelseBeskrivelse="Begrunn hvorfor flytteutgiften ikke vurderes som nødvendig."
-                oppdaterFakta={oppdaterNødvendigUtgift}
-            />
+            <Skillelinje />
+            <FeilmeldingMaksBredde $maxWidth={500}>
+                <NødvendigUtgiftFelt
+                    nødvendigUtgift={fakta.nødvendigUtgift}
+                    feilNødvendigUtgift={feilmeldinger.nødvendigUtgift}
+                    feilBegrunnelse={feilmeldinger.begrunnelseNødvendigUtgift}
+                    beskrivelse="Vurder om den oppgitte flytteutgiften er på et rimelig nivå."
+                    begrunnelseBeskrivelse="Begrunn hvorfor flytteutgiften ikke vurderes som nødvendig."
+                    oppdaterFakta={oppdaterNødvendigUtgift}
+                />
+            </FeilmeldingMaksBredde>
             <HStack gap="space-16">
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
@@ -556,23 +625,37 @@ const EndreFaktaFlytteSelv: React.FC<{
                         size="small"
                     />
                 </FeilmeldingMaksBredde>
-                {(['henger', 'bompenger', 'ferge', 'parkering'] as const).map((felt) => (
-                    <FeilmeldingMaksBredde $maxWidth={180} key={felt}>
-                        <TextField
-                            label={`${flyttingFaktaFeltTilTekst[felt]}`}
-                            value={fakta[felt]}
-                            inputMode="numeric"
-                            onChange={(event) => {
-                                settFakta((forrige) => ({
-                                    ...forrige,
-                                    [felt]: event.target.value,
-                                }));
-                            }}
-                            size="small"
-                        />
-                    </FeilmeldingMaksBredde>
-                ))}
+                {(['henger', 'leiebil', 'bompenger', 'ferge', 'parkering', 'annet'] as const).map(
+                    (felt) => (
+                        <FeilmeldingMaksBredde $maxWidth={180} key={felt}>
+                            <TextField
+                                label={`${flyttingFaktaFeltTilTekst[felt]}`}
+                                value={fakta[felt]}
+                                inputMode="numeric"
+                                onChange={(event) => {
+                                    settFakta((forrige) => ({
+                                        ...forrige,
+                                        [felt]: event.target.value,
+                                    }));
+                                }}
+                                size="small"
+                            />
+                        </FeilmeldingMaksBredde>
+                    )
+                )}
             </HStack>
+            <JaNeiVurdering
+                label="Er utgiftene dokumentert?"
+                beskrivelse="Vurder om utgiftene er dokumentert og skal utbetales nå."
+                svar={svarErUtgifterDokumentert()}
+                feilmelding={feilmeldinger.erUtgifterDokumentert}
+                oppdaterSvar={(svar) => {
+                    settFakta((forrige) => ({
+                        ...forrige,
+                        erUtgifterDokumentert: svar === SvarJaNei.JA,
+                    }));
+                }}
+            />
         </VStack>
     );
 };

@@ -4,7 +4,7 @@ import constate from 'constate';
 
 import { fjernVilkårFraListe, oppdaterVilkårIListe } from './utils';
 import { Aktivitet } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
-import { RegelstrukturReiseOppstartAvslutningHjemreise } from '../../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/regelstrukturReiseOppstartAvslutningHjemreise';
+import { RegelstrukturROAH } from '../../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/regelstrukturReiseOppstartAvslutningHjemreise';
 import {
     LagreNyttVilkårReiseOppstartAvslutningHjemreise,
     SlettVilkårReiseOppstartAvslutningHjemreiseRequest,
@@ -22,13 +22,13 @@ import { useBehandling } from '../BehandlingContext';
 
 interface Props {
     eksisterendeVilkår: VilkårReiseOppstartAvslutningHjemreise[];
-    regelstruktur: RegelstrukturReiseOppstartAvslutningHjemreise;
+    regelstruktur: RegelstrukturROAH;
     aktiviteter: Aktivitet[];
 }
 
 interface UseVilkårReiseOppstartAvslutningHjemreiseResponse {
     vilkårsett: VilkårReiseOppstartAvslutningHjemreise[];
-    regelstruktur: RegelstrukturReiseOppstartAvslutningHjemreise;
+    regelstruktur: RegelstrukturROAH;
     aktiviteter: Aktivitet[];
     lagreNyttVilkår: (
         nyttVilkår: LagreNyttVilkårReiseOppstartAvslutningHjemreise

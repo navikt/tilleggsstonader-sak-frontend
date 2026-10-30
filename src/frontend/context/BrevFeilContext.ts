@@ -46,7 +46,8 @@ export const [BrevFeilContextProvider, useBrevFeilContext] = constate(() => {
 
                 const variablerIValg = valgForDelmal
                     .filter((valg) => valg._type === 'tekst')
-                    .flatMap((valg) => valg.variabler);
+                    .flatMap((valg) => valg.variabler)
+                    .filter((variabel) => !htmlVariabler.has(variabel._id));
 
                 const variablerIDelmal = delmal.blocks
                     .filter((block) => block._type === 'block')

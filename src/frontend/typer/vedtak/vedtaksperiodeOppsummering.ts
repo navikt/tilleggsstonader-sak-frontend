@@ -87,8 +87,7 @@ export type DetaljertVedtaksperiodeReiseTilSamling = {
 
 export type DetaljertVedtaksperiodeFlytting = {
     stønadstype: Stønadstype.FLYTTING_TSO | Stønadstype.FLYTTING_TSR;
-    fom: string;
-    tom: string;
+    flyttedato: string;
     målgruppe: FaktiskMålgruppe;
     beløp: number;
     flyttemåte: BeregningsgrunnlagType;

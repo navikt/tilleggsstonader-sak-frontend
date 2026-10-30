@@ -66,7 +66,7 @@ const BeregningsResultatFlyttebyrå: React.FC<{
                                         {hentValgtFlyttebyråTilbud(grunnlag).navn}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
-                                        {formatBoolean(grunnlag.erBetalingDokumentert)}
+                                        {formatBoolean(grunnlag.erUtgifterDokumentert)}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall align="right">
                                         {kronerMedTusenSkilleEllerStrek(resultat.beløp)}
@@ -105,11 +105,14 @@ const BeregningsResultatFlytteSelv: React.FC<{
                             <TableHeaderCellSmall>T.o.m.</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Avstand én vei</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Sats per km</TableHeaderCellSmall>
+                            <TableHeaderCellSmall>Utgifter dokumentert?</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Sats bekreftet</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Henger</TableHeaderCellSmall>
+                            <TableHeaderCellSmall>Leiebil</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Bompenger</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Ferge</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Parkering</TableHeaderCellSmall>
+                            <TableHeaderCellSmall>Annet</TableHeaderCellSmall>
                             <TableHeaderCellSmall align="right">Stønadsbeløp</TableHeaderCellSmall>
                         </Table.Row>
                     </Table.Header>
@@ -129,10 +132,16 @@ const BeregningsResultatFlytteSelv: React.FC<{
                                         {kronerMedTusenSkilleEllerStrek(grunnlag.sats)}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
+                                        {formatBoolean(grunnlag.erUtgifterDokumentert)}
+                                    </TableDataCellSmall>
+                                    <TableDataCellSmall>
                                         {formatBoolean(grunnlag.satsBekreftet)}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
                                         {kronerMedTusenSkilleEllerStrek(grunnlag.henger)}
+                                    </TableDataCellSmall>
+                                    <TableDataCellSmall>
+                                        {kronerMedTusenSkilleEllerStrek(grunnlag.leiebil)}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
                                         {kronerMedTusenSkilleEllerStrek(grunnlag.bompenger)}
@@ -142,6 +151,9 @@ const BeregningsResultatFlytteSelv: React.FC<{
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
                                         {kronerMedTusenSkilleEllerStrek(grunnlag.parkering)}
+                                    </TableDataCellSmall>
+                                    <TableDataCellSmall>
+                                        {kronerMedTusenSkilleEllerStrek(grunnlag.annet)}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall align="right">
                                         {kronerMedTusenSkilleEllerStrek(resultat.beløp)}

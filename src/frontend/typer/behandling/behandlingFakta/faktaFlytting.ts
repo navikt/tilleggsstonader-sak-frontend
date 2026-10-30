@@ -1,25 +1,22 @@
+import { FaktaAdresse } from './faktaAdresse';
 import { JaNei } from '../../common';
 
 export interface FaktaFlyttingDetaljer {
     årsak: Flytteårsak;
     flyttedato: string;
-    adresse: FaktaFlytteadresse;
+    adresse: FaktaAdresse;
+    skalFlytteFraFolkeregistrertAdresse: JaNei;
+    adresseDetSkalFlyttesFra: FaktaAdresse;
     flyttemåte: Flyttemåte;
     utgifterDekketPåAnnenMåte: JaNei;
     utgifterEgenFlytting?: FaktaUtgifterEgenFlytting;
     flyttetilbud?: FaktaFlyttetilbud[];
 }
 
-export interface FaktaFlytteadresse {
-    gateadresse?: string;
-    postnummer?: string;
-    poststed?: string;
-    landkode?: string;
-}
-
 export interface FaktaUtgifterEgenFlytting {
     avstand: number;
     hengerleie?: number;
+    leiebil?: number;
     bom?: number;
     parkering?: number;
     ferje?: number;
