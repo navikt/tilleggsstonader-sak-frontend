@@ -125,7 +125,7 @@ export const defaultPrivatBilPeriode = {
     bompengerPerDag: undefined,
     fergekostnadPerDag: undefined,
     skalBehandlesManuelt: false,
-    begrunnelseManuellBehandling: '',
+    begrunnelseManuellBehandling: undefined,
 };
 
 export const tomtPrivatBil: FaktaPrivatBil = {

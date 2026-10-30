@@ -21,7 +21,7 @@ export interface FaktaDelperiodePrivatBil {
     bompengerPerDag: number | undefined;
     fergekostnadPerDag: number | undefined;
     skalBehandlesManuelt: boolean;
-    begrunnelseManuellBehandling: string | null;
+    begrunnelseManuellBehandling: string | undefined;
 }
 
 export interface FaktaPrivatBil extends FaktaDagligReise {

@@ -274,7 +274,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                                             resize
                                             size="small"
                                             minRows={3}
-                                            value={periode.begrunnelseManuellBehandling || ''}
+                                            value={periode.begrunnelseManuellBehandling}
                                             onChange={(e) =>
                                                 oppdaterPeriode(
                                                     index,
