@@ -72,6 +72,7 @@ const lagPunktlisteInnvilgedePerioderForReiseTilSamling = (
             (periode) => !periode.fraTidligereVedtak
         ),
         ...(beregningsresultat?.privatBil ?? []).filter((periode) => !periode.fraTidligereVedtak),
+        ...(beregningsresultat?.drosje ?? []).filter((periode) => !periode.fraTidligereVedtak),
     ];
 
     const unikePerioder = fjernDuplikater(perioder, erPerioderLike);

@@ -4,6 +4,7 @@ import { Tag } from '@navikt/ds-react';
 
 import { LesevisningDelvilkår } from '../../Felles/Lesevisning/LesevisningDelvilkår';
 import { VilkårReiseTilSamling } from '../typer/vilkårReiseTilSamling';
+import { LesevisningVilkårDrosje } from './Drosje/LesevisningVilkårDrosje';
 import { RedigerVilkårProps } from './Felles/LesevisningFooter';
 import { LesevisningVilkårKort } from './Felles/LesevisningVilkårKort';
 import { LesevisningVilkårOffentligTransport } from './OffentligTransport/LesevisningVilkårOffentligTransport';
@@ -48,6 +49,10 @@ export const LesevisningVilkårReiseTilSamling: FC<VilkårProps> = ({
         return (
             <LesevisningVilkårPrivatBil vilkår={vilkår} redigerVilkårProps={redigerVilkårProps} />
         );
+    }
+
+    if (vilkår.fakta.type === 'DROSJE') {
+        return <LesevisningVilkårDrosje vilkår={vilkår} redigerVilkårProps={redigerVilkårProps} />;
     }
 
     return (
