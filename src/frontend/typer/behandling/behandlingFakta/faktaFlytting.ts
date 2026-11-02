@@ -8,7 +8,7 @@ export interface FaktaFlyttingDetaljer {
     skalFlytteFraFolkeregistrertAdresse: JaNei;
     adresseDetSkalFlyttesFra: FaktaAdresse;
     flyttemåte: Flyttemåte;
-    utgifterDekketPåAnnenMåte: JaNei;
+    utgifterDekketPåAnnenMåte: UtgifterDekketPåAnnenMåte;
     utgifterEgenFlytting?: FaktaUtgifterEgenFlytting;
     flyttetilbud?: FaktaFlyttetilbud[];
 }
@@ -40,4 +40,12 @@ export type Flyttemåte = 'FLYTTER_SELV' | 'FLYTTEBYRÅ';
 export const flyttemåteTilTekst: Record<Flyttemåte, string> = {
     FLYTTER_SELV: 'Flytter selv',
     FLYTTEBYRÅ: 'Flyttebyrå',
+};
+
+export type UtgifterDekketPåAnnenMåte = 'JA_HELE' | 'JA_DELER' | 'NEI';
+
+export const utgifterDekketPåAnnenMåteTilTekst: Record<UtgifterDekketPåAnnenMåte, string> = {
+    JA_HELE: 'Ja, hele utgiften blir dekket',
+    JA_DELER: 'Ja, deler av utgiften blir dekket',
+    NEI: 'Nei',
 };
