@@ -1,10 +1,11 @@
+import { FaktaAdresse } from './faktaAdresse';
 import { Periode } from '../../../utils/periode';
 import { JaNei, JaNeiSitterPåMedAndre } from '../../common';
 
 export interface FaktaReise {
     skalReiseFraFolkeregistrertAdresse?: JaNei;
-    adresseDetSkalReisesFra: ReiseAdresse;
-    reiseAdresse: ReiseAdresse;
+    adresseDetSkalReisesFra: FaktaAdresse;
+    reiseAdresse: FaktaAdresse;
     periode: Periode;
     dagerPerUke: string;
     harMerEnn6KmReisevei: JaNei;
@@ -14,11 +15,6 @@ export interface FaktaReise {
     kanReiseMedOffentligTransport: JaNei;
     offentligTransport?: OffentligTransport;
     privatTransport?: PrivatTransport;
-}
-export interface ReiseAdresse {
-    gateadresse: string;
-    postnummer: string;
-    poststed: string;
 }
 export interface OffentligTransport {
     billettTyperValgt: BillettType[];
@@ -102,7 +98,3 @@ export const drivstofftypeTilTekst: Record<Drivstofftype, string> = {
     [Drivstofftype.HYBRID]: 'Hybrid',
     [Drivstofftype.HYDROGEN]: 'Hydrogen',
 };
-
-export function reiseAdresseTilTekst(adresse: ReiseAdresse) {
-    return `${adresse.gateadresse} ${adresse.postnummer} ${adresse.poststed}`;
-}

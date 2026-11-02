@@ -3,7 +3,9 @@ import React from 'react';
 import { ChildEyesIcon, EarthIcon, HouseIcon } from '@navikt/aksel-icons';
 import { VStack } from '@navikt/ds-react';
 
+import { AdresseFelt } from './AdresseFelt';
 import { Aktivitet } from './Aktivitet';
+import { Avreiseadresse } from './Avreiseadresse';
 import { DrosjeDetaljer } from './SamlingsDetaljer/DrosjeDetaljer';
 import { OffentligTransportDetaljer } from './SamlingsDetaljer/OffentligTransportDetaljer';
 import { PrivatBilDetaljer } from './SamlingsDetaljer/PrivatBilDetaljer';
@@ -17,7 +19,6 @@ import {
 } from './Visningskomponenter';
 import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaReiseOppstartAvslutningHjemreise } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
-import { adresselinjer } from '../../../../typer/behandling/behandlingFakta/faktaAdresse';
 import {
     FaktaROAHAdresser,
     FaktaROAHBarnOgSærligeBehov,
@@ -70,23 +71,17 @@ const Adresser: React.FC<{
             />
         )}
         {fakta.adresseOriginaltBosted && (
-            <>
-                <SøknadInfoFelt
-                    label="Skal du reise fra folkeregistrert adresse?"
-                    value={svarTilTekst(
-                        fakta.adresseOriginaltBosted.skalReiseFraFolkeregistrertAdresse
-                    )}
-                />
-                <SøknadInfoFelt
-                    label="Opprinnelig adresse"
-                    value={adresselinjer(fakta.adresseOriginaltBosted.adresseOriginaltBosted)}
-                />
-            </>
+            <Avreiseadresse
+                adresse={fakta.adresseOriginaltBosted.adresseOriginaltBosted}
+                skalReiseFraFolkeregistrertAdresse={
+                    fakta.adresseOriginaltBosted.skalReiseFraFolkeregistrertAdresse
+                }
+                spørsmål="Skal du reise fra folkeregistrert adresse?"
+                adresseLabel="Opprinnelig adresse"
+                folkeregistrertAdresseLabel="Opprinnelig adresse"
+            />
         )}
-        <SøknadInfoFelt
-            label="Midlertidig adresse"
-            value={adresselinjer(fakta.adresseMidlertidigBosted)}
-        />
+        <AdresseFelt label="Midlertidig adresse" {...fakta.adresseMidlertidigBosted} />
     </SøknadInfoSeksjon>
 );
 

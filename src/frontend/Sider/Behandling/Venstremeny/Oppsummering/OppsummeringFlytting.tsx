@@ -2,13 +2,13 @@ import React from 'react';
 
 import { CardIcon } from '@navikt/aksel-icons';
 
+import { AdresseFelt } from './AdresseFelt';
+import { Avreiseadresse } from './Avreiseadresse';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
 import { SøknadInfoFelt, SøknadInfoSeksjon, Søknadsdato } from './Visningskomponenter';
 import { YtelseSituasjon } from './YtelseSituasjon';
 import { BehandlingFaktaFlytting } from '../../../../typer/behandling/behandlingFakta/behandlingFakta';
-import { adresselinjer } from '../../../../typer/behandling/behandlingFakta/faktaAdresse';
 import {
-    FaktaFlyttetilbud,
     flytteårsakTilTekst,
     flyttemåteTilTekst,
 } from '../../../../typer/behandling/behandlingFakta/faktaFlytting';
@@ -20,10 +20,6 @@ function formaterKroner(beløp?: number) {
     return beløp !== undefined && beløp !== null
         ? `${formaterTallMedTusenSkille(beløp)} kr`
         : undefined;
-}
-
-function tilbudTilTekst(tilbud: FaktaFlyttetilbud) {
-    return [tilbud.navn, formaterKroner(tilbud.beløp)].filter(Boolean).join(', ');
 }
 
 export const OppsummeringFlytting: React.FC<{
@@ -42,32 +38,33 @@ export const OppsummeringFlytting: React.FC<{
             {detaljer && (
                 <SøknadInfoSeksjon label="Flytting" ikon={<CardIcon />}>
                     <SøknadInfoFelt
-                        label="Årsak til flytting"
+                        label="Hvorfor flytter du?"
                         value={flytteårsakTilTekst[detaljer.årsak]}
                     />
                     <SøknadInfoFelt
                         label="Dato for flytting"
                         value={formaterDato(detaljer.flyttedato)}
                     />
-                    <SøknadInfoFelt
-                        label="Flytter fra folkeregistrert adresse"
-                        value={jaNeiTilTekst[detaljer.skalFlytteFraFolkeregistrertAdresse]}
+                    <Avreiseadresse
+                        adresse={detaljer.adresseDetSkalFlyttesFra}
+                        skalReiseFraFolkeregistrertAdresse={
+                            detaljer.skalFlytteFraFolkeregistrertAdresse
+                        }
+                        spørsmål="Flytter du fra din folkeregistrerte adresse?"
+                        adresseLabel="Adresse det skal flyttes fra"
+                        folkeregistrertAdresseLabel="Folkeregistrert adresse"
                     />
+                    <AdresseFelt label="Ny adresse" {...detaljer.adresse} />
                     <SøknadInfoFelt
-                        label="Gammel adresse"
-                        value={adresselinjer(detaljer.adresseDetSkalFlyttesFra)}
-                    />
-                    <SøknadInfoFelt label="Ny adresse" value={adresselinjer(detaljer.adresse)} />
-                    <SøknadInfoFelt
-                        label="Flyttemåte"
+                        label="Flytter du selv eller benytter du deg av flyttebyrå?"
                         value={flyttemåteTilTekst[detaljer.flyttemåte]}
                     />
                     <SøknadInfoFelt
-                        label="Får dekket utgiftene på annen måte"
+                        label="Får du dekket utgiftene dine til flytting på en annen måte enn med stønad fra Nav?"
                         value={jaNeiTilTekst[detaljer.utgifterDekketPåAnnenMåte]}
                     />
                     <SøknadInfoFelt
-                        label="Avstand"
+                        label="Hvor lang reisevei har du?"
                         value={
                             utgifter
                                 ? `${formaterTallMedTusenSkille(utgifter.avstand)} km`
@@ -87,11 +84,18 @@ export const OppsummeringFlytting: React.FC<{
                         value={formaterKroner(utgifter?.annet)}
                     />
                     {detaljer.flyttetilbud?.map((tilbud, index) => (
-                        <SøknadInfoFelt
-                            key={index}
-                            label={`Tilbud ${index + 1}`}
-                            value={tilbudTilTekst(tilbud)}
-                        />
+                        <React.Fragment key={index}>
+                            <SøknadInfoFelt
+                                label={`Navn på flyttebyrå ${index + 1}`}
+                                value={tilbud.navn}
+                                copyText={tilbud.navn}
+                            />
+                            <SøknadInfoFelt
+                                label={`Beløp for flyttebyrå ${index + 1}`}
+                                value={formaterKroner(tilbud.beløp)}
+                                copyText={String(tilbud.beløp)}
+                            />
+                        </React.Fragment>
                     ))}
                 </SøknadInfoSeksjon>
             )}

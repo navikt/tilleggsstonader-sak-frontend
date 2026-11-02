@@ -1,13 +1,11 @@
 import React from 'react';
 
 import { EarthIcon } from '@navikt/aksel-icons';
-import { BodyShort, CopyButton, VStack } from '@navikt/ds-react';
+import { BodyShort, VStack } from '@navikt/ds-react';
 
 import { DrosjeDetaljer } from './DrosjeDetaljer';
 import { OffentligTransportDetaljer } from './OffentligTransportDetaljer';
 import { PrivatBilDetaljer } from './PrivatBilDetaljer';
-import styles from './SamlingsDetaljer.module.css';
-import { reiseAdresseTilTekst } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import {
     FaktaSamling,
     transportmiddelTilTekst,
@@ -17,6 +15,7 @@ import {
 import { jaNeiTilTekst } from '../../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
 import { tekstMedFallback } from '../../../../../utils/tekstformatering';
+import { AdresseFelt } from '../AdresseFelt';
 import { SøknadInfoEkspanderbar, SøknadInfoFelt } from '../Visningskomponenter';
 import { UnntakFraOffentligTransportDetaljer } from './UnntakFraOffentligTransportDetaljer';
 
@@ -24,7 +23,6 @@ export const Samlinger: React.FC<{ samlinger: FaktaSamling[] }> = ({ samlinger }
     return (
         <VStack gap="space-12">
             {samlinger.map((samling, index) => {
-                const adresseTekst = reiseAdresseTilTekst(samling.adresse);
                 const reisemåte = samling.reisemåte;
 
                 return (
@@ -44,21 +42,7 @@ export const Samlinger: React.FC<{ samlinger: FaktaSamling[] }> = ({ samlinger }
                             value={tekstMedFallback(jaNeiTilTekst, samling.erObligatorisk)}
                         />
 
-                        <SøknadInfoFelt
-                            label="Adresse for samlingen"
-                            value={
-                                <span>
-                                    <BodyShort as="span" size="small">
-                                        {adresseTekst}
-                                    </BodyShort>
-                                    <CopyButton
-                                        copyText={adresseTekst}
-                                        className={styles.kopiknapp}
-                                        size="small"
-                                    />
-                                </span>
-                            }
-                        />
+                        <AdresseFelt label="Adresse for samlingen" {...samling.adresse} />
 
                         <SøknadInfoFelt
                             label="Antall kilometer én vei"
