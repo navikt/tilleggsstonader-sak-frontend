@@ -24,6 +24,7 @@ export const målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe: Record<
     INGEN_MÅLGRUPPE: MålgruppeSomIkkeGirRettPåStønad.INGEN_MÅLGRUPPE,
     GJENLEVENDE_GAMMELT_REGELVERK: FaktiskMålgruppe.GJENLEVENDE,
     DAGPENGER: FaktiskMålgruppe.ARBEIDSSØKER,
+    ARBEIDSSØKER: FaktiskMålgruppe.ARBEIDSSØKER,
     TILTAKSPENGER: FaktiskMålgruppe.ARBEIDSSØKER,
     UNGDOMSPROGRAMMET: FaktiskMålgruppe.UNGDOMSPROGRAMMET,
     KVALIFISERINGSSTØNAD: FaktiskMålgruppe.ARBEIDSSØKER,
