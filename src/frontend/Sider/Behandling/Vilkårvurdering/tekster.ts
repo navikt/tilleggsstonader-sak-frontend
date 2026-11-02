@@ -11,7 +11,7 @@ export const svarIdTilTekst: Record<SvarId, string> = {
     ARBEID_ETTER_GJENNOMFØRT_AKTIVITET:
         'Flytting i forbindelse med arbeid etter gjennomført tiltak eller utdanning',
     ENSLIG_FORSØRGER_ELLER_GJENLEVENDE_STARTER_I_ARBEID:
-        'Enslig forsørger eller gjenlevende som flytter fra hjemstedet for å starte i arbeid',
+        'Enslig mor eller far eller gjenlevende som flytter fra hjemstedet for å starte i arbeid',
     FLYTTEBYRÅ: 'Flyttebyrå',
     FLYTTER_SELV: 'Flytter selv',
 
@@ -36,7 +36,7 @@ export const svarIdTilTekstKorversjon: Record<string, string> = {
     ARBEID_ETTER_GJENNOMFØRT_AKTIVITET:
         'Flytting i forbindelse med arbeid etter gjennomført tiltak eller utdanning',
     ENSLIG_FORSØRGER_ELLER_GJENLEVENDE_STARTER_I_ARBEID:
-        'Enslig forsørger eller gjenlevende som flytter fra hjemstedet for å starte i arbeid',
+        'Enslig mor eller far eller gjenlevende som flytter fra hjemstedet for å starte i arbeid',
     FLYTTEBYRÅ: 'Flyttebyrå',
     FLYTTER_SELV: 'Flytter selv',
 

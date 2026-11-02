@@ -9,7 +9,7 @@ const MålgruppeNayHjelpetekst = () => (
     <ReadMore header={'Slik gjør du vurderingen'} size="small">
         <BodyLong size={'small'} spacing>
             Dersom søker oppgir å ha <strong>overgangsstønad</strong>, men ikke mottar stønaden, må
-            du be NAY enslig forsørger (kontornummer 4489) vurdere om søker har rett til
+            du be NAY enslig mor eller far (kontornummer 4489) vurdere om søker har rett til
             overgangsstønad. Dersom søker har rett, settes målgruppe overgangsstønad til oppfylt.
         </BodyLong>
         <BodyLong size={'small'} spacing>
@@ -33,7 +33,7 @@ const LæremidlerHjelpetekst = () => (
     <ReadMore header={'Slik gjør du vurderingen'} size="small">
         <BodyLong size={'small'} spacing>
             Dersom søker oppgir å ha <strong>overgangsstønad</strong>, men ikke mottar stønaden, må
-            du be NAY enslig forsørger (kontornummer 4489) vurdere om søker har rett til
+            du be NAY enslig mor eller far (kontornummer 4489) vurdere om søker har rett til
             overgangsstønad. Dersom søker har rett, settes målgruppe overgangsstønad til oppfylt.
         </BodyLong>
         <BodyLong size={'small'} spacing>

@@ -62,7 +62,7 @@ enum ÅrsakOppholdUtenforNorge {
 
 export const hovedytelseTilTekst: Record<Hovedytelse, string> = {
     AAP: 'Arbeidsavklaringspenger (AAP)',
-    OVERGANGSSTØNAD: 'Enslig forsørger',
+    OVERGANGSSTØNAD: 'Enslig mor eller far',
     GJENLEVENDEPENSJON: 'Gjenlevendepensjon / etterlattepensjon / omstillingsstønad',
     UFØRETRYGD: 'Uføretrygd',
     TILTAKSPENGER: 'Tiltakspenger',

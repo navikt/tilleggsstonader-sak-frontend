@@ -19,7 +19,7 @@ export const dokumentTitler: string[] = [
     'Dokumentasjon av utgifter',
     'Dokumentasjon av årsak til reise/flytting',
     'Dokumentasjon boutgifter',
-    'Dokumentasjon enslig forsørger',
+    'Dokumentasjon enslig mor eller far',
     'Dokumentasjon flytteårsak/utgifter',
     'Dokumentasjon gjenlevende ektefelle',
     'Dokumentasjon på behov for tilsyn',
