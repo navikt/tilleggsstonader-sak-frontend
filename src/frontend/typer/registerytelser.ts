@@ -21,7 +21,7 @@ type EnsligForsørgerStønadstype = 'OVERGANGSSTØNAD' | 'SKOLEPENGER' | 'BARNET
 export const ensligForsørgerStønadstypeTekst: Record<EnsligForsørgerStønadstype, string> = {
     OVERGANGSSTØNAD: 'Overgangsstønad',
     SKOLEPENGER: 'Skolepenger',
-    BARNETILSYN: 'Barnetilsyn (Enslig forsørger)',
+    BARNETILSYN: 'Barnetilsyn (Enslig mor eller far)',
 };
 
 export interface KildeResultatYtelse {

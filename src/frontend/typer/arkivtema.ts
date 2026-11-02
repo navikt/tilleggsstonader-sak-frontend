@@ -82,7 +82,7 @@ export const arkivtemaerTilTekst: Record<Arkivtema, string> = {
     BID: 'Bidrag',
     BIL: 'Bil',
     DAG: 'Dagpenger',
-    ENF: 'Enslig forsørger',
+    ENF: 'Enslig mor eller far',
     ERS: 'Erstatning',
     EYB: 'Barnepensjon',
     EYO: 'Omstillingsstønad',

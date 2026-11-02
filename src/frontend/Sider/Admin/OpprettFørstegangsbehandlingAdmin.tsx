@@ -116,7 +116,7 @@ function OpprettFørstegangsbehandlingAdmin() {
                     <Box marginBlock="space-16" asChild>
                         <List size={'small'}>
                             <List.Item>Papirsøknad</List.Item>
-                            <List.Item>Søknad om barnetilsyn fra enslig forsørger</List.Item>
+                            <List.Item>Søknad om barnetilsyn fra enslig mor eller far</List.Item>
                             <List.Item>Søknad som blitt sendt inn til Arena</List.Item>
                         </List>
                     </Box>

@@ -117,7 +117,7 @@ export const faktiskeMålgrupperForStønad: Record<Stønadstype, FaktiskMålgrup
 
 export const FaktiskMålgruppeTilTekst: Record<FaktiskMålgruppe, string> = {
     NEDSATT_ARBEIDSEVNE: 'Nedsatt arbeidsevne',
-    ENSLIG_FORSØRGER: 'Enslig forsørger',
+    ENSLIG_FORSØRGER: 'Enslig mor eller far',
     GJENLEVENDE: 'Gjenlevende',
     ARBEIDSSØKER: 'Arbeidssøker',
     UNGDOMSPROGRAMMET: 'Ungdomsprogrammet',

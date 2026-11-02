@@ -32,7 +32,6 @@ import { useHarEndretDatoerFørTidligereVedtak } from '../../Felles/BekreftEndre
 import {
     Målgruppe,
     MålgruppeType,
-    erOpphørtStønadsMålgruppe,
     målgruppeTypeOptionsForStønad,
     SvarMålgruppe,
 } from '../typer/vilkårperiode/målgruppe';
@@ -197,10 +196,11 @@ const EndreMålgruppe: React.FC<{
                     erStøttetType={erMålgruppeSomStøttes}
                 />
             </div>
-            {erOpphørtStønadsMålgruppe(form.type) && (
-                <BodyShort size="small">
-                    Gjelder kun for enslige forsørgere og gjenlevende.
-                </BodyShort>
+            {form.type === MålgruppeType.OPPHØRT_OMSTILLINGSSTØNAD && (
+                <BodyShort size="small">Gjelder kun for gjenlevende.</BodyShort>
+            )}
+            {form.type === MålgruppeType.OPPHØRT_OVERGANGSSTØNAD && (
+                <BodyShort size="small">Gjelder kun for enslig mor eller far.</BodyShort>
             )}
             <MålgruppeDelvilkår
                 målgruppeForm={form}

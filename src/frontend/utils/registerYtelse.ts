@@ -9,7 +9,7 @@ export const utledYtelseTekst = (periode: PeriodeYtelseRegister): string => {
     if (periode.type === TypeRegisterYtelse.ENSLIG_FORSØRGER) {
         return periode.ensligForsørgerStønadstype
             ? ensligForsørgerStønadstypeTekst[periode.ensligForsørgerStønadstype]
-            : 'Enslig forsørger';
+            : 'Enslig mor eller far';
     }
     return `${registerYtelseTilTekstStorForbokstav(periode.type)}${periode.aapErFerdigAvklart ? ' (ferdig avklart)' : ''}`;
 };

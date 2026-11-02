@@ -32,10 +32,10 @@ const hjelpetekstLæremidler = (
                 type opplæring, velger du &#34;Ingen utdanning/opplæringstiltak&#34;.
             </BodyLong>
             <BodyLong size={'small'}>
-                Merk at enslige mor eller far som gjennomfører utdanning/opplæring som er tildelt
-                som arbeidsmarkedstiltak etter tiltaksforskriften kapittel 7 ikke har rett til
-                stønad til læremidler. Du skal derfor også velge &#34;Ingen
-                utdanning/opplæringstiltak&#34; for enslige som deltar på opplæringstiltak.
+                Merk at enslig mor eller far som gjennomfører utdanning/opplæring som er tildelt som
+                arbeidsmarkedstiltak etter tiltaksforskriften kapittel 7 ikke har rett til stønad
+                til læremidler. Du skal derfor også velge &#34;Ingen utdanning/opplæringstiltak&#34;
+                for enslige som deltar på opplæringstiltak.
             </BodyLong>
         </ReadMore>
     </>
