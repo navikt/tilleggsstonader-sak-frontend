@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { CalendarIcon } from '@navikt/aksel-icons';
-import { BodyShort, Heading, HStack, ToggleGroup, VStack } from '@navikt/ds-react';
+import { BodyShort, CopyButton, Heading, HStack, ToggleGroup, VStack } from '@navikt/ds-react';
 
 import styles from './Visningskomponenter.module.css';
 import { ExpansionCardXSmall } from '../../../../komponenter/ExpansionCardXSmall';
@@ -121,7 +121,8 @@ export const SøknadInfoFelt: React.FC<{
     label: React.ReactNode;
     value: React.ReactNode;
     ikon?: React.ReactNode;
-}> = ({ label, value, ikon }) => {
+    copyText?: string;
+}> = ({ label, value, ikon, copyText }) => {
     const innhold = renderValue(value);
 
     if (!innhold) {
@@ -133,7 +134,19 @@ export const SøknadInfoFelt: React.FC<{
             <BodyShort size="small" weight="semibold">
                 {ikon} {label}
             </BodyShort>
-            {innhold}
+            {copyText ? (
+                <HStack gap="space-4" align="center" justify={'space-between'} wrap={false}>
+                    {innhold}
+                    <CopyButton
+                        copyText={copyText}
+                        data-color="accent"
+                        title={typeof label === 'string' ? `Kopier ${label}` : 'Kopier verdi'}
+                        size="small"
+                    />
+                </HStack>
+            ) : (
+                innhold
+            )}
         </VStack>
     );
 };

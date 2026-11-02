@@ -1,14 +1,14 @@
-import { Drivstofftype, drivstofftypeTilTekst, ReiseAdresse } from './faktaReise';
+import { FaktaAdresse } from './faktaAdresse';
+import { Drivstofftype, drivstofftypeTilTekst } from './faktaReise';
 import { JaNei } from '../../common';
 
 export { Drivstofftype, drivstofftypeTilTekst };
-export type { ReiseAdresse };
 
 export interface FaktaSamling {
     fom: string;
     tom: string;
     erObligatorisk: JaNei;
-    adresse: ReiseAdresse;
+    adresse: FaktaAdresse;
     antallKilometerEnVei: string;
     reisemåte?: FaktaReisemåte;
 }

@@ -1,3 +1,4 @@
+import { FaktaAdresse } from './faktaAdresse';
 import {
     FaktaAktivitet,
     FaktaAktivitetDagligReise,
@@ -10,7 +11,7 @@ import { FaktaDokumentasjon } from './faktaDokumentasjon';
 import { FaktaFlyttingDetaljer } from './faktaFlytting';
 import { FaktaHovedytelse } from './faktaHovedytelse';
 import { FaktaPersonopplysninger } from './faktaPersonopplysninger';
-import { FaktaReise, ReiseAdresse } from './faktaReise';
+import { FaktaReise } from './faktaReise';
 import { FaktaROAHAdresser, FaktaROAHBarnOgSærligeBehov, FaktaROAHReise } from './faktaROAH';
 import { FaktaUtdanning } from './faktaUtdanning';
 import { Stønadstype } from '../behandlingTema';
@@ -58,7 +59,7 @@ export interface BehandlingFaktaReiseTilSamling extends BehandlingFaktaInterface
 
 export interface FaktaAvreiseadresse {
     skalReiseFraFolkeregistrertAdresse?: JaNei;
-    adresseDetSkalReisesFra?: ReiseAdresse;
+    adresseDetSkalReisesFra?: FaktaAdresse;
 }
 
 export interface BehandlingFaktaFlytting extends BehandlingFaktaInterface {

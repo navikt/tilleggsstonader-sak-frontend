@@ -1,38 +1,17 @@
 import React from 'react';
 
 import { EarthIcon } from '@navikt/aksel-icons';
-import { BodyShort, CopyButton, VStack } from '@navikt/ds-react';
+import { VStack } from '@navikt/ds-react';
 
 import { BillettDetaljer } from './BillettDetaljer';
 import { PrivatTransportDetaljer } from './PrivatTransportDetaljer';
-import styles from './ReiseDetaljer.module.css';
-import {
-    FaktaReise,
-    ReiseAdresse,
-    reiseAdresseTilTekst,
-} from '../../../../../typer/behandling/behandlingFakta/faktaReise';
+import { FaktaReise } from '../../../../../typer/behandling/behandlingFakta/faktaReise';
 import { JaNei, jaNeiTilTekst } from '../../../../../typer/common';
 import { formaterIsoPeriode } from '../../../../../utils/dato';
 import { tekstMedFallback } from '../../../../../utils/tekstformatering';
+import { AdresseFelt } from '../AdresseFelt';
+import { Avreiseadresse } from '../Avreiseadresse';
 import { SøknadInfoEkspanderbar, SøknadInfoFelt } from '../Visningskomponenter';
-
-function AdresseFelt({ adresse, label }: { adresse: ReiseAdresse; label: string }) {
-    const adresseTekst = reiseAdresseTilTekst(adresse);
-
-    return (
-        <SøknadInfoFelt
-            label={label}
-            value={
-                <span>
-                    <BodyShort as="span" size="small">
-                        {adresseTekst}
-                    </BodyShort>
-                    <CopyButton copyText={adresseTekst} className={styles.kopiknapp} size="small" />
-                </span>
-            }
-        />
-    );
-}
 
 export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) => {
     return (
@@ -44,33 +23,16 @@ export const ReiseDetaljer: React.FC<{ reiser: FaktaReise[] }> = ({ reiser }) =>
                     tittel={`Reise ${index + 1}`}
                     variant="subtle"
                 >
-                    {reise.skalReiseFraFolkeregistrertAdresse && (
-                        <SøknadInfoFelt
-                            label="Skal du reise fra din folkeregistrerte adresse?"
-                            value={tekstMedFallback(
-                                jaNeiTilTekst,
-                                reise.skalReiseFraFolkeregistrertAdresse
-                            )}
-                        />
-                    )}
-
-                    {reise.adresseDetSkalReisesFra && (
-                        <AdresseFelt
-                            adresse={reise.adresseDetSkalReisesFra}
-                            label={
-                                reise.skalReiseFraFolkeregistrertAdresse === JaNei.JA
-                                    ? 'Folkeregistrert adresse'
-                                    : 'Adresse jeg skal reise fra'
-                            }
-                        />
-                    )}
-
-                    {reise.reiseAdresse && (
-                        <AdresseFelt
-                            adresse={reise.reiseAdresse}
-                            label="Adresse jeg skal reise til"
-                        />
-                    )}
+                    <Avreiseadresse
+                        adresse={reise.adresseDetSkalReisesFra}
+                        skalReiseFraFolkeregistrertAdresse={
+                            reise.skalReiseFraFolkeregistrertAdresse
+                        }
+                        spørsmål="Skal du reise fra din folkeregistrerte adresse?"
+                        adresseLabel="Adresse jeg skal reise fra"
+                        folkeregistrertAdresseLabel="Folkeregistrert adresse"
+                    />
+                    <AdresseFelt label="Adresse jeg skal reise til" {...reise.reiseAdresse} />
 
                     {reise.periode && (
                         <SøknadInfoFelt
