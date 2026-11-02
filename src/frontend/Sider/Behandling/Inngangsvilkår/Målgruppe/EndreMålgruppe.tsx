@@ -47,11 +47,12 @@ export interface EndreMålgruppeForm extends Periode {
 }
 
 const initaliserForm = (
+    stønadstype: Stønadstype,
     eksisterendeMålgruppe?: Målgruppe,
     registrertYtelsePeriode?: YtelseGrunnlagPeriode
 ): EndreMålgruppeForm => {
     return eksisterendeMålgruppe === undefined
-        ? nyMålgruppe(registrertYtelsePeriode)
+        ? nyMålgruppe(stønadstype, registrertYtelsePeriode)
         : mapEksisterendeMålgruppe(eksisterendeMålgruppe);
 };
 
@@ -71,7 +72,7 @@ const EndreMålgruppe: React.FC<{
     const kanBrukeAktivitetspenger = useFlag(Toggle.KAN_BRUKE_MÅLGRUPPE_AKTIVITETSPENGER);
 
     const [form, settForm] = useState<EndreMålgruppeForm>(
-        initaliserForm(målgruppe, registerYtelsePeriode)
+        initaliserForm(behandling.stønadstype, målgruppe, registerYtelsePeriode)
     );
     const [laster, settLaster] = useState<boolean>(false);
     const [feilmelding, settFeilmelding] = useState<Feil>();
@@ -91,7 +92,12 @@ const EndreMålgruppe: React.FC<{
     const kanEndreType = målgruppe === undefined && registerYtelsePeriode === undefined;
 
     const validerForm = (): boolean => {
-        const vilkårsperiodeFeil = validerMålgruppe(form, målgruppe, lagredeMålgrupper);
+        const vilkårsperiodeFeil = validerMålgruppe(
+            form,
+            målgruppe,
+            lagredeMålgrupper,
+            behandling.stønadstype
+        );
         settVilkårsperiodeFeil(vilkårsperiodeFeil);
 
         return isValid(vilkårsperiodeFeil);

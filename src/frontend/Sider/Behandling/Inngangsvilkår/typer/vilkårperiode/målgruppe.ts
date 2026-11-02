@@ -312,12 +312,14 @@ export interface MålgruppeVurderinger {
     utgifterDekketAvAnnetRegelverk: Vurdering | undefined;
     mottarSykepengerForFulltidsstilling: VurderingMedGammelManglerData | undefined;
     aldersvilkår: Vurdering | undefined;
+    lønnet?: Vurdering;
 }
 
 export interface SvarMålgruppe {
     svarMedlemskap: SvarJaNei | undefined;
     svarUtgifterDekketAvAnnetRegelverk: SvarJaNei | undefined;
     svarMottarSykepengerForFulltidsstilling: SvarJaNei | undefined | 'GAMMEL_MANGLER_DATA';
+    svarLønnet: SvarJaNei | undefined;
 }
 
 export interface MålgruppeFaktaOgSvar extends SvarMålgruppe {

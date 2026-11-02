@@ -8,6 +8,7 @@ import styles from './MålgruppeDelvilkår.module.css';
 import {
     målgrupperHvorMedlemskapMåVurderes,
     skalVurdereDekkesAvAnnetRegelverk,
+    skalVurdereLønnetForMålgruppe,
     skalVurdereMottarSykepengerForFulltidsstilling,
 } from './utils';
 import { Stønadstype } from '../../../../typer/behandling/behandlingTema';
@@ -28,6 +29,7 @@ const MålgruppeDelvilkår: React.FC<{
         målgruppeForm.type,
         stønadstype
     );
+    const skalVurdereLønnet = skalVurdereLønnetForMålgruppe(målgruppeForm.type, stønadstype);
 
     const erGjenlevendeGammeltRegelverk =
         målgruppeForm.type === MålgruppeType.GJENLEVENDE_GAMMELT_REGELVERK;
@@ -35,6 +37,7 @@ const MålgruppeDelvilkår: React.FC<{
     if (
         !skalVurdereMedlemskap &&
         !skalVurdereDekketAvAnnetRegelverk &&
+        !skalVurdereLønnet &&
         !erGjenlevendeGammeltRegelverk
     ) {
         return null;
@@ -69,6 +72,15 @@ const MålgruppeDelvilkår: React.FC<{
                         oppdaterVurderinger('svarMottarSykepengerForFulltidsstilling', nyttSvar)
                     }
                     hjelpetekst="Med fulltidsstilling menes at søker jobber 37,5 timer eller mer i uken."
+                />
+            )}
+            {skalVurdereLønnet && (
+                <JaNeiVurdering
+                    label="Mottar bruker ordinær lønn i tiltaket?"
+                    svar={målgruppeForm.vurderinger.svarLønnet}
+                    oppdaterSvar={(nyttSvar: SvarJaNei) =>
+                        oppdaterVurderinger('svarLønnet', nyttSvar)
+                    }
                 />
             )}
             {erGjenlevendeGammeltRegelverk && (
