@@ -25,7 +25,7 @@ export const LesevisningFaktaPrivatBil: FC<{
                         Ferge
                     </Label>
                     <Label size="small" className={styles.høyreJustert}>
-                        Skal behandles manuelt
+                        Behandles manuelt
                     </Label>
                     {fakta.faktaDelperioder.map((periode, index) => (
                         <React.Fragment key={index}>

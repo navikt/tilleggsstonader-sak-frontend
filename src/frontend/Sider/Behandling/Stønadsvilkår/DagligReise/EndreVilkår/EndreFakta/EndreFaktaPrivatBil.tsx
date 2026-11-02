@@ -263,32 +263,29 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                                             )
                                         }
                                     >
-                                        Behandle kjøreliste manuelt
+                                        Behandles manuelt
                                     </Switch>
                                 </div>
-
-                                {periode.skalBehandlesManuelt && (
-                                    <div style={{ flex: 1, minWidth: '250px' }}>
-                                        <Textarea
-                                            label={begrunnelseLabel}
-                                            resize
-                                            size="small"
-                                            minRows={3}
-                                            value={periode.begrunnelseManuellBehandling}
-                                            onChange={(e) =>
-                                                oppdaterPeriode(
-                                                    index,
-                                                    'begrunnelseManuellBehandling',
-                                                    e.target.value
-                                                )
-                                            }
-                                            error={
-                                                feilmeldinger?.[index]?.begrunnelseManuellBehandling
-                                            }
-                                        />
-                                    </div>
-                                )}
                             </HStack>
+                            {periode.skalBehandlesManuelt && (
+                                <div style={{ flex: 1, minWidth: '250px' }}>
+                                    <Textarea
+                                        label={begrunnelseLabel}
+                                        resize
+                                        size="small"
+                                        minRows={3}
+                                        value={periode.begrunnelseManuellBehandling}
+                                        onChange={(e) =>
+                                            oppdaterPeriode(
+                                                index,
+                                                'begrunnelseManuellBehandling',
+                                                e.target.value
+                                            )
+                                        }
+                                        error={feilmeldinger?.[index]?.begrunnelseManuellBehandling}
+                                    />
+                                </div>
+                            )}
                             <HStack
                                 align={'start'}
                                 style={{

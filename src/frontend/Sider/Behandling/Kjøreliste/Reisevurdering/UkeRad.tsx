@@ -101,7 +101,7 @@ const AutomatiskManuellEllerAvvikTag: FC<{ status: UkeStatus }> = ({ status }) =
 const SkalBehandleManueltTag: FC = () => {
     return (
         <Tag size="small" data-color="warning">
-            Skal behandles manuelt
+            Behandles manuelt
         </Tag>
     );
 };
