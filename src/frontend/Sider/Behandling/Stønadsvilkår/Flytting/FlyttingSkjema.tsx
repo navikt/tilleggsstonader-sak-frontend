@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { HGrid, HStack, LocalAlert, TextField, VStack } from '@navikt/ds-react';
 
 import {
+    DokumenterteUtgifter,
     FaktaFlytting,
     flyttingFaktaFeltTilTekst,
     TypeVilkårFaktaFlytting,
@@ -34,14 +35,13 @@ import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKo
 import { Skillelinje } from '../../../../komponenter/Skillelinje';
 import DateInputMedLeservisning from '../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
-import { NødvendigUtgift } from '../../../../typer/nødvendigUtgift';
-import { SvarId } from '../../../../typer/regel';
+import { erSvarJaNei, NødvendigUtgift } from '../../../../typer/nødvendigUtgift';
+import { BegrunnelseRegel, SvarId } from '../../../../typer/regel';
 import { erFeilressurs, Ressurs, RessursStatus } from '../../../../typer/ressurs';
 import { Målgruppe, MålgruppeType } from '../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { PeriodeStatus, SvarJaNei } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import SlettVilkårModal from '../../Vilkårvurdering/EndreVilkår/SlettVilkårModal';
 import { FellesDelvilkår } from '../../Vilkårvurdering/FellesDelvilkår';
-import { JaNeiVurdering } from '../../Vilkårvurdering/JaNeiVurdering';
 import { initierAktiveDelvilkår } from '../../Vilkårvurdering/regeltre';
 import { regelIdTilSpørsmål } from '../../Vilkårvurdering/tekster';
 import { NødvendigUtgiftFelt } from '../Felles/EndreFakta/NødvendigUtgiftFelt';
@@ -50,7 +50,8 @@ interface FaktaSkjema {
     type: TypeVilkårFaktaFlytting;
     adresse: string;
     tilbud: { navn: string; pris: string }[];
-    erUtgifterDokumentert: boolean | undefined;
+    erUtgifterDokumentert: DokumenterteUtgifter['erUtgifterDokumentert'] | undefined;
+    begrunnelseErUtgifterDokumentert: string;
     nødvendigUtgift: NødvendigUtgift | undefined;
     avstandEnVei: string;
     henger: string;
@@ -76,6 +77,7 @@ const tommeFakta: FaktaSkjema = {
         { navn: '', pris: '' },
     ],
     erUtgifterDokumentert: undefined,
+    begrunnelseErUtgifterDokumentert: '',
     nødvendigUtgift: undefined,
     avstandEnVei: '',
     henger: '',
@@ -116,7 +118,8 @@ function tilFaktaSkjema(fakta?: FaktaFlytting): FaktaSkjema {
                 navn: tilbud.navn ?? '',
                 pris: tilbud.pris?.toString() ?? '',
             })),
-            erUtgifterDokumentert: fakta.erUtgifterDokumentert,
+            erUtgifterDokumentert: fakta.dokumenterteUtgifter.erUtgifterDokumentert,
+            begrunnelseErUtgifterDokumentert: fakta.dokumenterteUtgifter.begrunnelse ?? '',
             nødvendigUtgift: fakta.nødvendigUtgift,
         };
     }
@@ -130,7 +133,8 @@ function tilFaktaSkjema(fakta?: FaktaFlytting): FaktaSkjema {
             ferge: fakta.ferge?.toString() ?? '',
             parkering: fakta.parkering?.toString() ?? '',
             annet: fakta.annet?.toString() ?? '',
-            erUtgifterDokumentert: fakta.erUtgifterDokumentert,
+            erUtgifterDokumentert: fakta.dokumenterteUtgifter.erUtgifterDokumentert,
+            begrunnelseErUtgifterDokumentert: fakta.dokumenterteUtgifter.begrunnelse ?? '',
             nødvendigUtgift: fakta.nødvendigUtgift,
         };
     }
@@ -193,6 +197,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                 nødvendigUtgift: undefined,
                 begrunnelseNødvendigUtgift: undefined,
                 erUtgifterDokumentert: undefined,
+                begrunnelseErUtgifterDokumentert: undefined,
             };
         });
         const skalNullstilleFlyttefakta =
@@ -253,6 +258,10 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
         if (skjema.erUtgifterDokumentert === undefined) {
             return;
         }
+        const erUtgifterDokumentert = {
+            erUtgifterDokumentert: skjema.erUtgifterDokumentert,
+            begrunnelse: skjema.begrunnelseErUtgifterDokumentert.trim() || null,
+        };
 
         if (skjema.type === 'FLYTTING_FLYTTEBYRÅ') {
             return {
@@ -262,7 +271,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                     navn: tilbud.navn.trim() || null,
                     pris: tallEllerNull(tilbud.pris),
                 })),
-                erUtgifterDokumentert: skjema.erUtgifterDokumentert,
+                dokumenterteUtgifter: erUtgifterDokumentert,
                 nødvendigUtgift,
             };
         }
@@ -276,7 +285,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
             ferge: tallEllerNull(skjema.ferge),
             parkering: tallEllerNull(skjema.parkering),
             annet: tallEllerNull(skjema.annet),
-            erUtgifterDokumentert: skjema.erUtgifterDokumentert,
+            dokumenterteUtgifter: erUtgifterDokumentert,
             nødvendigUtgift,
         };
     }
@@ -478,6 +487,7 @@ const Faktafelter: React.FC<{
                 settFakta={settFakta}
                 fakta={fakta}
                 feilmeldinger={feilmeldinger}
+                settFeilmeldinger={settFeilmeldinger}
                 oppdaterNødvendigUtgift={oppdaterNødvendigUtgift}
             />
         );
@@ -491,15 +501,6 @@ const EndreFaktaFlyttebyrå: React.FC<{
     settFeilmeldinger: React.Dispatch<React.SetStateAction<FeilmeldingerFlytting>>;
     oppdaterNødvendigUtgift: (nødvendigUtgift: NødvendigUtgift) => void;
 }> = ({ settFakta, fakta, feilmeldinger, settFeilmeldinger, oppdaterNødvendigUtgift }) => {
-    const svarErUtgifterDokumentert = () => {
-        if (fakta.erUtgifterDokumentert === true) {
-            return SvarJaNei.JA;
-        }
-        if (fakta.erUtgifterDokumentert === false) {
-            return SvarJaNei.NEI;
-        }
-        return undefined;
-    };
     const oppdaterTilbud = (indeks: number, felt: 'navn' | 'pris', verdi: string) => {
         settFakta((forrige) => ({
             ...forrige,
@@ -560,24 +561,14 @@ const EndreFaktaFlyttebyrå: React.FC<{
                     </HGrid>
                 );
             })}
-            <FeilmeldingMaksBredde $maxWidth={500}>
-                <JaNeiVurdering
-                    label="Er det dokumentert kvittering eller faktura for betaling til flyttebyrå?"
-                    beskrivelse="Vurder om utgiftene er dokumentert og skal utbetales nå."
-                    svar={svarErUtgifterDokumentert()}
-                    feilmelding={feilmeldinger.erUtgifterDokumentert}
-                    oppdaterSvar={(svar) => {
-                        settFakta((forrige) => ({
-                            ...forrige,
-                            erUtgifterDokumentert: svar === SvarJaNei.JA,
-                        }));
-                        settFeilmeldinger((forrige) => ({
-                            ...forrige,
-                            erUtgifterDokumentert: undefined,
-                        }));
-                    }}
-                />
-            </FeilmeldingMaksBredde>
+            <Skillelinje />
+            <ErUtgifterDokumentertFelt
+                beskrivelse="Det kan bare utbetales stønad for dokumenterte utgifter, for eksempel faktura eller kvittering som viser at utgifter er pådratt eller betalt. Pristilbud, anbud og anslag over framtidige utgifter er ikke tilstrekkelig dokumentasjon."
+                fakta={fakta}
+                settFakta={settFakta}
+                feilmeldinger={feilmeldinger}
+                settFeilmeldinger={settFeilmeldinger}
+            />
         </VStack>
     );
 };
@@ -586,17 +577,9 @@ const EndreFaktaFlytteSelv: React.FC<{
     settFakta: React.Dispatch<React.SetStateAction<FaktaSkjema>>;
     fakta: FaktaSkjema;
     feilmeldinger: FeilmeldingerFlytting;
+    settFeilmeldinger: React.Dispatch<React.SetStateAction<FeilmeldingerFlytting>>;
     oppdaterNødvendigUtgift: (nødvendigUtgift: NødvendigUtgift) => void;
-}> = ({ settFakta, fakta, feilmeldinger, oppdaterNødvendigUtgift }) => {
-    const svarErUtgifterDokumentert = () => {
-        if (fakta.erUtgifterDokumentert === true) {
-            return SvarJaNei.JA;
-        }
-        if (fakta.erUtgifterDokumentert === false) {
-            return SvarJaNei.NEI;
-        }
-        return undefined;
-    };
+}> = ({ settFakta, fakta, feilmeldinger, settFeilmeldinger, oppdaterNødvendigUtgift }) => {
     return (
         <VStack gap="space-16">
             <Skillelinje />
@@ -644,18 +627,62 @@ const EndreFaktaFlytteSelv: React.FC<{
                     )
                 )}
             </HStack>
-            <JaNeiVurdering
-                label="Er utgiftene dokumentert?"
-                beskrivelse="Vurder om utgiftene er dokumentert og skal utbetales nå."
-                svar={svarErUtgifterDokumentert()}
-                feilmelding={feilmeldinger.erUtgifterDokumentert}
-                oppdaterSvar={(svar) => {
-                    settFakta((forrige) => ({
-                        ...forrige,
-                        erUtgifterDokumentert: svar === SvarJaNei.JA,
-                    }));
-                }}
+            <Skillelinje />
+            <ErUtgifterDokumentertFelt
+                beskrivelse="Det kan bare utbetales stønad for dokumenterte utgifter, for eksempel faktura eller kvittering som viser at utgifter er pådratt eller betalt. Beregninger og anslag over framtidige utgifter er ikke tilstrekkelig dokumentasjon."
+                fakta={fakta}
+                settFakta={settFakta}
+                feilmeldinger={feilmeldinger}
+                settFeilmeldinger={settFeilmeldinger}
             />
         </VStack>
+    );
+};
+
+const ErUtgifterDokumentertFelt: React.FC<{
+    beskrivelse: string;
+    fakta: FaktaSkjema;
+    settFakta: React.Dispatch<React.SetStateAction<FaktaSkjema>>;
+    feilmeldinger: FeilmeldingerFlytting;
+    settFeilmeldinger: React.Dispatch<React.SetStateAction<FeilmeldingerFlytting>>;
+}> = ({ beskrivelse, fakta, settFakta, feilmeldinger, settFeilmeldinger }) => {
+    return (
+        <FellesDelvilkår
+            regelId="ER_UTGIFTER_DOKUMENTERT"
+            label="Er utgiften dokumentert og skal utbetales i dette vedtaket?"
+            beskrivelse={beskrivelse}
+            svaralternativer={[
+                { svarId: SvarJaNei.JA, begrunnelseType: BegrunnelseRegel.PÅKREVD },
+                { svarId: SvarJaNei.NEI, begrunnelseType: BegrunnelseRegel.VALGFRI },
+            ]}
+            svar={fakta.erUtgifterDokumentert}
+            begrunnelse={fakta.begrunnelseErUtgifterDokumentert}
+            feilmeldingSvar={feilmeldinger.erUtgifterDokumentert}
+            feilmeldingBegrunnelse={feilmeldinger.begrunnelseErUtgifterDokumentert}
+            oppdaterSvar={(nyttSvar) => {
+                if (!erSvarJaNei(nyttSvar)) {
+                    return;
+                }
+                settFakta((forrige) => ({
+                    ...forrige,
+                    erUtgifterDokumentert: nyttSvar,
+                }));
+                settFeilmeldinger((forrige) => ({
+                    ...forrige,
+                    erUtgifterDokumentert: undefined,
+                    begrunnelseErUtgifterDokumentert: undefined,
+                }));
+            }}
+            oppdaterBegrunnelse={(begrunnelse) => {
+                settFakta((forrige) => ({
+                    ...forrige,
+                    begrunnelseErUtgifterDokumentert: begrunnelse,
+                }));
+                settFeilmeldinger((forrige) => ({
+                    ...forrige,
+                    begrunnelseErUtgifterDokumentert: undefined,
+                }));
+            }}
+        />
     );
 };
