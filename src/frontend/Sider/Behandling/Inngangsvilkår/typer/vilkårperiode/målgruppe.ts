@@ -24,6 +24,7 @@ export enum MålgruppeType {
     INGEN_MÅLGRUPPE = 'INGEN_MÅLGRUPPE',
     GJENLEVENDE_GAMMELT_REGELVERK = 'GJENLEVENDE_GAMMELT_REGELVERK', // Ikke støttet i backend, brukes kun for å vise feilmelding om manglende støtte ved valg av denne
     DAGPENGER = 'DAGPENGER',
+    ARBEIDSSØKER = 'ARBEIDSSØKER',
     KVALIFISERINGSSTØNAD = 'KVALIFISERINGSSTØNAD',
     TILTAKSPENGER = 'TILTAKSPENGER',
     INNSATT_I_FENGSEL = 'INNSATT_I_FENGSEL',
@@ -47,6 +48,7 @@ export const MålgruppeTypeTilTekst: Record<MålgruppeType, string> = {
     INGEN_MÅLGRUPPE: 'Ingen målgruppe',
     GJENLEVENDE_GAMMELT_REGELVERK: 'Gjenlevende - gammelt regelverk',
     DAGPENGER: 'Dagpenger',
+    ARBEIDSSØKER: 'Arbeidssøker',
     KVALIFISERINGSSTØNAD: 'Kvalifiseringsstønad',
     TILTAKSPENGER: 'Tiltakspenger',
     INNSATT_I_FENGSEL: 'Innsatt i fengsel',
@@ -67,6 +69,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         INGEN_MÅLGRUPPE: true,
         GJENLEVENDE_GAMMELT_REGELVERK: true,
         DAGPENGER: false,
+        ARBEIDSSØKER: false,
         KVALIFISERINGSSTØNAD: false,
         TILTAKSPENGER: false,
         INNSATT_I_FENGSEL: false,
@@ -85,6 +88,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         INGEN_MÅLGRUPPE: true,
         GJENLEVENDE_GAMMELT_REGELVERK: true,
         DAGPENGER: false,
+        ARBEIDSSØKER: false,
         KVALIFISERINGSSTØNAD: false,
         TILTAKSPENGER: false,
         INNSATT_I_FENGSEL: false,
@@ -103,6 +107,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         INGEN_MÅLGRUPPE: true,
         GJENLEVENDE_GAMMELT_REGELVERK: true,
         DAGPENGER: false,
+        ARBEIDSSØKER: false,
         KVALIFISERINGSSTØNAD: false,
         TILTAKSPENGER: false,
         INNSATT_I_FENGSEL: false,
@@ -121,6 +126,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         GJENLEVENDE_GAMMELT_REGELVERK: true,
         SYKEPENGER_100_PROSENT: false,
         DAGPENGER: false,
+        ARBEIDSSØKER: false,
         KVALIFISERINGSSTØNAD: false,
         TILTAKSPENGER: false,
         INNSATT_I_FENGSEL: false,
@@ -130,6 +136,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
 
     [Stønadstype.DAGLIG_REISE_TSR]: {
         DAGPENGER: true,
+        ARBEIDSSØKER: false,
         KVALIFISERINGSSTØNAD: true,
         TILTAKSPENGER: true,
         INNSATT_I_FENGSEL: true,
@@ -159,6 +166,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         GJENLEVENDE_GAMMELT_REGELVERK: true,
         SYKEPENGER_100_PROSENT: false,
         DAGPENGER: false,
+        ARBEIDSSØKER: false,
         KVALIFISERINGSSTØNAD: false,
         TILTAKSPENGER: false,
         INNSATT_I_FENGSEL: false,
@@ -167,6 +175,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
     },
     [Stønadstype.REISE_TIL_SAMLING_TSR]: {
         DAGPENGER: true,
+        ARBEIDSSØKER: false,
         KVALIFISERINGSSTØNAD: true,
         TILTAKSPENGER: true,
         INNSATT_I_FENGSEL: true,
@@ -196,6 +205,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         GJENLEVENDE_GAMMELT_REGELVERK: true,
         SYKEPENGER_100_PROSENT: false,
         DAGPENGER: false,
+        ARBEIDSSØKER: false,
         KVALIFISERINGSSTØNAD: false,
         TILTAKSPENGER: false,
         INNSATT_I_FENGSEL: false,
@@ -205,6 +215,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
 
     [Stønadstype.FLYTTING_TSR]: {
         DAGPENGER: true,
+        ARBEIDSSØKER: true,
         KVALIFISERINGSSTØNAD: true,
         TILTAKSPENGER: true,
         INNSATT_I_FENGSEL: true,
@@ -234,6 +245,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         GJENLEVENDE_GAMMELT_REGELVERK: true,
         SYKEPENGER_100_PROSENT: false,
         DAGPENGER: false,
+        ARBEIDSSØKER: false,
         KVALIFISERINGSSTØNAD: false,
         TILTAKSPENGER: false,
         INNSATT_I_FENGSEL: false,
@@ -242,6 +254,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
     },
     [Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR]: {
         DAGPENGER: true,
+        ARBEIDSSØKER: false,
         KVALIFISERINGSSTØNAD: true,
         TILTAKSPENGER: true,
         INNSATT_I_FENGSEL: true,

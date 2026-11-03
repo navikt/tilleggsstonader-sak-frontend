@@ -11,8 +11,8 @@ import { BehandlingFaktaFlytting } from '../../../../typer/behandling/behandling
 import {
     flytteårsakTilTekst,
     flyttemåteTilTekst,
+    utgifterDekketPåAnnenMåteTilTekst,
 } from '../../../../typer/behandling/behandlingFakta/faktaFlytting';
-import { jaNeiTilTekst } from '../../../../typer/common';
 import { formaterDato } from '../../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../../utils/fomatering';
 
@@ -61,7 +61,9 @@ export const OppsummeringFlytting: React.FC<{
                     />
                     <SøknadInfoFelt
                         label="Får du dekket utgiftene dine til flytting på en annen måte enn med stønad fra Nav?"
-                        value={jaNeiTilTekst[detaljer.utgifterDekketPåAnnenMåte]}
+                        value={
+                            utgifterDekketPåAnnenMåteTilTekst[detaljer.utgifterDekketPåAnnenMåte]
+                        }
                     />
                     <SøknadInfoFelt
                         label="Hvor lang reisevei har du?"
