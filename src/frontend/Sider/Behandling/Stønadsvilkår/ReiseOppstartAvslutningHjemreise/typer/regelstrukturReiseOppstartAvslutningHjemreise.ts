@@ -4,6 +4,7 @@ export interface RegelstrukturROAH {
     oppstart: Regelstruktur;
     avslutning: Regelstruktur;
     hjemreise: Regelstruktur;
+    midlertidigBostedPeriode: Regelstruktur;
 }
 
 export enum RegelIdROAH {
@@ -14,6 +15,10 @@ export enum RegelIdROAH {
     ROAH_BENYTTET_TAXI = 'ROAH_BENYTTET_TAXI',
     ROAH_HJEMREISE_INNENFOR_NORMALT_ANTALL = 'ROAH_HJEMREISE_INNENFOR_NORMALT_ANTALL',
     ROAH_HJEMREISE_BEHOV_FLERE_REISER = 'ROAH_HJEMREISE_BEHOV_FLERE_REISER',
+    ROAH_MÅ_BO_MIDLERTIDIG_BORTE = 'ROAH_MÅ_BO_MIDLERTIDIG_BORTE',
+    ROAH_HAR_BARN_UNDER_18_ÅR_SOM_FLYTTER_MED = 'ROAH_HAR_BARN_UNDER_18_ÅR_SOM_FLYTTER_MED',
+    ROAH_HAR_BARN_IKKE_FULLFØRT_FJERDE_SKOLEÅR_HJEMME = 'ROAH_HAR_BARN_IKKE_FULLFØRT_FJERDE_SKOLEÅR_HJEMME',
+    ROAH_HAR_DOKUMENTERTE_SÆRSKILTE_BEHOV_FLERE_HJEMREISER = 'ROAH_HAR_DOKUMENTERTE_SÆRSKILTE_BEHOV_FLERE_HJEMREISER',
 }
 
 export interface RegelInfo {
@@ -46,4 +51,11 @@ export const regelIdTilSpørsmålROAH: Record<RegelIdROAH, string> = {
     ROAH_HJEMREISE_INNENFOR_NORMALT_ANTALL: 'Er søker innenfor normalt antall hjemreiser per år?',
     ROAH_HJEMREISE_BEHOV_FLERE_REISER:
         'Har bruker behov for flere hjemreiser, og er behovet tilfredsstillende dokumentert?',
+    ROAH_MÅ_BO_MIDLERTIDIG_BORTE:
+        'Må bruker midlertidig bo borte hjemmefra for å delta på aktiviteten?',
+    ROAH_HAR_BARN_UNDER_18_ÅR_SOM_FLYTTER_MED: 'Har bruker barn under 18 år som flytter med?',
+    ROAH_HAR_BARN_IKKE_FULLFØRT_FJERDE_SKOLEÅR_HJEMME:
+        'Har bruker barn som ikke har fullført 4. skoleår, som bor hjemme?',
+    ROAH_HAR_DOKUMENTERTE_SÆRSKILTE_BEHOV_FLERE_HJEMREISER:
+        'Har bruker dokumentert andre særskilte behov som gir rett på flere hjemreiser?',
 };
