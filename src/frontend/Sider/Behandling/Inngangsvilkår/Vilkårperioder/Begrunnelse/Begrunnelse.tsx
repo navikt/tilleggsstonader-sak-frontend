@@ -22,6 +22,7 @@ const Begrunnelse: React.FC<Props> = ({
 
     return (
         <Textarea
+            autoComplete="off"
             label={`Begrunnelse ${begrunnelseSuffix}`}
             description={
                 begrunnelseGrunner.length > 0 && (

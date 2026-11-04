@@ -98,7 +98,7 @@ const PersonSøk: React.FC = () => {
 
     return (
         <div className={styles.container}>
-            <form role="search" onSubmit={søk}>
+            <form autoComplete="off" role="search" onSubmit={søk}>
                 <Search
                     variant="simple"
                     label="Søk etter fagsak for en person"

@@ -163,6 +163,7 @@ export const RegistrerKjørelisteForm: FC<{
                                 ))}
                             </VStack>
                             <Textarea
+                                autoComplete="off"
                                 label="Begrunnelse"
                                 description="Hvorfor fylles kjøreliste inn av saksbehandler?"
                                 size="small"

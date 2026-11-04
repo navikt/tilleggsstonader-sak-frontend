@@ -81,6 +81,7 @@ const TaAvVentModal: React.FC<{
         >
             <FlexColumn>
                 <Textarea
+                    autoComplete="off"
                     label="Kommentar (valgfri)"
                     description="Forklar gjerne hvorfor saken tas av vent."
                     value={kommentar}

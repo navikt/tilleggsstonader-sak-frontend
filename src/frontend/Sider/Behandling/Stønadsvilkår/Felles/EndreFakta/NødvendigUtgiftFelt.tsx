@@ -57,6 +57,7 @@ export const NødvendigUtgiftFelt: React.FC<Props> = ({
 
             {nødvendigUtgift?.erUtgiftenNødvendig === 'NEI' && (
                 <Textarea
+                    autoComplete="off"
                     label="Hvorfor vurderes ikke hele eller deler av utgiften som nødvendig?"
                     size="small"
                     error={feilBegrunnelse}

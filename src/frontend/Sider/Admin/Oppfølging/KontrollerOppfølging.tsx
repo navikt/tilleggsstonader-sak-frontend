@@ -74,6 +74,7 @@ export const KontrollerOppfølging = ({
                 ))}
             </RadioGroup>
             <Textarea
+                autoComplete="off"
                 label={'Kommentar'}
                 size={'small'}
                 style={{ width: '15rem' }}

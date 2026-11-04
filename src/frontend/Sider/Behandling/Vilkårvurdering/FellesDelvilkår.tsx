@@ -85,6 +85,7 @@ export const FellesDelvilkår: FC<Props> = ({
             </RadioGroup>
             {begrunnelseType !== BegrunnelseRegel.UTEN && (
                 <Textarea
+                    autoComplete="off"
                     label={lagBegrunnelsestekst(begrunnelseType)}
                     resize
                     size="small"

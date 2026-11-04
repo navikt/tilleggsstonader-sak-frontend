@@ -81,6 +81,7 @@ export const OpphørVedtak: React.FC<{
                 ))}
             </CheckboxGroup>
             <Textarea
+                autoComplete="off"
                 label="Begrunnelse til internt bruk (obligatorisk)"
                 value={begrunnelse}
                 onChange={(e) => {

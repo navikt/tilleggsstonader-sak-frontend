@@ -95,6 +95,7 @@ export const EndreFormkravVurderinger: React.FC<IProps> = ({
 
     return (
         <form
+            autoComplete="off"
             onSubmit={(event) => {
                 event.preventDefault();
                 event.stopPropagation();

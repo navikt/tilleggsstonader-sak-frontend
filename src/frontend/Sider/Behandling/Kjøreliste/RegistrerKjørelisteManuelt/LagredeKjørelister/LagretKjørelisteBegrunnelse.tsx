@@ -20,6 +20,7 @@ export const LagretKjørelisteBegrunnelse: FC<Props> = ({
     if (redigerer) {
         return (
             <Textarea
+                autoComplete="off"
                 style={{ width: '900px' }}
                 label="Begrunnelse for manuell registrering"
                 value={begrunnelseInput}

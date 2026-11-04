@@ -11,6 +11,7 @@ export const SpesifikasjonAvUtgift: React.FC<{
 }> = ({ value, error, onChange, pakrevd, beskrivelse }) => (
     <VStack gap="space-4">
         <Textarea
+            autoComplete="off"
             label={`Spesifikasjon av utgift (${pakrevd ? 'obligatorisk' : 'valgfritt'})`}
             size="small"
             error={error}

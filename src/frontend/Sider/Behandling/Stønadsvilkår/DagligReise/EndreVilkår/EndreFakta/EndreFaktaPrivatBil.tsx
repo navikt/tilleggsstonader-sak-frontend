@@ -187,6 +187,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                             </FeilmeldingMaksBredde>
                             <FeilmeldingMaksBredde $maxWidth={170}>
                                 <TextField
+                                    autoComplete="off"
                                     label={index === 0 ? 'Reisedager pr uke' : ''}
                                     size="small"
                                     error={feilmeldinger?.[index]?.reisedagerPerUke}
@@ -206,6 +207,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                             </FeilmeldingMaksBredde>
                             <FeilmeldingMaksBredde $maxWidth={170}>
                                 <TextField
+                                    autoComplete="off"
                                     label={index === 0 ? 'Bompenger per dag' : ''}
                                     size="small"
                                     error={feilmeldinger?.[index]?.bompengerPerDag}
@@ -225,6 +227,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                             </FeilmeldingMaksBredde>
                             <FeilmeldingMaksBredde $maxWidth={170}>
                                 <TextField
+                                    autoComplete="off"
                                     label={index === 0 ? 'Fergekostnad per dag' : ''}
                                     size="small"
                                     error={feilmeldinger?.[index]?.fergePerDag}
@@ -276,6 +279,7 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
             <HStack gap="space-16">
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
+                        autoComplete="off"
                         label={'Reiseavstand en vei (km)'}
                         size="small"
                         error={feilmeldinger?.[0]?.reiseavstandEnVei}

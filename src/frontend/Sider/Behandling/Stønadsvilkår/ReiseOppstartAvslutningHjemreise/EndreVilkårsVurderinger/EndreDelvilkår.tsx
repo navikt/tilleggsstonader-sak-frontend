@@ -99,6 +99,7 @@ export const EndreDelvilkår: FC<Props> = ({
             </RadioGroup>
             {begrunnelseType !== BegrunnelseRegel.UTEN && (
                 <Textarea
+                    autoComplete="off"
                     label={begrunnelseLabel}
                     resize
                     size="small"
