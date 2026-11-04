@@ -13,7 +13,7 @@ export interface FeilmeldingerFlytting {
     nødvendigUtgift?: string;
     begrunnelseNødvendigUtgift?: string;
     erUtgifterDokumentert?: string;
-    begrunnelseErUtgifterDokumentert?: string;
+    begrunnelseDokumenterteUtgifter?: string;
 }
 
 interface FaktaFlyttingSkjema {
@@ -21,7 +21,7 @@ interface FaktaFlyttingSkjema {
     tilbud?: { navn: string; pris: string }[];
     nødvendigUtgift?: NødvendigUtgift;
     erUtgifterDokumentert?: string;
-    begrunnelseErUtgifterDokumentert?: string;
+    begrunnelseDokumenterteUtgifter?: string;
 }
 
 export function validerFlytting(
@@ -80,9 +80,9 @@ export function validerFlytting(
         }
         if (
             fakta.erUtgifterDokumentert === 'JA' &&
-            !fakta.begrunnelseErUtgifterDokumentert?.trim()
+            !fakta.begrunnelseDokumenterteUtgifter?.trim()
         ) {
-            feilmeldinger.begrunnelseErUtgifterDokumentert =
+            feilmeldinger.begrunnelseDokumenterteUtgifter =
                 'Du må begrunne hvorfor utgiften er dokumentert og skal utbetales';
         }
 

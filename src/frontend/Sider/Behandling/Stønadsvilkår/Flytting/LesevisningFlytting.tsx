@@ -119,11 +119,11 @@ export const FlyttingLesevisning: React.FC<Props> = ({
     </ResultatOgStatusKort>
 );
 
-const ErUtgifterDokumentert: React.FC<{ erUtgifterDokumentert: DokumenterteUtgifter }> = ({
-    erUtgifterDokumentert,
+const LesevisningDokumenterteUtgifter: React.FC<{ dokumenterteUtgifter: DokumenterteUtgifter }> = ({
+    dokumenterteUtgifter,
 }) => {
-    const { erUtgifterDokumentert: svar, begrunnelse } = erUtgifterDokumentert;
-    const erDokumentert = svar === 'JA';
+    const { erUtgifterDokumentert, begrunnelse } = dokumenterteUtgifter;
+    const erDokumentert = erUtgifterDokumentert === 'JA';
     return (
         <VStack gap="space-8" marginBlock="space-8 space-0">
             <HStack justify="space-between" align="center" gap="space-12" wrap={false}>
@@ -190,7 +190,7 @@ const LesevisningFlyttingFlyttebyrå: React.FC<{
                 ))}
             </HStack>
             <LesevisningNødvendigUtgift nødvendigUtgift={fakta.nødvendigUtgift} />
-            <ErUtgifterDokumentert erUtgifterDokumentert={fakta.dokumenterteUtgifter} />
+            <LesevisningDokumenterteUtgifter dokumenterteUtgifter={fakta.dokumenterteUtgifter} />
         </VStack>
     );
 };
@@ -226,7 +226,7 @@ const LesevisningFlyttingPrivatBil: React.FC<{
                 )
             )}
             <LesevisningNødvendigUtgift nødvendigUtgift={fakta.nødvendigUtgift} />
-            <ErUtgifterDokumentert erUtgifterDokumentert={fakta.dokumenterteUtgifter} />
+            <LesevisningDokumenterteUtgifter dokumenterteUtgifter={fakta.dokumenterteUtgifter} />
         </VStack>
     );
 };

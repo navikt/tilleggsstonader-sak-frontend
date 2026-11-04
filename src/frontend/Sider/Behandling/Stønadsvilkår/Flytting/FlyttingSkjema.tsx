@@ -51,7 +51,7 @@ interface FaktaSkjema {
     adresse: string;
     tilbud: { navn: string; pris: string }[];
     erUtgifterDokumentert: DokumenterteUtgifter['erUtgifterDokumentert'] | undefined;
-    begrunnelseErUtgifterDokumentert: string;
+    begrunnelseDokumenterteUtgifter: string;
     nødvendigUtgift: NødvendigUtgift | undefined;
     avstandEnVei: string;
     henger: string;
@@ -77,7 +77,7 @@ const tommeFakta: FaktaSkjema = {
         { navn: '', pris: '' },
     ],
     erUtgifterDokumentert: undefined,
-    begrunnelseErUtgifterDokumentert: '',
+    begrunnelseDokumenterteUtgifter: '',
     nødvendigUtgift: undefined,
     avstandEnVei: '',
     henger: '',
@@ -119,7 +119,7 @@ function tilFaktaSkjema(fakta?: FaktaFlytting): FaktaSkjema {
                 pris: tilbud.pris?.toString() ?? '',
             })),
             erUtgifterDokumentert: fakta.dokumenterteUtgifter.erUtgifterDokumentert,
-            begrunnelseErUtgifterDokumentert: fakta.dokumenterteUtgifter.begrunnelse ?? '',
+            begrunnelseDokumenterteUtgifter: fakta.dokumenterteUtgifter.begrunnelse ?? '',
             nødvendigUtgift: fakta.nødvendigUtgift,
         };
     }
@@ -134,7 +134,7 @@ function tilFaktaSkjema(fakta?: FaktaFlytting): FaktaSkjema {
             parkering: fakta.parkering?.toString() ?? '',
             annet: fakta.annet?.toString() ?? '',
             erUtgifterDokumentert: fakta.dokumenterteUtgifter.erUtgifterDokumentert,
-            begrunnelseErUtgifterDokumentert: fakta.dokumenterteUtgifter.begrunnelse ?? '',
+            begrunnelseDokumenterteUtgifter: fakta.dokumenterteUtgifter.begrunnelse ?? '',
             nødvendigUtgift: fakta.nødvendigUtgift,
         };
     }
@@ -197,7 +197,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                 nødvendigUtgift: undefined,
                 begrunnelseNødvendigUtgift: undefined,
                 erUtgifterDokumentert: undefined,
-                begrunnelseErUtgifterDokumentert: undefined,
+                begrunnelseDokumenterteUtgifter: undefined,
             };
         });
         const skalNullstilleFlyttefakta =
@@ -258,9 +258,9 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
         if (skjema.erUtgifterDokumentert === undefined) {
             return;
         }
-        const erUtgifterDokumentert = {
+        const dokumenterteUtgifter = {
             erUtgifterDokumentert: skjema.erUtgifterDokumentert,
-            begrunnelse: skjema.begrunnelseErUtgifterDokumentert.trim() || null,
+            begrunnelse: skjema.begrunnelseDokumenterteUtgifter.trim() || null,
         };
 
         if (skjema.type === 'FLYTTING_FLYTTEBYRÅ') {
@@ -271,7 +271,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                     navn: tilbud.navn.trim() || null,
                     pris: tallEllerNull(tilbud.pris),
                 })),
-                dokumenterteUtgifter: erUtgifterDokumentert,
+                dokumenterteUtgifter,
                 nødvendigUtgift,
             };
         }
@@ -285,7 +285,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
             ferge: tallEllerNull(skjema.ferge),
             parkering: tallEllerNull(skjema.parkering),
             annet: tallEllerNull(skjema.annet),
-            dokumenterteUtgifter: erUtgifterDokumentert,
+            dokumenterteUtgifter,
             nødvendigUtgift,
         };
     }
@@ -562,7 +562,7 @@ const EndreFaktaFlyttebyrå: React.FC<{
                 );
             })}
             <Skillelinje />
-            <ErUtgifterDokumentertFelt
+            <DokumenterteUtgifterFelt
                 beskrivelse="Det kan bare utbetales stønad for dokumenterte utgifter, for eksempel faktura eller kvittering som viser at utgifter er pådratt eller betalt. Pristilbud, anbud og anslag over framtidige utgifter er ikke tilstrekkelig dokumentasjon."
                 fakta={fakta}
                 settFakta={settFakta}
@@ -628,7 +628,7 @@ const EndreFaktaFlytteSelv: React.FC<{
                 )}
             </HStack>
             <Skillelinje />
-            <ErUtgifterDokumentertFelt
+            <DokumenterteUtgifterFelt
                 beskrivelse="Det kan bare utbetales stønad for dokumenterte utgifter, for eksempel faktura eller kvittering som viser at utgifter er pådratt eller betalt. Beregninger og anslag over framtidige utgifter er ikke tilstrekkelig dokumentasjon."
                 fakta={fakta}
                 settFakta={settFakta}
@@ -639,7 +639,7 @@ const EndreFaktaFlytteSelv: React.FC<{
     );
 };
 
-const ErUtgifterDokumentertFelt: React.FC<{
+const DokumenterteUtgifterFelt: React.FC<{
     beskrivelse: string;
     fakta: FaktaSkjema;
     settFakta: React.Dispatch<React.SetStateAction<FaktaSkjema>>;
@@ -656,9 +656,9 @@ const ErUtgifterDokumentertFelt: React.FC<{
                 { svarId: SvarJaNei.NEI, begrunnelseType: BegrunnelseRegel.VALGFRI },
             ]}
             svar={fakta.erUtgifterDokumentert}
-            begrunnelse={fakta.begrunnelseErUtgifterDokumentert}
+            begrunnelse={fakta.begrunnelseDokumenterteUtgifter}
             feilmeldingSvar={feilmeldinger.erUtgifterDokumentert}
-            feilmeldingBegrunnelse={feilmeldinger.begrunnelseErUtgifterDokumentert}
+            feilmeldingBegrunnelse={feilmeldinger.begrunnelseDokumenterteUtgifter}
             oppdaterSvar={(nyttSvar) => {
                 if (!erSvarJaNei(nyttSvar)) {
                     return;
@@ -670,17 +670,17 @@ const ErUtgifterDokumentertFelt: React.FC<{
                 settFeilmeldinger((forrige) => ({
                     ...forrige,
                     erUtgifterDokumentert: undefined,
-                    begrunnelseErUtgifterDokumentert: undefined,
+                    begrunnelseDokumenterteUtgifter: undefined,
                 }));
             }}
             oppdaterBegrunnelse={(begrunnelse) => {
                 settFakta((forrige) => ({
                     ...forrige,
-                    begrunnelseErUtgifterDokumentert: begrunnelse,
+                    begrunnelseDokumenterteUtgifter: begrunnelse,
                 }));
                 settFeilmeldinger((forrige) => ({
                     ...forrige,
-                    begrunnelseErUtgifterDokumentert: undefined,
+                    begrunnelseDokumenterteUtgifter: undefined,
                 }));
             }}
         />
