@@ -6,6 +6,7 @@ import { MålgruppeVurderinger } from '../../typer/vilkårperiode/målgruppe';
 import {
     aldersvilkårTilTekst,
     dekketAvAnnetRegelverkSvarTilTekst,
+    lønnetSvarTilTekst,
     medlemskapSvarTilTekst,
     mottarSykepengerForFulltidsstillingSvarTilTekst,
 } from '../../Vilkårperioder/VilkårperiodeKort/tekstmapping';
@@ -37,6 +38,9 @@ const FaktaOgDelvilkårVisning: React.FC<{
                         }
                     </Detail>
                 )}
+            {vurderinger.lønnet?.svar && (
+                <Detail>{lønnetSvarTilTekst[vurderinger.lønnet.svar]}</Detail>
+            )}
             {vurderinger.aldersvilkår?.svar && (
                 <Detail>{aldersvilkårTilTekst[vurderinger.aldersvilkår.svar]}</Detail>
             )}

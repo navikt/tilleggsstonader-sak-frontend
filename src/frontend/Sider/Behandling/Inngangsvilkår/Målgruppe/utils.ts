@@ -25,10 +25,11 @@ import {
 import { BegrunnelseGrunner } from '../Vilkårperioder/Begrunnelse/utils';
 
 export const nyMålgruppe = (
+    stønadstype: Stønadstype,
     registrertYtelsePeriode?: YtelseGrunnlagPeriode
 ): EndreMålgruppeForm => {
     return registrertYtelsePeriode
-        ? nyMålgruppeFraRegister(registrertYtelsePeriode)
+        ? nyMålgruppeFraRegister(stønadstype, registrertYtelsePeriode)
         : tomMålgruppeForm();
 };
 
@@ -41,6 +42,7 @@ export const mapEksisterendeMålgruppe = (eksisterendeMålgruppe: Målgruppe): E
         svarMottarSykepengerForFulltidsstilling: nullstillGammelManglerData(
             eksisterendeMålgruppe.faktaOgVurderinger.mottarSykepengerForFulltidsstilling?.svar
         ),
+        svarLønnet: eksisterendeMålgruppe.faktaOgVurderinger.lønnet?.svar,
     },
 });
 
@@ -58,6 +60,7 @@ const nullstillGammelManglerData = (
 };
 
 const nyMålgruppeFraRegister = (
+    stønadstype: Stønadstype,
     registrertYtelsePeriode: YtelseGrunnlagPeriode
 ): EndreMålgruppeForm => {
     const type = typeRegisterYtelseTilMålgruppeType[registrertYtelsePeriode.type];
@@ -65,7 +68,7 @@ const nyMålgruppeFraRegister = (
         type: type,
         fom: registrertYtelsePeriode.fom,
         tom: registrertYtelsePeriode.tom || '',
-        vurderinger: resetVurderinger(type, tomVurderingerMålgruppe),
+        vurderinger: resetVurderinger(stønadstype, type, tomVurderingerMålgruppe),
     };
 };
 
@@ -82,6 +85,7 @@ const tomVurderingerMålgruppe: SvarMålgruppe = {
     svarMedlemskap: undefined,
     svarUtgifterDekketAvAnnetRegelverk: undefined,
     svarMottarSykepengerForFulltidsstilling: undefined,
+    svarLønnet: undefined,
 };
 
 export const målgrupperHvorMedlemskapMåVurderes = [
@@ -105,6 +109,21 @@ export const skalVurdereMottarSykepengerForFulltidsstilling = (
     stønadstype: Stønadstype
 ) => stønadstype !== Stønadstype.LÆREMIDLER && type === MålgruppeType.NEDSATT_ARBEIDSEVNE;
 
+const målgrupperHvorLønnetMåVurderesForFlyttingTso = [
+    MålgruppeType.AAP,
+    MålgruppeType.UFØRETRYGD,
+    MålgruppeType.NEDSATT_ARBEIDSEVNE,
+    MålgruppeType.AKTIVITETSPENGER,
+];
+
+/**
+ * Aktivitet vurderes ikke for flytting TSO. Lønn i tiltaket vurderes derfor på målgruppen.
+ */
+export const skalVurdereLønnetForMålgruppe = (type: MålgruppeType | '', stønadstype: Stønadstype) =>
+    stønadstype === Stønadstype.FLYTTING_TSO &&
+    type !== '' &&
+    målgrupperHvorLønnetMåVurderesForFlyttingTso.includes(type);
+
 export const resettMålgruppe = (
     stønadstype: Stønadstype,
     nyType: MålgruppeType,
@@ -122,7 +141,7 @@ export const resettMålgruppe = (
         type: nyType,
         fom: fom,
         tom: tom,
-        vurderinger: resetVurderinger(nyType, eksisterendeForm.vurderinger),
+        vurderinger: resetVurderinger(stønadstype, nyType, eksisterendeForm.vurderinger),
     };
 };
 
@@ -162,6 +181,7 @@ const resetPeriode = (
 };
 
 const resetVurderinger = (
+    stønadstype: Stønadstype,
     type: MålgruppeType,
     eksisterendeVurderinger: SvarMålgruppe
 ): SvarMålgruppe => ({
@@ -171,6 +191,9 @@ const resetVurderinger = (
         : undefined,
     svarUtgifterDekketAvAnnetRegelverk: skalVurdereDekkesAvAnnetRegelverk(type)
         ? dekkesAvAnnetRegelverkAutomatiskNeiHvisMangler(eksisterendeVurderinger)
+        : undefined,
+    svarLønnet: skalVurdereLønnetForMålgruppe(type, stønadstype)
+        ? eksisterendeVurderinger.svarLønnet
         : undefined,
 });
 
@@ -200,6 +223,10 @@ export const finnBegrunnelseGrunnerMålgruppe = (
         begrunnelseGrunner.push(BegrunnelseGrunner.SYKEPENGER_100_PROSENT);
     }
 
+    if (vurderinger.svarLønnet === SvarJaNei.JA) {
+        begrunnelseGrunner.push(BegrunnelseGrunner.LØNNET);
+    }
+
     if (vurderinger.svarUtgifterDekketAvAnnetRegelverk === SvarJaNei.JA) {
         begrunnelseGrunner.push(BegrunnelseGrunner.DEKKET_AV_ANNET_REGELVERK);
     }
@@ -224,6 +251,7 @@ export const mapFaktaOgSvarTilRequest = (
         målgruppeForm.vurderinger.svarUtgifterDekketAvAnnetRegelverk,
     svarMottarSykepengerForFulltidsstilling:
         målgruppeForm.vurderinger.svarMottarSykepengerForFulltidsstilling,
+    svarLønnet: målgruppeForm.vurderinger.svarLønnet,
 });
 
 const hentEkstraInformasjonYtelse = (periode: YtelseGrunnlagPeriode): string => {
