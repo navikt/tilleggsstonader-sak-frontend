@@ -13,13 +13,15 @@ export interface FeilmeldingerFlytting {
     nødvendigUtgift?: string;
     begrunnelseNødvendigUtgift?: string;
     erUtgifterDokumentert?: string;
+    begrunnelseDokumenterteUtgifter?: string;
 }
 
 interface FaktaFlyttingSkjema {
     type: TypeVilkårFaktaFlytting;
     tilbud?: { navn: string; pris: string }[];
     nødvendigUtgift?: NødvendigUtgift;
-    erUtgifterDokumentert?: boolean;
+    erUtgifterDokumentert?: string;
+    begrunnelseDokumenterteUtgifter?: string;
 }
 
 export function validerFlytting(
@@ -75,6 +77,13 @@ export function validerFlytting(
 
         if (fakta.erUtgifterDokumentert === undefined) {
             feilmeldinger.erUtgifterDokumentert = 'Du må si om betaling er dokumentert eller ikke';
+        }
+        if (
+            fakta.erUtgifterDokumentert === 'JA' &&
+            !fakta.begrunnelseDokumenterteUtgifter?.trim()
+        ) {
+            feilmeldinger.begrunnelseDokumenterteUtgifter =
+                'Du må begrunne hvorfor utgiften er dokumentert og skal utbetales';
         }
 
         if (fakta.type === 'FLYTTING_FLYTTEBYRÅ') {

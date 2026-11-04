@@ -1,15 +1,23 @@
 import React from 'react';
 
-import { CarIcon, PencilIcon, TruckIcon } from '@navikt/aksel-icons';
+import {
+    CarIcon,
+    CheckmarkCircleFillIcon,
+    PencilIcon,
+    TruckIcon,
+    XMarkOctagonFillIcon,
+} from '@navikt/aksel-icons';
 import { BodyShort, HGrid, HStack, Label, Tag, VStack } from '@navikt/ds-react';
 
 import {
+    DokumenterteUtgifter,
     FaktaFlyttingFlyttebyrå,
     FaktaFlyttingKjøreSelv,
     flyttingFaktaFeltTilTekst,
 } from './typer/faktaFlytting';
 import { VilkårFlytting } from './typer/vilkårFlytting';
 import { tilDelvilkår, tilVilkårBase } from './utils';
+import begrunnelseStyles from '../../../../komponenter/Begrunnelse.module.css';
 import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { ResultatOgStatusKort } from '../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Skillelinje } from '../../../../komponenter/Skillelinje';
@@ -111,6 +119,41 @@ export const FlyttingLesevisning: React.FC<Props> = ({
     </ResultatOgStatusKort>
 );
 
+const LesevisningDokumenterteUtgifter: React.FC<{ dokumenterteUtgifter: DokumenterteUtgifter }> = ({
+    dokumenterteUtgifter,
+}) => {
+    const { erUtgifterDokumentert, begrunnelse } = dokumenterteUtgifter;
+    const erDokumentert = erUtgifterDokumentert === 'JA';
+    return (
+        <VStack gap="space-8" marginBlock="space-8 space-0">
+            <HStack justify="space-between" align="center" gap="space-12" wrap={false}>
+                <BodyShort size="small" weight="semibold">
+                    Er utgiften dokumentert og skal utbetales?
+                </BodyShort>
+                <Tag
+                    size="small"
+                    variant="moderate"
+                    data-color={erDokumentert ? 'success' : 'warning'}
+                    icon={
+                        erDokumentert ? (
+                            <CheckmarkCircleFillIcon aria-hidden />
+                        ) : (
+                            <XMarkOctagonFillIcon aria-hidden />
+                        )
+                    }
+                >
+                    {erDokumentert ? 'Ja' : 'Nei'}
+                </Tag>
+            </HStack>
+            {begrunnelse && (
+                <BodyShort size="small" className={begrunnelseStyles.bevarLinjeskift}>
+                    {begrunnelse}
+                </BodyShort>
+            )}
+        </VStack>
+    );
+};
+
 const LesevisningFaktaFlytting: React.FC<{ vilkår: VilkårFlytting }> = ({ vilkår }) => {
     const fakta = vilkår.fakta;
 
@@ -121,9 +164,6 @@ const LesevisningFaktaFlytting: React.FC<{ vilkår: VilkårFlytting }> = ({ vilk
             )}
             {fakta.type === 'FLYTTING_FLYTTE_SELV' && (
                 <LesevisningFlyttingPrivatBil fakta={fakta} />
-            )}
-            {fakta.type !== 'FLYTTING_UBESTEMT' && (
-                <LesevisningNødvendigUtgift nødvendigUtgift={fakta.nødvendigUtgift} />
             )}
         </VStack>
     );
@@ -149,9 +189,8 @@ const LesevisningFlyttingFlyttebyrå: React.FC<{
                     </VStack>
                 ))}
             </HStack>
-            {fakta.erUtgifterDokumentert && (
-                <BodyShort size="small">Betaling for flyttebyrå er dokumentert</BodyShort>
-            )}
+            <LesevisningNødvendigUtgift nødvendigUtgift={fakta.nødvendigUtgift} />
+            <LesevisningDokumenterteUtgifter dokumenterteUtgifter={fakta.dokumenterteUtgifter} />
         </VStack>
     );
 };
@@ -186,11 +225,8 @@ const LesevisningFlyttingPrivatBil: React.FC<{
                     </HStack>
                 )
             )}
-            <BodyShort size="small">
-                {fakta.erUtgifterDokumentert
-                    ? 'Utgiftene er dokumentert'
-                    : 'Utgiftene er ikke dokumentert'}
-            </BodyShort>
+            <LesevisningNødvendigUtgift nødvendigUtgift={fakta.nødvendigUtgift} />
+            <LesevisningDokumenterteUtgifter dokumenterteUtgifter={fakta.dokumenterteUtgifter} />
         </VStack>
     );
 };

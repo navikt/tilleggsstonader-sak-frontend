@@ -1,13 +1,18 @@
-import type { NødvendigUtgift } from '../../../../../typer/nødvendigUtgift';
+import type { NødvendigUtgift, SvarJaNei } from '../../../../../typer/nødvendigUtgift';
 
 export type TypeVilkårFaktaFlytting =
     'FLYTTING_FLYTTEBYRÅ' | 'FLYTTING_FLYTTE_SELV' | 'FLYTTING_UBESTEMT';
+
+export interface DokumenterteUtgifter {
+    erUtgifterDokumentert: SvarJaNei;
+    begrunnelse: string | null;
+}
 
 export interface FaktaFlyttingFlyttebyrå {
     type: 'FLYTTING_FLYTTEBYRÅ';
     adresse: string | null;
     tilbud: FaktaFlyttingTilbud[];
-    erUtgifterDokumentert: boolean;
+    dokumenterteUtgifter: DokumenterteUtgifter;
     nødvendigUtgift: NødvendigUtgift;
 }
 
@@ -26,7 +31,7 @@ export interface FaktaFlyttingKjøreSelv {
     ferge: number | null;
     parkering: number | null;
     annet: number | null;
-    erUtgifterDokumentert: boolean;
+    dokumenterteUtgifter: DokumenterteUtgifter;
     nødvendigUtgift: NødvendigUtgift;
 }
 
