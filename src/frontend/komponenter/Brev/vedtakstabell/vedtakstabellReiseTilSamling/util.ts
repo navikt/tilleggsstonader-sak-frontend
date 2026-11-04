@@ -4,6 +4,7 @@ import {
     BeregningResultatReiseTilSamling,
     BeregningsresultatOffentligTransport,
     BeregningsresultatPrivatBil,
+    BeregningsresultatDrosje,
 } from '../../../../typer/vedtak/vedtakReiseTilSamling';
 import { kronerMedTusenSkilleEllerStrek } from '../../../../utils/tekstformatering';
 
@@ -23,6 +24,7 @@ export const bredder = {
             `calc(100% - ${stønadsbeløpKolonneBredde})`,
             stønadsbeløpKolonneBredde,
         ],
+        drosje: [`calc(100% - ${stønadsbeløpKolonneBredde})`, stønadsbeløpKolonneBredde],
         privatBil: ['20%', '18%', '20%', '23.67%', stønadsbeløpKolonneBredde],
     },
 };
@@ -33,6 +35,7 @@ export interface Samlingsgruppe {
     nøkkel: string;
     offentligTransport: BeregningsresultatOffentligTransport[];
     privatBil: BeregningsresultatPrivatBil[];
+    drosje: BeregningsresultatDrosje[];
 }
 
 export function harBeløp(verdi: number | undefined): verdi is number {
@@ -64,8 +67,9 @@ export function summerBeløpForGruppe(gruppe: Samlingsgruppe): number {
         0
     );
     const beløpPrivatBil = gruppe.privatBil.reduce((sum, samling) => sum + samling.beløp, 0);
+    const beløpDrosje = gruppe.drosje.reduce((sum, samling) => sum + samling.beløp, 0);
 
-    return beløpOffentligTransport + beløpPrivatBil;
+    return beløpOffentligTransport + beløpPrivatBil + beløpDrosje;
 }
 
 function lagNøkkel(fom: string, tom: string, adresse: string): string {
@@ -103,17 +107,30 @@ export function fjernPerioderFraTidligereVedtakOgGrupperPåPeriodeOgAdresse(
             grupper.set(nøkkel, gruppe);
         });
 
+    beregningsresultat.drosje
+        ?.filter((samling) => !samling.fraTidligereVedtak)
+        .forEach((samling) => {
+            const adresse = samling.adresse ?? '-';
+            const nøkkel = lagNøkkel(samling.fom, samling.tom, adresse);
+            const gruppe = grupper.get(nøkkel) ?? nyGruppe(nøkkel);
+            gruppe.drosje.push(samling);
+            grupper.set(nøkkel, gruppe);
+        });
+
     return Array.from(grupper.values()).sort((a, b) =>
         fomForGruppe(a).localeCompare(fomForGruppe(b))
     );
 }
 
 function fomForGruppe(gruppe: Samlingsgruppe): string {
-    return gruppe.offentligTransport[0]?.fom ?? gruppe.privatBil[0]?.fom ?? '';
+    return (
+        gruppe.offentligTransport[0]?.fom ?? gruppe.privatBil[0]?.fom ?? gruppe.drosje[0]?.fom ?? ''
+    );
 }
 
 const nyGruppe = (nøkkel: string): Samlingsgruppe => ({
     nøkkel,
     offentligTransport: [],
     privatBil: [],
+    drosje: [],
 });
