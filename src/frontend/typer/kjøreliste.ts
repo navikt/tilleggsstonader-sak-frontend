@@ -22,7 +22,7 @@ export interface UkeVurdering {
     avklartUkeId?: string; // null hvis uke ikke er avklart
     dager: Dag[];
     avklartKjørtUkeStatus: AvklartKjørtUkeStatus | null;
-    skalBehandlesManuelt: boolean;
+    skalBehandlesManuelt: boolean | null;
     begrunnelseManuellBehandling: string | null;
 }
 
