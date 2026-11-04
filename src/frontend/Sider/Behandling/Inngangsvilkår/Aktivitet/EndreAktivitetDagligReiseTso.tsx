@@ -161,6 +161,7 @@ export const EndreAktivitetDagligReiseTso: React.FC<{
                     {form.type !== AktivitetType.INGEN_AKTIVITET && (
                         <FeilmeldingMaksBredde $maxWidth={140}>
                             <TextField
+                                autoComplete="off"
                                 label="Aktivitetsdager"
                                 value={
                                     harTallverdi(form.aktivitetsdager) ? form.aktivitetsdager : ''

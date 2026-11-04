@@ -8,5 +8,5 @@ import { classNames } from '../../utils/classNames';
 type TextFieldProps = React.ComponentProps<typeof TextField>;
 
 export const Søkefelt: React.FC<TextFieldProps> = ({ className, ...rest }) => (
-    <TextField {...rest} className={classNames([styles.søkefelt, className])} />
+    <TextField autoComplete="off" {...rest} className={classNames([styles.søkefelt, className])} />
 );

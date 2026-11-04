@@ -86,6 +86,7 @@ export const HenleggModal: FC<{ behandling: Klagebehandling }> = ({ behandling }
                         </Radio>
                     </RadioGroup>
                     <Textarea
+                        autoComplete="off"
                         label={'Begrunnelse for henleggelse'}
                         value={henlagtBegrunnelse}
                         onChange={(e) => settHenlagtBegrunnelse(e.target.value)}

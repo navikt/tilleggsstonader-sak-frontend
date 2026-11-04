@@ -138,6 +138,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                         />
                                         <div className={styles.fritekstFeltWrapper}>
                                             <Textarea
+                                                autoComplete="off"
                                                 label="Begrunnelse for omgjøring (internt notat)"
                                                 value={oppdatertVurdering.begrunnelseOmgjøring}
                                                 onChange={(e) => {
@@ -165,6 +166,7 @@ export const Vurdering: React.FC<{ behandlingId: string }> = ({ behandlingId }) 
                                                 />
                                                 <div className={styles.fritekstFeltWrapper}>
                                                     <Textarea
+                                                        autoComplete="off"
                                                         label="Innstilling til Nav Klageinstans (kommer med i brev til bruker)"
                                                         value={
                                                             oppdatertVurdering.innstillingKlageinstans ||

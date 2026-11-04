@@ -206,7 +206,7 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
     };
 
     return (
-        <form onSubmit={validerOgLagre}>
+        <form autoComplete="off" onSubmit={validerOgLagre}>
             <ResultatOgStatusKort periode={vilkår} redigeres>
                 <HStack gap="space-16" align="start">
                     <FeilmeldingMaksBredde $maxWidth={200}>

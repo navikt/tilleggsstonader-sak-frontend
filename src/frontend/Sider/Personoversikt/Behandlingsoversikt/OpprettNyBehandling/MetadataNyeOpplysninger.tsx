@@ -68,6 +68,7 @@ const MetadataNyeOpplysninger = ({
                 ))}
             </CheckboxGroup>
             <Textarea
+                autoComplete="off"
                 label={'Beskrivelse (valgfri)'}
                 value={årsakMetadata?.beskrivelse}
                 onChange={(e) => oppdater('beskrivelse', e.target.value)}

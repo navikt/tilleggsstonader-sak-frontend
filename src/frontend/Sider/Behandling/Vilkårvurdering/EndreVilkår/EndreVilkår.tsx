@@ -176,7 +176,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
     };
 
     return (
-        <form onSubmit={validerOgLagreVilkårsvurderinger}>
+        <form autoComplete="off" onSubmit={validerOgLagreVilkårsvurderinger}>
             <ResultatOgStatusKort periode={lagretVilkår} redigeres>
                 <FlexColumn gap={1}>
                     <HStack gap="space-16" align="start">

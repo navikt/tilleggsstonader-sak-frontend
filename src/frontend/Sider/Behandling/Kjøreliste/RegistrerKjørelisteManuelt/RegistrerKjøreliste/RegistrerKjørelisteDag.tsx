@@ -34,6 +34,7 @@ export const RegistrerKjørelisteDag: FC<{
                 {dag.harKjørt ? 'Ja' : 'Nei'}
             </Checkbox>
             <TextField
+                autoComplete="off"
                 value={dag.parkeringsutgift ?? ''}
                 onChange={(e) => oppdaterParkeringsutgift(e.target.value)}
                 size="small"

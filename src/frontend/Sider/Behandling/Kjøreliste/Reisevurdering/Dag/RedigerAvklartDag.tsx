@@ -66,6 +66,7 @@ export const RedigerAvklartDag: FC<{
             )}
 
             <TextField
+                autoComplete="off"
                 label="Parkeringsutgift"
                 hideLabel
                 size="small"
@@ -76,6 +77,7 @@ export const RedigerAvklartDag: FC<{
                 className={styles.maksHøyde}
             />
             <Textarea
+                autoComplete="off"
                 label="Kommentar"
                 hideLabel
                 size="small"

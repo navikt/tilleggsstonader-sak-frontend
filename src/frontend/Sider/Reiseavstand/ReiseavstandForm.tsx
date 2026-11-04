@@ -68,6 +68,7 @@ export const ReiseavstandForm: React.FC<{
         <VStack gap={'space-32'} align={'start'}>
             <VStack gap={'space-16'}>
                 <TextField
+                    autoComplete="off"
                     className={styles.adresseInput}
                     list={'fra-forslag'}
                     label={'Startadresse'}
@@ -85,6 +86,7 @@ export const ReiseavstandForm: React.FC<{
                     ))}
                 </datalist>
                 <TextField
+                    autoComplete="off"
                     className={styles.adresseInput}
                     label={'Tiltaksadresse'}
                     list={'til-forslag'}

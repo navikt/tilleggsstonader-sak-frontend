@@ -15,6 +15,7 @@ export const Begrunnelsesfelt: React.FC<{
     return (
         <>
             <Textarea
+                autoComplete="off"
                 label="Begrunnelse for vedtaksperiode (valgfri)"
                 style={{ width: '600px' }}
                 resize
