@@ -166,7 +166,7 @@ export const OppsummeringReiseOppstartAvslutningHjemreise: React.FC<{
         {behandlingFakta.barnOgSærligeBehov && (
             <BarnOgSærligeBehov fakta={behandlingFakta.barnOgSærligeBehov} />
         )}
-        {behandlingFakta.reiser.length > 0 && (
+        {behandlingFakta.reiser?.length > 0 && (
             <SøknadInfoSeksjon label="Reiser" ikon={<EarthIcon aria-hidden />}>
                 <VStack gap="space-12">
                     {behandlingFakta.reiser.map((reise, index) => (
