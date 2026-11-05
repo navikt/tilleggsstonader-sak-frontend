@@ -2,11 +2,12 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useApp } from '../context/AppContext';
 import { useBehandling } from '../context/BehandlingContext';
+import { vilkårFraAktiviteter } from '../context/VilkårReiseOppstartAvslutningHjemreiseContext/utils';
 import { VilkårDagligReise } from '../Sider/Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
 import { VilkårFlytting } from '../Sider/Behandling/Stønadsvilkår/Flytting/typer/vilkårFlytting';
 import {
     AktivitetMedReiser,
-    VilkårReiseOppstartAvslutningHjemreise,
+    VilkårROAH,
 } from '../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/vilkårReiseOppstartAvslutningHjemreise';
 import { VilkårReiseTilSamling } from '../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/typer/vilkårReiseTilSamling';
 import { Vilkårsvurdering } from '../Sider/Behandling/vilkår';
@@ -110,25 +111,23 @@ export const useHentVilkårReiseTilSamling = (): {
 };
 
 export const useHentVilkårReiseOppstartAvslutningHjemreise = (): {
-    eksisterendeVilkår: Ressurs<VilkårReiseOppstartAvslutningHjemreise[]>;
+    eksisterendeVilkår: Ressurs<VilkårROAH[]>;
 } => {
     const { request } = useApp();
     const { behandling } = useBehandling();
 
     const [eksisterendeVilkår, settEksisterendeVilkår] =
-        useState<Ressurs<VilkårReiseOppstartAvslutningHjemreise[]>>(byggTomRessurs());
+        useState<Ressurs<VilkårROAH[]>>(byggTomRessurs());
 
     const hentEksisterendeVilkår = useCallback(() => {
-        // Backend grupperer reisene per aktivitet fra inngangsvilkår. Vi flater ut til en enkel liste her,
-        // og grupperer på nytt for visning basert på aktivitetene i konteksten (samme aktivitet-data).
+        // Backend grupperer reisene per aktivitet. Vi flater ut til en enkel liste, og grupperer på nytt
+        // for visning basert på aktivitetene i konteksten.
         request<AktivitetMedReiser[], null>(
             `/api/sak/vilkar/reise-oppstart-avslutning-hjemreise/${behandling.id}`,
             'GET'
         ).then((respons) => {
             if (respons.status === RessursStatus.SUKSESS) {
-                settEksisterendeVilkår(
-                    byggRessursSuksess(respons.data.flatMap((aktivitet) => aktivitet.reiser))
-                );
+                settEksisterendeVilkår(byggRessursSuksess(vilkårFraAktiviteter(respons.data)));
             } else {
                 settEksisterendeVilkår(respons);
             }

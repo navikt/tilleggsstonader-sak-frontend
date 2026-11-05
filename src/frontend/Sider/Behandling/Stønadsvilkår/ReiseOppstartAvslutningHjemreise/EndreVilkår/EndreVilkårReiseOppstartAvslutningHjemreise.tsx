@@ -147,6 +147,7 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
             tom: periode.tom,
             aktivitetId: aktivitet.globalId,
             reiseId: reiseId,
+            type: 'REISE',
             typeReiseformål: typeReiseformål as TypeReiseformål,
             svar: svar,
             fakta: fakta,

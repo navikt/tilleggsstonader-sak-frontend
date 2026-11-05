@@ -53,7 +53,7 @@ export const StønadsvilkårReiseOppstartAvslutningHjemreise: React.FC = () => {
 };
 
 const StønadsvilkårInnhold = () => {
-    const { vilkårsett, aktiviteter } = useVilkårReiseOppstartAvslutningHjemreise();
+    const { reiser, aktiviteter } = useVilkårReiseOppstartAvslutningHjemreise();
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
 
     const [redigererId, settRedigererId] = React.useState<string | undefined>(undefined);
@@ -93,7 +93,7 @@ const StønadsvilkårInnhold = () => {
                     </BodyShort>
                 )}
                 {aktiviteterSortert.map((aktivitet: Aktivitet) => {
-                    const reiserForAktivitet = vilkårsett.filter(
+                    const reiserForAktivitet = reiser.filter(
                         (vilkår) => vilkår.aktivitetId === aktivitet.globalId
                     );
                     const nyttVilkårId = `nytt-${aktivitet.globalId}`;
