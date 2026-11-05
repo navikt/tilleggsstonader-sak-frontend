@@ -3,10 +3,11 @@ import React, { useEffect, useId } from 'react';
 import { BriefcaseIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Heading, VStack } from '@navikt/ds-react';
 
-import { NyttVilkårReiseOppstartAvslutningHjemreise } from './EndreVilkår/NyttVilkårReiseOppstartAvslutningHjemreise';
+import { ParaplyvilkårListe } from './Paraplyvilkår/ParaplyvilkårListe';
 import { VisEllerEndreVilkårReiseOppstartAvslutningHjemreise } from './VisEllerEndreVilkårReiseOppstartAvslutningHjemreise';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
+import { useSteg } from '../../../../context/StegContext';
 import {
     useVilkårReiseOppstartAvslutningHjemreise,
     VilkårReiseOppstartAvslutningHjemreiseProvider,
@@ -53,8 +54,11 @@ export const StønadsvilkårReiseOppstartAvslutningHjemreise: React.FC = () => {
 };
 
 const StønadsvilkårInnhold = () => {
-    const { reiser, aktiviteter } = useVilkårReiseOppstartAvslutningHjemreise();
+    const { reiser, aktiviteter, oppdaterVilkår, slettVilkår } =
+        useVilkårReiseOppstartAvslutningHjemreise();
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
+    const { behandling } = useBehandling();
+    const { erStegRedigerbart } = useSteg();
 
     const [redigererId, settRedigererId] = React.useState<string | undefined>(undefined);
 
@@ -94,9 +98,9 @@ const StønadsvilkårInnhold = () => {
                 )}
                 {aktiviteterSortert.map((aktivitet: Aktivitet) => {
                     const reiserForAktivitet = reiser.filter(
-                        (vilkår) => vilkår.aktivitetId === aktivitet.globalId
+                        (vilkår) =>
+                            vilkår.aktivitetId === aktivitet.globalId && !vilkår.parentVilkår
                     );
-                    const nyttVilkårId = `nytt-${aktivitet.globalId}`;
 
                     return (
                         <Box
@@ -123,16 +127,19 @@ const StønadsvilkårInnhold = () => {
                                         }
                                         startRedigering={() => startRedigering(vilkår.id)}
                                         avsluttRedigering={avsluttRedigering}
+                                        lagre={(nyttVilkår) =>
+                                            oppdaterVilkår(vilkår.id, nyttVilkår)
+                                        }
+                                        slett={slettVilkår}
                                     />
                                 ))}
-                                {aktivitet.resultat === VilkårPeriodeResultat.OPPFYLT && (
-                                    <NyttVilkårReiseOppstartAvslutningHjemreise
-                                        aktivitet={aktivitet}
-                                        leggerTilNyttVilkår={redigererId === nyttVilkårId}
-                                        startRedigering={() => startRedigering(nyttVilkårId)}
-                                        avsluttRedigering={avsluttRedigering}
-                                    />
-                                )}
+                                {erStegRedigerbart &&
+                                    aktivitet.resultat === VilkårPeriodeResultat.OPPFYLT && (
+                                        <ParaplyvilkårListe
+                                            key={`${behandling.id}-${aktivitet.globalId}`}
+                                            aktivitet={aktivitet}
+                                        />
+                                    )}
                             </VStack>
                         </Box>
                     );
