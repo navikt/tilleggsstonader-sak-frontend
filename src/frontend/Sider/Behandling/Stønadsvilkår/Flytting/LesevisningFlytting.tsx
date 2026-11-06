@@ -126,13 +126,13 @@ const LesevisningDokumenterteUtgifter: React.FC<{ dokumenterteUtgifter: Dokument
     const erDokumentert = erUtgifterDokumentert === 'JA';
     return (
         <VStack gap="space-8" marginBlock="space-8 space-0">
-            <HStack justify="space-between" align="center" gap="space-12" wrap={false}>
+            <HStack justify="space-between" align="start" gap="space-12" wrap={false}>
                 <BodyShort size="small" weight="semibold">
                     Er utgiften dokumentert og skal utbetales?
                 </BodyShort>
                 <Tag
                     size="small"
-                    variant="moderate"
+                    variant="strong"
                     data-color={erDokumentert ? 'success' : 'warning'}
                     icon={
                         erDokumentert ? (
