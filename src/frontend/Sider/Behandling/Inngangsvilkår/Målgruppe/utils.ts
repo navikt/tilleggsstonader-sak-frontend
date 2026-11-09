@@ -94,15 +94,15 @@ export const målgrupperHvorMedlemskapMåVurderes = [
     MålgruppeType.OMSTILLINGSSTØNAD,
 ];
 
-export const målgruppeErNedsattArbeidsevne = (målgruppeType: MålgruppeType) => {
+export const skalVurdereDekkesAvAnnetRegelverk = (type: MålgruppeType) => {
+    const erFaktiskMålGruppeNedsattArbeidsEvne =
+        målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe[type] ===
+        FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE;
     return (
-        målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe[målgruppeType] ===
-        FaktiskMålgruppe.NEDSATT_ARBEIDSEVNE
+        erFaktiskMålGruppeNedsattArbeidsEvne ||
+        målgruppeTilFaktiskMålgruppeEllerIngenMålgruppe[type] == FaktiskMålgruppe.AKTIVITETSPENGER
     );
 };
-
-export const skalVurdereDekkesAvAnnetRegelverk = (type: MålgruppeType) =>
-    målgruppeErNedsattArbeidsevne(type);
 
 export const skalVurdereMottarSykepengerForFulltidsstilling = (
     type: MålgruppeType,
