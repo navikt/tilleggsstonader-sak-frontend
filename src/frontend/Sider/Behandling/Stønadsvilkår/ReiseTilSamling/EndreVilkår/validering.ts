@@ -6,6 +6,8 @@ import { harVerdi } from '../../../../../utils/utils';
 import {
     erFaktaOffentligTransport,
     erFaktaPrivatBil,
+    erFaktaDrosje,
+    FaktaDrosje,
     FaktaOffentligTransport,
     FaktaPrivatBil,
     FaktaReiseTilSamling,
@@ -41,6 +43,14 @@ export type FeilmeldingerFaktaPrivatBil = {
     begrunnelseNødvendigUtgift?: string;
 };
 
+export type FeilmeldingerFaktaDrosje = {
+    utgifterDrosje?: string;
+    aktivitet?: string;
+    spesifikasjonAvUtgift?: string;
+    nødvendigUtgift?: string;
+    begrunnelseNødvendigUtgift?: string;
+};
+
 type FeilmeldingerNødvendigUtgift = Pick<
     FeilmeldingerFaktaOffentligTransport,
     'nødvendigUtgift' | 'begrunnelseNødvendigUtgift'
@@ -51,7 +61,10 @@ export type FeilmeldingerReiseTilSamling = {
     tom?: string;
     adresse?: string;
     reiseId?: string;
-    fakta?: FeilmeldingerFaktaOffentligTransport | FeilmeldingerFaktaPrivatBil;
+    fakta?:
+        | FeilmeldingerFaktaOffentligTransport
+        | FeilmeldingerFaktaPrivatBil
+        | FeilmeldingerFaktaDrosje;
     begrunnelse?: Partial<Record<RegelIdReiseTilSamling, string>>;
 };
 
@@ -118,7 +131,10 @@ const validerSvar = (
 };
 
 const validerNødvendigUtgift = (
-    nødvendigUtgift: FaktaOffentligTransport['nødvendigUtgift'] | FaktaPrivatBil['nødvendigUtgift']
+    nødvendigUtgift:
+        | FaktaOffentligTransport['nødvendigUtgift']
+        | FaktaPrivatBil['nødvendigUtgift']
+        | FaktaDrosje['nødvendigUtgift']
 ): FeilmeldingerNødvendigUtgift => {
     const feil: FeilmeldingerNødvendigUtgift = {};
     if (!nødvendigUtgift || !erSvarJaNei(nødvendigUtgift.erUtgiftenNødvendig)) {
@@ -200,16 +216,45 @@ const validerFaktaPrivatBil = (
     return feil;
 };
 
+const validerFaktaDrosje = (fakta: FaktaDrosje, gjelderTsr: boolean): FeilmeldingerFaktaDrosje => {
+    const feil: FeilmeldingerFaktaDrosje = {};
+
+    if (!fakta.utgifterDrosje) {
+        feil.utgifterDrosje = 'Mangler utgifter for drosje';
+    }
+    if (!fakta.utgifterDrosje || fakta.utgifterDrosje < 0) {
+        feil.utgifterDrosje = 'Utgifter til drosje må være større enn 0';
+    }
+    if (!harVerdi(fakta.begrunnelse)) {
+        feil.spesifikasjonAvUtgift = 'Mangler spesifikasjon av utgift';
+    }
+
+    Object.assign(feil, validerNødvendigUtgift(fakta.nødvendigUtgift));
+
+    if (gjelderTsr && !fakta.aktivitet?.aktivitetId) {
+        feil.aktivitet = 'Du må velge en aktivitet';
+    }
+
+    return feil;
+};
+
 const validerFakta = (
     fakta: FaktaReiseTilSamling,
     gjelderTsr: boolean
-): FeilmeldingerFaktaOffentligTransport | FeilmeldingerFaktaPrivatBil => {
+):
+    | FeilmeldingerFaktaOffentligTransport
+    | FeilmeldingerFaktaPrivatBil
+    | FeilmeldingerFaktaDrosje => {
     if (erFaktaOffentligTransport(fakta)) {
         return validerFaktaOffentligTransport(fakta, gjelderTsr);
     }
 
     if (erFaktaPrivatBil(fakta)) {
         return validerFaktaPrivatBil(fakta, gjelderTsr);
+    }
+
+    if (erFaktaDrosje(fakta)) {
+        return validerFaktaDrosje(fakta, gjelderTsr);
     }
 
     return {};

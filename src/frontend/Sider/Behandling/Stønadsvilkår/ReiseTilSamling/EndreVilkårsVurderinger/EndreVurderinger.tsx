@@ -184,6 +184,32 @@ export const EndreVurderinger: React.FC<Props> = ({
                     feilmeldinger={feilmeldinger}
                 />
             )}
+            {aktiveVurderinger.get(RegelIdReiseTilSamling.KAN_REISE_MED_DROSJE) && (
+                <EndreDelvilkår
+                    label="Kan bruker benytte drosje?"
+                    regelId={RegelIdReiseTilSamling.KAN_REISE_MED_DROSJE}
+                    vurdering={vurderinger.KAN_REISE_MED_DROSJE}
+                    oppdaterVurdering={oppdaterVurdering}
+                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
+                    svaralternativer={finnSvarMappingForRegel(
+                        RegelIdReiseTilSamling.KAN_REISE_MED_DROSJE
+                    )}
+                    feilmeldinger={feilmeldinger}
+                />
+            )}
+            {aktiveVurderinger.get(RegelIdReiseTilSamling.HAR_DOKUMENTERTE_UTGIFTER_TIL_DROSJE) && (
+                <EndreDelvilkår
+                    label="Har bruker dokumenterte utgifter til drosje?"
+                    regelId={RegelIdReiseTilSamling.HAR_DOKUMENTERTE_UTGIFTER_TIL_DROSJE}
+                    vurdering={vurderinger.HAR_DOKUMENTERTE_UTGIFTER_TIL_DROSJE}
+                    oppdaterVurdering={oppdaterVurdering}
+                    oppdaterBegrunnelseIVurdering={oppdaterBegrunnelse}
+                    svaralternativer={finnSvarMappingForRegel(
+                        RegelIdReiseTilSamling.HAR_DOKUMENTERTE_UTGIFTER_TIL_DROSJE
+                    )}
+                    feilmeldinger={feilmeldinger}
+                />
+            )}
         </VStack>
     );
 };
