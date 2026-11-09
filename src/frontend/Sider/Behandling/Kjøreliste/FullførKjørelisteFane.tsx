@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 
-import { Button, VStack } from '@navikt/ds-react';
+import { Button, Textarea, VStack } from '@navikt/ds-react';
 
 import styles from './FullførKjørelisteFane.module.css';
 import { KjørelisteBrevmeny } from './KjørelisteBrevmeny';
@@ -39,12 +39,14 @@ export const FullførKjørelisteFane: FC = () => {
             );
             return;
         }
-        sendTilBeslutter();
+        sendTilBeslutter(kommentarTilBeslutter);
     };
 
     const erSendTilBeslutterSteg = behandling.steg === Steg.SEND_TIL_BESLUTTER;
     const erRedigerbarISteg =
         behandlingErRedigerbar && (erStegRedigerbart || erSendTilBeslutterSteg);
+
+    const [kommentarTilBeslutter, settKommentarTilBeslutter] = useState<string>();
 
     return (
         <>
@@ -52,11 +54,22 @@ export const FullførKjørelisteFane: FC = () => {
                 <div className={styles.toKolonner}>
                     <VStack gap="space-16">
                         {erRedigerbarISteg && lagretBegrunnelse !== undefined && (
-                            <KjørelisteBrevmeny
-                                lagretBegrunnelse={lagretBegrunnelse}
-                                settHarUlagredeEndringer={settHarUlagredeEndringer}
-                                settBrevPdf={settBrevPdf}
-                            />
+                            <div>
+                                <KjørelisteBrevmeny
+                                    lagretBegrunnelse={lagretBegrunnelse}
+                                    settHarUlagredeEndringer={settHarUlagredeEndringer}
+                                    settBrevPdf={settBrevPdf}
+                                />
+                                <VStack gap={'space-8'}>
+                                    <Textarea
+                                        label="Kommentar til beslutter"
+                                        description="Skal kun brukes til intern dialog med beslutter. Endelige vurderinger skal skrives i respektive begrunnelsesfelt."
+                                        value={kommentarTilBeslutter}
+                                        onChange={(e) => settKommentarTilBeslutter(e.target.value)}
+                                        style={{ maxWidth: '400px' }}
+                                    />
+                                </VStack>
+                            </div>
                         )}
 
                         <Feilmelding feil={feilmelding} />
@@ -68,7 +81,7 @@ export const FullførKjørelisteFane: FC = () => {
                                     onClick={handleSendTilBeslutter}
                                     size={'small'}
                                 >
-                                    Send til beslutter
+                                    Send til beslutter kjøreliste
                                 </Button>
                             </div>
                         )}
