@@ -30,6 +30,7 @@ export type FeilmeldingerFaktaPrivatBil = Array<{
     fergePerDag?: string;
     reiseavstandEnVei?: string;
     aktivitet?: string;
+    begrunnelseManuellBehandling?: string;
 }>;
 
 export type FeilmeldingerDagligReise = {
@@ -146,6 +147,7 @@ const validerFaktaPrivatBil = (
             fergePerDag?: string;
             reiseavstandEnVei?: string;
             aktivitet?: string;
+            begrunnelseManuellBehandling?: string;
         } = {};
         if (!periode.fom || periode.fom === '') feil.fom = 'Fra-dato må fylles ut';
         if (!periode.tom || periode.tom === '') feil.tom = 'Til-dato må fylles ut';
@@ -159,6 +161,9 @@ const validerFaktaPrivatBil = (
             feil.bompengerPerDag = 'Bompenger må være større enn 0';
         if (periode.fergekostnadPerDag && periode.fergekostnadPerDag < 0)
             feil.fergePerDag = 'Fergekostnad må være større enn 0';
+        if (periode.skalBehandlesManuelt && !periode.begrunnelseManuellBehandling?.trim()) {
+            feil.begrunnelseManuellBehandling = 'Mangler begrunnelse';
+        }
         return feil;
     });
     // Valider felles reiseavstandEnVei og legg på første element
