@@ -81,7 +81,7 @@ export const FullførKjørelisteFane: FC = () => {
                                     onClick={handleSendTilBeslutter}
                                     size={'small'}
                                 >
-                                    Send til beslutter kjøreliste
+                                    Send til beslutter
                                 </Button>
                             </div>
                         )}
