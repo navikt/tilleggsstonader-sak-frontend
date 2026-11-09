@@ -54,6 +54,7 @@ Prefer validating changes with `yarn lint` and `yarn build`. If you only touched
 - Prefer CSS Modules (`.module.css`) over `styled-components`.
 - Use design tokens from Aksel through CSS variables with the `--ax-` prefix, for example `var(--ax-shadow-dialog)`.
 - Keep imports ordered as: `react`, external packages, `@navikt/*`, then relative imports, with blank lines between groups.
+- When using text inputs like Aksels `Textarea` and `TextField`, always add `autoComplete="off"`
 
 ## Backend notes
 

@@ -127,6 +127,7 @@ const SettPåVentForm: React.FC<{
                 />
             </HStack>
             <Textarea
+                autoComplete="off"
                 label={kommentarLabel}
                 description={'Forklar gjerne hva som er gjort.'}
                 value={settPåVent.kommentar || ''}

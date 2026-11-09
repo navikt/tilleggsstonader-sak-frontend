@@ -65,6 +65,7 @@ export const Brevknapp = ({
         <VStack gap={'space-8'}>
             {kanSendeKommentarTilBeslutter && (
                 <Textarea
+                    autoComplete="off"
                     label="Kommentar til beslutter"
                     description="Skal kun brukes til intern dialog med beslutter. Endelige vurderinger skal skrives i respektive begrunnelsesfelt."
                     value={kommentarTilBeslutter}

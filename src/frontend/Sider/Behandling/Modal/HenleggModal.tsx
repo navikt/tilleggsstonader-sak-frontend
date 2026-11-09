@@ -108,6 +108,7 @@ const HenleggModal: React.FC = () => {
                         </Radio>
                     </RadioGroup>
                     <Textarea
+                        autoComplete="off"
                         label={'Begrunnelse for henleggelse'}
                         value={henlagtBegrunnelse}
                         onChange={(e) => settHenlagtBegrunnelse(e.target.value)}

@@ -68,6 +68,7 @@ export const KjørelisteBrevmeny: FC<Props> = ({
             <ExpansionCard.Content>
                 <VStack gap="space-16">
                     <Textarea
+                        autoComplete="off"
                         label="Begrunnelse for vedtaket"
                         hideLabel
                         value={begrunnelse}

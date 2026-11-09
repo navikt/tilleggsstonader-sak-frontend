@@ -340,7 +340,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
         );
 
     return (
-        <form onSubmit={lagreSkjema}>
+        <form autoComplete="off" onSubmit={lagreSkjema}>
             <ResultatOgStatusKort
                 periode={vilkår ? tilVilkårBase(vilkår, behandling.id) : undefined}
                 redigeres
@@ -537,6 +537,7 @@ const EndreFaktaFlyttebyrå: React.FC<{
                     <HGrid key={`tilbud-${indeks}`} gap="space-16" columns={{ xs: 1, sm: 2 }}>
                         <FeilmeldingMaksBredde $maxWidth={300}>
                             <TextField
+                                autoComplete="off"
                                 label={`Navn på flyttebyrå ${indeks + 1}`}
                                 value={tilbud.navn}
                                 error={feilmeldinger.tilbud?.[indeks]?.navn}
@@ -548,6 +549,7 @@ const EndreFaktaFlyttebyrå: React.FC<{
                         </FeilmeldingMaksBredde>
                         <FeilmeldingMaksBredde $maxWidth={300}>
                             <TextField
+                                autoComplete="off"
                                 label={`Pris på tilbud ${indeks + 1} i kroner`}
                                 value={tilbud.pris}
                                 error={feilmeldinger.tilbud?.[indeks]?.pris}
@@ -596,6 +598,7 @@ const EndreFaktaFlytteSelv: React.FC<{
             <HStack gap="space-16">
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
+                        autoComplete="off"
                         label="Avstand én vei i kilometer"
                         value={fakta.avstandEnVei}
                         inputMode="numeric"
@@ -612,6 +615,7 @@ const EndreFaktaFlytteSelv: React.FC<{
                     (felt) => (
                         <FeilmeldingMaksBredde $maxWidth={180} key={felt}>
                             <TextField
+                                autoComplete="off"
                                 label={`${flyttingFaktaFeltTilTekst[felt]}`}
                                 value={fakta[felt]}
                                 inputMode="numeric"

@@ -133,7 +133,7 @@ const FatteVedtak: React.FC<{
     };
 
     return (
-        <form onSubmit={beslutteVedtak}>
+        <form autoComplete="off" onSubmit={beslutteVedtak}>
             <VStack gap="space-16">
                 <Heading size={'small'} level={'3'}>
                     Totrinnskontroll

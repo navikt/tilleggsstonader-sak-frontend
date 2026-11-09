@@ -62,6 +62,7 @@ export const AvslåVedtak: React.FC<{
                 ))}
             </CheckboxGroup>
             <Textarea
+                autoComplete="off"
                 label="Begrunnelse for avslag "
                 value={begrunnelse}
                 onChange={(e) => {

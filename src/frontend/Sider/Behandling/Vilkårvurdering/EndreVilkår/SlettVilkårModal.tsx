@@ -146,6 +146,7 @@ const SlettVilkårModal: React.FC<{
                             </Table.Body>
                         </Table>
                         <Textarea
+                            autoComplete="off"
                             label={'Begrunnelse for sletting (obligatorisk)'}
                             value={slettBegrunnelse}
                             onChange={(e) => settSlettBegrunnelse(e.target.value)}

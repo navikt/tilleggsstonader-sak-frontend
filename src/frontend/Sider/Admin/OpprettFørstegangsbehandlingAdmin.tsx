@@ -256,6 +256,7 @@ function OpprettFørstegangsbehandling({ stønadstype }: { stønadstype: Stønad
                         </Select>
 
                         <TextField
+                            autoComplete="off"
                             label="Årsak til manual behandling"
                             description="Beskriv gjerne kort hvorfor førstegangsbehandlingen opprettes."
                             value={årsakBeskrivelse ?? ''}

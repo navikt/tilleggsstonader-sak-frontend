@@ -35,6 +35,7 @@ const Begrunnelse: FC<Props> = ({ vurdering, oppdaterBegrunnelse, regel }) => {
     return (
         <VStack className={styles.begrunnelseContainer}>
             <Textarea
+                autoComplete="off"
                 label={begrunnelsestekst}
                 resize
                 size="small"

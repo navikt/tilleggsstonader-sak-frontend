@@ -79,6 +79,7 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
                 )}
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
+                        autoComplete="off"
                         label={'Reisedager pr uke'}
                         size="small"
                         error={feilmeldinger?.reisedagerPerUke}
@@ -93,6 +94,7 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
                 </FeilmeldingMaksBredde>
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
+                        autoComplete="off"
                         label={'Pris enkeltbillett'}
                         size="small"
                         error={feilmeldinger?.enkeltbillett}
@@ -107,6 +109,7 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
                 </FeilmeldingMaksBredde>
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
+                        autoComplete="off"
                         label={'Pris 7-dagersbillett'}
                         size="small"
                         error={feilmeldinger?.syvdagersbillett}
@@ -125,6 +128,7 @@ export const EndreFaktaOffentligTransport: React.FC<Props> = ({
                 </FeilmeldingMaksBredde>
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
+                        autoComplete="off"
                         label={'Pris 30-dagersbillett'}
                         size="small"
                         error={feilmeldinger?.trettidagersbillett}

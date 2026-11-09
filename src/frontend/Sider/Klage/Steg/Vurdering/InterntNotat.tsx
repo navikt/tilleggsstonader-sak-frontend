@@ -42,6 +42,7 @@ export const InterntNotat: React.FC<{
             {skalViseFritekstFelt && (
                 <div className={styles.fritekstWrapper}>
                     <Textarea
+                        autoComplete="off"
                         label={'Internt notat'}
                         readOnly={!behandlingErRedigerbar}
                         onChange={(e) => oppdaterTekst(e.target.value)}
