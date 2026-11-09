@@ -9,7 +9,7 @@ import {
     AktivitetMedReiser,
     erParaplyvilkår,
     erReise,
-    LagreNyttParaplyvilkårReiseOpppstartAvslutningHjemreise,
+    LagreNyttParaplyvilkårReiseOppstartAvslutningHjemreise,
     LagreNyttVilkårReiseOppstartAvslutningHjemreise,
     LagreVilkårROAH,
     SlettVilkårReiseOppstartAvslutningHjemreiseRequest,
@@ -48,11 +48,11 @@ interface UseVilkårReiseOppstartAvslutningHjemreiseResponse {
         vilkårSomSkalOppdateres: LagreNyttVilkårReiseOppstartAvslutningHjemreise
     ) => LagreRespons<VilkårReiseOppstartAvslutningHjemreise>;
     lagreNyttParaplyvilkår: (
-        nyttVilkår: LagreNyttParaplyvilkårReiseOpppstartAvslutningHjemreise
+        nyttVilkår: LagreNyttParaplyvilkårReiseOppstartAvslutningHjemreise
     ) => LagreRespons<ParaplyvilkårReiseOppstartAvslutningHjemreise>;
     oppdaterParaplyvilkår: (
         vilkårId: string,
-        vilkårSomSkalOppdateres: LagreNyttParaplyvilkårReiseOpppstartAvslutningHjemreise
+        vilkårSomSkalOppdateres: LagreNyttParaplyvilkårReiseOppstartAvslutningHjemreise
     ) => LagreRespons<ParaplyvilkårReiseOppstartAvslutningHjemreise>;
     slettVilkår: (
         vilkårId: string,

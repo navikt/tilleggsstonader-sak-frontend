@@ -82,7 +82,7 @@ export interface LagreNyttVilkårReiseOppstartAvslutningHjemreise {
     fakta: FaktaReiseOppstartAvslutningHjemreise;
 }
 
-export interface LagreNyttParaplyvilkårReiseOpppstartAvslutningHjemreise {
+export interface LagreNyttParaplyvilkårReiseOppstartAvslutningHjemreise {
     type: 'PARAPLYVILKÅR';
     fom: string;
     tom: string;
@@ -94,7 +94,7 @@ export interface LagreNyttParaplyvilkårReiseOpppstartAvslutningHjemreise {
 
 export type LagreVilkårROAH =
     | LagreNyttVilkårReiseOppstartAvslutningHjemreise
-    | LagreNyttParaplyvilkårReiseOpppstartAvslutningHjemreise;
+    | LagreNyttParaplyvilkårReiseOppstartAvslutningHjemreise;
 
 export type LagreVilkårFunksjon = (
     vilkår: LagreNyttVilkårReiseOppstartAvslutningHjemreise
