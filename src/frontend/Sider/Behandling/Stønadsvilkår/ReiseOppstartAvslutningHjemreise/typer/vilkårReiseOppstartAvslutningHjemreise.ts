@@ -10,7 +10,7 @@ import {
 import { VilkårBase } from '../../../vilkår';
 
 export interface VilkårReiseOppstartAvslutningHjemreise extends VilkårBase {
-    type: 'REISE';
+    type: 'REISEVILKÅR';
     globalId?: string;
     reiseId: string;
     aktivitetId: string;
@@ -20,7 +20,7 @@ export interface VilkårReiseOppstartAvslutningHjemreise extends VilkårBase {
 }
 
 export interface VilkårMidlertidigBosted extends VilkårBase {
-    type: 'MIDLERTIDIG_BOSTED';
+    type: 'PARAPLYVILKÅR';
     globalId?: string;
     aktivitetId: string;
     fraAdresse: string;
@@ -30,10 +30,10 @@ export interface VilkårMidlertidigBosted extends VilkårBase {
 export type VilkårROAH = VilkårReiseOppstartAvslutningHjemreise | VilkårMidlertidigBosted;
 
 export const erReise = (vilkår: VilkårROAH): vilkår is VilkårReiseOppstartAvslutningHjemreise =>
-    vilkår.type === 'REISE';
+    vilkår.type === 'REISEVILKÅR';
 
 export const erParaplyvilkår = (vilkår: VilkårROAH): vilkår is VilkårMidlertidigBosted =>
-    vilkår.type === 'MIDLERTIDIG_BOSTED';
+    vilkår.type === 'PARAPLYVILKÅR';
 
 export type TypeReiseOppstartAvslutningHjemreise =
     'OFFENTLIG_TRANSPORT' | 'PRIVAT_BIL' | 'UBESTEMT';
@@ -69,7 +69,7 @@ export type SvarVilkårReiseOppstartAvslutningHjemreise = Partial<
 >;
 
 export interface LagreNyttVilkårReiseOppstartAvslutningHjemreise {
-    type: 'REISE';
+    type: 'REISEVILKÅR';
     fom: string;
     tom: string;
     reiseId: string;
@@ -81,7 +81,7 @@ export interface LagreNyttVilkårReiseOppstartAvslutningHjemreise {
 }
 
 export interface LagreMidlertidigBosted {
-    type: 'MIDLERTIDIG_BOSTED';
+    type: 'PARAPLYVILKÅR';
     fom: string;
     tom: string;
     aktivitetId: string;
