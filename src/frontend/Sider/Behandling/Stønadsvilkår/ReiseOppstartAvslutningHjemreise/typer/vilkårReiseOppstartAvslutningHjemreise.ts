@@ -19,7 +19,7 @@ export interface VilkårReiseOppstartAvslutningHjemreise extends VilkårBase {
     parentVilkår?: string;
 }
 
-export interface VilkårMidlertidigBosted extends VilkårBase {
+export interface ParaplyvilkårReiseOppstartAvslutningHjemreise extends VilkårBase {
     type: 'PARAPLYVILKÅR';
     globalId?: string;
     aktivitetId: string;
@@ -27,13 +27,15 @@ export interface VilkårMidlertidigBosted extends VilkårBase {
     tilAdresse: string;
 }
 
-export type VilkårROAH = VilkårReiseOppstartAvslutningHjemreise | VilkårMidlertidigBosted;
+export type VilkårROAH =
+    VilkårReiseOppstartAvslutningHjemreise | ParaplyvilkårReiseOppstartAvslutningHjemreise;
 
 export const erReise = (vilkår: VilkårROAH): vilkår is VilkårReiseOppstartAvslutningHjemreise =>
     vilkår.type === 'REISEVILKÅR';
 
-export const erParaplyvilkår = (vilkår: VilkårROAH): vilkår is VilkårMidlertidigBosted =>
-    vilkår.type === 'PARAPLYVILKÅR';
+export const erParaplyvilkår = (
+    vilkår: VilkårROAH
+): vilkår is ParaplyvilkårReiseOppstartAvslutningHjemreise => vilkår.type === 'PARAPLYVILKÅR';
 
 export type TypeReiseOppstartAvslutningHjemreise =
     'OFFENTLIG_TRANSPORT' | 'PRIVAT_BIL' | 'UBESTEMT';
@@ -80,7 +82,7 @@ export interface LagreNyttVilkårReiseOppstartAvslutningHjemreise {
     fakta: FaktaReiseOppstartAvslutningHjemreise;
 }
 
-export interface LagreMidlertidigBosted {
+export interface LagreNyttParaplyvilkårReiseOpppstartAvslutningHjemreise {
     type: 'PARAPLYVILKÅR';
     fom: string;
     tom: string;
@@ -91,7 +93,8 @@ export interface LagreMidlertidigBosted {
 }
 
 export type LagreVilkårROAH =
-    LagreNyttVilkårReiseOppstartAvslutningHjemreise | LagreMidlertidigBosted;
+    | LagreNyttVilkårReiseOppstartAvslutningHjemreise
+    | LagreNyttParaplyvilkårReiseOpppstartAvslutningHjemreise;
 
 export type LagreVilkårFunksjon = (
     vilkår: LagreNyttVilkårReiseOppstartAvslutningHjemreise
@@ -123,5 +126,5 @@ export interface AktivitetMedReiser {
     fom: string;
     tom: string;
     reiser: VilkårReiseOppstartAvslutningHjemreise[];
-    paraplyvilkår: VilkårMidlertidigBosted[];
+    paraplyvilkår: ParaplyvilkårReiseOppstartAvslutningHjemreise[];
 }

@@ -9,12 +9,12 @@ import {
     AktivitetMedReiser,
     erParaplyvilkår,
     erReise,
-    LagreMidlertidigBosted,
+    LagreNyttParaplyvilkårReiseOpppstartAvslutningHjemreise,
     LagreNyttVilkårReiseOppstartAvslutningHjemreise,
     LagreVilkårROAH,
     SlettVilkårReiseOppstartAvslutningHjemreiseRequest,
     SlettVilkårReiseOppstartAvslutningHjemreiseRespons,
-    VilkårMidlertidigBosted,
+    ParaplyvilkårReiseOppstartAvslutningHjemreise,
     VilkårROAH,
     VilkårReiseOppstartAvslutningHjemreise,
 } from '../../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/vilkårReiseOppstartAvslutningHjemreise';
@@ -37,7 +37,7 @@ type LagreRespons<T> = Promise<RessursSuksess<T> | RessursFeilet>;
 
 interface UseVilkårReiseOppstartAvslutningHjemreiseResponse {
     reiser: VilkårReiseOppstartAvslutningHjemreise[];
-    paraplyvilkår: VilkårMidlertidigBosted[];
+    paraplyvilkår: ParaplyvilkårReiseOppstartAvslutningHjemreise[];
     regelstruktur: RegelstrukturROAH;
     aktiviteter: Aktivitet[];
     lagreNyttVilkår: (
@@ -48,12 +48,12 @@ interface UseVilkårReiseOppstartAvslutningHjemreiseResponse {
         vilkårSomSkalOppdateres: LagreNyttVilkårReiseOppstartAvslutningHjemreise
     ) => LagreRespons<VilkårReiseOppstartAvslutningHjemreise>;
     lagreNyttParaplyvilkår: (
-        nyttVilkår: LagreMidlertidigBosted
-    ) => LagreRespons<VilkårMidlertidigBosted>;
+        nyttVilkår: LagreNyttParaplyvilkårReiseOpppstartAvslutningHjemreise
+    ) => LagreRespons<ParaplyvilkårReiseOppstartAvslutningHjemreise>;
     oppdaterParaplyvilkår: (
         vilkårId: string,
-        vilkårSomSkalOppdateres: LagreMidlertidigBosted
-    ) => LagreRespons<VilkårMidlertidigBosted>;
+        vilkårSomSkalOppdateres: LagreNyttParaplyvilkårReiseOpppstartAvslutningHjemreise
+    ) => LagreRespons<ParaplyvilkårReiseOppstartAvslutningHjemreise>;
     slettVilkår: (
         vilkårId: string,
         slettetKommentar: string | undefined
@@ -131,9 +131,10 @@ export const [
             lagreNyttVilkår: (vilkår) => lagre<VilkårReiseOppstartAvslutningHjemreise>(vilkår),
             oppdaterVilkår: (vilkårId, vilkår) =>
                 lagre<VilkårReiseOppstartAvslutningHjemreise>(vilkår, vilkårId),
-            lagreNyttParaplyvilkår: (vilkår) => lagre<VilkårMidlertidigBosted>(vilkår),
+            lagreNyttParaplyvilkår: (vilkår) =>
+                lagre<ParaplyvilkårReiseOppstartAvslutningHjemreise>(vilkår),
             oppdaterParaplyvilkår: (vilkårId, vilkår) =>
-                lagre<VilkårMidlertidigBosted>(vilkår, vilkårId),
+                lagre<ParaplyvilkårReiseOppstartAvslutningHjemreise>(vilkår, vilkårId),
             slettVilkår,
         };
     }
