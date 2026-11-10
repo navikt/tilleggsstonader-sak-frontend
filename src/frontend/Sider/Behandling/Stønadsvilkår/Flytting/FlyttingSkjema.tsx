@@ -577,25 +577,27 @@ const EndreFaktaFlyttebyrå: React.FC<{
                 );
             })}
             {fakta.nødvendigUtgift?.erUtgiftenNødvendig === 'NEI' && (
-                <FeilmeldingMaksBredde $maxWidth={180}>
-                    <TextField
-                        label="Beløp som kan dekkes"
-                        description="Siden hele utgiften ikke anses som nødvendig må du legge inn hvilken sum av tilbudet som kan dekkes"
-                        value={fakta.beløpSomKanDekkes}
-                        error={feilmeldinger.beløpSomKanDekkes}
-                        inputMode="numeric"
-                        onChange={(event) => {
-                            settFakta((forrige) => ({
-                                ...forrige,
-                                beløpSomKanDekkes: event.target.value,
-                            }));
-                            settFeilmeldinger((forrige) => ({
-                                ...forrige,
-                                beløpSomKanDekkes: undefined,
-                            }));
-                        }}
-                        size="small"
-                    />
+                <FeilmeldingMaksBredde $maxWidth={240}>
+                    <HStack maxWidth={'240px'}>
+                        <TextField
+                            label="Beløp som kan dekkes"
+                            description="Siden hele utgiften ikke anses som nødvendig må du legge inn hvilken sum av tilbudet som kan dekkes"
+                            value={fakta.beløpSomKanDekkes}
+                            error={feilmeldinger.beløpSomKanDekkes}
+                            inputMode="numeric"
+                            onChange={(event) => {
+                                settFakta((forrige) => ({
+                                    ...forrige,
+                                    beløpSomKanDekkes: event.target.value,
+                                }));
+                                settFeilmeldinger((forrige) => ({
+                                    ...forrige,
+                                    beløpSomKanDekkes: undefined,
+                                }));
+                            }}
+                            size="small"
+                        />
+                    </HStack>
                 </FeilmeldingMaksBredde>
             )}
             <Skillelinje />
@@ -665,6 +667,23 @@ const EndreFaktaFlytteSelv: React.FC<{
                         </FeilmeldingMaksBredde>
                     )
                 )}
+                {(['henger', 'leiebil'] as const).map((felt) => (
+                    <FeilmeldingMaksBredde $maxWidth={180} key={felt}>
+                        <TextField
+                            autoComplete="off"
+                            label={`${flyttingFaktaFeltTilTekst[felt]}`}
+                            value={fakta[felt]}
+                            inputMode="numeric"
+                            onChange={(event) => {
+                                settFakta((forrige) => ({
+                                    ...forrige,
+                                    [felt]: event.target.value,
+                                }));
+                            }}
+                            size="small"
+                        />
+                    </FeilmeldingMaksBredde>
+                ))}
             </HStack>
             <Skillelinje />
             <DokumenterteUtgifterFelt
