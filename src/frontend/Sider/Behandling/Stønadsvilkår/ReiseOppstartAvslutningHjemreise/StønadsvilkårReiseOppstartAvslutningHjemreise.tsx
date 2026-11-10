@@ -133,13 +133,14 @@ const StønadsvilkårInnhold = () => {
                                         slett={slettVilkår}
                                     />
                                 ))}
-                                {erStegRedigerbart &&
-                                    aktivitet.resultat === VilkårPeriodeResultat.OPPFYLT && (
-                                        <ParaplyvilkårListe
-                                            key={`${behandling.id}-${aktivitet.globalId}`}
-                                            aktivitet={aktivitet}
-                                        />
-                                    )}
+                                <ParaplyvilkårListe
+                                    key={`${behandling.id}-${aktivitet.globalId}`}
+                                    aktivitet={aktivitet}
+                                    kanLeggeTilNytt={
+                                        erStegRedigerbart &&
+                                        aktivitet.resultat === VilkårPeriodeResultat.OPPFYLT
+                                    }
+                                />
                             </VStack>
                         </Box>
                     );
