@@ -26,6 +26,10 @@ const BeregningsResultatFlyttebyrå: React.FC<{
         return null;
     }
 
+    const visBeløpSomKanDekkes = flyttebyråResultater.some(
+        (resultat) => !(resultat.grunnlag as BeregningsgrunnlagFlyttebyrå).erUtgiftNødvendig
+    );
+
     return (
         <div>
             <Heading spacing size="xsmall" level="4">
@@ -40,6 +44,10 @@ const BeregningsResultatFlyttebyrå: React.FC<{
                             <TableHeaderCellSmall>T.o.m.</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Tilbud</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Valgt flyttebyrå</TableHeaderCellSmall>
+                            <TableHeaderCellSmall>Hele utgiften nødvendig?</TableHeaderCellSmall>
+                            {visBeløpSomKanDekkes && (
+                                <TableHeaderCellSmall>Beløp som kan dekkes</TableHeaderCellSmall>
+                            )}
                             <TableHeaderCellSmall>Dokumentert og utbetales?</TableHeaderCellSmall>
                             <TableHeaderCellSmall align="right">Stønadsbeløp</TableHeaderCellSmall>
                         </Table.Row>
@@ -65,6 +73,18 @@ const BeregningsResultatFlyttebyrå: React.FC<{
                                     <TableDataCellSmall style={{ overflowWrap: 'anywhere' }}>
                                         {hentValgtFlyttebyråTilbud(grunnlag).navn}
                                     </TableDataCellSmall>
+                                    <TableDataCellSmall>
+                                        {formatBoolean(grunnlag.erUtgiftNødvendig)}
+                                    </TableDataCellSmall>
+                                    {visBeløpSomKanDekkes && (
+                                        <TableDataCellSmall>
+                                            {grunnlag.erUtgiftNødvendig
+                                                ? '-'
+                                                : kronerMedTusenSkilleEllerStrek(
+                                                      grunnlag.beløpSomKanDekkes ?? undefined
+                                                  )}
+                                        </TableDataCellSmall>
+                                    )}
                                     <TableDataCellSmall>
                                         {formatBoolean(grunnlag.erUtgifterDokumentert)}
                                     </TableDataCellSmall>
@@ -95,7 +115,7 @@ const BeregningsResultatFlytteSelv: React.FC<{
     return (
         <div>
             <Heading spacing size="xsmall" level="4">
-                Beregningsresultat for egen kjøring
+                Beregningsresultat for flytte selv
             </Heading>
             <Box overflow="auto">
                 <Table>
@@ -105,7 +125,6 @@ const BeregningsResultatFlytteSelv: React.FC<{
                             <TableHeaderCellSmall>T.o.m.</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Avstand én vei</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Sats per km</TableHeaderCellSmall>
-                            <TableHeaderCellSmall>Utgifter dokumentert?</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Sats bekreftet</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Henger</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Leiebil</TableHeaderCellSmall>
@@ -113,6 +132,7 @@ const BeregningsResultatFlytteSelv: React.FC<{
                             <TableHeaderCellSmall>Ferge</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Parkering</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Annet</TableHeaderCellSmall>
+                            <TableHeaderCellSmall>Dokumentert og utbetales?</TableHeaderCellSmall>
                             <TableHeaderCellSmall align="right">Stønadsbeløp</TableHeaderCellSmall>
                         </Table.Row>
                     </Table.Header>
@@ -130,9 +150,6 @@ const BeregningsResultatFlytteSelv: React.FC<{
                                     <TableDataCellSmall>{grunnlag.avstandEnVei}</TableDataCellSmall>
                                     <TableDataCellSmall>
                                         {kronerMedTusenSkilleEllerStrek(grunnlag.sats)}
-                                    </TableDataCellSmall>
-                                    <TableDataCellSmall>
-                                        {formatBoolean(grunnlag.erUtgifterDokumentert)}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
                                         {formatBoolean(grunnlag.satsBekreftet)}
@@ -154,6 +171,9 @@ const BeregningsResultatFlytteSelv: React.FC<{
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
                                         {kronerMedTusenSkilleEllerStrek(grunnlag.annet)}
+                                    </TableDataCellSmall>
+                                    <TableDataCellSmall>
+                                        {formatBoolean(grunnlag.erUtgifterDokumentert)}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall align="right">
                                         {kronerMedTusenSkilleEllerStrek(resultat.beløp)}

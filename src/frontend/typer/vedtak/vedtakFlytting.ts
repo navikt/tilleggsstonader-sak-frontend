@@ -56,6 +56,8 @@ export type BeregningsgrunnlagFlyttebyrå = {
     type: BeregningsgrunnlagType.FLYTTEBYRÅ;
     tilbud: BeregningsgrunnlagFlyttebyråTilbud[];
     erUtgifterDokumentert: boolean;
+    erUtgiftNødvendig: boolean;
+    beløpSomKanDekkes: number | null;
 };
 
 export interface BeregningsgrunnlagFlyttebyråTilbud {
