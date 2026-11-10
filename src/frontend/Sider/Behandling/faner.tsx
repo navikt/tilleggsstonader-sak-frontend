@@ -111,15 +111,12 @@ export const faneTilSteg: Record<FanePath, Steg> = {
     'fullfor-kjoreliste': Steg.FULLFØR_KJØRELISTE,
 };
 
-export const stegTilFaneForBehandling = (
-    behandling: Behandling,
-    harRammevedtak: boolean
-): FanePath => {
+export const stegTilFaneForBehandling = (behandling: Behandling): FanePath => {
     if (behandling.type === BehandlingType.KJØRELISTE) {
         return stegTilFaneForKjørelistebehandling(behandling.steg, behandling.behandlingsårsak);
     }
 
-    if (harRammevedtak) {
+    if (behandling.kanViseKjøreliste === true) {
         return stegTilFaneForDagligReiseMedRammevedtak(behandling.steg);
     }
 
@@ -340,15 +337,12 @@ const stønadsvilkårFane = (behandling: Behandling): FanerMedRouter[] => {
     }
 };
 
-export const hentBehandlingfaner = (
-    behandling: Behandling,
-    harRammevedtak: boolean
-): FanerMedRouter[] => {
+export const hentBehandlingfaner = (behandling: Behandling): FanerMedRouter[] => {
     if (behandling.type === BehandlingType.KJØRELISTE) {
         return kjørelistebehandlingFaner(behandling);
     }
 
-    if (harRammevedtak) {
+    if (behandling.kanViseKjøreliste === true) {
         return dagligReisePrivatBilRevurderingFaner(behandling);
     }
 

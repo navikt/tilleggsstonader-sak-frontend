@@ -5,7 +5,6 @@ import constate from 'constate';
 
 import { useApp } from './AppContext';
 import { useBehandlingshistorikk } from '../hooks/useBehandlingshistorikk';
-import { HarRammevedtakDto, useHarRammevedtak } from '../hooks/useHarRammevedtak';
 import { RerrunnableEffect } from '../hooks/useRerunnableEffect';
 import { HistorikkHendelse } from '../Sider/Behandling/Venstremeny/Historikk/typer';
 import { Behandling, SluttdatoForForrigeVedtak } from '../typer/behandling/behandling';
@@ -37,9 +36,6 @@ interface BehandlingContext {
     behandlingFakta: BehandlingFakta;
     toggleKanSaksbehandle: boolean;
     kanSetteBehandlingPåVent: boolean;
-
-    rammevedtakRessurs: Ressurs<HarRammevedtakDto>;
-    hentRammevedtak: () => void;
 
     visRedigerGrunnlagFomAdmin: boolean;
     settVisRedigerGrunnlagFomAdmin: React.Dispatch<React.SetStateAction<boolean>>;
@@ -129,8 +125,6 @@ export const [BehandlingProvider, useBehandling] = constate(
         const { hentBehandlingshistorikk, behandlingshistorikk } =
             useBehandlingshistorikk(behandling);
 
-        const { rammevedtakRessurs, hentRammevedtak } = useHarRammevedtak(behandling.id);
-
         const kanSaksbehandle = useKanSaksbehandle(behandling.stønadstype);
         const kanRevurdere = useKanRevurdere(behandling.stønadstype);
 
@@ -156,8 +150,6 @@ export const [BehandlingProvider, useBehandling] = constate(
             behandlingFakta,
             toggleKanSaksbehandle: toggleKanSaksbehandleEllerRevurdere,
             kanSetteBehandlingPåVent: behandlingErRedigerbar,
-            rammevedtakRessurs,
-            hentRammevedtak,
             visRedigerGrunnlagFomAdmin,
             settVisRedigerGrunnlagFomAdmin,
             visHenleggModal,
