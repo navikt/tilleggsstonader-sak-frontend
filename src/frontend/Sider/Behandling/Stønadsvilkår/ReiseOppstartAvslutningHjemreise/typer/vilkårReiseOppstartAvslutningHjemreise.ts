@@ -1,14 +1,41 @@
 import { FaktaReiseOppstartAvslutningHjemreise } from './faktaReiseOppstartAvslutningHjemreise';
 import { RegelIdROAH } from './regelstrukturReiseOppstartAvslutningHjemreise';
 import { SvarId } from '../../../../../typer/regel';
+import {
+    RessursFeilet,
+    RessursStatus,
+    RessursStatusFeilet,
+    RessursSuksess,
+} from '../../../../../typer/ressurs';
 import { VilkårBase } from '../../../vilkår';
 
 export interface VilkårReiseOppstartAvslutningHjemreise extends VilkårBase {
+    type: 'REISEVILKÅR';
+    globalId?: string;
     reiseId: string;
     aktivitetId: string;
     typeReiseformål: TypeReiseformål;
     fakta: FaktaReiseOppstartAvslutningHjemreise;
+    parentVilkår?: string;
 }
+
+export interface ParaplyvilkårReiseOppstartAvslutningHjemreise extends VilkårBase {
+    type: 'PARAPLYVILKÅR';
+    globalId?: string;
+    aktivitetId: string;
+    fraAdresse: string;
+    tilAdresse: string;
+}
+
+export type VilkårROAH =
+    VilkårReiseOppstartAvslutningHjemreise | ParaplyvilkårReiseOppstartAvslutningHjemreise;
+
+export const erReise = (vilkår: VilkårROAH): vilkår is VilkårReiseOppstartAvslutningHjemreise =>
+    vilkår.type === 'REISEVILKÅR';
+
+export const erParaplyvilkår = (
+    vilkår: VilkårROAH
+): vilkår is ParaplyvilkårReiseOppstartAvslutningHjemreise => vilkår.type === 'PARAPLYVILKÅR';
 
 export type TypeReiseOppstartAvslutningHjemreise =
     'OFFENTLIG_TRANSPORT' | 'PRIVAT_BIL' | 'UBESTEMT';
@@ -44,14 +71,39 @@ export type SvarVilkårReiseOppstartAvslutningHjemreise = Partial<
 >;
 
 export interface LagreNyttVilkårReiseOppstartAvslutningHjemreise {
+    type: 'REISEVILKÅR';
     fom: string;
     tom: string;
     reiseId: string;
     aktivitetId: string;
+    parentVilkår?: string;
     typeReiseformål: TypeReiseformål;
     svar: SvarVilkårReiseOppstartAvslutningHjemreise;
     fakta: FaktaReiseOppstartAvslutningHjemreise;
 }
+
+export interface LagreNyttParaplyvilkårReiseOppstartAvslutningHjemreise {
+    type: 'PARAPLYVILKÅR';
+    fom: string;
+    tom: string;
+    aktivitetId: string;
+    svar: SvarVilkårReiseOppstartAvslutningHjemreise;
+    fraAdresse: string;
+    tilAdresse: string;
+}
+
+export type LagreVilkårROAH =
+    | LagreNyttVilkårReiseOppstartAvslutningHjemreise
+    | LagreNyttParaplyvilkårReiseOppstartAvslutningHjemreise;
+
+export type LagreVilkårFunksjon = (
+    vilkår: LagreNyttVilkårReiseOppstartAvslutningHjemreise
+) => Promise<RessursSuksess<VilkårReiseOppstartAvslutningHjemreise> | RessursFeilet>;
+
+export type SlettVilkårFunksjon = (
+    vilkårId: string,
+    slettetBegrunnelse: string | undefined
+) => Promise<RessursStatus.SUKSESS | RessursStatusFeilet>;
 
 export interface SlettVilkårReiseOppstartAvslutningHjemreiseRequest {
     kommentar?: string;
@@ -59,12 +111,12 @@ export interface SlettVilkårReiseOppstartAvslutningHjemreiseRequest {
 
 export interface SlettVilkårReiseOppstartAvslutningHjemreiseRespons {
     slettetPermanent: boolean;
-    vilkår: VilkårReiseOppstartAvslutningHjemreise;
+    vilkår: VilkårROAH;
 }
 
 /**
- * Responsen fra GET-endepunktet grupperer reisene per aktivitet fra inngangsvilkår. Brukes kun til henting/flating
- * ut av responsen – selve grupperingen for visning gjøres på nytt ut fra aktivitetene i konteksten, se
+ * Responsen fra GET-endepunktet grupperer reiser og paraplyvilkår per aktivitet fra inngangsvilkår. Brukes kun til
+ * henting/flating ut av responsen – selve grupperingen for visning gjøres på nytt ut fra aktivitetene i konteksten, se
  * StønadsvilkårReiseOppstartAvslutningHjemreise.
  */
 export interface AktivitetMedReiser {
@@ -74,4 +126,5 @@ export interface AktivitetMedReiser {
     fom: string;
     tom: string;
     reiser: VilkårReiseOppstartAvslutningHjemreise[];
+    paraplyvilkår: ParaplyvilkårReiseOppstartAvslutningHjemreise[];
 }

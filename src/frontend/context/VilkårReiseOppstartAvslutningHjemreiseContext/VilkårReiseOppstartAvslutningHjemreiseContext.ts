@@ -2,13 +2,20 @@ import { useState } from 'react';
 
 import constate from 'constate';
 
-import { fjernVilkårFraListe, oppdaterVilkårIListe } from './utils';
+import { fjernVilkårFraListe, oppdaterVilkårIListe, vilkårFraAktiviteter } from './utils';
 import { Aktivitet } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { RegelstrukturROAH } from '../../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/regelstrukturReiseOppstartAvslutningHjemreise';
 import {
+    AktivitetMedReiser,
+    erParaplyvilkår,
+    erReise,
+    LagreNyttParaplyvilkårReiseOppstartAvslutningHjemreise,
     LagreNyttVilkårReiseOppstartAvslutningHjemreise,
+    LagreVilkårROAH,
     SlettVilkårReiseOppstartAvslutningHjemreiseRequest,
     SlettVilkårReiseOppstartAvslutningHjemreiseRespons,
+    ParaplyvilkårReiseOppstartAvslutningHjemreise,
+    VilkårROAH,
     VilkårReiseOppstartAvslutningHjemreise,
 } from '../../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/vilkårReiseOppstartAvslutningHjemreise';
 import {
@@ -21,22 +28,32 @@ import { useApp } from '../AppContext';
 import { useBehandling } from '../BehandlingContext';
 
 interface Props {
-    eksisterendeVilkår: VilkårReiseOppstartAvslutningHjemreise[];
+    eksisterendeVilkår: VilkårROAH[];
     regelstruktur: RegelstrukturROAH;
     aktiviteter: Aktivitet[];
 }
 
+type LagreRespons<T> = Promise<RessursSuksess<T> | RessursFeilet>;
+
 interface UseVilkårReiseOppstartAvslutningHjemreiseResponse {
-    vilkårsett: VilkårReiseOppstartAvslutningHjemreise[];
+    reiser: VilkårReiseOppstartAvslutningHjemreise[];
+    paraplyvilkår: ParaplyvilkårReiseOppstartAvslutningHjemreise[];
     regelstruktur: RegelstrukturROAH;
     aktiviteter: Aktivitet[];
     lagreNyttVilkår: (
         nyttVilkår: LagreNyttVilkårReiseOppstartAvslutningHjemreise
-    ) => Promise<RessursSuksess<VilkårReiseOppstartAvslutningHjemreise> | RessursFeilet>;
+    ) => LagreRespons<VilkårReiseOppstartAvslutningHjemreise>;
     oppdaterVilkår: (
         vilkårId: string,
         vilkårSomSkalOppdateres: LagreNyttVilkårReiseOppstartAvslutningHjemreise
-    ) => Promise<RessursSuksess<VilkårReiseOppstartAvslutningHjemreise> | RessursFeilet>;
+    ) => LagreRespons<VilkårReiseOppstartAvslutningHjemreise>;
+    lagreNyttParaplyvilkår: (
+        nyttVilkår: LagreNyttParaplyvilkårReiseOppstartAvslutningHjemreise
+    ) => LagreRespons<ParaplyvilkårReiseOppstartAvslutningHjemreise>;
+    oppdaterParaplyvilkår: (
+        vilkårId: string,
+        vilkårSomSkalOppdateres: LagreNyttParaplyvilkårReiseOppstartAvslutningHjemreise
+    ) => LagreRespons<ParaplyvilkårReiseOppstartAvslutningHjemreise>;
     slettVilkår: (
         vilkårId: string,
         slettetKommentar: string | undefined
@@ -55,43 +72,32 @@ export const [
         const { request } = useApp();
         const { behandling } = useBehandling();
 
-        const [vilkårsett, settVilkårsett] =
-            useState<VilkårReiseOppstartAvslutningHjemreise[]>(eksisterendeVilkår);
+        const [vilkårsett, settVilkårsett] = useState<VilkårROAH[]>(eksisterendeVilkår);
 
-        const lagreNyttVilkår = async (vilkår: LagreNyttVilkårReiseOppstartAvslutningHjemreise) => {
-            const respons = await request<
-                VilkårReiseOppstartAvslutningHjemreise,
-                LagreNyttVilkårReiseOppstartAvslutningHjemreise
-            >(
-                `/api/sak/vilkar/reise-oppstart-avslutning-hjemreise/${behandling.id}`,
-                'POST',
-                vilkår
-            );
+        const url = `/api/sak/vilkar/reise-oppstart-avslutning-hjemreise/${behandling.id}`;
+
+        const hentVilkårPåNytt = async () => {
+            const respons = await request<AktivitetMedReiser[], null>(url, 'GET');
 
             if (respons.status === RessursStatus.SUKSESS) {
-                settVilkårsett((prevVilkårsvurdering) => [...prevVilkårsvurdering, respons.data]);
+                settVilkårsett(vilkårFraAktiviteter(respons.data));
             }
-
-            return respons;
         };
 
-        const oppdaterVilkår = async (
-            vilkårId: string,
-            vilkår: LagreNyttVilkårReiseOppstartAvslutningHjemreise
-        ) => {
-            const respons = await request<
-                VilkårReiseOppstartAvslutningHjemreise,
-                LagreNyttVilkårReiseOppstartAvslutningHjemreise
-            >(
-                `/api/sak/vilkar/reise-oppstart-avslutning-hjemreise/${behandling.id}/${vilkårId}`,
-                'PUT',
+        const lagre = async <T extends VilkårROAH>(vilkår: LagreVilkårROAH, vilkårId?: string) => {
+            const respons = await request<T, LagreVilkårROAH>(
+                vilkårId ? `${url}/${vilkårId}` : url,
+                vilkårId ? 'PUT' : 'POST',
                 vilkår
             );
 
             if (respons.status === RessursStatus.SUKSESS) {
-                settVilkårsett((prevVilkårsvurdering) =>
-                    oppdaterVilkårIListe(prevVilkårsvurdering, respons.data)
+                settVilkårsett((prev) =>
+                    vilkårId ? oppdaterVilkårIListe(prev, respons.data) : [...prev, respons.data]
                 );
+                if (vilkårId && erParaplyvilkår(respons.data)) {
+                    await hentVilkårPåNytt();
+                }
             }
 
             return respons;
@@ -101,21 +107,16 @@ export const [
             const respons = await request<
                 SlettVilkårReiseOppstartAvslutningHjemreiseRespons,
                 SlettVilkårReiseOppstartAvslutningHjemreiseRequest
-            >(
-                `/api/sak/vilkar/reise-oppstart-avslutning-hjemreise/${behandling.id}/${vilkårId}`,
-                'DELETE',
-                { kommentar: slettetKommentar }
-            );
+            >(`${url}/${vilkårId}`, 'DELETE', { kommentar: slettetKommentar });
 
             if (respons.status === RessursStatus.SUKSESS) {
                 if (respons.data.slettetPermanent) {
-                    settVilkårsett((prevVilkårsvurdering) =>
-                        fjernVilkårFraListe(prevVilkårsvurdering, vilkårId)
-                    );
+                    settVilkårsett((prev) => fjernVilkårFraListe(prev, vilkårId));
                 } else {
-                    settVilkårsett((prevVilkårsvurdering) =>
-                        oppdaterVilkårIListe(prevVilkårsvurdering, respons.data.vilkår)
-                    );
+                    settVilkårsett((prev) => oppdaterVilkårIListe(prev, respons.data.vilkår));
+                }
+                if (erParaplyvilkår(respons.data.vilkår)) {
+                    await hentVilkårPåNytt();
                 }
             }
 
@@ -123,11 +124,17 @@ export const [
         };
 
         return {
-            vilkårsett,
+            reiser: vilkårsett.filter(erReise),
+            paraplyvilkår: vilkårsett.filter(erParaplyvilkår),
             regelstruktur,
             aktiviteter,
-            lagreNyttVilkår,
-            oppdaterVilkår,
+            lagreNyttVilkår: (vilkår) => lagre<VilkårReiseOppstartAvslutningHjemreise>(vilkår),
+            oppdaterVilkår: (vilkårId, vilkår) =>
+                lagre<VilkårReiseOppstartAvslutningHjemreise>(vilkår, vilkårId),
+            lagreNyttParaplyvilkår: (vilkår) =>
+                lagre<ParaplyvilkårReiseOppstartAvslutningHjemreise>(vilkår),
+            oppdaterParaplyvilkår: (vilkårId, vilkår) =>
+                lagre<ParaplyvilkårReiseOppstartAvslutningHjemreise>(vilkår, vilkårId),
             slettVilkår,
         };
     }

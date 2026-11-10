@@ -15,11 +15,12 @@ import {
 import {
     SvarVilkårReiseOppstartAvslutningHjemreise,
     TypeReiseformål,
+    VilkårROAH,
     VilkårReiseOppstartAvslutningHjemreise,
 } from '../typer/vilkårReiseOppstartAvslutningHjemreise';
 
 export const initierSvar = (
-    eksisterendeVilkår: VilkårReiseOppstartAvslutningHjemreise | undefined
+    eksisterendeVilkår: VilkårROAH | undefined
 ): SvarVilkårReiseOppstartAvslutningHjemreise => {
     if (!eksisterendeVilkår) {
         return tomtSvar;
