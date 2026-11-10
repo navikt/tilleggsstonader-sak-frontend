@@ -14,6 +14,8 @@ import {
 } from '../../../../../komponenter/Feil/feilmeldingUtils';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { RessursStatus } from '../../../../../typer/ressurs';
+import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
+import { useHarEndretDatoerFørTidligereVedtak } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { Aktivitet } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { SlettVilkårReiseOppstartAvslutningHjemreise } from '../EndreVilkår/SlettVilkårReiseOppstartAvslutningHjemreise';
 import {
@@ -54,6 +56,12 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
     const [feilVedLagring, settFeilVedLagring] = useState<Feil>();
     const [laster, settLaster] = useState(false);
 
+    const { visBekreftModal, settVisBekreftModal, burdeViseModal } =
+        useHarEndretDatoerFørTidligereVedtak({
+            tidligere: vilkår,
+            ny: { fom: utkast.fom, tom: utkast.tom },
+        });
+
     // Fjerner ulagret-markeringen når kortet fjernes, for eksempel når et utkast slettes
     useEffect(
         () => () => nullstillUlagretKomponent(komponentId),
@@ -66,7 +74,7 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
         settUlagretKomponent(komponentId);
     };
 
-    const lagre = async () => {
+    const validerOgLagre = async () => {
         if (laster) return;
 
         const fom = utkast.fom ?? '';
@@ -81,6 +89,18 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
         if (Object.keys(nyeFeil).length > 0) {
             return;
         }
+
+        if (burdeViseModal) {
+            settVisBekreftModal(true);
+            return;
+        }
+
+        await lagre();
+    };
+
+    const lagre = async () => {
+        const fom = utkast.fom ?? '';
+        const tom = utkast.tom ?? '';
 
         const nyttVilkår: LagreNyttParaplyvilkårReiseOppstartAvslutningHjemreise = {
             type: 'PARAPLYVILKÅR',
@@ -119,44 +139,52 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
     };
 
     return (
-        <Paraplyvilkår
-            aktivitet={aktivitet}
-            tittel="Periode hvor bruker bor borte"
-            vilkår={vilkår}
-            redigerer={redigerer}
-            startRedigering={() => settRedigerer(true)}
-            skjema={
-                <MidlertidigBostedFakta
-                    utkast={utkast}
-                    endreUtkast={endreUtkast}
-                    feil={feil}
-                    feilVedLagring={feilVedLagring}
-                    laster={laster}
-                    regelstruktur={regelstruktur.midlertidigBostedPeriode}
-                    lagre={lagre}
-                    avbryt={vilkår ? avbryt : undefined}
-                />
-            }
-            lesevisning={vilkår && <LesevisningMidlertidigBostedPeriode vilkår={vilkår} />}
-            slettknapp={
-                vilkår ? (
-                    <SlettVilkårReiseOppstartAvslutningHjemreise
-                        lagretVilkår={vilkår}
-                        avsluttRedigering={() => settRedigerer(false)}
-                        slett={slettVilkår}
+        <>
+            <Paraplyvilkår
+                aktivitet={aktivitet}
+                tittel="Periode hvor bruker bor borte"
+                vilkår={vilkår}
+                redigerer={redigerer}
+                startRedigering={() => settRedigerer(true)}
+                skjema={
+                    <MidlertidigBostedFakta
+                        utkast={utkast}
+                        endreUtkast={endreUtkast}
+                        feil={feil}
+                        feilVedLagring={feilVedLagring}
+                        laster={laster}
+                        regelstruktur={regelstruktur.midlertidigBostedPeriode}
+                        lagre={validerOgLagre}
+                        avbryt={vilkår ? avbryt : undefined}
                     />
-                ) : (
-                    <SmallButton
-                        type="button"
-                        variant="tertiary"
-                        icon={<TrashIcon aria-hidden />}
-                        iconPosition="right"
-                        onClick={fjernUtkast}
-                    >
-                        Slett vilkår
-                    </SmallButton>
-                )
-            }
-        />
+                }
+                lesevisning={vilkår && <LesevisningMidlertidigBostedPeriode vilkår={vilkår} />}
+                slettknapp={
+                    vilkår ? (
+                        <SlettVilkårReiseOppstartAvslutningHjemreise
+                            lagretVilkår={vilkår}
+                            avsluttRedigering={() => settRedigerer(false)}
+                            slett={slettVilkår}
+                        />
+                    ) : (
+                        <SmallButton
+                            type="button"
+                            variant="tertiary"
+                            icon={<TrashIcon aria-hidden />}
+                            iconPosition="right"
+                            onClick={fjernUtkast}
+                        >
+                            Slett vilkår
+                        </SmallButton>
+                    )
+                }
+            />
+            <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
+                visBekreftModal={visBekreftModal}
+                settVisBekreftModal={settVisBekreftModal}
+                bekreftLagre={lagre}
+                laster={laster}
+            />
+        </>
     );
 };
