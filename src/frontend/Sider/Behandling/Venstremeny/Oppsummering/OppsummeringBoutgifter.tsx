@@ -3,6 +3,7 @@ import React from 'react';
 import { BankNoteIcon, WheelchairIcon } from '@navikt/aksel-icons';
 import { BodyShort, VStack } from '@navikt/ds-react';
 
+import { AdresseFelt } from './AdresseFelt';
 import { Aktivitet } from './Aktivitet';
 import { useOppsummeringFilter } from './useOppsummeringFilter';
 import { antallVedlegg, Vedlegg } from './Vedlegg';
@@ -160,11 +161,7 @@ const OppsummeringDelseksjon: React.FC<{
 );
 
 function Adresse({ adresse }: { adresse: string }) {
-    return (
-        <OppsummeringDelseksjon label="Adresse fra Folkeregisteret">
-            <BodyShort size="small">{adresse}</BodyShort>
-        </OppsummeringDelseksjon>
-    );
+    return <AdresseFelt label="Adresse fra Folkeregisteret" gateadresse={adresse} />;
 }
 
 const UtgifterNyBolig = ({
