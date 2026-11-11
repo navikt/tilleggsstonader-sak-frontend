@@ -138,7 +138,13 @@ const BoligEllerOvernattingSeksjon = ({
 
     return (
         <SøknadInfoSeksjon label={label} ikon={<BankNoteIcon />}>
-            {adresse && <Adresse adresse={adresse} />}
+            {adresse && (
+                <SøknadInfoFelt
+                    label="Adresse fra Folkeregisteret"
+                    value={adresse}
+                    copyText={adresse}
+                />
+            )}
             <UtgifterNyBolig utgifterNyBolig={utgifterNyBolig} />
             <UtgifterFlereSteder utgifterFlereSteder={utgifterFlereSteder} />
             <UtgifterSamling samling={samling} />
@@ -158,15 +164,6 @@ const OppsummeringDelseksjon: React.FC<{
         {children}
     </VStack>
 );
-
-function Adresse({ adresse }: { adresse: string }) {
-    return (
-        <OppsummeringDelseksjon label="Adresse fra Folkeregisteret">
-            <BodyShort size="small">{adresse}</BodyShort>
-        </OppsummeringDelseksjon>
-    );
-}
-
 const UtgifterNyBolig = ({
     utgifterNyBolig,
 }: {
