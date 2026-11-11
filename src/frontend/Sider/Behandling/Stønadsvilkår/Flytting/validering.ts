@@ -12,6 +12,7 @@ export interface FeilmeldingerFlytting {
     tilbud?: Array<{ navn?: string; pris?: string } | undefined>;
     nødvendigUtgift?: string;
     begrunnelseNødvendigUtgift?: string;
+    beløpSomKanDekkes?: string;
     erUtgifterDokumentert?: string;
     begrunnelseDokumenterteUtgifter?: string;
 }
@@ -20,6 +21,7 @@ interface FaktaFlyttingSkjema {
     type: TypeVilkårFaktaFlytting;
     tilbud?: { navn: string; pris: string }[];
     nødvendigUtgift?: NødvendigUtgift;
+    beløpSomKanDekkes?: string;
     erUtgifterDokumentert?: string;
     begrunnelseDokumenterteUtgifter?: string;
 }
@@ -101,6 +103,15 @@ export function validerFlytting(
             });
             if (tilbudFeil.some(Boolean)) {
                 feilmeldinger.tilbud = tilbudFeil;
+            }
+
+            if (nødvendigUtgift?.erUtgiftenNødvendig === 'NEI') {
+                const beløp = fakta.beløpSomKanDekkes?.trim() ?? '';
+                if (!beløp) {
+                    feilmeldinger.beløpSomKanDekkes = 'Du må fylle ut beløpet som kan dekkes';
+                } else if (!Number.isFinite(Number(beløp)) || Number(beløp) <= 0) {
+                    feilmeldinger.beløpSomKanDekkes = 'Beløpet som kan dekkes må være større enn 0';
+                }
             }
         }
     }

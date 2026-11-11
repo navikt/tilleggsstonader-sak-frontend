@@ -14,6 +14,7 @@ export interface FaktaFlyttingFlyttebyrå {
     tilbud: FaktaFlyttingTilbud[];
     dokumenterteUtgifter: DokumenterteUtgifter;
     nødvendigUtgift: NødvendigUtgift;
+    beløpSomKanDekkes: number | null;
 }
 
 export interface FaktaFlyttingTilbud {

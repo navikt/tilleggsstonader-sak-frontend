@@ -190,6 +190,14 @@ const LesevisningFlyttingFlyttebyrå: React.FC<{
                 ))}
             </HStack>
             <LesevisningNødvendigUtgift nødvendigUtgift={fakta.nødvendigUtgift} />
+            {fakta.beløpSomKanDekkes !== null && (
+                <VStack gap="space-4">
+                    <BodyShort weight="semibold" size="small">
+                        Beløp som kan dekkes
+                    </BodyShort>
+                    <BodyShort size="small">{fakta.beløpSomKanDekkes} kr</BodyShort>
+                </VStack>
+            )}
             <LesevisningDokumenterteUtgifter dokumenterteUtgifter={fakta.dokumenterteUtgifter} />
         </VStack>
     );

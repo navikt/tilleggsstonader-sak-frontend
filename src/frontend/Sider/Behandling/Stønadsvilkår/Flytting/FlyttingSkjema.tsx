@@ -53,6 +53,7 @@ interface FaktaSkjema {
     erUtgifterDokumentert: DokumenterteUtgifter['erUtgifterDokumentert'] | undefined;
     begrunnelseDokumenterteUtgifter: string;
     nødvendigUtgift: NødvendigUtgift | undefined;
+    beløpSomKanDekkes: string;
     avstandEnVei: string;
     henger: string;
     leiebil: string;
@@ -79,6 +80,7 @@ const tommeFakta: FaktaSkjema = {
     erUtgifterDokumentert: undefined,
     begrunnelseDokumenterteUtgifter: '',
     nødvendigUtgift: undefined,
+    beløpSomKanDekkes: '',
     avstandEnVei: '',
     henger: '',
     leiebil: '',
@@ -121,6 +123,7 @@ function tilFaktaSkjema(fakta?: FaktaFlytting): FaktaSkjema {
             erUtgifterDokumentert: fakta.dokumenterteUtgifter.erUtgifterDokumentert,
             begrunnelseDokumenterteUtgifter: fakta.dokumenterteUtgifter.begrunnelse ?? '',
             nødvendigUtgift: fakta.nødvendigUtgift,
+            beløpSomKanDekkes: fakta.beløpSomKanDekkes?.toString() ?? '',
         };
     }
     if (fakta?.type === 'FLYTTING_FLYTTE_SELV') {
@@ -224,11 +227,17 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
     };
 
     const oppdaterNødvendigUtgift = (nødvendigUtgift: NødvendigUtgift) => {
-        settFakta((forrige) => ({ ...forrige, nødvendigUtgift }));
+        settFakta((forrige) => ({
+            ...forrige,
+            nødvendigUtgift,
+            beløpSomKanDekkes:
+                nødvendigUtgift.erUtgiftenNødvendig === 'NEI' ? forrige.beløpSomKanDekkes : '',
+        }));
         settFeilmeldinger((forrige) => ({
             ...forrige,
             nødvendigUtgift: undefined,
             begrunnelseNødvendigUtgift: undefined,
+            beløpSomKanDekkes: undefined,
         }));
     };
 
@@ -273,6 +282,10 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                 })),
                 dokumenterteUtgifter,
                 nødvendigUtgift,
+                beløpSomKanDekkes:
+                    nødvendigUtgift.erUtgiftenNødvendig === 'NEI'
+                        ? tallEllerNull(skjema.beløpSomKanDekkes)
+                        : null,
             };
         }
         return {
@@ -563,6 +576,30 @@ const EndreFaktaFlyttebyrå: React.FC<{
                     </HGrid>
                 );
             })}
+            {fakta.nødvendigUtgift?.erUtgiftenNødvendig === 'NEI' && (
+                <FeilmeldingMaksBredde $maxWidth={240}>
+                    <HStack maxWidth={'240px'}>
+                        <TextField
+                            label="Beløp som kan dekkes"
+                            description="Siden hele utgiften ikke anses som nødvendig må du legge inn hvilken sum av tilbudet som kan dekkes"
+                            value={fakta.beløpSomKanDekkes}
+                            error={feilmeldinger.beløpSomKanDekkes}
+                            inputMode="numeric"
+                            onChange={(event) => {
+                                settFakta((forrige) => ({
+                                    ...forrige,
+                                    beløpSomKanDekkes: event.target.value,
+                                }));
+                                settFeilmeldinger((forrige) => ({
+                                    ...forrige,
+                                    beløpSomKanDekkes: undefined,
+                                }));
+                            }}
+                            size="small"
+                        />
+                    </HStack>
+                </FeilmeldingMaksBredde>
+            )}
             <Skillelinje />
             <DokumenterteUtgifterFelt
                 beskrivelse="Det kan bare utbetales stønad for dokumenterte utgifter, for eksempel faktura eller kvittering som viser at utgifter er pådratt eller betalt. Pristilbud, anbud og anslag over framtidige utgifter er ikke tilstrekkelig dokumentasjon."
@@ -630,6 +667,23 @@ const EndreFaktaFlytteSelv: React.FC<{
                         </FeilmeldingMaksBredde>
                     )
                 )}
+                {(['henger', 'leiebil'] as const).map((felt) => (
+                    <FeilmeldingMaksBredde $maxWidth={180} key={felt}>
+                        <TextField
+                            autoComplete="off"
+                            label={`${flyttingFaktaFeltTilTekst[felt]}`}
+                            value={fakta[felt]}
+                            inputMode="numeric"
+                            onChange={(event) => {
+                                settFakta((forrige) => ({
+                                    ...forrige,
+                                    [felt]: event.target.value,
+                                }));
+                            }}
+                            size="small"
+                        />
+                    </FeilmeldingMaksBredde>
+                ))}
             </HStack>
             <Skillelinje />
             <DokumenterteUtgifterFelt
