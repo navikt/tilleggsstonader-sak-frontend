@@ -49,6 +49,13 @@ export type FeilmeldingerReiseOppstartAvslutningHjemreise = {
     begrunnelse?: Partial<Record<RegelIdROAH, string>>;
 };
 
+export type FeilmeldingerMidlertidigBostedPeriode = {
+    fom?: string;
+    tom?: string;
+    hovedspørsmål?: string;
+    begrunnelse?: Partial<Record<RegelIdROAH, string>>;
+};
+
 export function harValideringsFeil(valideringsfeil: FeilmeldingerReiseOppstartAvslutningHjemreise) {
     const { fakta, ...resten } = valideringsfeil;
     const harAndreFeil = Object.keys(resten).length > 0;
@@ -80,6 +87,23 @@ export const validerVilkår = (
         ...(faktaValidering ? { fakta: faktaValidering } : {}),
         ...datoerValidering,
     };
+};
+
+export const validerMidlertidigBostedPeriode = (
+    periode: Periode,
+    svar: SvarVilkårReiseOppstartAvslutningHjemreise,
+    regelstruktur: Regelstruktur
+): FeilmeldingerMidlertidigBostedPeriode => {
+    const feil: FeilmeldingerMidlertidigBostedPeriode = {
+        ...validerPeriode(periode),
+        ...validerSvar(svar, regelstruktur),
+    };
+
+    if (!svar.ROAH_MÅ_BO_MIDLERTIDIG_BORTE) {
+        feil.hovedspørsmål = 'Du må svare på om bruker må bo midlertidig borte';
+    }
+
+    return feil;
 };
 
 const validerDatoer = (

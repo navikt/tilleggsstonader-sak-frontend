@@ -29,7 +29,7 @@ import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatu
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
-import { RessursFeilet, RessursStatus, RessursSuksess } from '../../../../../typer/ressurs';
+import { RessursStatus } from '../../../../../typer/ressurs';
 import { Periode } from '../../../../../utils/periode';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useHarEndretDatoerFørTidligereVedtak } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
@@ -43,7 +43,8 @@ import {
     TypeVilkårFakta,
 } from '../typer/regelstrukturReiseOppstartAvslutningHjemreise';
 import {
-    LagreNyttVilkårReiseOppstartAvslutningHjemreise,
+    LagreVilkårFunksjon,
+    SlettVilkårFunksjon,
     SvarVilkårReiseOppstartAvslutningHjemreise,
     TypeReiseformål,
     typeReiseformålTilTekst,
@@ -53,9 +54,8 @@ import {
 interface Props {
     vilkår?: VilkårReiseOppstartAvslutningHjemreise;
     aktivitet: Aktivitet;
-    lagre: (
-        vilkårTilLagring: LagreNyttVilkårReiseOppstartAvslutningHjemreise
-    ) => Promise<RessursSuksess<VilkårReiseOppstartAvslutningHjemreise> | RessursFeilet>;
+    lagre: LagreVilkårFunksjon;
+    slett?: SlettVilkårFunksjon;
     avsluttRedigering: () => void;
 }
 
@@ -63,6 +63,7 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
     vilkår,
     aktivitet,
     lagre,
+    slett,
     avsluttRedigering,
 }) => {
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
@@ -281,14 +282,19 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
 
                 <HStack justify="space-between">
                     <HStack gap="space-16">
-                        <SmallButton>Lagre</SmallButton>
-                        <SmallButton variant="secondary" onClick={handleAvsluttRedigering}>
+                        <SmallButton type="submit">Lagre</SmallButton>
+                        <SmallButton
+                            type="button"
+                            variant="secondary"
+                            onClick={handleAvsluttRedigering}
+                        >
                             Avbryt
                         </SmallButton>
                     </HStack>
                     <SlettVilkårReiseOppstartAvslutningHjemreise
                         lagretVilkår={vilkår}
                         avsluttRedigering={handleAvsluttRedigering}
+                        slett={slett}
                     />
                 </HStack>
                 <Feilmelding feil={feilmeldingVedLagring} />

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 /**
  * State for å kunne sette et eller flere komponenter til ulagret.
@@ -7,17 +7,18 @@ import { useState } from 'react';
 export const useUlagredeKomponenter = () => {
     const [ulagradeKomponenter, settUlagradeKomponenter] = useState<Set<string>>(new Set());
 
-    const settUlagretKomponent = (komponentId: string) => {
+    // Stabile funksjoner, slik at de kan brukes i dependency-lister, for eksempel til å nullstille ved unmount
+    const settUlagretKomponent = useCallback((komponentId: string) => {
         settUlagradeKomponenter((prevState) => new Set(prevState).add(komponentId));
-    };
+    }, []);
 
-    const nullstillUlagretKomponent = (komponentId: string) => {
+    const nullstillUlagretKomponent = useCallback((komponentId: string) => {
         settUlagradeKomponenter((prevState) => {
             const kopi = new Set(prevState);
             kopi.delete(komponentId);
             return kopi;
         });
-    };
+    }, []);
 
     const nullstillUlagredeKomponenter = () => {
         if (ulagradeKomponenter.size > 0) {

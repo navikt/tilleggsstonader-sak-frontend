@@ -3,11 +3,11 @@ import React, { FC, useState } from 'react';
 import { EndreVilkårReiseOppstartAvslutningHjemreise } from './EndreVilkår/EndreVilkårReiseOppstartAvslutningHjemreise';
 import { LesevisningVilkårReiseOppstartAvslutningHjemreise } from './Lesevisning/LesevisningVilkårReiseOppstartAvslutningHjemreise';
 import {
-    LagreNyttVilkårReiseOppstartAvslutningHjemreise,
+    LagreVilkårFunksjon,
+    SlettVilkårFunksjon,
     VilkårReiseOppstartAvslutningHjemreise,
 } from './typer/vilkårReiseOppstartAvslutningHjemreise';
 import { useSteg } from '../../../../context/StegContext';
-import { useVilkårReiseOppstartAvslutningHjemreise } from '../../../../context/VilkårReiseOppstartAvslutningHjemreiseContext/VilkårReiseOppstartAvslutningHjemreiseContext';
 import { Aktivitet } from '../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
 import { PeriodeStatus } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 
@@ -18,6 +18,8 @@ interface Props {
     redigererAnnetVilkår: boolean;
     startRedigering: () => boolean;
     avsluttRedigering: () => void;
+    lagre: LagreVilkårFunksjon;
+    slett: SlettVilkårFunksjon;
 }
 
 export const VisEllerEndreVilkårReiseOppstartAvslutningHjemreise: FC<Props> = ({
@@ -26,9 +28,10 @@ export const VisEllerEndreVilkårReiseOppstartAvslutningHjemreise: FC<Props> = (
     redigerer,
     startRedigering,
     avsluttRedigering,
+    lagre,
+    slett,
 }) => {
     const { erStegRedigerbart } = useSteg();
-    const { oppdaterVilkår } = useVilkårReiseOppstartAvslutningHjemreise();
 
     const [feilmeldingRedigering, settFeilmeldingRedigering] = useState<string | undefined>(
         undefined
@@ -53,10 +56,6 @@ export const VisEllerEndreVilkårReiseOppstartAvslutningHjemreise: FC<Props> = (
 
     const skalViseRedigeringsknapp = !!erStegRedigerbart && vilkår.status !== PeriodeStatus.SLETTET;
 
-    const lagre = async (vilkårTilLagring: LagreNyttVilkårReiseOppstartAvslutningHjemreise) => {
-        return await oppdaterVilkår(vilkår.id, vilkårTilLagring);
-    };
-
     return (
         <>
             {erStegRedigerbart && redigerer ? (
@@ -64,6 +63,7 @@ export const VisEllerEndreVilkårReiseOppstartAvslutningHjemreise: FC<Props> = (
                     vilkår={vilkår}
                     aktivitet={aktivitet}
                     lagre={lagre}
+                    slett={slett}
                     avsluttRedigering={avsluttRedigering}
                 />
             ) : (

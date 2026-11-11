@@ -1,27 +1,29 @@
 import React, { FC } from 'react';
 
-import { useVilkårReiseOppstartAvslutningHjemreise } from '../../../../../context/VilkårReiseOppstartAvslutningHjemreiseContext/VilkårReiseOppstartAvslutningHjemreiseContext';
 import SlettVilkårModal from '../../../Vilkårvurdering/EndreVilkår/SlettVilkårModal';
-import { VilkårReiseOppstartAvslutningHjemreise } from '../typer/vilkårReiseOppstartAvslutningHjemreise';
+import {
+    erParaplyvilkår,
+    SlettVilkårFunksjon,
+    VilkårROAH,
+} from '../typer/vilkårReiseOppstartAvslutningHjemreise';
 
 type EndreVilkårProps = {
-    lagretVilkår: VilkårReiseOppstartAvslutningHjemreise | undefined;
+    lagretVilkår: VilkårROAH | undefined;
     avsluttRedigering: () => void;
+    slett: SlettVilkårFunksjon | undefined;
 };
 
 export const SlettVilkårReiseOppstartAvslutningHjemreise: FC<EndreVilkårProps> = ({
     lagretVilkår,
     avsluttRedigering,
+    slett,
 }) => {
-    const { slettVilkår } = useVilkårReiseOppstartAvslutningHjemreise();
-
-    if (!lagretVilkår) {
+    if (!lagretVilkår || !slett) {
         return null;
     }
 
-    const slett = (slettetBegrunnelse: string | undefined) => {
-        return slettVilkår(lagretVilkår.id, slettetBegrunnelse);
-    };
+    const slettLagretVilkår = (slettetBegrunnelse: string | undefined) =>
+        slett(lagretVilkår.id, slettetBegrunnelse);
 
     return (
         <div className={'right'}>
@@ -29,9 +31,13 @@ export const SlettVilkårReiseOppstartAvslutningHjemreise: FC<EndreVilkårProps>
                 vilkår={lagretVilkår}
                 avsluttRedigering={avsluttRedigering}
                 kanSlettesPermanent={lagretVilkår?.status === 'NY'}
-                slettVilkår={slett}
-                metadataLabel="Reiseformål"
-                metadata={lagretVilkår.typeReiseformål}
+                slettVilkår={slettLagretVilkår}
+                metadataLabel={erParaplyvilkår(lagretVilkår) ? 'Vilkår' : 'Reiseformål'}
+                metadata={
+                    erParaplyvilkår(lagretVilkår)
+                        ? 'Midlertidig bosted'
+                        : lagretVilkår.typeReiseformål
+                }
             />
         </div>
     );
