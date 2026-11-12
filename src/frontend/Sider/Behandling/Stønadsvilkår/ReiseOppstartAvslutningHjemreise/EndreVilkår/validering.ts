@@ -52,6 +52,8 @@ export type FeilmeldingerReiseOppstartAvslutningHjemreise = {
 export type FeilmeldingerMidlertidigBostedPeriode = {
     fom?: string;
     tom?: string;
+    fraAdresse?: string;
+    tilAdresse?: string;
     hovedspørsmål?: string;
     begrunnelse?: Partial<Record<RegelIdROAH, string>>;
 };
@@ -91,6 +93,7 @@ export const validerVilkår = (
 
 export const validerMidlertidigBostedPeriode = (
     periode: Periode,
+    adresser: { fraAdresse: string; tilAdresse: string },
     svar: SvarVilkårReiseOppstartAvslutningHjemreise,
     regelstruktur: Regelstruktur
 ): FeilmeldingerMidlertidigBostedPeriode => {
@@ -98,6 +101,14 @@ export const validerMidlertidigBostedPeriode = (
         ...validerPeriode(periode),
         ...validerSvar(svar, regelstruktur),
     };
+
+    if (harIkkeVerdi(adresser.fraAdresse)) {
+        feil.fraAdresse = 'Mangler fra adresse';
+    }
+
+    if (harIkkeVerdi(adresser.tilAdresse)) {
+        feil.tilAdresse = 'Mangler til adresse';
+    }
 
     if (!svar.ROAH_MÅ_BO_MIDLERTIDIG_BORTE) {
         feil.hovedspørsmål = 'Du må svare på om bruker må bo midlertidig borte';

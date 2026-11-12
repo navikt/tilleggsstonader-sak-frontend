@@ -82,6 +82,7 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
 
         const nyeFeil = validerMidlertidigBostedPeriode(
             { fom, tom },
+            { fraAdresse: utkast.fraAdresse, tilAdresse: utkast.tilAdresse },
             utkast.svar,
             regelstruktur.midlertidigBostedPeriode
         );

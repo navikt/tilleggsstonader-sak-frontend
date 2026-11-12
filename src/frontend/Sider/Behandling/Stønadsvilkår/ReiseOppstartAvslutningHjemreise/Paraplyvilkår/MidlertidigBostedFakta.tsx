@@ -59,12 +59,14 @@ export const MidlertidigBostedFakta: React.FC<Props> = ({
                 size="small"
                 value={utkast.fraAdresse}
                 onChange={(e) => endreUtkast({ fraAdresse: e.target.value })}
+                error={feil.fraAdresse}
             />
             <TextField
                 label="Til adresse"
                 size="small"
                 value={utkast.tilAdresse}
                 onChange={(e) => endreUtkast({ tilAdresse: e.target.value })}
+                error={feil.tilAdresse}
             />
         </HStack>
         <Skillelinje />
