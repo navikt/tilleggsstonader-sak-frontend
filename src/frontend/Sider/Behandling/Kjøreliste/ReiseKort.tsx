@@ -41,8 +41,8 @@ export const ReiseKort: FC<{
                                 </BodyShort>
                             </VStack>
                             <VStack gap="space-4">
-                                <Label size="medium">Reiseavstand én vei</Label>
-                                <BodyShort size="medium">{`${rammeForReise.reiseavstandEnVei} km`}</BodyShort>
+                                <Label size="medium">Total reiseavstand</Label>
+                                <BodyShort size="medium">{`${rammeForReise.totalReiseavstand} km`}</BodyShort>
                             </VStack>
                         </HStack>
                     </ExpansionCard.Description>
