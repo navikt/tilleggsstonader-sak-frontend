@@ -25,6 +25,7 @@ export interface Behandling {
     vedtaksdato?: string;
     årsakMetadata?: ÅrsakMetadata;
     harÅpenKjørelistebehandling: boolean;
+    kanViseKjøreliste?: boolean | null;
     tilordnetSaksbehandler: TilordnetSaksbehandlerDto;
 }
 

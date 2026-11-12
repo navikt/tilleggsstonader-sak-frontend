@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { type NavigateOptions, useNavigate } from 'react-router-dom';
 
 import { useApp } from '../context/AppContext';
+
+interface Navigasjon {
+    path: string;
+    options?: NavigateOptions;
+}
 
 /**
  * Kan ikke kjøre navigate direkte fordi navigate er i blocked state,
@@ -12,17 +17,17 @@ export const useNavigateUtenSjekkForUlagredeKomponenter = () => {
     const { nullstillUlagredeKomponenter } = useApp();
     const navigate = useNavigate();
 
-    const [path, settPath] = useState<string>();
+    const [navigasjon, settNavigasjon] = useState<Navigasjon>();
 
     useEffect(() => {
-        if (path) {
-            navigate(path);
+        if (navigasjon) {
+            navigate(navigasjon.path, navigasjon.options);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [path]);
+    }, [navigasjon]);
 
-    return (path: string) => {
+    return (path: string, options?: NavigateOptions) => {
         nullstillUlagredeKomponenter();
-        settPath(path);
+        settNavigasjon({ path, options });
     };
 };
