@@ -27,6 +27,15 @@ export const begrunnelseHjelpeteksterForMåFlytteForStarteArbeid: Partial<Record
     JA: 'Vurder naturlig pendleravstand, arbeidsforholdets varighet, arbeidskontrakt for det nye arbeidsforholdet, jobbsøk på hjemstedet og om stillingen er utlyst eller meldt til Nav.',
 };
 
+export const begrunnelseHjelpeteksterForMåFlytteForGjennomføreAktivitet: Partial<
+    Record<string, string>
+> = {
+    FLYTTER_TIL_AKTIVITETSSTED:
+        'Vurder om det er nødvendig at brukeren flytter. Ta hensyn til naturlig pendleravstand.',
+    FLYTTER_TIL_HJEMSTED:
+        'Vurder om det er nødvendig at brukeren flytter. Ta hensyn til naturlig pendleravstand.',
+};
+
 export const delvilkårHjelpetekster: Partial<Record<RegelIdFlytting, string>> = {
     [RegelIdFlytting.HAR_UTGIFTER_TIL_FLYTTING]:
         'Vurder om bruker faktisk har utgifter til flyttingen. Dersom flyttingen er gratis eller utgiftene dekkes fullt ut på annen måte, har ikke bruker utgifter som kan dekkes.',

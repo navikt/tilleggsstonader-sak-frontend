@@ -11,9 +11,9 @@ import { BodyShort, HGrid, HStack, Label, Tag, VStack } from '@navikt/ds-react';
 
 import {
     DokumenterteUtgifter,
+    ekstrakostnaderFlytting,
     FaktaFlyttingFlyttebyrå,
     FaktaFlyttingKjøreSelv,
-    flyttingFaktaFeltTilTekst,
 } from './typer/faktaFlytting';
 import { VilkårFlytting } from './typer/vilkårFlytting';
 import { tilDelvilkår, tilVilkårBase } from './utils';
@@ -219,20 +219,18 @@ const LesevisningFlyttingPrivatBil: React.FC<{
                 </BodyShort>
             </HStack>
 
-            {(['henger', 'leiebil', 'bompenger', 'ferge', 'parkering', 'annet'] as const).map(
-                (felt) => (
-                    <HStack justify={'space-between'} key={felt}>
-                        <BodyShort size="small" weight="semibold">
-                            {flyttingFaktaFeltTilTekst[felt]}
-                        </BodyShort>
-                        <BodyShort size="small">
-                            {fakta[felt] !== null && fakta[felt] !== undefined
-                                ? `${formaterTallMedTusenSkilleEllerStrek(fakta[felt])} kr`
-                                : 'Ingen kostnad'}
-                        </BodyShort>
-                    </HStack>
-                )
-            )}
+            {ekstrakostnaderFlytting.map(({ felt, label }) => (
+                <HStack justify={'space-between'} key={felt}>
+                    <BodyShort size="small" weight="semibold">
+                        {label}
+                    </BodyShort>
+                    <BodyShort size="small">
+                        {fakta[felt] !== null && fakta[felt] !== undefined
+                            ? `${formaterTallMedTusenSkilleEllerStrek(fakta[felt])} kr`
+                            : 'Ingen kostnad'}
+                    </BodyShort>
+                </HStack>
+            ))}
             <LesevisningNødvendigUtgift nødvendigUtgift={fakta.nødvendigUtgift} />
             <LesevisningDokumenterteUtgifter dokumenterteUtgifter={fakta.dokumenterteUtgifter} />
         </VStack>

@@ -1,5 +1,6 @@
 .container {
     display: grid;
+    align-items: start;
     grid-template-columns: minmax(0, 350px) minmax(0, 1fr);
     gap: 4rem;
 }

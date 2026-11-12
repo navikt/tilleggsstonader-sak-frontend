@@ -26,11 +26,11 @@ export interface FaktaFlyttingKjøreSelv {
     type: 'FLYTTING_FLYTTE_SELV';
     adresse: string | null;
     avstandEnVei: number | null;
-    henger: number | null;
-    leiebil: number | null;
     bompenger: number | null;
     ferge: number | null;
     parkering: number | null;
+    henger: number | null;
+    leiebil: number | null;
     annet: number | null;
     dokumenterteUtgifter: DokumenterteUtgifter;
     nødvendigUtgift: NødvendigUtgift;
@@ -44,11 +44,11 @@ export interface FaktaFlyttingUbestemt {
 export type FaktaFlytting =
     FaktaFlyttingFlyttebyrå | FaktaFlyttingKjøreSelv | FaktaFlyttingUbestemt;
 
-export const flyttingFaktaFeltTilTekst = {
-    henger: 'Hengerleie',
-    leiebil: 'Leiebil',
-    bompenger: 'Bompenger',
-    ferge: 'Ferge',
-    parkering: 'Parkering',
-    annet: 'Annet',
-} as const;
+export const ekstrakostnaderFlytting = [
+    { felt: 'bompenger', label: 'Bompenger' },
+    { felt: 'ferge', label: 'Ferge' },
+    { felt: 'parkering', label: 'Parkering' },
+    { felt: 'henger', label: 'Hengerleie' },
+    { felt: 'leiebil', label: 'Leiebil' },
+    { felt: 'annet', label: 'Annet' },
+] as const;
