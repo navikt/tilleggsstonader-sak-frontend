@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Alert, Box, Heading, HStack, Switch, Table, VStack } from '@navikt/ds-react';
+import { Alert, Box, HGrid, Heading, HStack, Switch, Table, VStack } from '@navikt/ds-react';
 
 import { TableDataCellSmall, TableHeaderCellSmall } from '../../../../../komponenter/TabellSmall';
 import {
@@ -14,6 +14,7 @@ import {
     formatBoolean,
     kronerMedTusenSkilleEllerStrek,
 } from '../../../../../utils/tekstformatering';
+import { ekstrakostnaderFlytting } from '../../../Stønadsvilkår/Flytting/typer/faktaFlytting';
 
 const BeregningsResultatFlyttebyrå: React.FC<{
     beregningsresultat: BeregningsresultatFlytting;
@@ -126,12 +127,7 @@ const BeregningsResultatFlytteSelv: React.FC<{
                             <TableHeaderCellSmall>Avstand én vei</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Sats per km</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Sats bekreftet</TableHeaderCellSmall>
-                            <TableHeaderCellSmall>Henger</TableHeaderCellSmall>
-                            <TableHeaderCellSmall>Leiebil</TableHeaderCellSmall>
-                            <TableHeaderCellSmall>Bompenger</TableHeaderCellSmall>
-                            <TableHeaderCellSmall>Ferge</TableHeaderCellSmall>
-                            <TableHeaderCellSmall>Parkering</TableHeaderCellSmall>
-                            <TableHeaderCellSmall>Annet</TableHeaderCellSmall>
+                            <TableHeaderCellSmall>Ekstrakostnader</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Dokumentert og utbetales?</TableHeaderCellSmall>
                             <TableHeaderCellSmall align="right">Stønadsbeløp</TableHeaderCellSmall>
                         </Table.Row>
@@ -147,7 +143,9 @@ const BeregningsResultatFlytteSelv: React.FC<{
                                     <TableDataCellSmall>
                                         {formaterIsoDato(resultat.tom)}
                                     </TableDataCellSmall>
-                                    <TableDataCellSmall>{grunnlag.avstandEnVei}</TableDataCellSmall>
+                                    <TableDataCellSmall>
+                                        {grunnlag.avstandEnVei} km
+                                    </TableDataCellSmall>
                                     <TableDataCellSmall>
                                         {kronerMedTusenSkilleEllerStrek(grunnlag.sats)}
                                     </TableDataCellSmall>
@@ -155,22 +153,31 @@ const BeregningsResultatFlytteSelv: React.FC<{
                                         {formatBoolean(grunnlag.satsBekreftet)}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
-                                        {kronerMedTusenSkilleEllerStrek(grunnlag.henger)}
-                                    </TableDataCellSmall>
-                                    <TableDataCellSmall>
-                                        {kronerMedTusenSkilleEllerStrek(grunnlag.leiebil)}
-                                    </TableDataCellSmall>
-                                    <TableDataCellSmall>
-                                        {kronerMedTusenSkilleEllerStrek(grunnlag.bompenger)}
-                                    </TableDataCellSmall>
-                                    <TableDataCellSmall>
-                                        {kronerMedTusenSkilleEllerStrek(grunnlag.ferge)}
-                                    </TableDataCellSmall>
-                                    <TableDataCellSmall>
-                                        {kronerMedTusenSkilleEllerStrek(grunnlag.parkering)}
-                                    </TableDataCellSmall>
-                                    <TableDataCellSmall>
-                                        {kronerMedTusenSkilleEllerStrek(grunnlag.annet)}
+                                        <HGrid columns={2} gap="space-24" align="start">
+                                            {[
+                                                ekstrakostnaderFlytting.slice(0, 3),
+                                                ekstrakostnaderFlytting.slice(3),
+                                            ].map((kostnader, index) => (
+                                                <VStack key={index} gap="space-4">
+                                                    {kostnader.map(({ felt, label }) => (
+                                                        <HStack
+                                                            key={felt}
+                                                            justify="space-between"
+                                                            wrap={false}
+                                                            align="baseline"
+                                                            gap={'space-0'}
+                                                        >
+                                                            <span>{label}</span>
+                                                            <span style={{ whiteSpace: 'nowrap' }}>
+                                                                {kronerMedTusenSkilleEllerStrek(
+                                                                    grunnlag[felt]
+                                                                )}
+                                                            </span>
+                                                        </HStack>
+                                                    ))}
+                                                </VStack>
+                                            ))}
+                                        </HGrid>
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
                                         {formatBoolean(grunnlag.erUtgifterDokumentert)}

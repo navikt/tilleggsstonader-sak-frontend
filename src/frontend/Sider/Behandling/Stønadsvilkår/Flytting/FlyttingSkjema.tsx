@@ -4,13 +4,14 @@ import { HGrid, HStack, LocalAlert, TextField, VStack } from '@navikt/ds-react';
 
 import {
     DokumenterteUtgifter,
+    ekstrakostnaderFlytting,
     FaktaFlytting,
-    flyttingFaktaFeltTilTekst,
     TypeVilkårFaktaFlytting,
 } from './typer/faktaFlytting';
 import {
     begrunnelseHjelpeteksterForFlytteforbindelse,
     begrunnelseHjelpeteksterForFlytterIfbmArbeid,
+    begrunnelseHjelpeteksterForMåFlytteForGjennomføreAktivitet,
     begrunnelseHjelpeteksterForMåFlytteForStarteArbeid,
     delvilkårHjelpetekster,
     RegelIdFlytting,
@@ -55,11 +56,11 @@ interface FaktaSkjema {
     nødvendigUtgift: NødvendigUtgift | undefined;
     beløpSomKanDekkes: string;
     avstandEnVei: string;
-    henger: string;
-    leiebil: string;
     bompenger: string;
     ferge: string;
     parkering: string;
+    henger: string;
+    leiebil: string;
     annet: string;
 }
 
@@ -102,6 +103,9 @@ function hentBegrunnelseHjelpetekst(
     }
     if (regelId == RegelIdFlytting.MÅ_FLYTTE_FOR_Å_STARTE_I_ARBEID && svar) {
         return begrunnelseHjelpeteksterForMåFlytteForStarteArbeid[svar];
+    }
+    if (regelId == RegelIdFlytting.MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET && svar) {
+        return begrunnelseHjelpeteksterForMåFlytteForGjennomføreAktivitet[svar];
     }
 
     return undefined;
@@ -648,25 +652,23 @@ const EndreFaktaFlytteSelv: React.FC<{
                         size="small"
                     />
                 </FeilmeldingMaksBredde>
-                {(['henger', 'leiebil', 'bompenger', 'ferge', 'parkering', 'annet'] as const).map(
-                    (felt) => (
-                        <FeilmeldingMaksBredde $maxWidth={180} key={felt}>
-                            <TextField
-                                autoComplete="off"
-                                label={`${flyttingFaktaFeltTilTekst[felt]}`}
-                                value={fakta[felt]}
-                                inputMode="numeric"
-                                onChange={(event) => {
-                                    settFakta((forrige) => ({
-                                        ...forrige,
-                                        [felt]: event.target.value,
-                                    }));
-                                }}
-                                size="small"
-                            />
-                        </FeilmeldingMaksBredde>
-                    )
-                )}
+                {ekstrakostnaderFlytting.map(({ felt, label }) => (
+                    <FeilmeldingMaksBredde $maxWidth={180} key={felt}>
+                        <TextField
+                            autoComplete="off"
+                            label={label}
+                            value={fakta[felt]}
+                            inputMode="numeric"
+                            onChange={(event) => {
+                                settFakta((forrige) => ({
+                                    ...forrige,
+                                    [felt]: event.target.value,
+                                }));
+                            }}
+                            size="small"
+                        />
+                    </FeilmeldingMaksBredde>
+                ))}
             </HStack>
             <Skillelinje />
             <DokumenterteUtgifterFelt
@@ -698,6 +700,11 @@ const DokumenterteUtgifterFelt: React.FC<{
             ]}
             svar={fakta.erUtgifterDokumentert}
             begrunnelse={fakta.begrunnelseDokumenterteUtgifter}
+            begrunnelseHjelpetekst={
+                fakta.erUtgifterDokumentert === SvarJaNei.JA
+                    ? 'Vurder om flyttingen faktisk er betalt for og hvilke dokumenter som dokumenterer dette'
+                    : undefined
+            }
             feilmeldingSvar={feilmeldinger.erUtgifterDokumentert}
             feilmeldingBegrunnelse={feilmeldinger.begrunnelseDokumenterteUtgifter}
             oppdaterSvar={(nyttSvar) => {

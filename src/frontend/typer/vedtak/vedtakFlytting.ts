@@ -79,13 +79,13 @@ export function hentValgtFlyttebyråTilbud(
 export type BeregningsgrunnlagFlytteSelv = {
     type: BeregningsgrunnlagType.FLYTTE_SELV;
     avstandEnVei: number;
-    sats: number;
-    satsBekreftet: boolean;
-    henger: number;
-    leiebil: number;
     bompenger: number;
     ferge: number;
     parkering: number;
+    henger: number;
+    leiebil: number;
     annet: number;
+    sats: number;
+    satsBekreftet: boolean;
     erUtgifterDokumentert: boolean;
 };

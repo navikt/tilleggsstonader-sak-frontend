@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 
 import { cellStyle } from './vedtakstabellReiseTilSamling/util';
+import { ekstrakostnaderFlytting } from '../../../Sider/Behandling/Stønadsvilkår/Flytting/typer/faktaFlytting';
 import {
     BeregningsgrunnlagFlytteSelv,
     BeregningsgrunnlagType,
@@ -15,7 +16,7 @@ import { kronerMedTusenSkilleEllerStrek } from '../../../utils/tekstformatering'
 
 type Kolonne = {
     navn: string;
-    verdi: string | number;
+    verdi: React.ReactNode;
     erBeløp?: boolean;
     erStønadsbeløp?: boolean;
 };
@@ -114,25 +115,30 @@ const VedtakstabellFlytting: FC<{ resultat: BeregningsresultatFlyttevilkår }> =
 
 function lagKolonnerForEgenKjøring(grunnlag: BeregningsgrunnlagFlytteSelv): Kolonne[] {
     return [
-        { navn: 'Avstand', verdi: `${grunnlag.avstandEnVei} km` },
+        { navn: 'Total reiseavstand', verdi: `${grunnlag.avstandEnVei} km` },
         {
-            navn: 'Sats',
+            navn: 'Kilometersats',
             verdi: `${kronerMedTusenSkilleEllerStrek(grunnlag.sats)}/km`,
-            erBeløp: true,
+            erBeløp: false,
         },
-        ...[
-            { navn: 'Henger', beløp: grunnlag.henger },
-            { navn: 'Leiebil', beløp: grunnlag.leiebil },
-            { navn: 'Bompenger', beløp: grunnlag.bompenger },
-            { navn: 'Ferge', beløp: grunnlag.ferge },
-            { navn: 'Parkering', beløp: grunnlag.parkering },
-            { navn: 'Annet', beløp: grunnlag.annet },
-        ]
-            .filter(({ beløp }) => beløp > 0)
-            .map(({ navn, beløp }) => ({
-                navn,
-                verdi: kronerMedTusenSkilleEllerStrek(beløp),
-                erBeløp: true,
-            })),
+        {
+            navn: 'Ekstrakostnader',
+            verdi: (
+                <div
+                    style={{
+                        whiteSpace: 'normal',
+                    }}
+                >
+                    {ekstrakostnaderFlytting.map(({ felt, label }) => (
+                        <div key={felt} style={{ display: 'block', overflow: 'hidden' }}>
+                            <span style={{ float: 'left' }}>{label}:</span>
+                            <span style={{ float: 'right', whiteSpace: 'nowrap' }}>
+                                {kronerMedTusenSkilleEllerStrek(grunnlag[felt])}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            ),
+        },
     ];
 }
