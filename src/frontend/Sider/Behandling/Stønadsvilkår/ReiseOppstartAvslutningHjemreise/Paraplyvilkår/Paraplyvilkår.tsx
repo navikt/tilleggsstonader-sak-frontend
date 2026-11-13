@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 
-import { PencilIcon, PlusCircleIcon } from '@navikt/aksel-icons';
-import { BodyShort, Heading, HStack, VStack } from '@navikt/ds-react';
+import { PencilIcon } from '@navikt/aksel-icons';
+import { Heading, HStack, VStack } from '@navikt/ds-react';
 
 import { ReiserIParaplyvilkår } from './ReiserIParaplyvilkår';
 import { useSteg } from '../../../../../context/StegContext';
@@ -60,22 +60,8 @@ export const Paraplyvilkår: React.FC<Props> = ({
                         {tittel}
                     </Heading>
                     {erStegRedigerbart && redigerer ? skjema : lesevisning}
-                    {vilkår ? (
+                    {vilkår && (
                         <ReiserIParaplyvilkår aktivitet={aktivitet} paraplyvilkår={vilkår} />
-                    ) : (
-                        <HStack gap="space-16" align="center">
-                            <SmallButton
-                                type="button"
-                                variant="secondary"
-                                icon={<PlusCircleIcon />}
-                                disabled
-                            >
-                                Legg til ny reise
-                            </SmallButton>
-                            <BodyShort size="small">
-                                Lagre perioden før du legger til reiser
-                            </BodyShort>
-                        </HStack>
                     )}
                     {erStegRedigerbart && redigerer && <HStack justify="end">{slettknapp}</HStack>}
                 </VStack>
