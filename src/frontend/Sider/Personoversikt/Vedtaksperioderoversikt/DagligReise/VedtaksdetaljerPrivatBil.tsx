@@ -48,7 +48,7 @@ export const VedtaksdetaljerPrivatBil: FC<Props> = ({ rammevedtakPrivatBil, clas
     return (
         <VStack gap="space-8" className={className}>
             <BodyShort size="small">
-                <strong>Reiseavstand en vei:</strong> {rammevedtakPrivatBil.reiseavstandEnVei} km
+                <strong>Total reiseavstand:</strong> {rammevedtakPrivatBil.totalReiseavstand} km
             </BodyShort>
 
             <Table size="small" className={styles.table}>

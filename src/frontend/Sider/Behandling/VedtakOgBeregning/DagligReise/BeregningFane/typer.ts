@@ -6,7 +6,7 @@ export interface PrivatBilOppsummertBeregning {
 
 export interface OppsummertBeregningForReise {
     reiseId: string;
-    reiseavstandEnVei: number;
+    totalReiseavstand: number;
     aktivitetsadresse: string | undefined;
     perioder: OppsummertBeregningForPeriode[];
     fraTidligereVedtak: boolean;

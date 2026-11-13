@@ -28,7 +28,7 @@ export type FeilmeldingerFaktaPrivatBil = Array<{
     reisedagerPerUke?: string;
     bompengerPerDag?: string;
     fergePerDag?: string;
-    reiseavstandEnVei?: string;
+    totalReiseavstand?: string;
     aktivitet?: string;
     begrunnelseManuellBehandling?: string;
 }>;
@@ -145,7 +145,7 @@ const validerFaktaPrivatBil = (
             reisedagerPerUke?: string;
             bompengerPerDag?: string;
             fergePerDag?: string;
-            reiseavstandEnVei?: string;
+            totalReiseavstand?: string;
             aktivitet?: string;
             begrunnelseManuellBehandling?: string;
         } = {};
@@ -166,16 +166,16 @@ const validerFaktaPrivatBil = (
         }
         return feil;
     });
-    // Valider felles reiseavstandEnVei og legg på første element
-    if (fakta.reiseavstandEnVei === undefined || Number(fakta.reiseavstandEnVei) <= 0) {
+    // Valider felles totalReiseavstand og legg på første element
+    if (fakta.totalReiseavstand === undefined || Number(fakta.totalReiseavstand) <= 0) {
         if (feilListe.length > 0) {
             feilListe[0] = {
                 ...feilListe[0],
-                reiseavstandEnVei: 'Reiseavstand per dag må fylles ut og være større enn 0',
+                totalReiseavstand: 'Total reiseavstand må fylles ut og være større enn 0',
             };
         } else {
             feilListe.push({
-                reiseavstandEnVei: 'Reiseavstand per dag må fylles ut og være større enn 0',
+                totalReiseavstand: 'Total reiseavstand må fylles ut og være større enn 0',
             });
         }
     }

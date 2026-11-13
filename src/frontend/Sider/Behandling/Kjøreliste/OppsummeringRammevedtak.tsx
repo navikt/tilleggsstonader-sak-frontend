@@ -12,11 +12,11 @@ export const OppsummeringRammevedtak: FC<{
     return (
         <div className={styles.grid}>
             <Label size="small">Periode</Label>
-            <Label size="small">Reiseavstand én vei</Label>
+            <Label size="small">Total reiseavstand</Label>
             <BodyShort size="small">
                 {formaterIsoPeriode(rammeForReise?.fom ?? 'ukjent', rammeForReise?.tom ?? 'ukjent')}
             </BodyShort>
-            <BodyShort size="small">{rammeForReise?.reiseavstandEnVei} km</BodyShort>
+            <BodyShort size="small">{rammeForReise?.totalReiseavstand} km</BodyShort>
         </div>
     );
 };

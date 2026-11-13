@@ -14,7 +14,7 @@ export function lagRammevedtakstabellUtenDelperioder(reise: RammeForReiseMedPriv
       <thead>
         <tr class="vedtakstabell-rad">
           <th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:left;">Periode</th>
-          <th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:left;">Reiseavstand</th>
+          <th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:left;">Total reiseavstand</th>
           <th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:left;">Reisedager pr uke</th>
           <th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:right;">Kilometersats</th>
           ${harBom ? '<th style="border:1px solid #b0b0b0;padding:4px 8px;font-size:0.90em;font-weight:500;text-align:right;">Bompenger per dag</th>' : ''}
@@ -50,7 +50,7 @@ function lagRadData(reise: RammeForReiseMedPrivatBil) {
                 fom: sats.fom,
                 tom: sats.tom,
             }),
-            reiseavstand: formaterTallMedTusenSkille(reise.reiseavstandEnVei),
+            reiseavstand: formaterTallMedTusenSkille(reise.totalReiseavstand),
             reisedagerPerUke: delperiode.reisedagerPerUke,
             kilometersats: formaterKrVerdiVedBekreftetSats(
                 sats.kilometersats,

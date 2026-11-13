@@ -18,7 +18,8 @@ export const DagligReisePrivatBilBeregningsresultatTabell: FC<{
     return (
         <HStack gap="space-8" className={styles.reiseSection}>
             <Label size="small">
-                {oppsummertBeregning.aktivitetsadresse} · {oppsummertBeregning.reiseavstandEnVei} km
+                {oppsummertBeregning.aktivitetsadresse} · Total reiseavstand:{' '}
+                {oppsummertBeregning.totalReiseavstand} km
             </Label>
             <Table size="small">
                 <Table.Header>

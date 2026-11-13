@@ -324,13 +324,13 @@ export const EndreFaktaPrivatBil: React.FC<Props> = ({
                 <FeilmeldingMaksBredde $maxWidth={180}>
                     <TextField
                         autoComplete="off"
-                        label={'Reiseavstand en vei (km)'}
+                        label={'Samlet kjøreavstand tur/retur i km'}
                         size="small"
-                        error={feilmeldinger?.[0]?.reiseavstandEnVei}
-                        value={harTallverdi(fakta.reiseavstandEnVei) ? fakta.reiseavstandEnVei : ''}
+                        error={feilmeldinger?.[0]?.totalReiseavstand}
+                        value={harTallverdi(fakta.totalReiseavstand) ? fakta.totalReiseavstand : ''}
                         onChange={(e) => {
                             oppdaterFelles(
-                                'reiseavstandEnVei',
+                                'totalReiseavstand',
                                 tilTallverdi(fjernSpaces(e.target.value))
                             );
                         }}
