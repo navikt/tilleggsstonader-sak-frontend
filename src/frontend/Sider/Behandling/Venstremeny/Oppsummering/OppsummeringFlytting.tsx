@@ -13,6 +13,7 @@ import {
     flyttemåteTilTekst,
     utgifterDekketPåAnnenMåteTilTekst,
 } from '../../../../typer/behandling/behandlingFakta/faktaFlytting';
+import { drivstofftypeTilTekst } from '../../../../typer/behandling/behandlingFakta/faktaReise';
 import { formaterDato } from '../../../../utils/dato';
 import { formaterTallMedTusenSkille } from '../../../../utils/fomatering';
 
@@ -78,6 +79,12 @@ export const OppsummeringFlytting: React.FC<{
                         value={formaterKroner(utgifter?.hengerleie)}
                     />
                     <SøknadInfoFelt label="Leie av bil" value={formaterKroner(utgifter?.leiebil)} />
+                    {detaljer.flyttemåte === 'FLYTTER_SELV' && utgifter && (
+                        <SøknadInfoFelt
+                            label="Bilens drivstofftype"
+                            value={drivstofftypeTilTekst[utgifter.drivstoffType]}
+                        />
+                    )}
                     <SøknadInfoFelt label="Bom" value={formaterKroner(utgifter?.bom)} />
                     <SøknadInfoFelt label="Parkering" value={formaterKroner(utgifter?.parkering)} />
                     <SøknadInfoFelt label="Ferje" value={formaterKroner(utgifter?.ferje)} />
