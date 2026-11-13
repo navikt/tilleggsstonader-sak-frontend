@@ -11,7 +11,8 @@ import { VisEllerEndreVilkårReiseOppstartAvslutningHjemreise } from '../VisElle
 export const ReiserIParaplyvilkår: React.FC<{
     aktivitet: Aktivitet;
     paraplyvilkår: ParaplyvilkårReiseOppstartAvslutningHjemreise;
-}> = ({ aktivitet, paraplyvilkår }) => {
+    kanLeggeTilReise: boolean;
+}> = ({ aktivitet, paraplyvilkår, kanLeggeTilReise }) => {
     const {
         reiser: alleReiser,
         lagreNyttVilkår,
@@ -55,18 +56,20 @@ export const ReiserIParaplyvilkår: React.FC<{
                     slett={slettVilkår}
                 />
             ))}
-            <NyttVilkårReiseOppstartAvslutningHjemreise
-                aktivitet={aktivitet}
-                leggerTilNyttVilkår={leggerTilNyReise}
-                startRedigering={() => {
-                    settLeggerTilNyReise(true);
-                    return true;
-                }}
-                avsluttRedigering={() => settLeggerTilNyReise(false)}
-                lagre={(vilkår) =>
-                    lagreNyttVilkår({ ...vilkår, parentVilkår: paraplyvilkår.globalId })
-                }
-            />
+            {kanLeggeTilReise && (
+                <NyttVilkårReiseOppstartAvslutningHjemreise
+                    aktivitet={aktivitet}
+                    leggerTilNyttVilkår={leggerTilNyReise}
+                    startRedigering={() => {
+                        settLeggerTilNyReise(true);
+                        return true;
+                    }}
+                    avsluttRedigering={() => settLeggerTilNyReise(false)}
+                    lagre={(vilkår) =>
+                        lagreNyttVilkår({ ...vilkår, parentVilkår: paraplyvilkår.globalId })
+                    }
+                />
+            )}{' '}
         </VStack>
     );
 };

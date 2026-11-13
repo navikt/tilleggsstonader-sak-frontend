@@ -61,7 +61,11 @@ export const Paraplyvilkår: React.FC<Props> = ({
                     </Heading>
                     {erStegRedigerbart && redigerer ? skjema : lesevisning}
                     {vilkår && (
-                        <ReiserIParaplyvilkår aktivitet={aktivitet} paraplyvilkår={vilkår} />
+                        <ReiserIParaplyvilkår
+                            aktivitet={aktivitet}
+                            paraplyvilkår={vilkår}
+                            kanLeggeTilReise={!redigerer}
+                        />
                     )}
                     {erStegRedigerbart && redigerer && <HStack justify="end">{slettknapp}</HStack>}
                 </VStack>
