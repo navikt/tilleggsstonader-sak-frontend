@@ -80,7 +80,7 @@ export const MidlertidigBostedFakta: React.FC<Props> = ({
         {feil.hovedspørsmål && <ErrorMessage size="small">{feil.hovedspørsmål}</ErrorMessage>}
         <HStack gap="space-16">
             <SmallButton type="button" onClick={lagre} loading={laster}>
-                Lagre periode
+                Lagre
             </SmallButton>
             {avbryt && (
                 <SmallButton type="button" variant="secondary" onClick={avbryt}>

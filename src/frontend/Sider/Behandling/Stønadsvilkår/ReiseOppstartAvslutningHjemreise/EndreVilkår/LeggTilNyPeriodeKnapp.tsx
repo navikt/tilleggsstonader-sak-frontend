@@ -22,7 +22,7 @@ export const LeggTilNyPeriodeKnapp: React.FC<{
                     variant="secondary"
                     icon={<PlusCircleIcon />}
                 >
-                    Legg til ny periode
+                    Legg til ny reise
                 </SmallButton>
             </div>
             <Popover
