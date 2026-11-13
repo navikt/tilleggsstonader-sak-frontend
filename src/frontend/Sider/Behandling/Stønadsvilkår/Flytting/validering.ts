@@ -1,10 +1,10 @@
 import { ekstrakostnaderFlytting, TypeVilkårFaktaFlytting } from './typer/faktaFlytting';
 import { RegelIdFlytting, RegelstrukturFlytting } from './typer/regelstrukturFlytting';
 import { SvarOgBegrunnelseFlytting } from './typer/vilkårFlytting';
-import { tilEkstrakostnad } from './utils';
 import { NødvendigUtgift } from '../../../../typer/nødvendigUtgift';
 import { BegrunnelseRegel } from '../../../../typer/regel';
 import { erGyldigDato } from '../../../../utils/dato';
+import { tilTallverdi } from '../../../../utils/tall';
 
 type Ekstrakostnad = (typeof ekstrakostnaderFlytting)[number]['felt'];
 
@@ -95,10 +95,11 @@ export function validerFlytting(
         if (fakta.type === 'FLYTTING_FLYTTE_SELV') {
             const kostnadsfeil: Partial<Record<Ekstrakostnad, string>> = {};
             ekstrakostnaderFlytting.forEach(({ felt }) => {
-                const beløp = tilEkstrakostnad(fakta[felt] ?? '');
-                if (beløp === null) {
+                const verdi = fakta[felt]?.replace(/\s/g, '') ?? '';
+                if (!verdi) {
                     return;
                 }
+                const beløp = Number(tilTallverdi(verdi.replace(/,/g, '.')));
                 if (!Number.isFinite(beløp)) {
                     kostnadsfeil[felt] = 'Fyll ut et gyldig beløp';
                 } else if (beløp < 0) {
