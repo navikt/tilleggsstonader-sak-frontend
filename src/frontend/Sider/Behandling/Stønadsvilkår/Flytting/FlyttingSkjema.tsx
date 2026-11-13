@@ -39,6 +39,7 @@ import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponent
 import { erSvarJaNei, NødvendigUtgift } from '../../../../typer/nødvendigUtgift';
 import { BegrunnelseRegel, SvarId } from '../../../../typer/regel';
 import { erFeilressurs, Ressurs, RessursStatus } from '../../../../typer/ressurs';
+import { tilTallverdi } from '../../../../utils/tall';
 import { Målgruppe, MålgruppeType } from '../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { PeriodeStatus, SvarJaNei } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import SlettVilkårModal from '../../Vilkårvurdering/EndreVilkår/SlettVilkårModal';
@@ -296,12 +297,24 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
             type: skjema.type,
             adresse,
             avstandEnVei: tallEllerNull(skjema.avstandEnVei),
-            henger: tallEllerNull(skjema.henger),
-            leiebil: tallEllerNull(skjema.leiebil),
-            bompenger: tallEllerNull(skjema.bompenger),
-            ferge: tallEllerNull(skjema.ferge),
-            parkering: tallEllerNull(skjema.parkering),
-            annet: tallEllerNull(skjema.annet),
+            henger: skjema.henger.trim()
+                ? Number(tilTallverdi(skjema.henger.replace(/\s/g, '').replace(/,/g, '.')))
+                : null,
+            leiebil: skjema.leiebil.trim()
+                ? Number(tilTallverdi(skjema.leiebil.replace(/\s/g, '').replace(/,/g, '.')))
+                : null,
+            bompenger: skjema.bompenger.trim()
+                ? Number(tilTallverdi(skjema.bompenger.replace(/\s/g, '').replace(/,/g, '.')))
+                : null,
+            ferge: skjema.ferge.trim()
+                ? Number(tilTallverdi(skjema.ferge.replace(/\s/g, '').replace(/,/g, '.')))
+                : null,
+            parkering: skjema.parkering.trim()
+                ? Number(tilTallverdi(skjema.parkering.replace(/\s/g, '').replace(/,/g, '.')))
+                : null,
+            annet: skjema.annet.trim()
+                ? Number(tilTallverdi(skjema.annet.replace(/\s/g, '').replace(/,/g, '.')))
+                : null,
             dokumenterteUtgifter,
             nødvendigUtgift,
         };
@@ -658,11 +671,19 @@ const EndreFaktaFlytteSelv: React.FC<{
                             autoComplete="off"
                             label={label}
                             value={fakta[felt]}
-                            inputMode="numeric"
+                            inputMode="decimal"
+                            error={feilmeldinger.ekstrakostnader?.[felt]}
                             onChange={(event) => {
                                 settFakta((forrige) => ({
                                     ...forrige,
                                     [felt]: event.target.value,
+                                }));
+                                settFeilmeldinger((forrige) => ({
+                                    ...forrige,
+                                    ekstrakostnader: {
+                                        ...forrige.ekstrakostnader,
+                                        [felt]: undefined,
+                                    },
                                 }));
                             }}
                             size="small"
