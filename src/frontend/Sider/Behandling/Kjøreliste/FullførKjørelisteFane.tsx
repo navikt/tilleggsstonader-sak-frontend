@@ -54,22 +54,21 @@ export const FullførKjørelisteFane: FC = () => {
                 <div className={styles.toKolonner}>
                     <VStack gap="space-16">
                         {erRedigerbarISteg && lagretBegrunnelse !== undefined && (
-                            <div>
+                            <VStack gap={'space-32'}>
                                 <KjørelisteBrevmeny
                                     lagretBegrunnelse={lagretBegrunnelse}
                                     settHarUlagredeEndringer={settHarUlagredeEndringer}
                                     settBrevPdf={settBrevPdf}
                                 />
-                                <VStack gap={'space-8'}>
-                                    <Textarea
-                                        label="Kommentar til beslutter"
-                                        description="Skal kun brukes til intern dialog med beslutter. Endelige vurderinger skal skrives i respektive begrunnelsesfelt."
-                                        value={kommentarTilBeslutter}
-                                        onChange={(e) => settKommentarTilBeslutter(e.target.value)}
-                                        style={{ maxWidth: '400px' }}
-                                    />
-                                </VStack>
-                            </div>
+
+                                <Textarea
+                                    label="Kommentar til beslutter"
+                                    description="Skal kun brukes til intern dialog med beslutter. Endelige vurderinger skal skrives i respektive begrunnelsesfelt."
+                                    value={kommentarTilBeslutter}
+                                    onChange={(e) => settKommentarTilBeslutter(e.target.value)}
+                                    style={{ maxWidth: '400px' }}
+                                />
+                            </VStack>
                         )}
 
                         <Feilmelding feil={feilmelding} />
