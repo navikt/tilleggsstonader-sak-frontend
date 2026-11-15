@@ -12,13 +12,13 @@ export function lagRammevedtakstabellMedDelperioder(reise: RammeForReiseMedPriva
               <thead>
                 <tr>
                   <th style="width:120px;border:1px solid #b0b0b0;padding:4px 8px;background:#f5f5f5;font-weight:600;text-align:left;vertical-align:middle;">Periode for reisen</th>
-                  <th style="width:90px;border:1px solid #b0b0b0;padding:4px 8px;background:#f5f5f5;font-weight:600;text-align:left;vertical-align:middle;">Reiseavstand</th>
+                  <th style="width:90px;border:1px solid #b0b0b0;padding:4px 8px;background:#f5f5f5;font-weight:600;text-align:left;vertical-align:middle;">Total reiseavstand</th>
                 </tr>
             </thead>
             <tbody>
               <tr>
                 <td style="border:1px solid #b0b0b0;padding:4px 8px;background:#fff;vertical-align:middle;text-align:left;">${formaterIsoPeriodeMedTankestrek({ fom: reise.fom, tom: reise.tom })}</td>
-                <td style="border:1px solid #b0b0b0;padding:4px 8px;background:#fff;vertical-align:middle;text-align:left;">${reise.reiseavstandEnVei} km</td>
+                <td style="border:1px solid #b0b0b0;padding:4px 8px;background:#fff;vertical-align:middle;text-align:left;">${reise.totalReiseavstand} km</td>
               </tr>
               <tr>
                 <td colspan="2" style="border:1px solid #b0b0b0;padding:0;background:transparent;">${lagDelperiodeTabell(reise.delperioder)}</td>

@@ -26,7 +26,7 @@ export interface FaktaDelperiodePrivatBil {
 
 export interface FaktaPrivatBil extends FaktaDagligReise {
     type: 'PRIVAT_BIL';
-    reiseavstandEnVei: number | undefined;
+    totalReiseavstand: number | undefined;
     faktaDelperioder: FaktaDelperiodePrivatBil[];
     aktivitetId: string | undefined;
     aktivitetType: string | undefined;
