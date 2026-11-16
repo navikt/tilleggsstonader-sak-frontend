@@ -1,7 +1,5 @@
 import React, { useEffect, useId, useState } from 'react';
 
-import { TrashIcon } from '@navikt/aksel-icons';
-
 import { LesevisningMidlertidigBostedPeriode } from './LesevisningMidlertidigBostedPeriode';
 import { MidlertidigBostedFakta } from './MidlertidigBostedFakta';
 import { Paraplyvilkår } from './Paraplyvilkår';
@@ -12,12 +10,10 @@ import {
     Feil,
     feiletRessursTilFeilmelding,
 } from '../../../../../komponenter/Feil/feilmeldingUtils';
-import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { RessursStatus } from '../../../../../typer/ressurs';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useHarEndretDatoerFørTidligereVedtak } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { Aktivitet } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
-import { SlettVilkårReiseOppstartAvslutningHjemreise } from '../EndreVilkår/SlettVilkårReiseOppstartAvslutningHjemreise';
 import {
     FeilmeldingerMidlertidigBostedPeriode,
     validerMidlertidigBostedPeriode,
@@ -136,7 +132,11 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
     };
 
     const avbryt = () => {
-        if (!vilkår) return;
+        if (!vilkår) {
+            redigeringslås.avsluttRedigering();
+            fjernUtkast?.();
+            return;
+        }
         settUtkast(tilUtkast(vilkår));
         settFeil({});
         settFeilVedLagring(undefined);
@@ -162,32 +162,13 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
                         laster={laster}
                         regelstruktur={regelstruktur.midlertidigBostedPeriode}
                         lagre={validerOgLagre}
-                        avbryt={vilkår ? avbryt : undefined}
+                        avbryt={avbryt}
+                        lagretVilkår={vilkår}
+                        avsluttRedigering={() => redigeringslås.avsluttRedigering()}
+                        slett={slettVilkår}
                     />
                 }
                 lesevisning={vilkår && <LesevisningMidlertidigBostedPeriode vilkår={vilkår} />}
-                slettknapp={
-                    vilkår ? (
-                        <SlettVilkårReiseOppstartAvslutningHjemreise
-                            lagretVilkår={vilkår}
-                            avsluttRedigering={() => redigeringslås.avsluttRedigering()}
-                            slett={slettVilkår}
-                        />
-                    ) : (
-                        <SmallButton
-                            type="button"
-                            variant="tertiary"
-                            icon={<TrashIcon aria-hidden />}
-                            iconPosition="right"
-                            onClick={() => {
-                                redigeringslås.avsluttRedigering();
-                                fjernUtkast?.();
-                            }}
-                        >
-                            Slett vilkår
-                        </SmallButton>
-                    )
-                }
             />
             <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
                 visBekreftModal={visBekreftModal}

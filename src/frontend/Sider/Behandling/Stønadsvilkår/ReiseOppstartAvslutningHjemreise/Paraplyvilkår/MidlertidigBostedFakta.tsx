@@ -9,9 +9,14 @@ import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import DateInputMedLeservisning from '../../../../../komponenter/Skjema/DateInputMedLeservisning';
 import { FeilmeldingMaksBredde } from '../../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
+import { SlettVilkårReiseOppstartAvslutningHjemreise } from '../EndreVilkår/SlettVilkårReiseOppstartAvslutningHjemreise';
 import { FeilmeldingerMidlertidigBostedPeriode } from '../EndreVilkår/validering';
 import { EndreVurderinger } from '../EndreVilkårsVurderinger/EndreVurderinger';
 import { Regelstruktur } from '../typer/regelstrukturReiseOppstartAvslutningHjemreise';
+import {
+    ParaplyvilkårReiseOppstartAvslutningHjemreise,
+    SlettVilkårFunksjon,
+} from '../typer/vilkårReiseOppstartAvslutningHjemreise';
 
 interface Props {
     utkast: MidlertidigBostedUtkast;
@@ -21,7 +26,10 @@ interface Props {
     laster: boolean;
     regelstruktur: Regelstruktur;
     lagre: () => void;
-    avbryt: (() => void) | undefined;
+    avbryt: () => void;
+    lagretVilkår: ParaplyvilkårReiseOppstartAvslutningHjemreise | undefined;
+    avsluttRedigering: () => void;
+    slett: SlettVilkårFunksjon;
 }
 
 export const MidlertidigBostedFakta: React.FC<Props> = ({
@@ -33,6 +41,9 @@ export const MidlertidigBostedFakta: React.FC<Props> = ({
     regelstruktur,
     lagre,
     avbryt,
+    lagretVilkår,
+    avsluttRedigering,
+    slett,
 }) => (
     <>
         <HStack gap="space-16" align="start">
@@ -79,14 +90,21 @@ export const MidlertidigBostedFakta: React.FC<Props> = ({
         />
         {feil.hovedspørsmål && <ErrorMessage size="small">{feil.hovedspørsmål}</ErrorMessage>}
         <Skillelinje />
-        <HStack gap="space-16">
-            <SmallButton type="button" onClick={lagre} loading={laster}>
-                Lagre
-            </SmallButton>
-            {avbryt && (
+        <HStack justify="space-between">
+            <HStack gap="space-16">
+                <SmallButton type="button" onClick={lagre} loading={laster}>
+                    Lagre
+                </SmallButton>
                 <SmallButton type="button" variant="secondary" onClick={avbryt}>
                     Avbryt
                 </SmallButton>
+            </HStack>
+            {lagretVilkår && (
+                <SlettVilkårReiseOppstartAvslutningHjemreise
+                    lagretVilkår={lagretVilkår}
+                    avsluttRedigering={avsluttRedigering}
+                    slett={slett}
+                />
             )}
         </HStack>
         <Feilmelding feil={feilVedLagring} />

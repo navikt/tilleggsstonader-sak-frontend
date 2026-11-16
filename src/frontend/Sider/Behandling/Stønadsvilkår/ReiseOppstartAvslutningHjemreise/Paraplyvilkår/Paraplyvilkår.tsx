@@ -1,7 +1,7 @@
 import React, { ReactNode, useRef, useState } from 'react';
 
 import { PencilIcon } from '@navikt/aksel-icons';
-import { ErrorMessage, Heading, HStack, Popover, VStack } from '@navikt/ds-react';
+import { ErrorMessage, Heading, Popover, VStack } from '@navikt/ds-react';
 
 import { ReiserIParaplyvilkår } from './ReiserIParaplyvilkår';
 import { useSteg } from '../../../../../context/StegContext';
@@ -23,7 +23,6 @@ interface Props {
     redigeringslås: RedigeringslåsROAH;
     skjema: ReactNode;
     lesevisning: ReactNode;
-    slettknapp: ReactNode;
 }
 
 /**
@@ -39,7 +38,6 @@ export const Paraplyvilkår: React.FC<Props> = ({
     redigeringslås,
     skjema,
     lesevisning,
-    slettknapp,
 }) => {
     const { erStegRedigerbart } = useSteg();
     const redigerKnappRef = useRef<HTMLDivElement>(null);
@@ -100,7 +98,6 @@ export const Paraplyvilkår: React.FC<Props> = ({
                             redigeringslås={redigeringslås}
                         />
                     )}
-                    {erStegRedigerbart && redigerer && <HStack justify="end">{slettknapp}</HStack>}
                 </VStack>
             </section>
         </ResultatOgStatusKort>
