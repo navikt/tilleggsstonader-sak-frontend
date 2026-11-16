@@ -21,13 +21,20 @@ export interface FeilmeldingerFlytting {
     ekstrakostnader?: Partial<Record<Ekstrakostnad, string>>;
 }
 
-interface FaktaFlyttingSkjema extends Partial<Record<Ekstrakostnad, string>> {
+interface FaktaFlyttingSkjema {
     type: TypeVilkårFaktaFlytting;
     tilbud?: { navn: string; pris: string }[];
     nødvendigUtgift?: NødvendigUtgift;
     beløpSomKanDekkes?: string;
     erUtgifterDokumentert?: string;
     begrunnelseDokumenterteUtgifter?: string;
+    avstandEnVei?: string;
+    bompenger?: string;
+    ferge?: string;
+    parkering?: string;
+    henger?: string;
+    leiebil?: string;
+    annet?: string;
 }
 
 export function validerFlytting(
