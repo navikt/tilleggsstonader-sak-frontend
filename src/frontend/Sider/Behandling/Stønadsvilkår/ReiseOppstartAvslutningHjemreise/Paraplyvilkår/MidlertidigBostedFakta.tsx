@@ -78,6 +78,7 @@ export const MidlertidigBostedFakta: React.FC<Props> = ({
             feilmeldinger={{ begrunnelse: feil.begrunnelse }}
         />
         {feil.hovedspørsmål && <ErrorMessage size="small">{feil.hovedspørsmål}</ErrorMessage>}
+        <Skillelinje />
         <HStack gap="space-16">
             <SmallButton type="button" onClick={lagre} loading={laster}>
                 Lagre

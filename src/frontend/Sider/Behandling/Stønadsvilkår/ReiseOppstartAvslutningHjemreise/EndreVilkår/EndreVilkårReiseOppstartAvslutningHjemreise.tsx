@@ -260,18 +260,18 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
                         </FeilmeldingMaksBredde>
                     )}
                 </HStack>
-                <Skillelinje />
                 {valgtRegelstruktur && (
-                    <EndreVurderinger
-                        regelstruktur={valgtRegelstruktur}
-                        vurderinger={svar}
-                        oppdaterVurderinger={oppdaterVurderinger}
-                        oppdaterGjeldendeFaktaType={oppdaterGjeldendeFaktaType}
-                        feilmeldinger={feilmeldinger}
-                    />
+                    <>
+                        <Skillelinje />
+                        <EndreVurderinger
+                            regelstruktur={valgtRegelstruktur}
+                            vurderinger={svar}
+                            oppdaterVurderinger={oppdaterVurderinger}
+                            oppdaterGjeldendeFaktaType={oppdaterGjeldendeFaktaType}
+                            feilmeldinger={feilmeldinger}
+                        />
+                    </>
                 )}
-                <Skillelinje />
-
                 <EndreFaktaReiseOppstartAvslutningHjemreise
                     gjeldendeFaktaType={gjeldendeFaktaType}
                     fakta={fakta}
@@ -279,6 +279,7 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
                     nullstillFeilOgUlagretkomponent={nullstillFeilOgUlagretkomponent}
                     feilmeldinger={feilmeldinger}
                 />
+                <Skillelinje />
 
                 <HStack justify="space-between">
                     <HStack gap="space-16">
