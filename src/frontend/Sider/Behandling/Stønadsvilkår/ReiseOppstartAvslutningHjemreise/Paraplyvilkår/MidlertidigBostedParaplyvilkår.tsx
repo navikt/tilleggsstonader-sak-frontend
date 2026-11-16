@@ -25,12 +25,15 @@ import {
 import {
     LagreNyttParaplyvilkårReiseOppstartAvslutningHjemreise,
     ParaplyvilkårReiseOppstartAvslutningHjemreise,
+    RedigeringslåsROAH,
 } from '../typer/vilkårReiseOppstartAvslutningHjemreise';
 
 interface Props {
     aktivitet: Aktivitet;
     vilkår: ParaplyvilkårReiseOppstartAvslutningHjemreise | undefined;
     fjernUtkast?: () => void;
+    redigeringsId: string;
+    redigeringslås: RedigeringslåsROAH;
 }
 
 /**
@@ -42,6 +45,8 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
     aktivitet,
     vilkår,
     fjernUtkast,
+    redigeringsId,
+    redigeringslås,
 }) => {
     const { regelstruktur, lagreNyttParaplyvilkår, oppdaterParaplyvilkår, slettVilkår } =
         useVilkårReiseOppstartAvslutningHjemreise();
@@ -51,7 +56,7 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
     const erUtkast = vilkår === undefined;
 
     const [utkast, settUtkast] = useState(vilkår ? tilUtkast(vilkår) : tomtMidlertidigBostedUtkast);
-    const [redigerer, settRedigerer] = useState(erUtkast);
+    const redigerer = redigeringslås.redigererId === redigeringsId;
     const [feil, settFeil] = useState<FeilmeldingerMidlertidigBostedPeriode>({});
     const [feilVedLagring, settFeilVedLagring] = useState<Feil>();
     const [laster, settLaster] = useState(false);
@@ -122,7 +127,7 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
         if (respons.status === RessursStatus.SUKSESS) {
             settFeilVedLagring(undefined);
             nullstillUlagretKomponent(komponentId);
-            settRedigerer(false);
+            redigeringslås.avsluttRedigering();
             // Lagret vilkår vises nå fra konteksten, så utkastet fjernes
             if (erUtkast) fjernUtkast?.();
         } else {
@@ -136,7 +141,7 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
         settFeil({});
         settFeilVedLagring(undefined);
         nullstillUlagretKomponent(komponentId);
-        settRedigerer(false);
+        redigeringslås.avsluttRedigering();
     };
 
     return (
@@ -146,7 +151,8 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
                 tittel="Periode hvor bruker bor borte"
                 vilkår={vilkår}
                 redigerer={redigerer}
-                startRedigering={() => settRedigerer(true)}
+                redigeringslås={redigeringslås}
+                startRedigering={() => redigeringslås.startRedigering(redigeringsId)}
                 skjema={
                     <MidlertidigBostedFakta
                         utkast={utkast}
@@ -164,7 +170,7 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
                     vilkår ? (
                         <SlettVilkårReiseOppstartAvslutningHjemreise
                             lagretVilkår={vilkår}
-                            avsluttRedigering={() => settRedigerer(false)}
+                            avsluttRedigering={() => redigeringslås.avsluttRedigering()}
                             slett={slettVilkår}
                         />
                     ) : (
@@ -173,7 +179,10 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
                             variant="tertiary"
                             icon={<TrashIcon aria-hidden />}
                             iconPosition="right"
-                            onClick={fjernUtkast}
+                            onClick={() => {
+                                redigeringslås.avsluttRedigering();
+                                fjernUtkast?.();
+                            }}
                         >
                             Slett vilkår
                         </SmallButton>

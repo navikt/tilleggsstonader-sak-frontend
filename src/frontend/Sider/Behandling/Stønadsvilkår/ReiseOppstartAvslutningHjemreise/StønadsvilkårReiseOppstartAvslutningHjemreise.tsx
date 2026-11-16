@@ -136,6 +136,11 @@ const StønadsvilkårInnhold = () => {
                                 <ParaplyvilkårListe
                                     key={`${behandling.id}-${aktivitet.globalId}`}
                                     aktivitet={aktivitet}
+                                    redigeringslås={{
+                                        redigererId,
+                                        startRedigering,
+                                        avsluttRedigering,
+                                    }}
                                     kanLeggeTilNytt={
                                         erStegRedigerbart &&
                                         aktivitet.resultat === VilkårPeriodeResultat.OPPFYLT

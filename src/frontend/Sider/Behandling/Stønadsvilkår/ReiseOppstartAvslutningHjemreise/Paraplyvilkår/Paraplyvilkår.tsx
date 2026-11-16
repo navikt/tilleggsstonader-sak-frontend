@@ -1,21 +1,26 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 
 import { PencilIcon } from '@navikt/aksel-icons';
-import { Heading, HStack, VStack } from '@navikt/ds-react';
+import { ErrorMessage, Heading, HStack, Popover, VStack } from '@navikt/ds-react';
 
 import { ReiserIParaplyvilkår } from './ReiserIParaplyvilkår';
 import { useSteg } from '../../../../../context/StegContext';
 import SmallButton from '../../../../../komponenter/Knapper/SmallButton';
 import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { Aktivitet } from '../../../Inngangsvilkår/typer/vilkårperiode/aktivitet';
-import { ParaplyvilkårReiseOppstartAvslutningHjemreise } from '../typer/vilkårReiseOppstartAvslutningHjemreise';
+import styles from '../EndreVilkår/EndreVilkårReiseOppstartAvslutningHjemreise.module.css';
+import {
+    ParaplyvilkårReiseOppstartAvslutningHjemreise,
+    RedigeringslåsROAH,
+} from '../typer/vilkårReiseOppstartAvslutningHjemreise';
 
 interface Props {
     aktivitet: Aktivitet;
     tittel: string;
     vilkår: ParaplyvilkårReiseOppstartAvslutningHjemreise | undefined;
     redigerer: boolean;
-    startRedigering: () => void;
+    startRedigering: () => boolean;
+    redigeringslås: RedigeringslåsROAH;
     skjema: ReactNode;
     lesevisning: ReactNode;
     slettknapp: ReactNode;
@@ -31,11 +36,24 @@ export const Paraplyvilkår: React.FC<Props> = ({
     vilkår,
     redigerer,
     startRedigering,
+    redigeringslås,
     skjema,
     lesevisning,
     slettknapp,
 }) => {
     const { erStegRedigerbart } = useSteg();
+    const redigerKnappRef = useRef<HTMLDivElement>(null);
+    const [feilmeldingRedigering, settFeilmeldingRedigering] = useState<string | undefined>(
+        undefined
+    );
+
+    const handleStartRedigering = () => {
+        if (!startRedigering()) {
+            settFeilmeldingRedigering(
+                'Ferdigstill redigering av annet vilkår før du starter ny redigering'
+            );
+        }
+    };
 
     return (
         <ResultatOgStatusKort
@@ -44,13 +62,27 @@ export const Paraplyvilkår: React.FC<Props> = ({
             redigeringKnapp={
                 erStegRedigerbart &&
                 !redigerer && (
-                    <SmallButton
-                        type="button"
-                        variant="tertiary"
-                        icon={<PencilIcon aria-hidden />}
-                        aria-label={`Rediger ${tittel.toLowerCase()}`}
-                        onClick={startRedigering}
-                    />
+                    <>
+                        <div ref={redigerKnappRef}>
+                            <SmallButton
+                                type="button"
+                                variant="tertiary"
+                                icon={<PencilIcon aria-hidden />}
+                                aria-label={`Rediger ${tittel.toLowerCase()}`}
+                                onClick={handleStartRedigering}
+                            />
+                        </div>
+                        <Popover
+                            anchorEl={redigerKnappRef.current}
+                            open={!!feilmeldingRedigering}
+                            onClose={() => settFeilmeldingRedigering(undefined)}
+                            placement="top"
+                        >
+                            <Popover.Content className={styles.popoverContent}>
+                                <ErrorMessage size="small">{feilmeldingRedigering}</ErrorMessage>
+                            </Popover.Content>
+                        </Popover>
+                    </>
                 )
             }
         >
@@ -65,6 +97,7 @@ export const Paraplyvilkår: React.FC<Props> = ({
                             aktivitet={aktivitet}
                             paraplyvilkår={vilkår}
                             kanLeggeTilReise={!redigerer}
+                            redigeringslås={redigeringslås}
                         />
                     )}
                     {erStegRedigerbart && redigerer && <HStack justify="end">{slettknapp}</HStack>}
