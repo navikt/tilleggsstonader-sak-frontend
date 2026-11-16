@@ -66,46 +66,51 @@ export const OppsummeringFlytting: React.FC<{
                             utgifterDekketPåAnnenMåteTilTekst[detaljer.utgifterDekketPåAnnenMåte]
                         }
                     />
-                    <SøknadInfoFelt
-                        label="Hvor lang reisevei har du?"
-                        value={
-                            utgifter
-                                ? `${formaterTallMedTusenSkille(utgifter.avstand)} km`
-                                : undefined
-                        }
-                    />
-                    <SøknadInfoFelt
-                        label="Leie av henger"
-                        value={formaterKroner(utgifter?.hengerleie)}
-                    />
-                    <SøknadInfoFelt label="Leie av bil" value={formaterKroner(utgifter?.leiebil)} />
                     {detaljer.flyttemåte === 'FLYTTER_SELV' && utgifter && (
-                        <SøknadInfoFelt
-                            label="Bilens drivstofftype"
-                            value={drivstofftypeTilTekst[utgifter.drivstoffType]}
-                        />
+                        <>
+                            <SøknadInfoFelt
+                                label="Bilens drivstofftype"
+                                value={drivstofftypeTilTekst[utgifter.drivstoffType]}
+                            />
+                            <SøknadInfoFelt
+                                label="Hvor lang reisevei har du?"
+                                value={`${formaterTallMedTusenSkille(utgifter.avstand)} km`}
+                            />
+                            <SøknadInfoFelt label="Bom" value={formaterKroner(utgifter.bom)} />
+                            <SøknadInfoFelt label="Ferje" value={formaterKroner(utgifter.ferje)} />
+                            <SøknadInfoFelt
+                                label="Parkering"
+                                value={formaterKroner(utgifter.parkering)}
+                            />
+                            <SøknadInfoFelt
+                                label="Leie av henger"
+                                value={formaterKroner(utgifter.hengerleie)}
+                            />
+                            <SøknadInfoFelt
+                                label="Leie av bil"
+                                value={formaterKroner(utgifter.leiebil)}
+                            />
+                            <SøknadInfoFelt
+                                label="Andre utgifter"
+                                value={formaterKroner(utgifter.annet)}
+                            />
+                        </>
                     )}
-                    <SøknadInfoFelt label="Bom" value={formaterKroner(utgifter?.bom)} />
-                    <SøknadInfoFelt label="Parkering" value={formaterKroner(utgifter?.parkering)} />
-                    <SøknadInfoFelt label="Ferje" value={formaterKroner(utgifter?.ferje)} />
-                    <SøknadInfoFelt
-                        label="Andre utgifter"
-                        value={formaterKroner(utgifter?.annet)}
-                    />
-                    {detaljer.flyttetilbud?.map((tilbud, index) => (
-                        <React.Fragment key={index}>
-                            <SøknadInfoFelt
-                                label={`Navn på flyttebyrå ${index + 1}`}
-                                value={tilbud.navn}
-                                copyText={tilbud.navn}
-                            />
-                            <SøknadInfoFelt
-                                label={`Beløp for flyttebyrå ${index + 1}`}
-                                value={formaterKroner(tilbud.beløp)}
-                                copyText={String(tilbud.beløp)}
-                            />
-                        </React.Fragment>
-                    ))}
+                    {detaljer.flyttemåte === 'FLYTTEBYRÅ' &&
+                        detaljer.flyttetilbud?.map((tilbud, index) => (
+                            <React.Fragment key={index}>
+                                <SøknadInfoFelt
+                                    label={`Navn på flyttebyrå ${index + 1}`}
+                                    value={tilbud.navn}
+                                    copyText={tilbud.navn}
+                                />
+                                <SøknadInfoFelt
+                                    label={`Beløp for flyttebyrå ${index + 1}`}
+                                    value={formaterKroner(tilbud.beløp)}
+                                    copyText={String(tilbud.beløp)}
+                                />
+                            </React.Fragment>
+                        ))}
                 </SøknadInfoSeksjon>
             )}
             {antallVedlegg(behandlingFakta.dokumentasjon) > 0 && (
