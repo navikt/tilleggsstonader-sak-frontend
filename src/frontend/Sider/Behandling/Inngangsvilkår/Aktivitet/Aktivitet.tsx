@@ -86,6 +86,7 @@ const Aktivitet: React.FC<{ grunnlag: VilkårperioderGrunnlag | undefined }> = (
             paragraflenker={lenkerParagrafAktivitet}
             forskriftlenker={lenkerForskriftAktivitet}
             rundskrivlenker={lenkerRundskrivAktivitet}
+            erAktiv={kanBrukeAktivitet}
         >
             <FlexColumn gap={2}>
                 <RegisterAktiviteter

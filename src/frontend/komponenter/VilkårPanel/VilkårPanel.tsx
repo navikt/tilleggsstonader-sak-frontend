@@ -11,6 +11,7 @@ interface VilkårpanelProps {
     paragraflenker?: Lenke[];
     rundskrivlenker?: Lenke[];
     forskriftlenker?: Lenke[];
+    erAktiv?: boolean;
     children: React.ReactNode;
 }
 
@@ -21,6 +22,7 @@ export const VilkårPanel: React.FC<VilkårpanelProps> = ({
     paragraflenker,
     rundskrivlenker,
     forskriftlenker,
+    erAktiv = true,
     children,
 }) => {
     return (
@@ -35,6 +37,7 @@ export const VilkårPanel: React.FC<VilkårpanelProps> = ({
                     rundskrivlenker={rundskrivlenker}
                 />
             }
+            erAktiv={erAktiv}
         >
             {children}
         </Panel>

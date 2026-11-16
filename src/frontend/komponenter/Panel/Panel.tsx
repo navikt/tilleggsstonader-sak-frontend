@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 
 import { Heading, HStack, Spacer } from '@navikt/ds-react';
-import { BgDefault, BorderNeutral } from '@navikt/ds-tokens/js';
+import { BgDefault, BgNeutralSoft, BorderNeutral } from '@navikt/ds-tokens/js';
 
 import styles from './Panel.module.css';
 
@@ -11,15 +11,16 @@ interface Props {
     ekstraHeading?: React.ReactNode;
     children: React.ReactNode;
     kontekstmeny?: React.ReactNode;
+    erAktiv?: boolean;
 }
 
-const Panel: FC<Props> = ({ ekstraHeading, tittel, ikon, children, kontekstmeny }) => {
+const Panel: FC<Props> = ({ ekstraHeading, tittel, ikon, children, kontekstmeny, erAktiv }) => {
     return (
         <div
             className={styles.container}
             style={
                 {
-                    '--bg-color': BgDefault,
+                    '--bg-color': erAktiv ? BgDefault : BgNeutralSoft,
                     '--border-color': BorderNeutral,
                 } as React.CSSProperties
             }
