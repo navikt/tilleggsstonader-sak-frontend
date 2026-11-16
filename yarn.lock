@@ -880,15 +880,15 @@
   resolved "https://npm.pkg.github.com/download/@navikt/aksel-icons/8.22.1/c93a3bad8be4134bd833ecc08db4583034be4d75#c93a3bad8be4134bd833ecc08db4583034be4d75"
   integrity sha512-NmNg4vK6Hrabw8CleI6jJCwOb4aXnMjkE9Rw4OQjbfgHrg4UXWnUFgQJ3/Rk/unGdfXGNxV591RTwPNc2dZoTA==
 
-"@navikt/aksel-stylelint@^8.21.0":
-  version "8.21.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/aksel-stylelint/8.21.0/72fe12fb3729a747cd3137c6e72752cd417c9a6c#72fe12fb3729a747cd3137c6e72752cd417c9a6c"
-  integrity sha512-oSSK2P2vsYWWermMF6oJrFBxJCEJaI1ts63ldpCBcNIThBJ4SWqmtwgACWA6LfL0hHvza6kS66Y/ZOr8oNMY7w==
+"@navikt/aksel-stylelint@^8.22.1":
+  version "8.22.1"
+  resolved "https://npm.pkg.github.com/download/@navikt/aksel-stylelint/8.22.1/f3874d212e788b059aa7acc561fc71e001266f9a#f3874d212e788b059aa7acc561fc71e001266f9a"
+  integrity sha512-0h9LEDaFfsutu3hkZGE43MVBWhLGdKpzeAI3EvOMyBgJ1b4sAscpFx+tZJYgIsj5S9fNAawP8Ch+EbdUbCRsvQ==
 
-"@navikt/aksel@^8.21.0":
-  version "8.21.0"
-  resolved "https://npm.pkg.github.com/download/@navikt/aksel/8.21.0/25f5f45d97485434e538ae24cbf14cb749111fc6#25f5f45d97485434e538ae24cbf14cb749111fc6"
-  integrity sha512-noF48/PZ6uLUW17YtDZQksABUU0A/vZSvJ9Rh4CvGiX3tjNzRhl/Ra7xa6b8cnuXa9kBdbh9bUVjzNUWwqA6Mw==
+"@navikt/aksel@^8.22.1":
+  version "8.22.1"
+  resolved "https://npm.pkg.github.com/download/@navikt/aksel/8.22.1/ff8cf37aa5cbf187a28ecd76c5b4e200eb2d2551#ff8cf37aa5cbf187a28ecd76c5b4e200eb2d2551"
+  integrity sha512-Ww88wl91MyTxmnoRbm29WE6GSrgEM0+2P8ktnP44HcfoAd7VJl6FxhV5LVRHyF7tUznfXamBRd53oFAXtyv9ew==
   dependencies:
     chalk "6.0.1"
     cli-progress "3.12.0"
@@ -979,10 +979,10 @@
   resolved "https://registry.yarnpkg.com/@rtsao/scc/-/scc-1.1.0.tgz#927dd2fae9bc3361403ac2c7a00c32ddce9ad7e8"
   integrity sha512-zt6OdqaDoOnJ1ZYsCYGt9YmWzDXl4vQdKTyJev62gFhRGKdx7mcT54V9KIjg+d2wi9EXsPvAPKe7i7WjfVWB8g==
 
-"@sanity/client@^8.14.1":
-  version "8.14.1"
-  resolved "https://registry.yarnpkg.com/@sanity/client/-/client-8.14.1.tgz#30fa6b1b16394bce49fb9ddde88d8a683edcbcff"
-  integrity sha512-NQNo0yigdHF4edYwUEVqyDi4ZsTUmWT2YMGUn/sQOW6/T+KPAuVXbVZk6gO+Vzd7dTAhaWj8AV/gIddjpo5P6Q==
+"@sanity/client@^8.15.0":
+  version "8.15.0"
+  resolved "https://registry.yarnpkg.com/@sanity/client/-/client-8.15.0.tgz#0775570360b4d2b27ad2d9d8ce58dda5e3bd1809"
+  integrity sha512-CgmNhvXCD8S0LpXr0YMPNPw0/pzzJ+WbO0vmgu0aISHo+AZDS+ke0G+xuZitqFsgUwYso9zBxJKYpoJnoUOvyA==
   dependencies:
     eventsource "^5.1.4"
     get-it "^9.6.2"
@@ -3221,10 +3221,10 @@ globals@^15.11.0:
   resolved "https://registry.yarnpkg.com/globals/-/globals-15.12.0.tgz#1811872883ad8f41055b61457a130221297de5b5"
   integrity sha512-1+gLErljJFhbOVyaetcwJiJ4+eLe45S2E7P5UiZ9xGfeq3ATQf5DOv9G7MH3gGbKQLkzmNh2DxfZwLdw+j6oTQ==
 
-globals@^17.13.0:
-  version "17.13.0"
-  resolved "https://registry.yarnpkg.com/globals/-/globals-17.13.0.tgz#ab2134b5ededbf2fbe2831dd0acc36f4f1ddeac5"
-  integrity sha512-RwMTC61u7hrG3ZJMkZQOK4JLJrKS8QtoTii63EmWvFXHqycY9FObBJQCbsLxSO8kjKhWE5kV1GC+Vb1g3RI0Zg==
+globals@^17.14.0:
+  version "17.14.0"
+  resolved "https://registry.yarnpkg.com/globals/-/globals-17.14.0.tgz#5bbbe515622ba24229bd94d4a7c441740e1b50dd"
+  integrity sha512-UtdkTVyAJePQv0J2M9Xe4L0ruNSDV314XiIJsADI2Zf40bcdAonE/D/OhAU8AT99oij9mhLByb+NvA3QWZYgCg==
 
 globalthis@^1.0.3, globalthis@^1.0.4:
   version "1.0.4"
@@ -3274,10 +3274,10 @@ graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0, graceful-fs@^4.2.11,
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.11.tgz#4183e4e8bf08bb6e05bbb2f7d2e0c8f712ca40e3"
   integrity sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==
 
-groq@^6.21.0:
-  version "6.21.0"
-  resolved "https://registry.yarnpkg.com/groq/-/groq-6.21.0.tgz#1156695e271f8bc28527b42c38b1488659000df3"
-  integrity sha512-xxw5Fz/8xD0neK5PnfczzkFgPSz2FVAQMxuysZhCj9TnVpkR7yI83wrdQwzikZ/pGZElrVvfGeWrDsbPwYeOcw==
+groq@^6.22.0:
+  version "6.22.0"
+  resolved "https://registry.yarnpkg.com/groq/-/groq-6.22.0.tgz#69889e57a33dc4a2a385cddc78a2439d56556112"
+  integrity sha512-ZzyqGaWBl5lMfjCCdPdOXltTWlEI0fIUbPUNMxbwtMOulcGj01bHWoAOeofLP+ERh9fwLvTsmYqh4V0InNVZWg==
 
 hard-rejection@^2.1.0:
   version "2.1.0"
