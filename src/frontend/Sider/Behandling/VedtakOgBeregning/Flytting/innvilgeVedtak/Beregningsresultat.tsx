@@ -41,8 +41,7 @@ const BeregningsResultatFlyttebyrå: React.FC<{
                 <Table>
                     <Table.Header>
                         <Table.Row>
-                            <TableHeaderCellSmall>F.o.m.</TableHeaderCellSmall>
-                            <TableHeaderCellSmall>T.o.m.</TableHeaderCellSmall>
+                            <TableHeaderCellSmall>Flyttedato</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Tilbud</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Valgt flyttebyrå</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Hele utgiften nødvendig?</TableHeaderCellSmall>
@@ -58,9 +57,6 @@ const BeregningsResultatFlyttebyrå: React.FC<{
                             const grunnlag = resultat.grunnlag as BeregningsgrunnlagFlyttebyrå;
                             return (
                                 <Table.Row key={`resultat-${resultat.fom}-${resultat.tom}`}>
-                                    <TableDataCellSmall>
-                                        {formaterIsoDato(resultat.fom)}
-                                    </TableDataCellSmall>
                                     <TableDataCellSmall>
                                         {formaterIsoDato(resultat.tom)}
                                     </TableDataCellSmall>
@@ -122,8 +118,7 @@ const BeregningsResultatFlytteSelv: React.FC<{
                 <Table>
                     <Table.Header>
                         <Table.Row>
-                            <TableHeaderCellSmall>F.o.m.</TableHeaderCellSmall>
-                            <TableHeaderCellSmall>T.o.m.</TableHeaderCellSmall>
+                            <TableHeaderCellSmall>Flyttedato</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Avstand én vei</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Sats per km</TableHeaderCellSmall>
                             <TableHeaderCellSmall>Sats bekreftet</TableHeaderCellSmall>
@@ -139,9 +134,6 @@ const BeregningsResultatFlytteSelv: React.FC<{
                                 <Table.Row key={`resultat-${resultat.fom}-${resultat.tom}`}>
                                     <TableDataCellSmall>
                                         {formaterIsoDato(resultat.fom)}
-                                    </TableDataCellSmall>
-                                    <TableDataCellSmall>
-                                        {formaterIsoDato(resultat.tom)}
                                     </TableDataCellSmall>
                                     <TableDataCellSmall>
                                         {grunnlag.avstandEnVei} km
