@@ -31,6 +31,7 @@ const SlettVilkårModal: React.FC<{
 }> = ({ vilkår, avsluttRedigering, kanSlettesPermanent, slettVilkår, metadataLabel, metadata }) => {
     const [visModal, settVisModal] = useState(false);
     const [feil, settFeil] = useState('');
+    const [feilFraBackend, settFeilFraBackend] = useState('');
     const [laster, settLaster] = useState(false);
     const [slettBegrunnelse, settSlettBegrunnelse] = useState('');
 
@@ -56,6 +57,7 @@ const SlettVilkårModal: React.FC<{
         }
         settLaster(true);
         settFeil('');
+        settFeilFraBackend('');
 
         slettVilkår(slettBegrunnelse)
             .then((res) => {
@@ -63,9 +65,9 @@ const SlettVilkårModal: React.FC<{
                 if (status === RessursStatus.SUKSESS) {
                     avsluttRedigering();
                 } else if (typeof res !== 'string' && 'frontendFeilmelding' in res) {
-                    settFeil(res.frontendFeilmelding);
+                    settFeilFraBackend(res.frontendFeilmelding);
                 } else {
-                    settFeil(`Feil ved sletting av vilkårperiode: ${status}`);
+                    settFeilFraBackend(`Feil ved sletting av vilkårperiode: ${status}`);
                 }
             })
             .finally(() => settLaster(false));
@@ -73,6 +75,7 @@ const SlettVilkårModal: React.FC<{
 
     const lukkModal = () => {
         settFeil('');
+        settFeilFraBackend('');
         settSlettBegrunnelse('');
         settVisModal(false);
         settLaster(false);
@@ -121,7 +124,7 @@ const SlettVilkårModal: React.FC<{
                     },
                 }}
             >
-                {kanSlettesPermanent && feil && <Alert variant="error">{feil}</Alert>}
+                {feilFraBackend && <Alert variant="error">{feilFraBackend}</Alert>}
                 {!kanSlettesPermanent && (
                     <VStack gap="space-16">
                         <Table>
