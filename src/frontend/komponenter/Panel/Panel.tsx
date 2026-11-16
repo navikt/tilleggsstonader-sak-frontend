@@ -14,7 +14,14 @@ interface Props {
     erAktiv?: boolean;
 }
 
-const Panel: FC<Props> = ({ ekstraHeading, tittel, ikon, children, kontekstmeny, erAktiv }) => {
+const Panel: FC<Props> = ({
+    ekstraHeading,
+    tittel,
+    ikon,
+    children,
+    kontekstmeny,
+    erAktiv = true,
+}) => {
     return (
         <div
             className={styles.container}
