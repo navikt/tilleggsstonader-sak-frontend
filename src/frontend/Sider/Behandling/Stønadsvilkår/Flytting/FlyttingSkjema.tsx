@@ -39,6 +39,7 @@ import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponent
 import { erSvarJaNei, NødvendigUtgift } from '../../../../typer/nødvendigUtgift';
 import { BegrunnelseRegel, SvarId } from '../../../../typer/regel';
 import { erFeilressurs, Ressurs, RessursStatus } from '../../../../typer/ressurs';
+import { tilBeløp } from '../../../../utils/tall';
 import { Målgruppe, MålgruppeType } from '../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { PeriodeStatus, SvarJaNei } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import SlettVilkårModal from '../../Vilkårvurdering/EndreVilkår/SlettVilkårModal';
@@ -296,12 +297,12 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
             type: skjema.type,
             adresse,
             avstandEnVei: tallEllerNull(skjema.avstandEnVei),
-            henger: tallEllerNull(skjema.henger),
-            leiebil: tallEllerNull(skjema.leiebil),
-            bompenger: tallEllerNull(skjema.bompenger),
-            ferge: tallEllerNull(skjema.ferge),
-            parkering: tallEllerNull(skjema.parkering),
-            annet: tallEllerNull(skjema.annet),
+            henger: tilBeløp(skjema.henger),
+            leiebil: tilBeløp(skjema.leiebil),
+            bompenger: tilBeløp(skjema.bompenger),
+            ferge: tilBeløp(skjema.ferge),
+            parkering: tilBeløp(skjema.parkering),
+            annet: tilBeløp(skjema.annet),
             dokumenterteUtgifter,
             nødvendigUtgift,
         };
@@ -658,11 +659,19 @@ const EndreFaktaFlytteSelv: React.FC<{
                             autoComplete="off"
                             label={label}
                             value={fakta[felt]}
-                            inputMode="numeric"
+                            inputMode="decimal"
+                            error={feilmeldinger.ekstrakostnader?.[felt]}
                             onChange={(event) => {
                                 settFakta((forrige) => ({
                                     ...forrige,
                                     [felt]: event.target.value,
+                                }));
+                                settFeilmeldinger((forrige) => ({
+                                    ...forrige,
+                                    ekstrakostnader: {
+                                        ...forrige.ekstrakostnader,
+                                        [felt]: undefined,
+                                    },
                                 }));
                             }}
                             size="small"
