@@ -100,6 +100,12 @@ export type LagreVilkårFunksjon = (
     vilkår: LagreNyttVilkårReiseOppstartAvslutningHjemreise
 ) => Promise<RessursSuksess<VilkårReiseOppstartAvslutningHjemreise> | RessursFeilet>;
 
+export interface RedigeringslåsROAH {
+    redigererId: string | undefined;
+    startRedigering: (id: string) => boolean;
+    avsluttRedigering: () => void;
+}
+
 export type SlettVilkårFunksjon = (
     vilkårId: string,
     slettetBegrunnelse: string | undefined

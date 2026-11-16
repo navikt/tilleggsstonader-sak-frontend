@@ -10,7 +10,8 @@ export const LeggTilNyPeriodeKnapp: React.FC<{
     onKlikk: () => void;
     feilmelding: string | undefined;
     onLukkFeilmelding: () => void;
-}> = ({ onKlikk, feilmelding, onLukkFeilmelding }) => {
+    tekst: string;
+}> = ({ onKlikk, feilmelding, onLukkFeilmelding, tekst }) => {
     const buttonRef = useRef<HTMLDivElement>(null);
 
     return (
@@ -22,7 +23,7 @@ export const LeggTilNyPeriodeKnapp: React.FC<{
                     variant="secondary"
                     icon={<PlusCircleIcon />}
                 >
-                    Legg til ny reise
+                    {tekst}
                 </SmallButton>
             </div>
             <Popover

@@ -54,6 +54,7 @@ export const NyttVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
                 />
             ) : (
                 <LeggTilNyPeriodeKnapp
+                    tekst="Legg til ny reise"
                     onKlikk={handleKlikkLeggTilNyPeriode}
                     feilmelding={feilmeldingRedigering}
                     onLukkFeilmelding={() => settFeilmeldingRedigering(undefined)}
