@@ -21,7 +21,7 @@ import {
     SvarOgBegrunnelseFlytting,
     VilkårFlytting,
 } from './typer/vilkårFlytting';
-import { tilEkstrakostnad, tilVilkårBase } from './utils';
+import { tilVilkårBase } from './utils';
 import { FeilmeldingerFlytting, validerFlytting } from './validering';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useVilkårFlytting } from '../../../../context/VilkårFlyttingContext';
@@ -39,6 +39,7 @@ import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponent
 import { erSvarJaNei, NødvendigUtgift } from '../../../../typer/nødvendigUtgift';
 import { BegrunnelseRegel, SvarId } from '../../../../typer/regel';
 import { erFeilressurs, Ressurs, RessursStatus } from '../../../../typer/ressurs';
+import { tilBeløp } from '../../../../utils/tall';
 import { Målgruppe, MålgruppeType } from '../../Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { PeriodeStatus, SvarJaNei } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
 import SlettVilkårModal from '../../Vilkårvurdering/EndreVilkår/SlettVilkårModal';
@@ -296,12 +297,12 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
             type: skjema.type,
             adresse,
             avstandEnVei: tallEllerNull(skjema.avstandEnVei),
-            henger: tilEkstrakostnad(skjema.henger),
-            leiebil: tilEkstrakostnad(skjema.leiebil),
-            bompenger: tilEkstrakostnad(skjema.bompenger),
-            ferge: tilEkstrakostnad(skjema.ferge),
-            parkering: tilEkstrakostnad(skjema.parkering),
-            annet: tilEkstrakostnad(skjema.annet),
+            henger: tilBeløp(skjema.henger),
+            leiebil: tilBeløp(skjema.leiebil),
+            bompenger: tilBeløp(skjema.bompenger),
+            ferge: tilBeløp(skjema.ferge),
+            parkering: tilBeløp(skjema.parkering),
+            annet: tilBeløp(skjema.annet),
             dokumenterteUtgifter,
             nødvendigUtgift,
         };

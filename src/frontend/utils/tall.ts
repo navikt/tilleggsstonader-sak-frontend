@@ -23,6 +23,17 @@ export const tilTallverdi = (verdi: number | string | undefined): number | undef
     return Number(verdi);
 };
 
+export function tilBeløp(verdi: string): number | null {
+    const utenMellomrom = verdi.replace(/\s/g, '');
+    if (!utenMellomrom) {
+        return null;
+    }
+    const tallverdi = tilTallverdi(utenMellomrom);
+    return typeof tallverdi === 'string'
+        ? Number(tallverdi.replace(/,/g, '.'))
+        : (tallverdi ?? Number.NaN);
+}
+
 export const tilHeltall = (verdi: number | string | undefined): number | undefined => {
     if (!verdi) {
         return undefined;
