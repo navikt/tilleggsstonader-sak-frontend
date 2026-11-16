@@ -1,15 +1,20 @@
 import React, { useEffect, useId, useState } from 'react';
 
+import { Heading, VStack } from '@navikt/ds-react';
+
 import { LesevisningMidlertidigBostedPeriode } from './LesevisningMidlertidigBostedPeriode';
 import { MidlertidigBostedFakta } from './MidlertidigBostedFakta';
-import { Paraplyvilkår } from './Paraplyvilkår';
+import { RedigerParaplyvilkårKnapp } from './RedigerParaplyvilkårKnapp';
+import { ReiserIParaplyvilkår } from './ReiserIParaplyvilkår';
 import { MidlertidigBostedUtkast, tilUtkast, tomtMidlertidigBostedUtkast } from './typer';
 import { useApp } from '../../../../../context/AppContext';
+import { useSteg } from '../../../../../context/StegContext';
 import { useVilkårReiseOppstartAvslutningHjemreise } from '../../../../../context/VilkårReiseOppstartAvslutningHjemreiseContext/VilkårReiseOppstartAvslutningHjemreiseContext';
 import {
     Feil,
     feiletRessursTilFeilmelding,
 } from '../../../../../komponenter/Feil/feilmeldingUtils';
+import { ResultatOgStatusKort } from '../../../../../komponenter/ResultatOgStatusKort/ResultatOgStatusKort';
 import { RessursStatus } from '../../../../../typer/ressurs';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useHarEndretDatoerFørTidligereVedtak } from '../../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
@@ -32,11 +37,6 @@ interface Props {
     redigeringslås: RedigeringslåsROAH;
 }
 
-/**
- * Paraplyvilkåret for midlertidig bosted, med periode, adresser og regelspørsmål.
- * Lagres som et vilkår med reiseformål MIDLERTIDIG_BOSTED. Kortet eier utkastet, så flere
- * paraplyvilkår kan redigeres uavhengig av hverandre.
- */
 export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
     aktivitet,
     vilkår,
@@ -47,8 +47,8 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
     const { regelstruktur, lagreNyttParaplyvilkår, oppdaterParaplyvilkår, slettVilkår } =
         useVilkårReiseOppstartAvslutningHjemreise();
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
+    const { erStegRedigerbart } = useSteg();
     const komponentId = useId();
-
     const erUtkast = vilkår === undefined;
 
     const [utkast, settUtkast] = useState(vilkår ? tilUtkast(vilkår) : tomtMidlertidigBostedUtkast);
@@ -146,30 +146,49 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
 
     return (
         <>
-            <Paraplyvilkår
-                aktivitet={aktivitet}
-                tittel="Periode hvor bruker bor borte"
-                vilkår={vilkår}
-                redigerer={redigerer}
-                redigeringslås={redigeringslås}
-                startRedigering={() => redigeringslås.startRedigering(redigeringsId)}
-                skjema={
-                    <MidlertidigBostedFakta
-                        utkast={utkast}
-                        endreUtkast={endreUtkast}
-                        feil={feil}
-                        feilVedLagring={feilVedLagring}
-                        laster={laster}
-                        regelstruktur={regelstruktur.midlertidigBostedPeriode}
-                        lagre={validerOgLagre}
-                        avbryt={avbryt}
-                        lagretVilkår={vilkår}
-                        avsluttRedigering={() => redigeringslås.avsluttRedigering()}
-                        slett={slettVilkår}
-                    />
+            <ResultatOgStatusKort
+                periode={vilkår}
+                redigeres={redigerer}
+                redigeringKnapp={
+                    erStegRedigerbart &&
+                    !redigerer && (
+                        <RedigerParaplyvilkårKnapp
+                            startRedigering={() => redigeringslås.startRedigering(redigeringsId)}
+                        />
+                    )
                 }
-                lesevisning={vilkår && <LesevisningMidlertidigBostedPeriode vilkår={vilkår} />}
-            />
+            >
+                <VStack gap="space-16">
+                    <Heading size="xsmall" level="4">
+                        Periode hvor bruker bor borte
+                    </Heading>
+                    {erStegRedigerbart && redigerer ? (
+                        <MidlertidigBostedFakta
+                            utkast={utkast}
+                            endreUtkast={endreUtkast}
+                            feil={feil}
+                            feilVedLagring={feilVedLagring}
+                            laster={laster}
+                            regelstruktur={regelstruktur.midlertidigBostedPeriode}
+                            lagre={validerOgLagre}
+                            avbryt={avbryt}
+                            lagretVilkår={vilkår}
+                            avsluttRedigering={() => redigeringslås.avsluttRedigering()}
+                            slett={slettVilkår}
+                        />
+                    ) : (
+                        vilkår && <LesevisningMidlertidigBostedPeriode vilkår={vilkår} />
+                    )}
+                    {vilkår && (
+                        <ReiserIParaplyvilkår
+                            aktivitet={aktivitet}
+                            paraplyvilkår={vilkår}
+                            kanLeggeTilReise={!redigerer}
+                            redigeringslås={redigeringslås}
+                        />
+                    )}
+                </VStack>
+            </ResultatOgStatusKort>
             <BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal
                 visBekreftModal={visBekreftModal}
                 settVisBekreftModal={settVisBekreftModal}
