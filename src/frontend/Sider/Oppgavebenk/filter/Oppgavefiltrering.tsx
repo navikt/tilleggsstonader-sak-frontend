@@ -70,7 +70,7 @@ export const Oppgavefiltrering = () => {
             oppdaterOppgave('behandlingstema')(undefined);
         }
     };
-    const nullstillFiltrering = (påVent = oppgaveRequest.oppgaverPåVent) => {
+    const nullstillFiltrering = (påVent = false) => {
         const tomOppgaveRequest = nullstillSortering({
             ...oppgaveRequestMedDefaultEnhet(defaultOppgaveRequest, gyldigeEnheterForSaksbehandler),
             oppgaverPåVent: påVent,
