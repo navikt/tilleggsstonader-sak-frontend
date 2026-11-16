@@ -6,20 +6,14 @@ import { Alert, Table, Textarea, VStack } from '@navikt/ds-react';
 import { FargetVilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
-import {
-    RessursFeilet,
-    RessursStatus,
-    RessursStatusFeilet,
-    RessursSuksess,
-} from '../../../../typer/ressurs';
+import { erFeilressurs, RessursFeilet, RessursSuksess } from '../../../../typer/ressurs';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useSlettePeriodeFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { VilkårBase } from '../../vilkår';
 import { vilkårTypeTilUtgiftTekst } from '../tekster';
 
-type SlettVilkårResultat =
-    RessursStatus.SUKSESS | RessursStatusFeilet | RessursSuksess<unknown> | RessursFeilet;
+type SlettVilkårResultat = RessursSuksess<unknown> | RessursFeilet;
 
 const SlettVilkårModal: React.FC<{
     vilkår: VilkårBase;
@@ -61,13 +55,10 @@ const SlettVilkårModal: React.FC<{
 
         slettVilkår(slettBegrunnelse)
             .then((res) => {
-                const status = typeof res === 'string' ? res : res.status;
-                if (status === RessursStatus.SUKSESS) {
-                    avsluttRedigering();
-                } else if (typeof res !== 'string' && 'frontendFeilmelding' in res) {
+                if (erFeilressurs(res)) {
                     settFeilFraBackend(res.frontendFeilmelding);
                 } else {
-                    settFeilFraBackend(`Feil ved sletting av vilkårperiode: ${status}`);
+                    avsluttRedigering();
                 }
             })
             .finally(() => settLaster(false));
