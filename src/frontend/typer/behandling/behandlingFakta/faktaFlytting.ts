@@ -1,4 +1,5 @@
 import { FaktaAdresse } from './faktaAdresse';
+import { Drivstofftype } from './faktaReise';
 import { JaNei } from '../../common';
 
 export interface FaktaFlyttingDetaljer {
@@ -15,6 +16,7 @@ export interface FaktaFlyttingDetaljer {
 
 export interface FaktaUtgifterEgenFlytting {
     avstand: number;
+    drivstoffType: Drivstofftype;
     hengerleie?: number;
     leiebil?: number;
     bom?: number;
