@@ -4,7 +4,6 @@ import { BriefcaseIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Heading, VStack } from '@navikt/ds-react';
 
 import { ParaplyvilkårListe } from './Paraplyvilkår/ParaplyvilkårListe';
-import { VisEllerEndreVilkårReiseOppstartAvslutningHjemreise } from './VisEllerEndreVilkårReiseOppstartAvslutningHjemreise';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useSteg } from '../../../../context/StegContext';
@@ -54,8 +53,7 @@ export const StønadsvilkårReiseOppstartAvslutningHjemreise: React.FC = () => {
 };
 
 const StønadsvilkårInnhold = () => {
-    const { reiser, aktiviteter, oppdaterVilkår, slettVilkår } =
-        useVilkårReiseOppstartAvslutningHjemreise();
+    const { aktiviteter } = useVilkårReiseOppstartAvslutningHjemreise();
     const { settUlagretKomponent, nullstillUlagretKomponent } = useApp();
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
@@ -96,60 +94,36 @@ const StønadsvilkårInnhold = () => {
                         under inngangsvilkår.
                     </BodyShort>
                 )}
-                {aktiviteterSortert.map((aktivitet: Aktivitet) => {
-                    const reiserForAktivitet = reiser.filter(
-                        (vilkår) =>
-                            vilkår.aktivitetId === aktivitet.globalId && !vilkår.parentVilkår
-                    );
-
-                    return (
-                        <Box
-                            key={aktivitet.globalId}
-                            background="default"
-                            borderColor="neutral-subtle"
-                            borderRadius="12"
-                            borderWidth="1"
-                            padding="space-16"
-                        >
-                            <VStack gap="space-12">
-                                <Heading size="xsmall" level="3">
-                                    {AktivitetTypeTilTekst[aktivitet.type]} (
-                                    {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)})
-                                </Heading>
-                                {reiserForAktivitet.map((vilkår) => (
-                                    <VisEllerEndreVilkårReiseOppstartAvslutningHjemreise
-                                        key={vilkår.id}
-                                        vilkår={vilkår}
-                                        aktivitet={aktivitet}
-                                        redigerer={redigererId === vilkår.id}
-                                        redigererAnnetVilkår={
-                                            redigererId !== undefined && redigererId !== vilkår.id
-                                        }
-                                        startRedigering={() => startRedigering(vilkår.id)}
-                                        avsluttRedigering={avsluttRedigering}
-                                        lagre={(nyttVilkår) =>
-                                            oppdaterVilkår(vilkår.id, nyttVilkår)
-                                        }
-                                        slett={slettVilkår}
-                                    />
-                                ))}
-                                <ParaplyvilkårListe
-                                    key={`${behandling.id}-${aktivitet.globalId}`}
-                                    aktivitet={aktivitet}
-                                    redigeringslås={{
-                                        redigererId,
-                                        startRedigering,
-                                        avsluttRedigering,
-                                    }}
-                                    kanLeggeTilNytt={
-                                        erStegRedigerbart &&
-                                        aktivitet.resultat === VilkårPeriodeResultat.OPPFYLT
-                                    }
-                                />
-                            </VStack>
-                        </Box>
-                    );
-                })}
+                {aktiviteterSortert.map((aktivitet: Aktivitet) => (
+                    <Box
+                        key={aktivitet.globalId}
+                        background="default"
+                        borderColor="neutral-subtle"
+                        borderRadius="12"
+                        borderWidth="1"
+                        padding="space-16"
+                    >
+                        <VStack gap="space-12">
+                            <Heading size="xsmall" level="3">
+                                {AktivitetTypeTilTekst[aktivitet.type]} (
+                                {formaterIsoPeriode(aktivitet.fom, aktivitet.tom)})
+                            </Heading>
+                            <ParaplyvilkårListe
+                                key={`${behandling.id}-${aktivitet.globalId}`}
+                                aktivitet={aktivitet}
+                                redigeringslås={{
+                                    redigererId,
+                                    startRedigering,
+                                    avsluttRedigering,
+                                }}
+                                kanLeggeTilNytt={
+                                    erStegRedigerbart &&
+                                    aktivitet.resultat === VilkårPeriodeResultat.OPPFYLT
+                                }
+                            />
+                        </VStack>
+                    </Box>
+                ))}
             </VStack>
         </VilkårPanel>
     );
