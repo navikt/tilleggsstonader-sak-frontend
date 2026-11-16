@@ -18,12 +18,7 @@ import {
     VilkårROAH,
     VilkårReiseOppstartAvslutningHjemreise,
 } from '../../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/vilkårReiseOppstartAvslutningHjemreise';
-import {
-    RessursFeilet,
-    RessursStatus,
-    RessursStatusFeilet,
-    RessursSuksess,
-} from '../../typer/ressurs';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
 import { useApp } from '../AppContext';
 import { useBehandling } from '../BehandlingContext';
 
@@ -57,7 +52,9 @@ interface UseVilkårReiseOppstartAvslutningHjemreiseResponse {
     slettVilkår: (
         vilkårId: string,
         slettetKommentar: string | undefined
-    ) => Promise<RessursStatus.SUKSESS | RessursStatusFeilet>;
+    ) => Promise<
+        RessursSuksess<SlettVilkårReiseOppstartAvslutningHjemreiseRespons> | RessursFeilet
+    >;
 }
 
 export const [
@@ -120,7 +117,7 @@ export const [
                 }
             }
 
-            return respons.status;
+            return respons;
         };
 
         return {

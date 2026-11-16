@@ -11,12 +11,7 @@ import {
     SlettVilkårReiseTilSamlingRespons,
     VilkårReiseTilSamling,
 } from '../../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/typer/vilkårReiseTilSamling';
-import {
-    RessursFeilet,
-    RessursStatus,
-    RessursStatusFeilet,
-    RessursSuksess,
-} from '../../typer/ressurs';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
 import { useApp } from '../AppContext';
 import { useBehandling } from '../BehandlingContext';
 
@@ -40,7 +35,7 @@ interface UseVilkårReiseTilSamlingResponse {
     slettVilkår: (
         vilkårId: string,
         slettetKommentar: string | undefined
-    ) => Promise<RessursStatus.SUKSESS | RessursStatusFeilet>;
+    ) => Promise<RessursSuksess<SlettVilkårReiseTilSamlingRespons> | RessursFeilet>;
 }
 
 export const [VilkårReiseTilSamlingProvider, useVilkårReiseTilSamling] = constate(
@@ -104,7 +99,7 @@ export const [VilkårReiseTilSamlingProvider, useVilkårReiseTilSamling] = const
                 }
             }
 
-            return respons.status;
+            return respons;
         };
 
         return {

@@ -1,25 +1,31 @@
 import React, { useState } from 'react';
 
 import { TrashIcon } from '@navikt/aksel-icons';
-import { Table, Textarea, VStack } from '@navikt/ds-react';
+import { Alert, Table, Textarea, VStack } from '@navikt/ds-react';
 
 import { FargetVilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
-import { RessursStatus, RessursStatusFeilet } from '../../../../typer/ressurs';
+import {
+    RessursFeilet,
+    RessursStatus,
+    RessursStatusFeilet,
+    RessursSuksess,
+} from '../../../../typer/ressurs';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useSlettePeriodeFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { VilkårBase } from '../../vilkår';
 import { vilkårTypeTilUtgiftTekst } from '../tekster';
 
+type SlettVilkårResultat =
+    RessursStatus.SUKSESS | RessursStatusFeilet | RessursSuksess<unknown> | RessursFeilet;
+
 const SlettVilkårModal: React.FC<{
     vilkår: VilkårBase;
     avsluttRedigering: () => void;
     kanSlettesPermanent: boolean;
-    slettVilkår: (
-        slettetBegrunnelse: string | undefined
-    ) => Promise<RessursStatus.SUKSESS | RessursStatusFeilet>;
+    slettVilkår: (slettetBegrunnelse: string | undefined) => Promise<SlettVilkårResultat>;
     metadataLabel: string;
     metadata: string | number;
 }> = ({ vilkår, avsluttRedigering, kanSlettesPermanent, slettVilkår, metadataLabel, metadata }) => {
@@ -53,10 +59,13 @@ const SlettVilkårModal: React.FC<{
 
         slettVilkår(slettBegrunnelse)
             .then((res) => {
-                if (res === RessursStatus.SUKSESS) {
+                const status = typeof res === 'string' ? res : res.status;
+                if (status === RessursStatus.SUKSESS) {
                     avsluttRedigering();
+                } else if (typeof res !== 'string' && 'frontendFeilmelding' in res) {
+                    settFeil(res.frontendFeilmelding);
                 } else {
-                    settFeil(`Feil ved sletting av vilkårperiode: ${res}`);
+                    settFeil(`Feil ved sletting av vilkårperiode: ${status}`);
                 }
             })
             .finally(() => settLaster(false));
@@ -112,6 +121,7 @@ const SlettVilkårModal: React.FC<{
                     },
                 }}
             >
+                {kanSlettesPermanent && feil && <Alert variant="error">{feil}</Alert>}
                 {!kanSlettesPermanent && (
                     <VStack gap="space-16">
                         <Table>
