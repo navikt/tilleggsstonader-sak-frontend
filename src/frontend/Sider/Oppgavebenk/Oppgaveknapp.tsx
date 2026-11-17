@@ -51,9 +51,6 @@ const Oppgaveknapp: React.FC<Props> = ({
     const { settOppgaveTilSaksbehandler, tilbakestillFordeling, endreAktivitetspengerMarkering } =
         useOppgaveFordeling(settLaster);
     const kanBehandleAktivitetspenger = useFlag(Toggle.KAN_BEHANDLE_AKTIVITETSPENGER);
-    const skalMarkereAktivitetspengerOppgaverToggle = useFlag(
-        Toggle.SKAL_MARKERE_AKTIVITETSPENGER_OPPGAVER
-    );
     const oppgaveTilordnetInnloggetSaksbehandler =
         oppgave.tilordnetRessurs === saksbehandler.navIdent;
 
@@ -99,7 +96,7 @@ const Oppgaveknapp: React.FC<Props> = ({
         const kanMarkeres =
             !oppgave.behandlingstype || oppgave.behandlingstype === OppgaveBehandlingstype.Klage;
 
-        if (!skalMarkereAktivitetspengerOppgaverToggle || !(erMarkert || kanMarkeres)) {
+        if (!(erMarkert || kanMarkeres)) {
             return [];
         }
         if (erMarkert) {
