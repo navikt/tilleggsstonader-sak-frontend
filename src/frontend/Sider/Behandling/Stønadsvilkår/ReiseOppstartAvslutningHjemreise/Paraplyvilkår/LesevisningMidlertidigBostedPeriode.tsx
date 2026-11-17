@@ -6,6 +6,7 @@ import begrunnelseStyles from '../../../../../komponenter/Begrunnelse.module.css
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import { formaterNullableIsoDato } from '../../../../../utils/dato';
 import { svarIdTilTekst } from '../../../Vilkårvurdering/tekster';
+import { TypeTagForResultat } from '../../Felles/Lesevisning/TypeTagForResultat';
 import {
     RegelIdROAH,
     regelIdTilSpørsmålROAH,
@@ -57,6 +58,7 @@ export const LesevisningMidlertidigBostedPeriode: FC<{
                     </VStack>
                 );
             })}
+            <TypeTagForResultat resultat={vilkår.resultat} style={{ alignSelf: 'start' }} />
         </VStack>
     );
 };

@@ -1,13 +1,12 @@
 import React, { FC } from 'react';
 
-import { Tag } from '@navikt/ds-react';
-
 import { RedigerVilkårProps } from '../../DagligReise/Lesevisning/Felles/LesevisningFooter';
 import { VilkårReiseOppstartAvslutningHjemreise } from '../typer/vilkårReiseOppstartAvslutningHjemreise';
 import { LesevisningVilkårKort } from './Felles/LesevisningVilkårKort';
 import { LesevisningVilkårOffentligTransport } from './OffentligTransport/LesevisningVilkårOffentligTransport';
 import { LesevisningVilkårPrivatBil } from './PrivatBil/LesevisningVilkårPrivatBil';
 import { LesevisningDelvilkår } from '../../Felles/Lesevisning/LesevisningDelvilkår';
+import { TypeTagForResultat } from '../../Felles/Lesevisning/TypeTagForResultat';
 
 interface VilkårProps {
     vilkår: VilkårReiseOppstartAvslutningHjemreise;
@@ -50,11 +49,7 @@ export const LesevisningVilkårReiseOppstartAvslutningHjemreise: FC<VilkårProps
         <LesevisningVilkårKort
             vilkår={vilkår}
             redigerVilkårProps={redigerVilkårProps}
-            typeTag={
-                <Tag data-color="danger" size="small">
-                    Vilkår ikke oppfylt
-                </Tag>
-            }
+            typeTag={<TypeTagForResultat resultat={vilkår.resultat} />}
         >
             <LesevisningDelvilkår
                 delvilkårsett={vilkår.delvilkårsett}
