@@ -110,8 +110,11 @@ export const MidlertidigBostedParaplyvilkår: React.FC<Props> = ({
             tom,
             aktivitetId: aktivitet.globalId,
             svar: utkast.svar,
-            fraAdresse: utkast.fraAdresse,
-            tilAdresse: utkast.tilAdresse,
+            fakta: {
+                type: 'MIDLERTIDIG_BOSTED',
+                fraAdresse: utkast.fraAdresse,
+                tilAdresse: utkast.tilAdresse,
+            },
         };
 
         settLaster(true);
