@@ -95,10 +95,6 @@ const Oppgaveknapp: React.FC<Props> = ({
         const erMarkert = erAktivitetspengerBehandlingstype(oppgave.behandlingstype);
         const kanMarkeres =
             !oppgave.behandlingstype || oppgave.behandlingstype === OppgaveBehandlingstype.Klage;
-
-        if (!(erMarkert || kanMarkeres)) {
-            return [];
-        }
         if (erMarkert) {
             return kanBehandleAktivitetspenger
                 ? [
@@ -111,15 +107,16 @@ const Oppgaveknapp: React.FC<Props> = ({
                       },
                   ]
                 : [];
-        }
-        return [
-            {
-                label: 'Gjelder aktivitetspenger',
-                onClick: utførHandlingOgHentOppgavePåNytt('Markere for aktivitetspenger', () =>
-                    endreAktivitetspengerMarkering(oppgave, true)
-                ),
-            },
-        ];
+        } else if (kanMarkeres) {
+            return [
+                {
+                    label: 'Gjelder aktivitetspenger',
+                    onClick: utførHandlingOgHentOppgavePåNytt('Markere for aktivitetspenger', () =>
+                        endreAktivitetspengerMarkering(oppgave, true)
+                    ),
+                },
+            ];
+        } else return [];
     };
     const aktivitetspengerValg = lagAktivitetspengerValg();
 
