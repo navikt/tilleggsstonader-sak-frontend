@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { TrashIcon } from '@navikt/aksel-icons';
-import { LocalAlert, Table, Textarea, VStack } from '@navikt/ds-react';
+import { Alert, Table, Textarea, VStack } from '@navikt/ds-react';
 
 import { FargetVilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../../komponenter/Knapper/SmallButton';
@@ -115,14 +115,7 @@ const SlettVilkårModal: React.FC<{
                     },
                 }}
             >
-                {feilFraBackend && (
-                    <LocalAlert status="warning">
-                        <LocalAlert.Header>
-                            <LocalAlert.Title>Kan ikke slette vilkår</LocalAlert.Title>
-                        </LocalAlert.Header>
-                        <LocalAlert.Content>{feilFraBackend}</LocalAlert.Content>
-                    </LocalAlert>
-                )}
+                {feilFraBackend && <Alert variant="error">{feilFraBackend}</Alert>}
                 {!kanSlettesPermanent && (
                     <VStack gap="space-16">
                         <Table>
