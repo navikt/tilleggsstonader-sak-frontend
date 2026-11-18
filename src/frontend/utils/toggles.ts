@@ -31,7 +31,6 @@ export enum Toggle {
      */
     BRUK_DYNAMISK_KART = 'sak.frontend.bruk-dynamisk-kart',
     KAN_OPPHØRE_DAGLIG_REISE_TSO = 'sak.frontend.kan-oppheve-daglig-reise-tso',
-    KAN_BEHANDLE_REISE_TIL_SAMLING = 'sak.reise-til-samling',
     KAN_BEHANDLE_FLYTTING = 'sak.flytting',
     VIS_BELØP_FRA_ANDRE_STØNADSTYPER_I_SIMULERING = 'sak.frontend.vis-belop-fra-andre-stonadstyper-i-simulering',
     KAN_BRUKE_MÅLGRUPPE_UNGDOMSPROGRAMMET = 'sak.frontend.kan-bruke-malgruppe-ungdomsprogrammet',
