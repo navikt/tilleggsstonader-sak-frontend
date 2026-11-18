@@ -1,4 +1,7 @@
-import { FaktaReiseOppstartAvslutningHjemreise } from './faktaReiseOppstartAvslutningHjemreise';
+import {
+    FaktaMidlertidigBosted,
+    FaktaReiseOppstartAvslutningHjemreise,
+} from './faktaReiseOppstartAvslutningHjemreise';
 import { RegelIdROAH } from './regelstrukturReiseOppstartAvslutningHjemreise';
 import { SvarId } from '../../../../../typer/regel';
 import {
@@ -23,8 +26,7 @@ export interface ParaplyvilkårReiseOppstartAvslutningHjemreise extends VilkårB
     type: 'PARAPLYVILKÅR';
     globalId?: string;
     aktivitetId: string;
-    fraAdresse: string;
-    tilAdresse: string;
+    fakta: FaktaMidlertidigBosted;
 }
 
 export type VilkårROAH =
@@ -88,8 +90,7 @@ export interface LagreNyttParaplyvilkårReiseOppstartAvslutningHjemreise {
     tom: string;
     aktivitetId: string;
     svar: SvarVilkårReiseOppstartAvslutningHjemreise;
-    fraAdresse: string;
-    tilAdresse: string;
+    fakta: FaktaMidlertidigBosted;
 }
 
 export type LagreVilkårROAH =

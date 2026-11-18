@@ -31,11 +31,11 @@ export const LesevisningMidlertidigBostedPeriode: FC<{
                 </div>
                 <div>
                     <BodyShort size="small">Fra adresse</BodyShort>
-                    <Label size="small">{vilkår.fraAdresse || '-'}</Label>
+                    <Label size="small">{vilkår.fakta.fraAdresse || '-'}</Label>
                 </div>
                 <div>
                     <BodyShort size="small">Til adresse</BodyShort>
-                    <Label size="small">{vilkår.tilAdresse || '-'}</Label>
+                    <Label size="small">{vilkår.fakta.tilAdresse || '-'}</Label>
                 </div>
             </HStack>
             <Skillelinje utenMargin />

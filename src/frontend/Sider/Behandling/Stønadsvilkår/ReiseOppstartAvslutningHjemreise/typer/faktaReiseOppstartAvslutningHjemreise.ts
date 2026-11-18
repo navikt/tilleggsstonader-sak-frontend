@@ -29,6 +29,12 @@ export interface FaktaPrivatBil extends FaktaReiseOppstartAvslutningHjemreise {
     piggdekkavgift?: number;
 }
 
+export interface FaktaMidlertidigBosted {
+    type: 'MIDLERTIDIG_BOSTED';
+    fraAdresse: string;
+    tilAdresse: string;
+}
+
 export const erFaktaOffentligTransport = (
     fakta: FaktaReiseOppstartAvslutningHjemreise
 ): fakta is FaktaOffentligTransport => fakta.type === 'OFFENTLIG_TRANSPORT';

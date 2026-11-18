@@ -26,7 +26,7 @@ export const tilUtkast = (
 ): MidlertidigBostedUtkast => ({
     fom: vilkår.fom,
     tom: vilkår.tom,
-    fraAdresse: vilkår.fraAdresse,
-    tilAdresse: vilkår.tilAdresse,
+    fraAdresse: vilkår.fakta.fraAdresse,
+    tilAdresse: vilkår.fakta.tilAdresse,
     svar: initierSvar(vilkår),
 });
