@@ -11,12 +11,7 @@ import {
     SlettVilkårDagligReiseRespons,
     VilkårDagligReise,
 } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/vilkårDagligReise';
-import {
-    RessursFeilet,
-    RessursStatus,
-    RessursStatusFeilet,
-    RessursSuksess,
-} from '../../typer/ressurs';
+import { RessursFeilet, RessursStatus, RessursSuksess } from '../../typer/ressurs';
 import { useApp } from '../AppContext';
 import { useBehandling } from '../BehandlingContext';
 
@@ -40,7 +35,7 @@ interface UseVilkårDagligReiseResponse {
     slettVilkår: (
         vilkårId: string,
         slettetKommentar: string | undefined
-    ) => Promise<RessursStatus.SUKSESS | RessursStatusFeilet>;
+    ) => Promise<RessursSuksess<SlettVilkårDagligReiseRespons> | RessursFeilet>;
 }
 
 export const [VilkårDagligReiseProvider, useVilkårDagligReise] = constate(
@@ -100,7 +95,7 @@ export const [VilkårDagligReiseProvider, useVilkårDagligReise] = constate(
                 }
             }
 
-            return respons.status;
+            return respons;
         };
 
         return {

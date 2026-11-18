@@ -4,12 +4,7 @@ import {
 } from './faktaReiseOppstartAvslutningHjemreise';
 import { RegelIdROAH } from './regelstrukturReiseOppstartAvslutningHjemreise';
 import { SvarId } from '../../../../../typer/regel';
-import {
-    RessursFeilet,
-    RessursStatus,
-    RessursStatusFeilet,
-    RessursSuksess,
-} from '../../../../../typer/ressurs';
+import { RessursFeilet, RessursSuksess } from '../../../../../typer/ressurs';
 import { VilkårBase } from '../../../vilkår';
 
 export interface VilkårReiseOppstartAvslutningHjemreise extends VilkårBase {
@@ -110,7 +105,7 @@ export interface RedigeringslåsROAH {
 export type SlettVilkårFunksjon = (
     vilkårId: string,
     slettetBegrunnelse: string | undefined
-) => Promise<RessursStatus.SUKSESS | RessursStatusFeilet>;
+) => Promise<RessursSuksess<SlettVilkårReiseOppstartAvslutningHjemreiseRespons> | RessursFeilet>;
 
 export interface SlettVilkårReiseOppstartAvslutningHjemreiseRequest {
     kommentar?: string;

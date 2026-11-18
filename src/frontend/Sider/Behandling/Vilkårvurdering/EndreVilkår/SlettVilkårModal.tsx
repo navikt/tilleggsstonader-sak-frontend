@@ -1,30 +1,31 @@
 import React, { useState } from 'react';
 
 import { TrashIcon } from '@navikt/aksel-icons';
-import { Table, Textarea, VStack } from '@navikt/ds-react';
+import { Alert, Table, Textarea, VStack } from '@navikt/ds-react';
 
 import { FargetVilkårsresultatIkon } from '../../../../komponenter/Ikoner/Vurderingsresultat/VilkårsresultatIkon';
 import SmallButton from '../../../../komponenter/Knapper/SmallButton';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
-import { RessursStatus, RessursStatusFeilet } from '../../../../typer/ressurs';
+import { erFeilressurs, RessursFeilet, RessursSuksess } from '../../../../typer/ressurs';
 import { formaterNullableIsoDato } from '../../../../utils/dato';
 import { BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/BekreftEndringPåPeriodeSomPåvirkerTidligereVedtakModal';
 import { useSlettePeriodeFørTidligereVedtak } from '../../Felles/BekreftEndretDatoetFørTidligereVedtak/useHarEndretDatoerFørTidligereVedtak';
 import { VilkårBase } from '../../vilkår';
 import { vilkårTypeTilUtgiftTekst } from '../tekster';
 
+type SlettVilkårResultat = RessursSuksess<unknown> | RessursFeilet;
+
 const SlettVilkårModal: React.FC<{
     vilkår: VilkårBase;
     avsluttRedigering: () => void;
     kanSlettesPermanent: boolean;
-    slettVilkår: (
-        slettetBegrunnelse: string | undefined
-    ) => Promise<RessursStatus.SUKSESS | RessursStatusFeilet>;
+    slettVilkår: (slettetBegrunnelse: string | undefined) => Promise<SlettVilkårResultat>;
     metadataLabel: string;
     metadata: string | number;
 }> = ({ vilkår, avsluttRedigering, kanSlettesPermanent, slettVilkår, metadataLabel, metadata }) => {
     const [visModal, settVisModal] = useState(false);
     const [feil, settFeil] = useState('');
+    const [feilFraBackend, settFeilFraBackend] = useState('');
     const [laster, settLaster] = useState(false);
     const [slettBegrunnelse, settSlettBegrunnelse] = useState('');
 
@@ -50,13 +51,14 @@ const SlettVilkårModal: React.FC<{
         }
         settLaster(true);
         settFeil('');
+        settFeilFraBackend('');
 
         slettVilkår(slettBegrunnelse)
             .then((res) => {
-                if (res === RessursStatus.SUKSESS) {
-                    avsluttRedigering();
+                if (erFeilressurs(res)) {
+                    settFeilFraBackend(res.frontendFeilmelding);
                 } else {
-                    settFeil(`Feil ved sletting av vilkårperiode: ${res}`);
+                    avsluttRedigering();
                 }
             })
             .finally(() => settLaster(false));
@@ -64,6 +66,7 @@ const SlettVilkårModal: React.FC<{
 
     const lukkModal = () => {
         settFeil('');
+        settFeilFraBackend('');
         settSlettBegrunnelse('');
         settVisModal(false);
         settLaster(false);
@@ -112,6 +115,7 @@ const SlettVilkårModal: React.FC<{
                     },
                 }}
             >
+                {feilFraBackend && <Alert variant="error">{feilFraBackend}</Alert>}
                 {!kanSlettesPermanent && (
                     <VStack gap="space-16">
                         <Table>

@@ -466,9 +466,7 @@ export const FlyttingSkjema: React.FC<Props> = ({ vilkår, målgrupper, avbryt, 
                             }}
                             avsluttRedigering={avbryt}
                             kanSlettesPermanent={vilkår.status === PeriodeStatus.NY}
-                            slettVilkår={async (kommentar) =>
-                                (await slettVilkår(vilkår.id, kommentar)).status
-                            }
+                            slettVilkår={(kommentar) => slettVilkår(vilkår.id, kommentar)}
                             metadataLabel="Type flytting"
                             metadata="Flytting"
                         />
