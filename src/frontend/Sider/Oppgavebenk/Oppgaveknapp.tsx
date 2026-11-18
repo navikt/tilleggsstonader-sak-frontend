@@ -51,9 +51,6 @@ const Oppgaveknapp: React.FC<Props> = ({
     const { settOppgaveTilSaksbehandler, tilbakestillFordeling, endreAktivitetspengerMarkering } =
         useOppgaveFordeling(settLaster);
     const kanBehandleAktivitetspenger = useFlag(Toggle.KAN_BEHANDLE_AKTIVITETSPENGER);
-    const skalMarkereAktivitetspengerOppgaverToggle = useFlag(
-        Toggle.SKAL_MARKERE_AKTIVITETSPENGER_OPPGAVER
-    );
     const oppgaveTilordnetInnloggetSaksbehandler =
         oppgave.tilordnetRessurs === saksbehandler.navIdent;
 
@@ -98,10 +95,6 @@ const Oppgaveknapp: React.FC<Props> = ({
         const erMarkert = erAktivitetspengerBehandlingstype(oppgave.behandlingstype);
         const kanMarkeres =
             !oppgave.behandlingstype || oppgave.behandlingstype === OppgaveBehandlingstype.Klage;
-
-        if (!skalMarkereAktivitetspengerOppgaverToggle || !(erMarkert || kanMarkeres)) {
-            return [];
-        }
         if (erMarkert) {
             return kanBehandleAktivitetspenger
                 ? [
@@ -114,15 +107,16 @@ const Oppgaveknapp: React.FC<Props> = ({
                       },
                   ]
                 : [];
-        }
-        return [
-            {
-                label: 'Gjelder aktivitetspenger',
-                onClick: utførHandlingOgHentOppgavePåNytt('Markere for aktivitetspenger', () =>
-                    endreAktivitetspengerMarkering(oppgave, true)
-                ),
-            },
-        ];
+        } else if (kanMarkeres) {
+            return [
+                {
+                    label: 'Gjelder aktivitetspenger',
+                    onClick: utførHandlingOgHentOppgavePåNytt('Markere for aktivitetspenger', () =>
+                        endreAktivitetspengerMarkering(oppgave, true)
+                    ),
+                },
+            ];
+        } else return [];
     };
     const aktivitetspengerValg = lagAktivitetspengerValg();
 
