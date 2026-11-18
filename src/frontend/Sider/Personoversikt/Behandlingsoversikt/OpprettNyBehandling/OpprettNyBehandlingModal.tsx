@@ -1,7 +1,5 @@
 import React, { FC, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
-
 import { Button, Select, VStack } from '@navikt/ds-react';
 
 import OpprettKjørelisteBehandling from './OpprettKjørelisteBehandling';
@@ -15,7 +13,6 @@ import OpprettOrdinærBehandling from './OpprettOrdinærBehandling';
 import { useApp } from '../../../../context/AppContext';
 import { ModalWrapper } from '../../../../komponenter/Modal/ModalWrapper';
 import { Stønadstype, stønadstypeErDagligReise } from '../../../../typer/behandling/behandlingTema';
-import { Toggle } from '../../../../utils/toggles';
 
 interface Props {
     fagsakId: string;
@@ -30,9 +27,6 @@ export const OpprettNyBehandlingModal: FC<Props> = ({
     hentBehandlinger,
 }) => {
     const { erSaksbehandler } = useApp();
-    const kanBehandleManuellKjørelistebehandling = useFlag(
-        Toggle.KAN_OPPRETTE_MANUELL_KJØRELISTEBEHANDLING
-    );
 
     const [visModal, settVisModal] = useState(false);
     const [opprettNyBehandlingType, settOpprettNyBehandlingType] =
@@ -47,8 +41,7 @@ export const OpprettNyBehandlingModal: FC<Props> = ({
         return null;
     }
 
-    const kanOppretteManuellKjørelisteBehandling =
-        stønadstypeErDagligReise(stønadstype) && kanBehandleManuellKjørelistebehandling;
+    const kanOppretteManuellKjørelisteBehandling = stønadstypeErDagligReise(stønadstype);
 
     const tilgjengeligeBehandlingstyper = [
         OpprettNyBehandlingType.ORDINAER_BEHANDLING,
