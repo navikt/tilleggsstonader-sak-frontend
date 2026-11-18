@@ -1,7 +1,5 @@
 import React, { FC, useState } from 'react';
 
-import { useFlag } from '@unleash/proxy-client-react';
-
 import { PencilIcon } from '@navikt/aksel-icons';
 import { Button, HStack, InlineMessage, Label, VStack } from '@navikt/ds-react';
 
@@ -9,10 +7,7 @@ import { AvklartDagLesevisning } from './Dag/AvklartDagLesevisning';
 import { KjørelisteDagInfo } from './Dag/KjørelisteDagInfo';
 import { RedigerAvklartDag } from './Dag/RedigerAvklartDag';
 import styles from './UkeInnhold.module.css';
-import {
-    validerAntallReisedagerInnenforRammevedtak,
-    validerAvklarteDager,
-} from './valideringAvklarteDager';
+import { validerAvklarteDager } from './valideringAvklarteDager';
 import { useApp } from '../../../../context/AppContext';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { useKjørelisteContext } from '../../../../context/KjørelisteContext';
@@ -31,7 +26,6 @@ import {
     RammeForReiseMedPrivatBilDelperiode,
     vedtakErOpphør,
 } from '../../../../typer/vedtak/vedtakDagligReise';
-import { Toggle } from '../../../../utils/toggles';
 import {
     mapTilRedigerbareAvklarteDager,
     tomRedigerbarAvklartDag,
@@ -47,17 +41,11 @@ export const UkeInnhold: FC<{
     const { behandling } = useBehandling();
     const { erStegRedigerbart } = useSteg();
     const { vedtak } = useKjørelisteContext();
-    const kanOverskrideAntallDagerIRammevedtak = useFlag(
-        Toggle.KAN_OVERSKRIDE_ANTALL_DAGER_I_RAMMEVEDTAK
-    );
 
     const [redigerer, settRedigerer] = React.useState(false);
     const [redigerbareDager, settRedigerbareDager] = useState<RedigerbarAvklartDag[]>([]);
     const [valideringsfeilForDager, settValideringsfeilForDager] =
         useState<FormErrors<RedigerbarAvklartDag[]>>();
-    const [valideringsfeilForUke, settValideringsfeilForUke] = useState<string | undefined>(
-        undefined
-    );
     const [feilVedLagring, settFeilVedLagring] = useState<Feil | undefined>(undefined);
 
     const oppdaterDag = (oppdatertDag: RedigerbarAvklartDag) => {
@@ -70,20 +58,7 @@ export const UkeInnhold: FC<{
         const feil = validerAvklarteDager(redigerbareDager, uke);
         settValideringsfeilForDager(feil);
 
-        const erAntallGodkjenteDagerInnenforRammevedtak =
-            validerAntallReisedagerInnenforRammevedtak(
-                redigerbareDager,
-                delperiodeForUke,
-                kanOverskrideAntallDagerIRammevedtak
-            );
-
-        settValideringsfeilForUke(
-            erAntallGodkjenteDagerInnenforRammevedtak
-                ? undefined
-                : 'Antall dager med godkjent kjøring kan ikke være høyere enn antall reisedager godkjent i rammevedtak'
-        );
-
-        return isValid(feil) && erAntallGodkjenteDagerInnenforRammevedtak;
+        return isValid(feil);
     };
 
     const lagre = () => {
@@ -118,7 +93,6 @@ export const UkeInnhold: FC<{
     const avbrytRedigering = () => {
         settRedigerbareDager([]);
         settValideringsfeilForDager(undefined);
-        settValideringsfeilForUke(undefined);
         settFeilVedLagring(undefined);
         settRedigerer(false);
     };
@@ -185,7 +159,6 @@ export const UkeInnhold: FC<{
                 </InlineMessage>
             )}
             <Feilmelding feil={feilVedLagring} />
-            <Feilmelding feil={valideringsfeilForUke} />
             <HStack gap="space-8" justify="end">
                 {redigerer && (
                     <>
