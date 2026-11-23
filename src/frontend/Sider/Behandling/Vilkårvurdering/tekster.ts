@@ -86,6 +86,7 @@ export const regelIdTilSpørsmål: Record<RegelId, string> = {
     MÅ_FLYTTE_FOR_Å_STARTE_I_ARBEID:
         'Må bruker flytte fra hjemstedet for å starte i arbeid på et annet sted?',
     HVORDAN_SKAL_BRUKER_FLYTTE: 'Skal bruker benytte seg av flyttebyrå, eller flytter bruker selv?',
+    SØKER_FØR_FLYTTING_ER_GJENNOMFØRT: 'Søker bruker om støtte før flyttingen er gjennomført?',
 };
 
 export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
@@ -122,6 +123,7 @@ export const regelIdTilSpørsmålKortversjon: Record<RegelId, string> = {
     MÅ_FLYTTE_FOR_Å_STARTE_I_ARBEID:
         'Må bruker flytte fra hjemstedet for å starte i arbeid på et annet sted?',
     HVORDAN_SKAL_BRUKER_FLYTTE: 'Skal bruker benytte seg av flyttebyrå, eller flytter bruker selv?',
+    SØKER_FØR_FLYTTING_ER_GJENNOMFØRT: 'Søker bruker om støtte før flyttingen er gjennomført?',
     ROAH_HAR_UTGIFTER_TIL_REISEN: 'Har utgifter til reisen?',
     ROAH_KAN_REISE_MED_OFFENTLIG_TRANSPORT: 'Kan benytte offentlig transport?',
     ROAH_HAR_DOKUMENTERTE_UTGIFTER_TIL_REISEN: 'Dokumenterte utgifter til reisen?',
@@ -155,6 +157,7 @@ export const vilkårTypeTilUtgiftTekst: Record<StønadsvilkårType, string> = {
     REISE_TIL_SAMLING: '',
     REISE_OPPSTART_AVSLUTNING_HJEMREISE: '',
     FLYTTING: '',
+    FLYTTING_TSR: '',
 };
 
 export const vilkårTypeTilUtgiftHjelpeTekst: Record<StønadsvilkårType, string | undefined> = {
@@ -168,6 +171,7 @@ export const vilkårTypeTilUtgiftHjelpeTekst: Record<StønadsvilkårType, string
     REISE_TIL_SAMLING: undefined,
     REISE_OPPSTART_AVSLUTNING_HJEMREISE: undefined,
     FLYTTING: undefined,
+    FLYTTING_TSR: undefined,
 };
 
 export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {
@@ -179,4 +183,5 @@ export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {
     REISE_TIL_SAMLING: 'Samlinger',
     REISE_OPPSTART_AVSLUTNING_HJEMREISE: 'Oppstart, avslutning og hjemreiser',
     FLYTTING: 'Flytting',
+    FLYTTING_TSR: 'Flytting',
 };

@@ -8,6 +8,7 @@ export enum RegelIdFlytting {
     FLYTTER_IFBM_ARBEID_ETTER_AKTIVITET = 'FLYTTER_IFBM_ARBEID_ETTER_AKTIVITET',
     MÅ_FLYTTE_FOR_Å_STARTE_I_ARBEID = 'MÅ_FLYTTE_FOR_Å_STARTE_I_ARBEID',
     HVORDAN_SKAL_BRUKER_FLYTTE = 'HVORDAN_SKAL_BRUKER_FLYTTE',
+    SØKER_FØR_FLYTTING_ER_GJENNOMFØRT = 'SØKER_FØR_FLYTTING_ER_GJENNOMFØRT',
 }
 
 export const begrunnelseHjelpeteksterForFlytteforbindelse: Partial<Record<SvarId, string>> = {

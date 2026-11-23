@@ -5,10 +5,13 @@ import { Regelstruktur } from '../Sider/Behandling/Stønadsvilkår/DagligReise/t
 import { RegelstrukturFlytting } from '../Sider/Behandling/Stønadsvilkår/Flytting/typer/regelstrukturFlytting';
 import { RegelstrukturROAH } from '../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/regelstrukturReiseOppstartAvslutningHjemreise';
 import { RegelstrukturReiseTilSamling } from '../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/typer/regelstrukturReiseTilSamling';
+import { Stønadstype } from '../typer/behandling/behandlingTema';
 import { ReglerResponse } from '../typer/regel';
 import { Ressurs, byggTomRessurs } from '../typer/ressurs';
 
-export const useRegelstrukturFlytting = (): {
+export const useRegelstrukturFlytting = (
+    stønadstype: Stønadstype
+): {
     regelStruktur: Ressurs<RegelstrukturFlytting>;
 } => {
     const { request } = useApp();
@@ -16,10 +19,11 @@ export const useRegelstrukturFlytting = (): {
         useState<Ressurs<RegelstrukturFlytting>>(byggTomRessurs());
 
     useEffect(() => {
-        request<RegelstrukturFlytting, null>('/api/sak/vilkar/flytting/regler', 'GET').then(
-            settRegelstruktur
-        );
-    }, [request]);
+        request<RegelstrukturFlytting, null>(
+            `/api/sak/vilkar/flytting/regler?stonadstype=${stønadstype}`,
+            'GET'
+        ).then(settRegelstruktur);
+    }, [request, stønadstype]);
 
     return { regelStruktur };
 };

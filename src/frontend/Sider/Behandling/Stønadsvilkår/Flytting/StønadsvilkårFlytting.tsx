@@ -25,7 +25,7 @@ import { Målgruppe } from '../../Inngangsvilkår/typer/vilkårperiode/målgrupp
 export const StønadsvilkårFlytting: React.FC = () => {
     const { behandling } = useBehandling();
     const { eksisterendeVilkår } = useHentVilkårFlytting();
-    const { regelStruktur } = useRegelstrukturFlytting();
+    const { regelStruktur } = useRegelstrukturFlytting(behandling.stønadstype);
     const { vilkårperioderResponse } = useVilkårperioder(behandling.id);
 
     return (

@@ -81,7 +81,7 @@ const faktiskeMålgrupper: Record<Stønadstype, Record<FaktiskMålgruppe, boolea
         ENSLIG_FORSØRGER: false,
         GJENLEVENDE: false,
         ARBEIDSSØKER: true,
-        UNGDOMSPROGRAMMET: true,
+        UNGDOMSPROGRAMMET: false,
         AKTIVITETSPENGER: false,
     },
     // TODO: avklar faktiske målgrupper for REISE_OPPSTART_AVSLUTNING_HJEMREISE
