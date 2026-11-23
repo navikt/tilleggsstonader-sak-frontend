@@ -5,6 +5,7 @@ import { VilkårPeriodeResultat } from '../../Sider/Behandling/Inngangsvilkår/t
 import { TypeVilkårFakta as TypeVilkårFaktaDagligReise } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
 import { TypeVilkårFaktaFlytting } from '../../Sider/Behandling/Stønadsvilkår/Flytting/typer/faktaFlytting';
 import { TypeVilkårFakta as TypeVilkårFaktaReiseOppstartAvslutningHjemreise } from '../../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/regelstrukturReiseOppstartAvslutningHjemreise';
+import { TypeReiseformål } from '../../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/vilkårReiseOppstartAvslutningHjemreise';
 import { TypeVilkårFakta as TypeVilkårFaktaReiseTilSamling } from '../../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/typer/regelstrukturReiseTilSamling';
 import { StønadsvilkårType, Vilkårsresultat } from '../../Sider/Behandling/vilkår';
 import { TypeVedtak, ÅrsakAvslag, ÅrsakOpphør } from '../vedtak/vedtak';
@@ -14,7 +15,8 @@ export type TypeVilkårFakta =
     | TypeVilkårFaktaDagligReise
     | TypeVilkårFaktaReiseTilSamling
     | TypeVilkårFaktaFlytting
-    | TypeVilkårFaktaReiseOppstartAvslutningHjemreise;
+    | TypeVilkårFaktaReiseOppstartAvslutningHjemreise
+    | 'REISE_OPPSTART_AVSLUTNING_HJEMREISE_MIDLERTIDIG_BOSTED';
 
 export interface BehandlingOppsummering {
     aktiviteter: OppsummertVilkårperiode<AktivitetType>[];
@@ -49,6 +51,9 @@ export interface OppsummertVilkår {
     resultat: Vilkårsresultat;
     utgift?: number;
     typeFakta?: TypeVilkårFakta;
+    globalId?: string;
+    parentVilkår?: string;
+    typeReiseformål?: TypeReiseformål;
 }
 
 export type OppsummertVedtak =
