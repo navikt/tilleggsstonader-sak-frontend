@@ -24,7 +24,7 @@
     "http-proxy-middleware": "^4.2.0",
     "jose": "^6.2.2",
     "node-cache": "^5.1.2",
-    "openid-client": "^6.8.1",
+    "openid-client": "^6.9.0",
     "uuid": "^14.0.0",
     "winston": "^3.19.0"
   },
