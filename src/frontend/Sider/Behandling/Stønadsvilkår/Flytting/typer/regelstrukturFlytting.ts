@@ -19,12 +19,9 @@ export const begrunnelseHjelpeteksterForFlytteforbindelse: Partial<Record<SvarId
         'Beskriv hvilken målgruppe brukeren tilhører og hvordan flyttingen er knyttet til oppstart i arbeid på et annet sted.\n\nMerk: Flyttestønad etter dette punktet kan kun innvilges til enslig mor eller far eller gjenlevende. Det stilles ikke krav om aktivitet, hverken før eller i forbindelse med flyttingen.',
 };
 
-export const begrunnelseHjelpeteksterForFlytterIfbmArbeid: Partial<Record<SvarId, string>> = {
-    JA: 'Vurder om det er nødvendig for bruker å flytte. Ta hensyn til naturlig pendleravstand, arbeidsforholdets varighet, arbeidskontrakt for det nye arbeidsforholdet, jobbsøk på hjemstedet og om stillingen er utlyst eller meldt til Nav.',
-};
-
-export const begrunnelseHjelpeteksterForMåFlytteForStarteArbeid: Partial<Record<SvarId, string>> = {
-    JA: 'Vurder naturlig pendleravstand, arbeidsforholdets varighet, arbeidskontrakt for det nye arbeidsforholdet, jobbsøk på hjemstedet og om stillingen er utlyst eller meldt til Nav.',
+export const begrunnelseHjelpeteksterForFlyttingArbeid: Partial<Record<SvarId, string>> = {
+    JA: 'Begrunn hvorfor det er nødvendig for bruker å flytte. Vurder naturlig pendleravstand, arbeidsforholdets varighet, arbeidskontrakt for det nye arbeidsforholdet, jobbsøk på hjemstedet og om stillingen er utlyst eller meldt til Nav.',
+    NEI: 'Begrunn hvorfor det ikke er nødvendig for bruker å flytte. Vurder naturlig pendleravstand, arbeidsforholdets varighet, arbeidskontrakt for det nye arbeidsforholdet, jobbsøk på hjemstedet og om stillingen er utlyst eller meldt til Nav.',
 };
 
 export const begrunnelseHjelpeteksterForMåFlytteForGjennomføreAktivitet: Partial<
@@ -34,6 +31,7 @@ export const begrunnelseHjelpeteksterForMåFlytteForGjennomføreAktivitet: Parti
         'Vurder om det er nødvendig at brukeren flytter. Ta hensyn til naturlig pendleravstand.',
     FLYTTER_TIL_HJEMSTED:
         'Vurder om det er nødvendig at brukeren flytter. Ta hensyn til naturlig pendleravstand.',
+    NEI: 'Vurder om det er nødvendig at brukeren flytter. Ta hensyn til naturlig pendleravstand.',
 };
 
 export const delvilkårHjelpetekster: Partial<Record<RegelIdFlytting, string>> = {
