@@ -10,9 +10,8 @@ import {
 } from './typer/faktaFlytting';
 import {
     begrunnelseHjelpeteksterForFlytteforbindelse,
-    begrunnelseHjelpeteksterForFlytterIfbmArbeid,
+    begrunnelseHjelpeteksterForFlyttingArbeid,
     begrunnelseHjelpeteksterForMåFlytteForGjennomføreAktivitet,
-    begrunnelseHjelpeteksterForMåFlytteForStarteArbeid,
     delvilkårHjelpetekster,
     RegelIdFlytting,
 } from './typer/regelstrukturFlytting';
@@ -100,10 +99,10 @@ function hentBegrunnelseHjelpetekst(
         return begrunnelseHjelpeteksterForFlytteforbindelse[svar];
     }
     if (regelId == RegelIdFlytting.FLYTTER_IFBM_ARBEID_ETTER_AKTIVITET && svar) {
-        return begrunnelseHjelpeteksterForFlytterIfbmArbeid[svar];
+        return begrunnelseHjelpeteksterForFlyttingArbeid[svar];
     }
     if (regelId == RegelIdFlytting.MÅ_FLYTTE_FOR_Å_STARTE_I_ARBEID && svar) {
-        return begrunnelseHjelpeteksterForMåFlytteForStarteArbeid[svar];
+        return begrunnelseHjelpeteksterForFlyttingArbeid[svar];
     }
     if (regelId == RegelIdFlytting.MÅ_FLYTTE_FOR_Å_GJENNOMFØRE_AKTIVITET && svar) {
         return begrunnelseHjelpeteksterForMåFlytteForGjennomføreAktivitet[svar];
