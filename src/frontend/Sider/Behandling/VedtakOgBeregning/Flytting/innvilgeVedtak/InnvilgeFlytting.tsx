@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import { VStack } from '@navikt/ds-react';
+import { ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { Beregningsresultat } from './Beregningsresultat';
 import { useApp } from '../../../../../context/AppContext';
@@ -61,10 +61,15 @@ export const InnvilgeFlytting: React.FC<{
         beregning?.perioder === vedtaksperioder
             ? beregning.resultat
             : byggTomRessurs<BeregningsresultatFlytting>();
+
+    const [erVedtaksperioderBeregnet, settErVedtaksperioderBeregnet] = useState(false);
+    const [visHarIkkeBeregnetFeilmelding, settVisHarIkkeBeregnetFeilmelding] = useState<boolean>();
+
     const vedtakUrl = `/api/sak/vedtak/flytting/${behandling.id}`;
 
     const beregnFlytting = () => {
         const id = ++beregningId.current;
+        settVisHarIkkeBeregnetFeilmelding(false);
         settForeslåPeriodeFeil(undefined);
         const feil = validerVedtaksperioder(vedtaksperioder, true);
         settVedtaksperiodeFeil(feil);
@@ -93,10 +98,16 @@ export const InnvilgeFlytting: React.FC<{
         });
     };
 
+    useEffect(() => {
+        settErVedtaksperioderBeregnet(false);
+    }, [vedtaksperioder]);
+
     const lagreVedtak = () => {
         if (beregningsresultat.status !== RessursStatus.SUKSESS) {
-            return Promise.resolve(byggRessursFeilet('Du må beregne før du kan gå videre'));
+            settVisHarIkkeBeregnetFeilmelding(true);
+            return Promise.reject();
         }
+
         return request<null, InnvilgelseFlyttingRequest>(`${vedtakUrl}/innvilgelse`, 'POST', {
             vedtaksperioder: tilVedtaksperioderDto(vedtaksperioder, behandling.stønadstype),
             begrunnelse,
@@ -146,6 +157,9 @@ export const InnvilgeFlytting: React.FC<{
                     )}
                 </VStack>
             </Panel>
+            {visHarIkkeBeregnetFeilmelding && !erVedtaksperioderBeregnet && (
+                <ErrorMessage>{'Du må beregne før du kan gå videre'}</ErrorMessage>
+            )}
             <StegKnappInnvilgelseMedVarsel
                 lagreVedtak={lagreVedtak}
                 vedtaksperioder={vedtaksperioder}
