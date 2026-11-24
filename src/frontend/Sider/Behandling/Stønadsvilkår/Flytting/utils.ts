@@ -1,6 +1,6 @@
 import { VilkårFlytting } from './typer/vilkårFlytting';
 import { PeriodeStatus } from '../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
-import { StønadsvilkårType, VilkårBase } from '../../vilkår';
+import { VilkårBase } from '../../vilkår';
 
 // TODO Sjekke om disse faktisk er nødvendig
 
@@ -24,6 +24,5 @@ export function tilVilkårBase(vilkår: VilkårFlytting, behandlingId: string): 
         status: vilkår.status ?? PeriodeStatus.UENDRET,
         delvilkårsett: tilDelvilkår(vilkår),
         slettetKommentar: vilkår.slettetKommentar ?? undefined,
-        vilkårType: StønadsvilkårType.FLYTTING,
     };
 }

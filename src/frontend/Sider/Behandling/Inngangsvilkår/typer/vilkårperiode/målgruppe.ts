@@ -214,11 +214,11 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
     },
 
     [Stønadstype.FLYTTING_TSR]: {
-        DAGPENGER: true,
+        DAGPENGER: false,
         ARBEIDSSØKER: true,
-        KVALIFISERINGSSTØNAD: true,
-        TILTAKSPENGER: true,
-        INNSATT_I_FENGSEL: true,
+        KVALIFISERINGSSTØNAD: false,
+        TILTAKSPENGER: false,
+        INNSATT_I_FENGSEL: false,
         INGEN_MÅLGRUPPE: true,
         AAP: false,
         UFØRETRYGD: false,
@@ -229,7 +229,7 @@ const målgrupper: Record<Stønadstype, Record<MålgruppeType, boolean>> = {
         NEDSATT_ARBEIDSEVNE: false,
         SYKEPENGER_100_PROSENT: false,
         GJENLEVENDE_GAMMELT_REGELVERK: false,
-        UNGDOMSPROGRAMMET: true,
+        UNGDOMSPROGRAMMET: false,
         AKTIVITETSPENGER: false,
     },
     // TODO: avklar målgrupper for REISE_OPPSTART_AVSLUTNING_HJEMREISE
