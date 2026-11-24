@@ -1,9 +1,13 @@
 import { TypeVilkårFakta } from './regelstrukturReiseOppstartAvslutningHjemreise';
-import { TypeReiseOppstartAvslutningHjemreise } from './vilkårReiseOppstartAvslutningHjemreise';
+import {
+    TypeReiseformål,
+    TypeReiseOppstartAvslutningHjemreise,
+} from './vilkårReiseOppstartAvslutningHjemreise';
 import type { NødvendigUtgift } from '../../../../../typer/nødvendigUtgift';
 
 export interface FaktaReiseOppstartAvslutningHjemreise {
     type: TypeReiseOppstartAvslutningHjemreise;
+    typeReiseformål?: TypeReiseformål;
 }
 
 export interface FaktaReiseOppstartAvslutningHjemreiseUbestemt extends FaktaReiseOppstartAvslutningHjemreise {

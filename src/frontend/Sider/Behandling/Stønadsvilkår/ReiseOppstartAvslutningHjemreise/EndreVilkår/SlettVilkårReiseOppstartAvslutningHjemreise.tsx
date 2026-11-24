@@ -36,7 +36,7 @@ export const SlettVilkårReiseOppstartAvslutningHjemreise: FC<EndreVilkårProps>
                 metadata={
                     erParaplyvilkår(lagretVilkår)
                         ? 'Midlertidig bosted'
-                        : lagretVilkår.typeReiseformål
+                        : (lagretVilkår.fakta.typeReiseformål ?? '-')
                 }
             />
         </div>
