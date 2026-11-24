@@ -2,7 +2,7 @@ import { FaktaFlytting } from './faktaFlytting';
 import { RegelIdFlytting } from './regelstrukturFlytting';
 import { SvarId } from '../../../../../typer/regel';
 import { PeriodeStatus } from '../../../Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
-import { Vilkårsresultat } from '../../../vilkår';
+import { StønadsvilkårType, Vilkårsresultat } from '../../../vilkår';
 
 export interface SvarOgBegrunnelseFlytting {
     svar: SvarId;
@@ -17,6 +17,7 @@ export interface LagreVilkårFlytting {
 
 export interface VilkårFlytting {
     id: string;
+    vilkårType: StønadsvilkårType.FLYTTING_TSO | StønadsvilkårType.FLYTTING_TSR;
     flyttedato: string;
     resultat: Vilkårsresultat;
     status: PeriodeStatus | null;

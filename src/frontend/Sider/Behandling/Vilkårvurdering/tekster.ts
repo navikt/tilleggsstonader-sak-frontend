@@ -156,7 +156,7 @@ export const vilkårTypeTilUtgiftTekst: Record<StønadsvilkårType, string> = {
     DAGLIG_REISE: '',
     REISE_TIL_SAMLING: '',
     REISE_OPPSTART_AVSLUTNING_HJEMREISE: '',
-    FLYTTING: '',
+    FLYTTING_TSO: '',
     FLYTTING_TSR: '',
 };
 
@@ -170,7 +170,7 @@ export const vilkårTypeTilUtgiftHjelpeTekst: Record<StønadsvilkårType, string
     DAGLIG_REISE: undefined,
     REISE_TIL_SAMLING: undefined,
     REISE_OPPSTART_AVSLUTNING_HJEMREISE: undefined,
-    FLYTTING: undefined,
+    FLYTTING_TSO: undefined,
     FLYTTING_TSR: undefined,
 };
 
@@ -182,6 +182,6 @@ export const vilkårTypeTilTekst: Record<StønadsvilkårType, string> = {
     DAGLIG_REISE: 'Daglige reiser',
     REISE_TIL_SAMLING: 'Samlinger',
     REISE_OPPSTART_AVSLUTNING_HJEMREISE: 'Oppstart, avslutning og hjemreiser',
-    FLYTTING: 'Flytting',
+    FLYTTING_TSO: 'Flytting',
     FLYTTING_TSR: 'Flytting',
 };
