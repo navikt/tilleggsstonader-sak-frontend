@@ -37,20 +37,46 @@ const LesevisningVilkår: FC<{
                 )
             }
         >
-            {erFremtidigUtgift ? (
+            {erFremtidigUtgift && !vilkår.boutgifterEnBolig ? (
                 <LesevisningFremtidigUtgift
                     vilkår={vilkår}
                     skalViseRedigeringsknapp={skalViseRedigeringsknapp}
                     startRedigering={startRedigering}
                 />
             ) : (
-                <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 175px) auto">
+                <HGrid gap={{ md: 'space-16', lg: 'space-32' }} columns="minmax(auto, 250px) auto">
                     <VStack gap="space-12">
                         <Label size="small">{formaterNullablePeriode(fom, tom)}</Label>
                         <BodyShort size="small">{VilkårsresultatTilTekst[resultat]}</BodyShort>
-                        <BodyShort size="small">
-                            {`kr ${formaterTallMedTusenSkilleEllerStrek(utgift)}`}
-                        </BodyShort>
+                        {vilkår.boutgifterEnBolig ? (
+                            <>
+                                <BodyShort size="small">
+                                    Utgift bolig på hjemsted pr mnd
+                                    <br />
+                                    kr{' '}
+                                    {formaterTallMedTusenSkilleEllerStrek(
+                                        vilkår.boutgifterEnBolig.utgiftHjemsted
+                                    )}
+                                </BodyShort>
+                                <BodyShort size="small">
+                                    Utgift bolig på aktivitetssted pr mnd
+                                    <br />
+                                    kr{' '}
+                                    {formaterTallMedTusenSkilleEllerStrek(
+                                        vilkår.boutgifterEnBolig.utgiftAktivitetssted
+                                    )}
+                                </BodyShort>
+                                <BodyShort size="small">
+                                    Merutgift per måned
+                                    <br />
+                                    kr {formaterTallMedTusenSkilleEllerStrek(utgift)}
+                                </BodyShort>
+                            </>
+                        ) : (
+                            <BodyShort size="small">
+                                {`kr ${formaterTallMedTusenSkilleEllerStrek(utgift)}`}
+                            </BodyShort>
+                        )}
                         {skalFåDekketFaktiskeUtgifter(vilkår) && (
                             <Tag
                                 data-color="meta-purple"

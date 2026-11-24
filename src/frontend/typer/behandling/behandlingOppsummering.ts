@@ -11,6 +11,7 @@ import { TypeVedtak, ÅrsakAvslag, ÅrsakOpphør } from '../vedtak/vedtak';
 import { Vedtaksperiode } from '../vedtak/vedtakperiode';
 
 export type TypeVilkårFakta =
+    | 'LØPENDE_UTGIFTER_EN_BOLIG'
     | TypeVilkårFaktaDagligReise
     | TypeVilkårFaktaReiseTilSamling
     | TypeVilkårFaktaFlytting
