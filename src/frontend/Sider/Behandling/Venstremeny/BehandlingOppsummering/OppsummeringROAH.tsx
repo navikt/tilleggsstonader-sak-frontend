@@ -8,17 +8,10 @@ import { OppsummertVilkår } from '../../../../typer/behandling/behandlingOppsum
 import { typeReiseformålTilTekst } from '../../Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/vilkårReiseOppstartAvslutningHjemreise';
 
 export const OppsummeringROAH: React.FC<{ vilkår: OppsummertVilkår[] }> = ({ vilkår }) => {
-    const paraplyvilkår = vilkår
-        .filter(
-            (vilkår) =>
-                vilkår.typeFakta === 'REISE_OPPSTART_AVSLUTNING_HJEMREISE_MIDLERTIDIG_BOSTED'
-        )
-        .sort((a, b) => (a.fom ?? '').localeCompare(b.fom ?? ''));
-
     return (
         <VStack gap="space-8">
             <Label size="small">Oppstart, avslutning og hjemreiser</Label>
-            {paraplyvilkår.map((paraply) => (
+            {vilkår.map((paraply) => (
                 <VStack gap="space-8" key={paraply.id}>
                     <VilkårOppsummeringRad
                         fom={paraply.fom}
@@ -32,25 +25,22 @@ export const OppsummeringROAH: React.FC<{ vilkår: OppsummertVilkår[] }> = ({ v
                         borderColor="neutral-subtle"
                     >
                         <VStack gap="space-8">
-                            {vilkår
-                                .filter((reise) => reise.parentVilkår === paraply.globalId)
-                                .sort((a, b) => (a.fom ?? '').localeCompare(b.fom ?? ''))
-                                .map((reise) => {
-                                    const reisemåte = finnTekstForTypeVilkårFakta(reise.typeFakta);
-                                    const reiseformål = reise.typeReiseformål
-                                        ? typeReiseformålTilTekst[reise.typeReiseformål]
-                                        : '';
+                            {paraply.childVilkår.map((reise) => {
+                                const reisemåte = finnTekstForTypeVilkårFakta(reise.typeFakta);
+                                const reiseformål = reise.typeReiseformål
+                                    ? typeReiseformålTilTekst[reise.typeReiseformål]
+                                    : '';
 
-                                    return (
-                                        <VilkårOppsummeringRad
-                                            key={reise.id}
-                                            fom={reise.fom}
-                                            tom={reise.tom}
-                                            resultat={reise.resultat}
-                                            gjelder={`${reiseformål}${reisemåte ? ` - ${reisemåte}` : ''}`}
-                                        />
-                                    );
-                                })}
+                                return (
+                                    <VilkårOppsummeringRad
+                                        key={reise.id}
+                                        fom={reise.fom}
+                                        tom={reise.tom}
+                                        resultat={reise.resultat}
+                                        gjelder={`${reiseformål}${reisemåte ? ` - ${reisemåte}` : ''}`}
+                                    />
+                                );
+                            })}
                         </VStack>
                     </Box>
                 </VStack>

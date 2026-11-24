@@ -15,8 +15,7 @@ export type TypeVilkårFakta =
     | TypeVilkårFaktaDagligReise
     | TypeVilkårFaktaReiseTilSamling
     | TypeVilkårFaktaFlytting
-    | TypeVilkårFaktaReiseOppstartAvslutningHjemreise
-    | 'REISE_OPPSTART_AVSLUTNING_HJEMREISE_MIDLERTIDIG_BOSTED';
+    | TypeVilkårFaktaReiseOppstartAvslutningHjemreise;
 
 export interface BehandlingOppsummering {
     aktiviteter: OppsummertVilkårperiode<AktivitetType>[];
@@ -51,9 +50,8 @@ export interface OppsummertVilkår {
     resultat: Vilkårsresultat;
     utgift?: number;
     typeFakta?: TypeVilkårFakta;
-    globalId?: string;
-    parentVilkår?: string;
     typeReiseformål?: TypeReiseformål;
+    childVilkår: OppsummertVilkår[];
 }
 
 export type OppsummertVedtak =

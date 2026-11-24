@@ -16,21 +16,21 @@ export const OppsummeringVilkår: React.FC<{
 }> = ({ vilkår, stønadstype }) => {
     const { behandlingFakta } = useBehandling();
 
-    if (
-        stønadstype === Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO ||
-        stønadstype === Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR
-    ) {
-        return (
-            <OppsummeringROAH vilkår={vilkår.flatMap((stønadsvilkår) => stønadsvilkår.vilkår)} />
-        );
-    }
-
     if (!vilkår.length && stønadstype !== Stønadstype.LÆREMIDLER) {
         return (
             <VStack gap="space-8">
                 <Label size="small">{faneNavnStønadsvilkår[stønadstype]}</Label>
                 <BodyShort size={'small'}>Ingen vilkår registrert</BodyShort>
             </VStack>
+        );
+    }
+
+    if (
+        stønadstype === Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO ||
+        stønadstype === Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR
+    ) {
+        return (
+            <OppsummeringROAH vilkår={vilkår.flatMap((stønadsvilkår) => stønadsvilkår.vilkår)} />
         );
     }
 
