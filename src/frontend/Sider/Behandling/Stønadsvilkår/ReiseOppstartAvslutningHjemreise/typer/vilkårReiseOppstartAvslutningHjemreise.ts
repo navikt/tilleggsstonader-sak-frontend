@@ -12,7 +12,6 @@ export interface VilkårReiseOppstartAvslutningHjemreise extends VilkårBase {
     globalId?: string;
     reiseId: string;
     aktivitetId: string;
-    typeReiseformål: TypeReiseformål;
     fakta: FaktaReiseOppstartAvslutningHjemreise;
     parentVilkår?: string;
 }
@@ -47,7 +46,7 @@ export const typeReiseOppstartAvslutningHjemreiseTilTekst: Record<
 };
 
 /**
- * Hvilken type reise vilkåret gjelder (oppstart, avslutning eller hjemreise). Lagres som eget felt på vilkåret,
+ * Hvilken type reise vilkåret gjelder (oppstart, avslutning eller hjemreise). Lagres i fakta på vilkåret,
  * satt direkte av saksbehandler – er ikke en del av selve regelverket/vurderingene.
  */
 export type TypeReiseformål = 'OPPSTART' | 'AVSLUTNING' | 'HJEMREISE';
@@ -74,7 +73,6 @@ export interface LagreNyttVilkårReiseOppstartAvslutningHjemreise {
     reiseId: string;
     aktivitetId: string;
     parentVilkår?: string;
-    typeReiseformål: TypeReiseformål;
     svar: SvarVilkårReiseOppstartAvslutningHjemreise;
     fakta: FaktaReiseOppstartAvslutningHjemreise;
 }

@@ -27,7 +27,7 @@ export const LesevisningVilkårKort: FC<{
     >
         <div>
             <HStack gap="space-32" paddingBlock="space-0 space-16">
-                {vilkår.typeReiseformål === 'HJEMREISE' ? (
+                {vilkår.fakta.typeReiseformål === 'HJEMREISE' ? (
                     <div>
                         <BodyShort size="small">Periode</BodyShort>
                         <Label size="small">
@@ -43,7 +43,9 @@ export const LesevisningVilkårKort: FC<{
                 <div>
                     <BodyShort size="small">Reiseformål</BodyShort>
                     <Label size="small">
-                        {typeReiseformålTilTekst[vilkår.typeReiseformål] || '-'}
+                        {(vilkår.fakta.typeReiseformål &&
+                            typeReiseformålTilTekst[vilkår.fakta.typeReiseformål]) ||
+                            '-'}
                     </Label>
                 </div>
                 {ekstraHeader}

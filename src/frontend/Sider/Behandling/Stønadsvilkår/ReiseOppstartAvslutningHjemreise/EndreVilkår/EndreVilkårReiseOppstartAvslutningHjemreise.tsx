@@ -81,7 +81,7 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
 
     const [reiseId] = useState<string>(vilkår?.reiseId || v7());
     const [typeReiseformål, settTypeReiseformål] = useState<TypeReiseformål | undefined>(
-        vilkår?.typeReiseformål
+        vilkår?.fakta.typeReiseformål
     );
     const [valgtRegelstruktur, settValgtRegelstruktur] = useState<Regelstruktur | undefined>(
         finnRegelstrukturForReiseformål(regelstruktur, typeReiseformål)
@@ -141,6 +141,7 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
     };
 
     const lagreVilkår = async () => {
+        if (!typeReiseformål) return;
         settLaster(true);
 
         const response = await lagre({
@@ -149,9 +150,8 @@ export const EndreVilkårReiseOppstartAvslutningHjemreise: React.FC<Props> = ({
             aktivitetId: aktivitet.globalId,
             reiseId: reiseId,
             type: 'REISEVILKÅR',
-            typeReiseformål: typeReiseformål as TypeReiseformål,
             svar: svar,
-            fakta: fakta,
+            fakta: { ...fakta, typeReiseformål },
         });
 
         if (response.status === RessursStatus.SUKSESS) {
