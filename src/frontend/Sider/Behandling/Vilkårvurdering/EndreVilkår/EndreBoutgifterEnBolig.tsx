@@ -54,11 +54,6 @@ export function validerBoutgifterEnBolig(input: {
     const hjemsted = parseBeløp(input.utgiftHjemsted, 'utgiftHjemsted');
     const aktivitetssted = parseBeløp(input.utgiftAktivitetssted, 'utgiftAktivitetssted');
 
-    if (hjemsted !== undefined && aktivitetssted !== undefined && aktivitetssted <= hjemsted) {
-        feilmeldinger.utgiftAktivitetssted =
-            'Utgiften på aktivitetssted må være høyere enn utgiften på tidligere hjemsted';
-    }
-
     if (
         Object.keys(feilmeldinger).length > 0 ||
         hjemsted === undefined ||
@@ -84,8 +79,11 @@ const EndreBoutgifterEnBolig: FC<Props> = ({
 }) => {
     const validering = validerBoutgifterEnBolig({ utgiftHjemsted, utgiftAktivitetssted });
     const merutgift = validering.boutgifterEnBolig
-        ? validering.boutgifterEnBolig.utgiftAktivitetssted -
-          validering.boutgifterEnBolig.utgiftHjemsted
+        ? Math.max(
+              0,
+              validering.boutgifterEnBolig.utgiftAktivitetssted -
+                  validering.boutgifterEnBolig.utgiftHjemsted
+          )
         : undefined;
 
     return (
