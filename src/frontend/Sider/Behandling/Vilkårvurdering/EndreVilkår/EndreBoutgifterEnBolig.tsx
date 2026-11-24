@@ -5,6 +5,8 @@ import { HStack } from '@navikt/ds-react';
 import TextField from '../../../../komponenter/Skjema/TextField';
 import { FeilmeldingMaksBredde } from '../../../../komponenter/Visningskomponenter/FeilmeldingFastBredde';
 import { formaterTallMedTusenSkilleEllerStrek } from '../../../../utils/fomatering';
+import { harTallverdi, tilHeltall } from '../../../../utils/tall';
+import { fjernSpaces } from '../../../../utils/utils';
 import { BoutgifterEnBolig } from '../../vilkår';
 
 export type BoutgifterEnBoligFeilmeldinger = {
@@ -13,10 +15,13 @@ export type BoutgifterEnBoligFeilmeldinger = {
 };
 
 type Props = {
-    utgiftHjemsted: string;
-    utgiftAktivitetssted: string;
+    utgiftHjemsted: number | undefined;
+    utgiftAktivitetssted: number | undefined;
     feilmeldinger: BoutgifterEnBoligFeilmeldinger;
-    oppdaterBoutgift: (felt: keyof BoutgifterEnBoligFeilmeldinger, verdi: string) => void;
+    oppdaterBoutgift: (
+        felt: keyof BoutgifterEnBoligFeilmeldinger,
+        verdi: number | undefined
+    ) => void;
 };
 
 type ValideringBoutgifterEnBolig = {
@@ -25,39 +30,31 @@ type ValideringBoutgifterEnBolig = {
 };
 
 export function validerBoutgifterEnBolig(input: {
-    utgiftHjemsted: string;
-    utgiftAktivitetssted: string;
+    utgiftHjemsted: number | undefined;
+    utgiftAktivitetssted: number | undefined;
 }): ValideringBoutgifterEnBolig {
     const feilmeldinger: BoutgifterEnBoligFeilmeldinger = {};
-    const parseBeløp = (
-        verdi: string,
+    const validerBeløp = (
+        verdi: number | undefined,
         felt: keyof BoutgifterEnBoligFeilmeldinger
-    ): number | undefined => {
-        const trimmetVerdi = verdi.trim();
-        if (!trimmetVerdi) {
+    ): void => {
+        if (!verdi) {
             feilmeldinger[felt] = 'Du må oppgi boligutgiften';
-            return undefined;
-        }
-        if (!/^\d+$/.test(trimmetVerdi)) {
-            feilmeldinger[felt] = 'Oppgi beløpet i hele kroner, minst 0';
-            return undefined;
+            return;
         }
 
-        const beløp = Number(trimmetVerdi);
-        if (!Number.isInteger(beløp) || beløp < 0 || beløp > 2147483647) {
-            feilmeldinger[felt] = 'Beløpet må være positivt';
-            return undefined;
+        if (!Number.isInteger(verdi) || verdi < 0) {
+            feilmeldinger[felt] = 'Beløpet må være større enn 0';
         }
-        return beløp;
     };
 
-    const hjemsted = parseBeløp(input.utgiftHjemsted, 'utgiftHjemsted');
-    const aktivitetssted = parseBeløp(input.utgiftAktivitetssted, 'utgiftAktivitetssted');
+    validerBeløp(input.utgiftHjemsted, 'utgiftHjemsted');
+    validerBeløp(input.utgiftAktivitetssted, 'utgiftAktivitetssted');
 
     if (
         Object.keys(feilmeldinger).length > 0 ||
-        hjemsted === undefined ||
-        aktivitetssted === undefined
+        input.utgiftHjemsted === undefined ||
+        input.utgiftAktivitetssted === undefined
     ) {
         return { feilmeldinger };
     }
@@ -65,8 +62,8 @@ export function validerBoutgifterEnBolig(input: {
     return {
         feilmeldinger,
         boutgifterEnBolig: {
-            utgiftHjemsted: hjemsted,
-            utgiftAktivitetssted: aktivitetssted,
+            utgiftHjemsted: input.utgiftHjemsted,
+            utgiftAktivitetssted: input.utgiftAktivitetssted,
         },
     };
 }
@@ -92,25 +89,33 @@ const EndreBoutgifterEnBolig: FC<Props> = ({
                 <TextField
                     label="Utgift bolig på hjemsted pr mnd"
                     size="small"
-                    value={utgiftHjemsted}
+                    value={harTallverdi(utgiftHjemsted) ? utgiftHjemsted : ''}
                     autoComplete="off"
                     inputMode="numeric"
                     required
                     error={feilmeldinger.utgiftHjemsted}
-                    onChange={(event) => oppdaterBoutgift('utgiftHjemsted', event.target.value)}
+                    onChange={(event) =>
+                        oppdaterBoutgift(
+                            'utgiftHjemsted',
+                            tilHeltall(fjernSpaces(event.target.value))
+                        )
+                    }
                 />
             </FeilmeldingMaksBredde>
             <FeilmeldingMaksBredde $maxWidth={180}>
                 <TextField
                     label="Utgift bolig på aktivitetssted pr mnd"
                     size="small"
-                    value={utgiftAktivitetssted}
+                    value={harTallverdi(utgiftAktivitetssted) ? utgiftAktivitetssted : ''}
                     autoComplete="off"
                     inputMode="numeric"
                     required
                     error={feilmeldinger.utgiftAktivitetssted}
                     onChange={(event) =>
-                        oppdaterBoutgift('utgiftAktivitetssted', event.target.value)
+                        oppdaterBoutgift(
+                            'utgiftAktivitetssted',
+                            tilHeltall(fjernSpaces(event.target.value))
+                        )
                     }
                 />
             </FeilmeldingMaksBredde>

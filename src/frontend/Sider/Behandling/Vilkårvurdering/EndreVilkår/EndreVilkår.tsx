@@ -71,11 +71,11 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
         tom: redigerbareVilkårfelter.tom,
     });
     const [utgift, settUtgift] = useState<number | undefined>(redigerbareVilkårfelter.utgift);
-    const [utgiftHjemsted, settUtgiftHjemsted] = useState<string>(
-        String(redigerbareVilkårfelter.boutgifterEnBolig?.utgiftHjemsted ?? '')
+    const [utgiftHjemsted, settUtgiftHjemsted] = useState<number | undefined>(
+        redigerbareVilkårfelter.boutgifterEnBolig?.utgiftHjemsted
     );
-    const [utgiftAktivitetssted, settUtgiftAktivitetssted] = useState<string>(
-        String(redigerbareVilkårfelter.boutgifterEnBolig?.utgiftAktivitetssted ?? '')
+    const [utgiftAktivitetssted, settUtgiftAktivitetssted] = useState<number | undefined>(
+        redigerbareVilkårfelter.boutgifterEnBolig?.utgiftAktivitetssted
     );
     const [boutgifterFeilmeldinger, settBoutgifterFeilmeldinger] =
         useState<BoutgifterEnBoligFeilmeldinger>({});
@@ -210,7 +210,10 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
         settDetFinnesUlagredeEndringer(true);
     };
 
-    const oppdaterBoutgift = (felt: 'utgiftHjemsted' | 'utgiftAktivitetssted', verdi: string) => {
+    const oppdaterBoutgift = (
+        felt: 'utgiftHjemsted' | 'utgiftAktivitetssted',
+        verdi: number | undefined
+    ) => {
         if (felt === 'utgiftHjemsted') {
             settUtgiftHjemsted(verdi);
         } else {
