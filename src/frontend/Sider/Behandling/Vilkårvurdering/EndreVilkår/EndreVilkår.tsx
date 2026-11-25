@@ -2,6 +2,10 @@ import React, { FC, useEffect, useId, useState } from 'react';
 
 import { ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 
+import EndreBoutgifterEnBolig, {
+    validerBoutgifterEnBolig,
+    BoutgifterEnBoligFeilmeldinger,
+} from './EndreBoutgifterEnBolig';
 import EndreDelvilkår from './EndreDelvilkår';
 import EndreErFremtidigUtgift from './EndreErFremtidigUtgift';
 import EndrePeriodeForVilkår, {
@@ -40,6 +44,7 @@ type EndreVilkårProps = {
     ) => Promise<RessursSuksess<Vilkår> | RessursFeilet>;
     vilkårtype: StønadsvilkårType;
     kanVæreFremtidigUtgift: boolean;
+    brukBoutgiftFakta: boolean;
 };
 
 export const EndreVilkår: FC<EndreVilkårProps> = ({
@@ -50,6 +55,7 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
     redigerbareVilkårfelter,
     regler,
     vilkårtype,
+    brukBoutgiftFakta,
 }) => {
     const { nullstillUlagretKomponent, settUlagretKomponent } = useApp();
 
@@ -65,6 +71,14 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
         tom: redigerbareVilkårfelter.tom,
     });
     const [utgift, settUtgift] = useState<number | undefined>(redigerbareVilkårfelter.utgift);
+    const [utgiftHjemsted, settUtgiftHjemsted] = useState<number | undefined>(
+        redigerbareVilkårfelter.boutgifterEnBolig?.utgiftHjemsted
+    );
+    const [utgiftAktivitetssted, settUtgiftAktivitetssted] = useState<number | undefined>(
+        redigerbareVilkårfelter.boutgifterEnBolig?.utgiftAktivitetssted
+    );
+    const [boutgifterFeilmeldinger, settBoutgifterFeilmeldinger] =
+        useState<BoutgifterEnBoligFeilmeldinger>({});
     const [erFremtidigUtgift, settErFremtidigUtgift] = useState<boolean | undefined>(
         redigerbareVilkårfelter.erFremtidigUtgift
     );
@@ -104,7 +118,16 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
         );
 
         settFeilmeldinger(valideringsfeil);
-        if (!ingen(valideringsfeil)) {
+        const boutgifterValidering = brukBoutgiftFakta
+            ? validerBoutgifterEnBolig({ utgiftHjemsted, utgiftAktivitetssted })
+            : undefined;
+        if (boutgifterValidering) {
+            settBoutgifterFeilmeldinger(boutgifterValidering.feilmeldinger);
+        }
+        if (
+            !ingen(valideringsfeil) ||
+            (brukBoutgiftFakta && !boutgifterValidering?.boutgifterEnBolig)
+        ) {
             return;
         }
 
@@ -117,14 +140,26 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
 
     const bekreftLagre = async () => {
         const { fom, tom } = periodeForVilkår;
+        const boutgifterValidering = brukBoutgiftFakta
+            ? validerBoutgifterEnBolig({ utgiftHjemsted, utgiftAktivitetssted })
+            : undefined;
+        if (boutgifterValidering) {
+            settBoutgifterFeilmeldinger(boutgifterValidering.feilmeldinger);
+        }
+        if (brukBoutgiftFakta && !boutgifterValidering?.boutgifterEnBolig) {
+            return;
+        }
+
         settLaster(true);
 
         const response = await lagreVurdering({
             delvilkårsett,
             fom,
             tom,
-            utgift,
             erFremtidigUtgift,
+            ...(brukBoutgiftFakta
+                ? { boutgifterEnBolig: boutgifterValidering?.boutgifterEnBolig }
+                : { utgift }),
         });
         if (response.status === RessursStatus.SUKSESS) {
             avsluttRedigering();
@@ -175,8 +210,29 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
         settDetFinnesUlagredeEndringer(true);
     };
 
+    const oppdaterBoutgift = (
+        felt: 'utgiftHjemsted' | 'utgiftAktivitetssted',
+        verdi: number | undefined
+    ) => {
+        if (felt === 'utgiftHjemsted') {
+            settUtgiftHjemsted(verdi);
+        } else {
+            settUtgiftAktivitetssted(verdi);
+        }
+        settBoutgifterFeilmeldinger((forrige) => ({
+            ...forrige,
+            utgiftHjemsted: undefined,
+            utgiftAktivitetssted: undefined,
+        }));
+        settDetFinnesUlagredeEndringer(true);
+    };
+
     return (
-        <form autoComplete="off" onSubmit={validerOgLagreVilkårsvurderinger}>
+        <form
+            autoComplete="off"
+            noValidate={brukBoutgiftFakta}
+            onSubmit={validerOgLagreVilkårsvurderinger}
+        >
             <ResultatOgStatusKort periode={lagretVilkår} redigeres>
                 <FlexColumn gap={1}>
                     <HStack gap="space-16" align="start">
@@ -186,13 +242,22 @@ export const EndreVilkår: FC<EndreVilkårProps> = ({
                             feilmeldinger={feilmeldinger}
                             typePeriodeVelger={finnTypePeriodeVelger()}
                         />
-                        {vilkårtype !== StønadsvilkårType.DAGLIG_REISE && (
-                            <EndreUtgift
-                                vilkårtype={vilkårtype}
-                                erFremtidigUtgift={erFremtidigUtgift}
-                                oppdaterUtgift={oppdaterUtgift}
-                                utgift={utgift}
+                        {brukBoutgiftFakta ? (
+                            <EndreBoutgifterEnBolig
+                                utgiftHjemsted={utgiftHjemsted}
+                                utgiftAktivitetssted={utgiftAktivitetssted}
+                                feilmeldinger={boutgifterFeilmeldinger}
+                                oppdaterBoutgift={oppdaterBoutgift}
                             />
+                        ) : (
+                            vilkårtype !== StønadsvilkårType.DAGLIG_REISE && (
+                                <EndreUtgift
+                                    vilkårtype={vilkårtype}
+                                    erFremtidigUtgift={erFremtidigUtgift}
+                                    oppdaterUtgift={oppdaterUtgift}
+                                    utgift={utgift}
+                                />
+                            )
                         )}
                         <EndreErFremtidigUtgift
                             vilkårtype={vilkårtype}

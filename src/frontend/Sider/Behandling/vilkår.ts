@@ -55,6 +55,12 @@ export interface Vilkår extends VilkårBase {
     barnId?: string;
     utgift?: number;
     erFremtidigUtgift?: boolean;
+    boutgifterEnBolig?: BoutgifterEnBolig;
+}
+
+export interface BoutgifterEnBolig {
+    utgiftHjemsted: number;
+    utgiftAktivitetssted: number;
 }
 
 export interface Opphavsvilkår {
@@ -73,12 +79,19 @@ export interface Vilkårsvurdering {
 
 export type SvarPåVilkår = Pick<
     Vilkår,
-    'id' | 'delvilkårsett' | 'behandlingId' | 'fom' | 'tom' | 'utgift'
+    'id' | 'delvilkårsett' | 'behandlingId' | 'fom' | 'tom' | 'utgift' | 'boutgifterEnBolig'
 >;
 
 export type NyttVilkår = Pick<
     Vilkår,
-    'barnId' | 'delvilkårsett' | 'vilkårType' | 'behandlingId' | 'fom' | 'tom' | 'utgift'
+    | 'barnId'
+    | 'delvilkårsett'
+    | 'vilkårType'
+    | 'behandlingId'
+    | 'fom'
+    | 'tom'
+    | 'utgift'
+    | 'boutgifterEnBolig'
 >;
 
 // Brukes for nullstilling av vilkår
@@ -94,7 +107,7 @@ export interface SlettVilkårRespons {
 // Internt bruk av felter som kan oppdateres i komponent
 export type RedigerbareVilkårfelter = Pick<
     Vilkår,
-    'delvilkårsett' | 'fom' | 'tom' | 'utgift' | 'erFremtidigUtgift'
+    'delvilkårsett' | 'fom' | 'tom' | 'utgift' | 'erFremtidigUtgift' | 'boutgifterEnBolig'
 >;
 
 export const erOppfylt = (vilkårsresultat: Vilkårsresultat) => {
