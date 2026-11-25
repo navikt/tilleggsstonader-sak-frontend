@@ -2,6 +2,7 @@ import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilk
 import { Studienivå } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitetLæremidler';
 import { MålgruppeType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/målgruppe';
 import { VilkårPeriodeResultat } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/vilkårperiode';
+import { TypeVilkårFakta as TypeVilkårFaktaBoutgifter } from '../../Sider/Behandling/Stønadsvilkår/Boutgifter/typer/typeVilkårFaktaBoutgifter';
 import { TypeVilkårFakta as TypeVilkårFaktaDagligReise } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
 import { TypeVilkårFaktaFlytting } from '../../Sider/Behandling/Stønadsvilkår/Flytting/typer/faktaFlytting';
 import { TypeVilkårFakta as TypeVilkårFaktaReiseOppstartAvslutningHjemreise } from '../../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/regelstrukturReiseOppstartAvslutningHjemreise';
@@ -11,7 +12,7 @@ import { TypeVedtak, ÅrsakAvslag, ÅrsakOpphør } from '../vedtak/vedtak';
 import { Vedtaksperiode } from '../vedtak/vedtakperiode';
 
 export type TypeVilkårFakta =
-    | 'LØPENDE_UTGIFTER_EN_BOLIG'
+    | TypeVilkårFaktaBoutgifter
     | TypeVilkårFaktaDagligReise
     | TypeVilkårFaktaReiseTilSamling
     | TypeVilkårFaktaFlytting
