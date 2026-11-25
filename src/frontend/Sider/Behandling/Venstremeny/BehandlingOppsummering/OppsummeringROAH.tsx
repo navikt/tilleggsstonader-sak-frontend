@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Box, Label, VStack } from '@navikt/ds-react';
 
+import styles from './BehandlingOppsummering.module.css';
 import { VilkårOppsummeringRad } from './OppsummeringRad';
 import { finnTekstForTypeVilkårFakta } from './oppsummeringUtils';
 import { OppsummertVilkår } from '../../../../typer/behandling/behandlingOppsummering';
@@ -20,6 +21,7 @@ export const OppsummeringROAH: React.FC<{ vilkår: OppsummertVilkår[] }> = ({ v
                         gjelder="Midlertidig bosted"
                     />
                     <Box
+                        className={styles.childVilkårMarkør}
                         paddingInline="space-16"
                         borderWidth="0 0 0 2"
                         borderColor="neutral-subtle"
