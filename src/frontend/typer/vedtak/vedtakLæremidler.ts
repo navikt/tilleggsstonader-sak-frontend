@@ -18,12 +18,6 @@ export const vedtakErAvslag = (vedtak: VedtakLæremidler): vedtak is AvslagLære
 export const vedtakErOpphør = (vedtak: VedtakLæremidler): vedtak is OpphørLæremidler =>
     vedtak.type === TypeVedtak.OPPHØR;
 
-export type InnvilgelseLæremidlerRequest = {
-    type: TypeVedtak.INNVILGELSE;
-    vedtaksperioder: Vedtaksperiode[];
-    begrunnelse?: string;
-};
-
 export interface InnvilgelseLæremidler {
     type: TypeVedtak.INNVILGELSE;
     vedtaksperioder: Vedtaksperiode[];

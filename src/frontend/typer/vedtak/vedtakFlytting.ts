@@ -2,7 +2,6 @@ import { TypeVedtak } from './vedtak';
 import { Vedtaksperiode } from './vedtakperiode';
 import { AvslagRequest } from '../../hooks/useLagreAvslag';
 import { OpphørRequest } from '../../hooks/useLagreOpphør';
-import { VedtaksperiodeUtenAktivitetDto } from '../../Sider/Behandling/VedtakOgBeregning/Felles/vedtaksperioder/vedtaksperiodeUtils';
 
 export type VedtakFlytting = InnvilgelseFlytting | AvslagFlytting | OpphørFlytting;
 
@@ -28,11 +27,6 @@ export interface InnvilgelseFlytting {
     begrunnelse?: string;
     gjelderFraOgMed: string;
     gjelderTilOgMed: string;
-}
-
-export interface InnvilgelseFlyttingRequest {
-    vedtaksperioder: Vedtaksperiode[] | VedtaksperiodeUtenAktivitetDto[];
-    begrunnelse?: string;
 }
 
 export interface BeregningsresultatFlytting {

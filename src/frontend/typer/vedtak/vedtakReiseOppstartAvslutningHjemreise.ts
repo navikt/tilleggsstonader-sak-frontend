@@ -40,12 +40,6 @@ export interface BeregningsresultatPrivatBil {
     fergekostnad?: number;
 }
 
-export type InnvilgeReiseOppstartAvslutningHjemreiseRequest = {
-    type: TypeVedtak.INNVILGELSE;
-    vedtaksperioder: Vedtaksperiode[];
-    begrunnelse?: string;
-};
-
 export interface InnvilgelseReiseOppstartAvslutningHjemreise {
     type: TypeVedtak.INNVILGELSE;
     vedtaksperioder: Vedtaksperiode[];

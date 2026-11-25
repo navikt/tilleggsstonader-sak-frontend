@@ -1,5 +1,6 @@
 import { FaktiskMålgruppe } from '../../Sider/Behandling/Felles/faktiskMålgruppe';
 import { AktivitetType } from '../../Sider/Behandling/Inngangsvilkår/typer/vilkårperiode/aktivitet';
+import type { VedtaksperiodeUtenAktivitetDto } from '../../Sider/Behandling/VedtakOgBeregning/Felles/vedtaksperioder/vedtaksperiodeUtils';
 import { Periode } from '../../utils/periode';
 import { PeriodeStatus } from '../behandling/periodeStatus';
 
@@ -20,4 +21,9 @@ export interface VedtaksperiodeFraForrigeVedtak extends Periode {
     id: string;
     målgruppeType: FaktiskMålgruppe | '';
     aktivitetType?: AktivitetType | '';
+}
+
+export interface InnvilgelseRequest {
+    vedtaksperioder: Vedtaksperiode[] | VedtaksperiodeUtenAktivitetDto[];
+    begrunnelse?: string;
 }

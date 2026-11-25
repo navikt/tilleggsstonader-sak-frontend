@@ -26,7 +26,7 @@ import {
     Ressurs,
     RessursStatus,
 } from '../../../../typer/ressurs';
-import { Vedtaksperiode } from '../../../../typer/vedtak/vedtakperiode';
+import { InnvilgelseRequest, Vedtaksperiode } from '../../../../typer/vedtak/vedtakperiode';
 
 interface LagretInnvilgelse<TBeregningsresultat> {
     vedtaksperioder: Vedtaksperiode[];
@@ -137,7 +137,7 @@ export function InnvilgeVedtak<TBeregningsresultat>({
             return Promise.reject();
         }
 
-        return request<null, unknown>(`${vedtakUrl}/innvilgelse`, 'POST', {
+        return request<null, InnvilgelseRequest>(`${vedtakUrl}/innvilgelse`, 'POST', {
             vedtaksperioder: tilVedtaksperioderDto(vedtaksperioder, behandling.stønadstype),
             begrunnelse,
         });

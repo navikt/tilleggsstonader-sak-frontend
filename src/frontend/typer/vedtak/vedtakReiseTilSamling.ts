@@ -69,11 +69,6 @@ export interface BeregningsresultatDrosje {
     aktivitetId?: string;
     fraTidligereVedtak: boolean;
 }
-export type InnvilgeReiseTilSamlingRequest = {
-    type: TypeVedtak.INNVILGELSE;
-    vedtaksperioder: Vedtaksperiode[] | VedtaksperiodeUtenAktivitetDto[];
-    begrunnelse?: string;
-};
 export interface InnvilgelseReiseTilSamling {
     type: TypeVedtak.INNVILGELSE;
     vedtaksperioder: Vedtaksperiode[];
