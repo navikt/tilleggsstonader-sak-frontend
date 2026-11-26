@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 
 import { BodyShort, HStack, Label, VStack } from '@navikt/ds-react';
 
+import { AntallHjemreiser } from './AntallHjemreiser';
 import begrunnelseStyles from '../../../../../komponenter/Begrunnelse.module.css';
 import { Skillelinje } from '../../../../../komponenter/Skillelinje';
 import { formaterNullableIsoDato } from '../../../../../utils/dato';
@@ -20,23 +21,26 @@ export const LesevisningMidlertidigBostedPeriode: FC<{
 
     return (
         <VStack gap="space-16">
-            <HStack gap="space-32">
-                <div>
-                    <BodyShort size="small">Fra</BodyShort>
-                    <Label size="small">{formaterNullableIsoDato(vilkår.fom) ?? '-'}</Label>
-                </div>
-                <div>
-                    <BodyShort size="small">Til</BodyShort>
-                    <Label size="small">{formaterNullableIsoDato(vilkår.tom) ?? '-'}</Label>
-                </div>
-                <div>
-                    <BodyShort size="small">Fra adresse</BodyShort>
-                    <Label size="small">{vilkår.fakta.fraAdresse || '-'}</Label>
-                </div>
-                <div>
-                    <BodyShort size="small">Til adresse</BodyShort>
-                    <Label size="small">{vilkår.fakta.tilAdresse || '-'}</Label>
-                </div>
+            <HStack justify="space-between" gap="space-32">
+                <HStack gap="space-32">
+                    <div>
+                        <BodyShort size="small">Fra</BodyShort>
+                        <Label size="small">{formaterNullableIsoDato(vilkår.fom) ?? '-'}</Label>
+                    </div>
+                    <div>
+                        <BodyShort size="small">Til</BodyShort>
+                        <Label size="small">{formaterNullableIsoDato(vilkår.tom) ?? '-'}</Label>
+                    </div>
+                    <div>
+                        <BodyShort size="small">Fra adresse</BodyShort>
+                        <Label size="small">{vilkår.fakta.fraAdresse || '-'}</Label>
+                    </div>
+                    <div>
+                        <BodyShort size="small">Til adresse</BodyShort>
+                        <Label size="small">{vilkår.fakta.tilAdresse || '-'}</Label>
+                    </div>
+                </HStack>
+                <AntallHjemreiser paraplyvilkår={vilkår} />
             </HStack>
             <Skillelinje utenMargin />
             {/* Besvarte spørsmål med svar og begrunnelse */}
