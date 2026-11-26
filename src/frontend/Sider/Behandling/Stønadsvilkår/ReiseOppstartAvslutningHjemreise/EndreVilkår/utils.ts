@@ -136,8 +136,11 @@ export const tomtSvar: SvarVilkårReiseOppstartAvslutningHjemreise = {
     ROAH_HAR_DOKUMENTERTE_UTGIFTER_TIL_REISEN: undefined,
     ROAH_KAN_BENYTTE_PRIVAT_BIL: undefined,
     ROAH_BENYTTET_TAXI: undefined,
-    ROAH_HJEMREISE_INNENFOR_NORMALT_ANTALL: undefined,
-    ROAH_HJEMREISE_BEHOV_FLERE_REISER: undefined,
+    ROAH_HJEMREISE_HAR_REISER_IGJEN_AV_KVOTE: undefined,
+    ROAH_HJEMREISE_SÆRLIG_BEHOV_UTENFOR_KVOTE: undefined,
+    ROAH_HJEMREISE_SÆRLIG_BEHOV_DOKUMENTERT_UTENFOR_KVOTE: undefined,
+    ROAH_HJEMREISE_SÆRLIG_BEHOV_INNENFOR_KVOTE: undefined,
+    ROAH_HJEMREISE_SÆRLIG_BEHOV_DOKUMENTERT_INNENFOR_KVOTE: undefined,
 };
 
 export const tomtUbestemtFakta: FaktaReiseOppstartAvslutningHjemreiseUbestemt = {

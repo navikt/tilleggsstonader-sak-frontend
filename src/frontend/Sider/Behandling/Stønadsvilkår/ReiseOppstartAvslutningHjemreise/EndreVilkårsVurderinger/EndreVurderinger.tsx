@@ -8,6 +8,7 @@ import { initierAktiveDelvilkår } from '../EndreVilkår/utils';
 import { FeilmeldingerReiseOppstartAvslutningHjemreise } from '../EndreVilkår/validering';
 import {
     RegelIdROAH,
+    regelIdTilBeskrivelseROAH,
     regelIdTilSpørsmålROAH,
     Regelstruktur,
     SvarAlternativ,
@@ -83,6 +84,7 @@ export const EndreVurderinger: React.FC<Props> = ({
                     <EndreDelvilkår
                         key={regelId}
                         label={finnLabelForRegel(regelId)}
+                        beskrivelse={regelIdTilBeskrivelseROAH[regelId]}
                         regelId={regelId}
                         vurdering={vurderinger[regelId]}
                         oppdaterVurdering={oppdaterVurdering}
