@@ -21,13 +21,13 @@ export const OppsummeringROAH: React.FC<{ vilkår: OppsummertVilkår[] }> = ({ v
                         gjelder="Midlertidig bosted"
                     />
                     <Box
-                        className={styles.childVilkårMarkør}
+                        className={styles.undervilkårMarkør}
                         paddingInline="space-16"
                         borderWidth="0 0 0 2"
                         borderColor="neutral-subtle"
                     >
                         <VStack gap="space-8">
-                            {paraply.childVilkår.map((reise) => {
+                            {paraply.undervilkår.map((reise) => {
                                 const reisemåte = finnTekstForTypeVilkårFakta(reise.typeFakta);
                                 const reiseformål = reise.typeReiseformål
                                     ? typeReiseformålTilTekst[reise.typeReiseformål]

@@ -4,6 +4,6 @@
 }
 
 /* Midtstiller streken under resultatikonet (1.5rem bredt) til paraplyvilkåret */
-.childVilkårMarkør {
+.undervilkårMarkør {
     margin-inline-start: calc(0.75rem - 1px);
 }

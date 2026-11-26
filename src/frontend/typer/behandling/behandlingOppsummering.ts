@@ -51,7 +51,7 @@ export interface OppsummertVilkår {
     utgift?: number;
     typeFakta?: TypeVilkårFakta;
     typeReiseformål?: TypeReiseformål;
-    childVilkår: OppsummertVilkår[];
+    undervilkår: OppsummertVilkår[];
 }
 
 export type OppsummertVedtak =
