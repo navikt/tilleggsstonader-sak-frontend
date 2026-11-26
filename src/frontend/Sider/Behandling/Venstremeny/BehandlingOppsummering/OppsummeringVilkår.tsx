@@ -3,6 +3,7 @@ import React from 'react';
 import { BodyShort, Label, VStack } from '@navikt/ds-react';
 
 import { VilkårOppsummeringRad } from './OppsummeringRad';
+import { OppsummeringROAH } from './OppsummeringROAH';
 import { finnGjelderForOppsummertVilkår, finnTittelForStønadsvilkår } from './oppsummeringUtils';
 import { useBehandling } from '../../../../context/BehandlingContext';
 import { Stønadsvilkår } from '../../../../typer/behandling/behandlingOppsummering';
@@ -21,6 +22,15 @@ export const OppsummeringVilkår: React.FC<{
                 <Label size="small">{faneNavnStønadsvilkår[stønadstype]}</Label>
                 <BodyShort size={'small'}>Ingen vilkår registrert</BodyShort>
             </VStack>
+        );
+    }
+
+    if (
+        stønadstype === Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSO ||
+        stønadstype === Stønadstype.REISE_OPPSTART_AVSLUTNING_HJEMREISE_TSR
+    ) {
+        return (
+            <OppsummeringROAH vilkår={vilkår.flatMap((stønadsvilkår) => stønadsvilkår.vilkår)} />
         );
     }
 

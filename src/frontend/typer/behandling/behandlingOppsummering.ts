@@ -6,6 +6,7 @@ import { TypeVilkårFakta as TypeVilkårFaktaBoutgifter } from '../../Sider/Beha
 import { TypeVilkårFakta as TypeVilkårFaktaDagligReise } from '../../Sider/Behandling/Stønadsvilkår/DagligReise/typer/regelstrukturDagligReise';
 import { TypeVilkårFaktaFlytting } from '../../Sider/Behandling/Stønadsvilkår/Flytting/typer/faktaFlytting';
 import { TypeVilkårFakta as TypeVilkårFaktaReiseOppstartAvslutningHjemreise } from '../../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/regelstrukturReiseOppstartAvslutningHjemreise';
+import { TypeReiseformål } from '../../Sider/Behandling/Stønadsvilkår/ReiseOppstartAvslutningHjemreise/typer/vilkårReiseOppstartAvslutningHjemreise';
 import { TypeVilkårFakta as TypeVilkårFaktaReiseTilSamling } from '../../Sider/Behandling/Stønadsvilkår/ReiseTilSamling/typer/regelstrukturReiseTilSamling';
 import { StønadsvilkårType, Vilkårsresultat } from '../../Sider/Behandling/vilkår';
 import { TypeVedtak, ÅrsakAvslag, ÅrsakOpphør } from '../vedtak/vedtak';
@@ -51,6 +52,8 @@ export interface OppsummertVilkår {
     resultat: Vilkårsresultat;
     utgift?: number;
     typeFakta?: TypeVilkårFakta;
+    typeReiseformål?: TypeReiseformål;
+    undervilkår: OppsummertVilkår[];
 }
 
 export type OppsummertVedtak =
