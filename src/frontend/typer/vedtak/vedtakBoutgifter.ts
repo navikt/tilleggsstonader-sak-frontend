@@ -30,11 +30,6 @@ export const vedtakErAvslag = (vedtak: VedtakBoutgifter): vedtak is AvslagBoutgi
 export const vedtakErOpphør = (vedtak: VedtakBoutgifter): vedtak is OpphørBoutgifter =>
     vedtak.type === TypeVedtak.OPPHØR;
 
-export type InnvilgeBoutgifterRequest = {
-    vedtaksperioder: Vedtaksperiode[];
-    begrunnelse?: string;
-};
-
 export interface InnvilgelseBoutgifter {
     type: TypeVedtak.INNVILGELSE;
     beregningsresultat: BeregningsresultatBoutgifter;

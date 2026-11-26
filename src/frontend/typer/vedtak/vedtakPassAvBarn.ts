@@ -17,11 +17,6 @@ export const vedtakErAvslag = (vedtak: VedtakPassAvBarn): vedtak is AvslagPassAv
 export const vedtakErOpphør = (vedtak: VedtakPassAvBarn): vedtak is OpphørPassAvBarn =>
     vedtak.type === TypeVedtak.OPPHØR;
 
-export type InnvilgelsePassAvBarnRequest = {
-    vedtaksperioder: Vedtaksperiode[];
-    begrunnelse?: string;
-};
-
 export interface InnvilgelsePassAvBarn {
     type: TypeVedtak.INNVILGELSE;
     beregningsresultat: BeregningsresultatPassAvBarn;
